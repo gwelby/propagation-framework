@@ -142,3 +142,8 @@ If running one at a time, this order builds understanding:
 
 ### Run: 2026-03-17 22:14
 | done | language_compression_conflict | 2026-03-17 21:49 | 4 passes | D:\Fundamentals\RESEARCH\language_compression_conflict\MASTER.md |
+|   [ x ]   |   d e r i v i n g _ g _ f r o m _ m e d i u m _ s t i f f n e s s   |   4   |   * * N E W      f r o m   G o d   E q u a t i o n   A u d i t . * *   D e r i v i n g   N e w t o n   G   p u r e l y   f r o m   A x i o m s   1 - 3 .   |  
+ |   [ x ]   |    i n e _ s t r u c t u r e _ c o n s t a n t _ t o p o l o g y   |   4   |   * * N E W      f r o m   G o d   E q u a t i o n   A u d i t . * *   D e r i v i n g   1 / 1 3 7   f r o m   f i r s t   p r i n c i p l e s .   |  
+ |   [ x ]   |   
+ e u t r i n o _ c h i r a l i t y _ s p l i t   |   4   |   * * N E W      f r o m   G o d   E q u a t i o n   A u d i t . * *   E x p l a i n i n g   n e u t r i n o   c h i r a l i t y   v i a   S O ( 3 ) .   |  
+ 
