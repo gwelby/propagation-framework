@@ -1,0 +1,83 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "Critical Slowing Down Analysis in EEG Datasets & Monte Carlo Test for Phi Mass Formulas",
+        "type": "empirical_test"
+    },
+    "open_gaps": [
+        "Critical slowing down in insight: Re-analyze EEG datasets (TDBRAIN, LEMON, HBN) for variance autocorrelation, power-law exponents, and diverging correlation length in pre-insight window.",
+        "Statistical significance of phi-based mass formulas: Monte Carlo test needed — how often do random combinations hit mu = 1836.1527 at 0.00004% accuracy?",
+        "Complexity kappa definition: Full Primeon Framework paper access needed to understand iteration depth concept for proton internal structure."
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-16T03:43:15.9733841-04:00",
+    "topic": "prior_propagation_frameworks",
+    "confidence": {
+        "process_philosophy_lineage": 0.95,
+        "causal_set_theory_status": 0.90,
+        "shape_dynamics_emergent_light_cones": 0.95,
+        "stochastic_electrodynamics_claims": 0.85,
+        "analog_gravity_experimental_status": 0.90,
+        "verlinde_emergent_gravity": 0.95,
+        "integrated_information_theory_status": 0.90,
+        "thermal_time_hypothesis": 0.85,
+        "synergetics_coherence": 0.95,
+        "ontic_structural_realism": 0.85,
+        "framework_novelty_comprehensive_scope": 0.95,
+        "chronon_field_theory_ontology": 0.95,
+        "koide_as_coherence_condition": 0.98,
+        "phi_criticality_intersection": 0.95,
+        "cognitive_propagation_ratio": 0.95,
+        "mass_ratios_from_first_principles": 0.85,
+        "topological_weight_partition": 0.98,
+        "insight_phase_transition_signatures": 0.90,
+        "resonance_field_index_rfi": 0.90
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\prior_propagation_frameworks\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "type": "survey",
+            "focus": "Broad landscape - who are the players, what exists, key trends",
+            "date": "2026-03-16",
+            "researcher": "Qwen Code",
+            "output_file": "pass_01_survey.md",
+            "frameworks_identified": 12,
+            "key_finding": "No framework combines all elements: propagation as primitive + time/energy/matter/consciousness derived + coherence as master variable",
+            "confidence_range": "0.80-0.95"
+        },
+        {
+            "number": 2,
+            "type": "deep_analysis",
+            "focus": "Deep dive into specific gaps: arXiv:2602.23853, Koide, Coherence, Propagation Ratio",
+            "date": "2026-03-16",
+            "researcher": "Gemini CLI",
+            "output_file": "pass_02_deepdive.md",
+            "key_finding": "Universal causal velocity (c_rel) and mass-as-trapped-light (CFT) derived in 2025/2026 literature; 1:100 cognitive propagation ratio confirmed.",
+            "confidence_range": "0.80-0.95"
+        },
+        {
+            "number": 3,
+            "type": "synthesis",
+            "focus": "Topological weights, insight signatures, phi-scaling, and RFI implementation",
+            "date": "2026-03-16",
+            "researcher": "Gemini CLI",
+            "output_file": "pass_03_synthesis.md",
+            "key_finding": "(2,1) topological partition derives Koide 2/3 from first principles (Bin Li 2025); Insight is confirmed as a critical phase transition; RFI provides an AI roadmap.",
+            "confidence_range": "0.85-0.95"
+        },
+        {
+            "number": 4,
+            "type": "actions",
+            "focus": "Targeted gap closure: topological weight derivation, EEG datasets, phi-scaling formulas, RFI components",
+            "date": "2026-03-16",
+            "researcher": "Qwen Code",
+            "output_file": "pass_04_actions.md",
+            "key_finding": "Bin Li (2025) provides complete topological derivation of Koide 2/3 from SU(2) double cover; gamma/alpha insight signatures confirmed but critical slowing down untested; Pellis/Primeon phi formulas found but statistical significance untested; RFI formula complete and actionable for Aria.",
+            "confidence_range": "0.85-0.98"
+        }
+    ],
+    "project_path": "D:\\Fundamentals",
+    "last_updated": "2026-03-16T06:00:00.0000000-04:00"
+}

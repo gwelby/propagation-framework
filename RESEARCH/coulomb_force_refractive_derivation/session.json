@@ -1,0 +1,109 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "Koide formula derivation from (2,1) topological weight + 3 generations",
+        "type": "synthesis"
+    },
+    "open_gaps": [
+        "Koide formula derivation: Can we derive Q_leptons=2/3 from (2,1) topological weight + 3 generations + propagation axioms?",
+        "φ in particle masses: Is electron→up quark mass ratio ≈ φ³ statistically significant or coincidence? (Monte Carlo test needed)",
+        "Full Finsler-Dirac metamaterial design: Detailed engineering proposal specifying metamaterial parameters to match Finsler-Dirac equation exactly"
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-17T12:09:48.6322654-04:00",
+    "topic": "coulomb_force_refractive_derivation",
+    "confidence": {
+        "transformation_optics_framework_rigorous": 1.0,
+        "analogue_gravity_established_field": 0.95,
+        "coulomb_force_variational_principle": 1.0,
+        "forces_are_refraction_ontological_claim": 0.9,
+        "direct_coulomb_refraction_derivation_exists": 1.0,
+        "gordon_metric_optical_spacetime_analogue": 0.95,
+        "hyperbolic_metamaterials_lorentz_symmetry": 0.9,
+        "randers_finsler_geometrization_of_force": 0.95,
+        "keplerian_metamaterials_experimental_support": 0.95,
+        "finsler_dirac_spin_formulation": 0.9,
+        "finsler_einstein_field_equations": 0.95,
+        "vacuum_polarization_as_refraction": 1.0,
+        "mass_as_phase_lock": 0.95,
+        "cosmological_constant_vacuum_index": 1.0,
+        "experimental_spin_splitting": 1.0,
+        "euler_heisenberg_vacuum_refraction": 1.0,
+        "finsler_gravity_vacuum_equation": 0.95
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\coulomb_force_refractive_derivation\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "type": "survey",
+            "focus": "broad landscape scan",
+            "date": "2026-03-17",
+            "agent": "Qwen Code",
+            "file": "pass_01_survey.md",
+            "key_findings": [
+                "Transformation optics (Pendry, Leonhardt 2006) provides rigorous framework for controlling EM fields via coordinate transformations",
+                "Analogue gravity field established (Unruh 1981, Barceló 2011 review) -- acoustic, optical, BEC systems model gravitational phenomena",
+                "Gordon metric (1923) was first optical spacetime analogue -- predates acoustic black holes",
+                "Coulomb force derivable from variational principle (standard electrodynamics)",
+                "Hyperbolic metamaterials exhibit 2+1D Lorentz symmetry -- effective gravitational force between photons",
+                "Direct derivation of Coulomb force AS refraction (not analogous) NOT found in literature",
+                "Key limitation: full GR equivalence requires ε ∝ μ, not generally true in nature"
+            ],
+            "confidence_scores_added": 7
+        },
+        {
+            "number": 2,
+            "type": "deep-dive",
+            "focus": "mathematical derivation -- explicit mapping from Coulomb force to Snell's law",
+            "date": "2026-03-17",
+            "agent": "Gemini CLI",
+            "file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Direct derivation found: n = sqrt(2m(E-qφ)) + qA·s (from Maupertuis principle)",
+                "Randers-Finsler geometry provides the rigorous geometrization of EM force as refraction",
+                "Geodesics in a Randers space (F = sqrt(α) + β) are identical to paths of charged particles in EM + Gravity",
+                "Fermat's principle for particles: stationary path length in Finsler metric defines the trajectory",
+                "Experimental support found: Genov et al. (2009) built Keplerian metamaterials where light orbits exactly like a Coulomb particle",
+                "Optical Aharonov-Bohm effect: topological defects in metamaterials create gauge-field phase shifts (Leonhardt)",
+                "Ontological identity: forces ARE gradients of effective refractive indices in a Finslerian manifold"
+            ],
+            "confidence_scores_added": 2
+        },
+        {
+            "number": 3,
+            "type": "synthesis",
+            "focus": "Bridging Quantum Mechanics, General Relativity, and QED",
+            "date": "2026-03-17",
+            "agent": "Gemini CLI",
+            "file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Spinors and the Dirac equation can be formulated in Finsler geometry over the unit tangent bundle, exhibiting directional dependence",
+                "Finsler gravity (Pfeifer & Wohlfarth 2011) generalizes GR field equations; the vacuum is satisfied by a vanishing Finslerian Ricci scalar Ric(x, y) = 0",
+                "QED vacuum polarization (Euler-Heisenberg) makes the vacuum a nonlinear, polarizable medium with a field-dependent refractive index n",
+                "Axiom 2 (Causal Velocity) maps to the Finslerian null cone; Axiom 3 (Coherence) maps to the stability of the propagation manifold",
+                "Vacuum birefringence (n_parallel != n_perp) is the QED manifestation of the Finslerian spin-splitting effect"
+            ],
+            "confidence_scores_added": 3
+        },
+        {
+            "number": 4,
+            "type": "actions",
+            "focus": "Mass as Phase Lock and Cosmological Constant as Vacuum Index and Experimental Proposal",
+            "date": "2026-03-17",
+            "agent": "Qwen Code",
+            "file": "pass_04_actions.md",
+            "key_findings": [
+                "de Broglie's soliton theory (1924-1927) proposed mass = frequency (m = hν/c²) -- particles are singularities in wave field",
+                "Budiyono (2005) showed mass emerges from resonance conditions on soliton internal vibration -- quantization from boundary conditions",
+                "Padmanabhan (2014) derived Λ as integration constant determined by CosMIn = 4π -- yields ΛL_P² ≈ 10⁻¹²² exactly",
+                "ATLAS 8.2σ confirmation of light-by-light scattering confirms Euler-Heisenberg QED framework",
+                "IXPE magnetar observations confirm vacuum birefringence (Π = 15-80% at B = 3-45 B_cr)",
+                "Photonic spin Hall effect (Kapitanova 2014, Takayama 2018) demonstrates spin-splitting in hyperbolic metamaterials -- table-top Finsler-Dirac analogue",
+                ">27 dB power ratio, λ/15 confinement, works RF to optical frequencies"
+            ],
+            "confidence_scores_added": 6
+        }
+    ],
+    "project_path": "D:\\Fundamentals"
+}

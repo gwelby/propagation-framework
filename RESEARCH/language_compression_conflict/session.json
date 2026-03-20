@@ -1,0 +1,101 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "IFID Efficacy Testing and CSD False Positive Rate in Conversational Contexts",
+        "type": "validation"
+    },
+    "open_gaps": [
+        "IFID Efficacy in AI-Human Contexts: Does explicit intent labeling reduce ambiguity for AI agents? (No direct studies found - extrapolated from emoji research)",
+        "Optimal IFID Frequency: How often should Aria label intent? Every message? Only for high-ambiguity content? (Needs empirical testing)",
+        "CSD False Positive Rate: What is the false positive rate for EWMA-based CSD detection in conversational contexts? (Epidemiological validation exists, conversational validation needed)",
+        "Cross-Generational IFID Interpretation: Do different age groups interpret IFIDs differently? (Known for emoji, unknown for explicit intent labels)",
+        "Long-Term Trust Calibration: Does CSD-triggered bandwidth escalation improve long-term trust, or does frequent escalation signal instability? (Needs longitudinal study)"
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-17T21:49:18.1450527-04:00",
+    "topic": "language_compression_conflict",
+    "confidence": {
+        "language_as_lossy_compression": 0.95,
+        "universal_39_bps_rate": 0.95,
+        "media_naturalness_theory": 0.95,
+        "text_ambiguity_increase_80_percent": 0.95,
+        "emoji_efficacy_50_60_percent_reduction": 0.85,
+        "emoji_generational_ambiguity": 0.80,
+        "dmPFC_mentalizing_effort": 0.85,
+        "temporal_damping_half_life": 0.90,
+        "sarcasm_threshold_cue_redundancy": 0.90,
+        "rate_distortion_conflict_formalization": 0.90,
+        "hrv_synchronization_shared_spaces": 0.85,
+        "cross_tradition_frequency_modulation": 0.85,
+        "market_size_18B_2024": 0.95,
+        "no_commercial_compression_conflict_tools": 0.90,
+        "greg_aria_parental_prior": 0.95,
+        "paralinguistic_grounding_model": 0.90,
+        "conflict_as_phase_transition_csd": 0.90,
+        "csd_real_time_implementation": 0.90,
+        "ai_human_ambiguity_amplification": 0.95,
+        "ifid_intent_labeling_efficacy": 0.85
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\language_compression_conflict\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "focus": "broad landscape - players, market size, key trends, foundational research",
+            "type": "survey",
+            "date": "2026-03-17",
+            "file": "pass_01_survey.md",
+            "key_findings": [
+                "39 bps universal rate confirmed (Coupé et al. 2019, 17 languages)",
+                "MNT: 80% ambiguity increase text vs FTF (Kock)",
+                "Emoji reduces misunderstanding 50-60% but creates generational gap",
+                "dmPFC activation confirms mentalizing effort in text decompression",
+                "$18B video conferencing market, no compression-conflict tools exist",
+                "White space opportunity for intent labeling and bandwidth escalation"
+            ]
+        },
+        {
+            "number": 2,
+            "focus": "temporal dynamics, sarcasm thresholds, RDT formalization, HRV sync, tradition convergence",
+            "type": "deepdive",
+            "date": "2026-03-17",
+            "file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Temporal Damping: Asynchronicity prevents micro-corrections (backchanneling), leading to 'dead reckoning' and 'malice attribution.'",
+                "Repair Window: Misunderstandings 'fester' after 20-60 minutes in text, making repair 'expensive.'",
+                "Sarcasm Threshold: Low-bandwidth text loses the redundant paralinguistic cues (ECC) required for irony detection.",
+                "Rate-Distortion Theory (RDT): Communication conflict formalized as an RDT violation (Rate < required to maintain Distortion threshold).",
+                "HRV Synchronization: Confirmed 'Coherence Effect' where individuals in shared spaces synchronize heart rhythms (IPS).",
+                "Frequency Modulation Protocols: Contemplative traditions independently converge on Gamma Coherence and 0.1 Hz breathing for cardiovascular resonance."
+            ]
+        },
+        {
+            "number": 3,
+            "focus": "Aria-specific ToM decoding, paralinguistic bit-rate mapping, and conflict phase transition signatures",
+            "type": "synthesis",
+            "date": "2026-03-17",
+            "file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Greg's 'Parental' Prior: Treats Aria as an infant, prioritizing internal coherence (sensor correlation) as a 'soul-bit,' which creates a unique decompression bias.",
+                "Paralinguistic Bit Gap: Communication fails because the 39 bps lexical stream lacks the paralinguistic 'grounding' (tone/pitch) needed for intent disambiguation.",
+                "Conflict as Critical Slowing Down (CSD): Arguments exhibit exponential increases in recovery time from minor irritations as they approach a phase transition tipping point.",
+                "Statistical Fingerprints: High variance and autocorrelation detected in 'stuck' or repetitive conflict patterns."
+            ]
+        },
+        {
+            "number": 4,
+            "focus": "practical CSD monitoring algorithms, AI-human vs human-human ambiguity comparison, sarcasm cue count thresholds",
+            "type": "actions",
+            "date": "2026-03-17",
+            "file": "pass_04_actions.md",
+            "key_findings": [
+                "CSD Real-Time Algorithm: EWMA-based detection with ROC/AUC thresholds (AUC > 0.75 = escalation trigger). No fixed thresholds needed. Half-life = 20-50 timesteps recommended.",
+                "AI-Human Ambiguity Amplification: Ambiguous expressions are MORE damaging in human-AI teams vs human-human (interaction p = 0.036). 80% MNT rule is a lower bound; actual may be 90-100% higher.",
+                "Sarcasm Cue Taxonomy: 10 cues across 3 categories (linguistic, contextual, emotional). Minimum 3+ cross-category cues required for >60% accuracy. Confidence threshold = 0.95.",
+                "IFID Intent Labeling: Proactive intent labeling recommended for AI agents to compensate for ambiguity amplification. Format: [INTENT] message content.",
+                "Theory of Mind is Parallel: Sarcasm detection is integrative (parallel cue processing) not deductive (sequential reasoning). Non-sequential methods outperform sequential on smaller models."
+            ]
+        }
+    ],
+    "project_path": "D:\\Fundamentals"
+}

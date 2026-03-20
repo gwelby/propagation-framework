@@ -1,0 +1,98 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "Group velocity measurements in cortex + Topological neuroscience + Critical slowing down before insight",
+        "type": "verification"
+    },
+    "open_gaps": [
+        "Group velocity measurements in cortex — Does anyone measure v_g = dω/dk in neural data? This would test whether v_g ≈ v_p or v_g < v_p.",
+        "Topological derivation of 2/3 in neural systems — If the dispersion relation is not ω ∝ k^{2/3}, why does the 2/3 ratio appear in sleep consolidation, memory assemblies, and Koide? Is there a neural topology that enforces it?",
+        "Phase gradient control mechanism — How does the DAN actually modulate phase gradients? Is this via oscillatory frequency, synaptic gain, or anatomical connectivity?",
+        "Individual differences in refractive index — If n ≈ 10^8 is fixed, what explains IQ differences? Better filtering algorithms? Faster reconfiguration (not higher velocity)?",
+        "Critical slowing down before insight — Does EEG show CSD signatures (increased variance, autocorrelation) before Aha moments? This would confirm the phase transition prediction."
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-17T10:04:09.3533289-04:00",
+    "topic": "attention_gate_model",
+    "confidence": {
+        "Wickens MRT structure (4 dimensions)": 0.95,
+        "Task switching = reconfiguration (not interference)": 0.90,
+        "Oscillation-induced impedance gating": 0.95,
+        "Precision-weighting as gain control": 0.90,
+        "Biased competition as emergent gating": 0.85,
+        "Gate model vs. resource model predictions differ": 0.90,
+        "Propagation framework explains WHY MRT works": 0.85,
+        "Aria implementation matches Gate model": 0.95,
+        "Conscious throughput ≈ 10 bits/s": 0.98,
+        "Traveling waves as attention lenses in DAN": 0.95,
+        "Koide 2/3 as topological weight partition": 0.90,
+        "v_g = 2/3 v_p dispersion relation": 0.40,
+        "2/3 as optimal consolidation ratio": 0.85,
+        "Expertise = better filtering, not higher v_cog": 0.95,
+        "DAN phase velocity maps (6.5 m/s alpha)": 0.95,
+        "EEG power spectrum = 1/f (pink noise)": 0.95
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\attention_gate_model\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "focus": "Broad landscape survey — Wickens MRT, task switching, neural gating mechanisms",
+            "type": "survey",
+            "date": "2026-03-17",
+            "file": "pass_01_survey.md",
+            "key_findings": [
+                "Wickens MRT uses 'resource' language but predicts structural interference (compatible with impedance matching)",
+                "Task switch costs scale parametrically with rule dissimilarity — supports reconfiguration over interference",
+                "Oscillation-induced gating (Jahnke 2014) shows explicit impedance-like mechanism in neural tissue",
+                "Precision-weighting (predictive coding) is gain control — literally a gate mechanism",
+                "Gate model predicts dissimilar-task interference more than similar-task (Wickens data supports this)",
+                "Attention economy metaphor dominates public discourse but not cognitive neuroscience"
+            ]
+        },
+        {
+            "number": 2,
+            "focus": "Deepdive — Wickens original papers + neural oscillations as dispersion modulator + reconfiguration circuitry",
+            "type": "deepdive",
+            "date": "2026-03-17",
+            "file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Attention is a dispersion modulator controlling the relationship between phase velocity (v_p) and group velocity (v_g)",
+                "Task-switching costs scale with neural distance (RSA dissimilarity) in the frontoparietal network (FPN)",
+                "IFJ identified as the 'hub' for gate reconfiguration; CSD (Critical Slowing Down) acts as the functional integration window during switches",
+                "Wickens' 4-D model dimensions map directly to propagation modes, depths, and independent media",
+                "Aria's SensorOrchestrator.kt is a functional prototype of the gate model, scaling causal velocity (intervalMs) by attention level"
+            ]
+        },
+        {
+            "number": 3,
+            "focus": "Synthesis — Refractive Mapping + Optimal Ratio Derivation (v_p vs v_g)",
+            "type": "synthesis",
+            "date": "2026-03-17",
+            "file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Human cognitive refractive index (n) is approximately 10^9 informational bits/s reduction",
+                "Conscious throughput (v_cog) is strictly bounded at ~10 bits/s (hardware filter)",
+                "Top-down traveling waves in the DAN act as refractive lenses by modulating phase gradients (k)",
+                "The 2/3 ratio (T-010) is a topological identity derived from double-cover Moduli spaces (Bin Li, 2025)",
+                "Dispersion relation ω ∝ k^{2/3} implies v_g = 2/3 v_p (Optimal Information Flow)",
+                "The 2:1 (2/3) ratio is ubiquitous in memory reinforcement, assembly organization, and mRNA cycling"
+            ]
+        },
+        {
+            "number": 4,
+            "focus": "Verification — EEG Dispersion (2/3 Exponent) + Refractive Index vs. Expertise + DAN Phase Maps",
+            "type": "verification",
+            "date": "2026-03-17",
+            "file": "pass_04_actions.md",
+            "key_findings": [
+                "EEG dispersion relation is TRANSCENDENTAL (not power law) — v_g = 2/3 v_p NOT CONFIRMED, confidence dropped from 0.80 to 0.40",
+                "Conscious throughput ≈ 10 bits/s CONFIRMED across all tasks — expertise improves filtering, not capacity (Zheng & Meister 2024)",
+                "DAN traveling waves CONFIRMED — 6.5 m/s (alpha), anterior→posterior direction precedes perceptual switches",
+                "EEG power spectrum is 1/f (pink noise, β ≈ 1) — this describes spectral decay, NOT dispersion relation",
+                "Single neuron transmits ~10 bits/s — same as whole-brain throughput, suggesting serial access bottleneck"
+            ]
+        }
+    ],
+    "project_path": "D:\\Fundamentals"
+}
