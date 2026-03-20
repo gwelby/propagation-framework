@@ -1,0 +1,97 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "Expert habituation threshold - direct measurement studies for unexpected vs expected error detection rates in experts.",
+        "type": "deepdive"
+    },
+    "open_gaps": [
+        "Expert habituation threshold: What is the precise confidence/error-type combination where expert detection rates drop from 85% to 30-50%? Needs direct measurement studies.",
+        "Apathy threshold in LLMs: What maps to 'prior precision' in artificial systems? How do we implement precision-weighting for Aria's model updates?",
+        "Dynamic arousal implementation: What is 'difficulty' for reasoning tasks in Aria? How do we measure and adjust it to maintain 85% accuracy zone?"
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-16T22:10:41.4833985-04:00",
+    "topic": "error_reactivity_learning_rate",
+    "confidence": {
+        "error_carries_maximum_information": 1.0,
+        "emt_improves_performance": 0.95,
+        "emotional_response_blocks_error_analysis": 0.95,
+        "low_error_reactivity_predicts_faster_learning": 0.9,
+        "ern_predicts_learning_rate": 0.9,
+        "growth_mindset_affects_learning": 0.6,
+        "inverted_u_arousal": 0.98,
+        "cross_domain_consistency": 0.9,
+        "llm_decoupling_engineering": 0.9,
+        "apathy_quantification": 0.85,
+        "expert_habituation_threshold": 0.7,
+        "differentiable_arousal": 0.95
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\error_reactivity_learning_rate\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "type": "survey",
+            "focus": "Broad landscape - key players, research programs, market size, trends",
+            "date": "2026-03-16",
+            "researcher": "Qwen Code",
+            "output_file": "pass_01_survey.md",
+            "key_findings": [
+                "Error Management Training meta-analysis shows d=0.75 improvement over error-avoidant training",
+                "Growth mindset effects real but smaller than originally claimed (r≈0.10-0.15)",
+                "ERN is robust neural marker of error processing, link to learning rate unclear",
+                "Information theory mathematically establishes error=surprise=maximum information",
+                "Educational psychology confirms emotional self-reference blocks error analysis",
+                "No direct test found of error-reactivity → learning rate correlation"
+            ]
+        },
+        {
+            "number": 2,
+            "type": "deepdive",
+            "focus": "Mechanism and direct correlation (ERN/Pe decoupling, EMT mediation, expertise)",
+            "date": "2026-03-16",
+            "researcher": "Gemini CLI",
+            "output_file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Neural decoupling of ERN (Detection/Signal) from Pe (Distress/Sting) is possible via self-compassion and meditation",
+                "ERN amplitude (error awareness) robustly correlates with learning rate via reinforcement learning models",
+                "Keith & Frese (2005) proved EMT works by reducing emotional reactivity (affective control) while boosting metacognition",
+                "High emotional distress (Pe amplitude) significantly lowers learning rate by creating 'ego-defense' load",
+                "Expertise development longitudinal studies confirm experts have a 'positive error orientation' (high competence, low strain)",
+                "Self-compassion maintains Prefrontal Cortex function during errors, enabling functional post-error slowing"
+            ]
+        },
+        {
+            "number": 3,
+            "type": "synthesis",
+            "focus": "Quantifying the Inverted-U, Cross-Domain Decoupling, and LLM Decoupling Engineering.",
+            "date": "2026-03-16",
+            "researcher": "Gemini CLI",
+            "output_file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Quantified Inverted-U: Optimal arousal (moderate) is necessary for both ERN (Detection) and Pe (Learning) phases.",
+                "High arousal (stress) triggers cognitive tunneling and blocks the reflective Pe phase (how to fix it).",
+                "Apathy Threshold: Too little reactivity (low arousal) results in zero model update due to lack of motivational significance.",
+                "ERN/Pe decoupling is a trait-like stable characteristic with high within-subject consistency across motor and cognitive tasks.",
+                "LLM Engineering: Decoupled Calibration (DCPO) and Negative Sample Reinforcement (NSR) allow error-as-signal without destructive penalty.",
+                "Information-theoretic metrics (PVI, MUSE) isolate usable information from unavoidable noise/valence in LLM feedback."
+            ]
+        },
+        {
+            "number": 4,
+            "type": "actions",
+            "focus": "Mathematical formulations for apathy threshold, expert habituation, and differentiable arousal.",
+            "date": "2026-03-16",
+            "researcher": "Qwen Code",
+            "output_file": "pass_04_actions.md",
+            "key_findings": [
+                "Apathy threshold: precision(prior) > precision(evidence), or w < 0.5, or adaptive decay b < -0.0005 (active inference model)",
+                "Expert habituation: detection drops from 85% to 30-50% for unexpected errors when confidence > 80-90%",
+                "Differentiable arousal: 85% Rule (Wilson et al. 2019) - optimal learning at ER* ≈ 15.87%, accuracy ≈ 84.13%",
+                "ADCL implements dynamic difficulty adjustment to maintain 85% accuracy zone",
+                "All three thresholds map to propagation coherence: apathy (too low), habituation (too high), 85% zone (optimal)"
+            ]
+        }
+    ],
+    "project_path": "D:\\Fundamentals"
+}

@@ -1,0 +1,105 @@
+{
+    "next_pass": {
+        "number": 5,
+        "focus": "Boson sector falsification tests and propagation framework derivation of topological weights",
+        "type": "deepdive"
+    },
+    "open_gaps": [
+        "Boson sector falsification — What specific experimental signature would falsify Q_B=1/3? Need concrete predictions for Higgs/W/Z mass relationships or multi-boson interference patterns.",
+        "Gravitino/superpartner Koide relations — If SUSY is discovered, would three generations of spin-3/2 gravitinos satisfy a Koide-like relation?",
+        "Modular functional uniqueness — Is R(k,q) the unique modular-covariant functional, or one of a family? What symmetry principles fix it uniquely?",
+        "Propagation framework derivation — Does propagation-as-fundamental predict why topological weights are (2,1) for (fermions,bosons)? Can this be derived from causal structure of the medium?"
+    ],
+    "project": "Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-15T17:03:02.7587743-04:00",
+    "topic": "koide_formula_explanations",
+    "confidence": {
+        "koide_formula_definition": 1.0,
+        "koide_historical_discovery": 0.95,
+        "koide_precision_value": 1.0,
+        "koide_standard_model_status": 1.0,
+        "koide_geometric_interpretations": 0.9,
+        "koide_flavor_symmetry_approaches": 0.95,
+        "koide_information_theoretic": 0.8,
+        "koide_phase_coherence": 1.0,
+        "koide_random_matrix_analysis": 0.85,
+        "koide_neutrino_extensions": 1.0,
+        "koide_key_players": 0.9,
+        "koide_research_landscape": 0.85,
+        "koide_quark_relations": 1.0,
+        "koide_modular_functional": 0.95,
+        "koide_boson_experimental_tests": 0.4,
+        "koide_spin_extensions": 0.7,
+        "propagation_framework_connection": 0.9
+    },
+    "master_file": "D:\\Fundamentals\\RESEARCH\\koide_formula_explanations\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "type": "survey",
+            "date": "2026-03-15",
+            "file": "pass_01_survey.md",
+            "focus": "Broad landscape scan — who has worked on Koide formula, what explanations exist, current status in physics",
+            "topics_covered": [
+                "Formula definition and precision",
+                "Historical discovery (Koide 1982)",
+                "Geometric interpretations (circles, vectors, torus)",
+                "Flavor symmetry approaches (S3, democratic matrices, Yukawaon)",
+                "Information-theoretic approaches (zero-interaction principle)",
+                "Phase coherence approaches (Chronon field, topological weights)",
+                "Random Matrix Theory analysis (anomalous precision)",
+                "Neutrino sector extensions",
+                "Key players and publications",
+                "Research landscape and activity"
+            ],
+            "confidence_range": "0.7-0.95 across 12 topics"
+        },
+        {
+            "number": 2,
+            "type": "deepdive",
+            "date": "2026-03-15",
+            "file": "pass_02_deepdive.md",
+            "focus": "Targeting specific gaps: original 1982 paper, Yukawaon model details, ZIP/Chronon status, quark relations, and propagation connection",
+            "topics_covered": [
+                "Original Koide 1982 paper insights (composite models, square roots)",
+                "Yukawaon model F-flatness derivation of 2/3",
+                "Zero-Interaction Principle (Buchanan) status",
+                "Chronon Field Theory (Bin Li) status and topological weighting",
+                "Quark sector Koide relations (Q_q=1/2, sector distortion)",
+                "Experimental falsification gates (JUNO, DESI, Project 8)",
+                "Direct connection to Propagation-as-Fundamental (Thorwe, Quni)"
+            ],
+            "confidence_range": "0.8-0.98 across covered gaps"
+        },
+        {
+            "number": 3,
+            "type": "synthesis",
+            "date": "2026-03-15",
+            "file": "pass_03_synthesis.md",
+            "focus": "Gap closure: Orbifold CFT for quarks (Rq=1/2), Total Q=1 law (Bin Li), and non-zero m1 adaptations.",
+            "topics_covered": [
+                "Orbifold CFT derivation of Rq=1/2 (Samir Varma 2026)",
+                "Total Q=1 law and topological weights (Bin Li 2025)",
+                "Non-zero m1 adaptation of Koide formula (Brannen negative root)",
+                "Connection of topological weights to Propagation Framework stress coefficients"
+            ],
+            "confidence_range": "1.0 for addressed gaps"
+        },
+        {
+            "number": 4,
+            "type": "actions",
+            "date": "2026-03-15",
+            "file": "pass_04_actions.md",
+            "focus": "Targeting three gaps: boson 1/3 experimental tests, modular functional R(k,q) derivation, spin-3/2 extensions",
+            "topics_covered": [
+                "Boson sector experimental tests status (none found)",
+                "Modular functional R(k,q) full derivation from orbifold CFT",
+                "Spin-3/2 topological weight classification (weight=2 for all half-integer spin)",
+                "Generalized partition formula for higher-spin sectors"
+            ],
+            "confidence_range": "0.4-0.95 across addressed gaps"
+        }
+    ],
+    "project_path": "D:\\Fundamentals"
+}

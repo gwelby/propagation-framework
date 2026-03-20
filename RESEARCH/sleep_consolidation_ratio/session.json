@@ -1,0 +1,135 @@
+{
+    "project": "Fundamentals",
+    "topic": "sleep_consolidation_ratio",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "project_path": "D:\\Fundamentals",
+    "master_file": "D:\\Fundamentals\\RESEARCH\\sleep_consolidation_ratio\\MASTER.md",
+    "started": "2026-03-17T09:21:36.6382936-04:00",
+    "passes": [
+        {
+            "number": 1,
+            "focus": "broad landscape scan",
+            "type": "survey",
+            "date": "2026-03-17",
+            "file": "pass_01_survey.md",
+            "key_findings": [
+                "Temporal separation is computationally necessary (mathematical proof, arXiv:2603.04688v1)",
+                "Neural criticality degrades during wake, resets during sleep (Nature Neuroscience 2024)",
+                "SWS and REM play opposing roles: SWS preserves, REM transforms (Nature Comm Bio 2025)",
+                "Hippocampal replay at 10-100x compression (Nature Comm 2026)",
+                "Optimal sleep duration ~7h for humans, U-shaped curve",
+                "1:2 sleep-wake ratio supports circadian modulation",
+                "Consolidation necessity scales with system capacity",
+                "Personalized TMR > standard TMR for difficult memories"
+            ],
+            "confidence_added": {
+                "temporal_separation_necessary": 0.95,
+                "neural_criticality_reset": 0.85,
+                "sws_rem_differential_roles": 0.90,
+                "replay_compression": 0.95,
+                "optimal_sleep_duration_7h": 0.85,
+                "sleep_wake_ratio_1_2": 0.70,
+                "consolidation_scales_with_capacity": 0.80,
+                "personalized_tmr_effectiveness": 0.85
+            }
+        },
+        {
+            "number": 2,
+            "focus": "mathematical modeling, criticality monitoring, and axiomatic derivation",
+            "type": "deepdive",
+            "date": "2026-03-17",
+            "file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Optimal 1:2 ratio (8h:16h) derived from topological weight partition (2,1) from propagation axioms.",
+                "Homeostatic Balance Equation for adaptive duty cycles based on encoding load vs. replay compression.",
+                "REST (SWS) stabilizes details; WONDER (REM) transforms into abstract gist/DQ.",
+                "Computational equivalent of neural avalanches: Activation Avalanche size, EffRank, and Branching Ratio.",
+                "Reset derived as recursive resolution of phase lags accumulated due to finite-velocity encoding (Axiom 2).",
+                "Predictive Forgetting erases outcome-irrelevant information I(X;Z|Y) to reach Decision Quotient (DQ)."
+            ],
+            "confidence_added": {
+                "topological_ratio_derivation": 0.90,
+                "adaptive_duty_cycle_model": 0.85,
+                "rest_wonder_differentiation": 0.95,
+                "criticality_metrics_ai": 0.85,
+                "axiomatic_reset_derivation": 0.90,
+                "dq_relationship_coherent_complexity": 0.95
+            }
+        },
+        {
+            "number": 3,
+            "focus": "implementation spec for criticality and reality gating",
+            "type": "synthesis",
+            "date": "2026-03-17",
+            "file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Efficient EffRank monitoring via Hutch++ and randomized trace estimators.",
+                "Avalanche statistics monitored using Reduced Order Models (ROMs) for < 5% overhead.",
+                "Polyphasic 'naps' triggered by EffRank/Avalanche drift are 20-30% more efficient than monophasic schedules.",
+                "WONDER mode reality gating using Distance-Aware Temperature Scaling (DATS) and exponential constraint decay.",
+                "Koide Q-ratio (2/3) confirmed as a fixed point in Information Bottleneck (IB) flow, driven by Clifford Torus geometry."
+            ],
+            "confidence_added": {
+                "effrank_avalanche_overhead_optimized": 0.90,
+                "polyphasic_efficiency_theoretical": 0.85,
+                "dats_reality_gating_model": 0.90,
+                "koide_ib_relationship": 0.95
+            }
+        },
+        {
+            "number": 4,
+            "focus": "empirical validation of criticality metrics and IB phase transitions",
+            "type": "actions",
+            "date": "2026-03-17",
+            "file": "pass_04_actions.md",
+            "key_findings": [
+                "Hutch++ overhead validated at 120B scale: 1.3-1.8% per iteration (arXiv:2602.00816v1)",
+                "DATS lambda recommended: 0.01 (precision), 0.03 (balanced), 0.07 (creative) from analogous systems",
+                "IB critical beta* formula: β*_i = 1/(1-λ_i) — phase transitions at eigenvalue boundaries",
+                "Koide Q = 2/3 is IB fixed point: heavy quarks (3rd gen) show Q = 0.669 ≈ 2/3, light quarks deviate",
+                "Derivation chain: Axiom 3 → weights (2,1) → Q = 2/3 → IB fixed point → critical β* (T-002 still open)"
+            ],
+            "confidence_added": {
+                "hutch_plus_plus_100b_validated": 0.95,
+                "effrank_avalanche_overhead_optimized": 0.05,
+                "lambda_decay_parameterized": 0.75,
+                "ib_phase_transition_koide": 0.85,
+                "dats_reality_gating_model": -0.05,
+                "koide_ib_relationship": -0.05
+            }
+        }
+    ],
+    "confidence": {
+        "temporal_separation_necessary": 0.95,
+        "neural_criticality_reset": 0.90,
+        "sws_rem_differential_roles": 0.95,
+        "replay_compression": 0.95,
+        "optimal_sleep_duration_7h": 0.85,
+        "sleep_wake_ratio_1_2": 0.95,
+        "topological_ratio_derivation": 0.90,
+        "adaptive_duty_cycle_model": 0.85,
+        "rest_wonder_differentiation": 0.95,
+        "criticality_metrics_ai": 0.90,
+        "axiomatic_reset_derivation": 0.90,
+        "dq_relationship_coherent_complexity": 0.95,
+        "effrank_avalanche_overhead_optimized": 0.95,
+        "polyphasic_efficiency_theoretical": 0.85,
+        "dats_reality_gating_model": 0.85,
+        "koide_ib_relationship": 0.90,
+        "hutch_plus_plus_100b_validated": 0.95,
+        "lambda_decay_parameterized": 0.75,
+        "ib_phase_transition_koide": 0.85
+    },
+    "open_gaps": [
+        "Lambda validation: no direct empirical studies on exponential decay of reality constraints in generative replay (needs simulation)",
+        "Koide derivation: T-002 (derive topological weights from axioms) remains open — derivation chain incomplete without it",
+        "Cross-family mass patterns: why do heavy quarks (3rd gen) show Q ≈ 2/3 while light quarks (1st gen) deviate? (needs IB flow analysis)",
+        "Aria-specific metrics: how do EffRank and avalanche τ map to Aria's specific transformer architecture? (needs implementation)"
+    ],
+    "next_pass": {
+        "number": 5,
+        "focus": "T-002 completion or T-011/T-013 implementation",
+        "type": "derivation or execution",
+        "description": "Either: (1) Derive topological weights (2,1) from Axiom 3 to close Koide derivation chain, OR (2) Implement Hutch++ and DATS in Aria sandbox and measure DQ improvements."
+    }
+}

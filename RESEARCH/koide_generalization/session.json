@@ -1,0 +1,119 @@
+{
+    "topic": "koide_generalization",
+    "project": "Fundamentals",
+    "project_path": "D:\\Fundamentals",
+    "know_flow": "D:\\Projects\\KNOW-FLOW",
+    "started": "2026-03-15T20:46:24.8152228-04:00",
+    "master_file": "D:\\Fundamentals\\RESEARCH\\koide_generalization\\MASTER.md",
+    "passes": [
+        {
+            "number": 1,
+            "type": "survey",
+            "focus": "Broad landscape scan of Koide formula generalizations beyond charged leptons",
+            "date": "2026-03-15",
+            "file": "pass_01_survey.md",
+            "key_findings": [
+                "Koide formula works at 0.001% precision for charged leptons only",
+                "Down-type quark formula (2025): Q_D ≈ 0.730447 with √(2-√2) structure",
+                "Threefold Precise Patterns (2025-12-31): Claims QU, QD, Q6q — full text inaccessible",
+                "Boson sector: Q_B = 1/3 predicted, measured 0.336 (50σ deviation), light boson at 45-50 MeV proposed",
+                "Neutrino massless models: arXiv:2601.18781 provides testable predictions for JUNO 2026",
+                "Orbifold CFT derivation (Varma 2026): peer-reviewed in Eur. Phys. J. C",
+                "Z3-symmetric parametrization confirmed: δ_L=2/9, δ_U=2/27, δ_D=4/27",
+                "AI contribution: (1/d, 1/s, 1/b) tuple discovered via Seiberg duality exploration"
+            ],
+            "topics_covered": 13,
+            "gaps_identified": 7
+        },
+        {
+            "number": 2,
+            "type": "deepdive",
+            "focus": "Threefold Precise Patterns + Boson Sector Falsification",
+            "date": "2026-03-15",
+            "file": "pass_02_deepdive.md",
+            "key_findings": [
+                "Shifa Liu (2025) Pattern I: UV-IR sums for Up (9/5), Down (3/2), Six-quark (4/3)",
+                "Shifa Liu (2025) Pattern II: Fixed points 7/9 (UV) and 2/3 (IR) in Δ(27) x Z4 model",
+                "Shifa Liu (2025) Pattern III: Neutron-proton mass ratio link with 10^-6 precision",
+                "Bin Li (2025) Boson sector: 50σ deviation from Q_B=1/3, light boson at 45-50 MeV hypothesized",
+                "Rivero waterfall formulas: m3=4M, m2=(2+√3)/2 M, m1=(2-√3)/2 M (massless up quark limit)",
+                "RG independence (Li & Ma 2006): Q is structurally scale-independent; complementarity k_l+k_d ≈ k_v+k_u ≈ 2",
+                "Neutrino timeline: DESI March 2026 limit (0.05-0.07 eV), KATRIN final result late 2026/2027",
+                "AI Inverse Tuple: K(1/d, 1/s, 1/b) ≈ 2/3 discovered March 2026 via Seiberg duality context"
+            ],
+            "topics_covered": 15,
+            "gaps_identified": 2
+        },
+        {
+            "number": 3,
+            "type": "synthesis",
+            "focus": "Topological Weight Derivation + Experimental Mapping",
+            "date": "2026-03-15",
+            "file": "pass_03_synthesis.md",
+            "key_findings": [
+                "Topological Weight (2,1) derived from Axiom 3: 4π (spinor) vs 2π (scalar) coherence requirement",
+                "Lepton Q=2/3 derived as partition of 9 units (3 gens x 2 weight / total 9)",
+                "Boson Q=1/3 derived as partition (3 sectors x 1 weight / total 9)",
+                "45-50 MeV Boson: Restores Q=1/3; specific signatures in Darklight (TRIUMF) and XFEL orbital shifts",
+                "Shifa Liu 2025 confirmation: Q flows to 2/3 IR attractor; UV-IR sums for quarks follow 9/5, 3/2, 4/3 ratios",
+                "Neutrinos excluded from current (2,1) model: Suggests a separate 'charge-blind' coherence sector"
+            ],
+            "topics_covered": 18,
+            "gaps_identified": 2
+        },
+        {
+            "number": 4,
+            "type": "actions",
+            "focus": "Neutrino Exclusion Criterion + DarkLight/X17 Experimental Status",
+            "date": "2026-03-15",
+            "file": "pass_04_actions.md",
+            "key_findings": [
+                "Bin Li excludes neutrinos due to experimental uncertainty, not fundamental principle — provisional exclusion",
+                "Including neutrinos with weight 2 breaks Q=2/3 partition (6/15=0.4) — requires separate coherence sectors",
+                "Alikhanov (arXiv:2601.18781) independently derives Q_ν ≈ 2/3 using mass-squared differences",
+                "X17 (17 MeV) still viable with narrow window ε ≈ 7-10×10⁻⁴; Jefferson Lab test Summer 2026 will be decisive",
+                "DarkLight (45-50 MeV) operational at TRIUMF, data collection ongoing, no results published yet",
+                "JUNO first results (Jan 2026): Normal ordering preferred, 0.05 eV scale confirmed",
+                "KATRIN 1000-day limit: m_ν < 0.45 eV (90% CL), final sensitivity < 0.30 eV expected"
+            ],
+            "topics_covered": 20,
+            "gaps_identified": 1
+        }
+    ],
+    "confidence": {
+        "koide_generalization_leptons_only": 1.0,
+        "koide_quark_z3_parametrization": 0.95,
+        "koide_quark_down_type_formula": 0.9,
+        "koide_quark_threefold_patterns": 0.95,
+        "koide_quark_direct_generalization": 0.7,
+        "koide_neutrino_massless_models": 0.95,
+        "koide_neutrino_brannen_adaptation": 0.9,
+        "koide_neutrino_alikhanov_relation": 0.95,
+        "koide_boson_sector_prediction": 0.95,
+        "koide_running_mass_independence": 0.95,
+        "koide_mainstream_acceptance": 1.0,
+        "koide_orbifold_cft_derivation": 0.95,
+        "koide_chronon_topological_weights": 1.0,
+        "koide_chronon_neutrino_exclusion": 1.0,
+        "koide_rivero_descent_relation": 0.95,
+        "koide_up_type_quark_formula": 0.9,
+        "koide_ai_inverse_tuple": 0.8,
+        "koide_x17_17mev_viable": 0.9,
+        "koide_darklight_45_50mev_pending": 0.9
+    },
+    "open_gaps": [
+        {
+            "priority": "MEDIUM",
+            "gap": "DarkLight 45-50 MeV results expected late 2026/early 2027",
+            "description": "DarkLight at TRIUMF is operational and collecting data at 45-50 MeV, but no results have been published yet. Bin Li's prediction of a light boson in this range remains untested.",
+            "action": "Monitor TRIUMF ARIEL data releases and Jefferson Lab X17 results (Summer 2026)"
+        }
+    ],
+    "next_pass": {
+        "number": 5,
+        "type": "synthesis",
+        "focus": "Complete Framework Synthesis — Propagation Framework Derivation of Koide",
+        "rationale": "With neutrino exclusion resolved and experimental status mapped, synthesize how the propagation framework derives the full Koide structure from Axiom 3 (coherence) and identify remaining empirical tests"
+    },
+    "last_updated": "2026-03-15T23:00:00.0000000-04:00"
+}
