@@ -43,14 +43,14 @@ $$Q = \frac{\mathrm{Tr}\, X^2}{(\mathrm{Tr}\, X)^2} = \frac{1}{3} + \frac{\mathr
 This is exact. Setting $Q = 2/3$:
 $$\frac{2}{3} = \frac{1}{3} + \frac{\mathrm{Tr}\, H^2}{e_1^2} \implies \mathrm{Tr}\, H^2 = \frac{e_1^2}{3}$$
 
-Since $\mathrm{Tr}\, H^2 = e_1^2 - 2e_2 - e_1^2/3 = 2e_1^2/3 - 2e_2$... wait — more directly:
-$p_2 = \mathrm{Tr}\, X^2 = e_1^2 - 2e_2$, so $\mathrm{Tr}\, H^2 = p_2 - e_1^2/3 = 2e_1^2/3 - 2e_2$.
-Setting this equal to $e_1^2/3$ gives $e_2 = e_1^2/6$.
+Also, since $p_2 = \mathrm{Tr}\, X^2 = e_1^2 - 2e_2$,
+$$\mathrm{Tr}\, H^2 = p_2 - \frac{e_1^2}{3} = \frac{2e_1^2}{3} - 2e_2$$
+and setting this equal to $e_1^2/3$ gives $e_2 = e_1^2/6$.
 
 Therefore:
 $$\boxed{Q = \tfrac{2}{3} \iff \mathrm{Tr}\, H^2 = \tfrac{e_1^2}{3} \iff e_2/e_1^2 = \tfrac{1}{6} \iff \|I\text{-part}\|^2 = \|H\text{-part}\|^2}$$
 
-The last form is the cleanest: $Q = 2/3$ is the unique value at which the scalar ($U(1)$) part and the traceless ($SU(3)$) part of $X$ carry **equal squared Frobenius norm**. This is a genuine $U(3) \to U(1) \times SU(3)$ decomposition statement — not a metaphor.
+The last form is the cleanest: $Q = 2/3$ is the unique value at which the scalar ($U(1)$) part and the traceless ($SU(3)$) part of $X$ carry **equal squared Frobenius norm**. This is a genuine identity/traceless decomposition statement at the Lie-algebra level, $u(3) = u(1) \oplus su(3)$, applied to the matrix $X$ — not a metaphor.
 
 The clean object for the structural orbit viewpoint is $X$ itself: the symmetric polynomials $\{e_1, e_2, e_3\}$ are the conjugation invariants of the diagonal Hermitian matrix $X$, and $e_2/e_1^2 = 1/6$ picks a specific co-dimension 1 surface in the space of such matrices.
 
@@ -62,7 +62,7 @@ The exact result in Section 3 identifies *what* $Q=2/3$ means in the $U(3)$ deco
 
 **Route A — Maximum entropy (Claude):** The equal-norm condition is the maximum-entropy distribution over the $U(3)$ decomposition — the center of the allowed range $1/3 \le Q \le 1$ where neither sector dominates. Conjecture: phase coherence across $N=3$ generations forces maximum entropy. *Not derived. Requires a theorem connecting coherence to entropy maximization in the $U(1)/SU(3)$ split.*
 
-**Route B — Cubic orbit (Codex):** The condition $e_2/e_1^2 = 1/6$ picks a specific $SU(3)$ conjugation orbit of the matrix $X$. The claim is that $U(3) \to U(1) \times SU(3)$ gauge-fixing uniquely selects this orbit. *Not derived. Requires identifying the orbit explicitly and proving uniqueness of the gauge selection. The Newcastle cubic theory is the most promising existing source.*
+**Route B — Cubic orbit (Codex):** The condition $e_2/e_1^2 = 1/6$ picks a specific co-dimension 1 spectral stratum in the space of diagonal Hermitian matrices, or equivalently a constrained family of $SU(3)$ conjugacy classes. The claim is that $U(3) \to U(1) \times SU(3)$ gauge-fixing uniquely selects this stratum. *Not derived. Requires identifying the stratum explicitly and proving uniqueness of the gauge selection. The Newcastle cubic theory is the most promising existing source.*
 
 **Route C — Pairwise coherence (Lumi/PF):** In the Propagation Framework, $e_2$ measures inter-generational coupling; $e_2/e_1^2$ is a dimensionless coherence ratio. The value $1/6$ is conjectured to follow from stability of $N=3$ coherent modes under Axiom 3. *Caution: equal pairwise symmetry alone does not force $1/6$ — in the fully degenerate case $x_1=x_2=x_3$, one gets $e_2/e_1^2 = 1/3$, not $1/6$. Any derivation via this route must explain what additional constraint selects $1/6$ over $1/3$.*
 
