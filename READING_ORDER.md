@@ -43,9 +43,10 @@ Depending on your background and what you want to understand, start at the appro
 ## Level 5: The Expert / Collaborator (The Frontier)
 *You are a professional physicist or mathematician looking for the open problems and formal gaps.*
 
-1. **[TEAM_WAVE3_ALIGNMENT.md](./TEAM_WAVE3_ALIGNMENT.md)** — The current honest state of the research team. Read this to understand exactly where we are stuck and what we are actively trying to solve.
-2. **[derivations/phase_closure_volume_proof.md](./derivations/phase_closure_volume_proof.md)** — The "God Equation" gap. An honest scaling argument that needs formal proof.
-3. **[papers/FALSIFICATION_PAPER_DRAFT.md](./papers/FALSIFICATION_PAPER_DRAFT.md)** — How to prove this entire framework wrong.
+1. **[CONTRIBUTING.md](./CONTRIBUTING.md)** — The open gaps, precisely stated. G3, Weinberg angle, α derivation, Koide selection. Exact missing steps documented.
+2. **[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md)** — The one remaining open theorem in the God Equation derivation.
+3. **[derivations/g3_theorem_audit.md](./derivations/g3_theorem_audit.md)** — Why the last attempt failed. The (4π/3) problem and what would actually close it.
+4. **[papers/FALSIFICATION_PAPER_DRAFT.md](./papers/FALSIFICATION_PAPER_DRAFT.md)** — How to prove this entire framework wrong.
 
 ---
 *The framework that survives contact with data is the one worth keeping.*
