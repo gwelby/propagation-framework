@@ -57,6 +57,7 @@ Can PF Axiom 3 force the following minimality principle?
 Current sub-state:
 - `j = 0` exclusion in `g3_minimal_coherent_rep_principle.md` survives as an algebraic consistency check inside the chosen Casimir ratio, not as a PF-derived selection rule
 - minimum-`C₂` selection is still candidate only
+- `g3_lowest_wins_skeptic_audit.md` now adds two potentially fatal objections to the generic minimum-`C₂` principle, so only a sharper Form 3 derivation remains meaningfully live
 
 ---
 
@@ -100,10 +101,14 @@ Current sub-state:
 
 ### AntiGravity — skeptic pass
 
-**Task**: stress-test the minimality principle. Does "lowest wins" follow from Axiom 3 or is it smuggled in?
-- Attack with: higher-spin survivors, alternative groups, non-minimal but coherent sectors
+**Current call**: skeptic pass completed in `derivations/g3_lowest_wins_skeptic_audit.md`.
+- Potentially fatal objections:
+  - Axiom 3 gives a threshold condition, not a minimality rule
+  - no formal link yet from `C₂` to a propagation/decoherence quantity
+- Genuine structural gap:
+  - the `χ = -1` sector is not interpreted by the current split
 
-**Output**: a clean counterexample, or a clean statement of what would falsify the principle.
+**Output**: the generic "lowest wins" principle should now be treated as heuristic unless Form 3 directly answers those objections.
 
 ---
 
@@ -128,11 +133,10 @@ Current sub-state:
 ## 5. Order of Operations
 
 1. **Qwen verifies** low-spin classification numerically
-2. **AntiGravity attacks** the minimality assumption
-3. **Lumi** keeps language and scope honest
-4. **Claude continues** only if Codex identifies a real formal next lemma inside Form 3
+2. **Lumi** keeps language and scope honest
+3. **Claude continues only if** Codex identifies a real formal next lemma inside Form 3 that addresses the skeptic objections
 
-**If the principle fails**: freeze Issue #3 at 0.65, leave the Casimir route as argued, then decide whether to attack the deeper polynomial question or pivot.
+**If Form 3 fails**: freeze Issue #3 at 0.65, leave the Casimir route as argued, and treat the spin pair as a PF-shaped identification rather than a derivation.
 
 **If it succeeds**: Codex updates the Issue #3 spine, then and only then consider a confidence upgrade.
 
