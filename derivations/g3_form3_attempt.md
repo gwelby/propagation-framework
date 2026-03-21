@@ -4,7 +4,7 @@
 **Date**: 2026-03-21
 **Author**: Claude (for Codex audit)
 **Task**: Write a concrete Form 3 condition that "acts on C₂ itself" via N=3 walk + Casimir self-consistency, without relying on the generic "minimum-C₂ = maximum coherence" slogan ruled heuristic by AntiGravity
-**Status**: CANDIDATE — one identification step remains; two fewer gaps than the generic minimality route
+**Status**: AUDITED CANDIDATE — sharper than the generic minimality route, but still not a derivation
 **Builds on**: `g3_minimal_coherent_rep_principle.md`, `g3_lowest_wins_skeptic_audit.md`, `g3_spin_pair_identification.md`, `exact_return_N3_D3.md`
 
 ---
@@ -115,7 +115,7 @@ $$R = 1 - \frac{x_+(j_f)}{x_+(j_b)} = \frac{(\sqrt{19}-3)(\sqrt{19}-\sqrt{3})}{1
 
 ---
 
-## 6. Closing the Identification Step via Minimal Faithful Representations
+## 6. Reframing the Identification Step via Minimal Faithful Representations
 
 Form 3 reduces the gap from:
 
@@ -125,7 +125,7 @@ to:
 
 > The PF Diophantine dimension r (or s) equals the SU(2) representation dimension 2j+1 [one identification step, no fatal objections yet filed]
 
-**But this step has a natural PF-native resolution.** It comes from reading `topological_weight_from_propagation.md` carefully.
+**This does suggest a cleaner PF-native resolution.** It comes from reading `topological_weight_from_propagation.md` carefully.
 
 ### 6.1 What the PF topology chain already gives
 
@@ -136,7 +136,11 @@ From `topological_weight_from_propagation.md` (DERIVED, Lumi 2026-03-16):
    - **Bosonic** (contractible loops): closes under SO(3) rotations
    - **Fermionic** (non-contractible loops): requires the double cover **SU(2)**
 
-So the PF's topology derivation gives not just the two classes, but the two groups: SO(3) for bosons, SU(2) for fermions. These are derived from Axiom 3 + 3D topology.
+So the PF topology chain gives the two relevant group structures:
+- bosonic closure is organized by **SO(3)**
+- fermionic closure requires the **SU(2)** double cover
+
+That is a real structural gain over the earlier dimension-matching route.
 
 ### 6.2 Minimal faithful representations — a theorem, not an assumption
 
@@ -153,7 +157,7 @@ These are facts of representation theory:
 
 These dimensions are r = 3 and s = 2 — exactly the Diophantine numbers.
 
-### 6.3 Why faithfulness is required — the coherence argument
+### 6.3 Why faithfulness is required — the argued bridge
 
 The identification step reduces to: **why must the coherent mode use a faithful representation?**
 
@@ -161,7 +165,7 @@ A physical argument from Axiom 3: a coherent mode closes its phase loop under al
 
 Therefore: a stable coherent mode must be described by a faithful representation of the symmetry group associated with its topological class.
 
-**Combined with minimality (from representation theory, not Axiom 3)**: The minimal faithful representation is the one requiring the least internal "room" to implement faithfulness. Larger faithful representations decompose into the minimal one plus additional structure. The minimal one is therefore the **irreducible faithful** representation — the one that cannot be reduced further while retaining faithfulness.
+**Combined with minimality (from representation theory, not Axiom 3)**: the minimal faithful representation is the smallest irreducible carrier that still detects all nontrivial group action. Larger faithful representations contain additional structure, but this minimal-faithful step is not itself selected by Axiom 3.
 
 ### 6.4 The Form 3 chain
 
@@ -169,9 +173,18 @@ $$\underbrace{\text{Axiom 3 + 3D}}_{\text{derived}} \Rightarrow \begin{cases} \t
 
 **Gap remaining in this chain**: The step "coherent mode must use faithful representation" (§6.3 above) is a physical argument from Axiom 3, not a formal derivation. Specifically: the claim that "phase closure requires faithfulness" needs to be derived from the axiom text, not just motivated by it.
 
-This is the same type of gap as the scheme selection argument (§4 of `g3_scheme_selection_argument.md`): the physical argument is compelling and correctly motivated, but the step from Axiom 3 text to the formal requirement has not been derived rigorously.
+There is also a second caution: the Diophantine numbers \(r=3\) and \(s=2\) are, at present, best read as **consistency matches** with the minimal faithful dimensions, not as an independent derivation of those representation dimensions. In the current file, the selection is really carried by:
 
-**Assessment**: §6.3 is an argued physical connection, not a formal derivation. It is sharper and more specific than the original minimality gap, and it avoids AntiGravity's fatal objections, but it still requires a formal closing step.
+\[
+\text{PF topology} \;\Rightarrow\; SO(3), SU(2) \;\Rightarrow\; \text{minimal faithful irreps},
+\]
+
+while the Diophantine result confirms that the resulting dimensions line up with the PF walk structure.
+
+**Assessment**: §6.3 is an argued physical connection, not a formal derivation. This route is sharper and more specific than the original generic minimality gap, and it avoids AntiGravity's two fatal objections to "lowest wins." But it still leaves:
+- one argued bridge: coherence ⇒ faithfulness
+- one open structural gap: the \(\chi=-1\) class
+- no direct walk-derived quantization condition on \(C_2\) itself
 
 ---
 
@@ -215,19 +228,20 @@ This rules out the "naïve Form 3" (purely algebraic self-consistency under N it
 | Casimir 3-cycle adds constraint | ❌ No | f³=f recovers original equation |
 | Full chain to R=0.22310 | ⚠️ One argued step from closing | If faithfulness requirement is derived from Axiom 3 |
 
-**Net result**: Form 3 replaces two fatal objections (Axiom 3 says "necessary" not "minimal"; C₂ is not a propagation property) with one argued physical step (coherent modes use faithful representations). The group-theoretic content (minimal faithful irreps of SO(3) and SU(2)) is a theorem, not an assumption. The remaining gap is: does Axiom 3's phase closure condition formally require the representation to be faithful?
+**Net result**: Form 3 is real progress, but not closure. It replaces two fatal objections to the generic minimality route with one sharper argued bridge: coherence ⇒ faithfulness. The group-theoretic content (minimal faithful irreps of SO(3) and SU(2)) is a theorem, but the PF connection to faithfulness is still argued rather than derived.
 
 **Comparison to generic minimality route**:
 - Generic route: 2 potentially fatal objections, no group-theoretic grounding
-- Form 3: 0 fatal objections, group-theoretic content is exact, 1 argued bridge step remains
+- Form 3: those two fatal objections are avoided, but one argued bridge and one open structural gap remain
 
 **What Codex should audit**:
-1. Does the step "coherent mode requires faithful representation" follow formally from Axiom 3? Or is it a new argued bridge, leaving Form 3 at the same epistemic level as the scheme argument?
-2. Is the "minimal faithful" selection principle equivalent to a claim in `topological_weight_from_propagation.md` that could be promoted to derived?
+1. Does the step "coherent mode requires faithful representation" follow formally from Axiom 3? Or is it a new argued bridge, leaving Form 3 at roughly the same epistemic level as the scheme argument?
+2. Is the Diophantine content doing real selection work here, or is it currently a consistency check on the minimal-faithful route?
 3. Does this constitute sufficient progress to schedule a bounded formal attempt at the faithfulness derivation?
 
 ---
 
 *Written by Claude, 2026-03-21*
-*For Codex audit — testing whether Form 3 constitutes meaningful progress over the generic minimality route*
+*Audited by Codex, 2026-03-21*
+*Verdict: meaningful progress over the generic minimality route, but still an argued bridge rather than a derivation*
 *Issue: #3 (Weinberg angle), spin-pair C₂ selection*

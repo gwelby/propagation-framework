@@ -31,7 +31,8 @@
   - Casimir/de Vries algebraic match is real.
   - Scheme-selection argument is audited as a useful physical argument, not a derivation.
   - Spin-pair `(1/2, 1)` is audited as PF-shaped, not derived.
-  - New live target: derive a **minimal coherent representation principle** from Axiom 3.
+  - Generic minimum-`C₂` route is now explicitly heuristic.
+  - New live target: the narrower **Form 3** route via PF topology + faithful representations.
 
 ### Repo milestones (this session)
 
@@ -41,14 +42,13 @@
 | `641c3a2` | Audited scheme argument without upgrading confidence |
 | `cef9043` | Audited spin-pair identification without upgrading confidence |
 | `3ea0244` | Minimal coherent representation principle attempt for Issue #3 |
+| `4f2d5e5` | Claude's Form 3 attempt: Diophantine + minimal faithful representation route |
 
 ---
 
 ## 2. The Single Active Question
 
-Can PF Axiom 3 force the following minimality principle?
-
-> Among all representations compatible with the PF topological class and the Z₃ step action, stable coherent structure selects the lowest half-integer survivor and the lowest integer annihilated sector.
+Can PF topology plus Casimir self-consistency force a unique low-spin selection without assuming a generic "lowest wins" rule?
 
 **If yes**: `(s = 1/2, s = 1)` becomes derived, Issue #3 can move above 0.65.
 
@@ -56,8 +56,9 @@ Can PF Axiom 3 force the following minimality principle?
 
 Current sub-state:
 - `j = 0` exclusion in `g3_minimal_coherent_rep_principle.md` survives as an algebraic consistency check inside the chosen Casimir ratio, not as a PF-derived selection rule
-- minimum-`C₂` selection is still candidate only
-- `g3_lowest_wins_skeptic_audit.md` now adds two potentially fatal objections to the generic minimum-`C₂` principle, so only a sharper Form 3 derivation remains meaningfully live
+- generic minimum-`C₂` selection is now explicitly heuristic after the skeptic pass
+- `g3_form3_attempt.md` is meaningful progress: it replaces the generic minimality story with a faithfulness bridge grounded in SO(3)/SU(2) representation theory
+- Form 3 still has one argued bridge (`coherence => faithful representation`) and one open structural gap (`χ = -1` class)
 
 ---
 
@@ -65,10 +66,12 @@ Current sub-state:
 
 ### Codex — audit gate, final truth
 
-**Current call**: `derivations/g3_minimal_coherent_rep_principle.md` is now audited.
+**Current call**:
+- `derivations/g3_minimal_coherent_rep_principle.md` is audited.
 - `j = 0` exclusion: algebraic consistency check only
 - `minimum-C₂ = maximum coherence`: still analogy / candidate principle
-- Form 3 (N=3 walk self-consistency): still the most PF-native route worth testing next
+- `derivations/g3_form3_attempt.md`: meaningful progress, but still an argued bridge
+- only live route now: derive or kill `coherence => faithful representation`
 
 **Output**: no confidence change. Issue `#3` stays at `0.65` unless Form 3 closes.
 
@@ -76,7 +79,7 @@ Current sub-state:
 
 ### Claude — derivation drafting
 
-**When**: after Codex's audit identifies one exact lemma worth chasing.
+**When**: after Codex identifies one exact lemma worth chasing inside the faithfulness bridge.
 **How**: stay on bounded derivation work, no new phenomenological stories, no confidence-upgrade language unless Codex signs off.
 **Best output**: one exact lemma or one exact no-go.
 
@@ -90,12 +93,15 @@ Current sub-state:
 
 ### Qwen — numerical verification
 
-**Task**: bounded pass on the minimal coherent representation question.
+**Current call**: bounded low-spin classification is complete in `sandbox/spin_pair_classification.py`.
 - Enumerate low-spin sectors
 - Compute: C₂ = j(j+1), χ_j(2π/3), survivor vs annihilated sectors
 - Check for lower-complexity counterexamples to the minimality principle
 
-**Output**: verification table and low-spin classification. No status proposals.
+**Output**: confirms the skeptic case:
+- `j=0` is the lowest survivor
+- `j=1` is the lowest annihilated
+- `χ=-1` sector is real and unaddressed
 
 ---
 
@@ -108,7 +114,7 @@ Current sub-state:
 - Genuine structural gap:
   - the `χ = -1` sector is not interpreted by the current split
 
-**Output**: the generic "lowest wins" principle should now be treated as heuristic unless Form 3 directly answers those objections.
+**Output**: the generic "lowest wins" principle is heuristic; any further Form 3 claim must answer the faithfulness bridge and the `χ=-1` gap.
 
 ---
 
@@ -132,9 +138,9 @@ Current sub-state:
 
 ## 5. Order of Operations
 
-1. **Qwen verifies** low-spin classification numerically
-2. **Lumi** keeps language and scope honest
-3. **Claude continues only if** Codex identifies a real formal next lemma inside Form 3 that addresses the skeptic objections
+1. **Lumi** keeps language and scope honest
+2. **Claude continues only if** Codex identifies a real formal next lemma inside the faithfulness bridge
+3. **AntiGravity** attacks any new Form 3 lemma immediately on the same skeptic axes
 
 **If Form 3 fails**: freeze Issue #3 at 0.65, leave the Casimir route as argued, and treat the spin pair as a PF-shaped identification rather than a derivation.
 
