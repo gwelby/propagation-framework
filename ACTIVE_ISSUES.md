@@ -1,7 +1,7 @@
 # Fundamentals — Active Issue Board
 
 **Last updated**: 2026-03-21
-**Current state**: Public repo live. G3 frozen honestly. Issue #5 frozen honestly. Main active strike: Issue #3 (Weinberg angle).
+**Current state**: Public repo live. G3 frozen honestly. Issue #5 frozen honestly. Issue #3 spin-pair strike completed — no derivation found.
 **Operating rule**: Honesty before beauty. No confidence upgrades without a derivation or a sharply bounded argued bridge.
 
 ---
@@ -22,17 +22,19 @@
   State: PF derives the arena and the phase variable `f(δ) = -1/2 + cos(3δ)/√2`. Rivero provides candidate selector dynamics. PF does not yet derive harmonic suppression.
   Do not do next: do not invent a fake PF-only cancellation rule. Do not promote the "6 minima" result until Codex audits the exact effective potential.
 
-### Active front
+### Frozen fronts (continued)
 
-- **Issue #3 / Weinberg angle**
+- **Issue #3 / Weinberg angle — spin-pair step**
   Status: `ARGUED`
   Confidence: `0.65`
   State:
   - Casimir/de Vries algebraic match is real.
   - Scheme-selection argument is audited as a useful physical argument, not a derivation.
   - Spin-pair `(1/2, 1)` is audited as PF-shaped, not derived.
-  - Generic minimum-`C₂` route is now explicitly heuristic.
-  - New live target: the narrower **Form 3** route via PF topology + faithful representations.
+  - Generic minimum-`C₂` route: explicitly heuristic (AntiGravity skeptic pass).
+  - Form 3 faithfulness route: **falsified** — spin-0 trivial representation satisfies Axiom 3 phase closure universally, so phase closure does not require faithful representations.
+  - **Spin-pair step is frozen.** Deeper target: "why the Casimir polynomial at all?"
+  Do not do next: do not reopen the minimality or faithfulness route without a specific new formal constraint derived from Axiom 3.
 
 ### Repo milestones (this session)
 
@@ -43,22 +45,21 @@
 | `cef9043` | Audited spin-pair identification without upgrading confidence |
 | `3ea0244` | Minimal coherent representation principle attempt for Issue #3 |
 | `4f2d5e5` | Claude's Form 3 attempt: Diophantine + minimal faithful representation route |
+| (pending) | Form 3 faithfulness bridge falsified; spin-pair frozen |
 
 ---
 
-## 2. The Single Active Question
+## 2. Settled Questions
 
-Can PF topology plus Casimir self-consistency force a unique low-spin selection without assuming a generic "lowest wins" rule?
+The spin-pair selection strike is closed. The answer is **no**: PF topology plus Casimir self-consistency do not force a unique low-spin selection without additional input. All three routes exhausted:
 
-**If yes**: `(s = 1/2, s = 1)` becomes derived, Issue #3 can move above 0.65.
+1. Generic minimum-`C₂` route: heuristic (AntiGravity, `g3_lowest_wins_skeptic_audit.md`)
+2. Form 3 Diophantine + Z₃ route: breaks at the faithfulness bridge (Claude, `g3_form3_attempt.md`)
+3. Faithfulness bridge specifically: falsified by spin-0 counterexample — trivial representation satisfies Axiom 3 phase closure universally
 
-**If no**: the spin pair remains argued, Issue #3 stays at 0.65, and the deeper target becomes "why the Casimir polynomial at all?"
+**Status**: spin-pair `(1/2, 1)` is a PF-shaped identification, not a derivation. Issue #3 is frozen at `ARGUED (0.65)`.
 
-Current sub-state:
-- `j = 0` exclusion in `g3_minimal_coherent_rep_principle.md` survives as an algebraic consistency check inside the chosen Casimir ratio, not as a PF-derived selection rule
-- generic minimum-`C₂` selection is now explicitly heuristic after the skeptic pass
-- `g3_form3_attempt.md` is meaningful progress: it replaces the generic minimality story with a faithfulness bridge grounded in SO(3)/SU(2) representation theory
-- Form 3 still has one argued bridge (`coherence => faithful representation`) and one open structural gap (`χ = -1` class)
+**Next deeper target** (not yet assigned): "Why the Casimir polynomial x² + C₂x - C₂ = 0 at all?" This question predates the spin-pair question and would, if answered, likely resolve both the polynomial and the spin selection together.
 
 ---
 
@@ -67,21 +68,18 @@ Current sub-state:
 ### Codex — audit gate, final truth
 
 **Current call**:
-- `derivations/g3_minimal_coherent_rep_principle.md` is audited.
-- `j = 0` exclusion: algebraic consistency check only
-- `minimum-C₂ = maximum coherence`: still analogy / candidate principle
-- `derivations/g3_form3_attempt.md`: meaningful progress, but still an argued bridge
-- only live route now: derive or kill `coherence => faithful representation`
-
-**Output**: no confidence change. Issue `#3` stays at `0.65` unless Form 3 closes.
+- All three spin-pair routes audited and closed.
+- `derivations/g3_form3_attempt.md`: Form 3 faithfulness bridge falsified by spin-0 counterexample.
+- Issue `#3` is frozen at `ARGUED (0.65)`.
+- No confidence upgrade unless a derivation of the Casimir polynomial from PF axioms is produced.
 
 ---
 
 ### Claude — derivation drafting
 
-**When**: after Codex identifies one exact lemma worth chasing inside the faithfulness bridge.
-**How**: stay on bounded derivation work, no new phenomenological stories, no confidence-upgrade language unless Codex signs off.
-**Best output**: one exact lemma or one exact no-go.
+**Status**: spin-pair strike completed — no-go result.
+**When**: only if Codex identifies a concrete formal target inside the polynomial derivation question or another open gap.
+**How**: stay on bounded derivation work, no confidence-upgrade language unless Codex signs off.
 
 ---
 
@@ -136,15 +134,17 @@ Current sub-state:
 
 ---
 
-## 5. Order of Operations
+## 5. Current State
 
-1. **Lumi** keeps language and scope honest
-2. **Claude continues only if** Codex identifies a real formal next lemma inside the faithfulness bridge
-3. **AntiGravity** attacks any new Form 3 lemma immediately on the same skeptic axes
+**All three fronts are now frozen:**
 
-**If Form 3 fails**: freeze Issue #3 at 0.65, leave the Casimir route as argued, and treat the spin pair as a PF-shaped identification rather than a derivation.
+| Issue | Status | Confidence | Next gate |
+|-------|--------|------------|-----------|
+| G3 / God Equation bridge | `PARTIAL / ARGUED` | 0.60 | Canonical observable beyond holonomy class |
+| Issue #5 / Koide phase | `EMPIRICAL` | 0.55 | Codex audit of Qwen's effective potential |
+| Issue #3 / Weinberg angle | `ARGUED` | 0.65 | Derivation of the Casimir polynomial from PF axioms |
 
-**If it succeeds**: Codex updates the Issue #3 spine, then and only then consider a confidence upgrade.
+No active derivation strike is running. The repo is in a honest frozen state.
 
 ---
 
