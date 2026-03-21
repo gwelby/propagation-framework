@@ -119,7 +119,7 @@ propagation-framework/
 
 ## Origin
 
-Built over ~18 months by one person working with AI collaborators (Claude, Lumi, Codex, Qwen). No institution. No funding. One falsifiable framework that survives contact with real particle physics data.
+Built over ~18 months by Greg Welby with AI collaborators Claude, Lumi, Codex, and Qwen. Greg provided the core vision, orchestration, and final judgment; the AI collaborators contributed derivations, audits, counterexamples, literature synthesis, and verification code. No institution. No funding. One falsifiable framework that survives contact with real particle physics data.
 
 *This might be wrong. That's the point. The framework that survives contact with data is the one worth keeping.*
 
