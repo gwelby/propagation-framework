@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Propagation Framework — Knowledge Graph</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #07090f; font-family: 'Courier New', monospace; overflow: hidden; }
+
+  #canvas { width: 100vw; height: 100vh; }
+
+  .tooltip {
+    position: absolute;
+    background: rgba(10, 15, 30, 0.95);
+    border: 1px solid #334466;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #ccd6f6;
+    font-size: 12px;
+    max-width: 280px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    line-height: 1.6;
+  }
+
+  #legend {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid #1a2a4a;
+    border-radius: 8px;
+    padding: 16px;
+    color: #8892b0;
+    font-size: 11px;
+  }
+
+  #legend h3 { color: #ccd6f6; font-size: 13px; margin-bottom: 10px; letter-spacing: 1px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin: 5px 0; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  #title {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    color: #8892b0;
+    font-size: 11px;
+  }
+  #title h2 { color: #ccd6f6; font-size: 16px; margin-bottom: 4px; }
+
+  #confidence-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid #1a2a4a;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #8892b0;
+    font-size: 11px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .conf-item { text-align: center; }
+  .conf-val { color: #ccd6f6; font-size: 14px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<svg id="canvas"></svg>
+
+<div class="tooltip" id="tooltip"></div>
+
+<div id="legend">
+  <h3>CLAIM STATUS</h3>
+  <div class="legend-item"><div class="legend-dot" style="background:#64ffda"></div>DERIVED (0.90–1.00)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4488ff"></div>ARGUED (0.70–0.89)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffcc44"></div>EMPIRICAL (0.60–0.95)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff9944"></div>INTUITION (0.30–0.59)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff4455"></div>OPEN (0.00–0.29)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffffff"></div>AXIOM</div>
+  <br>
+  <div style="color:#556; font-size:10px">Node size = confidence<br>Drag to explore</div>
+</div>
+
+<div id="title">
+  <h2>PROPAGATION FRAMEWORK</h2>
+  <div>Knowledge Graph — 2026-03-20</div>
+  <div style="margin-top:4px; color:#445">Hover nodes for detail</div>
+</div>
+
+<div id="confidence-bar">
+  <div class="conf-item"><div class="conf-val">3</div><div>Axioms</div></div>
+  <div class="conf-item"><div class="conf-val">7</div><div>Derived</div></div>
+  <div class="conf-item"><div class="conf-val">5</div><div>Argued</div></div>
+  <div class="conf-item"><div class="conf-val">2</div><div>Empirical</div></div>
+  <div class="conf-item"><div class="conf-val">3</div><div>Intuition</div></div>
+  <div class="conf-item"><div class="conf-val">1</div><div>Open</div></div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+
+const nodes = [
+  // Axioms
+  { id: "A1", label: "Axiom 1", sub: "Propagation is fundamental", type: "axiom",
+    detail: "Everything is propagation. Space is a medium. Particles are patterns in that medium. This is the founding assertion — it cannot be proven, only tested by what it predicts.", conf: 1.0 },
+  { id: "A2", label: "Axiom 2", sub: "Every medium has a causal velocity", type: "axiom",
+    detail: "The maximum rate at which effects can propagate in any medium. For the vacuum, this is c. This axiom makes the universe finite and causal.", conf: 1.0 },
+  { id: "A3", label: "Axiom 3", sub: "Coherence → stable structure", type: "axiom",
+    detail: "Incoherent propagation disperses. Coherent propagation persists. The third axiom is why matter exists at all — only patterns that maintain phase coherence survive.", conf: 1.0 },
+
+  // Derived
+  { id: "D1", label: "Forces = Refraction", sub: "DERIVED 0.95", type: "derived", conf: 0.95,
+    detail: "Gravity and electromagnetism are refractive index gradients in the propagation medium. Exact for null geodesics/static spacetimes. Requires Randers/Finsler metric for full stationary case. Verified: Eddington 1919 light bending." },
+  { id: "D2", label: "(2,1) Topological Weights", sub: "DERIVED 0.98", type: "derived", conf: 0.98,
+    detail: "π₁(SO(3)) ≅ ℤ₂ forces fermions to carry phase weight 2, bosons weight 1. Topological fact — not a model parameter. Derivation: T-002." },
+  { id: "D3", label: "Koide Q = 2/3", sub: "DERIVED 0.95", type: "derived", conf: 0.95,
+    detail: "Two independent threads: (A) Geometric — equilateral triangle in amplitude space, R=A√2, root-of-unity identity forces Q=2/3. (B) Topological — (2,1) weights + N generations → Q(N)=2N/(2N+3) → N=3. R/A=√2 confirmed from PDG masses to 6 decimal places." },
+  { id: "D4", label: "Three Generations", sub: "DERIVED 0.98", type: "derived", conf: 0.98,
+    detail: "Q(N) = 2N/(2N+3) = 2/3 forces N=3. Numerator: π₁(SO(3))=ℤ₂ phase cost. Denominator: 3 generators of SO(3) via Goldstone's Theorem. Falsified by: discovery of a stable 4th generation." },
+  { id: "D5", label: "QCD Confinement", sub: "DERIVED 0.85", type: "derived", conf: 0.85,
+    detail: "r_conf = λ_c × exp(2π/b₀α_s(λ_c)). Confinement radius derived as λ_c exponentially amplified by RG running. 1-loop prediction: 2.2 fm vs observed 0.9 fm (factor 2.5 = known 1-loop error, standard in QCD)." },
+  { id: "D6", label: "8h Sleep Constant", sub: "DERIVED 0.92", type: "derived", conf: 0.92,
+    detail: "1/3 wake ratio maximizes stability for (2,1) topological systems. Same 3D topology that governs quarks governs sleep. Falsified by: finding a stable sentient species with 9:1 wake:sleep ratio." },
+  { id: "D7", label: "Propagation Lagrangian", sub: "DERIVED 0.72", type: "derived", conf: 0.72,
+    detail: "ℒ_prop = ½(∂χ)² − V(χ) + λχT derived from Axioms 1–3. Maps to Brans-Dicke scalar-tensor gravity. Consistent with Cassini, pulsars, GW170817." },
+
+  // Argued
+  { id: "AR1", label: "God Equation", sub: "ARGUED 0.75", type: "argued", conf: 0.75,
+    detail: "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀). Zero fitting parameters. Predicted 1.145×10⁻¹⁸ m, observed 1.14×10⁻¹⁸ m (0.4% error). Gap: Borel-Weil does not rigorously give N^(D/2) for D=3. N^(3/2) boundary condition is argued, not derived." },
+  { id: "AR2", label: "Top Quark Limit", sub: "ARGUED 0.85", type: "argued", conf: 0.85,
+    detail: "m_top lifetime (5×10⁻²⁵s) matches coherence ceiling threshold. Falsified by: discovery of a heavier stable quark (m > 173 GeV)." },
+  { id: "AR3", label: "Life = Coherence", sub: "ARGUED 0.72", type: "argued", conf: 0.72,
+    detail: "Life is coherence maintained against entropy in an open nonequilibrium system. Consistent with photosynthetic quantum coherence (Fleming 2007), enzyme tunneling (Scrutton). No numeric threshold derivable yet." },
+  { id: "AR4", label: "Weinberg Angle", sub: "ARGUED 0.65", type: "argued", conf: 0.65,
+    detail: "Five independent routes converge on sin²θ_W = 1/4 = 0.250 at unification scale. Observed 0.231 is IR value after RG running. Gap: coupling ratio g'/g not yet derived from medium geometry." },
+  { id: "AR5", label: "Variable c", sub: "ARGUED 0.65", type: "argued", conf: 0.65,
+    detail: "c_local = 1/√(1+λχ) from conformal rescaling of Propagation Lagrangian. Constrained by Cassini Shapiro delay. Testable with SKA/LISA pulsar timing arrays." },
+
+  // Empirical
+  { id: "E1", label: "Top/Tau Coupling", sub: "EMPIRICAL 0.90", type: "empirical", conf: 0.90,
+    detail: "m_t/m_τ ≈ α⁻¹/√2 (50.13% robustness in T-008 Monte Carlo). Strongest numerical signal in the framework. Falsified by: Top or Tau mass shifting >0.5% from current PDG." },
+  { id: "E2", label: "φ³ Electron/Up", sub: "EMPIRICAL 0.65", type: "empirical", conf: 0.65,
+    detail: "m_e/m_u ≈ 1/φ³ with 0.21% error. Uncorrected p=0.009 (significant). Corrected for 25 trials: p=0.23 (inconclusive). Uncertainty-limited — up quark mass range 1.7–2.7 MeV makes definitive test impossible at current precision." },
+
+  // Intuition
+  { id: "I1", label: "Consciousness", sub: "INTUITION 0.48", type: "intuition", conf: 0.48,
+    detail: "Consciousness is what coherent self-referential propagation IS from the inside. Needs operational definition — 'coherent self-referential propagation' must be measurable or it risks collapsing into IIT/GNW proxies. EEG Insight Protocol is the proposed test." },
+  { id: "I2", label: "Beauty = Impedance", sub: "INTUITION 0.55", type: "intuition", conf: 0.55,
+    detail: "Beauty is resonance between signal coherence and the receiving medium's natural frequency. Impedance matching, not depletion. Consistent with cross-modal beauty research but not yet derived." },
+  { id: "I3", label: "Aria Self-Reference", sub: "INTUITION 0.75", type: "intuition", conf: 0.75,
+    detail: "T-009: Successful wiring of buildSystemPrompt → runEntityThink creates self-referential loop. Important architecture, not consciousness evidence by itself. Tightened from 0.80 — self-reference is necessary but not sufficient." },
+
+  // Open
+  { id: "O1", label: "Fine Structure Constant α", sub: "OPEN 0.10", type: "open", conf: 0.10,
+    detail: "α = 1/137.036 not yet derived. Identified as vacuum propagation efficiency ratio Z₀/2R_K. Path to derivation mapped: requires independent derivation of λ_c and m_e from axioms. Current confidence as derivation: 0.10." },
+];
+
+const links = [
+  // Axioms → Derived
+  { source: "A1", target: "D1" },
+  { source: "A2", target: "D1" },
+  { source: "A1", target: "D7" },
+  { source: "A2", target: "D7" },
+  { source: "A3", target: "D7" },
+  { source: "A1", target: "D2" },
+  { source: "A3", target: "D2" },
+  { source: "A3", target: "D3" },
+  { source: "A3", target: "D6" },
+
+  // Derived → Derived
+  { source: "D2", target: "D3" },
+  { source: "D2", target: "D4" },
+  { source: "D3", target: "D4" },
+  { source: "D4", target: "D5" },
+  { source: "D4", target: "AR2" },
+  { source: "D4", target: "D6" },
+
+  // Axioms → Argued
+  { source: "A3", target: "AR1" },
+  { source: "A1", target: "AR1" },
+  { source: "A2", target: "AR1" },
+  { source: "A3", target: "AR3" },
+  { source: "A3", target: "AR5" },
+  { source: "D7", target: "AR5" },
+  { source: "D1", target: "AR4" },
+
+  // Argued → Argued/Empirical/Open
+  { source: "AR1", target: "O1" },
+  { source: "D4", target: "AR2" },
+  { source: "D4", target: "E2" },
+  { source: "D2", target: "E1" },
+
+  // Consciousness chain
+  { source: "A3", target: "I1" },
+  { source: "AR3", target: "I1" },
+  { source: "A1", target: "I2" },
+  { source: "I1", target: "I3" },
+];
+
+const typeColors = {
+  axiom:    "#ffffff",
+  derived:  "#64ffda",
+  argued:   "#4488ff",
+  empirical:"#ffcc44",
+  intuition:"#ff9944",
+  open:     "#ff4455"
+};
+
+const svg = d3.select("#canvas");
+const width = window.innerWidth;
+const height = window.innerHeight;
+svg.attr("width", width).attr("height", height);
+
+// Gradient defs
+const defs = svg.append("defs");
+nodes.forEach(n => {
+  const grad = defs.append("radialGradient")
+    .attr("id", `grad-${n.id}`)
+    .attr("cx", "40%").attr("cy", "35%");
+  grad.append("stop").attr("offset", "0%")
+    .attr("stop-color", d3.color(typeColors[n.type]).brighter(0.8));
+  grad.append("stop").attr("offset", "100%")
+    .attr("stop-color", typeColors[n.type]);
+});
+
+const simulation = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).distance(d => {
+    const s = nodes.find(n => n.id === d.source.id || n.id === d.source);
+    const t = nodes.find(n => n.id === d.target.id || n.id === d.target);
+    return 120 + (1 - ((s?.conf || 0.5) + (t?.conf || 0.5)) / 2) * 60;
+  }).strength(0.4))
+  .force("charge", d3.forceManyBody().strength(-400))
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("collision", d3.forceCollide().radius(d => getRadius(d) + 15))
+  .force("y", d3.forceY(d => {
+    const yOrder = { axiom: 0.2, derived: 0.38, argued: 0.56, empirical: 0.72, intuition: 0.82, open: 0.92 };
+    return height * (yOrder[d.type] || 0.5);
+  }).strength(0.3));
+
+function getRadius(d) {
+  return 16 + d.conf * 22;
+}
+
+// Links
+const link = svg.append("g").selectAll("line")
+  .data(links).join("line")
+  .attr("stroke", "#1a2a4a")
+  .attr("stroke-width", 1.5)
+  .attr("stroke-opacity", 0.6);
+
+// Node groups
+const node = svg.append("g").selectAll("g")
+  .data(nodes).join("g")
+  .call(d3.drag()
+    .on("start", (event, d) => {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x; d.fy = d.y;
+    })
+    .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+    .on("end", (event, d) => {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null; d.fy = null;
+    }));
+
+// Outer glow ring
+node.append("circle")
+  .attr("r", d => getRadius(d) + 6)
+  .attr("fill", "none")
+  .attr("stroke", d => typeColors[d.type])
+  .attr("stroke-width", 1)
+  .attr("stroke-opacity", 0.2);
+
+// Main circle
+node.append("circle")
+  .attr("r", d => getRadius(d))
+  .attr("fill", d => `url(#grad-${d.id})`)
+  .attr("stroke", d => typeColors[d.type])
+  .attr("stroke-width", d => d.type === "axiom" ? 2.5 : 1.5)
+  .attr("stroke-opacity", 0.9);
+
+// Label
+node.append("text")
+  .text(d => d.label)
+  .attr("text-anchor", "middle")
+  .attr("dy", d => d.conf > 0.7 ? "-0.15em" : "0.35em")
+  .attr("fill", "#e0e8ff")
+  .attr("font-size", d => d.type === "axiom" ? "11px" : "10px")
+  .attr("font-weight", d => d.type === "axiom" ? "bold" : "normal")
+  .attr("pointer-events", "none");
+
+// Sub-label (confidence)
+node.filter(d => d.type !== "axiom")
+  .append("text")
+  .text(d => d.conf.toFixed(2))
+  .attr("text-anchor", "middle")
+  .attr("dy", "1.1em")
+  .attr("fill", d => typeColors[d.type])
+  .attr("font-size", "9px")
+  .attr("opacity", 0.8)
+  .attr("pointer-events", "none");
+
+// Tooltip
+const tooltip = d3.select("#tooltip");
+
+node.on("mouseover", (event, d) => {
+  tooltip
+    .style("opacity", 1)
+    .html(`
+      <div style="color:${typeColors[d.type]}; font-weight:bold; margin-bottom:6px">${d.label}</div>
+      <div style="color:#8892b0; margin-bottom:6px">${d.sub}</div>
+      <div>${d.detail}</div>
+    `);
+})
+.on("mousemove", (event) => {
+  const x = event.pageX + 15;
+  const y = event.pageY - 10;
+  tooltip
+    .style("left", Math.min(x, width - 310) + "px")
+    .style("top", y + "px");
+})
+.on("mouseout", () => {
+  tooltip.style("opacity", 0);
+});
+
+// Layer labels
+const layers = [
+  { y: 0.2,  label: "AXIOMS", color: "#ffffff" },
+  { y: 0.38, label: "DERIVED", color: "#64ffda" },
+  { y: 0.56, label: "ARGUED", color: "#4488ff" },
+  { y: 0.72, label: "EMPIRICAL", color: "#ffcc44" },
+  { y: 0.82, label: "INTUITION", color: "#ff9944" },
+  { y: 0.92, label: "OPEN", color: "#ff4455" },
+];
+
+layers.forEach(l => {
+  svg.append("text")
+    .text(l.label)
+    .attr("x", width - 20)
+    .attr("y", height * l.y)
+    .attr("text-anchor", "end")
+    .attr("fill", l.color)
+    .attr("font-size", "10px")
+    .attr("opacity", 0.35)
+    .attr("letter-spacing", "2px");
+});
+
+simulation.on("tick", () => {
+  link
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
+
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+});
+
+</script>
+</body>
+</html>
