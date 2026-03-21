@@ -110,6 +110,10 @@ Q = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2}
 The geometric equivalence is exact, and the PDG 2024 charged-lepton data verify it to high
 precision. The deeper question of why the equal-norm point is selected remains open.
 
+![Koide Triangle](visualizations/koide_triangle.png)
+
+*Three lepton mass square roots forming a perfect equilateral triangle in amplitude space. Not constructed — measured from PDG particle masses. R/A = √2 holds to 6 decimal places.*
+
 See [derivations/koide_geometric_equivalence.md](./derivations/koide_geometric_equivalence.md).
 
 You can regenerate the triangle directly:
