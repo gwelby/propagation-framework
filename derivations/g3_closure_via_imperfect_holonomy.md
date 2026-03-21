@@ -1,40 +1,41 @@
-# G3: Closure via Imperfect Holonomy
-*A candidate derivation from Wilson loop deviation*
+# G3: Imperfect-Holonomy Near-Miss
+*An exploratory observable test later rejected as a derivation*
 
 **Date**: 2026-03-21  
 **Author**: Qwen Code  
-**Task**: Test whether (1 - |W|²)/(4π) at β = 54.7° yields the God Equation coefficient  
-**Status**: CANDIDATE DERIVATION — matches within 4%, requires framework justification  
+**Task**: Test whether `(1 - |W|²)/(4π)` at `β = 54.7°` gives a meaningful G3 closure candidate  
+**Status**: EXPLORATORY / REJECTED AS DERIVATION — numerical near-miss only; G3 unchanged  
 **Builds on**: `g3_wilson_loop_toy_model.md`, `g3_beta_lock_audit.md`, `koide_geometric_equivalence.md`  
 
 ---
 
-## 1. The Key Insight
+## 1. The Exploratory Hypothesis
 
 From `g3_beta_lock_audit.md`:
 - Wilson loop |W|² alone does NOT give the God Equation coefficient
 - At β = 54.7°: |W|² ≈ 0.60 (not ~0.192)
 - At β = 35.3°: |W|² ≈ 0.0005 (not ~0.192)
 
-**New hypothesis**: The coupling α is NOT proportional to |W|² (closure probability).
+**Exploratory hypothesis**: the coupling α is NOT proportional to |W|² (closure probability).
 
-**Instead**: α is proportional to **deviation from perfect closure**:
+**Instead**: try α proportional to **deviation from perfect closure**:
 ```
 α ∝ (1 - |W|²)
 ```
 
-**Physical interpretation**: Perfect holonomy (|W|² = 1) means no interaction — the loop is trivial. Non-trivial coupling arises from IMPERFECT closure.
+**Candidate physical interpretation**: perfect holonomy (|W|² = 1) means no interaction; non-trivial coupling arises from imperfect closure.
 
 ---
 
-## 2. The Candidate Formula
+## 2. The Tested Formula
 
-**Proposal**:
+**Exploratory proposal**:
 ```
 α(l_P) = (1 - |W|²) / (4π)
 ```
 
-**Why 4π?**
+**Why 4π?**  
+This is the motivation tested in this note, not a derived normalization:
 - 2π from angular phase space (gauge convention)
 - Additional factor of 2 from SU(2) double cover (fermions require 4π rotation)
 - Total: 4π = solid angle of S² × double cover factor
@@ -101,23 +102,23 @@ W(2π/3, 70.5°) = 1
 
 ---
 
-## 4. The Critical Result
+## 4. The Near-Miss
 
-**The formula α = (1 - |W|²)/(4π) works IF AND ONLY IF β = 54.7°.**
+**The formula α = (1 - |W|²)/(4π) lands near the target only for β = 54.7°.**
 
-This angle is selected by:
+This angle is one suggestive candidate coming from:
 - **Koide R/A = √2** → chord distance on cone = √2
 - **NOT** by (2,1) fermion weight (which gives 35.3°)
 - **NOT** by extremal holonomy (which gives 70.5°)
 
-**Physical interpretation**:
+**Interpretive note**:
 - β = 54.7° is the "tetrahedral angle" — the angle between vertices of a tetrahedron from its center
 - This is the complementary magic angle: cos²β = 1/3, sin²β = 2/3
 - In NMR/spin physics, this is where dipolar coupling averages to zero
 
 ---
 
-## 5. Framework Justification for β = 54.7°
+## 5. Candidate Motivations for β = 54.7°
 
 ### 5.1 Koide Geometry Argument
 
@@ -131,7 +132,7 @@ From `koide_geometric_equivalence.md`:
 - Chord distance between axes: s = √(2 - 2cosγ) where cosγ = n̂_i·n̂_j
 - For Koide match: s = √2 → cos²β = 1/3 → β = 54.7°
 
-**Verdict**: ⚠️ Consistent but requires geometric map justification.
+**Verdict**: ⚠️ Consistent as a heuristic, but not derived.
 
 ### 5.2 (2,1) Weight Argument
 
@@ -144,7 +145,7 @@ From `phase_closure_exact_model.md`:
 - cos²β = fermion fraction = 2/3 → β = 35.3° ✗
 - cos²β = boson fraction = 1/3 → β = 54.7° ✓
 
-**Verdict**: ⚠️ Works if boson fraction maps to cos²β, but why?
+**Verdict**: ⚠️ Heuristic only; the boson-fraction map is not forced by the axioms.
 
 **Possible justification**: The Wilson loop measures gauge field holonomy, which is bosonic. The boson weight (1) relative to total (3) gives 1/3 = cos²β.
 
@@ -162,9 +163,9 @@ The angle β = 54.7° is the tetrahedral angle:
 
 ---
 
-## 6. The Complete Derivation Chain
+## 6. The Exploratory Chain
 
-If β = 54.7° is accepted, the derivation is:
+If one accepts β = 54.7°, the exploratory chain is:
 
 1. **Internal phase walk**: N = 3 steps of 120° in SU(2) (from G1/G4)
 2. **Wilson loop**: W = Tr(K₂K₁K₀)/2 (holonomy observable)
@@ -172,10 +173,11 @@ If β = 54.7° is accepted, the derivation is:
 4. **Imperfect closure**: α = (1 - |W|²)/(4π) (this work)
 5. **Numerical result**: α ≈ 0.0318 (4% from 0.0306)
 
-**Remaining gap**: The 4% error — is it from:
-- Approximation in the model?
-- Missing higher-order corrections?
-- Wrong observable (should be different function of W)?
+**Remaining gaps**:
+- β = 54.7° is not uniquely derived
+- the observable choice is not canonical
+- the `4π` normalization is not derived
+- the 4% coupling miss becomes a much larger error in `λ_c` because α sits in the exponent
 
 ---
 
@@ -191,11 +193,11 @@ If β = 54.7° is accepted, the derivation is:
 | (1-W)/(2π) | 0.0360 | ⚠️ Close (18%) |
 | sin²(Φ/2)/(4π) | 0.0318 | ✓ Same as above |
 
-**Best candidate**: (1 - |W|²)/(4π)
+**Observation**: several simple observables can be made to land in the same numerical neighborhood, which is evidence of underdetermination rather than selection of a unique canonical map.
 
 ---
 
-## 8. Physical Interpretation
+## 8. Candidate Physical Interpretation
 
 ### Why (1 - |W|²)?
 
@@ -219,47 +221,44 @@ The coupling α measures interaction strength. No interaction when W = 1.
 
 ---
 
-## 9. Status and Recommendations
+## 9. Honest Disposition
 
-### What This Derives
+### What This Computes
 
-| Quantity | Derived Value | Target | Error |
+| Quantity | Computed Value | Target | Error |
 |----------|--------------|--------|-------|
 | α(l_P) | 0.0318 | 0.0306 | 4% |
-| β | 54.7° | — | Framework-selected |
+| β | 54.7° | — | Heuristic candidate only |
 | |W|² | 0.60 | — | Computed |
 
-### What Remains Open
+### Why This Does Not Upgrade G3
 
-1. **The 4% error**: Is this acceptable, or does it indicate a missing factor?
-2. **β selection**: Is Koide R/A = √2 sufficient justification?
-3. **Observable choice**: Why (1 - |W|²) and not another function?
-4. **4π normalization**: Can this be derived from first principles?
+1. **The 4% coupling miss is not benign**: α sits in the God Equation exponent, so this translates into an approximately `4.2×` error in `λ_c`.
+2. **β is not derived**: `g3_beta_lock_audit.md` found several suggestive special angles, not a unique PF-selected value.
+3. **The observable is not canonical**: other simple functions of `W` can be tuned into the same neighborhood.
+4. **The 4π normalization is post-hoc**: the earlier G3 spine leaves `2π` as the live normalization story.
 
 ### Recommendation
 
-**Tentatively upgrade G3 to ARGUED (0.70)**:
-- Formula matches within 4%
-- Physical interpretation is coherent
-- β selection has framework justification (Koide)
+Keep this file as an honest record of a numerical near-miss. Do **not** upgrade G3 from this note.
 
-**But**: The 4% error and observable choice need further justification before claiming DERIVED.
-
-**Next step**: Either:
-- Accept 4% as model approximation and pivot to Weinberg angle
-- Or refine the observable to close the 4% gap
+**Next step**:
+- Preserve the observation for future comparison
+- Leave G3 frozen at `PARTIAL / ARGUED (0.60)`
+- Pivot to the Weinberg-angle RG mechanism unless a future derivation simultaneously fixes β, the observable, and the normalization from one principle
 
 ---
 
-## 10. Final Status
+## 10. File Status
 
-| Gap | Status | Confidence |
+| Item | Status | Confidence |
 |-----|--------|------------|
-| β fixed by framework? | ⚠️ LIKELY (Koide) | 0.70 |
-| Observable gives coefficient? | ⚠️ CLOSE (4% error) | 0.65 |
-| G3 closed? | ❌ NO (but closer) | 0.70 |
+| β fixed by framework? | ❌ NOT ESTABLISHED | 0.25 |
+| This observable gives a clean derivation? | ❌ NO | 0.10 |
+| Useful numerical clue? | ⚠️ YES, AS A HEURISTIC | 0.55 |
+| G3 closed? | ❌ NO | 1.00 |
 
-**G3 upgrades to ARGUED (0.70)** — candidate derivation exists, but 4% error and observable justification remain open.
+**Net result**: this file records a suggestive numerical coincidence, not a G3 upgrade.
 
 ---
 
