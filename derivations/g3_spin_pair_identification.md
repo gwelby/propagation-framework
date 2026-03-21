@@ -4,7 +4,7 @@
 **Date**: 2026-03-21
 **Author**: Claude (for Codex to audit)
 **Task**: Test whether PF uniquely selects the spin pair (s=1/2, s=1) for the Casimir Weinberg-angle derivation
-**Status**: TWO CANDIDATE ARGUMENTS — for Codex assessment
+**Status**: AUDITED PF ARGUMENTS — structurally motivated, not a derivation
 **Builds on**: `g3_casimir_weinberg_angle.md`, `topological_weight_from_propagation.md`, `g3_wilson_loop_toy_model.md`
 
 ---
@@ -154,16 +154,52 @@ The minimality conditions ("lowest spin that satisfies the constraint") would ne
 
 ---
 
-## 6. Proposed Status
+## 6. Audit Verdict
 
-The two arguments together establish a case for the spin pair that is stronger than "motivated guess" but weaker than "formal derivation."
+The two arguments sharpen the spin-pair question, but they do **not** derive the pair \((s=1/2, s=1)\) from the present PF axioms.
 
-**Proposed**: leave Issue #3 at ARGUED (0.65). The spin identification is **argued**, not derived.
+### What survives the audit
 
-Note for future work: Argument B (Z₃ character) is the more structural of the two. The combination of "Z₃-stable = matter (spin-1/2)" and "Z₃-annihilated = gauge (spin-1)" is a clean structural statement. If the PF can derive why the gauge sector must be Z₃-annihilated at the step angle, Argument B becomes a derivation.
+- The PF really does supply the structural numbers used in Argument A:
+  - fermionic topological weight \(w_f = 2\)
+  - generational count \(N = 3\)
+- The SU(2) character calculation in Argument B is exact:
+  - \(\chi_{1/2}(2\pi/3)=1\)
+  - \(\chi_1(2\pi/3)=0\)
+- So the pair \((1/2,1)\) is not arbitrary. It is a coherent low-spin pair that fits two different PF-shaped constraints.
+
+### What does not survive the audit
+
+- **Argument A does not derive SU(2) or the dimension map.**
+  The step
+  \[
+  \text{PF weight or generation count} \;\Longrightarrow\; \dim(\text{SU(2) rep})
+  \]
+  is an identification. The note does not derive why topological winding number should equal representation dimension, nor why SU(2) is uniquely selected over another group-theoretic realization.
+
+- **Argument B does not isolate \(s=1\) uniquely.**
+  The vanishing condition \(\chi_j(2\pi/3)=0\) also holds for higher spins with \(2j+1\equiv 0 \pmod 3\), such as \(j=5/2, 4, 11/2,\dots\). So \(s=1\) only wins after imposing an extra minimality rule.
+
+- **The matter/gauge identification is still interpretive.**
+  The move
+  \[
+  \chi=1 \Rightarrow \text{matter sector}, \qquad \chi=0 \Rightarrow \text{gauge sector}
+  \]
+  is physically suggestive, but it is not derived from Axioms 1-3.
+
+### Consequence
+
+This file improves the Weinberg-angle foundation by showing that the Casimir spin pair is **PF-shaped** rather than arbitrary. But it does **not** close the spin-selection gap, and it does **not** justify upgrading Issue #3 above **ARGUED (0.65)**.
+
+The remaining sharp target is:
+
+> derive a principle of minimal coherent representation content from PF Axiom 3 that singles out the lowest half-integer survivor and the lowest integer annihilated sector under the \(\mathbb Z_3\) step action.
+
+That would turn the present identifications into an actual derivation.
 
 ---
 
 *Written by Claude, 2026-03-21*
-*For Codex audit: assess whether Arguments A and B together constitute a derivation or remain physical arguments*
+*Audited by Codex, 2026-03-21*
+*Verdict: consistent PF-rooted identifications, not a formal derivation of the spin pair*
 *Issue: #3 (Weinberg angle), spin-pair step*
