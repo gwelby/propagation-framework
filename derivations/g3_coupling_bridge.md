@@ -4,7 +4,7 @@
 
 **Status**: PARTIAL — 2π normalization argued; N^{D/2} scaling has a spatial/phase tension
 **Confidence**: 0.60 overall for G3; 0.75 for the 2π-convention sub-claim
-**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go), g3_triangular_gaussian_family.md (Codex phase-dependent Gaussian test), g3_wilson_loop_toy_model.md (SU(2) holonomy toy model)
+**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go), g3_triangular_gaussian_family.md (Codex phase-dependent Gaussian test), g3_wilson_loop_toy_model.md (SU(2) holonomy toy model), g3_canonical_class_function_no_go.md (holonomy-only observable restriction)
 **Downstream**: lambda_c_from_axioms.md (the God Equation itself)
 
 ---
@@ -225,6 +225,14 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
    \(W(\theta,\beta)\), but it still depends on a free cone angle \(\beta\). So holonomy alone does
    not yet fix the coefficient.
 
+8. **Holonomy-only class functions are now exhausted**:
+   `g3_canonical_class_function_no_go.md` proves that any continuous gauge-invariant scalar built
+   only from the total \(SU(2)\) holonomy is just a class function \(F(W)\) of the normalized trace
+   \(W=\tfrac12\mathrm{Tr}(U)\). Higher-representation characters add no new scalar invariant. So a
+   “canonical observable” of the total holonomy alone cannot remove the free \(\beta\) parameter or
+   fix the normalization constant. Any future holonomy route must use extra data beyond the total
+   conjugacy class, or derive both geometry and normalization independently.
+
 ### Remaining Open
 | Gap | Precision | Path to resolve |
 |-----|-----------|-----------------|
@@ -234,6 +242,7 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
 | Why the closure observable is not just bare return density/probability | **HIGH** | `g3_product_walk_no_go.md` rules out the naive choices |
 | Why the surviving phase-dependent kernels must be non-commuting | **HIGH** | `g3_triangular_gaussian_family.md` rules out the natural Gaussian family |
 | Why the surviving holonomy geometry is fixed rather than parameterized | **HIGH** | `g3_wilson_loop_toy_model.md` leaves a free cone angle \(\beta\) |
+| Why a holonomy-only class function would be canonical enough to fix the coefficient | **HIGH** | `g3_canonical_class_function_no_go.md` shows this is not enough by itself |
 
 ---
 
