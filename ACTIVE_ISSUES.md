@@ -55,7 +55,7 @@ Can PF Axiom 3 force the following minimality principle?
 **If no**: the spin pair remains argued, Issue #3 stays at 0.65, and the deeper target becomes "why the Casimir polynomial at all?"
 
 Current sub-state:
-- `j = 0` exclusion in `g3_minimal_coherent_rep_principle.md` looks clean and formal
+- `j = 0` exclusion in `g3_minimal_coherent_rep_principle.md` survives as an algebraic consistency check inside the chosen Casimir ratio, not as a PF-derived selection rule
 - minimum-`C₂` selection is still candidate only
 
 ---
@@ -64,12 +64,12 @@ Current sub-state:
 
 ### Codex — audit gate, final truth
 
-**Next task**: audit `derivations/g3_minimal_coherent_rep_principle.md`.
-- Verify whether the `j = 0` exclusion is formally correct
-- Test whether "minimum-C₂ = maximum coherence" follows from Axiom 3 or is still analogy
-- Decide whether Form 3 (N=3 walk self-consistency) is a real PF-native route
+**Current call**: `derivations/g3_minimal_coherent_rep_principle.md` is now audited.
+- `j = 0` exclusion: algebraic consistency check only
+- `minimum-C₂ = maximum coherence`: still analogy / candidate principle
+- Form 3 (N=3 walk self-consistency): still the most PF-native route worth testing next
 
-**Output**: audited file + explicit yes/no on whether Issue #3 moves above 0.65.
+**Output**: no confidence change. Issue `#3` stays at `0.65` unless Form 3 closes.
 
 ---
 
@@ -127,11 +127,10 @@ Current sub-state:
 
 ## 5. Order of Operations
 
-1. **Codex audits** `g3_minimal_coherent_rep_principle.md`
-2. **Qwen verifies** low-spin classification numerically
-3. **AntiGravity attacks** the minimality assumption
-4. **Lumi** keeps language and scope honest
-5. **Claude continues** only if Codex identifies a real formal next lemma
+1. **Qwen verifies** low-spin classification numerically
+2. **AntiGravity attacks** the minimality assumption
+3. **Lumi** keeps language and scope honest
+4. **Claude continues** only if Codex identifies a real formal next lemma inside Form 3
 
 **If the principle fails**: freeze Issue #3 at 0.65, leave the Casimir route as argued, then decide whether to attack the deeper polynomial question or pivot.
 

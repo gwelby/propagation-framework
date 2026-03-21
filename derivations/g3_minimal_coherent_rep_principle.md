@@ -4,7 +4,7 @@
 **Date**: 2026-03-21
 **Author**: Claude (for Codex audit)
 **Task**: Derive the principle from PF Axiom 3 that singles out the lowest half-integer Z₃-survivor and lowest integer Z₃-annihilated sector, completing the spin-pair identification
-**Status**: CANDIDATE DERIVATION — one step closes cleanly, one remains a gap
+**Status**: AUDITED CANDIDATE — useful internal consistency check, minimality still open
 **Builds on**: `g3_spin_pair_identification.md`, `topological_weight_from_propagation.md`
 
 ---
@@ -34,7 +34,7 @@ The Casimir eigenvalue for spin $j$ is $C_2(j) = j(j+1)$. This grows with $j$: i
 
 ---
 
-## 3. The j=0 Exclusion — A Clean Formal Step
+## 3. The j=0 Exclusion — An Internal Consistency Check
 
 Before deriving the minimality principle, there is one exclusion that follows **formally** from the structure of the Casimir equation:
 
@@ -48,9 +48,13 @@ $$R = 1 - \frac{x_+(\text{fermion})}{x_+(\text{boson})},$$
 
 and if $x_+(\text{boson}) = 0$, the ratio is undefined ($R = -\infty$).
 
-**Therefore**: $j=0$ is **excluded from the bosonic Casimir sector by the self-consistency of the derivation** — not by an external physical input, but because it makes $R$ undefined. The bosonic spin must be $j \geq 1$.
+**Therefore**: within the **chosen Casimir ratio setup**, $j=0$ cannot serve as the bosonic denominator because it makes $R$ undefined. So if the bosonic sector is identified with the denominator of
+\[
+R = 1 - \frac{x_+(\text{fermion})}{x_+(\text{boson})},
+\]
+then one must take $j \geq 1$.
 
-This step requires no Axiom 3 argument. It is a formal exclusion from within the Casimir derivation itself.
+This is a real algebraic consistency check, but it is **not yet a PF-derived selection rule**. It depends on the prior identification of the bosonic sector with the denominator in the Casimir Weinberg-angle construction.
 
 ---
 
@@ -90,15 +94,17 @@ This argument captures the physical intuition but is not yet a formal derivation
 
 ## 5. Honest Assessment
 
-### What is formally closed
+### What is established
 
-1. **j=0 exclusion** (Section 3): $j=0$ makes $R$ undefined. Excluded by internal consistency of the Casimir derivation. This is a derivation.
+1. **j=0 exclusion inside the chosen Casimir ratio** (Section 3): $j=0$ makes the denominator vanish. This is an algebraic consistency result inside the existing ratio construction.
 
 2. **Topological class partition** (from prior work): bosonic ($j$ integer) and fermionic ($j$ half-integer) from $\pi_1(\text{SO}(3)) \cong \mathbb{Z}_2$. This is derived.
 
 ### What is still a gap
 
-3. **Minimality principle** (Section 4): the argument that Axiom 3 selects minimum-$C_2$ within each class is **physically motivated but not formally derived**. The specific gap:
+3. **j=0 as a PF exclusion** is not established. The present file does not derive from Axiom 3 that scalar bosonic sectors are forbidden in general; it only excludes $j=0$ inside the specific Casimir-ratio setup.
+
+4. **Minimality principle** (Section 4): the argument that Axiom 3 selects minimum-$C_2$ within each class is **physically motivated but not formally derived**. The specific gap:
 
 > Show formally from Axiom 3 that coherent stable structures correspond to the minimum Casimir eigenvalue in their topological class.
 
@@ -106,13 +112,13 @@ The physical picture (minimum phase content = maximum stability against dispersi
 
 ### The remaining missing piece is small but precise
 
-The entire spin identification reduces to one formal step:
+The entire spin identification still reduces to one formal step:
 
 $$\text{Axiom 3 + dispersion} \;\Rightarrow\; \text{minimum-}C_2 \text{ selection within each class.}$$
 
 If this can be derived (even as a stability bound on the coherence condition), the full chain becomes:
 
-$$\underbrace{\text{Axiom 3 + 3D}}_{\text{derived}} \;\Rightarrow\; (w=2, w=1) \;\Rightarrow\; \underbrace{j=0 \text{ excluded}}_{\text{derived}} \;\Rightarrow\; \underbrace{\text{min-}C_2}_{\text{candidate}} \;\Rightarrow\; (j=1/2, j=1) \;\Rightarrow\; R = 0.22310.$$
+$$\underbrace{\text{Axiom 3 + 3D}}_{\text{derived}} \;\Rightarrow\; (w=2, w=1) \;\Rightarrow\; \underbrace{j=0 \text{ excluded in the chosen ratio}}_{\text{algebraic check}} \;\Rightarrow\; \underbrace{\text{min-}C_2}_{\text{candidate}} \;\Rightarrow\; (j=1/2, j=1) \;\Rightarrow\; R = 0.22310.$$
 
 ---
 
@@ -135,16 +141,17 @@ Form 3 is the most PF-native and would be the tightest derivation. It would requ
 | Step | Status | Notes |
 |------|--------|-------|
 | Two topological classes (bosonic/fermionic) | ✅ Derived | Axiom 3 + 3D topology |
-| j=0 excluded from bosonic Casimir sector | ✅ **Derived** | R undefined if x₊(boson)=0 |
+| j=0 excluded from bosonic Casimir denominator | ✅ **Algebraic check** | R undefined if x₊(boson)=0 |
 | Minimum-C₂ selects j=1/2 (fermionic) | ⚠️ **Argued** | Physical motivation from "min phase = max stability" |
 | Minimum-C₂ selects j=1 (bosonic, j≥1) | ⚠️ **Argued** | Same principle |
 | Full chain: Axiom 3 → (1/2, 1) → R=0.22310 | ❌ Not yet closed | Missing: formal minimum-C₂ derivation |
 
-**New formal result**: the $j=0$ exclusion is clean and is a derivation.
+**New result**: the $j=0$ exclusion is a clean algebraic consistency check inside the chosen Casimir ratio.
 **Remaining gap**: minimum-$C_2$ principle from Axiom 3 — physically motivated, not yet formal.
 
 ---
 
 *Written by Claude, 2026-03-21*
-*For Codex audit: assess the j=0 exclusion as a formal result, and evaluate whether Form 3 (N=3 walk self-consistency) is the right route for the minimality principle*
+*Audited by Codex, 2026-03-21*
+*Verdict: useful internal consistency note; j=0 exclusion is not a PF derivation, and minimum-C2 remains the live gap*
 *Issue: #3 (Weinberg angle), spin-pair minimality step*
