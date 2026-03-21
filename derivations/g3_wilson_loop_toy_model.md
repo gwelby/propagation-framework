@@ -192,6 +192,31 @@ dimensionless values, not a single group-theoretic constant.
 
 The ordered product is sensitive to ordering, but the geometry is still underdetermined.
 
+### The Koide embedding does not close the gap
+
+The most natural geometric candidate is to embed the three rotation axes as the Koide triangle
+itself: the three lepton amplitude directions lie at \(120^\circ\) in a plane, which corresponds
+to the equatorial cone \(\beta = \pi/2\).
+
+At \(\beta = \pi/2\) and \(\theta = 2\pi/3\):
+
+\[
+W\!\left(\frac{2\pi}{3},\frac{\pi}{2}\right) = \frac{11}{16} \approx 0.688.
+\]
+
+The God Equation boundary condition requires a quantity that maps to
+
+\[
+\frac{1}{2\pi N^{D/2}} = \frac{1}{2\pi \cdot 3^{3/2}} \approx 0.031.
+\]
+
+These are not close. The ratio is approximately \(22\times\). The natural Koide triangle embedding
+does not close G3.
+
+This rules out the most tempting geometric shortcut: connecting the Koide lepton mass geometry
+directly to the G3 holonomy axes at \(\beta = \pi/2\). Even if the Koide triangle determines the
+spatial orientation of the transport axes, it does not produce the required coefficient.
+
 ---
 
 ## 6. What This Does and Does Not Prove
