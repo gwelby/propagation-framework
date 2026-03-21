@@ -3,8 +3,8 @@
 *2026-03-20 — Claude*
 
 **Status**: PARTIAL — 2π normalization argued; N^{D/2} scaling has a spatial/phase tension
-**Confidence**: 0.70
-**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2)
+**Confidence**: 0.60 overall for G3; 0.75 for the 2π-convention sub-claim
+**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go)
 **Downstream**: lambda_c_from_axioms.md (the God Equation itself)
 
 ---
@@ -120,6 +120,11 @@ P_total(0,N) = P_phase(0,N) × P_spatial(0,N) = 1 × N^{-3/2} = N^{-3/2}  ✓
 The N^{D/2} would come from SPATIAL diffusion in physical R³, with the internal phase walk
 contributing ONLY the period N (generation count) and not the diffusion scaling.
 
+`g3_product_walk_no_go.md` now sharpens this exact point: on the observable 3-cycle, the coupled
+closure amplitude reduces to an ordered spatial-kernel product \(K_2K_1K_0\). In the
+phase-independent case \(K_0=K_1=K_2\), the internal sector drops out except for fixing the cycle
+length.
+
 This interpretation says: D in N^{D/2} is the SPATIAL dimension (3 physical directions),
 NOT the internal phase manifold dimension. Lumi's G5 suggested they were the same,
 but the mathematics shows they are not interchangeable.
@@ -201,12 +206,19 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
 4. **The formula is self-consistent**: Given α = 1/(2π·N^{D/2}), the RG running gives the God
    Equation exactly. The formula is internally consistent. The gap is in deriving it.
 
+5. **The naive product walk is now constrained**: `g3_product_walk_no_go.md` proves that a
+   phase-independent product walk reduces G3 to a pure spatial return object. Standard smooth
+   diffusion still carries a prefactor, and nearest-neighbor bipartite lattice return is exactly
+   zero at odd \(N=3\). So the remaining live space is not "any product walk" but a
+   phase-dependent kernel family and/or a non-return coherence observable.
+
 ### Remaining Open
 | Gap | Precision | Path to resolve |
 |-----|-----------|-----------------|
 | Why g² = 2/N^{D/2} (or α in 2π convention) | Medium | Coupling convention from phase symmetry argument |
 | Why spatial walk has exactly N steps | **HIGH** | Coupling between internal phase orbit and spatial coherence |
 | Why D in N^{D/2} is spatial D not phase D | Medium | Explicit product-walk calculation in G1 extended model |
+| Why the closure observable is not just bare return density/probability | **HIGH** | `g3_product_walk_no_go.md` rules out the naive choices |
 
 ---
 
@@ -239,7 +251,7 @@ In OUR D=3 universe, both D=3 and the formula lock simultaneously.
 |-----|--------|----------|
 | **G1** (model spec) | **CLOSED** — ℤ₆ orbit, quotient ℤ₃, exact closure | phase_closure_exact_model.md |
 | **G2** (exact return) | **COMPUTED** — S³ gives N^1, tension with N^{3/2} located | exact_return_N3_D3.md |
-| **G3** (bridge to α) | **PARTIAL** — 2π from convention (0.75), N^{D/2} spatial/phase tension (0.55) | THIS FILE |
+| **G3** (bridge to α) | **PARTIAL** — 2π from convention (0.75), spatial/phase tension narrowed by restricted no-go (0.60) | THIS FILE |
 | **G4** (generation=steps) | **CLOSED** — definitional, not mathematical | generation_as_walk_steps.md |
 | **G5** (physical meaning) | **CLOSED** — topological 4π cycle, Lumi | phase_closure_meaning.md |
 
