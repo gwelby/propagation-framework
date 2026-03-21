@@ -52,3 +52,50 @@ This is not a side remark. It is the second half of the Koide problem.
 - **Not solved by PF**: why the charged-lepton phase sits at \(\delta_0 \bmod 2\pi/3 \approx 2/9\)
 
 That makes the Koide phase a distinct open gap, not a footnote to the amplitude derivation.
+
+---
+
+## 6. FREEZE RECORD — 2026-03-21
+
+**Status: NAMED OPEN GAP. Issue #5 frozen here by team consensus (Codex, Claude, Lumi, AntiGravity).**
+
+### The layered picture (what is established)
+
+The harmonic suppression audit (`koide_phase_rivero_bridge_audit.md`) and the deep script audit (`rivero_cos9delta_deep_audit.md`) converge on the following:
+
+**Layer 1 — PF establishes the arena:**
+- Z₃ symmetry → potential must be 2π/3-periodic → only cos(3nδ) harmonics allowed
+- Three-body symmetric observable → collapses to a single phase variable:
+  $$f(\delta) = -\tfrac{1}{2} + \frac{\cos 3\delta}{\sqrt{2}}$$
+- PF naturally derives Rivero's exact starting point from its own axioms. This is a structural result, not a coincidence.
+
+**Layer 2 — Rivero provides a candidate dynamical selector:**
+- W₃ = c₃(det M)³/Λ¹⁸ generates an off-shell potential with cos(3nδ) harmonics for n = 0..6
+- cos(9δ) is present but NOT dominant — cos(3δ) amplitude is 2.9× larger
+- For the Z₉ vacuum structure, cos(3δ) must be cancelled by the cross-term V_cross = ∂W_ISS/∂M · ∂W₃/∂M
+- That cancellation has not been computed or proven
+
+**Layer 3 — The harmonic selection gap:**
+- Neither PF nor Rivero's W₃ alone selects n=3 (cos(9δ)) as dominant
+- The suppression of lower harmonics is genuinely additional physics — likely in the off-shell cross-term interference or higher instanton contributions
+- Rivero's own coordination2.md: "not relevant yet until we got some actual action Lagrangian"
+
+### What Codex does not regard as established
+
+- That PF by itself selects n = 3
+- That cos(9δ) dominance follows from bare Z₃ symmetry
+- That the current instanton story is fully closed (cos(9δ) is present but not dominant)
+
+### One caution on the record (Codex)
+
+Qwen's numerical result "6 minima, not 9" in the computed effective potential is **provisional**. The minimum count depends on which term is being minimized, what is held fixed, and whether the full off-shell potential or a reduced proxy is being evaluated. Do not promote that conclusion without an independent pass.
+
+### One future bounded question (flagged, not scheduled)
+
+AntiGravity's question: *Can the Z₆ lifted-spinorial closure produce an effective inverse-weight structure analogous to Rivero's Σ 1/g_k²?*
+
+If yes: the PF would reproduce Rivero's cos(9δ) selection from its own axioms — that is the derivation of the Koide phase. If no: the instanton dynamics is genuinely additional structure and the boundary between PF and sBootstrap is precisely here.
+
+This question is well-posed and has a clean yes/no answer. It merits one bounded pass when Issue #3 and G3 are advanced. Not before.
+
+**Issue #5 confidence: EMPIRICAL (0.55). Not upgraded. Not closed.**
