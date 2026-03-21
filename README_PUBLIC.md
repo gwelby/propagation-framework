@@ -53,7 +53,7 @@ The 17-order-of-magnitude gap between the Planck scale and the matter scale — 
 
 Run the verification yourself:
 ```bash
-python code/god_equation_verification.py
+python RESEARCH/god_equation_verification.py
 ```
 
 ---
@@ -68,7 +68,7 @@ This is not constructed — it is measured from PDG particle masses. The ratio R
 
 Generate it yourself:
 ```bash
-python code/koide_triangle.py
+python visualizations/koide_triangle.py
 ```
 
 ---
@@ -106,13 +106,15 @@ See [papers/FALSIFICATION_PAPER_DRAFT.md](papers/FALSIFICATION_PAPER_DRAFT.md) f
 
 ```
 propagation-framework/
+├── EXPLAINER.md                 ← plain-English entry point (start here)
+├── READING_ORDER.md             ← guided path by background level
 ├── CLAIMS.md                    ← every claim, confidence score, falsification pathway
-├── axioms/three_axioms.md       ← the foundation
+├── CONTRIBUTING.md              ← open gaps and how to engage
+├── the_propagation_framework.md ← canonical axioms
 ├── derivations/                 ← all formal derivations
-├── code/                        ← runnable verification scripts
-├── visualizations/              ← knowledge graph + Koide triangle
+├── visualizations/              ← knowledge graph + Koide triangle (runnable)
 ├── sandbox/sandbox_results.md   ← what failed
-└── papers/                      ← academic draft
+└── papers/                      ← academic draft and falsification analysis
 ```
 
 ---
