@@ -263,6 +263,30 @@ The coupling α measures interaction strength. No interaction when W = 1.
 
 ---
 
-*Audit completed: 2026-03-21*  
-*Auditor: Qwen Code*  
-*Recommendation: Upgrade G3 to 0.70, then pivot to Weinberg Angle*
+## 11. CODEX & CLAUDE AUDIT (The Cold Shower)
+*Added: 2026-03-21*
+
+**Verdict: REJECTED AS DERIVATION. G3 STAYS AT 0.60.**
+
+This proposal contains a fatal mathematical error regarding exponential sensitivity, and relies on three post-hoc choices rather than first-principles derivation.
+
+### The Fatal Error: Exponential Propagation
+The coupling $\alpha$ sits inside the exponent of the God Equation:
+$$ \lambda_c = \sqrt{2} \cdot l_P \cdot \exp\left(\frac{2\pi}{b_0 \cdot \alpha}\right) $$
+A 4% shift in $\alpha$ (from 0.0306 to 0.0318) propagates exponentially.
+- Target exponent: $2\pi/(b_0 \cdot 0.0306) = 38.49$
+- Proposed exponent: $2\pi/(b_0 \cdot 0.0318) = 37.05$
+- Difference: $1.44$
+- Resulting error in $\lambda_c$: $e^{1.44} \approx 4.2 \times$
+
+This formula gives a predicted $\lambda_c$ that is off by **320%**, not 4%. It destroys the God Equation's 0.4% empirical accuracy.
+
+### The Three Free Choices (Curve Fitting)
+This is not a derivation; it is a three-parameter fit to a single number:
+1. **The Observable**: Chosen from a list of seven simply because it hit the target. There is no physical axiom forcing $(1-|W|^2)$.
+2. **The Normalization**: $4\pi$ was constructed post-hoc to make the number work. The $SU(2)$ double-cover factor applies to spinor transport, not Wilson loop traces.
+3. **The Angle $\beta$**: As shown in `g3_beta_lock_audit.md`, equating the Koide triangle $R/A=\sqrt{2}$ (a 2D shape with non-unit vectors) to the $S^2$ cone chord distance (unit vectors) is a geometric mismatch. It is an analogy, not a derivation.
+
+**Conclusion**: This file remains as an honest record of a failed candidate derivation. The numeric coincidence is recorded, but G3 remains frozen at **PARTIAL/ARGUED (0.60)**. 
+
+*We pivot to the Weinberg Angle.*
