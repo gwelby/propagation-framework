@@ -4,7 +4,7 @@
 
 **Status**: PARTIAL — 2π normalization argued; N^{D/2} scaling has a spatial/phase tension
 **Confidence**: 0.60 overall for G3; 0.75 for the 2π-convention sub-claim
-**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go), g3_triangular_gaussian_family.md (Codex phase-dependent Gaussian test)
+**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go), g3_triangular_gaussian_family.md (Codex phase-dependent Gaussian test), g3_wilson_loop_toy_model.md (SU(2) holonomy toy model)
 **Downstream**: lambda_c_from_axioms.md (the God Equation itself)
 
 ---
@@ -218,6 +218,13 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
    exact coefficient is still not fixed. The next viable class must therefore be genuinely
    non-commuting and/or use a non-return closure observable.
 
+7. **The first Wilson-loop toy model still leaves free geometry**:
+   `g3_wilson_loop_toy_model.md` computes a 3-step \(SU(2)\) holonomy exactly. The same-axis
+   \(120^\circ\) loop is rigid but trivial (\(W=-1\), only the central \(\mathbb Z_2\) lift). The
+   first genuinely noncommuting \(C_3\)-symmetric cone family gives an exact Wilson loop
+   \(W(\theta,\beta)\), but it still depends on a free cone angle \(\beta\). So holonomy alone does
+   not yet fix the coefficient.
+
 ### Remaining Open
 | Gap | Precision | Path to resolve |
 |-----|-----------|-----------------|
@@ -226,6 +233,7 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
 | Why D in N^{D/2} is spatial D not phase D | Medium | Explicit product-walk calculation in G1 extended model |
 | Why the closure observable is not just bare return density/probability | **HIGH** | `g3_product_walk_no_go.md` rules out the naive choices |
 | Why the surviving phase-dependent kernels must be non-commuting | **HIGH** | `g3_triangular_gaussian_family.md` rules out the natural Gaussian family |
+| Why the surviving holonomy geometry is fixed rather than parameterized | **HIGH** | `g3_wilson_loop_toy_model.md` leaves a free cone angle \(\beta\) |
 
 ---
 
