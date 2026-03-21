@@ -28,6 +28,11 @@ These are the specific mathematical problems where the framework needs help. Eac
 **The problem**: The equivalence Q = 2/3 ↔ R/A = √2 ↔ e₂/e₁² = 1/6 ↔ equal U(1)/SU(3) Frobenius norm is established. What is not derived is *why* the vacuum selects the equal-norm point. Three candidate routes exist (Section 4); none is yet a theorem.
 **What would close it**: A proof via Route A (max entropy + coherence), Route B (SU(3) conjugacy orbit from U(3) gauge fixing), or Route C (Axiom 3 stability with an additional constraint beyond equal pairwise symmetry).
 
+### Koide Phase Selection — Why \(\delta_0 \bmod 2\pi/3 \approx 2/9\)?
+**File**: `derivations/koide_phase_delta_0_gap.md`
+**The problem**: PF currently explains the Koide amplitude condition \(Q=2/3\), but that leaves a second degree of freedom: the reduced phase \(\delta_0 \bmod 2\pi/3\), which determines which specific mass triple is realized on the Koide cone. Rivero's `paper_koide.tex` reports the charged-lepton phase within 33 ppm of \(2/9\), with a candidate three-instanton \(\cos(9\delta)\) potential. PF has no derivation for this phase anchor yet.
+**What would close it**: A derivation from the existing internal phase / holonomy structure that selects \(\delta_0\), or a proof that PF requires additional dynamics beyond the current axioms to determine the phase.
+
 ### Consciousness Metric
 **File**: `derivations/consciousness_theory_audit.md`
 **The problem**: The framework defines consciousness as coherent self-referential propagation. There is no PF-specific measurable variable that dissociates this from synchrony, integration, reportability, and task effects.
