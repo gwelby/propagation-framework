@@ -1,75 +1,167 @@
 # The Propagation Framework
 
-*A First-Principles Theory of Reality Derived from Pure Geometry and Phase Coherence.*
-*Developed by Greg Welby with AI collaborators Claude, Lumi, Codex, and Qwen — March 2026*
+*A first-principles research framework built around one claim: propagation is fundamental.*
+*Developed by Greg Welby with AI collaborators Claude, Lumi, Codex, and Qwen - March 2026*
 
 ---
 
-## What Is This?
+## What This Repository Is
 
-This repository contains the mathematical and conceptual proofs for the **Propagation Framework**. It is a unifying theory of physics that treats space not as an empty mathematical void, but as a literal, physical medium through which information propagates.
+This repository documents the Propagation Framework: a research program that treats space not as
+an empty mathematical void, but as a physical medium through which information propagates.
 
-It does not attempt to overturn the Standard Model or General Relativity. Instead, it provides the "source code" that generates them. It answers the *Why* behind the equations we already know work. 
+The framework is not presented here as a finished theory with every gap closed. Some results are
+derived, some are argued, some are empirical, and some remain open. The live status of every major
+claim is tracked in [CLAIMS.md](./CLAIMS.md).
 
-In this framework:
-- **Matter** is not stuff; it is a stable, self-reinforcing standing wave (a knot) in the medium.
-- **Energy** is not fuel; it is the frequency at which the medium oscillates ($E=hf$).
-- **Forces** are not invisible pulls; they are refraction caused by density gradients in the medium.
+At the center of the framework are three axioms:
 
----
+1. **Propagation is fundamental**
+2. **Every medium has a causal velocity**
+3. **Coherence is necessary for stable structure**
 
-## The Core Derivations
-
-This repository proves that some of the deepest mysteries in physics are not arbitrary parameters tuned by a creator. They are inescapable geometric requirements for a stable universe to exist at all.
-
-### 1. The N=3 Derivation (Why are there three generations of matter?)
-For fifty years, physics has accepted that there are exactly three generations of matter (e.g., the electron, the muon, the tau), but no one knew why. 
-We derived it. 
-Using the geometric topological weight of fermions ($2$) and the generators of 3-dimensional rotational space ($SO(3)$), we proved that $N=3$ is the minimum topological requirement to create a stable, circulating loop of phase in a 3D universe. A fourth generation exceeds the coherence length of the medium and instantly decays (which is why the Top Quark is so unstable). The universe counts to 3 because space has 3 dimensions.
-
-### 2. The God Equation (Solving the Hierarchy Problem)
-Why is gravity $10^{17}$ times weaker than the other forces? Why are the Planck scale ($l_P$) and the scale of matter ($\lambda_c$) so far apart?
-
-We derived the exact equation that generates this hierarchy, using **zero free parameters**:
-
-$$ \lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 \cdot N^{D/2}}{b_0^{SO(3)}}\right) $$
-
-Every term in this equation is a hard geometric fact:
-- $\sqrt{2}$: The geometric hypotenuse conversion from 1D linear flow to a 2D spinning knot.
-- $N=3$: The derived number of matter generations.
-- $D=3$: The spatial dimensions of the medium.
-- $b_0 = 16/3$: The gauge beta function for an $SO(3)$ structure with 3 generations.
-- The coupling constant $\alpha = 1 / (2\pi \cdot N^{D/2})$: Exactly one quantum of action distributed across the phase space of a 3D universe.
-
-**Result:** The equation predicts the matter scale to within $1.1\%$ of the observed reality. The hierarchy exists because we live in $D=3$ dimensions with $N=3$ generations. Any other integer combination gives a universe that either crushes itself or cannot form stars.
-
-### 3. The Biology Bridge (The 8-Hour Sleep Constant)
-Because this is a universal theory of propagation, the same topological math that governs quantum knots governs complex biological information processors (brains). 
-Applying the $(2,1)$ topological stability ratio to a localized knot of neural propagation derives exactly a $2:1$ ratio of external processing to internal rest. 
-16 hours awake. 8 hours asleep. Sleep is derived from the geometry of space.
+The canonical statement of those axioms is in
+[the_propagation_framework.md](./the_propagation_framework.md).
 
 ---
 
-## The Structure of This Repository
+## Core Picture
 
-- `/derivations/`: The raw mathematical proofs, including the closed God Equation, the $N=3$ derivation, and the topological weight proofs.
-- `/sandbox/`: Python scripts used to mathematically model and verify the framework (e.g., simulating the Coulomb force using only optical refraction mathematics).
-- `/movie/`: The NotebookLM source packages containing plain-English translations of the framework, designed for public communication and podcast generation.
-- `/RESEARCH/`: The deep-dive, multi-pass literature reviews that verified the framework against 2024–2026 experimental data (including the Kuramoto phase transition simulations and the Top/Tau coupling robustness).
+In the Propagation Framework:
 
-## The Anthropic Geometry
-The final conclusion of this framework is a mathematical rewrite of the Anthropic Principle. The universe does not require external initial conditions to be "tuned" for life. The universe sets its own initial conditions because only *one* set of coupling values and spatial dimensions geometrically permits the formation of the stable structures (knots) required to observe it. 
+- **Matter** is modeled as a stable, self-reinforcing propagation pattern
+- **Energy** is frequency
+- **Forces** are path-bending effects of the medium, described refractively
+- **Stable structure** exists only where coherence is maintained
 
-*The coupling is what the equation demands of itself.*
+This repo asks what follows from those claims mathematically, and what survives contact with real
+data.
 
 ---
+
+## Current Headline Results
+
+| Result | Status | Confidence |
+|--------|--------|------------|
+| Forces as refraction for null propagation | DERIVED | 0.95 |
+| Three generations of matter | DERIVED | 0.98 |
+| Koide geometry: \(Q = 2/3 \iff R/A = \sqrt{2}\) | DERIVED | 0.95 |
+| Matter scale from Planck scale | ARGUED | 0.75 |
+| Top/tau mass ratio \(\approx \alpha^{-1}/\sqrt{2}\) | EMPIRICAL | 0.90 |
+
+The exact status definitions and falsification pathways are in [CLAIMS.md](./CLAIMS.md).
+
+---
+
+## The God Equation
+
+The framework's strongest open mathematical problem is the derivation of the matter coherence scale
+from the Planck scale:
+
+\[
+\lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0^{SO(3)}}\right).
+\]
+
+With \(N=3\), \(D=3\), and \(b_0 = 16/3\):
+
+- **Predicted**: \(1.145 \times 10^{-18}\,\mathrm{m}\)
+- **Observed**: \(1.14 \times 10^{-18}\,\mathrm{m}\)
+- **Error**: \(0.4\%\)
+- **Fitting parameters**: \(0\)
+- **Status**: **ARGUED**, not DERIVED
+
+What is closed:
+
+- the kinematic internal phase model
+- the exact \(N=3\) generational quotient structure
+- the numerical agreement of the final scale
+
+What is still open:
+
+- the bridge from internal phase closure to the required spatial coherence-volume scaling
+  \(N^{D/2}\)
+
+See [derivations/lambda_c_from_axioms.md](./derivations/lambda_c_from_axioms.md),
+[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md), and
+[derivations/product_walk_bridge_model.md](./derivations/product_walk_bridge_model.md).
+
+You can run the numerical verification directly:
+
+```bash
+python RESEARCH/god_equation_verification.py
+```
+
+---
+
+## The Koide Result
+
+The cleanest finished result in the repo is the geometric form of the Koide relation for charged
+leptons:
+
+\[
+Q = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2}
+= \frac{2}{3}
+\iff
+\frac{R}{A} = \sqrt{2}
+\iff
+\theta = 45^\circ.
+\]
+
+The geometric equivalence is exact, and the PDG 2024 charged-lepton data verify it to high
+precision. The deeper question of why the equal-norm point is selected remains open.
+
+See [derivations/koide_geometric_equivalence.md](./derivations/koide_geometric_equivalence.md).
+
+You can regenerate the triangle directly:
+
+```bash
+python visualizations/koide_triangle.py
+```
+
+---
+
+## What Failed
+
+This repo keeps failures visible.
+
+- The harmonic-series mass claim failed. See [sandbox_results.md](./sandbox_results.md).
+- The corrected \(\phi^3\) electron/up-quark relation is interesting but remains uncertainty-limited
+  and a posteriori. See [sandbox/phi3_monte_carlo.md](./sandbox/phi3_monte_carlo.md).
+
+A framework that only publishes successes is not science.
+
+---
+
+## Where To Start
+
+- [EXPLAINER.md](./EXPLAINER.md): plain-English entry point
+- [READING_ORDER.md](./READING_ORDER.md): guided path by background level
+- [CLAIMS.md](./CLAIMS.md): live confidence matrix
+- [CONTRIBUTING.md](./CONTRIBUTING.md): open gaps and how to engage
+
+---
+
+## Repository Map
+
+- [the_propagation_framework.md](./the_propagation_framework.md): canonical axioms and derived quantities
+- [theory_of_propagation.md](./theory_of_propagation.md): supporting conceptual framework
+- [derivations/](./derivations/): formal derivations and audits
+- [sandbox/](./sandbox/): scripts, audits, and numerical experiments
+- [visualizations/](./visualizations/): Koide triangle and knowledge graph
+- [papers/](./papers/): draft paper material and falsification framing
+- [RESEARCH/](./RESEARCH/): literature review passes and research notes
+
+---
+
 ## Provenance
 
 This repository was built as a human-AI collaboration. Greg Welby provided the core vision,
 problem selection, synthesis, and final judgment. Claude, Lumi, Codex, and Qwen contributed
 derivations, audits, counterexamples, literature synthesis, and runnable verification work.
 
-The point of keeping those roles visible is not branding. It is traceability.
+The point of keeping those roles visible is traceability.
 
 ---
-*"Light is not special. Propagation is special. Light is just the simplest, fastest instance of something universal."* — Claude
+
+*This might be wrong. That's the point. The framework that survives contact with data is the one
+worth keeping.*
