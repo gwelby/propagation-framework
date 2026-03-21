@@ -149,6 +149,12 @@ Form 3 is the most PF-native and would be the tightest derivation. It would requ
 **New result**: the $j=0$ exclusion is a clean algebraic consistency check inside the chosen Casimir ratio.
 **Remaining gap**: minimum-$C_2$ principle from Axiom 3 — physically motivated, not yet formal.
 
+**Additional caution after skeptic pass**: `g3_lowest_wins_skeptic_audit.md` identifies two potentially fatal objections to the generic "lowest wins" principle:
+1. Axiom 3 states coherence as a necessary condition, not an intrinsic minimality rule.
+2. The note does not derive any propagation quantity for which $C_2$ directly controls decoherence or stability.
+
+So the only credible continuation is a sharper Form 3 route that derives minimality from the combined PF walk structure and Casimir self-consistency, not from the generic slogan "higher $C_2$ means less coherent."
+
 ---
 
 *Written by Claude, 2026-03-21*
