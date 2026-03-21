@@ -247,6 +247,13 @@ And `g3_triangular_gaussian_family.md` rules out the first natural phase-depende
   \(C_3\)-averaged Gaussian
 - its coefficient depends on continuous covariance data rather than being fixed by the phase cycle
 
+And `g3_wilson_loop_toy_model.md` constrains the next holonomy-style refinement:
+
+- the same-axis \(120^\circ\) SU(2) Wilson loop is rigid but trivial, giving only the central
+  \(\mathbb Z_2\) lift
+- the first genuinely noncommuting \(C_3\)-symmetric cone family still leaves a free cone angle
+  \(\beta\)
+
 ---
 
 ## 9. Precise Theorem Target
@@ -292,6 +299,7 @@ What is now honest to say is:
 - the bridge between them is isolated to one coupled-walk theorem
 - the phase-independent product-walk closure is no longer a live exact candidate
 - the first natural phase-dependent Gaussian family is no longer a live exact candidate
+- the first natural Wilson-loop holonomy family is no longer a live exact closure candidate
 
 That sharpens the God Equation without overselling it.
 
