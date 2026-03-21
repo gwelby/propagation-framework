@@ -60,6 +60,9 @@ The clean object for the structural orbit viewpoint is $X$ itself: the symmetric
 
 The exact result in Section 3 identifies *what* $Q=2/3$ means in the $U(3)$ decomposition. It does not explain *why* the physical vacuum selects the equal-norm point over any other. Three interpretation routes have been proposed; none is yet a derivation.
 
+For a precise audit of what is exact, what is false, and what the selection problem now reduces
+to, see `koide_selection_audit.md`.
+
 **Route A — Maximum entropy (Claude):** The equal-norm condition is the maximum-entropy distribution over the $U(3)$ decomposition — the center of the allowed range $1/3 \le Q \le 1$ where neither sector dominates. Conjecture: phase coherence across $N=3$ generations forces maximum entropy. *Not derived. Requires a theorem connecting coherence to entropy maximization in the $U(1)/SU(3)$ split.*
 
 **Route B — Cubic orbit (Codex):** The condition $e_2/e_1^2 = 1/6$ picks a specific co-dimension 1 spectral stratum in the space of diagonal Hermitian matrices, or equivalently a constrained family of $SU(3)$ conjugacy classes. The claim is that $U(3) \to U(1) \times SU(3)$ gauge-fixing uniquely selects this stratum. *Not derived. Requires identifying the stratum explicitly and proving uniqueness of the gauge selection. The Newcastle cubic theory is the most promising existing source.*
