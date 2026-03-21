@@ -1,71 +1,51 @@
-# Reading Order
+# 🗺️ Reading Order: The Propagation Framework
 
-Five entry points. Same framework. Pick the one that fits where you are.
+Welcome to the Propagation Framework. This repository contains the results of an 18-month exploration into a first-principles theory of reality, built on a single premise: **propagation is fundamental.**
 
----
-
-## Level 1 — Curious Human (no math required)
-
-Start here. Everything in plain English.
-
-1. **[EXPLAINER.md](EXPLAINER.md)** — What the framework actually says, in words. The water analogy. Why there are three generations of matter. Why gravity is just a bent path through a denser medium. Read this first.
-2. **[README_PUBLIC.md](README_PUBLIC.md)** — The one-page summary with the key results and confidence scores.
-
-That's it for Level 1. If the ideas make sense and you want to go deeper, continue.
+Depending on your background and what you want to understand, start at the appropriate level below. 
 
 ---
 
-## Level 2 — Interested Non-Physicist (high school math)
+## Level 1: The Curious Mind (No Math Required)
+*You want to understand the core idea conceptually, using analogies and plain English.*
 
-You know what a wave is. You've heard of Einstein. You're comfortable with the idea that math describes reality.
-
-1. **[EXPLAINER.md](EXPLAINER.md)** — Start here if you haven't.
-2. **[axioms/three_axioms.md](axioms/three_axioms.md)** — The three statements the entire framework rests on.
-3. **[sandbox/sandbox_results.md](sandbox/sandbox_results.md)** — What failed. Read this early. A framework that hides its failures isn't worth your time.
-4. **[CLAIMS.md](CLAIMS.md)** — Every claim, every confidence score, every falsification pathway. Scan the table — it tells you exactly what the framework claims and how certain we are.
+1. **[EXPLAINER.md](./EXPLAINER.md)** — Start here. The "Water and Whirlpools" analogy. This explains what the framework *is* before we touch any math.
+2. **[README.md](./README.md)** — The high-level overview of the project, its mission, and its structure.
 
 ---
 
-## Level 3 — Undergraduate Physicist (calculus, some quantum)
+## Level 2: The Undergraduate (The Axioms)
+*You are comfortable with basic physics concepts and want to see the formal structure of the theory.*
 
-You know Lagrangians. You've seen path integrals. You're comfortable with the Standard Model at the level of "there are quarks and leptons and forces."
-
-1. **[derivations/gr_fermat_equivalence.md](derivations/gr_fermat_equivalence.md)** — Forces as refraction. Exact for null geodesics via the optical metric. Start here because the derivation is tight and the idea is the heart of the framework.
-2. **[derivations/topological_weight_from_propagation.md](derivations/topological_weight_from_propagation.md)** — Why π₁(SO(3)) ≅ ℤ₂ forces exactly three generations. The topological argument.
-3. **[derivations/koide_geometric_equivalence.md](derivations/koide_geometric_equivalence.md)** — The Koide formula as a U(3) decomposition theorem. One exact result, three open interpretation routes.
-4. **[derivations/propagation_lagrangian.md](derivations/propagation_lagrangian.md)** — The Lagrangian derived from the axioms. Maps to Brans-Dicke scalar-tensor gravity.
-5. **[visualizations/knowledge_graph.html](visualizations/knowledge_graph.html)** — Open in a browser. See the full claim dependency structure as an interactive graph.
+1. **[the_propagation_framework.md](./the_propagation_framework.md)** — The foundational document. Read the three core Axioms carefully. Everything else derives from these.
+2. **[theory_of_propagation.md](./theory_of_propagation.md)** — Expanded definitions of the medium, coherence, and stability.
 
 ---
 
-## Level 4 — Graduate Physicist / Researcher
+## Level 3: The Practitioner (The Mathematics & Proofs)
+*You want to see the math. How do we derive known physics from pure geometry and phase coherence?*
 
-You know representation theory, RG flow, and you've thought about the hierarchy problem.
-
-1. **[CLAIMS.md](CLAIMS.md)** — Read the full table. Focus on the ARGUED and OPEN entries.
-2. **[derivations/lambda_c_from_axioms.md](derivations/lambda_c_from_axioms.md)** — The God Equation derivation attempt. What's closed (G1, G4, G5), what's computed (G2), what's open (G3).
-3. **[derivations/g3_coupling_bridge.md](derivations/g3_coupling_bridge.md)** — The precise statement of the one remaining open theorem.
-4. **[derivations/g3_theorem_audit.md](derivations/g3_theorem_audit.md)** — Why the last attempt failed. The (4π/3) problem.
-5. **[derivations/weinberg_angle_pf.md](derivations/weinberg_angle_pf.md)** — Five routes to sin²θ_W = 1/4 at the unification scale.
-6. **[derivations/qcd_confinement_pf.md](derivations/qcd_confinement_pf.md)** — Confinement radius from λ_c via RG running.
-7. **[papers/FALSIFICATION_PAPER_DRAFT.md](papers/FALSIFICATION_PAPER_DRAFT.md)** — The complete falsification analysis.
-8. **[CONTRIBUTING.md](CONTRIBUTING.md)** — If you can close a gap, here is exactly where to push.
+1. **[derivations/koide_geometric_equivalence.md](./derivations/koide_geometric_equivalence.md)** — The most solid mathematical result in the repo. The proof that the Koide formula ($Q=2/3$) is geometrically equivalent to the exact identity $R/A = \sqrt{2}$, verified to $0.0009\%$ against PDG 2024 data.
+2. **[derivations/planck_scale_from_pf_axioms.md](./derivations/planck_scale_from_pf_axioms.md)** — How the Planck scale emerges as the boundary of geometric coherence.
+3. **[derivations/topological_weight_from_propagation.md](./derivations/topological_weight_from_propagation.md)** — Why fermions have weight 2 and bosons have weight 1.
 
 ---
 
-## Level 5 — You Want to Break It
+## Level 4: The Empirical Auditor (The Data & Failures)
+*You want to see the code, the Monte Carlo simulations, and the honest failures.*
 
-Good. That's the point.
-
-The four fastest falsification paths:
-
-1. **Find a stable fourth-generation particle** (mass > 173 GeV) — kills Three Generations (confidence 0.98)
-2. **Show Q ≠ 2/3 for neutrinos** at JUNO precision — challenges the Koide derivation (0.95)
-3. **Formally prove N^(D/2) mode counting is wrong** — drops the God Equation from ARGUED to OPEN (0.75)
-4. **Find a force that cannot be described as refraction** — challenges Forces as Refraction (0.95)
-
-See **[CLAIMS.md](CLAIMS.md)** for the complete falsification map and **[CONTRIBUTING.md](CONTRIBUTING.md)** for how to submit a disproof.
+1. **[sandbox_results.md](./sandbox_results.md)** — The honest log of what worked and what didn't. We hit our beautiful theories with the "Hammer of Data" here.
+2. **[CLAIMS.md](./CLAIMS.md)** — The rigorous scorecard. Every claim is classified as DERIVED, EMPIRICALLY-TESTED, ARGUED, or SPECULATIVE. 
+3. **[sandbox/](./sandbox/)** — Run the Python scripts yourself to verify the Monte Carlo results.
 
 ---
 
+## Level 5: The Expert / Collaborator (The Frontier)
+*You are a professional physicist or mathematician looking for the open problems and formal gaps.*
+
+1. **[TEAM_WAVE3_ALIGNMENT.md](./TEAM_WAVE3_ALIGNMENT.md)** — The current honest state of the research team. Read this to understand exactly where we are stuck and what we are actively trying to solve.
+2. **[derivations/phase_closure_volume_proof.md](./derivations/phase_closure_volume_proof.md)** — The "God Equation" gap. An honest scaling argument that needs formal proof.
+3. **[papers/FALSIFICATION_PAPER_DRAFT.md](./papers/FALSIFICATION_PAPER_DRAFT.md)** — How to prove this entire framework wrong.
+
+---
 *The framework that survives contact with data is the one worth keeping.*
