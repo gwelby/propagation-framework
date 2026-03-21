@@ -42,6 +42,7 @@ Any serious PF route has to do one of these:
 3. Prove that phase selection is not contained in Axioms 1-3 and requires an additional dynamical ingredient.
 
 For the first bridge audit against Rivero's current proposal, see `koide_phase_rivero_bridge_audit.md`.
+For the next suppression audit, showing that the natural symmetric PF composites still retain lower harmonics, see `koide_phase_harmonic_suppression_audit.md`.
 
 ## 5. Honest Status
 
