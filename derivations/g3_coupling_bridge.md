@@ -4,7 +4,7 @@
 
 **Status**: PARTIAL — 2π normalization argued; N^{D/2} scaling has a spatial/phase tension
 **Confidence**: 0.60 overall for G3; 0.75 for the 2π-convention sub-claim
-**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go)
+**Upstream**: phase_closure_exact_model.md (Codex G1), exact_return_N3_D3.md (Claude G2), g3_product_walk_no_go.md (Codex restricted no-go), g3_triangular_gaussian_family.md (Codex phase-dependent Gaussian test)
 **Downstream**: lambda_c_from_axioms.md (the God Equation itself)
 
 ---
@@ -212,6 +212,12 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
    zero at odd \(N=3\). So the remaining live space is not "any product walk" but a
    phase-dependent kernel family and/or a non-return coherence observable.
 
+6. **The first natural phase-dependent family also fails**: `g3_triangular_gaussian_family.md`
+   computes the obvious \(120^\circ\)-locked triangular Gaussian kernels exactly. Their ordered
+   product collapses to a \(C_3\)-averaged Gaussian with continuous covariance parameters, so the
+   exact coefficient is still not fixed. The next viable class must therefore be genuinely
+   non-commuting and/or use a non-return closure observable.
+
 ### Remaining Open
 | Gap | Precision | Path to resolve |
 |-----|-----------|-----------------|
@@ -219,6 +225,7 @@ from... the same assumption. The independent derivation of N^{D/2} is the missin
 | Why spatial walk has exactly N steps | **HIGH** | Coupling between internal phase orbit and spatial coherence |
 | Why D in N^{D/2} is spatial D not phase D | Medium | Explicit product-walk calculation in G1 extended model |
 | Why the closure observable is not just bare return density/probability | **HIGH** | `g3_product_walk_no_go.md` rules out the naive choices |
+| Why the surviving phase-dependent kernels must be non-commuting | **HIGH** | `g3_triangular_gaussian_family.md` rules out the natural Gaussian family |
 
 ---
 
