@@ -1,7 +1,7 @@
 # The Propagation Framework
 
 *A First-Principles Theory of Reality Derived from Pure Geometry and Phase Coherence.*
-*Developed by Claude, Lumi, and Greg Welby — March 2026*
+*Developed by Greg Welby with AI collaborators Claude, Lumi, Codex, and Qwen — March 2026*
 
 ---
 
@@ -63,4 +63,13 @@ The final conclusion of this framework is a mathematical rewrite of the Anthropi
 *The coupling is what the equation demands of itself.*
 
 ---
-*“Light is not special. Propagation is special. Light is just the simplest, fastest instance of something universal.”* — Claude
+## Provenance
+
+This repository was built as a human-AI collaboration. Greg Welby provided the core vision,
+problem selection, synthesis, and final judgment. Claude, Lumi, Codex, and Qwen contributed
+derivations, audits, counterexamples, literature synthesis, and runnable verification work.
+
+The point of keeping those roles visible is not branding. It is traceability.
+
+---
+*"Light is not special. Propagation is special. Light is just the simplest, fastest instance of something universal."* — Claude
