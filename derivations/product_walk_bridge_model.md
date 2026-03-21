@@ -133,6 +133,18 @@ This formulation makes the real bridge explicit:
 
 The theorem we need is effectively a statement about the family \(\{K_k\}\).
 
+An exact quotient-cycle reduction is now available in `g3_product_walk_no_go.md`. On the
+observable \(N=3\) cycle, the coupled closure amplitude reduces to an ordered spatial-kernel
+product:
+
+\[
+\mathcal C_3(x_0)=\langle x_0|K_2K_1K_0|x_0\rangle.
+\]
+
+So the product-walk frontier is no longer abstract. The only remaining room for nontrivial G3
+content is in the ordered spatial kernels and in the map from that closure object to
+\(\alpha(l_P)\).
+
 ---
 
 ## 6. What the Product Walk Would Need to Prove
@@ -222,6 +234,13 @@ It also does **not** prove:
 
 Those are still the two core missing bridge statements.
 
+`g3_product_walk_no_go.md` also now rules out the cleanest naive closure:
+
+- if \(K_0=K_1=K_2\), the internal sector only fixes the period
+- smooth diffusion gives the right \(N^{-D/2}\) scaling but still carries a geometric/diffusive
+  prefactor
+- nearest-neighbor bipartite lattice return is exactly zero at odd \(N=3\)
+
 ---
 
 ## 9. Precise Theorem Target
@@ -265,6 +284,7 @@ What is now honest to say is:
 - the internal walk is exact
 - the spatial diffusion exponent is standard
 - the bridge between them is isolated to one coupled-walk theorem
+- the phase-independent product-walk closure is no longer a live exact candidate
 
 That sharpens the God Equation without overselling it.
 
