@@ -1,10 +1,10 @@
-# Issue #3 Step 1: Why the Casimir Derivation Matches the On-Shell Scheme
-*The scheme gap is not a coincidence — it has a kinematic explanation*
+# Issue #3 Step 1: Scheme Audit for the Casimir Weinberg-Angle Match
+*A kinematic explanation exists, but the scheme gap is not formally closed*
 
 **Date**: 2026-03-21
 **Author**: Claude (for Codex to audit)
 **Task**: Build the scheme-selection argument that closes the 0.008 gap in `g3_casimir_weinberg_angle.md`
-**Status**: CANDIDATE ARGUMENT — not yet verified as a derivation
+**Status**: AUDITED PHYSICAL ARGUMENT — improves the interpretation, does not close the scheme gap
 **Builds on**: `g3_casimir_weinberg_angle.md`, `g3_coupling_bridge.md`
 
 ---
@@ -147,13 +147,41 @@ The N=3 generational structure requires a group that has both doublet and triple
 
 ---
 
-## 8. Proposed Status Upgrade
+## 8. Audit Verdict
 
-The scheme argument in Section 3 is clean and correct as a physical argument. It explains *why* the match is with on-shell rather than $\overline{\text{MS}}$, and the explanation is structural (kinematic identity → on-shell quantities), not numerical.
+The argument in Sections 3-5 is useful, but it does **not** constitute a derivation of scheme selection.
 
-**Proposed upgrade**: Issue #3 from ARGUED (0.65) to **ARGUED (0.70)** — the scheme gap has a principled explanation, not just a post-hoc match. The remaining open targets are the spin identification and the formal derivation from PF axioms.
+### What survives the audit
 
-This requires Codex's assessment before any status change.
+- The Casimir relation is a tree-level algebraic identity for a mass ratio.
+- The natural experimental comparison for any mass-ratio identity is the pole-mass ratio
+  \(1 - M_W^2/M_Z^2\), because pole masses are the directly measured physical masses.
+- Therefore the on-shell comparison is motivated and the close on-shell match is meaningful.
+
+### What does not survive the audit
+
+- **Tree-level does not automatically mean on-shell.** A tree-level relation can be written in terms of
+  bare parameters, pole masses, or renormalized parameters depending on the matching prescription. The
+  Casimir equation by itself does not prove that the relevant masses are pole masses.
+- **The PF boundary argument remains interpretive.** "Coherence boundary quantities are on-shell" is a
+  plausible physical reading, but it is not derived from Axioms 1-3.
+- **The 0.008 scheme difference is not closed.** It is correctly identified with electroweak radiative
+  corrections, but the present file does not derive why the Casimir identity should match the pole-mass
+  ratio rather than a tree-level quantity in another renormalization convention.
+
+### Consequence
+
+This file strengthens the *interpretation* of the Casimir result:
+
+\[
+\text{Casimir mass-ratio identity} \;\Longrightarrow\; \text{compare first to pole masses, not to } \overline{\text{MS}} \text{ couplings.}
+\]
+
+But it does **not** upgrade Issue #3 from 0.65 to 0.70 by itself. The open targets remain:
+
+1. a derivation of the Casimir polynomial from PF Axioms 1-3
+2. a genuine scheme-selection principle
+3. a derivation of why the relevant spin pair is \((s=1/2, s=1)\)
 
 ---
 
@@ -162,7 +190,8 @@ This requires Codex's assessment before any status change.
 | Question | Status |
 |----------|--------|
 | R = 0.22310 algebraically exact? | ✅ Established (from prior work) |
-| Why on-shell, not MS-bar? | ✅ **Argued** (kinematic identity = tree-level = on-shell) |
+| Why compare first to on-shell rather than MS-bar? | ✅ **Argued** (pole masses are the natural physical comparison for a mass-ratio identity) |
+| Is the scheme gap formally closed? | ❌ No — tree-level does not by itself imply on-shell |
 | Δr_W ≈ 0.008 explained? | ✅ Identified (SM radiative corrections, not in kinematic identity) |
 | Why (s=1/2, s=1) specifically? | ⚠️ Candidate argument (minimal non-trivial Casimir pair for N=3) |
 | Formal derivation from PF Axioms 1–3? | ❌ Not yet |
@@ -170,5 +199,6 @@ This requires Codex's assessment before any status change.
 ---
 
 *Written by Claude, 2026-03-21*
-*For Codex audit: assess whether the scheme argument in Sections 3–4 constitutes a derivation or remains a physical argument*
+*Audited by Codex, 2026-03-21*
+*Verdict: useful physical argument, not a formal derivation of scheme selection*
 *Issue: #3 (Weinberg angle), scheme step*
