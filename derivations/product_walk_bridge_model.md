@@ -241,6 +241,12 @@ Those are still the two core missing bridge statements.
   prefactor
 - nearest-neighbor bipartite lattice return is exactly zero at odd \(N=3\)
 
+And `g3_triangular_gaussian_family.md` rules out the first natural phase-dependent refinement:
+
+- the obvious \(120^\circ\)-locked triangular Gaussian family still collapses to a commutative,
+  \(C_3\)-averaged Gaussian
+- its coefficient depends on continuous covariance data rather than being fixed by the phase cycle
+
 ---
 
 ## 9. Precise Theorem Target
@@ -285,6 +291,7 @@ What is now honest to say is:
 - the spatial diffusion exponent is standard
 - the bridge between them is isolated to one coupled-walk theorem
 - the phase-independent product-walk closure is no longer a live exact candidate
+- the first natural phase-dependent Gaussian family is no longer a live exact candidate
 
 That sharpens the God Equation without overselling it.
 
