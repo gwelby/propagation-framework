@@ -41,6 +41,8 @@ Any serious PF route has to do one of these:
 2. Show that the PF amplitude derivation naturally induces a phase-selection potential with period \(2\pi/9\) or \(\cos(9\delta)\)-type minima.
 3. Prove that phase selection is not contained in Axioms 1-3 and requires an additional dynamical ingredient.
 
+For the first bridge audit against Rivero's current proposal, see `koide_phase_rivero_bridge_audit.md`.
+
 ## 5. Honest Status
 
 This is not a side remark. It is the second half of the Koide problem.
