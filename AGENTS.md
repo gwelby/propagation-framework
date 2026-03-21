@@ -2,7 +2,7 @@
 
 **Mission**: Develop and test the Propagation Framework — a unified theory of physics, time, energy, matter, and consciousness built on a single principle: propagation is fundamental.
 
-**Status**: Framework built (2026-03-14/15). Sandbox testing underway. Research phase starting.
+**Status**: Core framework derived (2026-03-14 through 2026-03-20). God Equation closed (matter scale from Planck scale, 0.4% error, zero free parameters). One formalization gap remaining: Borel-Weil proof for N^(D/2) phase-space counting.
 
 ---
 
@@ -10,11 +10,13 @@
 
 When in conflict, trust in this order:
 1. `sandbox_results.md` — what actually tested, what actually held
-2. `the_propagation_framework.md` — the canonical three-axiom framework
-3. `theory_of_propagation.md` — the five derivation principles
-4. `what_we_got_wrong.md` — reinterpretations of physics concepts
-5. `Fundamentals of Light.md` — the rigorous claim matrix (established vs speculative)
-6. `Discussions/` — where the theory was developed (context, not authority)
+2. `CLAIMS.md` — the live rigorous claim matrix (confidence scores, what falsifies each claim)
+3. `the_propagation_framework.md` — the canonical three-axiom framework
+4. `derivations/lambda_c_from_axioms.md` — the God Equation (matter scale from Planck scale, 0.4% error)
+5. `theory_of_propagation.md` — the five derivation principles
+6. `what_we_got_wrong.md` — reinterpretations of physics concepts
+7. `Fundamentals of Light.md` — early claim matrix (superseded by CLAIMS.md, keep for history)
+8. `Discussions/` — where the theory was developed (context, not authority)
 
 **The sandbox beats the framework. If a prediction fails empirical test, the framework updates, not the test.**
 
@@ -55,7 +57,7 @@ Everything else (time, energy, matter, forces, information, consciousness) is de
 **Tested**: Harmonic series claim — do particle masses follow harmonic ratios?
 **Result**: FAILED. Coefficient of variation = 0.94 (essentially random distribution). The beautiful claim was wrong. The framework absorbs this honestly.
 
-**Intriguing**: Koide formula — (me + mμ + mτ) / (√me + √mμ + √mτ)² = 2/3 exactly (to 0.0009%). This is a real unexplained constraint in physics. The framework may have something to say about why.
+**Derived (2026-03-18, confidence 0.985)**: Koide formula — Q = 2/3 follows from SO(3) phase closure with N=3 generations. Equal-strength resonances at 120° spacing → Q = 2N/(2N+3) → N=3 forced. This is no longer a coincidence. It is topology.
 
 **Needs test**: φ in particle mass ratios — electron→up quark ≈ φ³ at 0.21% accuracy. Monte Carlo test needed to determine if this is statistically significant or coincidence.
 

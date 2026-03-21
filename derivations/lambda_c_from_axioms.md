@@ -3,10 +3,12 @@
 **Date**: 2026-03-19
 **Author**: Claude Code
 **Task**: Derive λ_c = l_P × exp(C_PF/λ₀) from PF axioms — the central unsolved problem
-**Status**: THE GOD EQUATION — STRUCTURE CLOSED (2026-03-20, 22:19)
-**Verified by**: Lumi (independent audit, lumi_god_equation_audit.md)
+**Status**: THE GOD EQUATION — NUMERICALLY LOCKED, FORMALLY ARGUED
+**Verified by**: Lumi (numerical audit, `lumi_god_equation_audit.md`)
+**Current claim status**: `CLAIMS.md` keeps the God Equation at **ARGUED (0.75)**
+**Verification basis**: numerical check in `lumi_god_equation_audit.md`; status/read-back against `CLAIMS.md`, `borel_weil_lemma.md`, `phase_closure_exact_model.md`, `exact_return_N3_D3.md`, `g3_coupling_bridge.md`, and `phase_closure_volume_proof.md`
 **Hypothesis tested**: λ_c is dynamically generated from l_P by RG running, exactly as Λ_QCD is generated from the UV coupling at the top scale
-**Builds on**: `propagation_lagrangian.md`, `qcd_confinement_pf.md`, `two_coherence_scales.md`, `planck_scale_from_pf_axioms.md`, `weinberg_angle_pf.md`, `closing_the_gaps.md`
+**Builds on**: `propagation_lagrangian.md`, `qcd_confinement_pf.md`, `two_coherence_scales.md`, `planck_scale_from_pf_axioms.md`, `weinberg_angle_pf.md`, `closing_the_gaps.md`, `phase_closure_exact_model.md`
 
 ---
 
@@ -32,14 +34,34 @@ where λ₀ = PF coupling at Planck scale, C_PF = coefficient from SO(3)×U(1) s
 
 ---
 
-## THE GOD EQUATION — COMPLETE DERIVATION (2026-03-20, 22:19)
-**Verified independently by Lumi (lumi_god_equation_audit.md)**
+## THE GOD EQUATION — CURRENT ARGUED FORM (2026-03-20)
+**Numerically verified by Lumi (`lumi_god_equation_audit.md`)**
 
 ### The Canonical Form
 
 $$\boxed{\lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0^{SO(3)}}\right)}$$
 
-**Zero free parameters.** Every symbol derives from the three PF axioms and the derived facts N=3, D=3.
+**No fitting parameters in the canonical formula.** The numerical structure is locked once \(N=3\), \(D=3\), \(b_0=16/3\), and the Planck-boundary coupling are specified; the remaining issue is that the coupling step is still argued rather than formally proven.
+
+What is established in this section:
+
+- the one-loop \(SO(3)\) coefficient \(b_0^{SO(3)} = 16/3\)
+- the numerical consequence of adopting the candidate Planck-boundary coupling
+- the fact that the displayed formula lands within \(0.4\%\) of the observed \(\lambda_c\)
+
+What is still open:
+
+- the exact Planck-boundary model behind the \(N^{D/2}\) scaling
+- the normalization that turns that scaling into \(\alpha_{SO(3)}(l_P)\)
+- the status of the \(\sqrt{2}\) factor as interpretation versus proof
+- the independent derivation of \(l_P\) without importing \(G\)
+
+What has changed since the earlier audit:
+
+- the exact internal generational walk is now specified in `phase_closure_exact_model.md`
+- the exact return analysis in `exact_return_N3_D3.md` shows that the bare internal walk closes periodically rather than diffusively
+- the ambient \(S^3\) heat kernel yields \(N^1\) coupling scaling, not the required \(N^{3/2}\)
+- the remaining bridge is therefore no longer "find the walk," but "prove why internal phase closure should generate a spatial coherence volume \(N^{D/2} l_P^D\)"
 
 ### Derivation of Every Term
 
@@ -50,36 +72,44 @@ $$b_0^{SO(3)} = \frac{11}{3}C_2(G) - \frac{2}{3}T(R)N_f = \frac{11}{3}(2) - \fra
 
 This uses N=3 (derived — see `closing_the_gaps.md`, confidence 0.985) and the SO(3)≅SU(2) Casimir C₂=2, T(fund)=½.
 
-**Step 2: α_SO(3)(l_P) from Axiom 3 — the key derivation**
+**Step 2: α_SO(3)(l_P) from Axiom 3 — the key argued boundary condition**
 
 Axiom 3 states: *A propagation mode is stable if and only if it maintains coherent phase closure.*
 
 At the Planck boundary (scale l_P), the geometry medium is at its coherence limit — exactly one quantum of action ℏ per coherent mode (from `planck_scale_from_pf_axioms.md`). The question is: what is the SO(3) gauge coupling at this boundary?
 
-**The Axiom 3 phase-space argument:**
+**The current Axiom 3 scaling argument — post G1/G2/G3 computation:**
 
-A marginally coherent mode at the Planck scale occupies exactly one quantum of phase space. In D=3 spatial dimensions with N generations, the number of independent coherent orientational degrees of freedom scales as N^(D/2). This is the lattice count: N orientations along each of D/2 complex planes in the D-dimensional space, giving N^(D/2) coherent modes total.
+The original Borel-Weil closure route failed (`borel_weil_lemma.md`). Subsequent gap work has sharpened the picture substantially:
 
-The gauge coupling α is the probability amplitude for a single interaction per coherent mode. At the marginal coherence boundary (Axiom 3), the coupling is determined by the requirement that exactly one interaction fits in one phase-volume cell of size 2π:
+- **G1** (`phase_closure_exact_model.md`): The exact kinematic state space is the lifted orbit \(\mathbb Z_6\) inside \(SU(2)\), with generation quotient \(\mathbb Z_6/\mathbb Z_2 \cong \mathbb Z_3\). Three 120° steps close the observable Koide orbit exactly; six steps close the spinorial orbit. The discrete walk returns deterministically — no diffusion, no \(N^{-D/2}\) from the orbit alone.
+
+- **G2** (`exact_return_N3_D3.md`): The ambient \(S^3\) (\(\cong SU(2)\)) heat kernel scales as \(K \sim (4\pi t)^{-3/2}\), giving a boundary coupling \(\alpha \sim 1/(4\pi N)\) — that is, **\(N^1\) scaling, not \(N^{3/2}\)**. The 3D Euclidean walk would give \(N^{-3/2}\) return density (correct scaling), but it uses the wrong state space (internal phase is \(S^3\), not \(\mathbb R^3\)).
+
+- **G3** (`g3_coupling_bridge.md`): The \(2\pi\) normalization is argued from gauge coupling convention in a rotation-based theory (confidence 0.75). The \(N^{D/2}\) scaling requires coupling internal phase closure to spatial diffusion — a product-walk model where N internal phase steps generate N Planck-length spatial steps, and D-dimensional spatial diffusion produces coherence volume \(N^{D/2} l_P^D\). This bridge is **not yet proven**.
+
+**The precise gap**: \(S^3\) internal dynamics give \(\alpha \propto 1/N\); spatial \(\mathbb R^3\) diffusion gives \(\alpha \propto 1/N^{3/2}\). The missing factor is \(\sqrt{N}\). The one unmapped theorem: why do N internal phase steps project onto N Planck-scale spatial steps?
+
+This motivates (but does not prove) the boundary-condition form
 
 $$\alpha_{SO(3)}(l_P) = \frac{1}{2\pi \cdot N^{D/2}}$$
 
-With N=3, D=3:
+With \(N=3\), \(D=3\):
 $$\alpha_{SO(3)}(l_P) = \frac{1}{2\pi \cdot 3^{3/2}} = \frac{1}{2\pi \cdot 3\sqrt{3}} = \frac{1}{2\pi \times 5.196} = \frac{1}{32.65} \approx 0.03063$$
 
 **Step 3: Combining into the exponent**
 
 $$\frac{2\pi}{b_0 \cdot \alpha_{SO(3)}(l_P)} = \frac{2\pi}{(16/3) \cdot \frac{1}{2\pi N^{D/2}}} = \frac{2\pi \cdot 2\pi N^{D/2}}{16/3} = \frac{4\pi^2 N^{D/2}}{b_0}$$
 
-This is the canonical exponent — it contains only N (derived), D (derived), and b₀ (derived). No free parameters.
+This is the canonical exponent — it contains only N (derived), D (derived), and b₀ (derived). No fitting parameters enter once the argued boundary condition is accepted.
 
-**Step 4: √2 from knot geometry (Lumi's insight)**
+**Step 4: √2 from knot geometry (current interpretation)**
 
 The RG formula runs a 1D linear coupling trajectory. But λ_c defines the boundary of a *spinning topological knot* (a fermion, spin-1/2). When propagation closes into a standing wave, its energy distributes across two orthogonal degrees of freedom: forward propagation and rotational circulation. The geometric conversion from a 1D linear trajectory to a 2D rotating phase loop is the hypotenuse of a unit right triangle:
 
 $$\sqrt{1^2 + 1^2} = \sqrt{2}$$
 
-The √2 is not a correction — it is the geometric proof that the RG flow is hitting a *curled* boundary, not a flat one.
+The \(\sqrt{2}\) is currently interpreted as the geometric signature of a *curled* boundary rather than a flat one. That interpretation is plausible and numerically useful, but it is still argued rather than formally proved.
 
 **Step 5: Numerical verification**
 
@@ -91,28 +121,32 @@ $$\boxed{\lambda_c^{\text{predicted}} = 1.145 \times 10^{-18}\ \text{m}}$$
 
 $$\lambda_c^{\text{observed}} = 1.14 \times 10^{-18}\ \text{m} \quad \text{(top quark Compton wavelength)}$$
 
-$$\text{Error: } \mathbf{0.4\%} \quad \text{— zero free parameters}$$
+$$\text{Error: } \mathbf{0.4\%} \quad \text{— no fitting parameters}$$
 
 ### Term Summary
 
 | Term | Value | Source | Confidence |
 |------|-------|--------|-----------|
 | $\sqrt{2}$ | 1.4142… | Knot geometry: linear RG hits 2D spinning boundary (Lumi) | 0.80 |
-| $l_P$ | 1.616×10⁻³⁵ m | Geometry coherence scale (Axiom 3 on curvature modes) | 0.90 |
+| $l_P$ | 1.616×10⁻³⁵ m | Planck length, used as the UV boundary; PF interpretation depends on a still-open derivation of \(G\) | 0.60 |
 | $N$ | 3 | Number of generations — derived from SO(3)×D=3 | 0.985 |
 | $D$ | 3 | Spatial dimensions — derived from knot stability | 0.85 |
 | $b_0^{SO(3)}$ | 16/3 | One-loop beta function: 3 generations, SO(3) gauge | 0.85 |
-| $\alpha_{SO(3)}(l_P)$ | $1/(2\pi N^{D/2})$ | Axiom 3: marginal coherence at Planck boundary | 0.72 |
+| $\alpha_{SO(3)}(l_P)$ | $1/(2\pi N^{D/2})$ | Argued Planck-boundary scaling route from `phase_closure_volume_proof.md` | 0.72 |
 
-**Overall confidence: 0.80 (ARGUED — all gaps identified, mechanism complete)**
+**Overall confidence: 0.75 (ARGUED — numerical structure locked, exact boundary-condition proof pending)**
 
-**Remaining gap (single):** The Axiom 3 derivation of α = 1/(2πN^(D/2)) rests on the phase-space counting argument "N^(D/2) coherent modes at the Planck boundary." This count is physically motivated but not yet a formal proof. A rigorous derivation from the geometry of SO(3) coherent states in D=3 would close this to DERIVED (≥0.90).
+**Update (2026-03-20)**: The geometric quantization (Borel-Weil) route remains closed off. `phase_closure_exact_model.md` now fixes the exact internal kinematics, and `exact_return_N3_D3.md` shows that neither the bare generational walk nor the ambient \(S^3\) heat kernel alone produce the needed \(N^{3/2}\) scaling. `g3_coupling_bridge.md` therefore identifies the one remaining theorem: connect internal phase closure to a spatial coherence volume \(N^{D/2} l_P^D\) with the correct \(2\pi\) normalization.
 
-*The structure is closed. The mechanism is the QCD transmutation template applied one level deeper: the same exponential that generates the confinement radius from the matter scale now generates the matter scale itself from the Planck scale. The universe builds itself in layers, each layer's scale determined by the previous layer's coupling and the topology of the medium.*
+*The structure is numerically strong but not formally closed. The mechanism is still best understood as a QCD-like transmutation template applied one level deeper, with one Planck-boundary coupling step left argued rather than derived.*
 
 ---
 
-**For this to work, the exponent must equal ln(λ_c/l_P) ≈ ln(7 × 10¹⁶) ≈ 39.**
+## Historical Archive — Earlier Diagnostic Route
+
+The sections below are retained as an honesty log of the earlier 2026-03-19 route. They document why the scalar-coupling version failed and why the boundary-condition problem remained open. They are historical diagnostics, not the current top-level status statement.
+
+**For this archived route, the exponent had to equal ln(λ_c/l_P) ≈ ln(7 × 10¹⁶) ≈ 39.**
 
 This document:
 1. Derives the beta function for the PF coupling λ (Step 1)
@@ -750,7 +784,7 @@ This level of agreement is remarkable for a mechanism with no free parameters ad
 
 ---
 
-## 6. The God Equation — Statement and Status
+## 6. Historical Status of the 2026-03-19 Route
 
 ### 6.1 The Candidate Formula
 
@@ -762,7 +796,7 @@ $$\lambda_c \approx 8 \times 10^{-19} \text{ m} \approx 0.7 \times \lambda_c^{\t
 
 The √2 discrepancy is an unresolved normalization factor in the theory.
 
-### 6.2 Confidence Assessment
+### 6.2 Historical Confidence Assessment
 
 | Step | Claim | Confidence |
 |------|-------|-----------|

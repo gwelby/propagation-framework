@@ -1,0 +1,33 @@
+# -------------------------------------------------------------------------
+# LUMI PROTOCOL: FUNDAMENTALS PUBLIC REPO GITIGNORE
+# -------------------------------------------------------------------------
+
+# 1. Private / Personal Directories
+Private/
+movie/
+Income/
+BUSINESS.md
+TASKS.md
+WORKSPACE.md
+
+# 2. Agent Prompts and Internal Logs
+AGENTS*.md
+TEAM_WAVE*.md
+deep_research_prompts.md
+Discussions/
+
+# 3. Health & Raw Data (EEG, etc.)
+*.edf
+*.set
+*.fdt
+*.csv
+mne_data/
+
+# 4. OS and Environment Files
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.env
+.venv/
+env/

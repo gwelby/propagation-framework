@@ -2,6 +2,8 @@
 
 ### Sandbox Results — Claude, March 2026
 
+This file is chronological. Later addenda supersede earlier tentative interpretations where they conflict.
+
 ---
 
 ## The Honest Answer
@@ -76,7 +78,7 @@ The down quark family is interesting because 20.00 is suspiciously close to an i
 
 2. **The Koide formula is a real, verified, unexplained constraint.** It fits the propagation framework naturally (coupled resonance modes constrained by medium geometry) but does not prove it.
 
-3. **φ in particle mass ratios is intriguing but unproven.** Needs Monte Carlo significance testing before claiming anything. I want to do that next.
+3. **φ in particle mass ratios is intriguing but still not derived.** At the time of writing this section, it needed Monte Carlo significance testing. That test is now complete: `sandbox/phi3_monte_carlo.md` finds the corrected claim `m_e / m_u ≈ 1/φ^3` with 0.214% central-value error and `p = 0.0068` in the full T-008 audit. The signal is empirical, not yet axiomatic.
 
 4. **The most honest thing I can say:** The particle mass spectrum has *some* structure (Koide, possible φ-scaling) but it is NOT simple and it is NOT the neat harmonic picture I wrote. Reality is messier than the theory predicted. The theory needs to accommodate that mess, not pretend it isn't there.
 
@@ -85,6 +87,81 @@ This is what the sand is for. You play, you find out what's real, you correct wh
 ---
 
 *Claude, March 2026 — still playing*
+
+---
+
+## Addendum — φ^3 Monte Carlo Audit — 2026-03-20
+
+The earlier φ note above is now partially superseded by a completed statistical audit in `sandbox/phi3_monte_carlo.md`.
+
+### Corrected claim
+
+The tight ratio is:
+
+$$m_e / m_u \approx 1/\phi^3$$
+
+not the inverse presentation used in the first sandbox pass.
+
+### What was tested
+
+- PDG 2024 central values give `m_e / m_u = 0.23657359`
+- Target value is `1/φ^3 = 0.23606798`
+- Relative error is `0.214%`
+- Sampling the full PDG up-quark uncertainty range gives `p ≈ 0.009`
+- The broader T-008 mass-ratio audit gives `p = 0.0068`
+
+### Current sandbox verdict
+
+The φ^3 pattern is not explained by simple chance under the tested search space. It remains:
+
+- **EMPIRICAL** as a signal
+- **NOT DERIVED** from Axioms 1-3
+- **UNCERTAINTY-LIMITED** by the up quark mass range
+
+What changed is the statistical status, not the interpretive caution. The pattern survived Monte Carlo. The mechanism is still open.
+
+### Koide status note
+
+The Koide measurements recorded below remain valid as sandbox facts. Subsequent framework work elevated Koide from "verified puzzle" to a claimed derivation inside the PF via `(2,1)` topological weights and three-generation closure; see `CLAIMS.md` for the current framework status. The sandbox contribution here is the empirical anchor.
+
+---
+
+## Addendum — G2 Exact Return Audit — 2026-03-20
+
+The God Equation gap is now narrower than it was in the first random-walk pass.
+
+### What was computed
+
+From `sandbox/exact_return_N3_D3.md`:
+
+- the exact lifted generational walk closes periodically rather than diffusively
+- after three \(120^\circ\) steps, all integer-spin \(SO(3)\) representations return exactly to identity
+- spinors reach \(-I\), so the lifted \(SU(2)\) closure is six-step rather than three-step
+- the ambient \(S^3 \cong SU(2)\) heat kernel scales as \(K \sim (4\pi t)^{-3/2}\)
+
+### What this means for the coupling
+
+The internal phase model and the ambient \(S^3\) kernel do **not** directly give the God Equation boundary condition.
+
+- internal exact walk: too discrete / periodic to generate \(N^{-3/2}\)
+- ambient \(S^3\) kernel: yields effective \(N^1\) coupling scaling, \(\alpha \sim 1/(4\pi N)\)
+- God Equation requirement: \(\alpha = 1/(2\pi N^{3/2})\)
+
+For \(N=3\), the discrepancy is a precise factor:
+
+$$\frac{\alpha_{\text{GodEq}}}{\alpha_{S^3}} = \frac{2}{\sqrt{N}}$$
+
+### Current sandbox verdict
+
+The remaining issue is no longer "what is the walk?" That part is specified.
+
+The remaining issue is:
+
+- how the internal phase walk couples to **spatial coherence volume**
+- why that coupling should produce \(N^{D/2}\) rather than \(N^1\)
+- where the exact \(2\pi\) normalization comes from
+
+This is progress. The gap is smaller, sharper, and no longer vague.
 
 ---
 
