@@ -13,8 +13,19 @@ WORKSPACE.md
 # 2. Agent Prompts and Internal Logs
 AGENTS*.md
 TEAM_WAVE*.md
+TEAM_PROMPTS.md
 deep_research_prompts.md
 Discussions/
+conductor/
+SESSION_LOG*.md
+RIVERO_EMAIL_FINAL.md
+GITHUB_PUBLIC_PLAN.md
+MASTER_RESEARCH_QUEUE.md
+RESEARCH_QUEUE.md
+THE_BOOK_OUTLINE.md
+THE_DELTA.md
+what_else_i_see.md
+EXPERIMENTAL_ROADMAP.md
 
 # 3. Health & Raw Data (EEG, etc.)
 *.edf
