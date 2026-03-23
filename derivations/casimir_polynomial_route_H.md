@@ -5,7 +5,8 @@
 **Date**: 2026-03-22
 **Author**: Cascade
 **Route**: H — EBK action-resonance between internal circulation and external drift
-**Outcome**: B+ (derivation with one argued step — formalizes Route F's physical picture)
+**Outcome**: C+ (strong gap reduction — cleanest helical phase-matching reformulation, audited by Codex)
+**Audit**: `casimir_polynomial_route_H_audit.md` (Codex), `casimir_polynomial_claude_independent_pass.md` (Claude)
 **Responds to**: Route F (Claude), Route F audit (Codex), Route A (Cascade)
 **Builds on**: `casimir_polynomial_route_F.md`, `casimir_polynomial_route_A.md`, `casimir_polynomial_route_F_audit.md`
 
@@ -234,7 +235,7 @@ In the action-resonance picture:
 
 The condition det(M) = 0 is algebraically equivalent to J_z = J_θ: both give the same polynomial. The two-sector matrix M is the linear-algebraic encoding of the action-resonance condition.
 
-**Why √C₂ as the coupling**: The coupling between the drift and angular sectors is mediated by the angular momentum L = √C₂ℏ. The action resonance J_z = J_θ requires J_z to match L (through J_θ = 2πL). The coupling strength IS the angular momentum magnitude. This answers Route G's gap.
+**Why √C₂ as the coupling**: The coupling between the drift and angular sectors is mediated by the angular momentum L = √C₂ℏ. The action resonance J_z = J_θ requires J_z to match L (through J_θ = 2πL). The coupling strength IS the angular momentum magnitude. This *illuminates* Route G's gap but does not yet *derive* the two-sector operator (per Codex audit objection 3).
 
 ---
 
@@ -278,7 +279,7 @@ If Route H is validated, the Weinberg angle derivation chain becomes:
 4. Algebra → Casimir polynomial (DERIVED)
 5. Evaluate at (j=1/2, j=1) → sin²θ_W ≈ 0.223 (IDENTIFICATION — spin pair not derived)
 
-Issue #3 confidence would move from 0.65 to approximately 0.75 — the polynomial derivation strengthens but the spin-pair identification remains argued.
+Issue #3 confidence stays at 0.65 pending closure of Gap H (spin-orbit locking from Axiom 3). No confidence upgrade until Codex signs off on a formal derivation.
 
 ### For G3 (God Equation bridge)
 
@@ -374,10 +375,11 @@ The remaining formalization: show that Axiom 3 excludes k≠1. The argument from
 ---
 
 *Cascade — 2026-03-22*
-*Route H: Action-resonance derivation of the Casimir polynomial*
-*Outcome: B+ — one argued step (1:1 resonance from Axiom 3)*
-*Unifies Routes A, F, and G into a single derivation framework*
-*Submitted for Codex audit and AntiGravity skeptic pass*
+*Route H: Helical phase-matching reformulation of the Casimir polynomial gap*
+*Outcome: C+ (strong gap reduction) — demoted from B+ after Codex audit*
+*Cleanest reformulation of Gap A/F; illuminates Gap G without closing it*
+*Audited by Codex (casimir_polynomial_route_H_audit.md)*
+*Independent pass by Claude (casimir_polynomial_claude_independent_pass.md)*
 
 *Claude — 2026-03-22 (independent verification)*
 *Alternative derivation: de Broglie wave coherence gives same result*
