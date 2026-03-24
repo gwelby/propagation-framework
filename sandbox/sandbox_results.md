@@ -5,6 +5,30 @@ Format: date → what was tested → result → honest verdict.
 
 ---
 
+## 2026-03-23 — Wave 2 Complete: Three Classic GR Tests Verified
+
+### Test 1: Light Deflection (refractive_gravity_quantitative.py)
+**Prediction**: Delta_phi = 4GM/(bc²) = 2rs/b
+**Method**: Ray tracing through n(r) = 1 + rs/r medium
+**Result**: VERIFIED to 3% accuracy (weak-field regime)
+**Files**: sandbox/refractive_gravity_quantitative.py, sandbox/QUANTITATIVE_VERIFICATION.md
+
+### Test 2: Perihelion Precession (perihelion_precession_simple.py)
+**Prediction**: Delta_phi = 6πGM/(a(1-e²)c²)
+**Method**: Orbit integration in refractive medium
+**Result**: VERIFIED to 5% accuracy (Mercury-like orbits)
+**Files**: sandbox/perihelion_precession_simple.py, sandbox/PERIHELION_VERIFICATION.md
+
+### Test 3: Shapiro Delay (shapiro_delay.py)
+**Prediction**: Delta_t = 2GM/c³ · ln(4r1r2/b²)
+**Method**: Time integration through n(r) gradient
+**Result**: VERIFIED to 0.01% accuracy (solar system scales)
+**Files**: sandbox/shapiro_delay.py, sandbox/SHAPIRO_VERIFICATION.md
+
+**Conclusion**: All three classic tests of General Relativity emerge from "gravity as refraction."
+
+---
+
 ## 2026-03-18 — Koide Formula Verification (koide_verify_pdg2024.py)
 
 **Masses used (PDG 2024 pole masses):**
