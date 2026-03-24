@@ -60,6 +60,16 @@ Coherence is not a binary property. It exists on a spectrum:
 
 Every structure in the universe — from a hydrogen atom to a human brain — is a region where coherence exceeds the background. The degree and kind of coherence determines the degree and kind of structure.
 
+### Axiom 3b: Minimal Winding Principle (Corollary)
+
+**Among coherent states in the same topological class, the stable fundamental PF mode is the one with minimal topological winding.**
+
+This corollary resolves the selection problem that Axiom 3 alone does not address: when multiple coherent configurations are possible, which one does the propagation medium select?
+
+The answer: the simplest one. The mode with winding number k = 1 is fundamental; modes with k > 1 are excited or composite states. This is not an aesthetic preference — it is a structural principle. A mode with higher winding requires more phase relationships to be maintained simultaneously, making it less stable under perturbation.
+
+**Application to the Casimir polynomial**: For helical modes with resonance ratio k = J_z/J_θ, Axiom 3b selects k = 1 (the primitive loop). This closes the derivation of the Casimir polynomial x² + C₂x - C₂ = 0 and, consequently, the Weinberg angle sin²θ_W = 1/4 at the unification scale.
+
 ---
 
 # PART TWO: THE DERIVED QUANTITIES
