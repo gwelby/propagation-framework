@@ -1,7 +1,7 @@
 # Fundamentals — Active Issue Board
 
-**Last updated**: 2026-03-21
-**Current state**: Public repo live. G3 frozen honestly. Issue #5 frozen honestly. Issue #3 spin-pair strike completed — no derivation found.
+**Last updated**: 2026-03-24
+**Current state**: Public repo live. Issue #3 / Weinberg angle RESOLVED (DERIVED 0.90 via Axiom 3b). G3 frozen honestly. Issue #5 frozen honestly.
 **Operating rule**: Honesty before beauty. No confidence upgrades without a derivation or a sharply bounded argued bridge.
 
 ---
@@ -34,19 +34,9 @@
   State: PF derives the arena and the phase variable `f(δ) = -1/2 + cos(3δ)/√2`. Rivero provides candidate selector dynamics. PF does not yet derive harmonic suppression.
   Do not do next: do not invent a fake PF-only cancellation rule. Do not promote the "6 minima" result until Codex audits the exact effective potential.
 
-### Frozen fronts (continued)
+### Historical: Issue #3 spin-pair sub-question (superseded)
 
-- **Issue #3 / Weinberg angle — spin-pair step**
-  Status: `ARGUED`
-  Confidence: `0.65`
-  State:
-  - Casimir/de Vries algebraic match is real.
-  - Scheme-selection argument is audited as a useful physical argument, not a derivation.
-  - Spin-pair `(1/2, 1)` is audited as PF-shaped, not derived.
-  - Generic minimum-`C₂` route: explicitly heuristic (AntiGravity skeptic pass).
-  - Form 3 faithfulness route: **falsified** — spin-0 trivial representation satisfies Axiom 3 phase closure universally, so phase closure does not require faithful representations.
-  - **Spin-pair step is frozen.** Deeper target: "why the Casimir polynomial at all?"
-  Do not do next: do not reopen the minimality or faithfulness route without a specific new formal constraint derived from Axiom 3.
+The spin-pair selection strike explored whether PF topology forces the specific spin pair (1/2, 1). Three routes were exhausted (all no-go). This sub-question became moot when **Axiom 3b (Minimal Winding Principle)** resolved the Weinberg angle via a different route — selecting k=1 directly from coherence rather than deriving the spin pair. The spin-pair work is preserved as an honest record of failed approaches. See Section 2 for details.
 
 ### Repo milestones (this session)
 
@@ -63,15 +53,21 @@
 
 ## 2. Settled Questions
 
-The spin-pair selection strike is closed. The answer is **no**: PF topology plus Casimir self-consistency do not force a unique low-spin selection without additional input. All three routes exhausted:
+### Issue #3 / Weinberg angle — RESOLVED
+
+The Weinberg angle derivation is closed. **Axiom 3b (Minimal Winding Principle)** selects k=1, closing the Casimir polynomial derivation and yielding sin²θ_W ≈ 0.22310 (matching PDG on-shell to 0.13σ). Confidence: 0.90.
+
+The remaining open question (RG running from UV value 1/4 to IR value 0.231) is a separate problem, not a gap in the derivation.
+
+### Spin-pair selection strike — closed (historical)
+
+The earlier spin-pair sub-question is closed as a no-go. PF topology plus Casimir self-consistency do not force a unique low-spin selection without additional input. All three routes exhausted:
 
 1. Generic minimum-`C₂` route: heuristic (AntiGravity, `g3_lowest_wins_skeptic_audit.md`)
 2. Form 3 Diophantine + Z₃ route: breaks at the faithfulness bridge (Claude, `g3_form3_attempt.md`)
-3. Faithfulness bridge specifically: falsified by spin-0 counterexample — trivial representation satisfies Axiom 3 phase closure universally
+3. Faithfulness bridge specifically: falsified by spin-0 counterexample
 
-**Status**: spin-pair `(1/2, 1)` is a PF-shaped identification, not a derivation. Issue #3 is frozen at `ARGUED (0.65)`.
-
-**Next deeper target** (not yet assigned): "Why the Casimir polynomial x² + C₂x - C₂ = 0 at all?" This question predates the spin-pair question and would, if answered, likely resolve both the polynomial and the spin selection together.
+This became moot when Axiom 3b resolved the Weinberg angle via minimal winding instead.
 
 ---
 
@@ -80,17 +76,17 @@ The spin-pair selection strike is closed. The answer is **no**: PF topology plus
 ### Codex — audit gate, final truth
 
 **Current call**:
-- All three spin-pair routes audited and closed.
-- `derivations/g3_form3_attempt.md`: Form 3 faithfulness bridge falsified by spin-0 counterexample.
-- Issue `#3` is frozen at `ARGUED (0.65)`.
-- No confidence upgrade unless a derivation of the Casimir polynomial from PF axioms is produced.
+- Issue #3 / Weinberg angle: RESOLVED at DERIVED 0.90 via Axiom 3b.
+- G3 / God Equation: frozen at PARTIAL/ARGUED 0.60. No reopen without canonical geometry.
+- Issue #5 / Koide phase: frozen at EMPIRICAL 0.55. Qwen's effective potential awaits audit.
+- Next audit target: Qwen's "6 minima" effective potential (Issue #5), if assigned.
 
 ---
 
 ### Claude — derivation drafting
 
-**Status**: spin-pair strike completed — no-go result.
-**When**: only if Codex identifies a concrete formal target inside the polynomial derivation question or another open gap.
+**Status**: Weinberg angle resolved. Spin-pair strike completed (no-go, now moot).
+**When**: if Codex identifies a concrete formal target in G3, α derivation, RG running, or another open gap.
 **How**: stay on bounded derivation work, no confidence-upgrade language unless Codex signs off.
 
 ---
@@ -130,7 +126,7 @@ The spin-pair selection strike is closed. The answer is **no**: PF topology plus
 
 ### Greg — orchestration
 
-**Task**: keep everyone on the single active question. Avoid reopening Issue #5 or G3 unless Codex explicitly says so.
+**Task**: decide next priority among open fronts (G3, Issue #5, α derivation, RG running, EEG experiment, publication). Avoid reopening G3 unless Codex explicitly says so.
 
 ---
 
@@ -148,15 +144,15 @@ The spin-pair selection strike is closed. The answer is **no**: PF topology plus
 
 ## 5. Current State
 
-**All three fronts are now frozen:**
+**Issue #3 is resolved. Two fronts remain frozen:**
 
 | Issue | Status | Confidence | Next gate |
 |-------|--------|------------|-----------|
+| Issue #3 / Weinberg angle | `DERIVED` | 0.90 | **RESOLVED** via Axiom 3b. RG running to IR is a separate question. |
 | G3 / God Equation bridge | `PARTIAL / ARGUED` | 0.60 | Canonical observable beyond holonomy class |
 | Issue #5 / Koide phase | `EMPIRICAL` | 0.55 | Codex audit of Qwen's effective potential |
-| Issue #3 / Weinberg angle | `ARGUED` | 0.65 | Derivation of the Casimir polynomial from PF axioms |
 
-No active derivation strike is running. The repo is in a honest frozen state.
+No active derivation strike is running. Issue #3 is closed. G3 and Issue #5 remain honestly frozen.
 
 ---
 
