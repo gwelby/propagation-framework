@@ -16,7 +16,7 @@
   Resolution: **Axiom 3b (Minimal Winding Principle)** accepted 2026-03-23.
   - Selects k = 1 among coherent helical modes (primitive loop over higher winding states)
   - Closes Casimir polynomial derivation: γβ² = √C₂ → x² + C₂x - C₂ = 0
-  - Yields sin²θ_W = 1/4 at unification scale
+  - Yields sin²θ_W ≈ 0.22310, matching the PDG on-shell value to 0.13σ.
   - See `the_propagation_framework.md` (Axiom 3b), `coherence_functional_candidate_F_audit.md`
   Do not do next: issue is closed. RG running to IR value 0.231 remains open as a separate question.
 
