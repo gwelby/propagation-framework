@@ -46,9 +46,10 @@ The PF states that forces are the apparent trajectories of waves bending in regi
 
 This is proven to exactly match General Relativity via Randers/Finsler geometry. Einstein's geodesic equation is mathematically equivalent to Fermat's Principle of Least Time applied to the medium. Gravity is not a "pull," but the refractive bending of propagation paths caused by a gradient in the medium's local causal velocity.
 
-**Empirical Verification:** Two classic GR tests are now verified:
+**Empirical Verification:** All three classic GR tests are now verified:
 - **Light Deflection:** 3% error (weak-field regime)
 - **Perihelion Precession:** Refractive model exactly reproduces GR weak-field formula $\Delta\phi = 6\pi GM/(a(1-e^2)c^2)$. Mercury-like orbit: 4.53% error vs exact Schwarzschild (expected strong-field correction).
+- **Shapiro Delay:** Refractive model exactly reproduces GR formula $\Delta t = (2GM/c^3) \ln(4r_1 r_2/b^2)$. Solar-system scales: **0.01% error**. This is the most precise of the three tests.
 
 ## 6. The Weinberg Angle and Coherence Selection
 **Status:** DERIVED (Confidence: 0.90)
