@@ -142,6 +142,54 @@ A framework that only publishes successes is not science.
 - [READING_ORDER.md](./READING_ORDER.md): guided path by background level
 - [CLAIMS.md](./CLAIMS.md): live confidence matrix
 - [CONTRIBUTING.md](./CONTRIBUTING.md): open gaps and how to engage
+- [API_README.md](./API_README.md): Python API documentation
+
+---
+
+## Python API
+
+The framework is now available as an importable Python module:
+
+```python
+from propagation import koide_q, god_equation, refractive_index_schwarzschild
+
+# Koide formula from PDG masses
+q = koide_q(0.511, 105.658, 1776.86)  # → 0.6666605... (≈ 2/3)
+
+# Matter scale from Planck scale
+lambda_c = god_equation(N=3, D=3, b0=16/3)  # → 1.15e-18 m
+
+# Gravity as refraction
+n = refractive_index_schwarzschild(r, M)  # → n(r) = 1 + GM/(rc²)
+```
+
+Run the demo:
+```bash
+python propagation.py
+```
+
+See [API_README.md](./API_README.md) for full documentation.
+
+---
+
+## Demonstrations
+
+### Refractive Gravity
+
+The orbital simulation shows gravity emerging from a refractive index gradient:
+
+```bash
+python sandbox/refractive_gravity_demo.py
+```
+
+Output:
+- `sandbox/refractive_orbits.png` — Static visualization
+- `sandbox/refractive_orbits.gif` — Animated simulation
+
+The demo shows:
+1. Light rays bending through the refractive gradient (geometric optics)
+2. Matter in elliptical orbits (Newtonian limit)
+3. **Both are refraction in the same n(r) field**
 
 ---
 
