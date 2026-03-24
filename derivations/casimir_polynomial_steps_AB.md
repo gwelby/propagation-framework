@@ -1,9 +1,9 @@
 # Casimir Polynomial — Steps A and B
 *The two bounded sub-questions from Path 2*
 
-**Date**: 2026-03-22
+**Date**: 2026-03-22 (original), 2026-03-23 (Axiom 3b update)
 **Author**: Claude
-**Status**: Step A — ARGUED (strong) per Codex audit (`casimir_polynomial_step_A_audit.md`). Step B — ARGUED per Codex audit (`casimir_polynomial_step_B_audit.md`).
+**Status**: Step A — ARGUED (strong) per Codex audit. Step B — **DERIVED** via Axiom 3b (Minimal Winding Principle, accepted 2026-03-23).
 **Context**: Follow-on from `casimir_polynomial_path2_poincare.md`
 **Scope**: Short, focused. No new routes. Just close the two remaining items.
 
