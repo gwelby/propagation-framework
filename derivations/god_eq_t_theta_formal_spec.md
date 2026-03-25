@@ -258,28 +258,35 @@ $$G(\theta) = 3\lambda_0 I_D \implies \sqrt{\det G} = 3^{D/2} \sqrt{\det g} = N^
 
 ---
 
-## 8. Status After This Spec
+## 8. Status After Codex Audit (2026-03-25)
 
-If Codex confirms the key premise in Section 5 (no generation-label terms in the Lagrangian):
+Codex audited this spec and rejected three claims:
 
-| Condition | Status |
-|-----------|--------|
-| R1 (phase-independence) | **Derived** from Axiom 2 via coset isotropy |
-| R2 (positivity) | **Confirmed** via $S^3$ heat kernel |
-| R3 (spatial isotropy) | **Immediate** from Axiom 2 external isotropy |
-| R4 (causal locality) | **Immediate** from Axiom 2 finite $c$ |
-| H_C3stat | **Closed** |
-| H_prod | **Closed** |
-| R (Regularity) | **Closed** |
-| Lemma 2 | **Closed** |
-| Axiom 4 | **Derived** (not postulated) |
-| God Equation | **DERIVED** (0.92) from Axioms 1–3 |
+| Condition | Pre-audit claim | Codex verdict |
+|-----------|----------------|---------------|
+| R1 (phase-independence) | Derived from coset isotropy | **REJECTED** — current Lagrangian is scalar; doesn't model $\mathbb{Z}_3$ at all; absence of labels ≠ $C_3$ symmetry |
+| R2 (positivity) | Confirmed via $S^3$ heat kernel | **CONFIRMED** ✓ |
+| R3 (spatial isotropy) | Immediate from Axiom 2 | **OPEN** — requires $SO(D)$ averaging argument (outer product is rank-1, not $I_D$) |
+| R4 (causal locality) | Immediate from Axiom 2 | **CONFIRMED** ✓ |
+| H_C3stat | Closed | **OPEN** — depends on R1 |
+| H_prod | Closed via DFT eigenbasis | **REJECTED** — orthogonal eigenvectors ≠ statistical independence |
+| R (Regularity) | Closed | Deferred (depends on R1 + R2) |
+| Lemma 2 | Closed | **OPEN** — depends on H_C3stat |
+| Axiom 4 | Derived (not postulated) | **REJECTED** — must remain explicit postulate |
+| God Equation | DERIVED (0.92) | **NOT upgraded** — stays CONDITIONAL (0.80) |
 
-If Codex finds a generation-label term in the Lagrangian, Axiom 4 remains an independent postulate.
+**What survives**: two-level operator split, heat-kernel positivity route, R4.
+
+**Three remaining gaps before upgrade**:
+
+1. **Richer Lagrangian**: The Propagation Lagrangian must be extended to explicitly model the $\mathbb{Z}_3$ internal sector and define $H_\mathrm{int\text{-}ext}(\theta)$ as a generation-resolved operator.
+
+2. **H_prod proof**: A proper probabilistic argument showing $P(X^{(1)}, X^{(2)}, X^{(3)}\mid\theta) = \prod_a p_a(X^{(a)}\mid\theta)$ from the physics, not from eigenspace decomposition.
+
+3. **Fisher isotropy averaging**: Replace the rank-1 outer product with an $SO(D)$-averaged Fisher block, or find a different construction that naturally gives $\lambda_0 I_D$.
 
 ---
 
-*Written 2026-03-24 by Claude (acting as spec author in Codex's absence)*
-*Codex audit required: Section 7 checklist*
-*This spec replaces the blank [SHOW HERE] slots with a complete constructive proof*
-*Status: SPEC v1 — PENDING Codex audit*
+*Written 2026-03-25 by Claude*
+*Codex audit verdict added 2026-03-25*
+*Status: SPEC v1 — AUDIT COMPLETE — Axiom 4 is an explicit postulate — God Equation CONDITIONAL (0.80)*
