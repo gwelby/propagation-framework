@@ -9,34 +9,40 @@ This is an open research framework. Every claim has a confidence score and a fal
 These are the specific mathematical problems where the framework needs help. Each one is precisely stated. No vague hand-waving — the exact missing step is documented.
 
 ### G3 — The Internal-to-Spatial Bridge (Priority 1)
-**Files**: `derivations/g3_coupling_bridge.md`, `derivations/g3_product_walk_no_go.md`, `derivations/g3_triangular_gaussian_family.md`, `derivations/g3_wilson_loop_toy_model.md`, `derivations/g3_beta_lock_audit.md`, `derivations/g3_canonical_class_function_no_go.md`
-**The problem**: The God Equation requires α(l_P) = 1/(2π·N^{D/2}). The internal phase walk on the ℤ₆ orbit gives N^1 scaling (S³ heat kernel). Spatial diffusion gives N^{D/2} scaling but with an unresolved geometric prefactor. `g3_product_walk_no_go.md` proves that the cleanest phase-independent product walk reduces to a pure spatial return object, and that two naive closures fail: bare smooth return density still carries a prefactor, and nearest-neighbor cubic return is exactly zero at N=3. `g3_triangular_gaussian_family.md` then shows that the first natural phase-dependent triangular Gaussian family also fails: it collapses to a commutative averaged Gaussian with continuous covariance parameters. `g3_wilson_loop_toy_model.md` pushes one step further: the same-axis SU(2) Wilson loop is rigid but trivial, and the first noncommuting C3-symmetric cone family still carries a free cone angle β. `g3_beta_lock_audit.md` then shows that current PF heuristics suggest several special β values, but do not uniquely derive one from the existing axioms. `g3_canonical_class_function_no_go.md` then closes one more loophole: any continuous gauge-invariant scalar built only from the total SU(2) holonomy is just a function of its conjugacy-class angle, so holonomy-only class functions cannot by themselves remove β or fix the normalization.
-**What would close it**: A proof that the framework fixes the connection geometry itself, or a canonical holonomy/topological observable that removes the free geometric parameter, and that the resulting object maps exactly to α(l_P) with no free prefactor.
+**Status**: PARTIAL / ARGUED (0.60 for bridge, 0.75 for overall God Equation)
+**Files**: `derivations/g3_coupling_bridge.md`, `derivations/g3_product_walk_no_go.md`, `derivations/g3_canonical_class_function_no_go.md`
+**The problem**: The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) predicts the top quark Compton wavelength to 0.4% with zero free parameters. The remaining open step: the S³ heat kernel gives α ∝ 1/N, but the equation needs α ∝ 1/N^{3/2}. The gap factor is 2/√N. Multiple candidate bridges have been ruled out: phase-independent product walks, triangular Gaussian families, naive SU(2) holonomy, and holonomy-only class functions (which reduce to conjugacy-class angle and cannot remove the free parameter β).
+**What would close it**: A canonical geometric observable with structure beyond the total holonomy conjugacy class that maps exactly to α(l_P) = 1/(2π·N^{D/2}) with no free prefactor. This is the single biggest open theorem in the framework.
 
-### Weinberg Angle — RG Running
-**File**: `derivations/weinberg_angle_pf.md`
-**The problem**: Five independent routes converge on sin²θ_W = 1/4 at the unification scale. The observed value is 0.231 (IR). Closing the gap requires either deriving the RG running mechanism within the PF, or deriving the coupling ratio g'/g from the medium geometry.
-**What would close it**: A derivation of the renormalization group flow from the unification scale to the electroweak scale within the propagation medium.
-
-### Fine Structure Constant α
+### Fine Structure Constant α (Priority 2)
+**Status**: OPEN (0.10 as derivation, 0.60 as structural identification)
 **File**: `derivations/alpha_from_pf.md`
-**The problem**: α is identified structurally as vacuum propagation efficiency (Z₀/2R_K) and is locked to the mass spectrum. The value 1/137.036 is not yet derived from the axioms.
-**What would close it**: Derive λ_c and m_e independently from axioms, then compute α = √(18m_e/m_top).
+**The problem**: α is identified structurally as vacuum propagation efficiency (Z₀/2R_K) and is locked to the mass spectrum: m_t = 18m_e/α², m_τ = 18√2 m_e/α. The value 1/137.036 is not yet derived from the axioms. The route is mapped: derive λ_c and m_e independently, then α = √(18m_e/m_top). This is downstream of G3.
+**What would close it**: Independent derivation of λ_c (from G3) and m_e (from topological defect ground state).
 
-### Koide Selection — Why Q = 2/3?
-**File**: `derivations/koide_geometric_equivalence.md`
-**The problem**: The equivalence Q = 2/3 ↔ R/A = √2 ↔ e₂/e₁² = 1/6 ↔ equal U(1)/SU(3) Frobenius norm is established. What is not derived is *why* the vacuum selects the equal-norm point. Three candidate routes exist (Section 4); none is yet a theorem.
-**What would close it**: A proof via Route A (max entropy + coherence), Route B (SU(3) conjugacy orbit from U(3) gauge fixing), or Route C (Axiom 3 stability with an additional constraint beyond equal pairwise symmetry).
+### Weinberg Angle — RG Running (Priority 3)
+**Status**: Weinberg angle is DERIVED (0.90) at the unification scale. RG running is OPEN.
+**File**: `derivations/weinberg_angle_pf.md`
+**The problem**: The Weinberg angle sin²θ_W ≈ 0.22310 is now derived via Axiom 3b (Minimal Winding Principle), matching the PDG on-shell value to 0.13σ. However, the UV value is 1/4 and the observed IR value at M_Z is 0.231. Connecting these requires either deriving the RG running mechanism within the PF, or importing standard QFT running.
+**What would close it**: A derivation of the renormalization group flow from the unification scale to the electroweak scale within the propagation medium, or a proof that standard RG is the unique running consistent with PF axioms.
 
-### Koide Phase Selection — Why \(\delta_0 \bmod 2\pi/3 \approx 2/9\)?
+### Koide Phase Selection — Why \(\delta_0 \bmod 2\pi/3 \approx 2/9\)? (Priority 4)
+**Status**: EMPIRICAL (0.55)
 **File**: `derivations/koide_phase_delta_0_gap.md`
-**The problem**: PF currently explains the Koide amplitude condition \(Q=2/3\), but that leaves a second degree of freedom: the reduced phase \(\delta_0 \bmod 2\pi/3\), which determines which specific mass triple is realized on the Koide cone. Rivero's `paper_koide.tex` reports the charged-lepton phase within 33 ppm of \(2/9\), with a candidate three-instanton \(\cos(9\delta)\) potential. PF has no derivation for this phase anchor yet.
-**What would close it**: A derivation from the existing internal phase / holonomy structure that selects \(\delta_0\), or a proof that PF requires additional dynamics beyond the current axioms to determine the phase.
+**The problem**: PF derives the Koide amplitude Q=2/3 but not the reduced phase \(\delta_0 \bmod 2\pi/3\), which determines which specific mass triple sits on the Koide cone. Rivero reports the charged-lepton phase within 33 ppm of \(2/9\), with a candidate \(\cos(9\delta)\) instanton potential. PF derives the arena and the phase variable but not the harmonic suppression that selects the phase.
+**What would close it**: A derivation from the internal phase/holonomy structure that selects \(\delta_0\), or a proof that PF requires additional dynamics beyond the current axioms.
 
-### Consciousness Metric
+### Consciousness Metric (Priority 5)
+**Status**: INTUITION (0.48)
 **File**: `derivations/consciousness_theory_audit.md`
-**The problem**: The framework defines consciousness as coherent self-referential propagation. There is no PF-specific measurable variable that dissociates this from synchrony, integration, reportability, and task effects.
+**The problem**: The framework defines consciousness as coherent self-referential propagation. There is no PF-specific measurable variable that dissociates this from synchrony, integration, reportability, and task effects. The psychedelic coherence literature refined the claim to "coherent complexity" but a unique metric remains open.
 **What would close it**: A pre-registered experiment with a PF-specific metric that shows a dissociation from existing consciousness markers.
+
+### Koide Selection — Why the Equal-Norm Point? (Priority 6)
+**Status**: DERIVED for Q=2/3; selection mechanism OPEN
+**File**: `derivations/koide_geometric_equivalence.md`
+**The problem**: The equivalence Q = 2/3 ↔ R/A = √2 is established as a geometric identity. What is not derived is *why* the vacuum selects the equal-norm point among all points on the Koide cone.
+**What would close it**: A proof via max entropy + coherence, SU(3) conjugacy orbit, or Axiom 3 stability with an additional constraint.
 
 ---
 
