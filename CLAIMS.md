@@ -10,7 +10,7 @@
 
 | Status | Definition | Confidence Range |
 | :--- | :--- | :--- |
-| **DERIVED** | Follows from Axioms 1-3 by logic/math alone. | 0.90 - 1.00 |
+| **DERIVED** | Follows from Axioms 1-3 (and explicitly adopted corollaries like 3b) by logic/math alone. | 0.90 - 1.00 |
 | **ARGUED** | Plausible reasoning, mechanism identified, formal proof pending. | 0.70 - 0.89 |
 | **EMPIRICAL** | Matches experimental data, derivation from first principles pending. | 0.60 - 0.95 |
 | **INTUITION** | Insight-driven pattern, currently being tested or modeled. | 0.30 - 0.59 |
