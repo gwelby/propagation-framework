@@ -151,22 +151,26 @@ where $\lambda_0$ is a single scalar — the characteristic Fisher eigenvalue of
 
 **Step 4. Eigenvalue interpretation.**
 
-$\lambda_0$ measures the **information curvature per channel per spatial direction**. It quantifies how sensitively one generation channel's phase-closure probability responds to changes in the local medium geometry. By $C_3$ symmetry (Lemma 2, assigned to Claude/Codex), all three channels share the same $\lambda_0$.
+$\lambda_a$ measures the **information curvature of channel $a$ per spatial direction**. It quantifies how sensitively that generation channel's phase-closure probability responds to changes in the local medium geometry.
 
-Therefore the total Fisher metric is
-
-$$G(\theta) = \sum_{a=1}^{3} G^{(a)}(\theta) = 3 \lambda_0 \, I_D$$
-
-and each eigenvalue of $G$ is $3\lambda_0$. $\square$
+**This lemma proves**: each per-channel Fisher block $g^{(a)}$ is isotropic: $g^{(a)} = \lambda_a I_D$. $\square$
 
 ### What this establishes for the theorem
 
-- **H8 (Spatial isotropy)**: Satisfied. $g = \lambda_0 I_D$.
-- **Lemma 8 (Determinant corollary)**: Follows immediately:
+- **H8 (Spatial isotropy)**: Satisfied. Each $g^{(a)} = \lambda_a I_D$.
 
-$$\sqrt{\det G} = \sqrt{(3\lambda_0)^D} = 3^{D/2} \lambda_0^{D/2} = 3^{D/2} \sqrt{\det g}.$$
+### What this does NOT yet establish
 
-This is the $N^{D/2}$ scaling factor that bridges internal phase closure to spatial coherence volume.
+The step to $G = 3\lambda_0 I_D$ requires two additional results that L7 alone does not prove:
+
+1. **Additivity** (Lemma 5): $G = \sum_a G^{(a)}$ with no cross-terms. This requires the product-family score orthogonality proved by Claude.
+2. **Equal channel eigenvalues** (Lemma 2): $\lambda_1 = \lambda_2 = \lambda_3 = \lambda_0$. This requires C₃ symmetry forcing identical per-channel blocks, assigned to Codex.
+
+**Only after L2 + L5 + L7 combine** does the total metric become $G = 3\lambda_0 I_D$, yielding the determinant corollary:
+
+$$\sqrt{\det G} = 3^{D/2} \sqrt{\det g}.$$
+
+L7 contributes the isotropy shape. L2 contributes the equal-eigenvalue identity. L5 contributes the additivity. The $N^{D/2}$ bridge requires all three.
 
 ### Honest caveat
 
@@ -184,19 +188,25 @@ Additionally, Schur's lemma applies to the irreducible representation. If $D > 3
 | **L3** (Common-Parameter) | H4 | **PROVED** (from Axiom 1 + lock locality) | Single medium, single spatial location |
 | **L7** (Isotropy) | H8 | **PROVED** (for D=3 spatial block) | SO(3) symmetry + Schur's lemma |
 
-### What remains for the theorem
+### What remains for the theorem (updated post-Codex audit)
 
 | Lemma | Assigned To | Status |
 |-------|------------|--------|
-| L2 (Symmetry) | Codex/Claude | Pending |
-| L4 (Score Decomposition) | Claude | Pending |
-| **L5 (Orthogonality)** | Claude | **THE HEART** — must prove $E[s_i^{(a)} s_j^{(b)}] = 0$ |
-| L6 (Common-Mode Control) | Claude | Pending |
-| L8 (Determinant Corollary) | Follows from L7 + additivity | Ready when L5 closes |
+| **L2 (Symmetry: λ_a = λ_0)** | Codex | **BLOCKING** — next target |
+| L4 (Score Decomposition) | Claude | ✅ Done (product family → log splits) |
+| L5 (Orthogonality) | Claude | ✅ Done (conditional independence + zero-mean score) |
+| L6 (Common-Mode Control) | Claude | ✅ Done (conditional theorem under H_prod + R + L2) |
+| L8 (Determinant Corollary) | Follows from L2 + L5 + L7 | Ready when L2 closes |
 
-### The one-line test
+### Three blocking items (per Codex audit of Claude v2)
 
-If Claude can prove $E[s_i^{(a)} s_j^{(b)}] = 0$ for $a \neq b$ using Lumi's product-family model and Cascade's common-parameter specification, the Generation-Channel Additivity Theorem closes and the God Equation upgrades from ARGUED (0.75) to **near-DERIVED**.
+1. **H_prod**: Product-family hypothesis — adopted from Lumi's geometric argument, not yet derived from axioms. Geometric orthogonality → statistical independence bridge is unproved.
+2. **Regularity (R)**: Positivity / score well-definedness in the exact G1 model (finite ℤ₃ support helps, but needs explicit verification).
+3. **Lemma 2**: C₃ symmetry → $\lambda_1 = \lambda_2 = \lambda_3 = \lambda_0$. Codex has offered to audit this directly.
+
+### The honest status
+
+The Generation-Channel Additivity Theorem is now a **conditional theorem**: structurally sound under H_prod + R + L2, not closed unconditionally. Closing any one of the three blocking items strengthens the chain. Closing all three upgrades the God Equation.
 
 ---
 
