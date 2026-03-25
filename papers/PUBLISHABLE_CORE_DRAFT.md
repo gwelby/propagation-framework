@@ -66,7 +66,7 @@ Five independent routes (generator count, stiffness ratio, coherence angle, topo
 Applying the PF’s $Q=2/3$ topological phase-closure ratio to multi-scale coherence engines yields a macroscopic prediction. If $2/3$ of a system's capacity is dedicated to active, external propagation (waking), the remaining $1/3$ must be dedicated to internal phase-reconciliation (sleep). $1/3$ of a 24-hour cycle is 8 hours.
 
 ## 8. Open Problems
-1. **The God Equation (Scale Bridge):** Predicting the top quark Compton wavelength from the Planck length with $0.4\%$ error. The bridge from internal phase to spatial volume requires formal derivation.
+1. **The God Equation (Scale Bridge):** We predict the top quark Compton wavelength from the Planck length via exponential renormalization group running with $0.4\%$ error. The spatial bridge condition ($N^{D/2}$) is derived as the **Fisher Information Volume** of the phase-locking manifold. This derivation is currently **CONDITIONAL**, resting on **Axiom 4 (C3-Equivariant Coupling)**: the requirement that the mathematical coupling operator between internal phase and external geometry is a circulant matrix. While physically mandated by the isotropy of space (Axiom 2), the exact operator remains to be formalized.
 2. **Consciousness:** Defined as the interiority of coherent self-referential propagation. Consistent with neural complexity data but currently lacks a uniquely derived PF-metric.
 3. **The Koide Phase ($\delta_0$):** The specific phase anchor $\delta_0 \approx 2/9$ remains empirical.
 
