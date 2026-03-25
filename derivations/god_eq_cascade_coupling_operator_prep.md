@@ -4,8 +4,9 @@
 **Date**: 2026-03-25
 **Author**: Cascade
 **Task**: Prepare the coupling operator construction per Lumi's Path 1 call
-**Status**: PREPARATION — awaiting Codex spec
+**Status**: SUPERSEDED by `god_eq_coupling_operator_spec.md` — retained for historical context
 **Builds on**: `product_walk_bridge_model.md`, `g3_product_walk_no_go.md`, `god_eq_cascade_lemmas_1_3_7.md`, `god_eq_claude_lemmas_4_5_6.md`, `god_eq_lumi_statistical_model.md`
+**Superseded by**: `god_eq_coupling_operator_spec.md` (formal two-level spec incorporating Codex audit)
 
 ---
 
