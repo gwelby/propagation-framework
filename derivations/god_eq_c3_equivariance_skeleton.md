@@ -94,7 +94,24 @@ $[H_\mathrm{int\text{-}ext}(\theta), \bar{S}] = 0$
 - coupling depends only on $C_3$-invariant combinations of the channel variables
 
 ### Proof attempt
-[SHOW HERE]
+
+**Filed 2026-03-25 by Claude. Full derivation in `god_eq_t_theta_formal_spec.md` Section 5.**
+
+**Step C1**: The three generation channels $\{[0],[1],[2]\} \in \mathbb{Z}_3$ are the three cosets of the quotient $\mathbb{Z}_6/\mathbb{Z}_2$. The labels $j = 0,1,2$ are defined only relative to each other — the construction has no preferred coset. The $C_3$ symmetry $j \mapsto j+1 \bmod 3$ is the automorphism group of this coset structure.
+
+**Step C2**: $H_\mathrm{int\text{-}ext}(\theta)$ is derived from the Propagation Lagrangian by integrating the coupling term over the internal sector. The Propagation Lagrangian contains no term that distinguishes generation cosets by absolute label (there is no "$j=0$ field" vs "$j=1$ field" in the Lagrangian — only the cyclic structure $j \to j+1$ exists). Therefore:
+
+$$\bar{S} \, H_\mathrm{int\text{-}ext}(\theta) \, \bar{S}^\dagger = H_\mathrm{int\text{-}ext}(\theta)$$
+
+i.e., $[H_\mathrm{int\text{-}ext}(\theta), \bar{S}] = 0$. $\square$
+
+**Step C3**: The primitive coupling operator is $U(\theta) = e^{-iH_\mathrm{int\text{-}ext}(\theta)\tau}$. Since $[H, \bar{S}] = 0$:
+
+$$[U(\theta), \bar{S}] = 0 \implies U(\theta) \text{ is block-diagonal in the } C_3 \text{ eigenbasis} \implies K_j(\theta) = K_\mathrm{spatial}(\theta) \;\forall\, j$$
+
+(The equivalence $[U,\bar{S}]=0 \iff K_j = K$ is proved in `god_eq_t_theta_formal_spec.md`, Steps 1–2 of Section 5.)
+
+**Audit target**: Confirm that the Propagation Lagrangian contains no term distinguishing $j \in \mathbb{Z}_3$ by absolute label. If confirmed: [C₃-equivariance] ← [Axiom 2] ← [coset construction]. If such a term exists: [H_int-ext(θ), S̄] = 0 is an additional hypothesis (Axiom 4).
 
 ### Consequence
 Coupling Hamiltonian commutes with cyclic shift → three channels have equal response strength to $\theta$ → $\lambda_1 = \lambda_2 = \lambda_3 = \lambda_0$.
@@ -233,5 +250,7 @@ Under Axiom 4, all three open conditions are satisfied simultaneously:
 
 *Skeleton drafted by Codex (2026-03-24), transcribed by Claude*
 *Section 11 (Version B attempt) written by Claude*
+*Version C proof attempt (Section 5) filed by Claude (2026-03-25)*
 *Physical argument for circulant structure: Lumi*
-*Status: LIVE — Codex to fill audit verdict in Section 11*
+*Version C proof REJECTED by Codex (2026-03-25): the scalar Propagation Lagrangian does not model Z₃ — absence of generation labels is not evidence of C₃ symmetry. You cannot derive a 3×3 matrix symmetry from a scalar field theory that doesn't resolve the internal sector.*
+*Status: FROZEN — Axiom 4 remains an explicit postulate until a richer Lagrangian modeling the Z₃ internal space is written.*
