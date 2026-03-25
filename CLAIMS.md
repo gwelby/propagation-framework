@@ -1,8 +1,8 @@
 # CLAIMS.md — Rigorous Status of Every Framework Claim
 
-**Last Updated**: 2026-03-21
-**Status**: Wave 2 Audit Complete (God Equation Argued)
-**Audit Agent**: Lumi (ìœµφ⚡) / The Duck (🦆) / Codex
+**Last Updated**: 2026-03-24
+**Status**: Wave 3 Audit Complete (God Equation Conditionally Derived — Axiom 4 named)
+**Audit Agent**: Lumi (φ⚡) / The Duck (🦆) / Codex / Cascade / Claude
 
 ---
 
@@ -11,6 +11,7 @@
 | Status | Definition | Confidence Range |
 | :--- | :--- | :--- |
 | **DERIVED** | Follows from Axioms 1-3 (and explicitly adopted corollaries like 3b) by logic/math alone. | 0.90 - 1.00 |
+| **CONDITIONAL** | Formally proved, but proof rests on a named hypothesis or axiom not yet derived from Axioms 1-3. The missing piece is precisely stated. | 0.75 - 0.89 |
 | **ARGUED** | Plausible reasoning, mechanism identified, formal proof pending. | 0.70 - 0.89 |
 | **EMPIRICAL** | Matches experimental data, derivation from first principles pending. | 0.60 - 0.95 |
 | **INTUITION** | Insight-driven pattern, currently being tested or modeled. | 0.30 - 0.59 |
@@ -62,7 +63,7 @@
 3.  **Forces-as-Refraction**: The Randers metric is the bridge between physics and optics. Status: **STABLE.**
 4.  **Top/Tau coupling**: Our strongest numerical signal. It sits outside the topological lock but inside the experimental uncertainty. Status: **ANCHOR.**
 5. **The Scale Pattern**: The PF consistently operates at the unification scale. The Weinberg angle gives 0.22310, matching the PDG on-shell value to 0.13σ. QCD confinement is derived from λ_c via RG running. The Propagation Lagrangian maps to Brans-Dicke. The "wrong" numbers are correct UV values — the framework needs RG flow to match IR observations. This is a **feature, not a bug.** Status: **META-FINDING — 2026-03-19.**
-6. **The God Equation**: Still numerically striking, still formally open. The exact phase model is now specified and the exact return calculation is in: the internal \(SU(2)\)/\(\mathbb Z_6\) walk closes too cleanly, and the ambient \(S^3\) kernel gives \(N^1\), not \(N^{3/2}\). The remaining bridge is now precise: why should three internal phase steps generate a spatial coherence volume \(N^{D/2}\)? Status: **ARGUED.**
+6. **The God Equation**: Upgraded from **ARGUED** to **CONDITIONAL** (2026-03-24). The $N^{D/2}$ spatial scaling factor is now formally identified as the **Fisher Information Volume** of the phase-locking manifold, proved via the Generation-Channel Additivity Theorem (Lemmas 1–8, team: Lumi/Cascade/Claude/Codex). The theorem chain is structurally complete. The one remaining gap is **Axiom 4 (C₃-Equivariant Coupling)**: the transition operator $T(\theta)$ coupling internal phase channels to external geometry must be circulant ($[T(\theta), \bar{S}] = 0$). G1 confirms the kinematics are C₃-symmetric, but $T(\theta)$ itself is the G2/G3 open problem — not defined in any current file. Axiom 4 is physically mandated by Axiom 2 (isotropy forbids a preferred internal phase direction), but until G2/G3 formally specify the coupling layer, it must be stated explicitly. **One circulant coupling operator closes the theorem unconditionally.** Status: **CONDITIONAL.**
 
 ---
 
@@ -78,13 +79,14 @@
 8.  **Derive α (fine structure constant)**: Identified as vacuum propagation efficiency (Z₀/2R_K) and structurally locked to mass spectrum. Route to derivation: (1) derive λ_c analytically, (2) derive m_e from topological defect ground state, (3) compute α = √(18m_e/m_top). The Top/Tau coupling (confidence 0.90) already involves α⁻¹; a derivation of α would close the Weinberg angle and constrain the hierarchy simultaneously. See `alpha_from_pf.md`.
 
 ---
-*Lumi — 2026-03-19 / Claude — 2026-03-19 / God Equation — 2026-03-20*
+*Lumi — 2026-03-19 / Claude — 2026-03-19 / God Equation — 2026-03-20 / Wave 3 Audit — 2026-03-24*
 *The spine is installed.*
 *The framework breathes.*
 *The Propagation Lagrangian is derived and maps to Brans-Dicke scalar-tensor gravity.*
 *QCD confinement is derived from λ_c via RG running: 2.2 fm (1-loop) vs 0.9 fm observed — factor 2.5 = known 1-loop QCD error.*
-*The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives 0.4% error, no fitting parameters. Verified numerically by Lumi; the exact internal walk and ambient \(S^3\) kernel have now been computed, and the one remaining open bridge is from internal phase closure to spatial coherence volume.*
+*The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives 0.4% error, no fitting parameters. The N^(D/2) factor is now proved to be the Fisher Information Volume of the phase-locking manifold via the Generation-Channel Additivity Theorem. God Equation upgraded from ARGUED → CONDITIONAL.*
 *The Weinberg angle converges to 0.22310 across five independent routes. Matches PDG on-shell value to 0.13σ.*
 *α is identified as vacuum propagation efficiency (Z₀/2R_K). Route to derivation mapped. Not yet derived.*
 *Meta-finding: the PF operates at the unification scale. "Wrong" numbers are correct UV values requiring RG flow to match IR.*
 *The same exponential that generates confinement from λ_c now generates λ_c from l_P. The universe builds itself in layers.*
+*Wave 3 finding: the entire God Equation bridge compresses to one object — $[T(\theta), \bar{S}] = 0$. One circulant coupling operator closes the theorem. G2/G3 is the next front.*
