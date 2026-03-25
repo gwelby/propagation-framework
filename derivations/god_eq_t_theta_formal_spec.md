@@ -3,13 +3,13 @@
 
 **Date**: 2026-03-24
 **Author**: Codex (spec drafted by Claude in Codex's absence — pending Codex audit)
-**Status**: SPEC v1 — requirements R1–R4 stated precisely. **R1 proof REJECTED by Codex (2026-03-25)**: scalar Lagrangian doesn't model Z₃; absence of labels ≠ symmetry. H_prod closure rejected (orthogonal eigenvectors ≠ statistical independence). Fisher isotropy rejected (rank-1 outer product ≠ I_D). Axiom 4 remains an explicit postulate.
+**Status**: HISTORICAL SPEC v1 — Wave 4 audit complete. The scalar-Lagrangian objection recorded here was later addressed at the internal-sector level by `z3_extended_propagation_lagrangian.md`, but the stronger operator factorization and `H_prod` closure proposed in this spec are **not** current accepted truth. God Equation remains CONDITIONAL.
 **Purpose**: Give the team one precise mathematical object to build and verify, replacing the blank skeleton
 **Feeds into**:
 - `god_eq_c3_equivariance_skeleton.md` (Version C proof target)
 - `god_eq_g2g3_coupling_proposal.md` (Claude's construction)
 - `god_eq_claude_lemmas_4_5_6.md` (Lemma 2/H_C3stat gap)
-- `CLAIMS.md` God Equation row (CONDITIONAL → DERIVED if R1 verified)
+- `CLAIMS.md` God Equation row (current truth source; God Equation remains CONDITIONAL)
 
 ---
 
@@ -141,10 +141,10 @@ $$\boxed{T_\mathrm{eff}(\theta) = K_\mathrm{closure}(\theta) \cdot I_{\mathbb{Z}
 | Property | Value | Derivation |
 |----------|-------|------------|
 | $[T_\mathrm{eff}(\theta), \bar{S}] = 0$ | **Yes** — diagonal, trivially circulant | $T_\mathrm{eff} = K \cdot I$, commutes with everything |
-| Equal marginals | **Yes** — $K_\mathrm{closure}$ same for all channels | R1 + $\bar{S}^3 = I$ |
-| H_C3stat | **Closed** — equal marginals $\Rightarrow$ invariant statistical family | Lemma 2 |
-| H_prod | **Closed** — orthogonal DFT channels independently close | DFT eigenbasis decoupling |
-| R (Regularity) | **Closed iff R2 holds** — $K_\mathrm{closure} > 0$ iff $K_\mathrm{spatial} > 0$ | R2 above |
+| Equal marginals | Candidate only — follows if the strong R1 ansatz is accepted | R1 + $\bar{S}^3 = I$ |
+| H_C3stat | Not closed by this spec alone | Requires accepted R1 plus a statistical model |
+| H_prod | **OPEN** — diagonal closure / DFT decoupling is not statistical independence | Requires an explicit probability model |
+| R (Regularity) | Candidate iff R2 holds and the statistical model is specified | R2 above |
 
 ### 4.4 Why the Two Levels Must Not Be Conflated
 
@@ -155,7 +155,7 @@ $T_\mathrm{eff}$ is NOT the primitive coupling operator $U$:
 | Primitive | $U(\theta) = \bar{S} \otimes K$ | Maximally off-diagonal in $\mathcal{H}_\mathrm{int}$ | One-step walk operator |
 | Closure | $T_\mathrm{eff}(\theta) = K^3 \cdot I$ | Diagonal in $\mathcal{H}_\mathrm{int}$ | 3-cycle return amplitude |
 
-The off-diagonal structure of $U$ is the walk mechanism. The diagonal structure of $T_\mathrm{eff}$ is the emergence of independent channels after one full phase cycle. Both are exact — neither is an approximation.
+The off-diagonal structure of $U$ is the walk mechanism. The diagonal structure of $T_\mathrm{eff}$ is a candidate closure ansatz. By itself, it does **not** establish independent channels or `H_prod`.
 
 ---
 
@@ -205,7 +205,7 @@ By Steps 1–2, $C_3$-equivariance of $U(\theta)$ is equivalent to R1. $\square$
 
 This is exactly Lumi's isotropy argument in physical language: "the medium has no preferred internal phase direction." In mathematical language: the coupling term in the Lagrangian is a function of the coset algebraic structure only, not of the coset labeling.
 
-If Codex accepts this premise from the G1 model + Propagation Lagrangian, then R1 follows from Axiom 2, and Axiom 4 is derived (not postulated).
+In spec v1, this was the hinge by which R1 and Axiom 4 would have been derived. Wave 5 later improved the internal-sector modeling with an explicit ℤ₃-resolved Lagrangian, but the full strong closure proposed here is still not current accepted truth.
 
 ---
 
@@ -274,6 +274,7 @@ Codex audited this spec and rejected three claims:
 | Lemma 2 | Closed | **OPEN** — depends on H_C3stat |
 | Axiom 4 | Derived (not postulated) | **REJECTED** — must remain explicit postulate |
 | God Equation | DERIVED (0.92) | **NOT upgraded** — stays CONDITIONAL (0.80) |
+**Wave 5 update**: `z3_extended_propagation_lagrangian.md` fixes the specific scalar-Lagrangian objection recorded above by explicitly modeling the ℤ₃ internal sector and deriving a circulant EOM matrix. But the post-Wave-5 audit still does **not** accept the stronger claims in Sections 4–5 that the primitive operator is $U = \bar{S} \otimes K$, that `T_\mathrm{eff} = K^3 I` follows from the actual EOM operator, or that diagonal closure proves `H_prod`. Current repo truth therefore remains CONDITIONAL.
 
 **What survives**: two-level operator split, heat-kernel positivity route, R4.
 
@@ -289,4 +290,4 @@ Codex audited this spec and rejected three claims:
 
 *Written 2026-03-25 by Claude*
 *Codex audit verdict added 2026-03-25*
-*Status: SPEC v1 — AUDIT COMPLETE — Axiom 4 is an explicit postulate — God Equation CONDITIONAL (0.80)*
+*Status: HISTORICAL SPEC v1 — AUDIT COMPLETE — later Wave 5 work strengthens the internal sector, but the God Equation remains CONDITIONAL*

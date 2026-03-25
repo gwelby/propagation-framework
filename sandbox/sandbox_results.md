@@ -221,13 +221,13 @@ Atomic quantization (Bohr-like E_k ∝ −1/k² spectrum) emerges from the eikon
 | Kuramoto N-scaling | `kuramoto_large_n.py` | **FRAGILE** | INTUITION status confirmed |
 | **Axiom 3 → Bohr** | `coulomb_lens_ultimate.py` | **NEW DERIVED** (0.0000%) | Atomic quantization from Axiom 3 alone |
 
-**God Equation status after Wave 5**: CONDITIONAL at 0.85. R3 gap closed in sandbox. Remaining: (1) ℤ₃-extended Lagrangian (full theory), (2) Markovian walk from Axiom 2.
+**God Equation status after Wave 5**: CONDITIONAL at 0.88 after later audit integration. The sandbox strengthened both the R3 story and the richer ℤ₃ internal-sector story, but the remaining proof obligations are now sharper: (1) derive the strong primitive operator used at closure from the ℤ₃ Lagrangian, or rewrite the theorem from the actual derived circulant operator; (2) define an explicit joint probability model that really proves `H_prod`.
 
 ---
 
 ## 2026-03-25 — Wave 5 R1: ℤ₃-Extended Propagation Lagrangian (`z3_lagrangian_verification.py`)
 
-**Purpose**: Close God Equation Gap 1 — the "richer Lagrangian" required by Codex's 2026-03-25 audit rejection.
+**Purpose**: Address the richer-Lagrangian objection from Codex's 2026-03-25 audit by explicitly modeling the ℤ₃ internal sector.
 
 **Context**: Codex rejected all prior R1 proofs because the scalar Propagation Lagrangian has no ℤ₃ structure. You cannot derive a 3×3 matrix symmetry from a scalar field theory. The fix: explicitly write the ℤ₃-extended Lagrangian with three generation fields.
 
@@ -247,24 +247,22 @@ One field χⱼ per generation coset (j ∈ ℤ₃ from the G1 quotient ℤ₆/�
 | 2 | EOM coupling matrix M is circulant | **PASS** | exact |
 | 3 | [M, S̄] = 0 (R1) | **PASS** | 0.00e+00 |
 | 3b | 100 random circulants all commute with S̄ | **PASS** | 0 failures |
-| 4 | T_eff = K³·I (closure level) | **PASS** | 0.00e+00 |
-| 5 | √det(G) = N^{D/2} √det(g) | **PASS** | 0.00e+00 |
+| 4 | Candidate shift ansatz $U = K\bar{S}$ gives $K^3 I$ | **PASS** | 0.00e+00 |
+| 5 | Conditional Fisher scaling under equal channels | **PASS** | 0.00e+00 |
 | 6 | 200 random circulants: [T, S̄] = 0 | **PASS** | 0 failures |
 | 7 | Non-circulant T breaks [T, S̄] = 0 (control) | **PASS** | 0.1000 ≠ 0 |
 
 **Key numbers**:
 - N^{D/2} for N=3, D=3 = **5.196152** (= 3√3)
 - This is the exact Fisher scaling factor that appears in the God Equation exponent
-- T_eff = K^3 · I proven to 0.00e+00 residual
+- Candidate shift ansatz $U = K\bar{S}$ gives $K^3 \cdot I$ to 0.00e+00 residual
 
 **Verdict**:
-- **R1 DERIVED** from the C₃-invariant ℤ₃-extended Lagrangian ✓
-- **Axiom 4 is now a THEOREM** (C₃ equivariance follows from Lagrangian structure + Axiom 2) ✓
-- **H_C3stat CLOSED** (equal marginals from R1) ✓
-- **H_prod ARGUED** at closure level (T_eff = K³·I → dynamically decoupled channels after one cycle) ✓
-- One gap remains: H_prod full probabilistic proof (noise model from Markovian walk, Axiom 2)
+- **Wave 5 real advance**: the ℤ₃-extended Lagrangian explicitly models the internal sector and its EOM give a circulant coupling matrix commuting with $\bar{S}$ ✓
+- **Important audit qualification**: Test 4 verifies the separate pure-shift ansatz $U = K\bar{S}$, not the actual nearest-neighbor EOM operator derived above
+- **Current honest reading**: this script strongly supports the internal C₃ / circulant bridge, but it does **not** by itself prove `H_prod`, eliminate Axiom 4 at the full bridge level, or upgrade the God Equation to DERIVED
 
-**God Equation status after Wave 5 R1**: CONDITIONAL at **0.88** (upgraded from 0.85). Gap 1 closed. One gap remains.
+**God Equation status after Wave 5 R1**: remains **CONDITIONAL** at **0.88**. The bridge is stronger, but the operator / probability closure is still open.
 
 ![ℤ₃ Lagrangian Verification](z3_lagrangian_verification.png)
 

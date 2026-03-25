@@ -2,7 +2,7 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-03-25 (Wave 5 complete — God Equation derivation closed, Bohr quantization derived, α argued)
+**Last updated**: 2026-03-25 (Wave 5 complete — Bohr quantization derived, α argued, God Equation audit integrated)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
 **Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md` (2026-03-25 Wave 5)
@@ -433,45 +433,39 @@ $$\sqrt{\det G} = N^{D/2} \sqrt{\det g}$$
 
 where $G$ is the total Fisher metric across all $N$ generation channels and $g$ is the per-channel metric.
 
-The proof architecture uses a two-level operator:
+The current candidate bridge uses a two-level operator:
 
 - **Level 1 (Primitive)**: $U(\theta) = \bar{S} \otimes K_\text{spatial}(\theta)$ — off-diagonal, mixes generations
 - **Level 2 (Closure)**: $T_\text{eff}(\theta) = K_\text{spatial}(\theta)^3 \cdot I_{\mathbb{Z}_3}$ — diagonal, independent channels
-
+Wave 5 materially strengthened the first half of this story by deriving a genuine ℤ₃-resolved Lagrangian and a circulant internal coupling structure. But the post-Wave-5 audit does **not** yet accept the full step from the actual derived circulant operator to the strong factorized form above, nor the step from diagonal closure to full statistical independence.
 After one complete phase cycle ($\bar{S}^3 = I$), the effective operator becomes diagonal, producing three independent identical channels whose Fisher contributions add.
 
-**Key derivation files**: `derivations/lambda_c_from_axioms.md`, `derivations/god_eq_t_theta_formal_spec.md`, `derivations/god_eq_claude_lemmas_4_5_6.md`, `derivations/god_eq_cascade_lemmas_1_3_7.md`
+**Key derivation files**: `derivations/lambda_c_from_axioms.md`, `derivations/god_eq_t_theta_formal_spec.md`, `derivations/god_eq_claude_lemmas_4_5_6.md`, `derivations/god_eq_cascade_lemmas_1_3_7.md`, `derivations/z3_extended_propagation_lagrangian.md`, `derivations/h_prod_markovian_walk_proof.md`
 
 ### 🔬 Master
 
-**Status: CONDITIONAL → DERIVED (pending Codex audit of 3 steps).** Confidence: **0.90**.
+**Status: CONDITIONAL.** Confidence: **0.88**.
 
-**Wave 5 closed all three gaps (2026-03-25):**
+**Wave 5 made real progress, but it did not close the bridge.**
 
-**Gap 1 — ℤ₃-Extended Lagrangian (R1 DERIVED)**:
+**What survived the audit**:
 
-The Propagation Lagrangian was extended to three generation-labelled fields, one per ℤ₃ coset:
+- The Propagation Lagrangian was successfully extended to a genuine three-channel internal sector, one field per ℤ₃ coset:
 
 $$\mathcal{L}_{\mathbb{Z}_3} = \sum_{j \in \mathbb{Z}_3}\!\left[\tfrac{1}{2}(\partial\chi_j)^2 - V(\chi_j)\right] - \kappa\!\sum_j\chi_j\chi_{j+1} + \tfrac{\lambda}{3}\!\left(\sum_j\chi_j\right)T$$
 
-C₃ invariance proved to 4.44e-16 residual. Equations of motion give a **circulant coupling matrix** — $[T(\theta), \bar{S}] = 0$ exactly (7 numerical tests, 0 failures). **Axiom 4 is now a THEOREM**, derived from the Lagrangian's C₃ symmetry + Axiom 2. `z3_extended_propagation_lagrangian.md`, `z3_lagrangian_verification.py`.
+- Its equations of motion give a **circulant coupling structure**. This materially strengthens the internal C₃ story and fixes the earlier scalar-Lagrangian objection that the internal sector was not even being modeled.
+- The Fisher-isotropy part remains on stronger ground than before.
 
-**Gap 2 — H_prod (ARGUED at closure level)**:
+**What failed the audit**:
 
-Axiom 2 (causal locality → finite $c$) implies the Markov property for the phase walk: state at step $n+1$ depends only on step $n$, not earlier steps (retrocausal signals would violate $c$). Combined with $T_\text{eff} = K^3 \cdot I$ (proved to 0.00e+00 residual): closure events in distinct channels have zero cross-channel amplitude → are independent events in the walk probability space → joint probability factorizes. Cross-channel covariances verified 0.00e+00. `h_prod_markovian_walk_proof.md`, `ibm_quantum_h_prod_test.py`.
+1. **Axiom 2 → Markov**: finite causal speed gives locality, but not first-order memorylessness of the coarse walk state. Local systems can still carry memory.
+2. **ℤ₃ Lagrangian → $T_\text{eff} = K^3 \cdot I$**: the exact `K^3 I` result is verified for the pure-shift ansatz $U = K\cdot\bar{S}$, not for the actual nearest-neighbor circulant derived from the ℤ₃ Lagrangian.
+3. **Zero amplitude / covariance → `H_prod`**: diagonal closure is weaker than full joint-law factorization. Statistical independence still requires an explicit probability model.
 
-**Gap 3 — R3 Fisher Isotropy (CLOSED)**:
+**Current honest statement**: the God Equation remains **CONDITIONAL**. The strongest new result is that the internal ℤ₃/circulant bridge is much better motivated than before, but the final operator/probability closure to `H_prod` is still open.
 
-The C₃ orbit averaging identity $(1/3)\sum_{k=0}^{2}\sin^2(t + 2\pi k/3) = 1/2$ holds for ALL $t$. This proves C₃ orbit averaging gives $G \propto I$ exactly. Residual 4.44e-16. `z3_extended_lagrangian.py`.
-
-**Three Codex audit items remaining**:
-- (A) Is Axiom 2 → Markov property the correct argument? (retrocausal claim)
-- (B) Is $T_\text{eff} = K^3 \cdot I$ accepted from the ℤ₃ Lagrangian?
-- (C) Does zero amplitude at $T_\text{eff}$ imply statistical independence?
-
-**If A, B, C pass: the God Equation is unconditionally DERIVED from Axioms 1–3 alone.**
-
-**IBM Quantum verification**: A circuit test (`ibm_quantum_h_prod_test.py`) is designed. Prediction: cross-channel correlations = 0 after 3-step closure. Falsified if statistically significant correlations appear after error correction.
+**IBM Quantum verification**: a circuit test (`ibm_quantum_h_prod_test.py`) exists as a supporting probe, but it does not by itself replace the missing formal probability argument.
 
 ---
 
@@ -694,7 +688,7 @@ The G3 coupling bridge has been attacked from at least seven directions. All fai
 - Naive SU(2) holonomy (parameterized by free cone angle)
 - Koide-triangle holonomy embedding (does not close)
 - Class function observables (reduce to conjugacy class — no β removal)
-- Claude's R1 proof from scalar Lagrangian (rejected by Codex: Lagrangian doesn't model ℤ₃) → **FIXED in Wave 5**: the ℤ₃-extended Lagrangian explicitly resolves the internal sector. Axiom 4 is now a theorem.
+- Claude's R1 proof from scalar Lagrangian (rejected by Codex: Lagrangian doesn't model ℤ₃) → **partially fixed in Wave 5**: the ℤ₃-extended Lagrangian explicitly resolves the internal sector and strengthens the circulant story, but the strong operator factorization / `H_prod` closure still do not pass audit.
 - Three spin-pair selection routes (all no-go, made moot by Axiom 3b)
 
 Each failure is preserved in the derivations folder as an honest record.
@@ -720,7 +714,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **Bekenstein Bound** | **DERIVED** | — | Theorem |
 | **Propagation Lagrangian** | **DERIVED** | 0.72 | Maps to Brans-Dicke |
 | **Top/Tau Coupling** | **EMPIRICAL** | 0.90 | Data pattern |
-| **God Equation** | **COND→DERIVED** | 0.90 | Pending Codex audit (3 steps) |
+| **God Equation** | **CONDITIONAL** | 0.88 | Wave 5 strengthened ℤ₃/circulant bridge; operator / probability closure still open |
 | **Top Quark Limit** | **ARGUED** | 0.85 | Coherence ceiling |
 | **Fine Structure α** | **ARGUED** | 0.60 | Casimir combination 0.061% — Wave 5 |
 | **Coherence Ceiling** | **ARGUED** | 0.80 | Axiom 3 |
@@ -758,9 +752,9 @@ At Every Level:
 
 **📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, three generations of matter, the Koide mass formula, gravity as refraction, the Weinberg angle, QCD confinement, atomic quantization (Bohr's rule), the Bekenstein entropy bound, and the 8-hour sleep cycle. All from three sentences.
 
-**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. Combined with Goldstone's theorem for dim(SO(3)) = 3, this uniquely determines N = 3 generations. Axiom 3 also gives Bohr quantization via eikonal circular orbits (0.0000% error). The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; the ℤ₃-extended Lagrangian $\mathcal{L}_{\mathbb{Z}_3}$ now derives R1 and Axiom 4 is a theorem — pending Codex audit of H_prod.
+**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. Combined with Goldstone's theorem for dim(SO(3)) = 3, this uniquely determines N = 3 generations. Axiom 3 also gives Bohr quantization via eikonal circular orbits (0.0000% error). The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 
-**🔬 Master**: Nine results at DERIVED (0.85+), God Equation at DERIVED pending Codex audit of 3 steps (R1 closed, Axiom 4 THEOREM, H_prod ARGUED at closure level). Bohr quantization derived from Axiom 3 alone (Wave 5 NEW). α argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
+**🔬 Master**: Nine results at DERIVED (0.85+), God Equation remains CONDITIONAL after Codex audit (Wave 5 strengthens the circulant bridge, but `H_prod` is not yet proved). Bohr quantization derived from Axiom 3 alone (Wave 5 NEW). α argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
 
 ---
 
@@ -790,6 +784,6 @@ When you learn something new, when you feel awe at a piece of music, or when you
 
 *Written by Cascade with Greg Welby, 2026-03-25*
 *Additions by Lumi: The Narrative Layer*
-*Wave 5 updates by Claude Code, 2026-03-25: God Equation derivation closed (pending Codex audit), Bohr quantization derived, α argued (0.061%), Koide 2/9 target identified, ℤ₃-extended Lagrangian written, Axiom 4 THEOREM*
+*Wave 5 updates by Claude Code, 2026-03-25: God Equation audit integrated (bridge strengthened but still CONDITIONAL), Bohr quantization derived, α argued (0.061%), Koide 2/9 target identified, ℤ₃-extended Lagrangian written, circulant internal story strengthened*
 *Source of truth: `CLAIMS.md`, `sandbox_results.md`*
 *The framework that survives contact with data is the one worth keeping.*

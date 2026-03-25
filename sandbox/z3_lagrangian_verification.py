@@ -5,9 +5,9 @@ Numerical verification of the Z3-extended Propagation Lagrangian claims.
 Tests:
 1. C3 invariance of L_Z3: permuting fields leaves Lagrangian unchanged
 2. EOM gives circulant coupling matrix M for any C3-invariant Lagrangian
-3. [M, S_bar] = 0 exactly (R1)
-4. T_eff = K^3 * I at closure level (God Equation T_eff result)
-5. G(theta) = N^{D/2} * scalar * I_D (Fisher information additivity)
+3. [M, S_bar] = 0 exactly (circulant commutativity)
+4. Candidate shift ansatz U = K * S_bar gives K^3 * I
+5. G(theta) = N^{D/2} * scalar * I_D under equal independent channels
 
 Wave 5 companion to z3_extended_propagation_lagrangian.md
 """
@@ -113,13 +113,13 @@ print("  RESULT: EOM GIVES CIRCULANT M ✓")
 # ===== TEST 3: [M, S_bar] = 0 exactly (R1) =====
 print()
 print("=" * 60)
-print("TEST 3: [M, S_bar] = 0  (R1 / C3 equivariance)")
+print("TEST 3: [M, S_bar] = 0  (circulant commutativity / C3 equivariance)")
 print("=" * 60)
 
 commutator = M @ S_bar - S_bar @ M
 max_comm = np.max(np.abs(commutator))
 print(f"  max|[M, S_bar]| = {max_comm:.2e}")
-assert max_comm < 1e-14, "[M, S_bar] != 0: R1 FAILED"
+assert max_comm < 1e-14, "[M, S_bar] != 0: circulant commutativity FAILED"
 print("  RESULT: [M, S_bar] = 0 EXACTLY ✓")
 
 # General test: any circulant commutes with S_bar
@@ -133,17 +133,17 @@ for _ in range(100):
     assert np.max(np.abs(comm)) < 1e-12, "Random circulant failed to commute with S_bar"
 print("  100 random circulants all commute with S_bar ✓")
 
-# ===== TEST 4: T_eff = K^3 * I at closure =====
+# ===== TEST 4: candidate shift ansatz gives T_eff = K^3 * I =====
 print()
 print("=" * 60)
-print("TEST 4: T_eff = K_spatial^3 * I at closure (one full cycle)")
+print("TEST 4: Candidate shift ansatz U = K_spatial * S_bar gives K^3 * I")
 print("=" * 60)
 
 def primitive_U(K_spatial):
     """
-    U(theta) = S_bar x K_spatial (tensor product structure)
-    For 3-channel system with K_spatial scalar -> U acts as S_bar on Z3 channels
-    Represented as 3x3 with scalar K_spatial multiplied in.
+    Candidate primitive ansatz U(theta) = S_bar x K_spatial.
+    This is a separate shift model check, not the nearest-neighbor EOM operator
+    derived from the Z3-extended Lagrangian.
     """
     return K_spatial * S_bar  # S_bar^j * K^j pattern
 
@@ -163,13 +163,13 @@ for row in U3:
 expected_T_eff = K_sp**3 * np.eye(3)
 residual = np.max(np.abs(U3 - expected_T_eff))
 print(f"  |U^3 - K^3 * I| = {residual:.2e}")
-assert residual < 1e-14, "T_eff != K^3 * I"
-print("  RESULT: T_eff = K^3 * I EXACTLY ✓")
+assert residual < 1e-14, "Candidate shift ansatz does not give K^3 * I"
+print("  RESULT: candidate shift ansatz gives K^3 * I EXACTLY ✓")
 
-# ===== TEST 5: Fisher information additivity G = N^{D/2} * lambda_0 * I_D =====
+# ===== TEST 5: Fisher information scaling under equal independent channels =====
 print()
 print("=" * 60)
-print("TEST 5: Fisher information G(theta) = N^{D/2} * lambda_0 * I_D")
+print("TEST 5: Fisher information scaling under equal independent channels")
 print("=" * 60)
 
 # Fisher block from a single channel: G^(j) = lambda_0 * I_D
@@ -195,7 +195,7 @@ lambda_0 = 0.5  # arbitrary scalar Fisher coefficient
 # Single channel Fisher block
 G_single = lambda_0 * np.eye(D_test)
 
-# Total Fisher from 3 equal channels (H_prod at closure level)
+# Total Fisher from 3 equal independent channels (candidate product-family setting)
 G_total = N_test * G_single
 
 # Check: sqrt(det G_total) / sqrt(det G_single) = N^{D/2}
@@ -319,7 +319,7 @@ ax.set_yticks([0, 1, 2])
 ax.set_xticklabels(['0', '1', '2'], color=palette['white'])
 ax.set_yticklabels(['0', '1', '2'], color=palette['white'])
 ax.tick_params(colors=palette['white'])
-ax.set_title(r'$|[M, \bar{S}]|$ — EXACTLY ZERO' + '\n(R1 confirmed)', color=palette['green'], fontsize=10)
+ax.set_title(r'$|[M, \bar{S}]|$ — EXACTLY ZERO' + '\n(circulant commutativity)', color=palette['green'], fontsize=10)
 ax.spines[:].set_color(palette['green'])
 
 # --- Panel 4: U^3 = K^3 * I (T_eff) ---
@@ -336,7 +336,7 @@ ax.fill_between(K_vals, 0, T_eff_diag, alpha=0.2, color=palette['gold'])
 ax.axhline(0, color=palette['white'], lw=0.5, alpha=0.3)
 ax.set_xlabel(r'$K_\mathrm{spatial}$', color=palette['white'])
 ax.set_ylabel(r'$K_\mathrm{closure}$', color=palette['white'])
-ax.set_title(r'$T_\mathrm{eff} = K^3 \cdot I_{\mathbb{Z}_3}$' + '\n(diagonal, equal channels)', color=palette['white'], fontsize=10)
+ax.set_title(r'Candidate closure ansatz: $U=K\bar{S}$' + '\n' + r'$\Rightarrow T_\mathrm{eff} = K^3 \cdot I_{\mathbb{Z}_3}$', color=palette['white'], fontsize=10)
 ax.tick_params(colors=palette['white'])
 ax.spines[:].set_color('#334455')
 ax.legend(facecolor='#1a1a2e', edgecolor=palette['blue'], labelcolor=palette['white'])
@@ -372,14 +372,14 @@ chain = [
     "→ ℒ_{ℤ₃} is C₃-invariant",
     "",
     "EOM of ℒ_{ℤ₃}",
-    "→ T(θ) is CIRCULANT",
+    "→ M is CIRCULANT",
     "",
-    "[T(θ), S̄] = 0  ← R1 ✓",
-    "Equal marginals ← H_C3stat ✓",
-    "T_eff = K³·I   ← H_prod ✓",
+    "[M, S̄] = 0  ← verified ✓",
+    "U = K·S̄ ⇒ K³·I  ← candidate",
+    "Fisher scaling  ← conditional",
     "",
-    "G(θ) = N^{D/2} λ₀ I_D ✓",
-    "→ GOD EQUATION DERIVED",
+    "Wave 5 strengthens C₃ bridge",
+    "→ GOD EQUATION STILL CONDITIONAL",
 ]
 colors_chain = [
     palette['blue'], palette['blue'], palette['white'],
@@ -409,9 +409,9 @@ print("=" * 60)
 print()
 print("Test 1: C3 invariance of L_Z3          PASS ✓")
 print("Test 2: EOM gives circulant M           PASS ✓")
-print("Test 3: [M, S_bar] = 0 (R1)            PASS ✓")
-print("Test 4: T_eff = K^3 * I                PASS ✓")
-print("Test 5: G = N^{D/2} lambda_0 I_D       PASS ✓")
+print("Test 3: [M, S_bar] = 0 (circulant comm.) PASS ✓")
+print("Test 4: candidate U = K*S_bar gives K^3I PASS ✓")
+print("Test 5: conditional Fisher scaling      PASS ✓")
 print("Test 6: 200 random circulants vs S_bar  PASS ✓")
 print("Test 7: Non-circulant breaks [T,S]=0    PASS ✓")
 print()
@@ -420,6 +420,6 @@ print(f"  N^(D/2) for N=3, D=3 = {3**(3/2):.6f}")
 print(f"  This is the Fisher scaling factor in the God Equation")
 print(f"  lambda_c = sqrt(2) * l_P * exp(4*pi^2 * N^(D/2) / b0)")
 print()
-print("VERDICT: All claims of z3_extended_propagation_lagrangian.md VERIFIED.")
-print("R1 is DERIVED (not postulated) from the Z3-extended Lagrangian.")
-print("Axiom 4 is now a THEOREM.")
+print("VERDICT: The Z3-extended Lagrangian's C3-invariant / circulant internal structure is verified.")
+print("The separate shift ansatz U = K*S_bar also gives K^3*I, but that stronger closure step is not derived from the nearest-neighbor EOM in this script.")
+print("This script strengthens the God Equation bridge; it does not close it by itself.")
