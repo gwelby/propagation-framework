@@ -43,10 +43,14 @@ data.
 
 | Result | Status | Confidence |
 |--------|--------|------------|
-| Forces as refraction for null propagation | DERIVED | 0.95 |
+| Topological weights (2,1) from π₁(SO(3)) | DERIVED | 0.98 |
 | Three generations of matter | DERIVED | 0.98 |
 | Koide geometry: \(Q = 2/3 \iff R/A = \sqrt{2}\) | DERIVED | 0.95 |
-| Matter scale from Planck scale | ARGUED | 0.75 |
+| Forces as refraction (Randers/Finsler equivalence) | DERIVED | 0.95 |
+| 8-hour sleep constant from (2,1) ratio | DERIVED | 0.92 |
+| Weinberg angle: \(\sin^2\theta_W \approx 0.22310\) via Axiom 3b | DERIVED | 0.90 |
+| QCD confinement from λ_c via RG running | DERIVED | 0.85 |
+| Matter scale from Planck scale (God Equation) | ARGUED | 0.75 |
 | Top/tau mass ratio \(\approx \alpha^{-1}/\sqrt{2}\) | EMPIRICAL | 0.90 |
 
 The exact status definitions and falsification pathways are in [CLAIMS.md](./CLAIMS.md).

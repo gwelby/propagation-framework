@@ -198,37 +198,47 @@ except ImportError:
     print("  qiskit-ibm-runtime not installed")
     print("  Install: pip install qiskit-ibm-runtime")
 
-IBM_SUBMIT = False  # Set to True to submit actual job
+IBM_SUBMIT = True  # Set to True to submit actual job to physical hardware
 
 if IBM_AVAILABLE and IBM_SUBMIT and QISKIT_AVAILABLE:
     print("\n  Connecting to IBM Quantum...")
     try:
-        service = QiskitRuntimeService()
-        backend = service.least_busy(operational=True, simulator=False)
+        # Authenticate using the provided API key
+        service = QiskitRuntimeService(channel="ibm_quantum_platform", token="YOUR_IBM_QUANTUM_API_KEY")
+        
+        # Pointing DIRECTLY to the 156-qubit physical hardware
+        backend = service.backend("ibm_fez")
         print(f"  Backend: {backend.name}")
 
         from qiskit_ibm_runtime import SamplerV2 as Sampler
         sampler = Sampler(backend)
 
-        job = sampler.run([qc], shots=8192)
-        print(f"  Job submitted: {job.job_id()}")
-        print(f"  Waiting for results...")
-        result = job.result()
-        counts = result[0].data.c.get_counts()
-        print(f"  Results: {counts}")
+        # Transpile the circuit for the specific backend
+        from qiskit import transpile
+        qc_transpiled = transpile(qc, backend=backend)
+
+        job = sampler.run([qc_transpiled], shots=8192)
+        print(f"  Job submitted successfully!")
+        print(f"  Job ID: {job.job_id()}")
+        print(f"  You can monitor this job on the IBM Quantum Dashboard.")
+        print(f"  Exiting script so we don't block waiting in the queue...")
+        # result = job.result()
+        # counts = result[0].data.c.get_counts()
+        # print(f"  Results: {counts}")
+        # ... rest of the analysis code ...
 
         # Analyze H_prod: do measurement outcomes factorize?
         # Note: with 2-qubit encoding, |00>=ch0, |01>=ch1, |10>=ch2
-        total = sum(counts.values())
-        ch_probs = {}
-        for bitstring, count in counts.items():
-            state = int(bitstring, 2)
-            if state < 3:
-                ch_probs[state] = ch_probs.get(state, 0) + count / total
+        # total = sum(counts.values())
+        # ch_probs = {}
+        # for bitstring, count in counts.items():
+        #     state = int(bitstring, 2)
+        #     if state < 3:
+        #         ch_probs[state] = ch_probs.get(state, 0) + count / total
 
-        print(f"\n  Hardware channel probabilities:")
-        for ch, p in sorted(ch_probs.items()):
-            print(f"    Channel {ch}: {p:.4f}")
+        # print(f"\n  Hardware channel probabilities:")
+        # for ch, p in sorted(ch_probs.items()):
+        #     print(f"    Channel {ch}: {p:.4f}")
 
     except Exception as e:
         print(f"  IBM connection error: {e}")
