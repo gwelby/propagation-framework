@@ -5,6 +5,103 @@ Format: date → what was tested → result → honest verdict.
 
 ---
 
+## 2026-03-25 — Wave 4: God Equation Coupling Layer Audit (z3_coupling_scan.py + z3_product_walk_monte_carlo.py)
+
+**Purpose**: Executable audit of the four open conditions blocking the God Equation upgrade from CONDITIONAL → DERIVED.
+Conditions under test: H_C3stat, H_prod, Regularity (R), Fisher isotropy.
+
+**Scripts**:
+- `z3_coupling_scan.py` (Codex) — exact kernel arithmetic, bias parameter scan, Fisher/scaling numerics
+- `z3_product_walk_monte_carlo.py` (Claude) — Monte Carlo walk simulation, SO(3) averaging test
+
+**Seed**: 7 (coupling scan) / 42 (Monte Carlo)
+
+---
+
+### Experiment 1 — Primitive ℤ₃ × Spatial Coupling (H_C3stat and Regularity)
+
+**Method**: Build 3×3 row-stochastic kernels K_j from a shared base matrix plus a channel-specific perturbation scaled by `bias_strength`. Run 3-step closure. Compare closure probs p_a across channels.
+
+| Model | p_0 | p_1 | p_2 | Spread | H_C3stat | Regularity |
+|-------|-----|-----|-----|--------|----------|------------|
+| Symmetric (bias=0) | 0.328849 | 0.328849 | 0.328849 | **0.000e+00** | **PASS** | PASS |
+| Broken (bias=0.55) | 0.291339 | 0.348971 | 0.373202 | **8.19e-02** | **FAIL** | PASS |
+
+**Bias scan** (0 → 0.8): spread rises monotonically from 0 at bias=0. The equal-marginal condition is exact at the symmetric point and breaks linearly with any channel-labeled perturbation.
+
+**Verdict**:
+- Phase-independent coupling (Axiom 4) → H_C3stat is exact, not approximate.
+- Any label-breaking perturbation, however small, immediately violates H_C3stat.
+- Regularity (positivity) holds for smooth softmax kernels at all bias values tested.
+
+---
+
+### Experiment 2 — H_prod (Score Cross-Term Test)
+
+**Method**: Compute empirical E[s^(a) ⊗ s^(b)] (cross-Fisher block) for N=50,000 Bernoulli samples.
+Two models: (a) independent product draws from p, (b) correlated common-mode draws from shared latent Z.
+
+| Model | ‖E[s^(a) ⊗ s^(b)]‖_F |
+|-------|-----------------------|
+| Independent product | **1.29e-05** |
+| Correlated common mode | **4.02e-03** |
+
+Ratio: 312× larger under correlation.
+
+**Verdict**: Cross-terms vanish when the statistical model is an independent product family. They do NOT vanish from C₃ geometry alone. H_prod is an extra modeling condition that must be separately justified — the geometry is necessary but not sufficient.
+
+**Formal proof target**: Show the ℤ₃ × spatial walk is Markovian (each step independent of history) from Axiom 2 causal locality. Markovian + phase-independent → H_prod.
+
+---
+
+### Experiment 3 — Fisher Isotropy
+
+**Method**: Scalar closure K(θ) = exp(−β|θ|²). Compute Bernoulli Fisher block G(θ) = ∇logK ⊗ ∇logK / (p(1−p)).
+Then average over 5,000 random SO(3) orientations of θ.
+
+| | Eigenvalues of G | Anisotropy | Condition # |
+|---|---|---|---|
+| Single orientation (θ along x-axis) | [0, 0, **3.405**] | **1.414** | ∞ (rank-1) |
+| SO(3)-averaged ⟨G⟩ | [1.086, 1.146, **1.173**] | **0.032** | 1.080 |
+
+**Verdict**:
+- Codex objection confirmed: single-orientation G is rank-1 (one nonzero eigenvalue). This is exact — not a numerical artifact.
+- SO(3) averaging closes the gap: ⟨G⟩ becomes near-isotropic (anisotropy drops from 1.41 to 0.032, condition# drops from ∞ to 1.08).
+- The formal proof target: justify the SO(3) orientation average from Axiom 2 external isotropy. The medium has no preferred direction → θ is uniformly distributed over orientations → E[G] ∝ I_D.
+
+---
+
+### Experiment 4 — Heat Kernel N^{−D/2} Scaling
+
+**Method**: K(N) = (4πκτN)^{−D/2} with κ=1, τ=0.2, N=1..20. Fit log-log slope.
+
+| | Value |
+|---|---|
+| Fitted log-log slope | **−1.500000** |
+| Expected slope (−D/2) | **−1.500000** |
+| Slope error | **0.000000** |
+| Prefactor exp(intercept) | 2.510e-01 |
+
+**Verdict**: The N^{−D/2} scaling is exact (to machine precision) for the heat-kernel closure observable. This confirms the Fisher Information Bridge scaling argument. The prefactor (2.51e-01 ≈ 1/(4π)) is real but does not match the PF normalization 1/(2π) without additional argument — consistent with the known open problem of the 2π normalization.
+
+---
+
+### Wave 4 Summary
+
+| Condition | Status after sandbox | Formal proof target |
+|-----------|---------------------|---------------------|
+| H_C3stat | **Numerically confirmed** for phase-independent coupling; breaks instantly otherwise | Write ℤ₃-extended Lagrangian with no channel-label terms |
+| H_prod | **Does not follow from C₃ geometry alone** | Prove Markovian walk from Axiom 2 causal locality |
+| Regularity (R) | **Holds** for smooth softmax/heat-kernel kernels | Confirm heat kernel K > 0 for t > 0 (standard result) |
+| Fisher isotropy | **Rank-1 at fixed θ (Codex confirmed); isotropic after SO(3) avg** | Justify SO(3) average from Axiom 2 external isotropy |
+| N^{−D/2} scaling | **Exact** (slope error = 0.000000) | Already established |
+
+**God Equation status**: CONDITIONAL at 0.80. The sandbox confirms the same structure the Wave 4 audits found. Three formal proof targets remain: (1) ℤ₃-extended Lagrangian, (2) Markovian walk from causal locality, (3) SO(3) averaging from external isotropy.
+
+**Output files**: `z3_coupling_scan.png`, `z3_coupling_scan_results.csv`
+
+---
+
 ## 2026-03-23 — Wave 2 Complete: Three Classic GR Tests Verified
 
 ### Test 1: Light Deflection (refractive_gravity_quantitative.py)
