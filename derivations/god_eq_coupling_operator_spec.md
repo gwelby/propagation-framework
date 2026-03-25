@@ -3,7 +3,7 @@
 
 **Date**: 2026-03-25
 **Authors**: Cascade (spec draft), incorporating Codex audit findings relayed by Lumi
-**Status**: SPEC v1 — formal requirements for the G2/G3 coupling operator
+**Status**: SUPERSEDED by `god_eq_t_theta_formal_spec.md` (Claude's spec is more complete: includes R1 proof via coset isotropy, S³ heat kernel construction, and shows H_prod + Lemma 2 + Regularity are all closed by construction)
 **Builds on**:
 - `god_eq_g2g3_coupling_proposal.md` (Claude) — pre-spec proposal + Codex corrections
 - `g3_product_walk_no_go.md` (Codex) — exact reduction + restricted no-go results
