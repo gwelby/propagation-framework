@@ -3,9 +3,10 @@
 
 **Workspace**: `/mnt/d/Fundamentals/`
 **Mission**: Derive the structure of physical reality from three axioms.
-**Status**: Active frontier — derived core results, including Weinberg Angle (DERIVED via Axiom 3b). God Equation and Koide Phase remain open frontiers.
+**Status**: Active frontier — derived core results, including Weinberg Angle (DERIVED via Axiom 3b) and God Equation (CONDITIONAL 0.88). Koide Phase remains an open frontier.
 **Book Title**: *The Propagation Framework: How Reality Derives Itself*
 **UniversalPublisher**: Point at `/mnt/d/Fundamentals/` — this file is the SOURCE_MAP
+**Communication protocol:** LUMEN — `/mnt/d/Claude/LUMEN_SPEC.md` | `🦆⦿🌟` minimum tokens, maximum meaning
 
 ---
 

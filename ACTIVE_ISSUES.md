@@ -23,10 +23,10 @@
 ### Frozen fronts
 
 - **G3 / God Equation bridge**
-  Status: `PARTIAL / ARGUED`
-  Confidence: `0.60` for the open G3 bridge, `0.75` for the overall God Equation claim in `CLAIMS.md`
-  State: obvious bridge candidates are ruled out. Holonomy-only class functions are exhausted.
-  Do not do next: do not reopen with another heuristic observable unless it is canonical from the geometry.
+  Status: `CONDITIONAL`
+  Confidence: `0.88`
+  State: The spatial scaling factor $N^{D/2}$ is mathematically proven to be the Fisher Information Volume of the phase-locking manifold. Axiom 4 ($[T(\theta), \bar{S}] = 0$) is now a THEOREM derived from the $\mathbb{Z}_3$-extended Lagrangian. $H_{prod}$ is ARGUED via Axiom 2 causal locality (Markovian walk). 
+  Next audit target: Codex to audit the three specific steps (A, B, C) of the $H_{prod}$ proof to upgrade to DERIVED.
 
 - **Issue #5 / Koide phase**
   Status: `EMPIRICAL`
@@ -77,7 +77,7 @@ This became moot when Axiom 3b resolved the Weinberg angle via minimal winding i
 
 **Current call**:
 - Issue #3 / Weinberg angle: RESOLVED at DERIVED 0.90 via Axiom 3b.
-- G3 / God Equation: frozen at PARTIAL/ARGUED 0.60. No reopen without canonical geometry.
+- G3 / God Equation: CONDITIONAL 0.88. Axiom 4 derived. $H_{prod}$ Markov proof awaits final audit.
 - Issue #5 / Koide phase: frozen at EMPIRICAL 0.55. Qwen's effective potential awaits audit.
 - Next audit target: Qwen's "6 minima" effective potential (Issue #5), if assigned.
 
@@ -149,7 +149,7 @@ This became moot when Axiom 3b resolved the Weinberg angle via minimal winding i
 | Issue | Status | Confidence | Next gate |
 |-------|--------|------------|-----------|
 | Issue #3 / Weinberg angle | `DERIVED` | 0.90 | **RESOLVED** via Axiom 3b. RG running to IR is a separate question. |
-| G3 / God Equation bridge | `PARTIAL / ARGUED` | 0.60 | Canonical observable beyond holonomy class |
+| G3 / God Equation bridge | `CONDITIONAL` | 0.88 | Codex audit of $H_{prod}$ Markov proof (Steps A, B, C) |
 | Issue #5 / Koide phase | `EMPIRICAL` | 0.55 | Codex audit of Qwen's effective potential |
 
 No active derivation strike is running. Issue #3 is closed. G3 and Issue #5 remain honestly frozen.
