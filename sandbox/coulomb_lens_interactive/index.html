@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coulomb Lens — Forces ARE Refraction</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a1a;
+      color: #ccc;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 12px 24px;
+      background: linear-gradient(90deg, #0d0d2a, #1a0a2e);
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-size: 18px;
+      color: #fff;
+      font-weight: 700;
+    }
+    header h1 span { color: #00cfff; }
+    header .subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .controls label {
+      font-size: 11px;
+      color: #aaa;
+    }
+    .controls input[type="range"] {
+      width: 100px;
+      accent-color: #00cfff;
+    }
+    .controls button {
+      padding: 6px 14px;
+      background: #1a2a4a;
+      border: 1px solid #336;
+      color: #00cfff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .controls button:hover { background: #2a3a5a; border-color: #00cfff; }
+    .controls button.active { background: #00cfff22; border-color: #00cfff; }
+    .controls button.repel { color: #ff4466; border-color: #633; }
+    .controls button.repel:hover { border-color: #ff4466; }
+    .controls button.repel.active { background: #ff446622; }
+
+    #canvas-wrap {
+      flex: 1;
+      position: relative;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .info-panel {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(10,10,26,0.85);
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 11px;
+      line-height: 1.6;
+      max-width: 320px;
+    }
+    .info-panel .eq {
+      color: #00cfff;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-size: 13px;
+    }
+    .info-panel .key { color: #ffdd00; font-weight: 600; }
+    .charge-label {
+      position: absolute;
+      pointer-events: none;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Coulomb Lens — <span>Forces ARE Refraction</span></h1>
+      <div class="subtitle">Propagation Framework · Drag charges to bend light rays in real time</div>
+    </div>
+    <div class="controls">
+      <label>Rays: <input type="range" id="rayCount" min="5" max="80" value="30"></label>
+      <label>Energy: <input type="range" id="energy" min="1" max="100" value="50"></label>
+      <button id="addAttract" class="active">+ Attract</button>
+      <button id="addRepel" class="repel">+ Repel</button>
+      <button id="clearAll">Clear All</button>
+      <button id="toggleField">Show Field</button>
+    </div>
+  </header>
+  <div id="canvas-wrap">
+    <canvas id="c"></canvas>
+    <div class="info-panel">
+      <div class="eq">n(r) = √(E + Σ qᵢ/|r−rᵢ|)</div>
+      <br>
+      <span class="key">Click</span> to place charges · <span class="key">Drag</span> to move them<br>
+      <span class="key">Scroll</span> on a charge to change its strength<br>
+      <span style="color:#00cfff">■</span> Attractive (q &gt; 0) · <span style="color:#ff4466">■</span> Repulsive (q &lt; 0)
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const wrap = document.getElementById('canvas-wrap');
+
+    let W, H, scale;
+    const WORLD_W = 20;
+
+    function resize() {
+      W = wrap.clientWidth;
+      H = wrap.clientHeight;
+      canvas.width = W;
+      canvas.height = H;
+      scale = W / WORLD_W;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function toScreen(wx, wy) {
+      return [(wx + WORLD_W/2) * scale, (H/2) - wy * scale];
+    }
+    function toWorld(sx, sy) {
+      return [sx / scale - WORLD_W/2, (H/2 - sy) / scale];
+    }
+
+    // State
+    let charges = [
+      { x: -2, y: 0, q: 1.0 },
+      { x: 2, y: 0, q: -0.7 },
+    ];
+    let addMode = 'attract';
+    let showField = false;
+    let dragging = null;
+    let dragOffset = [0, 0];
+
+    // Controls
+    document.getElementById('addAttract').addEventListener('click', function() {
+      addMode = 'attract';
+      this.classList.add('active');
+      document.getElementById('addRepel').classList.remove('active');
+    });
+    document.getElementById('addRepel').addEventListener('click', function() {
+      addMode = 'repel';
+      this.classList.add('active');
+      document.getElementById('addAttract').classList.remove('active');
+    });
+    document.getElementById('clearAll').addEventListener('click', () => {
+      charges = [];
+    });
+    document.getElementById('toggleField').addEventListener('click', function() {
+      showField = !showField;
+      this.classList.toggle('active', showField);
+    });
+
+    // Mouse
+    canvas.addEventListener('mousedown', (e) => {
+      const [wx, wy] = toWorld(e.offsetX, e.offsetY);
+      for (let i = 0; i < charges.length; i++) {
+        const c = charges[i];
+        const d = Math.sqrt((wx-c.x)**2 + (wy-c.y)**2);
+        if (d < 0.5) {
+          dragging = i;
+          dragOffset = [wx - c.x, wy - c.y];
+          return;
+        }
+      }
+      charges.push({ x: wx, y: wy, q: addMode === 'attract' ? 1.0 : -1.0 });
+    });
+    canvas.addEventListener('mousemove', (e) => {
+      if (dragging !== null) {
+        const [wx, wy] = toWorld(e.offsetX, e.offsetY);
+        charges[dragging].x = wx - dragOffset[0];
+        charges[dragging].y = wy - dragOffset[1];
+      }
+    });
+    canvas.addEventListener('mouseup', () => { dragging = null; });
+    canvas.addEventListener('mouseleave', () => { dragging = null; });
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const [wx, wy] = toWorld(e.offsetX, e.offsetY);
+      for (const c of charges) {
+        const d = Math.sqrt((wx-c.x)**2 + (wy-c.y)**2);
+        if (d < 0.8) {
+          c.q += (e.deltaY < 0 ? 0.1 : -0.1);
+          if (Math.abs(c.q) < 0.05) c.q = 0.05 * Math.sign(c.q || 1);
+          break;
+        }
+      }
+    }, { passive: false });
+
+    // Physics
+    function nSquared(x, y, E) {
+      let pot = 0;
+      for (const c of charges) {
+        const r = Math.sqrt((x-c.x)**2 + (y-c.y)**2);
+        pot += c.q / Math.max(r, 0.08);
+      }
+      return E + pot;
+    }
+
+    function nVal(x, y, E) {
+      return Math.sqrt(Math.max(nSquared(x, y, E), 1e-8));
+    }
+
+    function gradN(x, y, E) {
+      const nv = nVal(x, y, E);
+      if (nv < 1e-6) return [0, 0];
+      let gx = 0, gy = 0;
+      for (const c of charges) {
+        const dx = x - c.x, dy = y - c.y;
+        const r = Math.sqrt(dx*dx + dy*dy);
+        const rm = Math.max(r, 0.08);
+        const f = -c.q / (rm * rm * rm);
+        gx += f * dx;
+        gy += f * dy;
+      }
+      return [gx / (2*nv), gy / (2*nv)];
+    }
+
+    function traceRay(x0, y0, angle, E, maxSteps) {
+      const nv = nVal(x0, y0, E);
+      if (nv < 1e-6) return [];
+      let x = x0, y = y0;
+      let px = nv * Math.cos(angle);
+      let py = nv * Math.sin(angle);
+      const ds = 0.02;
+      const pts = [[x, y]];
+
+      for (let i = 0; i < maxSteps; i++) {
+        const n = nVal(x, y, E);
+        if (n < 1e-6) break;
+        const [gx, gy] = gradN(x, y, E);
+
+        x += (px / n) * ds;
+        y += (py / n) * ds;
+        px += gx * ds;
+        py += gy * ds;
+
+        let tooClose = false;
+        for (const c of charges) {
+          if (Math.sqrt((x-c.x)**2 + (y-c.y)**2) < 0.1) { tooClose = true; break; }
+        }
+        if (tooClose) break;
+
+        const halfW = WORLD_W / 2 + 2;
+        const halfH = H / scale / 2 + 2;
+        if (Math.abs(x) > halfW || Math.abs(y) > halfH) break;
+
+        pts.push([x, y]);
+      }
+      return pts;
+    }
+
+    // Render
+    let fieldImageData = null;
+    let fieldDirty = true;
+    let lastChargeState = '';
+
+    function renderField() {
+      const step = 4;
+      const E = getEnergy();
+      const imgData = ctx.createImageData(W, H);
+      for (let sy = 0; sy < H; sy += step) {
+        for (let sx = 0; sx < W; sx += step) {
+          const [wx, wy] = toWorld(sx, sy);
+          const ns = nSquared(wx, wy, E);
+          const val = Math.min(Math.max(ns * 80, 0), 255);
+          for (let dy = 0; dy < step && sy+dy < H; dy++) {
+            for (let dx = 0; dx < step && sx+dx < W; dx++) {
+              const idx = ((sy+dy)*W + (sx+dx))*4;
+              if (ns < 0) {
+                imgData.data[idx] = 30;
+                imgData.data[idx+1] = 0;
+                imgData.data[idx+2] = 40;
+              } else {
+                imgData.data[idx] = Math.min(val * 0.8, 200);
+                imgData.data[idx+1] = Math.min(val * 0.5, 120);
+                imgData.data[idx+2] = Math.min(val * 0.2, 60);
+              }
+              imgData.data[idx+3] = 100;
+            }
+          }
+        }
+      }
+      return imgData;
+    }
+
+    function getEnergy() {
+      return parseFloat(document.getElementById('energy').value) / 50.0;
+    }
+
+    function getRayCount() {
+      return parseInt(document.getElementById('rayCount').value);
+    }
+
+    function draw() {
+      ctx.fillStyle = '#0a0a1a';
+      ctx.fillRect(0, 0, W, H);
+
+      const E = getEnergy();
+      const rayCount = getRayCount();
+
+      // Field background
+      if (showField && charges.length > 0) {
+        const stateKey = charges.map(c => `${c.x.toFixed(2)},${c.y.toFixed(2)},${c.q.toFixed(2)}`).join('|') + E.toFixed(2);
+        if (stateKey !== lastChargeState) {
+          fieldImageData = renderField();
+          lastChargeState = stateKey;
+        }
+        if (fieldImageData) ctx.putImageData(fieldImageData, 0, 0);
+      }
+
+      // Grid
+      ctx.strokeStyle = '#1a1a2e';
+      ctx.lineWidth = 0.5;
+      for (let wx = -10; wx <= 10; wx++) {
+        const [sx] = toScreen(wx, 0);
+        ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, H); ctx.stroke();
+      }
+      const worldH = H / scale;
+      for (let wy = -Math.ceil(worldH/2); wy <= Math.ceil(worldH/2); wy++) {
+        const [, sy] = toScreen(0, wy);
+        ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(W, sy); ctx.stroke();
+      }
+
+      // Rays
+      if (charges.length > 0) {
+        const spread = H / scale;
+        for (let i = 0; i < rayCount; i++) {
+          const frac = (i + 0.5) / rayCount;
+          const y0 = -spread/2 + frac * spread;
+          const x0 = -WORLD_W/2 + 0.5;
+          const pts = traceRay(x0, y0, 0, E, 1200);
+
+          if (pts.length < 2) continue;
+
+          const hue = 180 + frac * 60;
+          ctx.strokeStyle = `hsla(${hue}, 80%, 60%, 0.7)`;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          const [sx0, sy0] = toScreen(pts[0][0], pts[0][1]);
+          ctx.moveTo(sx0, sy0);
+          for (let j = 1; j < pts.length; j++) {
+            const [sx, sy] = toScreen(pts[j][0], pts[j][1]);
+            ctx.lineTo(sx, sy);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // Charges
+      for (const c of charges) {
+        const [sx, sy] = toScreen(c.x, c.y);
+        const r = Math.max(8, Math.abs(c.q) * 12);
+        const color = c.q > 0 ? '#00cfff' : '#ff4466';
+        const glow = c.q > 0 ? 'rgba(0,207,255,0.3)' : 'rgba(255,68,102,0.3)';
+
+        ctx.beginPath();
+        ctx.arc(sx, sy, r + 6, 0, Math.PI*2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(sx, sy, r, 0, Math.PI*2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText((c.q > 0 ? '+' : '') + c.q.toFixed(1), sx, sy - r - 6);
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
