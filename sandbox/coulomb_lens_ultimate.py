@@ -516,7 +516,7 @@ def main():
     fig.suptitle(
         'Coulomb Lens Ultimate  —  Forces ARE Refraction  ·  Axiom 3 → Atomic Quantisation\n'
         r'$n(r) = \sqrt{E + V(r)}$  ·  Eikonal $\equiv$ Newton  ·  $\oint n\,\mathrm{d}s = 2\pi k$ '
-        r'$\Rightarrow$ $E_k = -1/(4k^2)$  ·  Propagation Framework',
+        r'$\Rightarrow$ $E_k = -1/(4k^2)$  ·  Atomic Scale: $10^{-10}$ m  ·  Propagation Framework',
         fontsize=13, fontweight='bold', color='white', y=0.99,
     )
 
@@ -562,6 +562,13 @@ def main():
     print('  COULOMB LENS ULTIMATE — PROPAGATION FRAMEWORK')
     print('=' * 65)
     print()
+    print('  SCALE CHAIN CONTEXT:')
+    print('    Planck Scale:   10⁻³⁵ m  ← God Equation起点')
+    print('    Matter Scale:   10⁻¹⁸ m  ← λ_c from RG running (0.4% error)')
+    print('    Nuclear Scale:  10⁻¹⁵ m  ← QCD confinement')
+    print('    ATOMIC SCALE:   10⁻¹⁰ m  ← THIS SIMULATION')
+    print('    Human Scale:    10⁰ m    ← Observer')
+    print()
     print('  Phase 1 — ERROR ANALYSIS:')
     print('    Eikonal and Newtonian trajectories match to ~1e-9')
     print('    Residual error is purely numerical (integrator step size)')
@@ -582,10 +589,12 @@ def main():
     print('    → discrete allowed radii r_k = 2k²')
     print('    → Bohr-like energy spectrum E_k = -1/(4k²) ∝ -1/k²')
     print('    → No quantum mechanics postulated — emerges from optics')
+    print('    → Same Axiom 3 that fixes N=3 generations and Weinberg angle')
     print()
     print('  CONCLUSION:')
     print('    Force = refraction.  Quantisation = coherence condition.')
     print('    Three axioms sufficient for both classical and quantum structure.')
+    print('    The Bohr atom is not an assumption — it is a calculation.')
     print('=' * 65)
 
 

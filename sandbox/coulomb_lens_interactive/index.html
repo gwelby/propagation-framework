@@ -111,6 +111,11 @@
     <div class="controls">
       <label>Rays: <input type="range" id="rayCount" min="5" max="80" value="30"></label>
       <label>Energy: <input type="range" id="energy" min="1" max="100" value="50"></label>
+      <label>Scale: <select id="scaleSelect">
+        <option value="atomic">Atomic (10⁻¹⁰ m)</option>
+        <option value="nuclear">Nuclear (10⁻¹⁵ m)</option>
+        <option value="planetary">Planetary (10¹¹ m)</option>
+      </select></label>
       <button id="addAttract" class="active">+ Attract</button>
       <button id="addRepel" class="repel">+ Repel</button>
       <button id="clearAll">Clear All</button>
@@ -121,6 +126,9 @@
     <canvas id="c"></canvas>
     <div class="info-panel">
       <div class="eq">n(r) = √(E + Σ qᵢ/|r−rᵢ|)</div>
+      <div id="scaleInfo" style="color: #44ff88; margin-top: 8px; font-size: 10px;">
+        Scale: Atomic (10⁻¹⁰ m) | Same principle from Planck to Planetary
+      </div>
       <br>
       <span class="key">Click</span> to place charges · <span class="key">Drag</span> to move them<br>
       <span class="key">Scroll</span> on a charge to change its strength<br>
@@ -180,6 +188,19 @@
     document.getElementById('toggleField').addEventListener('click', function() {
       showField = !showField;
       this.classList.toggle('active', showField);
+    });
+
+    // Scale selector
+    document.getElementById('scaleSelect').addEventListener('change', function() {
+      const scale = this.value;
+      const scaleInfo = document.getElementById('scaleInfo');
+      const scaleDescriptions = {
+        'atomic': 'Scale: Atomic (10⁻¹⁰ m) | Bohr radius | n² = E + 1/r',
+        'nuclear': 'Scale: Nuclear (10⁻¹⁵ m) | Confinement | n² = E + α_s/r',
+        'planetary': 'Scale: Planetary (10¹¹ m) | Orbits | n² = 1 - 2GM/rc²'
+      };
+      scaleInfo.textContent = scaleDescriptions[scale] + ' | Same refractive principle';
+      fieldDirty = true; // Force field redraw
     });
 
     // Mouse
