@@ -145,7 +145,8 @@ def newton_rhs(t, state, sign, sources):
 
 def integrate_newton(x0, y0, theta, E, sign=+1, sources=None, t_max=80):
     if sources:
-        pot = sum(q / max(np.sqrt((x0-sx)**2 + (y0-sy)**2), 0.05) for sx, sy, q in sources)
+        pot = sum(q / max(np.sqrt((x0-sx)**2 + (y0-sy)**2), 0.05)
+                  for sx, sy, q in sources)
     else:
         r0 = max(np.sqrt(x0**2 + y0**2), 0.05)
         pot = sign / r0
@@ -240,7 +241,8 @@ def phase1_error_analysis(ax_orbit, ax_error):
 
         err = np.sqrt((xe - xn)**2 + (ye - yn)**2)
         err = np.maximum(err, 1e-16)
-        ax_error.semilogy(t_common, err, color=col, lw=1.2, alpha=0.9, label=lab)
+        ax_error.semilogy(t_common, err, color=col, lw=1.2,
+                          alpha=0.9, label=lab)
 
     source_dot(ax_orbit)
     ax_orbit.set_xlim(-3, 2)
@@ -252,8 +254,8 @@ def phase1_error_analysis(ax_orbit, ax_error):
     ax_error.set_xlabel('arc length / time', color='#888', fontsize=7)
     ax_error.set_ylabel('|Δr|', color='#888', fontsize=7)
     ax_error.axhline(1e-8, color='#444', ls=':', lw=0.8)
-    ax_error.text(0.5, 2e-8, 'machine ε region', color='#666', fontsize=6,
-                  transform=ax_error.get_xaxis_transform())
+    ax_error.text(0.5, 2e-8, 'machine ε region', color='#666',
+                  fontsize=6, transform=ax_error.get_xaxis_transform())
     ax_error.legend(fontsize=6, facecolor='#111', labelcolor='white', edgecolor='#333')
     ax_error.set_ylim(1e-14, 1e0)
 

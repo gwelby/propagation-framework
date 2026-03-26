@@ -18,7 +18,6 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 from scipy.integrate import solve_ivp
 from pathlib import Path
 
@@ -226,7 +225,7 @@ def panel3_gravity_planetary(ax_grav):
     style_ax(ax_grav, 'Phase 5C: Gravitational Refraction (Planetary Scale)')
     
     M = 1.0  # Central mass
-    x0, y0 = -8.0, 0.0
+    x0 = -8.0
     impact_bs = np.linspace(0.5, 4.0, 10)
     colors = plt.cm.autumn(np.linspace(0.2, 0.8, len(impact_bs)))
     
