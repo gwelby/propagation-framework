@@ -5,6 +5,100 @@ Format: date → what was tested → result → honest verdict.
 
 ---
 
+## 2026-03-26 — Chirality vs Mixing in the Z3 Generation Walk (`chiral_vs_symmetric_entropy.py`)
+
+**Purpose**: Make the Gap B no-go physically legible. Compare a pure chiral shift (`0 -> 1 -> 2 -> 0`) against the symmetric two-way nearest-neighbor walk that Codex showed does **not** diagonalize after three steps. Then scan the one-parameter family between them to see exactly where identity preservation breaks.
+
+**Script**: `chiral_vs_symmetric_entropy.py`
+**Outputs**:
+- `chiral_vs_symmetric_entropy.png`
+- `chiral_vs_symmetric_phase_scan.png`
+- `chiral_vs_symmetric_phase_scan.csv`
+
+### Experiment A — Endpoint comparison
+
+**Operators**:
+
+Chiral:
+```text
+S_bar =
+[[0,0,1],
+ [1,0,0],
+ [0,1,0]]
+```
+
+Symmetric mixing:
+```text
+T_sym = 0.5 (S_bar + S_bar^2) =
+[[0,  0.5, 0.5],
+ [0.5,0,   0.5],
+ [0.5,0.5, 0  ]]
+```
+
+**Metrics**:
+- Shannon entropy of a localized generation state
+- Return probability to the initial generation
+- Mutual information `I(X0 ; Xt)` for a uniform ensemble of initial generations
+
+**Key results**:
+
+| Step | Chiral H | Symmetric H | Chiral return | Symmetric return | Chiral I(X0;Xt) | Symmetric I(X0;Xt) |
+|------|----------|-------------|---------------|------------------|-----------------|--------------------|
+| 0 | 0.000000 | 0.000000 | 1.000000 | 1.000000 | 1.584963 | 1.584963 |
+| 3 | 0.000000 | 1.561278 | 1.000000 | 0.250000 | 1.584963 | 0.023684 |
+| 6 | 0.000000 | 1.584612 | 1.000000 | 0.343750 | 1.584963 | 0.000350 |
+| 18 | 0.000000 | 1.584963 | 1.000000 | 0.333336 | 1.584963 | 0.000000 |
+
+**Interpretation**:
+- The chiral walk is a permutation. It preserves generation identity perfectly and restores the initial generation every three steps.
+- The symmetric walk thermalizes the localized generation state into the maximally mixed `Z3` distribution.
+- This is the executable form of the Gap B no-go: two-way nearest-neighbor mixing destroys generation identity even though the walk remains circulant.
+
+### Experiment B — Chirality-to-mixing phase scan
+
+**Family scanned**:
+```text
+T_eta = p_fwd S_bar + p_bwd S_bar^2
+p_fwd = (1 + eta)/2
+p_bwd = (1 - eta)/2
+```
+
+with:
+- `eta = 1` -> pure chiral shift
+- `eta = 0` -> symmetric mixing
+
+**Scan results**:
+
+| Threshold | Result |
+|-----------|--------|
+| 50% one-cycle information retention `I(t=3)/log2(3) >= 0.5` | **eta ≈ 0.86** |
+| 90% one-cycle information retention `I(t=3)/log2(3) >= 0.9` | **eta ≈ 0.99** |
+| 90% 3-step return probability `P(return at t=3) >= 0.9` | **eta ≈ 0.94** |
+| Long-horizon retention `I(t=18)/log2(3)` | **goes to 0 for every eta < 1** |
+
+Representative rows from the CSV:
+
+| eta | Return t=3 | I(t=3)/log2(3) | Return t=18 | I(t=18)/log2(3) |
+|-----|------------|----------------|-------------|-----------------|
+| 0.00 | 0.2500 | 0.0149 | 0.333336 | ~0 |
+| 0.86 | 0.8047 | 0.5054 | 0.3660 | 0.0192 |
+| 0.94 | 0.9127 | 0.7196 | 0.5919 | 0.1948 |
+| 0.99 | 0.9851 | 0.9290 | 0.9138 | 0.7193 |
+| 1.00 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+
+**Verdict**: **STRONG SANDBOX SUPPORT FOR CHIRAL IDENTITY PRESERVATION**.
+The scan makes the stability-versus-mixing tradeoff quantitative:
+- modest symmetry breaking improves short-cycle retention
+- but **perfect** long-horizon identity is isolated at the pure-shift endpoint `eta = 1`
+- any backward-mixing component (`eta < 1`) eventually erodes generation information in this family
+
+**Honest status**:
+- This does **not** derive chirality from Axioms 1–3.
+- It **does** show that if the primitive coupling has any genuine two-way nearest-neighbor component, identity leaks over repeated closure cycles.
+- This is consistent with the algebraic no-go in `derivations/god_eq_gap_B_nearest_neighbor_no_go.md`.
+
+---
+
 ## 2026-03-25 — Wave 5: Full Sandbox Expansion (6 experiments)
 
 **Purpose**: Systematic computational attack on all open empirical signals and framework gaps.
