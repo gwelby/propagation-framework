@@ -188,9 +188,9 @@ You know how there are three bears in Goldilocks — Papa Bear, Mama Bear, and B
 
 ### 📖 Student
 
-The two-flip particles (fermions) each carry weight 2. The one-flip particles (bosons) have 3 types (from the 3 dimensions of space, via Goldstone's theorem — when a symmetry breaks, you get one new particle for each broken direction).
+The two-flip particles (fermions) each carry weight 2. The one-flip side of the story still has one live theorem gap: the framework has strong reasons to expect a denominator of 3 from 3D space, but the exact PF proof is not yet fully closed.
 
-So the total weight is: **2N** (from N generations of fermions) + **3** (from the bosons).
+So the total weight is argued to be: **2N** (from N generations of fermions) + **3** (from the bosonic side of the lock).
 
 The Koide formula tells us the ratio should be **2/3**. Setting up the equation:
 
@@ -198,20 +198,20 @@ $$Q(N) = \frac{2N}{2N + 3} = \frac{2}{3}$$
 
 Cross-multiply: $6N = 4N + 6$, so $2N = 6$, giving **N = 3**.
 
-Three generations of matter. Not because God likes the number 3. Because space has 3 dimensions.
+Three generations of matter, conditionally. Not because anyone likes the number 3, but because the framework is trying to show that 3D space forces a denominator of 3.
 
 ### 🎓 PhD
 
 The generation count formula emerges from two inputs:
 
 1. **Numerator** $2N$: Each generation contributes one fermion family with topological weight 2. $N$ generations give total fermionic weight $2N$.
-2. **Denominator** $2N + 3$: The total topological weight includes $\dim(SO(3)) = 3$ massive gauge bosons from Goldstone's theorem applied to the SO(3) symmetry breaking.
+2. **Denominator** $2N + 3$: the total topological weight is argued to include a bosonic denominator of 3 from the 3D geometry / broken-symmetry structure, but that exact theorem is still the live hinge.
 
 Setting $Q = 2/3$ (the Koide geometric identity — see Result 3):
 
 $$\frac{2N}{2N+3} = \frac{2}{3} \implies N = 3$$
 
-This is the unique integer solution.
+This is the unique integer solution once the denominator theorem is granted.
 
 **Derivation files**: `derivations/topological_weight_from_propagation.md`, `derivations/topological_pressure_derivation.md`
 
@@ -718,7 +718,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | Result | Status | Confidence | Level |
 |--------|--------|------------|-------|
 | **(2,1) Topological Weights** | **DERIVED** | 0.98 | Theorem |
-| **Three Generations (N=3)** | **DERIVED** | 0.98 | Theorem |
+| **Three Generations (N=3)** | **CONDITIONAL** | 0.85 | Algebra exact once the denominator theorem closes |
 | **Koide Q = 2/3** | **DERIVED** | 0.95 | Theorem |
 | **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |
 | **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | 0.82 | Model theorem; stronger axiom-only claim failed audit |
@@ -764,9 +764,9 @@ At Every Level:
 
 **💒 Age 5**: Everything is ripples in a pond. The ripples have a speed limit, and they only make patterns when they work together in rhythm. Those patterns are what we call "stuff." The number 3 keeps showing up because we live in a 3-direction world. And the same rule that says ripples must sync up also explains why atoms have only certain sizes — and even why you sleep 8 hours.
 
-**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, three generations of matter, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), the Weinberg angle, and the 8-hour sleep cycle. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
+**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), the Weinberg angle, and the 8-hour sleep cycle. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the 3D denominator theorem closes, `N = 3` follows uniquely. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
 
-**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. Combined with Goldstone's theorem for dim(SO(3)) = 3, this uniquely determines N = 3 generations. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
+**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. The repo then combines that with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if that denominator theorem closes at `M = 3`, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 
 **🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
 

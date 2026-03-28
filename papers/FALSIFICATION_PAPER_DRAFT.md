@@ -77,9 +77,9 @@ $$W_{total} = 2N + M$$
 The leptonic Koide ratio is the fraction of the total weight carried by the fermionic sector:
 $$Q = \frac{2N}{2N + M}$$
 
-**Claim T2 (DERIVED):** In 3D space, the number of independent massive perturbation modes around a point-like topological defect (Fermi point) equals the co-dimension of that defect: $\text{co-dim} = D - 0 = 3$ for a point defect in $D = 3$ spatial dimensions. Therefore $M = 3$.
+**Claim T2 (PARTIAL DERIVATION):** In 3D space, the denominator is strongly supported by convergent co-dimension / `SO(3)` / broken-symmetry arguments, all pointing to `M = 3`. But the current repo still lacks one single PF theorem proving that the co-dimension of the point defect, the number of broken directions, and the number of relevant massive restoration modes are rigorously identical. Therefore `M = 3` is not yet fully closed.
 
-This grounds the denominator in the spatial dimension independently of the observed count of weak bosons. (Volovik [2003] derived the same result for superfluid $^3$He from analogous reasoning; here it follows from the framework's own axioms.)
+This grounds the denominator in the spatial dimension independently of the observed count of weak bosons. (Volovik [2003] derived the same result for superfluid $^3$He from analogous reasoning; here the framework has a strong convergent route to the same result, but not yet a single closed theorem.)
 
 Substituting $M = 3$:
 $$Q(N) = \frac{2N}{2N + 3}$$
@@ -87,7 +87,7 @@ $$Q(N) = \frac{2N}{2N + 3}$$
 Setting $Q = 2/3$ (the Koide ratio, measured):
 $$\frac{2}{3} = \frac{2N}{2N+3} \implies N = 3$$
 
-**Claim T3 (DERIVED):** The number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights $(2,1)$.
+**Claim T3 (CONDITIONAL):** If the denominator theorem `M = 3` holds, then the number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights $(2,1)$.
 
 ### 3.3 Why Q = 2/3 Is Exact: The Geometric Identity
 
@@ -305,7 +305,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
 | T1: (2,1) topological weights | DERIVED | 0.98 | — |
-| T3: N=3 uniquely forced | DERIVED | 0.98 | — |
+| T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close the denominator theorem `M = 3` from PF axioms alone |
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
 | Sleep 8h constant | DERIVED | 0.92 | — |

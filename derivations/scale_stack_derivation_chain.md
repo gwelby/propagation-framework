@@ -288,7 +288,7 @@ In descending order of formal strength:
 
 1. **Bohr-like circular spectrum from phase closure** — within the circular eikonal Coulomb model, phase closure gives `r_k = 2k²`, `E_k = -1/(4k²)`. Hostile audit demoted the stronger axiom-only wording. CONDITIONAL 0.82.
 
-2. **(2,1) topological weights → N=3 generations** — from $\pi_1(\text{SO}(3)) \cong \mathbb{Z}_2$ and Goldstone's theorem. DERIVED 0.98.
+2. **(2,1) topological weights -> conditional N=3** — once the denominator theorem `M = 3` closes, `Q(N)=2N/(2N+3)=2/3` fixes `N=3` uniquely. The numerator is secure; the denominator remains the live theorem hinge. CONDITIONAL 0.85.
 
 3. **Weinberg angle from Axiom 3b** — Casimir polynomial $x^2 + C_2 x - C_2 = 0$ with minimal winding $k=1$ gives $\sin^2\theta_W = 0.22310$ (0.13σ from PDG). DERIVED 0.90.
 
