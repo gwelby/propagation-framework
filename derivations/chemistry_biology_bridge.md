@@ -18,7 +18,7 @@ This document derives the Propagation Framework's account of the chemistry-biolo
 **Key Findings**:
 1. Quantum coherence in biology (photosynthesis, enzyme catalysis) is empirically established (2007-2024 literature)
 2. The Fröhlich hypothesis (1968) predicted coherent electric oscillations in biological systems — partially confirmed, but not universally
-3. The Propagation Framework derives the 8-hour sleep requirement from topological stability (Scale 7)
+3. The Propagation Framework argues for a sleep-like consolidation duty cycle from topological stability motifs (Scale 7)
 4. The framework cannot yet define a numeric "life threshold" — this remains an open gap
 5. The framework is consistent with Schrödinger's "negative entropy" but adds a coherence-based mechanism
 
@@ -244,7 +244,7 @@ Propagation Framework: Life is a dynamical process — a pattern that actively r
 
 ### 5.1 The Claim
 
-The Propagation Framework derives the 8-hour sleep requirement from topological stability:
+The Propagation Framework argues for a sleep-like consolidation ratio from topological stability:
 - Fermions (matter) require topological cost 2 (two full rotations to return to stability)
 - Bosons (forces) require topological cost 1
 - This (2,1) ratio is the bedrock geometric rule of the particle spectrum
@@ -255,7 +255,7 @@ The Propagation Framework derives the 8-hour sleep requirement from topological 
 
 **Observed**: Humans require ~8 hours sleep per 24-hour cycle. This is not cultural — it is biological.
 
-**Framework prediction**: The 8-hour requirement is not evolutionary contingency. It is a topological necessity for any (2,1) system maintaining coherence.
+**Framework hypothesis**: A PF-style `(2,1)` system can prefer a substantial offline consolidation fraction. The exact human 8-hour requirement is still an argued bridge, not a closed theorem.
 
 **What would falsify this**:
 - Finding a stable sentient species with a 9:1 or 5:1 wake:sleep ratio
@@ -307,7 +307,7 @@ The Propagation Framework derives the 8-hour sleep requirement from topological 
 |------------|-------------------|--------|
 | Photosynthetic coherence | Coherence maintained where functionally necessary | Consistent |
 | Enzyme tunneling | Coherence-focusing by protein dynamics | Consistent |
-| 8-hour sleep | (2,1) topological stability ratio | Derived (0.72) |
+| 8-hour sleep | PF-inspired `(2,1)` consolidation ratio | Argued (0.72) |
 | Life vs. non-life | Active coherence maintenance | Argued (no numeric threshold) |
 | Fröhlich coherence | Maintained if functionally necessary | Partially confirmed |
 
@@ -326,7 +326,7 @@ The Propagation Framework derives the 8-hour sleep requirement from topological 
 
 **Rationale**:
 - Framework is consistent with empirical biology (photosynthesis, enzymes)
-- Derivation of 8-hour sleep is a novel prediction (not yet cross-species validated)
+- Sleep-duty-cycle proposal is a novel PF bridge, but not yet a theorem or cross-species law
 - No numeric threshold derived — prevents confidence increase
 - No falsification — framework survives contact with biology
 

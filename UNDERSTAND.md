@@ -511,15 +511,15 @@ The key steps:
 
 ### 💒 Age 5
 
-Your body is made of the two-flip kind of stuff (fermions — weight 2) living in a world with the one-flip kind of stuff (bosons — weight 3). To stay healthy, you need to be awake for 2 parts and asleep for 1 part. 2 out of 3 = awake for 16 hours, asleep for 8. That's why you need to go to bed!
+Your body needs time to do things and time to reset. The framework says stable systems cannot run at full speed forever. A simple PF-style model likes about 2 parts active time for every 1 part recovery time, which is why “16 awake, 8 asleep” is a good picture, but not a closed theorem of nature.
 
 ### 📖 Student
 
-The (2,1) topological weight ratio says: fermions weight 2, bosons weight 3 in total. The optimal operating ratio for a (2,1) system is **2/3 active, 1/3 recovery** — because that's the stable balance point where coherent processing is maximized.
+The current T-010 model says a PF-inspired encode/recover system can favor about **2/3 active, 1/3 recovery**. That is a meaningful model result, but hostile audit downgraded the stronger claim that this exact ratio is already derived from the axioms for biological sleep.
 
 For a 24-hour day: $24 \times 1/3 = 8$ hours of sleep.
 
-This is the same 2/3 ratio that appears in the Koide formula and the generation count. The same topology that governs quarks governs your mattress.
+The model is inspired by the same 2/3 structure that appears elsewhere in PF, but the bridge from particle-scale topology to biological sleep is still argued rather than closed.
 
 ### 🎓 PhD
 
@@ -529,9 +529,9 @@ $$\text{wake fraction} = \frac{w_\text{fermion}}{w_\text{fermion} + w_\text{boso
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.92**.
+**Status: ARGUED.** Confidence: **0.72**.
 
-**Falsification**: Finding a stable sentient species with a 9:1 wake:sleep ratio. All known mammals, birds, and reptiles cluster around 1/3 ± 0.1 sleep fraction. Even dolphins, which sleep with one hemisphere at a time, accumulate approximately 8 hours total per day.
+**Falsification / pressure test**: Quantitative evidence that high-capacity systems do not benefit from offline consolidation fractions near `1/3`, or a cleaner biological theory showing the relevant sleep fraction is set by species-specific evolutionary constraints with no PF-style topological component.
 
 ---
 
@@ -722,7 +722,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **Koide Q = 2/3** | **DERIVED** | 0.95 | Theorem |
 | **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |
 | **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | 0.82 | Model theorem; stronger axiom-only claim failed audit |
-| **8h Sleep Constant** | **DERIVED** | 0.92 | Theorem |
+| **8h Sleep Constant** | **ARGUED** | 0.72 | T-010 model + empirical support; not a closed theorem |
 | **Weinberg Angle** | **DERIVED** | 0.90 | Theorem (via Axiom 3b) |
 | **QCD Confinement** | **ARGUED** | 0.72 | RG bridge; theorem-grade closure not yet earned |
 | **Bekenstein Bound** | **DERIVED** | — | Theorem |
@@ -764,7 +764,7 @@ At Every Level:
 
 **💒 Age 5**: Everything is ripples in a pond. The ripples have a speed limit, and they only make patterns when they work together in rhythm. Those patterns are what we call "stuff." The number 3 keeps showing up because we live in a 3-direction world. And the same rule that says ripples must sync up also explains why atoms have only certain sizes — and even why you sleep 8 hours.
 
-**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), the Weinberg angle, and the 8-hour sleep cycle. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the 3D denominator theorem closes, `N = 3` follows uniquely. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
+**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), and the Weinberg angle. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the 3D denominator theorem closes, `N = 3` follows uniquely. The sleep story survives as an argued biological bridge plus a PF-inspired T-010 model, not a closed 8-hour theorem. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
 
 **🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. The repo then combines that with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if that denominator theorem closes at `M = 3`, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 

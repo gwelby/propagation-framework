@@ -308,7 +308,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close the denominator theorem `M = 3` from PF axioms alone |
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
-| Sleep 8h constant | DERIVED | 0.92 | — |
+| Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
 | W1: Weinberg angle sin²θ_W | DERIVED | 0.90 | Derive RG running to IR value 0.231 |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Formal proof that co-dimension equals M for all D |
@@ -338,7 +338,7 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The coherence length $\lambda_c$ is calibrated to the top quark mass rather than derived from first principles ($0.4\%$ numerical agreement via the God Equation, but the N^{D/2} bridge remains open). The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (sleep cycles, EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has seven DERIVED results with confidence $\geq 0.85$, plus the God Equation at ARGUED 0.75 with $0.4\%$ numerical accuracy. The path to further confirmation requires experimental validation of unique predictions — things this framework predicts and the Standard Model does not.
+The framework now has multiple DERIVED results with confidence $\geq 0.85$, plus a wider ring of argued bridges and model theorems. The path to further confirmation requires experimental validation of unique predictions — things this framework predicts and the Standard Model does not.
 
 The five tests above define that path.
 

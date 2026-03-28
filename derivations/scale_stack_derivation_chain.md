@@ -182,7 +182,7 @@ This is a Bohr-like `1/k^2` spectrum in natural units for the circular-orbit fam
 
 **Empirical grounding**:
 - Quantum coherence in biology (photosynthesis FMO complex, enzyme tunneling) is empirically established (Engel 2007, Scrutton 2000).
-- The (2,1) topological weight ratio gives 8-hour sleep cycle: DERIVED 0.92 (see Link 6).
+- The PF-inspired T-010 encode/recover model gives a plausible `~2/3` active fraction for sleep-like consolidation: ARGUED 0.72 (see Link 6).
 - No numeric threshold for "minimum coherence to be alive" has been derived.
 
 **Status**: `ARGUED 0.72`
@@ -197,19 +197,19 @@ This is a Bohr-like `1/k^2` spectrum in natural units for the circular-orbit fam
 
 ### Link 6: Cell Scale → Human Scale (Topology → Sleep Constant)
 
-**What is derived**: The 8-hour sleep requirement from the (2,1) topological weight partition.
+**What is argued**: A PF-inspired encode/recover model can favor a `~2/3` active fraction, making a human-scale 8-hour sleep constant plausible rather than derived.
 
-**From**: Axiom 3 → $\pi_1(\text{SO}(3)) \cong \mathbb{Z}_2$ → (2,1) topological weights → stability-maximizing duty cycle $= 2/(2+1) = 2/3$ wake.
+**From**: Axiom 3 → coherence requires offline reconciliation → PF-inspired `(2,1)` encode/recover weighting → candidate stability-favoring duty cycle near `2/3` wake.
 
 **Key step**:
 
 $$\text{wake fraction} = \frac{w_\text{fermion}}{w_\text{fermion} + w_\text{boson}} = \frac{2}{3} \implies \text{sleep} = 24 \times \frac{1}{3} = 8\,\text{hours}$$
 
-The same topology that governs the quark/lepton spectrum governs the optimal operating ratio for a coherence-maintaining system living in a (2,1) fermionic world.
+The current PF story suggests that the same structural weighting used elsewhere in the framework may also influence optimal biological duty cycles, but the cross-scale bridge is not yet a closed theorem.
 
-**Empirical result**: All known mammals, birds, and reptiles cluster around 1/3 ± 0.1 sleep fraction.
+**Empirical result**: Sleep and offline consolidation are clearly real biological necessities, but the exact “1/3 of a day” claim is not cleanly established as a universal law.
 
-**Status**: `DERIVED 0.92`
+**Status**: `ARGUED 0.72`
 
 **Falsification**: A stable sentient species with a 9:1 or 5:1 wake:sleep ratio. Or showing sleep duration is purely evolutionary with no topological constraint.
 
@@ -261,7 +261,7 @@ The same topology that governs the quark/lepton spectrum governs the optimal ope
 | Nuclear → Atomic | **Bohr-like circular spectrum from phase closure** (Wave 5, audited 2026-03-27) | **CONDITIONAL** | **0.82** | **Novel model theorem** — stronger axiom-only claim failed audit |
 | Atomic → Molecular | Chemistry as coherence refraction | ARGUED | 0.72 | Narrative recast — no novel prediction |
 | Molecular → Cell | Life as coherence maintenance | ARGUED | 0.72 | Consistent — no numeric threshold |
-| Cell → Human | **(2,1) topology → 8h sleep** | DERIVED | 0.92 | **Novel** — topological derivation |
+| Cell → Human | **PF-inspired duty cycle -> sleep-like consolidation** | ARGUED | 0.72 | **Cross-scale bridge** — biologically suggestive, not theorem-grade |
 | Human (consciousness) | Coherent self-reference | ARGUED | 0.48 | Open — IIT is more developed here |
 | Human → Planetary | Schumann coupling | OPEN | — | Speculative |
 

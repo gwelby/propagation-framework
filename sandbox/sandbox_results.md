@@ -377,7 +377,7 @@ Current honest board status: **CONDITIONAL**, not DERIVED. See `derivations/bohr
 | PF Prediction (2/3)| 0.6667 |
 | Error | **1.74%** |
 
-**Verdict**: SUPPORTS the 8-hour sleep constant. Long-term system stability is maximized at a $\approx 2/3$ duty cycle when the "rest" state is 2x more efficient at phase-reconciliation than the "active" state.
+**Verdict**: SUPPORTS the T-010 model family, not theorem closure. Long-term system stability is maximized at a $\approx 2/3$ duty cycle **when the model explicitly assumes** the "rest" state is 2x more efficient at phase-reconciliation than the "active" state.
 
 ---
 
