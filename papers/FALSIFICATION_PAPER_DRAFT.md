@@ -38,17 +38,17 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 **Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
 
-### 2.2 Forces as Refraction
+### 2.2 Gravity as Optical Geometry / Refraction
 
 In a medium with spatially varying propagation speed $c(x)$, a wavefront propagating in a direction $\hat{k}$ experiences differential phase velocity across its extent. One side of the wavefront lags the other. The path curves.
 
 This is refraction. In a medium where density increases toward a source, the wavefront curves toward the source without any direct force being applied. The apparent "pull" is a consequence of geometry, not an interaction.
 
-**Claim F1 (DERIVED):** In a medium with refractive index $n(x) = c_0/c(x)$, the trajectory of a propagating mode obeys:
+**Claim F1 (DERIVED, domain-restricted):** In a medium with refractive index $n(x) = c_0/c(x)$, the trajectory of a propagating mode obeys:
 $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
-This identifies gravity as refraction in the medium, not as curvature of spacetime per se. The two descriptions are mathematically equivalent at low field strengths; they diverge in their predictions at high energy density (near black hole interiors).
+More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
 
 ---
 
@@ -307,10 +307,10 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | T1: (2,1) topological weights | DERIVED | 0.98 | — |
 | T3: N=3 uniquely forced | DERIVED | 0.98 | — |
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
-| F1: Gravity as refraction | DERIVED | 0.95 | Divergent prediction from GR at high field strength |
+| F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
 | Sleep 8h constant | DERIVED | 0.92 | — |
 | W1: Weinberg angle sin²θ_W | DERIVED | 0.90 | Derive RG running to IR value 0.231 |
-| QCD confinement from λ_c | DERIVED | 0.85 | Improve from 1-loop to 2-loop (known QCD correction) |
+| QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Formal proof that co-dimension equals M for all D |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
 | God Equation (λ_c from l_P) | ARGUED | 0.75 | Derive N^{D/2} bridge from axioms |

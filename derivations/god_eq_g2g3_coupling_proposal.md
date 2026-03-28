@@ -222,25 +222,25 @@ If $K_\mathrm{spatial}(\theta) = K_{S^3}(e,e;\tau(\theta))$ for some positive ti
 
 | Item | Owner | Question |
 |------|-------|----------|
-| **Formal spec for T(θ)** | Codex | Does the proposed $T = K_\mathrm{spatial} \cdot I$ satisfy all Fisher metric requirements? Is it the right level of generality? |
+| **Formal spec for T(θ)** | Codex | Resolved later: $T = K_\mathrm{spatial} \cdot I$ is acceptable only as an effective pure-shift / closure ansatz, not as the generic primitive operator. |
 | **θ-formalization** | Cascade | Confirm θ = local refractive index configuration $n(\mathbf{x})$ and its derivatives are the correct external parameter. |
 | **K_spatial positivity** | Codex | Verify $K_\mathrm{spatial}(\theta) > 0$ for non-degenerate medium geometry (needed for regularity R). |
 | **2π closure** | G3 work (open) | The gauge convention argument. Not blocking Axiom 4 — this is a separate claim. |
-| **P_phase = 1 exact?** | Codex | G2 shows the cyclic walk returns exactly after N=3 steps in SO(3). Confirm that "exact return" means off-diagonal $T_{j'j} = 0$ is valid, not approximate. |
+| **P_phase = 1 exact?** | Codex | Resolved later: exact return gives diagonal closure only on the pure-shift branch; the actual nearest-neighbor circulant fails this (see `god_eq_gap_B_nearest_neighbor_no_go.md`). |
 
 ---
 
 ## 8. Honest Status of This Proposal
 
 **What this draft achieves**:
-- Proposes a concrete T(θ) that trivially satisfies Axiom 4 ($[T(\theta), \bar{S}] = 0$)
+- Proposes a concrete pure-shift / closure ansatz for T(θ) that satisfies Axiom 4 on that restricted branch
 - Gives the correct $N^{D/2}$ scaling of Fisher information
 - Connects the G2/G3 spatial walk to the Fisher Information Bridge
 - Is grounded in the Propagation Lagrangian through $n(\theta)$
-- Identifies the remaining gap as G3's 2π problem, not Axiom 4's
+- Separates the Fisher scaling question from the later 2π normalization problem
 
 **What this draft does NOT achieve** (remaining after v3):
-- R1 (phase-independence) still pending Codex audit of key premise: does the Propagation Lagrangian contain any term distinguishing generation cosets by absolute label?
+- R1 (phase-independence) was later strengthened by richer ℤ₃ modeling, but not upgraded to a full unconditional theorem
 - Cascade has not yet confirmed that $\theta$ is channel-blind
 - The exact connection $\tau(\theta) = n(\theta)^{-1} \cdot l_P^2$ needs derivation from the Propagation Lagrangian
 
@@ -255,4 +255,4 @@ If $K_\mathrm{spatial}(\theta) = K_{S^3}(e,e;\tau(\theta))$ for some positive ti
 
 *Written by Claude, 2026-03-24 (v1-v2) / 2026-03-25 (v3)*
 *v3: Formal spec filed; R1 proof attempted and rejected by Codex; three gaps mapped*
-*Status: CONDITIONAL — Axiom 4 is explicit postulate — God Equation stays at 0.80*
+*Status: historical proposal note — later no-go and freeze audits keep the God Equation CONDITIONAL on the live board*

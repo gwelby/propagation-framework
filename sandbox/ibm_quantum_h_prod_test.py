@@ -1,18 +1,23 @@
 """
 ibm_quantum_h_prod_test.py
-Physical test of H_prod (statistical independence of generation channels) on IBM Quantum.
+IBM hardware test for the symmetric/circulant generation-walk circuit.
 
-Test: Three-qubit circulant walk circuit.
-Prediction: after 3 complete cycle applications, cross-channel correlations = 0.
-Verified locally first (statevector simulator), then submit to IBM hardware.
+Original purpose: test whether a symmetric circulant walk might yield effective
+channel decoupling after one closure cycle.
+
+Current honest status after the Gap B no-go:
+- the symmetric nearest-neighbor family does NOT produce diagonal 3-step closure
+- so this script is now a hardware comparison tool, not a proof of H_prod
+- the expected hardware signature is mixing across |00>, |01>, |10>, not
+  identity restoration
 
 Physical basis:
   - Three qubits represent the three Z3 generation channels: |0>, |1>, |2>
   - The circulant coupling unitary U_circ acts as one step of the generation walk
-  - After 3 steps (one full closure cycle), T_eff = K^3 * I (proved analytically)
-  - H_prod: joint measurement probabilities factorize P(j0,j1,j2) = P(j0)*P(j1)*P(j2)
+  - For the symmetric nearest-neighbor family, three-step closure remains mixed
+  - This is the hardware counterpart to the Gap B no-go
 
-Wave 5 companion to h_prod_markovian_walk_proof.md
+Wave 5/6 companion to god_eq_gap_B_nearest_neighbor_no_go.md
 """
 import numpy as np
 import matplotlib
@@ -26,6 +31,8 @@ from itertools import product as iproduct
 print("=" * 60)
 print("PART 1: LOCAL STATEVECTOR SIMULATION")
 print("=" * 60)
+print("This script is a comparison tool for the symmetric circuit.")
+print("It should not be read as a closure of H_prod.")
 
 # The Z3 circulant coupling matrix from z3_lagrangian_verification.py
 # M = S_bar + S_bar^{-1} (nearest-neighbor circulant)
@@ -54,9 +61,10 @@ print(f"\nAfter 3 steps — T_eff = U^3:")
 print(f"  Diagonal elements (return amplitudes): {T_eff_diag}")
 print(f"  Max off-diagonal |element|: {T_eff_offdiag:.6e}")
 print(f"  Diagonal uniform: max deviation = {np.max(np.abs(T_eff_diag - T_eff_diag[0])):.2e}")
+print("  Interpretation: symmetric circulant dynamics remain mixed after closure.")
 
 # ---- H_prod test via joint distribution ----
-print("\n--- H_prod Test: Joint vs Product of Marginals ---")
+print("\n--- Mixing Audit: Joint vs Product of Marginals ---")
 
 # For a 3-channel system, the state after one closure cycle
 # starting in a superposition |psi_0> = (|0> + |1> + |2>) / sqrt(3)
@@ -86,21 +94,22 @@ def channel_correlation(probs, j, jprime):
     """For binary indicator observables X_j = 1[channel j returned]."""
     E_j = probs[j]
     E_jprime = probs[jprime]
-    # E[X_j * X_j'] = P(both returned) = P(j returned) * P(j' returned) under H_prod
-    # Under T_eff = K^3 * I: the channels ARE independent, so this is exact
-    E_joint = probs[j] * probs[jprime]  # TRUE under H_prod
+    # This helper just computes the product baseline for comparison.
+    # It is not a proof that the symmetric circuit satisfies H_prod.
+    E_joint = probs[j] * probs[jprime]
     covariance = E_joint - E_j * E_jprime
     return covariance
 
-print("\n  Cross-channel covariances (should = 0 under H_prod):")
+print("\n  Product-baseline covariances (algebraic comparison only):")
 for j, jp in [(0,1), (0,2), (1,2)]:
     cov = channel_correlation(probs, j, jp)
     print(f"    Cov(X_{j}, X_{jp}) = {cov:.2e}")
 
 # Note: U = exp(i*kappa*M) is a UNITARY (phase rotation), not the stochastic walk.
-# The T_eff = K^3 * I result applies to U_walk = K_spatial * S_bar (stochastic model).
-# Here we verify the correct walk model directly.
-print("\n--- Correct walk model: U_walk = K_spatial * S_bar ---")
+# The pure-shift ansatz U_walk = K_spatial * S_bar is a different model and is kept
+# here only as a contrast case. The actual symmetric nearest-neighbor operator does
+# not reduce to K^3 * I after three steps.
+print("\n--- Contrast case only: pure-shift walk U_walk = K_spatial * S_bar ---")
 K_spatial = 0.82   # arbitrary positive kernel value
 U_walk = K_spatial * S_bar  # stochastic walk step (not unitary — it's an amplitude kernel)
 U_walk_3 = np.linalg.matrix_power(U_walk, 3)  # three steps
@@ -109,11 +118,10 @@ print(f"  K_spatial = {K_spatial}")
 print(f"  U_walk^3 diagonal = {np.diag(np.abs(U_walk_3))}")
 print(f"  |U_walk^3 - K^3*I| = {T_eff_walk_residual:.2e}")
 if T_eff_walk_residual < 1e-14:
-    print("  RESULT: T_eff = K^3 * I (walk model) ✓ — channels decouple at closure")
-# The unitary model (exp(i*kappa*M)) tests quantum interference, not the walk closure.
-# Both are relevant but serve different purposes:
-#   Walk model:   T_eff = K^3*I proves H_prod (stochastic independence)
-#   Unitary model: phase covariances = 0 confirms no quantum cross-channel correlations
+    print("  RESULT: pure-shift contrast case gives T_eff = K^3 * I")
+# The unitary model (exp(i*kappa*M)) tests the actual symmetric quantum circuit.
+# The pure-shift contrast case is included because it illustrates what perfect
+# chiral closure would look like, not because it is the derived symmetric operator.
 
 # ============================================================
 # PART 2: QISKIT CIRCUIT CONSTRUCTION (for IBM submission)
@@ -327,7 +335,7 @@ ax2.axhline(0, color=palette['white'], lw=0.5, alpha=0.4)
 ax2.set_xlabel(r'$\kappa$ (coupling strength)', color=palette['white'])
 ax2.set_ylabel(r'max$|[T_\mathrm{eff}]_{j \neq j^\prime}|$', color=palette['white'])
 ax2.set_title(r'Off-diagonal of $T_\mathrm{eff}$ vs $\kappa$' +
-              '\n(should = 0 for all κ)', color=palette['white'], fontsize=10)
+              '\n(symmetric circuit stays mixed)', color=palette['white'], fontsize=10)
 ax2.tick_params(colors=palette['white'])
 ax2.spines[:].set_color('#334455')
 
@@ -335,9 +343,9 @@ max_overall = max(max_offdiag)
 ax2.text(0.5, 0.5, f'max = {max_overall:.1e}',
          transform=ax2.transAxes, color=palette['green'],
          ha='center', fontsize=11, fontweight='bold')
-if max_overall < 1e-10:
-    ax2.text(0.5, 0.38, 'H_prod holds for ALL κ ✓',
-             transform=ax2.transAxes, color=palette['gold'],
+if max_overall > 1e-10:
+    ax2.text(0.5, 0.38, 'Gap B no-go visible: off-diagonals survive',
+             transform=ax2.transAxes, color=palette['red'],
              ha='center', fontsize=10, fontweight='bold')
 
 # --- Panel 4: The three DFT modes (120° geometry) ---
@@ -385,10 +393,10 @@ for i in range(3):
                 arrowprops=arrow_props,
                 xycoords='axes fraction', textcoords='axes fraction')
 
-ax.text(0.5, 0.03, 'After 3 steps (T_eff = K³·I):\neach channel returns independently',
-        ha='center', va='bottom', color=palette['green'],
+ax.text(0.5, 0.03, 'After 3 symmetric steps:\nchannels still mix',
+        ha='center', va='bottom', color=palette['red'],
         fontsize=9, transform=ax.transAxes)
-ax.set_title('ℤ₃ Generation Channels — H_prod\n(Markovian walk + circulant coupling)',
+ax.set_title('ℤ₃ Generation Channels — symmetric circuit\n(hardware no-go target)',
              color=palette['white'], fontsize=10)
 
 # --- Panel 6: Proof chain summary ---
@@ -396,29 +404,28 @@ ax = axes[1, 2]
 ax.axis('off')
 
 chain = [
-    "AXIOM 2 → MARKOV PROPERTY",
-    "  (finite c → no memory)",
+    "Actual symmetric circuit:",
+    "  nearest-neighbor circulant",
     "",
-    "ℒ_{ℤ₃} → CIRCULANT T(θ)",
-    "  ([T, S̄] = 0, proved)",
+    "Three-step closure stays mixed",
+    f"  max off-diag = {T_eff_offdiag:.2e}",
     "",
-    "T_eff = K³ · I",
-    "  (off-diag = 0.00e+00)",
+    "Therefore this circuit does NOT",
+    "  close H_prod",
     "",
-    "Markov + diagonal T_eff",
-    "  → independent events",
-    "  → H_prod ✓",
+    "Use chiral/pure-shift circuit",
+    "  as the contrast branch",
     "",
-    "H_prod + Lemma 2",
-    "  G(θ) = N^{D/2} λ₀ I_D",
+    "Hardware purpose:",
+    "  compare mixing vs chirality",
     "",
-    "  GOD EQUATION DERIVED",
+    "not: prove God Equation",
 ]
 col_map = [
     palette['purple'], palette['purple'], palette['white'],
+    palette['red'], palette['red'], palette['white'],
+    palette['red'], palette['red'], palette['white'],
     palette['gold'], palette['gold'], palette['white'],
-    palette['blue'], palette['blue'], palette['white'],
-    palette['green'], palette['green'], palette['green'], palette['white'],
     palette['green'], palette['green'], palette['white'],
     palette['gold'],
 ]
@@ -426,10 +433,10 @@ for i, (line, col) in enumerate(zip(chain, col_map)):
     ax.text(0.04, 0.97 - i * 0.057, line, color=col,
             fontsize=9, fontweight='bold' if ('→' in line or '✓' in line or 'DERIVED' in line) else 'normal',
             transform=ax.transAxes, va='top', family='monospace')
-ax.set_title('H_prod Proof Chain', color=palette['white'], fontsize=10)
+ax.set_title('Symmetric Circuit Audit Chain', color=palette['white'], fontsize=10)
 
-plt.suptitle('H_prod: Statistical Independence of Generation Channels\n'
-             'Markovian Walk (Axiom 2) + T_eff = K³·I → H_prod Verified',
+plt.suptitle('IBM Symmetric Circuit Audit\n'
+             'Nearest-neighbor circulant mixing as a hardware no-go target',
              color=palette['white'], fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig('sandbox/ibm_quantum_h_prod_test.png', dpi=120, bbox_inches='tight',
@@ -445,14 +452,12 @@ print("FINAL SUMMARY")
 print("=" * 60)
 print()
 print(f"T_eff off-diagonal elements: {T_eff_offdiag:.2e}")
-print(f"H_prod cross-channel covariances: < {1e-14:.1e}")
-print(f"N^(D/2) = 3^(3/2) = {3**1.5:.6f}")
+print(f"Product-baseline covariances: < {1e-14:.1e}")
 print()
 print("VERDICT:")
-print("  Axiom 2 → Markov property                    DERIVED")
-print("  ℒ_{ℤ₃} → circulant T(θ) → T_eff = K³·I     PROVED (0.00e+00)")
-print("  Markov + diagonal T_eff → H_prod              CLOSED")
-print("  God Equation λ_c = √2 l_P exp(4π²N^{D/2}/b₀)  DERIVED")
+print("  Symmetric nearest-neighbor circuit remains mixed   CONFIRMED")
+print("  Three-step closure is not diagonal                NO-GO for Gap B")
+print("  This script is a hardware comparison tool         HONEST")
 print()
-print("The God Equation derivation is complete.")
-print("Pending Codex audit of Steps A-C in h_prod_markovian_walk_proof.md.")
+print("Use this alongside ibm_quantum_chiral_test.py and")
+print("ibm_quantum_result_audit.py when hardware counts land.")

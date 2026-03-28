@@ -330,9 +330,9 @@ This matters for the PF slogan:
 
 The current claim can stay strong if phrased carefully:
 
-> Forces as Refraction: **DERIVED in the optical-geometry sense**, exact for null propagation in
-> static/stationary spacetimes, with scalar \(n(x)\) as the weak-field limit and Randers/Finsler
-> geometry as the minimum exact stationary extension.
+> Gravity as Optical Geometry / Refraction: **DERIVED in the optical-geometry sense**, exact for
+> null propagation in static/stationary spacetimes, with scalar \(n(x)\) as the weak-field limit
+> and Randers/Finsler geometry as the minimum exact stationary extension.
 
 That wording is earned.
 

@@ -2,7 +2,10 @@
 
 ### Sandbox Results — Claude, March 2026
 
-This file is chronological. Later addenda supersede earlier tentative interpretations where they conflict.
+**Status**: historical narrative summary.  
+**Canonical live sandbox log**: [sandbox/sandbox_results.md](/mnt/d/fundamentals/sandbox/sandbox_results.md)
+
+This file is chronological. Later addenda supersede earlier tentative interpretations where they conflict, but when this file and the live sandbox log disagree, trust the live sandbox log.
 
 ---
 
@@ -433,3 +436,54 @@ Empirically supported (2024-2026 literature). Framework prediction holds: consci
 - **No CSD**: 7 (35.0%)
 - **Total Signal Presence**: 65.0%
 - **Verdict**: STATISTICALLY SIGNIFICANT. CSD signature is robust across subjects, confirming phase transition dynamics prior to insight/task boundary.
+
+---
+
+## Wave 5 — Session 2 (2026-03-26)
+
+### Gap B No-Go — Nearest-Neighbor ℤ₃ Operator (Codex)
+**File**: `derivations/god_eq_gap_B_nearest_neighbor_no_go.md`
+**Result**: RESTRICTED NO-GO
+For $T = a\bar{S} + b\bar{S}^2$ on $\mathbb{Z}_3$:
+$$T^3 = (a^3+b^3)I + 3a^2b\bar{S} + 3ab^2\bar{S}^2$$
+Diagonal iff $ab = 0$. Actual symmetric EOM operator ($a=b=1$): $M^3 = [[2,3,3],[3,2,3],[3,3,2]]$ — off-diagonal > diagonal.
+God Equation remains **CONDITIONAL 0.88**. Pure-shift property belongs to the ansatz, not the derived operator.
+
+### Entropy of Chirality (sandbox)
+**File**: `sandbox/chiral_vs_symmetric_entropy.py`
+**Result**: Clean visual proof
+- Symmetric walk: entropy → 100.0% of $\ln 3$ maximum. Generations dissolve.
+- Chiral walk ($T = \bar{S}$): entropy = 0.000000 at every step. $T^3 = I$ exactly.
+- Off-diagonal 3-step amplitude: symmetric 0.375 (> diagonal 0.250), chiral 0.0000.
+
+### Neutrino Koide Scan (sandbox)
+**File**: `sandbox/neutrino_koide_scan.py`
+**Result**: Neutrinos do NOT satisfy Koide relation
+- Normal ordering closest $Q$: 0.5496 ($|Q - 2/3| = 0.117$)
+- Inverted ordering closest $Q$: 0.4790 ($|Q - 2/3| = 0.188$)
+- Rivero phase NO best-fit: 142.84° (10° from charged lepton anchor, not at any proposed anchor)
+- **Interpretation**: Koide is an electromagnetic-sector phenomenon, not purely ℤ₃ topological.
+
+### Chiral Projection Z3 (sandbox)
+**File**: `sandbox/chiral_projection_z3.py`
+**Result**: Naive P_L projector does NOT kill backward coupling
+- $|β/α| = 1.000000$ — forward and backward coupling survive with equal magnitude
+- $T_L^3$ off-diagonal = 0.356 (worse than symmetric)
+- **Correct Path A target**: CP violation in generation sector breaks $a = b$ symmetry. Jarlskog $J \neq 0$ is the physical mechanism. Derive $b/a \to 0$ from CP-violating phase of ℤ₃ coupling, not from a Hilbert-space projector.
+
+### Scale Stack Derivation Chain
+**File**: `derivations/scale_stack_derivation_chain.md`
+Full formal ladder: Void → Planck → Matter → Nuclear → Atomic → Molecular → Cell → Human → Planetary.
+Each link: derivation, axioms, status, confidence, falsification target.
+Honest competitor framework table included.
+
+### SCALE_STACK_MASTER.md Update
+Scale 4 (Atomic) needs to reflect the 2026-03-27 hostile audit:
+- surviving result: circular eikonal Coulomb + phase closure gives a Bohr-like `1/k²` spectrum
+- honest status: CONDITIONAL / model theorem
+- the old `DERIVED 0.95` wording is too strong
+
+### IBM Quantum H_prod Test
+**Job ID**: d71nqomqdfbc73d13fpg
+**Backend**: ibm_fez (156q)
+**Status**: In queue. When results land: check $|11\rangle$ state counts for off-diagonal mixing confirmation.

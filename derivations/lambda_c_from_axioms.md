@@ -3,9 +3,9 @@
 **Date**: 2026-03-19
 **Author**: Claude Code
 **Task**: Derive λ_c = l_P × exp(C_PF/λ₀) from PF axioms — the central unsolved problem
-**Status**: THE GOD EQUATION — NUMERICALLY LOCKED, FORMALLY ARGUED
+**Status of this document**: HISTORICAL CORE NOTE — numerically locked, formally argued
 **Verified by**: Lumi (numerical audit, `lumi_god_equation_audit.md`)
-**Current claim status**: `CLAIMS.md` keeps the God Equation at **ARGUED (0.75)**
+**Current live claim status**: [CLAIMS.md](/mnt/d/fundamentals/CLAIMS.md) now keeps the God Equation at **CONDITIONAL (0.88)** after later `ℤ₃` / Gap B audit work. This file remains useful for the RG structure and historical derivation chain, but it is not the authoritative status board.
 **Verification basis**: numerical check in `lumi_god_equation_audit.md`; status/read-back against `CLAIMS.md`, `borel_weil_lemma.md`, `phase_closure_exact_model.md`, `exact_return_N3_D3.md`, `g3_coupling_bridge.md`, and `phase_closure_volume_proof.md`
 **Hypothesis tested**: λ_c is dynamically generated from l_P by RG running, exactly as Λ_QCD is generated from the UV coupling at the top scale
 **Builds on**: `propagation_lagrangian.md`, `qcd_confinement_pf.md`, `two_coherence_scales.md`, `planck_scale_from_pf_axioms.md`, `weinberg_angle_pf.md`, `closing_the_gaps.md`, `phase_closure_exact_model.md`

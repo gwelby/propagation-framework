@@ -1,7 +1,8 @@
 import numpy as np
 
 def calculate_casimir_roots():
-    print("--- PF Casimir Polynomial Verification ---")
+    print("--- PF Casimir Polynomial Calculator / Sanity Check ---")
+    print("NOTE: this script evaluates assumed formulas; it does not establish derivation status by itself.")
     print("Equation: x^2 + C2*x - C2 = 0")
     
     spins = [0, 0.5, 1, 1.5, 2]
@@ -36,7 +37,7 @@ def calculate_casimir_roots():
     print(f"PDG on-shell value: 0.22337 +/- 0.00010")
     
     if np.isclose(sin2_theta_W, 0.22310, atol=1e-4):
-        print("\nSUCCESS: The numerical result matches the PDG on-shell value to ~0.13σ.")
+        print("\nSanity check: the numerical result matches the cited on-shell target to ~0.13σ.")
 
 if __name__ == "__main__":
     calculate_casimir_roots()

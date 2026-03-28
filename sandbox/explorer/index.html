@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propagation Framework Explorer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="mode-story">
+  <div class="shell-glow shell-glow-a"></div>
+  <div class="shell-glow shell-glow-b"></div>
+  <div class="shell-grid"></div>
+
+  <div class="app-shell">
+    <aside class="app-rail">
+      <div class="rail-brand">
+        <p class="eyebrow">Propagation Framework</p>
+        <h1>The Explorer</h1>
+        <p class="rail-copy">
+          One propagation spine. Every scale. Every current result shown honestly.
+        </p>
+      </div>
+
+      <div class="rail-panel">
+        <div class="rail-panel-head">
+          <span>Mode</span>
+          <div class="mode-toggle" id="modeToggle">
+            <button class="mode-button is-active" data-mode="story" type="button">Story</button>
+            <button class="mode-button" data-mode="audit" type="button">Math + Audit</button>
+          </div>
+        </div>
+        <p class="rail-copy story-only">
+          Start with the visual claim. Open the drawer when you want equations, falsifiers, and sources.
+        </p>
+        <p class="rail-copy audit-only">
+          Status text is pinned to the current repo state. Unsynced items are visible but excluded from audited totals.
+        </p>
+      </div>
+
+      <div class="rail-panel">
+        <div class="rail-panel-head">
+          <span>Audited Totals</span>
+          <button class="drawer-toggle" id="drawerToggle" type="button">Evidence</button>
+        </div>
+        <div class="metric-stack" id="metricStack"></div>
+      </div>
+
+      <nav class="route-nav" id="routeNav" aria-label="Explorer panels"></nav>
+
+      <div class="rail-panel rail-truth">
+        <div class="rail-panel-head">
+          <span>Truth Policy</span>
+        </div>
+        <p class="rail-copy">
+          <strong>CLAIMS.md</strong> drives audited badges and totals.
+          <strong>UNDERSTAND.md</strong> extends scale placement and explanatory copy.
+          Items present only in <strong>UNDERSTAND.md</strong> render as <strong>Unsynced</strong>.
+        </p>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <header class="stage-head">
+        <div>
+          <p class="eyebrow" id="panelEyebrow">Scale Stack</p>
+          <h2 id="panelTitle">The full ladder in one view</h2>
+        </div>
+        <div class="head-actions">
+          <div class="head-chip" id="headChipA">3 axioms</div>
+          <div class="head-chip" id="headChipB">file:// ready</div>
+          <div class="head-chip" id="headChipC">0 network</div>
+        </div>
+      </header>
+
+      <section class="panel-stage" id="panelStage"></section>
+    </main>
+
+    <aside class="app-drawer" id="appDrawer">
+      <div class="drawer-head">
+        <div>
+          <p class="eyebrow" id="drawerEyebrow">Evidence</p>
+          <h3 id="drawerTitle">Select a result</h3>
+        </div>
+        <button class="drawer-close" id="drawerClose" type="button">Close</button>
+      </div>
+      <div class="drawer-body" id="drawerBody"></div>
+    </aside>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="core.js"></script>
+  <script src="panels/hub.js"></script>
+  <script src="panels/refraction.js"></script>
+  <script src="panels/generations.js"></script>
+  <script src="panels/koide.js"></script>
+  <script src="panels/weinberg.js"></script>
+  <script src="panels/god-equation.js"></script>
+  <script src="panels/bohr.js"></script>
+  <script src="panels/dashboard.js"></script>
+</body>
+</html>

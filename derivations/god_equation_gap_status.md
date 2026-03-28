@@ -1,12 +1,16 @@
-# God Equation Gap Status — Post-Gap-Work Summary
+# God Equation Gap Status — Historical Post-Gap-Work Summary
 
 **Date**: 2026-03-21  
-**Status**: ARGUED (0.75) — mechanism identified, one theorem remaining  
+**Status at time of writing**: ARGUED (0.75) — mechanism identified, one theorem remaining  
+**Current live truth**: superseded by [CLAIMS.md](/mnt/d/fundamentals/CLAIMS.md) and [ACTIVE_ISSUES.md](/mnt/d/fundamentals/ACTIVE_ISSUES.md). After later Wave 5 / Gap B work and Codex audit, the God Equation front is kept at **CONDITIONAL 0.88**, not this older 0.75 status.  
 **Numerical Result**: 0.4% error, no fitting parameters — HELD  
 
 ---
 
 ## Executive Summary
+
+This file is retained as a historical map of the **2026-03-21** state of the frontier.
+It should not be used as the current status source.
 
 The God Equation gap has been **precisely located and reduced to a single theorem**.
 

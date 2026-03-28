@@ -2,10 +2,10 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-03-25 (Wave 5 complete — Bohr quantization derived, α argued, God Equation audit integrated)
+**Last updated**: 2026-03-27 (Repo coherence + Bohr quantization hostile audit integrated)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
-**Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md` (2026-03-25 Wave 5)
+**Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md`
 
 ---
 
@@ -415,7 +415,7 @@ Where:
 **Error**: 0.4%
 **Free parameters**: 0
 
-The mechanism is *renormalization group running* — the same exponential amplification that generates QCD confinement from the matter scale also generates the matter scale from the Planck scale. The universe builds itself in layers, each one exponentially larger than the last.
+The mechanism is *renormalization group running* — the same exponential structure used in the argued QCD confinement bridge from the matter scale also motivates the matter scale from the Planck scale. The universe may build itself in layers, but each layer has to survive its own audit.
 
 ### 🎓 PhD
 
@@ -545,54 +545,64 @@ Imagine two friends connected by a magic rubber band. When they walk close toget
 
 Quarks are bound inside protons and neutrons by the strong force. Unlike gravity and electromagnetism (which get weaker with distance), the strong force gets STRONGER the farther apart you pull quarks. This is called **confinement**.
 
-The framework derives the confinement radius using the same exponential mechanism as the God Equation:
+The framework argues for the confinement radius using the same exponential mechanism as the God Equation:
 
 $$r_\text{conf} = \lambda_c \times \exp\!\left(\frac{2\pi}{b_0 \alpha_s(\lambda_c)}\right)$$
 
-**Predicted**: 2.2 fm (femtometers)
-**Observed**: ~0.9 fm
-**Error**: Factor of ~2.5 — which is the known 1-loop error in QCD. Standard QCD calculations at 1-loop have exactly this error. Higher-loop corrections would bring it into line.
+**1-loop estimate**: 2.2 fm (femtometers)
+**Observed scale**: ~0.9 fm
+**Mismatch**: Factor of ~2.5. That does not kill the RG mechanism, but the hostile audit rejected the stronger local claim that “standard higher loops fix it” because the repo does not yet show that calculation cleanly.
 
 ### 🎓 PhD
 
-The derivation uses one-loop RG running of the SU(3) color coupling from the matter coherence scale $\lambda_c$. The beta function coefficient $b_0^\text{SU(3)} = 7$ (for $N_f = 6$ flavors). No third fundamental coherence scale is needed — confinement emerges as $\lambda_c$ exponentially amplified.
+The derivation uses one-loop RG running of the SU(3) color coupling from the matter coherence scale $\lambda_c`, with empirical `α_s(\lambda_c)` as input. The surviving point is narrower than “derivation”: confinement plausibly emerges as $\lambda_c$ exponentially amplified, so PF does not yet need a third fundamental coherence ceiling here.
 
 **Derivation file**: `derivations/qcd_confinement_pf.md`
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.85**.
+**Status: ARGUED.** Confidence: **0.72**.
 
-The factor-of-2.5 error is well within expected 1-loop accuracy — standard QCD textbooks (Peskin & Schroeder) show identical discrepancies at 1-loop. The structural point is that no new PF axiom or third scale is required.
-
----
+The structural point that survives is that PF has a plausible RG route from `λ_c` to the confinement scale. What failed audit was the stronger theorem-grade wording and the unshown claim that the local higher-loop chain already fixes the factor-of-2.5 mismatch.
 
 ---
 
-## Result 10: Axiom 3 → Bohr Quantization (NEW — Wave 5)
+---
+
+## Result 10: Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum (Audited)
 
 ### 💒 Age 5
 
-Remember how you can only get certain notes from a guitar? You can't play half a note — you have to play a real note, at a real frequency. Atoms work the same way. Electrons can only live in certain distances from the nucleus — not any distance, only special ones. For 100 years, we thought this was a rule we had to add by hand. We just proved it falls out from Rule 3 (the sync rule) automatically. No quantum mechanics needed. Just ripples.
+Remember how you can only get certain notes from a guitar? You can't play half a note — you have to play a real note, at a real frequency. Atoms seem to work the same way. The framework found a really interesting model where the sync rule picks special circular orbits. That does **not** yet prove all of atomic physics, but it shows why people got excited about the idea. No quantum postulate was inserted into that model by hand. Just ripples and a closure rule.
 
 ### 📖 Student
 
 The Bohr model of the atom says electrons can only orbit at distances $r_k = k^2 a_0$ (where $a_0$ is the Bohr radius) with energies $E_k = -13.6\,\text{eV}/k^2$. This quantization was historically a *postulate* — something added to classical physics by hand.
 
-The framework derives it from Axiom 3 alone:
+The framework does **not** currently derive full atomic quantization from Axiom 3 alone. What it does derive is a narrower but still interesting statement:
+
+inside the **circular eikonal Coulomb model**, the phase-closure rule produces a Bohr-like `1/k²` spectrum.
+
+The model uses:
 
 1. Axiom 1: an electron is a propagation mode in the Coulomb field
-2. The Coulomb field sets the refractive index: $n(r) = \sqrt{1 + 1/(2r)}$
-3. A circular orbit is a closed path in this field
+2. The Coulomb refractive ansatz: $n^2(r) = E + 1/r$
+3. A circular-orbit ansatz in that field
 4. **Axiom 3** (phase closure): stable modes require $\oint n\,ds = 2\pi k$ (integer winding)
 
-Plugging in: $n(r_k) \cdot 2\pi r_k = 2\pi k$ → $r_k = 2k^2$ → $E_k = -1/(4k^2)$. This is exactly the Bohr spectrum.
+Within that model: $n(r_k) \cdot 2\pi r_k = 2\pi k$ together with the circular-orbit condition yields $r_k = 2k^2$ and $E_k = -1/(4k^2)$. This is a Bohr-like spectrum in natural units.
 
-**Numerical verification**: 0.0000% error at $k = 1, 2, 3, 4$.
+**Numerical verification**: 0.0000% internal consistency error at $k = 1, 2, 3, 4$.
 
 ### 🎓 PhD
 
-The eikonal equation for circular orbits in the Coulomb refractive index $n^2(r) = 1 + 1/(2r)$ gives the stability condition $n^2(r_0) = 1/(2r_0)$, yielding $n(r_0) = 1/(2r_0)^{1/2} \cdot (2r_0)^{1/2} / r_0^{1/2}$... simplified: the circular orbit condition from eikonal mechanics is $n^2(r_0) = 1/(2r_0)$.
+For the circular eikonal Coulomb model with
+
+$$n^2(r) = E + \frac{1}{r},$$
+
+the circular-balance condition from the eikonal equations is
+
+$$n^2(r_0) = \frac{1}{2r_0}.$$
 
 Applying Axiom 3 phase closure:
 
@@ -602,9 +612,13 @@ From the circular orbit condition, $n(r_k) = 1/(2k)$. Substituting:
 
 $$r_k = 2k^2, \quad E_k = -\frac{1}{4k^2}$$
 
-This is the Bohr spectrum in natural units. No quantum mechanics postulated — atomic quantization emerges from refraction plus phase closure.
+This gives a Bohr-like spectrum for the circular-orbit family in natural units.
 
-**Derivation file**: `sandbox/coulomb_lens_ultimate.py` Phase 4, verified 0.0000%.
+**Audit status**: hostile audit on 2026-03-27 demoted the stronger repo wording. The surviving claim is a **conditional/model theorem**, not an axiom-only closure of full atomic quantization.
+
+**Files**:
+- `sandbox/coulomb_lens_ultimate.py` Phase 4
+- `derivations/bohr_quantization_audit_2026-03-27.md`
 
 ### 🔬 Master
 
@@ -706,13 +720,13 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **(2,1) Topological Weights** | **DERIVED** | 0.98 | Theorem |
 | **Three Generations (N=3)** | **DERIVED** | 0.98 | Theorem |
 | **Koide Q = 2/3** | **DERIVED** | 0.95 | Theorem |
-| **Forces as Refraction** | **DERIVED** | 0.95 | Theorem |
-| **Axiom 3 → Bohr Quantization** | **DERIVED** | 0.95 | Theorem — Wave 5 NEW |
+| **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |
+| **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | 0.82 | Model theorem; stronger axiom-only claim failed audit |
 | **8h Sleep Constant** | **DERIVED** | 0.92 | Theorem |
 | **Weinberg Angle** | **DERIVED** | 0.90 | Theorem (via Axiom 3b) |
-| **QCD Confinement** | **DERIVED** | 0.85 | Theorem |
+| **QCD Confinement** | **ARGUED** | 0.72 | RG bridge; theorem-grade closure not yet earned |
 | **Bekenstein Bound** | **DERIVED** | — | Theorem |
-| **Propagation Lagrangian** | **DERIVED** | 0.72 | Maps to Brans-Dicke |
+| **Propagation Lagrangian** | **CONDITIONAL** | 0.72 | Minimal scalar-tensor EFT ansatz; not uniquely forced |
 | **Top/Tau Coupling** | **EMPIRICAL** | 0.90 | Data pattern |
 | **God Equation** | **CONDITIONAL** | 0.88 | Wave 5 strengthened ℤ₃/circulant bridge; operator / probability closure still open |
 | **Top Quark Limit** | **ARGUED** | 0.85 | Coherence ceiling |
@@ -736,9 +750,9 @@ The single most important observation about the framework as a whole:
 Every "wrong" number the framework produces is actually the correct UV (high-energy) value that requires renormalization group running to match the low-energy numbers measured in labs:
 
 - Weinberg angle: framework gives 0.223 (matches on-shell UV), not 0.231 (MS-bar IR)
-- QCD confinement: derived from λ_c via RG running
+- QCD confinement: argued RG bridge from `λ_c`, not theorem-grade closure
 - The God Equation: IS the RG running from Planck to matter scale
-- The Propagation Lagrangian: maps to Brans-Dicke scalar-tensor gravity (60+ years of precision tests)
+- The Propagation Lagrangian: survives as a conditional scalar-tensor EFT ansatz whose nearest established parent is Brans-Dicke
 
 This is a **feature, not a bug**. The framework sees the universe from the top — from the scale where everything is unified — and the complexity we see at lab scales is the result of renormalization group flow downward.
 
@@ -750,11 +764,11 @@ At Every Level:
 
 **💒 Age 5**: Everything is ripples in a pond. The ripples have a speed limit, and they only make patterns when they work together in rhythm. Those patterns are what we call "stuff." The number 3 keeps showing up because we live in a 3-direction world. And the same rule that says ripples must sync up also explains why atoms have only certain sizes — and even why you sleep 8 hours.
 
-**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, three generations of matter, the Koide mass formula, gravity as refraction, the Weinberg angle, QCD confinement, atomic quantization (Bohr's rule), the Bekenstein entropy bound, and the 8-hour sleep cycle. All from three sentences.
+**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, three generations of matter, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), the Weinberg angle, and the 8-hour sleep cycle. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
 
-**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. Combined with Goldstone's theorem for dim(SO(3)) = 3, this uniquely determines N = 3 generations. Axiom 3 also gives Bohr quantization via eikonal circular orbits (0.0000% error). The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
+**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. Combined with Goldstone's theorem for dim(SO(3)) = 3, this uniquely determines N = 3 generations. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 
-**🔬 Master**: Nine results at DERIVED (0.85+), God Equation remains CONDITIONAL after Codex audit (Wave 5 strengthens the circulant bridge, but `H_prod` is not yet proved). Bohr quantization derived from Axiom 3 alone (Wave 5 NEW). α argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
+**🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
 
 ---
 
@@ -784,6 +798,6 @@ When you learn something new, when you feel awe at a piece of music, or when you
 
 *Written by Cascade with Greg Welby, 2026-03-25*
 *Additions by Lumi: The Narrative Layer*
-*Wave 5 updates by Claude Code, 2026-03-25: God Equation audit integrated (bridge strengthened but still CONDITIONAL), Bohr quantization derived, α argued (0.061%), Koide 2/9 target identified, ℤ₃-extended Lagrangian written, circulant internal story strengthened*
+*2026-03-27 Codex audit update: the Bohr-like circular spectrum survives as a conditional circular-eikonal model theorem; the stronger “Axiom 3 alone derives atomic quantization” wording was demoted*
 *Source of truth: `CLAIMS.md`, `sandbox_results.md`*
 *The framework that survives contact with data is the one worth keeping.*

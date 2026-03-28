@@ -2,10 +2,10 @@ import numpy as np
 from scipy.optimize import fsolve
 
 # The Propagation Framework API (v0.1)
-# Open Source Physics Layer
+# Demo / calculator layer — not an evidentiary artifact
 
 class PropagationFramework:
-    """Core mathematical derivations of the Propagation Framework."""
+    """Demo-facing calculator for current framework formulas and placeholders."""
 
     @staticmethod
     def generations():
@@ -74,7 +74,8 @@ class PropagationFramework:
 if __name__ == "__main__":
     print("Propagation Framework API (v0.1)")
     print("-" * 40)
+    print("NOTE: demo/calculator surface only — claim status is controlled by CLAIMS.md and hostile audits.")
     print(f"Generations (N)       : {PropagationFramework.generations()}")
     print(f"Koide Ratio (Q)       : {PropagationFramework.koide_ratio():.4f}")
-    print(f"sin^2(theta_W)        : {PropagationFramework.weinberg_angle_unification():.5f} (Derived, matches PDG on-shell 0.22337 to 0.13σ)")
+    print(f"sin^2(theta_W)        : {PropagationFramework.weinberg_angle_unification():.5f} (formula evaluation; see CLAIMS.md for audited status)")
     print(f"God Eq. lambda_c      : {PropagationFramework.god_equation_prediction():.4e} m")

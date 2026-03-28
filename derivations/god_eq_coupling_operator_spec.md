@@ -100,10 +100,10 @@ where $K_{\mathrm{closure}}(\theta) := K_{\mathrm{spatial}}(\theta)^3$.
 
 | Property | Status | Justification |
 |----------|--------|---------------|
-| Diagonal in generation space | YES — $\bar{S}^3 = I$ | G1 exact closure |
+| Diagonal in generation space | CONDITIONAL — only on the pure-shift / phase-independent branch | Generic nearest-neighbor circulant does **not** stay diagonal after 3 steps |
 | Circulant: $[T_{\mathrm{eff}}, \bar{S}] = 0$ | YES — scalar × identity | Trivially |
 | Equal marginals: $T_{jj} = T_{j'j'}$ | YES — all equal $K_{\mathrm{closure}}(\theta)$ | Phase-independence |
-| Off-diagonal = 0: $T_{j'j} = 0$ for $j' \neq j$ | YES — after full cycle | $\bar{S}^3 = I$ |
+| Off-diagonal = 0: $T_{j'j} = 0$ for $j' \neq j$ | CONDITIONAL — pure-shift branch only | Later no-go showed this fails for the actual two-sided nearest-neighbor circulant |
 | Regularity: $K_{\mathrm{closure}}(\theta) > 0$ | **CONDITIONAL** | See Section 5 |
 
 ---
@@ -117,7 +117,7 @@ where $K_{\mathrm{closure}}(\theta) := K_{\mathrm{spatial}}(\theta)^3$.
 - **For the Fisher bridge**: $T_{\mathrm{eff}} = K_{\mathrm{closure}} \cdot I$ is the correct object. The Fisher metric sees the per-cycle closure probabilities, not the one-step transitions.
 - **For Axiom 4**: The equivariance condition lives at Level 1 ($K_j = K$ for all $j$). It is $T_{\mathrm{eff}}$'s diagonal form that the Fisher bridge uses, but the *reason* it is diagonal is $\bar{S}^3 = I$ at Level 1.
 
-**No off-diagonal terms are needed in $T_{\mathrm{eff}}$**. The diagonal-identity form is not an over-simplification — it is the exact consequence of G1 closure + Axiom 4 equivariance.
+**Scope note**: no off-diagonal terms are needed in $T_{\mathrm{eff}}$ only on the pure-shift / phase-independent branch. Later hostile audit showed the actual nearest-neighbor circulant derived from the ℤ₃ EOM does **not** produce diagonal 3-step closure, so the identity form here is a branch ansatz, not the generic outcome.
 
 ### Q2: Does the discrete Planck-scale walk preserve $K_{\mathrm{spatial}} > 0$?
 
@@ -138,7 +138,7 @@ From `g3_product_walk_no_go.md` Section 5: a nearest-neighbor walk on a bipartit
 
 ### Q3: Does exact phase closure ($P_{\mathrm{phase}} = 1$) force off-diagonal $T_{j'j} = 0$?
 
-**Answer**: YES — but only for $T_{\mathrm{eff}}$, the 3-step closure operator.
+**Answer**: YES — but only for $T_{\mathrm{eff}}$ on the pure-shift branch, the 3-step closure operator.
 
 The precise chain:
 
@@ -146,7 +146,7 @@ The precise chain:
 2. Two steps: $\bar{S}^2$ sends $|j\rangle \to |j+2\rangle$ — still off-diagonal
 3. Three steps: $\bar{S}^3 = I$ — **perfectly diagonal**, all amplitude returns to the starting channel
 
-Therefore Claude's statement "$P_{\mathrm{phase}} = 1$ means off-diagonal = 0$" is correct if and only if $T$ is defined as $T_{\mathrm{eff}}$ (the per-cycle closure operator), not the primitive coupling $U$.
+Therefore Claude's statement "$P_{\mathrm{phase}} = 1$ means off-diagonal = 0$" is correct if and only if $T$ is defined as $T_{\mathrm{eff}}$ (the per-cycle closure operator) **and** the primitive dynamics are on the pure-shift branch, not the generic two-sided nearest-neighbor circulant.
 
 ---
 

@@ -99,9 +99,9 @@ where $N^{D/2} = 3^{3/2} = 5.196$ (three coherent modes in 3D), $b_0 = 16/3$ (SO
 
 ### Link 2: Matter Scale → Nuclear Scale
 
-**What is derived**: Quark confinement radius $r_\text{conf} \approx 0.9$ fm (proton scale) from $\lambda_c$ via QCD renormalization group running.
+**What survives hostile audit**: QCD confinement is plausibly an RG-generated infrared scale from $\lambda_c$, supporting the interpretation that no third fundamental PF coherence ceiling is needed.
 
-**From**: $\lambda_c$ + SU(3) color group beta function + Axiom 3 (confinement as coherence boundary).
+**From**: calibrated $\lambda_c$ + empirical $\alpha_s(\lambda_c)$ + SU(3) beta function + PF interpretation of confinement as an emergent trapping scale.
 
 **Key step**:
 
@@ -109,11 +109,11 @@ $$r_\text{conf} = \lambda_c \cdot \exp\!\left(\frac{2\pi}{b_0^\text{SU(3)}\, \al
 
 where $b_0^\text{SU(3)} = 7$ for $N_f = 6$ flavors.
 
-**Numerical result**: Predicts 2.2 fm; observed ~0.9 fm. Factor-of-2.5 error is exactly the known 1-loop QCD discrepancy — standard QCD textbooks show identical errors at 1-loop. No new PF axiom is needed.
+**Numerical result**: 1-loop gives 2.2 fm; observed scale is ~0.9 fm. That is a real factor-of-2.5 miss. The repo does not currently show a threshold-aware higher-loop calculation that closes the gap cleanly.
 
-**Status**: `DERIVED 0.85`
+**Status**: `ARGUED 0.72`
 
-**Note on the error**: This is not a failure — it is a calibration marker. The 1-loop approximation consistently gives factor-of-2 to 3 errors in QCD at hadronic scales. Higher-loop corrections would reduce the error. The structural point is that $r_\text{conf}$ is a consequence of $\lambda_c$ with no third fundamental scale.
+**Note on the error**: The structural mechanism survives, but the theorem-grade wording does not. The strongest honest statement is that the RG bridge is plausible and that PF has not yet shown a need for a third fundamental scale.
 
 **Falsification**: Measurement of confinement radius inconsistent with QCD running from $\lambda_c$.
 
@@ -123,30 +123,30 @@ where $b_0^\text{SU(3)} = 7$ for $N_f = 6$ flavors.
 
 ### Link 3: Nuclear Scale → Atomic Scale
 
-**What is derived**: Bohr quantization — allowed orbital radii $r_k = 2k^2$ and energies $E_k = -1/(4k^2)$ for the hydrogen atom.
+**What survives hostile audit**: within the circular eikonal Coulomb model, phase closure yields a Bohr-like circular-orbit spectrum with allowed radii $r_k = 2k^2$ and energies $E_k = -1/(4k^2)$.
 
 **From**: Axiom 3 (phase closure) + Axiom 1 (electron as propagation mode in Coulomb field) + eikonal circular orbit condition.
 
 **Key steps**:
 
-1. The Coulomb field sets the refractive index: $n^2(r) = 1 + 1/(2r)$
+1. The circular eikonal Coulomb model uses $n^2(r) = E + 1/r$
 2. The eikonal circular orbit condition: $n^2(r_0) = 1/(2r_0)$, giving $n(r_0) = 1/\sqrt{2r_0}$
 3. Axiom 3 phase closure: $\oint n\,ds = n(r_k)\cdot 2\pi r_k = 2\pi k$
 4. Solving: $n(r_k) = 1/(2k)$ → $r_k = 2k^2$ → $E_k = -1/(4k^2)$
 
-This is the exact Bohr spectrum in natural units.
+This is a Bohr-like `1/k^2` spectrum in natural units for the circular-orbit family.
 
 **Numerical result**: 0.0000% error at $k = 1, 2, 3, 4$. (Wave 5, 2026-03-25)
 
-**Status**: `DERIVED 0.95`
+**Status**: `CONDITIONAL 0.82`
 
-**Significance**: Atomic quantization was historically a postulate — added to classical mechanics by hand. It is now derived from Axiom 3 alone, the same axiom that fixes the generation count and the Weinberg angle. This is the cleanest new result in the framework.
+**Significance**: The sandbox exposes a real semiclassical model theorem, but the stronger claim “Axiom 3 alone derives atomic quantization” did not survive hostile audit. The hidden step is the physical validity of the circular eikonal Coulomb model at atomic scale.
 
 **Open extension**: Does the same eikonal + phase-closure method reproduce the full Schrödinger spectrum (angular momentum quantum numbers $l$, $m$, degeneracies)? The 3D extension is not yet worked.
 
 **Falsification**: Proof that the eikonal approximation is invalid at atomic scales, or that the Coulomb refractive index derivation breaks at some step.
 
-**Key file**: `sandbox/coulomb_lens_ultimate.py` Phase 4
+**Key files**: `sandbox/coulomb_lens_ultimate.py` Phase 4, `derivations/bohr_quantization_audit_2026-03-27.md`
 
 ---
 
@@ -257,8 +257,8 @@ The same topology that governs the quark/lepton spectrum governs the optimal ope
 |------------|---------------|--------|------------|-----------------|
 | Medium → Planck | Geometry coherence threshold, $l_P$ form from Axiom 3 | CONDITIONAL | 0.70 | Novel — but $G$ not derived |
 | Planck → Matter | God Equation, RG running, $N^{D/2}$ mode count | CONDITIONAL | 0.88 | **Novel** — 0.4% error, nothing else does this |
-| Matter → Nuclear | QCD confinement, RG running from $\lambda_c$ | DERIVED | 0.85 | Recast of QCD + novel input scale |
-| Nuclear → Atomic | **Bohr quantization from Axiom 3** (Wave 5) | **DERIVED** | **0.95** | **Novel** — same axiom, different scale |
+| Matter → Nuclear | QCD confinement as RG bridge from $\lambda_c$ | ARGUED | 0.72 | Recast of QCD + PF scale interpretation |
+| Nuclear → Atomic | **Bohr-like circular spectrum from phase closure** (Wave 5, audited 2026-03-27) | **CONDITIONAL** | **0.82** | **Novel model theorem** — stronger axiom-only claim failed audit |
 | Atomic → Molecular | Chemistry as coherence refraction | ARGUED | 0.72 | Narrative recast — no novel prediction |
 | Molecular → Cell | Life as coherence maintenance | ARGUED | 0.72 | Consistent — no numeric threshold |
 | Cell → Human | **(2,1) topology → 8h sleep** | DERIVED | 0.92 | **Novel** — topological derivation |
@@ -286,7 +286,7 @@ Honesty requires naming where PF is not the best available tool:
 
 In descending order of formal strength:
 
-1. **Bohr quantization from Axiom 3** — 0.0000% error at k=1,2,3,4. Historically a postulate; now derived from the same rule that counts generations. DERIVED 0.95.
+1. **Bohr-like circular spectrum from phase closure** — within the circular eikonal Coulomb model, phase closure gives `r_k = 2k²`, `E_k = -1/(4k²)`. Hostile audit demoted the stronger axiom-only wording. CONDITIONAL 0.82.
 
 2. **(2,1) topological weights → N=3 generations** — from $\pi_1(\text{SO}(3)) \cong \mathbb{Z}_2$ and Goldstone's theorem. DERIVED 0.98.
 

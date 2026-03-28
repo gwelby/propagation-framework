@@ -1,10 +1,10 @@
 # ℤ₃-Extended Propagation Lagrangian
-*Derivation of circulant T(θ) — closing R1 for the God Equation*
+*Exploratory derivation of a circulant T(θ) candidate for the God Equation coupling layer*
 
 **Date**: 2026-03-25
 **Author**: Claude Code
-**Status**: FORMAL DERIVATION — R1 target for Codex audit
-**Closes**: God Equation Gap 1 (richer Lagrangian required by Codex 2026-03-25 audit)
+**Status**: EXPLORATORY DERIVATION NOTE — historical candidate, superseded by later hostile audits
+**Role**: records a proposed ℤ₃-resolved coupling layer; does not by itself close God Equation Gap 1
 **Feeds into**: `god_eq_t_theta_formal_spec.md` (R1), `god_eq_c3_equivariance_skeleton.md` (Version C)
 
 ---
@@ -21,17 +21,17 @@
 2. Show the extension is C₃-invariant by construction (Axiom 2 forbids preferred channels).
 3. Derive the coupling matrix T(θ) from the equations of motion and show it is circulant.
 4. Conclude [T(θ), S̄] = 0 from circulant structure (not from hand-waving).
-5. Close R1. Close H_C3stat. Argue H_prod at the closure level.
+5. Offer a concrete candidate route toward R1 / H_C3stat and expose the remaining gaps around H_prod and Fisher closure.
 
 **What this closes vs what remains:**
 
 | Condition | Before this file | After this file |
 |-----------|-----------------|-----------------|
-| R1 — [T(θ), S̄] = 0 | POSTULATE (Axiom 4) | **DERIVED** from C₃-invariant Lagrangian |
-| H_C3stat — equal marginals | OPEN (depends on R1) | **CLOSED** (follows from R1) |
-| H_prod — statistical independence | OPEN | **ARGUED at closure level** |
-| God Equation Gap 1 | OPEN | **CLOSED** |
-| God Equation Gap 2 (H_prod full) | — | Still open (see Section 9) |
+| R1 — [T(θ), S̄] = 0 | POSTULATE / target | **ARGUED candidate** from the proposed ℤ₃-invariant Lagrangian |
+| H_C3stat — equal marginals | OPEN (depends on R1) | **ARGUED candidate** if the coupling identification is accepted |
+| H_prod — statistical independence | OPEN | **OPEN** |
+| God Equation Gap 1 | OPEN | **NOT CLOSED** by this file alone |
+| God Equation Gap 2 (H_prod full) | — | Still open |
 
 ---
 
@@ -162,23 +162,25 @@ and $m_{j'j}(\theta) = \kappa(\theta)(S̄_{j'j} + S̄^{-1}_{j'j})$ encodes the l
 
 ---
 
-## 5. R1 Follows from Circulant Structure
+## 5. Candidate Route to R1 from Circulant Structure
 
-**Theorem (R1)**: Under $\mathcal{L}_{\mathbb{Z}_3}$, the channel coupling kernels satisfy $K_j(\theta) = K_\text{spatial}(\theta)$ for all j ∈ ℤ₃ and all θ.
+**Candidate theorem (R1 route)**: Under $\mathcal{L}_{\mathbb{Z}_3}$, the channel coupling kernels may satisfy $K_j(\theta) = K_\text{spatial}(\theta)$ for all j ∈ ℤ₃ and all θ, provided the identification between the EOM coupling matrix and the primitive walk kernels is valid.
 
 **Proof**: The coupling matrix T(θ) is circulant (Section 4.2). A circulant matrix $[t_0, t_1, t_2]$ satisfies $T_{j'j} = t_{j'-j \bmod 3}$ — depending only on the relative shift, not on absolute channel labels. In the primitive coupling operator $U(\theta) = \sum_j |j+1\rangle\langle j| \otimes K_j(\theta)$, the kernel $K_j(\theta)$ is determined by the $j$-th row of T(θ). Since all rows of a circulant are cyclic shifts of each other, the kernel $K_j(\theta)$ is the same function of θ for all j. Formally:
 
 $$T_{j'j}(\theta) = t_{j'-j\bmod 3}(\theta) \implies K_j(\theta) = \sum_{j'} T_{j'j}(\theta)|j'\rangle = K_\text{spatial}(\theta) \;\forall\, j$$
 
-where $K_\text{spatial}(\theta)$ is the common channel kernel defined by the first column of T(θ). **QED.**
+where $K_\text{spatial}(\theta)$ is the common channel kernel defined by the first column of T(θ).
 
-**Corollary**: $U(\theta) = \bar{S} \otimes K_\text{spatial}(\theta)$ — the primitive coupling factorizes as claimed in `god_eq_t_theta_formal_spec.md` Section 3. ✓
+**Audit caution**: later hostile audit did not accept this as a completed proof. The step from a circulant EOM coupling matrix to channel-identical primitive kernels is a modeling identification that still needs justification in the exact walk/statistical construction.
+
+**Candidate corollary**: $U(\theta) = \bar{S} \otimes K_\text{spatial}(\theta)$ — the primitive coupling factorizes as claimed in `god_eq_t_theta_formal_spec.md` Section 3, if the identification above is accepted.
 
 ---
 
-## 6. H_C3stat Follows from R1
+## 6. Candidate Route from R1 to H_C3stat
 
-**Theorem (H_C3stat)**: Under $\mathcal{L}_{\mathbb{Z}_3}$, the statistical family of the generation walk is C₃-invariant:
+**Candidate theorem (H_C3stat route)**: Under $\mathcal{L}_{\mathbb{Z}_3}$, the statistical family of the generation walk is C₃-invariant:
 
 $$P(X^{(0)}, X^{(1)}, X^{(2)} | \theta) = P(X^{(\sigma(0))}, X^{(\sigma(1))}, X^{(\sigma(2))} | \theta)$$
 
@@ -190,13 +192,13 @@ $$p_j(x|\theta) = \sum_{x'} T_{jx'}(\theta)\,\rho(x') = \sum_{x'} T_\text{spatia
 
 (using the circulant form $T_{jx'} = t_{j-x' \bmod 3}$). Equal marginal laws imply equal Fisher information blocks $G^{(j)}(\theta)$. Under H_iso (each block isotropic by Axiom 2), $\lambda_j(\theta) = \lambda_0(\theta)$ for all j. Equal scalar Fisher entries imply the joint distribution is permutation-invariant. **QED.**
 
-**Consequence**: Lemma 2 of the Generation-Channel Additivity Theorem is now closed:
+**Candidate consequence**: Lemma 2 of the Generation-Channel Additivity Theorem would close if the statistical-family identification and isotropic Fisher block assumptions are accepted:
 
 $$G(\theta) = 3\lambda_0(\theta)\,I_D \implies \sqrt{\det G} = 3^{D/2}\sqrt{\det g} = N^{D/2}\sqrt{\det g} \quad \checkmark$$
 
 ---
 
-## 7. H_prod at the Closure Level
+## 7. Closure-Level Decoupling Does Not Yet Prove H_prod
 
 **H_prod** (statistical independence): $P(X^{(0)}, X^{(1)}, X^{(2)} | \theta) = \prod_{j} p_j(X^{(j)}|\theta)$
 
@@ -218,16 +220,16 @@ $$\langle j | T_\text{eff}(\theta) | j'\rangle = K_\text{closure}(\theta)\,\delt
 
 The off-diagonal elements are exactly zero. This is the statement that after one complete cycle, the generation channels are **dynamically decoupled**. For the Fisher information calculation (which integrates over one complete closure cycle), the per-channel contributions are independent.
 
-**Therefore H_prod holds at the closure level**, and the Fisher additivity result is:
+**What this would give, at most**: closure-level decoupling of the effective return matrix. That is weaker than full `H_prod`, and later hostile audit did not accept it as sufficient to conclude Fisher additivity:
 
 $$G(\theta) = \sum_{j=0}^{2} G^{(j)}(\theta) = 3\lambda_0(\theta)\,I_D \quad \checkmark$$
 
 **What remains for a complete H_prod proof**:
-A full probabilistic argument showing that the closure-level decoupling implies factorization of the joint distribution, not just of the Fisher information. This requires specifying the noise model for the channel observables, which is not yet defined in the PF. This is a well-posed open subproblem (it is the "statistical independence" gap identified by Codex), but it does not block the God Equation result because the Fisher information calculation requires only closure-level independence.
+A full probabilistic argument showing that the closure-level decoupling implies factorization of the joint distribution, not just of the Fisher information. This requires specifying the noise model for the channel observables, which is not yet defined in the PF. This is a well-posed open subproblem (it is the "statistical independence" gap identified by Codex), and it does block unconditional God Equation closure.
 
 ---
 
-## 8. Summary: What the ℤ₃-Extended Lagrangian Derives
+## 8. Summary: What the ℤ₃-Extended Lagrangian Proposes
 
 Starting from Axioms 1–3 plus the G1 model (N=3 generation channels from ℤ₆/ℤ₂ quotient):
 
@@ -252,16 +254,16 @@ Circulant T(θ)
 R1 + Axiom 2 isotropy
     → H_C3stat: equal channel marginals       (Section 6)
          |
-H_C3stat + T_eff = K³·I
-    → H_prod at closure level                 (Section 7)
+H_C3stat + candidate T_eff structure
+    → closure-level decoupling proposal       (Section 7)
          |
-H_prod + L5 (Fisher additivity)
-    → G(θ) = N^{D/2} √det(g)               (Lemma 2 closed)
+Full H_prod + Fisher additivity + isotropy
+    → still open
          |
-    → God Equation λ_c = √2 l_P exp(4π²N^{D/2}/b₀)  DERIVED
+    → God Equation remains CONDITIONAL on later board
 ```
 
-**Axiom 4 is now a theorem**: [T(θ), S̄] = 0 follows from the C₃ invariance of $\mathcal{L}_{\mathbb{Z}_3}$, which follows from Axioms 1–2 + G1. It is no longer an independent postulate.
+**Audit status**: this file is best read as a candidate route toward a derived coupling principle. Later hostile audit did not accept Axiom 4 as eliminated by this note alone.
 
 ---
 
@@ -269,13 +271,13 @@ H_prod + L5 (Fisher additivity)
 
 ### 9.1 H_prod Full Proof (God Equation Gap 2)
 
-The closure-level argument in Section 7 gives H_prod for the Fisher information calculation. A complete proof requires:
+The closure-level argument in Section 7 gives, at best, a candidate decoupling statement for one full return cycle. A complete proof requires:
 
 1. Define the noise model: what is the probability distribution of the observable $X^{(j)}$ given channel j is in state $|j'\rangle$ after one closure step?
 2. Show the joint noise across channels is uncorrelated.
 3. This likely requires showing that the ℤ₃-extended Lagrangian produces independent channel-by-channel phase fluctuations at closure.
 
-**Route**: The Markovian walk from Axiom 2 (causal locality) is the natural noise model — each step depends only on the current position, not on the history. Under Axiom 2, the noise sources at different spatial locations are independent. Since the three generation channels couple to different spatial walks (different DFT modes of the spatial lattice), their noise sources are indeed independent. This argument needs to be made precise.
+**Route under consideration**: a Markovian or other explicit noise model may provide the needed factorization, but hostile audit did not accept "Axiom 2 => coarse first-order Markovity" as proved. Any future closure must supply that probabilistic step directly.
 
 **Status**: ARGUED. Not yet a formal proof.
 
@@ -285,7 +287,7 @@ The circulant form of T(θ) is derived; the specific values of the circulant ent
 
 The constraint $t_0 + t_1 + t_2 = 1$ (stochastic normalization) leaves 2 free parameters. The additional constraint from the God Equation derivation (equal marginals → $t_0 = t_1 = t_2 = 1/3$ in the maximally symmetric case?) would close these. This needs investigation.
 
-**Status**: OPEN. Does not affect the God Equation derivation (which requires only the circulant form, not the specific values).
+**Status**: OPEN. This does not by itself settle the God Equation because the bridge also depends on `H_prod` and the Fisher/isotropy closure steps.
 
 ---
 
@@ -299,7 +301,7 @@ The constraint $t_0 + t_1 + t_2 = 1$ (stochastic normalization) leaves 2 free pa
 | **M(θ) circulant → T(θ) circulant** | Is the identification T(θ) = Normalize(M(θ)) justified? | Yes |
 | **R1 from circulant** | Is the proof in Section 5 correct? | Yes |
 | **H_C3stat from R1** | Is equal marginals derivation in Section 6 correct? | Yes |
-| **H_prod at closure** | Is T_eff = K³·I sufficient for Fisher additivity? | Yes |
+| **H_prod at closure** | Is closure-level decoupling sufficient for Fisher additivity? | **No — hostile audit later rejected this** |
 | **Axiom 4 eliminated** | Can the C₃ equivariance argument stand without Axiom 4? | **HINGE** |
 | **Scalar Lagrangian limit** | Does ℒ_{ℤ₃} reduce correctly to ℒ_prop in symmetric vacuum? | Yes |
 
@@ -323,5 +325,5 @@ The scalar Lagrangian had the right *argument* (internal isotropy forbids prefer
 
 *Written 2026-03-25 by Claude Code*
 *Directly addresses Codex's 2026-03-25 audit rejection of God Equation R1*
-*Status: FORMAL DERIVATION — pending Codex audit*
-*Next step: Run companion sandbox verification of circulant structure; then submit for Codex audit*
+*Status at time of writing: exploratory derivation note*
+*Current read: historical candidate route; see later God Equation freeze audits for authoritative status*
