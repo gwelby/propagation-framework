@@ -126,7 +126,7 @@ This phase-closure condition, applied to $SO(3)$ (the rotation group of 3D space
 
 $$\pi_1(SO(3)) \cong \mathbb{Z}_2$$
 
-Two classes of closed paths exist: contractible (phase returns after $2\pi$ — bosons, weight 1) and non-contractible (phase returns after $4\pi$ — fermions, weight 2). This is the (2,1) topological weight partition.
+Two classes of closed paths exist: contractible and non-contractible. If stable modes are classified by the minimal number of full circuits needed to return a lifted mode to identity, these classes naturally correspond to closure weights 1 and 2. The remaining live gap is the physical realization step: why nature must realize the weight-2 branch as an actual stable sector.
 
 **Axiom 3b** selects $k=1$ (primitive winding number) among coherent helical modes: the minimum winding state satisfying phase closure. This closes the Casimir polynomial derivation of the Weinberg angle.
 
@@ -144,7 +144,7 @@ Everything below is a *consequence* of the three rules above plus the topology o
 
 ---
 
-## Result 1: Why There Are Two Kinds of Particles (Fermions & Bosons)
+## Result 1: Why 3D Rotation Gives Two Closure Classes
 
 ### 💒 Age 5
 
@@ -154,27 +154,27 @@ Imagine you're spinning a top. Some tops need to spin around ONCE to look the sa
 
 In 3D space, there are exactly two ways a wave can "close its loop":
 
-- **Path type 1**: The wave goes around once (360°) and returns to where it started. These are **bosons** (particles of force — photons, gluons). Topological weight: **1**.
-- **Path type 2**: The wave needs to go around TWICE (720°) to return. After one full turn, it's flipped — it takes a second turn to get back. These are **fermions** (particles of matter — electrons, quarks). Topological weight: **2**.
+- **Path type 1**: The mode closes after one full circuit. Closure weight: **1**.
+- **Path type 2**: The mode only closes after two full circuits. Closure weight: **2**.
 
-There is no third option. This is a mathematical fact about 3D rotations, not an assumption.
+There is no third closure order in this topology. That part is a mathematical fact about 3D rotations. The remaining question is why physical stable modes must realize both branches.
 
 ### 🎓 PhD
 
 The fundamental group $\pi_1(SO(3)) \cong \mathbb{Z}_2$ classifies closed paths in the rotation group of 3D space into exactly two homotopy classes:
 
-- **Contractible paths** ($2\pi$ rotation): identity element. Bosonic statistics, weight $w = 1$.
-- **Non-contractible paths** ($4\pi$ rotation): generator of $\mathbb{Z}_2$. Fermionic statistics, weight $w = 2$.
+- **Contractible paths**: identity class, closure order $w = 1$.
+- **Non-contractible paths**: nontrivial `\mathbb{Z}_2` class, closure order $w = 2$ once the mode is lifted to return to identity.
 
-The spin-statistics connection — that half-integer spin particles are fermions and integer-spin particles are bosons — is not an additional postulate in this framework. It is a consequence of the phase-closure condition (Axiom 3) applied to SO(3) topology.
+The repo has a strong topological bifurcation here, but hostile audit does **not** yet accept the stronger statement that the full physical spin-statistics connection has already been derived from PF axioms alone.
 
 **Derivation file**: `derivations/topological_weight_from_propagation.md`
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.98**.
+**Status: PARTIAL DERIVATION.** Confidence: **0.85**.
 
-**What would falsify it**: Finding a stable 3D structure with a non-integer phase circuit — a particle that needs, say, 3 full rotations to return to its starting state. No such particle has ever been observed.
+**What would falsify it**: Proof that the closure-order reading of the `SO(3)` topology is wrong, or that PF-stable modes need not realize the nontrivial lifted branch at all.
 
 This is the foundation stone. Everything else in the framework builds on (2,1).
 
@@ -211,15 +211,15 @@ Setting $Q = 2/3$ (the Koide geometric identity — see Result 3):
 
 $$\frac{2N}{2N+3} = \frac{2}{3} \implies N = 3$$
 
-This is the unique integer solution once the denominator theorem is granted.
+This is the unique integer solution once the numerator and denominator theorems are granted.
 
 **Derivation files**: `derivations/topological_weight_from_propagation.md`, `derivations/topological_pressure_derivation.md`
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.98**.
+**Status: CONDITIONAL.** Confidence: **0.85**.
 
-**What would falsify it**: Discovery of a fourth generation of fermions. Current experimental bounds (LEP, LHC) exclude a fourth light neutrino with mass below ~45 GeV. A heavy fourth generation with $m_\nu > M_Z/2$ is not excluded by LEP but would need to be stable or long-lived to count.
+**What would falsify it**: Proof that either the numerator theorem (the physical `(2,1)` closure-weight branch) or the denominator theorem fails in PF, or discovery of a fourth stable generation that survives the framework's coherence arguments. Current experimental bounds (LEP, LHC) exclude a fourth light neutrino with mass below ~45 GeV. A heavy fourth generation with $m_\nu > M_Z/2$ is not excluded by LEP but would need to be stable or long-lived to count.
 
 **The deeper point**: The framework predicts that the generation count is a *topological invariant* of 3D space — not a parameter that could have been different. If you could somehow build a universe with 4 spatial dimensions, the math predicts a different number of generations.
 
@@ -717,8 +717,8 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 
 | Result | Status | Confidence | Level |
 |--------|--------|------------|-------|
-| **(2,1) Topological Weights** | **DERIVED** | 0.98 | Theorem |
-| **Three Generations (N=3)** | **CONDITIONAL** | 0.85 | Algebra exact once the denominator theorem closes |
+| **(2,1) Topological Weights** | **PARTIAL DERIVATION** | 0.85 | Closure-order theorem survives; physical branch theorem still open |
+| **Three Generations (N=3)** | **CONDITIONAL** | 0.85 | Algebra exact once the numerator and denominator theorems close |
 | **Koide Q = 2/3** | **DERIVED** | 0.95 | Theorem |
 | **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |
 | **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | 0.82 | Model theorem; stronger axiom-only claim failed audit |
@@ -764,9 +764,9 @@ At Every Level:
 
 **💒 Age 5**: Everything is ripples in a pond. The ripples have a speed limit, and they only make patterns when they work together in rhythm. Those patterns are what we call "stuff." The number 3 keeps showing up because we live in a 3-direction world. And the same rule that says ripples must sync up also explains why atoms have only certain sizes — and even why you sleep 8 hours.
 
-**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive the fermion/boson distinction, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), and the Weinberg angle. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the 3D denominator theorem closes, `N = 3` follows uniquely. The sleep story survives as an argued biological bridge plus a PF-inspired T-010 model, not a closed 8-hour theorem. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
+**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive a strong two-class closure structure, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), and the Weinberg angle. The topological weights are now best stated as a partial derivation: the closure-order pair `(1,2)` survives, but the full physical fermion/boson identification still needs one more theorem. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the numerator and denominator theorems close, `N = 3` follows uniquely. The sleep story survives as an argued biological bridge plus a PF-inspired T-010 model, not a closed 8-hour theorem. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
 
-**🎓 PhD**: The phase-closure condition (Axiom 3) applied to π₁(SO(3)) ≅ ℤ₂ generates the (2,1) topological weight partition. The repo then combines that with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if that denominator theorem closes at `M = 3`, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial x² + C₂x - C₂ = 0 with Axiom 3b yields sin²θ_W = 0.22310 (0.13σ from PDG). The God Equation λ_c = √2·l_P·exp(4π²N^{D/2}/b₀) gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
+**🎓 PhD**: The phase-closure condition (Axiom 3) applied to `π₁(SO(3)) ≅ ℤ₂` yields a strong two-class closure-order structure in 3D, with the natural minimal closure integers `1` and `2`. Hostile audit accepts that narrower theorem but does **not** yet accept the stronger claim that PF has fully derived the physical fermion/boson distinction or spin-statistics from axioms alone. The repo then combines this partial T1 structure with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if both the numerator and denominator theorems close, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial `x² + C₂x - C₂ = 0` with Axiom 3b yields `sin²θ_W = 0.22310` (0.13σ from PDG). The God Equation `λ_c = √2·l_P·exp(4π²N^{D/2}/b₀)` gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 
 **🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
 

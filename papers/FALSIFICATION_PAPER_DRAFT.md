@@ -65,9 +65,7 @@ This has a direct physical consequence. There are exactly two topologically dist
 
 **Class F (Fermionic):** The mode returns to $-\psi$ after $2\pi$ (the spinor property). Two circuits are required for closure. Topological weight $w = 2$.
 
-**Claim T1 (DERIVED):** In a 3D propagation medium, Axiom 3 (phase closure) forces all stable modes into one of exactly two classes with topological weights $(w_F, w_B) = (2, 1)$.
-
-This is the origin of the fermion/boson distinction. It requires no additional axiom — it follows from the topology of three-dimensional space.
+**Claim T1 (PARTIAL DERIVATION):** In a 3D propagation medium, Axiom 3 plus `π₁(SO(3)) ≅ Z₂` gives a two-class closure-order structure. If closure weight is defined as the minimal number of full circuits needed to return a lifted mode to identity, the natural closure integers are `(2,1)`. But the current repo does not yet prove that physical stable modes must realize the weight-2 spinorial branch, so the full fermion/boson distinction is not yet completely closed from PF axioms alone.
 
 ### 3.2 Counting Stable Modes
 
@@ -304,8 +302,8 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | DERIVED | 0.98 | — |
-| T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close the denominator theorem `M = 3` from PF axioms alone |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the physical realization of the weight-2 spinorial branch from PF axioms alone |
+| T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
