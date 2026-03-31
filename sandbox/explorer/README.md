@@ -5,6 +5,7 @@ Static interactive atlas for the current Propagation Framework sandbox.
 ## What Ships
 
 - `sandbox/explorer/index.html` opens directly in a browser with no build step.
+- `sandbox/explorer/journey.html` — **NEW**: 5-minute guided narrative experience
 - `CLAIMS.md` drives audited badges and totals.
 - `UNDERSTAND.md` extends placement and explanatory copy.
 - Story mode gives the visual argument first.
@@ -16,9 +17,11 @@ Current curated snapshot:
 - `22` audited results
 - `1` unsynced item kept visible but excluded from totals
 - `7` deep computation panels plus the dashboard
+- **NEW**: Journey Mode with 4 acts + epilogue
 
 ## Routes
 
+### Reference Explorer (index.html)
 - `#hub` Scale Stack navigator
 - `#refraction` Forces as Refraction
 - `#generations` Why Exactly Three
@@ -27,6 +30,17 @@ Current curated snapshot:
 - `#god-equation` The God Equation
 - `#bohr` Bohr from Axiom 3
 - `#dashboard` Audit wall
+
+### Journey Mode (journey.html)
+A guided 5-minute narrative experience:
+- **Opening**: Three axioms appear — "What if the universe is just... propagation?"
+- **Act I**: Bohr quantization from Axiom 3 (interactive electron placement)
+- **Act II**: Three generations from topology (N-slider with Q(N) live computation)
+- **Act III**: God Equation (N,D sliders showing only (3,3) works)
+- **Act IV**: Full scoreboard + framework comparison table
+- **Epilogue**: Falsification wall (6 ways to kill the framework)
+
+**Best for**: First-time visitors, presentations, sharing with physicists
 
 ## Wave 2 Additions
 
@@ -44,10 +58,13 @@ Current curated snapshot:
 
 ```text
 sandbox/explorer/
-├── index.html
-├── style.css
-├── core.js
-├── data.js
+├── index.html          ← Reference explorer (8 panels + dashboard)
+├── journey.html        ← NEW: 5-minute narrative experience
+├── style.css           ← Dark theme with glowing accents
+├── core.js             ← Math utilities, rendering helpers
+├── data.js             ← Results from CLAIMS.md
+├── journey.css         ← Journey-specific styles
+├── journey.js          ← Journey narrative flow + animations
 ├── panels/
 │   ├── hub.js
 │   ├── refraction.js
