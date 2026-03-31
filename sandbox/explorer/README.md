@@ -42,6 +42,16 @@ A guided 5-minute narrative experience:
 
 **Best for**: First-time visitors, presentations, sharing with physicists
 
+### Framework Comparison (comparison.html) — NEW
+Side-by-side comparison of physics frameworks:
+- Interactive parameter counter (PF: 3, SM: 19, String: 10^500)
+- Head-to-head table (10 metrics)
+- Falsifiability matrix (how to kill each framework)
+- Scale coverage visualizer (Planck → Human)
+- The Delta: 6 key PF differences
+
+**Best for**: Context for physicists, "why should I care" question
+
 ## Wave 2 Additions
 
 - Dashboard filter chips are stable and re-render in place.
@@ -59,12 +69,15 @@ A guided 5-minute narrative experience:
 ```text
 sandbox/explorer/
 ├── index.html          ← Reference explorer (8 panels + dashboard)
-├── journey.html        ← NEW: 5-minute narrative experience
+├── journey.html        ← 5-minute narrative experience
+├── comparison.html     ← Framework comparison (PF vs SM vs String)
 ├── style.css           ← Dark theme with glowing accents
 ├── core.js             ← Math utilities, rendering helpers
 ├── data.js             ← Results from CLAIMS.md
 ├── journey.css         ← Journey-specific styles
 ├── journey.js          ← Journey narrative flow + animations
+├── comparison.css      ← Comparison-specific styles
+├── comparison.js       ← Comparison interactive logic
 ├── panels/
 │   ├── hub.js
 │   ├── refraction.js
