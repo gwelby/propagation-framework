@@ -222,6 +222,41 @@ select {
   animation: pulse 2s ease-in-out infinite;
 }
 
+/* Framework Comparison Button */
+.rail-comparison {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.comparison-mode-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #ff9955 0%, #cc7744 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(255, 153, 85, 0.2);
+}
+
+.comparison-mode-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 153, 85, 0.4);
+}
+
+.comparison-icon {
+  font-size: 1.2rem;
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.7; transform: scale(1.1); }

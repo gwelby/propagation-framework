@@ -68,6 +68,16 @@
           New: 5-minute guided experience from Planck to Human
         </p>
       </div>
+
+      <div class="rail-panel rail-comparison">
+        <button id="comparisonBtn" class="comparison-mode-btn" type="button">
+          <span class="comparison-icon">⚖️</span>
+          <span>Framework Comparison</span>
+        </button>
+        <p class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+          PF vs Standard Model vs String Theory
+        </p>
+      </div>
     </aside>
 
     <main class="app-main">
@@ -113,6 +123,11 @@
     // Journey Mode button handler
     document.getElementById('journeyModeBtn').addEventListener('click', () => {
       window.location.href = 'journey.html';
+    });
+
+    // Framework Comparison button handler
+    document.getElementById('comparisonBtn').addEventListener('click', () => {
+      window.location.href = 'comparison.html';
     });
   </script>
 </body>
