@@ -104,7 +104,7 @@ Recommended manual check:
 1. Open `sandbox/explorer/index.html` directly in Chrome or Edge.
 2. Visit all routes.
 3. Toggle Story / Math + Audit.
-4. On `#dashboard`, change filters repeatedly and verify the chip row stays at 6 controls.
+4. On `#dashboard`, change filters repeatedly and verify the chip row stays at 7 controls, including `Partial`.
 5. On `#god-equation`, confirm the three gap cards and dependency chain appear in audit mode.
 6. On a narrow viewport, confirm the drawer starts collapsed and opens as an overlay.
 

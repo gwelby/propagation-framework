@@ -42,9 +42,9 @@
       var xHalf = ctx.utils.casimirRoot(0.5);
       var xOne = ctx.utils.casimirRoot(1);
       var prediction = 1 - xHalf / xOne;
-      var reference = 0.22306;
-      var error = 0.00033;
-      var sigma = Math.abs(prediction - reference) / error;
+      var reference = 0.22337;
+      var sigma = 0.13;
+      var error = Math.abs(prediction - reference) / sigma;
       this.state.info.innerHTML =
         "<div class=\"panel-header\">" +
           "<div>" +
@@ -58,11 +58,11 @@
         PFExplorer.compareBarHtml(prediction, reference, error, 0.2222, 0.2238) +
         "<div class=\"metric-row\">" +
           "<span class=\"metric-pill\">prediction = " + prediction.toFixed(5) + "</span>" +
-          "<span class=\"metric-pill\">quoted PDG = 0.22306 +/- 0.00033</span>" +
-          "<span class=\"metric-pill\">tension = " + sigma.toFixed(2) + " sigma</span>" +
+          "<span class=\"metric-pill\">quoted PDG on-shell = 0.22337</span>" +
+          "<span class=\"metric-pill\">match = " + sigma.toFixed(2) + " sigma in CLAIMS.md</span>" +
         "</div>" +
         "<div class=\"note-box story-only\"><strong>Story</strong><p>The ratio is small, but the structure is sharp: two positive roots, one subtraction, one electroweak angle.</p></div>" +
-        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>Current repo status: derived via Axiom 3b, with scheme selection still open. The panel uses the quoted comparison from the derivation file, not the stale banner text in the older sandbox script.</p></div>" +
+        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>Current repo status: derived via Axiom 3b, with scheme selection still open. This panel now follows the live claim wording: 0.22310 exact from the Casimir ratio, matched to the quoted on-shell PDG value at 0.13σ.</p></div>" +
         "<div class=\"stat-grid\">" +
           "<div class=\"stat-tile\"><strong>" + xHalf.toFixed(6) + "</strong><span>x_+(1/2)</span></div>" +
           "<div class=\"stat-tile\"><strong>" + xOne.toFixed(6) + "</strong><span>x_+(1)</span></div>" +

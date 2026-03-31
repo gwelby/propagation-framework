@@ -186,6 +186,47 @@ select {
   font-size: 0.72rem;
 }
 
+/* Journey Mode Button */
+.rail-journey {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 2px solid var(--line-strong);
+  text-align: center;
+}
+
+.journey-mode-btn {
+  width: 100%;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #00cfff 0%, #0088aa 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 207, 255, 0.2);
+}
+
+.journey-mode-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 207, 255, 0.4);
+}
+
+.journey-icon {
+  font-size: 1.3rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
 .mode-toggle {
   display: inline-flex;
   padding: 4px;
@@ -519,6 +560,7 @@ select {
 
 .status-derived { color: var(--lime); }
 .status-conditional { color: var(--gold); }
+.status-partial { color: var(--amber); }
 .status-argued { color: var(--amber); }
 .status-empirical { color: var(--blue); }
 .status-intuition { color: #ff92d2; }

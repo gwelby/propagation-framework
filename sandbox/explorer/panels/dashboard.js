@@ -49,6 +49,7 @@
             "<div class=\"stat-grid\">" +
               "<div class=\"stat-tile\"><strong>" + (counts.DERIVED || 0) + "</strong><span>derived</span></div>" +
               "<div class=\"stat-tile\"><strong>" + (counts.CONDITIONAL || 0) + "</strong><span>conditional</span></div>" +
+              "<div class=\"stat-tile\"><strong>" + (counts["PARTIAL DERIVATION"] || 0) + "</strong><span>partial derivation</span></div>" +
               "<div class=\"stat-tile\"><strong>" + (counts.ARGUED || 0) + "</strong><span>argued</span></div>" +
               "<div class=\"stat-tile\"><strong>" + (counts.EMPIRICAL || 0) + "</strong><span>empirical</span></div>" +
               "<div class=\"stat-tile\"><strong>" + (counts.INTUITION || 0) + "</strong><span>intuition</span></div>" +
@@ -85,6 +86,7 @@
         { label: "All", status: "all", count: ctx.app.getAuditedResults().length },
         { label: "Derived", status: "DERIVED", count: counts.DERIVED || 0 },
         { label: "Conditional", status: "CONDITIONAL", count: counts.CONDITIONAL || 0 },
+        { label: "Partial", status: "PARTIAL DERIVATION", count: counts["PARTIAL DERIVATION"] || 0 },
         { label: "Argued", status: "ARGUED", count: counts.ARGUED || 0 },
         { label: "Empirical", status: "EMPIRICAL", count: counts.EMPIRICAL || 0 },
         { label: "Intuition", status: "INTUITION", count: counts.INTUITION || 0 }

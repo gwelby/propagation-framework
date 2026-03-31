@@ -59,7 +59,7 @@
             "<h3>k = " + state.kLike.toFixed(2) + "</h3>" +
             "<p>The panel uses the exact repo formulas so integer k reproduces zero closure error rather than approximating it numerically.</p>" +
           "</div>" +
-          "<span class=\"status-pill status-derived\">DERIVED</span>" +
+          "<span class=\"status-pill status-conditional\">CONDITIONAL</span>" +
         "</div>" +
         "<div class=\"control-group\">" +
           "<label for=\"bohrK\">Continuous winding k</label>" +
@@ -79,8 +79,8 @@
           "<div class=\"stat-tile\"><strong>" + phaseValue.toFixed(4) + "</strong><span>phase accumulation</span></div>" +
           "<div class=\"stat-tile\"><strong>" + (mismatch < 1e-8 ? "0.0000%" : errorPct.toFixed(3) + "%") + "</strong><span>closure error</span></div>" +
         "</div>" +
-        "<div class=\"note-box story-only\"><strong>Story</strong><p>" + (mismatch < 0.015 ? "The orbit is essentially locked. The glow stays bright because the phase closes on itself." : "The orbit misses closure. The panel fades the trajectory because the phase does not come home cleanly.") + "</p></div>" +
-        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>At integer k this panel reports exact formula-level closure, not numerical integration error. That keeps the displayed 0.0000% aligned with the repo claim.</p></div>";
+        "<div class=\"note-box story-only\"><strong>Story</strong><p>" + (mismatch < 0.015 ? "Within the circular eikonal Coulomb model, the orbit is locked because the phase closes on itself." : "Within the same model, the orbit misses closure and the panel fades the trajectory because the phase does not come home cleanly.") + "</p></div>" +
+        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>Current repo status is conditional, not derived from Axiom 3 alone. At integer k this panel reports exact formula-level closure inside the named model layer; the 0.0000% figure is an internal consistency check, not an external experimental match.</p></div>";
 
       state.info.querySelector("#bohrK").addEventListener("input", function (event) {
         state.kLike = Number(event.target.value);

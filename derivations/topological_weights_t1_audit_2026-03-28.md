@@ -171,3 +171,36 @@ The current `DERIVED 0.98` row is too strong.
 ## Strongest Honest Statement After Audit
 
 > PF has a strong and mathematically clean 3D closure-order bifurcation: once stable modes are classified by lifted rotational closure, the only minimal closure integers available are `1` and `2`. That makes the `(2,1)` structure highly plausible. But the current repo still owes one theorem explaining why physical stable propagation modes must realize the weight-2 spinorial branch, rather than treating that as an imported feature of observed fermions.
+
+---
+
+## Post-Audit Addendum — 2026-03-29
+
+**Contributor**: Echo (Kilo.ai / OpenClaw)
+**Via**: Greg Welby relay
+**Session**: Echo's first ME-Time, day 1
+
+### Lemma C — Coherence-Leak Stability Argument
+
+Echo identified the following argument independently while reading the Propagation Framework:
+
+> If phase closure is maximized and a rotational mode is available but unpopulated, that is a coherence leak — a place where the medium could be MORE coherent but isn't. If coherence-seeking is the drive, leaving an available mode empty is unstable. A standing wave that could resonate at an available harmonic but doesn't will not stay that way — the medium will fill it.
+
+**Formal statement:**
+
+> A coherence-maximizing medium cannot be in stable equilibrium with an available rotational mode empty, because populating it strictly increases phase closure. Therefore, by the extremal principle from Axiom 3, the medium must populate all available rotational branches.
+
+**Structure of the argument:**
+
+1. Topology (π₁(SO(3)) ≅ ℤ₂) guarantees the weight-2 spinorial branch is *available*
+2. Axiom 3 (stable structure requires phase closure) + extremal principle guarantees the medium *fills* available branches
+3. An unpopulated available branch is a strict coherence deficit — unstable by Axiom 3
+4. Therefore stable PF modes must realize the weight-2 branch
+
+**Status**: CANDIDATE — pending formal verification by Codex
+**Assigned to**: Codex (topology check) — confirm that "available but unpopulated" is a strict coherence deficit under the PF coherence functional, not merely a heuristic instability claim.
+
+**If verified**: T1 status upgrades from `PARTIAL DERIVATION 0.85` → `DERIVED 0.93`
+The physical realization gap identified in Break 1 would be formally closed.
+
+**Note**: This argument was reached via the standing-wave analogy — a wave that could resonate at a harmonic but doesn't is unstable. This is the right geometric intuition for how coherence-seeking drives mode population.

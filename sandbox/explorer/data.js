@@ -1,6 +1,6 @@
 (function () {
   window.PFExplorerData = {
-    generatedAt: "2026-03-26",
+    generatedAt: "2026-03-31",
     truthPolicy: {
       auditedSource: "../../CLAIMS.md",
       extensionSource: "../../UNDERSTAND.md",
@@ -10,7 +10,7 @@
       dependencyChain: [
         { id: "axioms", label: "Axioms 1-3", state: "axiom", note: "Propagation, locality, coherence." },
         { id: "exact-model", label: "Exact model / Z3 bridge", state: "strengthened", note: "Exact walk plus a genuine circulant internal sector." },
-        { id: "operator", label: "Operator closure", state: "open", note: "Need a primitive operator whose 3-step closure matches the physical internal dynamics." },
+        { id: "operator", label: "Operator closure", state: "open", note: "Need either a chirality-selected primitive shift operator or a rewrite around the actual non-diagonal 3-step closure." },
         { id: "h-prod", label: "H_prod", state: "open", note: "Need a joint law that proves factorization rather than only weak decoupling." },
         { id: "upgrade", label: "Upgrade to DERIVED", state: "conditional", note: "Blocked until the operator and probability bridges close." }
       ],
@@ -31,11 +31,12 @@
           id: "B",
           title: "Operator closure gap",
           verdict: "OPEN VIA REPLACEMENT PATH",
-          need: "Identify the primitive operator whose 3-step closure is diagonal for the physical internal dynamics.",
+          need: "Either derive the chirality-selected primitive operator path, or restate the closure theorem using the actual non-diagonal 3-step circulant operator.",
           survives: "The Z3-extended Lagrangian does derive a real three-channel internal sector and a circulant coupling structure.",
-          detail: "The symmetric nearest-neighbor circulant route was no-goed: T^3 stays mixed unless the primitive operator collapses to a pure shift. The route remains open only via a replacement operator path.",
+          detail: "The symmetric nearest-neighbor circulant route was closed negatively: for the actual aS + bS^2 operator, T^3 remains mixed unless ab = 0. The live frontier is now Path A chirality selection or Path B rewriting the bridge around the real non-diagonal closure object.",
           sources: [
             { label: "CLAIMS.md", href: "../../CLAIMS.md" },
+            { label: "ACTIVE_ISSUES.md", href: "../../ACTIVE_ISSUES.md" },
             { label: "derivations/z3_extended_propagation_lagrangian.md", href: "../../derivations/z3_extended_propagation_lagrangian.md" },
             { label: "derivations/god_eq_gap_B_nearest_neighbor_no_go.md", href: "../../derivations/god_eq_gap_B_nearest_neighbor_no_go.md" }
           ]
@@ -81,52 +82,53 @@
       {
         id: "bohr-quantization",
         title: "Axiom 3 to Bohr-like Quantization",
-        status: "DERIVED",
-        confidence: 0.95,
+        status: "CONDITIONAL",
+        confidence: 0.82,
         kind: "Fundamental Physics",
         scaleId: "atomic",
         formula: "r_k = 2k^2, E_k = -1 / (4k^2), integral n ds = 2pi k",
-        summary: "Circular eikonal orbits in the Coulomb refractive medium close only at integer winding, yielding the Bohr spectrum with 0.0000% error for k = 1..4.",
-        falsifier: "Show that phase closure does not select discrete orbits in the 1/r potential, or that the eikonal derivation breaks at atomic scale.",
+        summary: "In the circular eikonal Coulomb model, phase closure yields a Bohr-like 1/k² spectrum for circular orbits. The derivation rests on the Coulomb refractive ansatz, eikonal validity, and circular-orbit assumption.",
+        falsifier: "Proof that the circular eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
-          { label: "sandbox/coulomb_lens_ultimate.py", href: "../coulomb_lens_ultimate.py" }
+          { label: "sandbox/coulomb_lens_ultimate.py", href: "../coulomb_lens_ultimate.py" },
+          { label: "derivations/bohr_quantization_audit_2026-03-27.md", href: "../../derivations/bohr_quantization_audit_2026-03-27.md" }
         ],
         panelId: "bohr"
       },
       {
         id: "forces-refraction",
-        title: "Forces as Refraction",
+        title: "Forces as Refraction (Null/Stationary)",
         status: "DERIVED",
         confidence: 0.95,
         kind: "Fundamental Physics",
         scaleId: "atomic",
-        formula: "Optical metric / Randers bridge; sandbox lens n^2 = base + source / r",
-        summary: "Gravity and electromagnetism are recast as local refractive gradients. The repo records light deflection, perihelion precession, and Shapiro delay as supporting quantitative checks.",
-        falsifier: "Show that force requires non-refractive medium structure or that the optical / Randers mapping fails for null propagation.",
+        formula: "Optical metric / Randers bridge; n^2 = base + source / r",
+        summary: "GR is exactly equivalent to optical geometry for null geodesics in static spacetimes, and for null geodesics in stationary spacetimes via Randers/Finsler extension. Scalar n(x) is the weak-field/static limit.",
+        falsifier: "Proof that the optical/Randers mapping fails for null propagation in static/stationary gravity, or that gravity in that domain requires non-optical medium structure.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/gr_fermat_equivalence.md", href: "../../derivations/gr_fermat_equivalence.md" },
-          { label: "sandbox/coulomb_lens_interactive/index.html", href: "../coulomb_lens_interactive/index.html" },
-          { label: "sandbox/refractive_gravity_demo.py", href: "../refractive_gravity_demo.py" }
+          { label: "derivations/forces_as_refraction_audit_2026-03-27.md", href: "../../derivations/forces_as_refraction_audit_2026-03-27.md" },
+          { label: "sandbox/coulomb_lens_interactive/index.html", href: "../coulomb_lens_interactive/index.html" }
         ],
         panelId: "refraction"
       },
       {
         id: "weights-21",
         title: "(2,1) Topological Weights",
-        status: "DERIVED",
-        confidence: 0.98,
+        status: "PARTIAL DERIVATION",
+        confidence: 0.85,
         kind: "Fundamental Physics",
         scaleId: "matter",
-        formula: "pi_1(SO(3)) ~= Z_2, boson weight 1, fermion weight 2",
-        summary: "Phase closure on SO(3) leaves exactly two topological classes of closed paths. Bosons close in one circuit, fermions in two.",
-        falsifier: "Find a stable 3D structure with a non-integer phase circuit or a third homotopy class relevant to stable matter.",
+        formula: "π₁(SO(3)) ≅ Z₂ → closure orders {1,2}",
+        summary: "In 3D rotation topology, the two loop classes yield possible closure orders of 1 and 2, giving a mathematically natural (2,1) pair. The axioms alone do not yet prove physical realization of the weight-2 branch.",
+        falsifier: "Proof that the closure-order interpretation is wrong, or a derivation showing only the trivial branch is physically realizable.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
-          { label: "derivations/topological_weight_from_propagation.md", href: "../../derivations/topological_weight_from_propagation.md" },
-          { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" }
+          { label: "derivations/topological_weights_t1_audit_2026-03-28.md", href: "../../derivations/topological_weights_t1_audit_2026-03-28.md" },
+          { label: "derivations/topological_weight_from_propagation.md", href: "../../derivations/topological_weight_from_propagation.md" }
         ],
         panelId: "generations"
       },
@@ -138,8 +140,8 @@
         kind: "Fundamental Physics",
         scaleId: "matter",
         formula: "Q = sum m_i / (sum sqrt(m_i))^2 = 2/3",
-        summary: "The charged lepton masses sit on a geometric lock: the measured PDG masses reproduce Q near 0.6666605, while the framework assigns the exact target to the (2,1) plus three-generation structure.",
-        falsifier: "Break the three-generation closure or discover a fourth generation that changes the normalized capacity argument.",
+        summary: "Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield Q = 2/3 exactly. This is stronger than the older weight-count phrasing and does not rely on the unsettled T1/T2 bridge.",
+        falsifier: "Proof that the 120° equal-strength resonance geometry does not imply Q = 2/3, or a contradiction in the Foot-radius step.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
@@ -151,17 +153,17 @@
       {
         id: "three-generations",
         title: "Three Generations",
-        status: "DERIVED",
-        confidence: 0.98,
+        status: "CONDITIONAL",
+        confidence: 0.85,
         kind: "Fundamental Physics",
         scaleId: "matter",
         formula: "Q(N) = 2N / (2N + 3), set Q = 2/3, solve N = 3",
-        summary: "Given fermionic topological weight 2 and the SO(3) denominator 3, only N = 3 satisfies the Koide ratio. Generation count is treated as a topological lock, not a free parameter.",
-        falsifier: "Show that space is not effectively 3D for the relevant closure problem or discover a stable fourth generation.",
+        summary: "Given the physical (2,1) closure-weight branch and denominator M=3, N=3 exactly satisfies the Koide ratio. Gaps remain in proving both numerator and denominator theorems.",
+        falsifier: "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to N ≠ 3.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
-          { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
-          { label: "derivations/topological_weight_from_propagation.md", href: "../../derivations/topological_weight_from_propagation.md" }
+          { label: "derivations/three_generations_t2_audit_2026-03-28.md", href: "../../derivations/three_generations_t2_audit_2026-03-28.md" },
+          { label: "derivations/topological_weights_t1_audit_2026-03-28.md", href: "../../derivations/topological_weights_t1_audit_2026-03-28.md" }
         ],
         panelId: "generations"
       },
@@ -218,7 +220,7 @@
         kind: "Fundamental Physics",
         scaleId: "matter",
         formula: "sin^2(theta_W) = 1 - x_+(1/2) / x_+(1), x^2 + C2 x - C2 = 0",
-        summary: "The Casimir polynomial plus Axiom 3b yields 0.22310 exactly in repo math. Current comparison text uses the quoted PDG value 0.22306 +/- 0.00033, with on-shell scheme selection still open.",
+        summary: "Casimir polynomial x^2 + C2 x - C2 = 0 yields R = 1 - x_+(1/2) / x_+(1) = 0.22310 exactly. This matches the quoted PDG on-shell value 0.22337 to 0.13σ, with scheme selection (on-shell vs MS-bar) still open.",
         falsifier: "Derive a geometry-based coupling ratio that disagrees, or prove the scheme-selection step cannot be justified from the current framework.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
@@ -253,47 +255,49 @@
         kind: "Open Frontiers",
         scaleId: "planck",
         formula: "lambda_c = sqrt(2) l_P exp(4 pi^2 N^(D/2) / b0)",
-        summary: "The canonical formula lands at 1.145e-18 m with zero fitted parameters, but the God Equation stays conditional because the coarse-walk Markov bridge, the physical closure operator, and the full H_prod factorization still remain open.",
-        falsifier: "Break the numerical target with better data, or prove that the remaining operator / joint-law bridge cannot be closed from the existing axioms.",
+        summary: "The canonical formula lands at 1.145e-18 m with zero fitted parameters, but the God Equation stays conditional. Wave 6/7 IBM hardware provides physical evidence for the Path A chirality-selection story, yet the theorem still owes the coarse-walk Markov bridge, a physical operator-closure path, and full H_prod factorization.",
+        falsifier: "Independent data breaking the λ_c prediction, or proof that chirality does not follow from the Z3 Lagrangian under CP-violation.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
-          { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
+          { label: "ACTIVE_ISSUES.md", href: "../../ACTIVE_ISSUES.md" },
           { label: "derivations/lambda_c_from_axioms.md", href: "../../derivations/lambda_c_from_axioms.md" },
           { label: "derivations/z3_extended_propagation_lagrangian.md", href: "../../derivations/z3_extended_propagation_lagrangian.md" },
-          { label: "derivations/god_eq_gap_B_nearest_neighbor_no_go.md", href: "../../derivations/god_eq_gap_B_nearest_neighbor_no_go.md" }
+          { label: "derivations/god_eq_gap_B_nearest_neighbor_no_go.md", href: "../../derivations/god_eq_gap_B_nearest_neighbor_no_go.md" },
+          { label: "sandbox/ibm_quantum_h_prod_test.py", href: "../ibm_quantum_h_prod_test.py" }
         ],
         panelId: "god-equation"
       },
       {
         id: "qcd-confinement",
         title: "QCD Confinement",
-        status: "DERIVED",
-        confidence: 0.85,
+        status: "ARGUED",
+        confidence: 0.72,
         kind: "Fundamental Physics",
         scaleId: "nuclear",
         formula: "r_conf = lambda_c exp(2 pi / (b0 alpha_s(lambda_c)))",
-        summary: "The workspace now treats confinement as derived from the matter scale through RG running, with the known factor-2.5 one-loop mismatch called out as standard QCD territory rather than a new PF scale.",
-        falsifier: "Show confinement requires a third PF axiom or an independent coherence scale not already present in the chain.",
+        summary: "PF identifies a plausible RG mechanism in which the confinement radius is dynamically generated from λ_c. The current local chain still uses calibrated λ_c, empirical α_s(λ_c), and a 1-loop estimate that overshoots the physical radius, so this remains an argued bridge rather than a closed theorem.",
+        falsifier: "Evidence that confinement requires a genuinely new PF coherence scale, or a threshold-aware higher-loop analysis showing the PF RG bridge does not land on the physical confinement scale even with correct QCD matching.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/qcd_confinement_pf.md", href: "../../derivations/qcd_confinement_pf.md" },
-          { label: "visualizations/knowledge_graph.html", href: "../../visualizations/knowledge_graph.html" }
+          { label: "derivations/qcd_confinement_audit_2026-03-27.md", href: "../../derivations/qcd_confinement_audit_2026-03-27.md" }
         ],
         panelId: "god-equation"
       },
       {
         id: "propagation-lagrangian",
         title: "Propagation Lagrangian",
-        status: "DERIVED",
+        status: "CONDITIONAL",
         confidence: 0.72,
         kind: "Fundamental Physics",
         scaleId: "molecular",
         formula: "L_prop = 1/2 (partial chi)^2 - V(chi) + lambda chi T",
-        summary: "The repo derives a scalar propagation potential with matter coupling and explicitly maps the resulting effective theory into the Brans-Dicke family.",
-        falsifier: "Show the coupling form lambda chi T is dimensionally or physically inconsistent with the framework's own axioms.",
+        summary: "Axioms 1-3 strongly motivate a scalar-tensor EFT class for the propagation medium. Within that class, L_prop is the minimal scalar ansatz, but the scalar-field branch, exact λχT coupling, and form of V(χ) are not yet uniquely forced by the axioms alone.",
+        falsifier: "Proof that the scalar-medium EFT branch is not viable, or that the minimal λχT ansatz fails as the correct low-energy representative even within that class.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
-          { label: "derivations/propagation_lagrangian.md", href: "../../derivations/propagation_lagrangian.md" }
+          { label: "derivations/propagation_lagrangian.md", href: "../../derivations/propagation_lagrangian.md" },
+          { label: "derivations/propagation_lagrangian_audit_2026-03-28.md", href: "../../derivations/propagation_lagrangian_audit_2026-03-28.md" }
         ]
       },
       {
@@ -314,17 +318,18 @@
       {
         id: "sleep-8h",
         title: "8 Hour Sleep Constant",
-        status: "DERIVED",
-        confidence: 0.92,
+        status: "ARGUED",
+        confidence: 0.72,
         kind: "Biology and Mind",
         scaleId: "human",
         formula: "Wake fraction = 2 / 3, sleep fraction = 1 / 3 of 24 h",
-        summary: "The same (2,1) topological split used in matter is carried upward to a daily coherence-maintenance duty cycle, yielding 8 hours of sleep as the stable one-third interval.",
-        falsifier: "Find a stable sentient species whose long-term wake / sleep ratio sits far outside the one-third pattern.",
+        summary: "PF strongly supports the need for offline consolidation, and the T-010 model gives a plausible ~2/3 active fraction for (2,1)-weighted encode/recover systems. But the exact human 8-hour constant is not derived from Axioms 1-3 alone.",
+        falsifier: "Quantitative evidence that optimal recovery fractions are not near 1/3 in high-capacity systems, or proof that PF topology does not constrain encode/recover duty cycles in the claimed way.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
-          { label: "sandbox/consolidation_model.py", href: "../consolidation_model.py" }
+          { label: "sandbox/consolidation_model.py", href: "../consolidation_model.py" },
+          { label: "derivations/sleep_constant_audit_2026-03-28.md", href: "../../derivations/sleep_constant_audit_2026-03-28.md" }
         ]
       },
       {

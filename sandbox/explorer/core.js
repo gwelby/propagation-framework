@@ -57,6 +57,7 @@
   var statusClassMap = {
     DERIVED: "status-derived",
     CONDITIONAL: "status-conditional",
+    "PARTIAL DERIVATION": "status-partial",
     ARGUED: "status-argued",
     EMPIRICAL: "status-empirical",
     INTUITION: "status-intuition",
@@ -227,7 +228,7 @@
         { value: audited.length, label: "Audited results" },
         { value: counts.CONDITIONAL || 0, label: "Conditional" },
         { value: counts.EMPIRICAL || 0, label: "Empirical" },
-        { value: (counts.ARGUED || 0) + (counts.INTUITION || 0), label: "Frontier items" }
+        { value: (counts["PARTIAL DERIVATION"] || 0) + (counts.ARGUED || 0) + (counts.INTUITION || 0), label: "Frontier items" }
       ];
 
       cards.forEach(function (card) {

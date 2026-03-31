@@ -55,7 +55,7 @@
             "<h3>Q(N) = 2N / (2N + 3)</h3>" +
             "<p>Slide the generation count and watch the topological numerator compete against the SO(3) denominator.</p>" +
           "</div>" +
-          "<span class=\"status-pill status-derived\">DERIVED</span>" +
+          "<span class=\"status-pill status-conditional\">CONDITIONAL</span>" +
         "</div>" +
         "<div class=\"control-group\">" +
           "<label for=\"generationRange\">Generation count N</label>" +
@@ -63,8 +63,8 @@
           "<output id=\"generationOut\">N = " + state.nValue + "</output>" +
         "</div>" +
         "<div class=\"formula\">Q(N) = 2N / (2N + 3) = " + qValue.toFixed(6) + "</div>" +
-        "<div class=\"note-box story-only\"><strong>Story</strong><p>" + (exact ? "Only N = 3 lands exactly on the Koide target. The framework treats that as a topological count, not a fitted Standard Model parameter." : "This N does not hit the exact Koide target. The slider makes the uniqueness visible without reading the derivation chain.") + "</p></div>" +
-        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>Numerator 2N comes from the fermionic topological weight. Denominator 3 is the SO(3) restoration count used in the repo's current argument.</p></div>" +
+        "<div class=\"note-box story-only\"><strong>Story</strong><p>" + (exact ? "Only N = 3 lands exactly on the Koide target once the physical (2,1) branch and the denominator theorem are granted." : "This N does not hit the exact Koide target. The slider makes the uniqueness visible without hiding the fact that the numerator and denominator bridges are still being finished.") + "</p></div>" +
+        "<div class=\"note-box audit-only\"><strong>Audit</strong><p>The panel combines two linked but not fully closed claims: the (2,1) topological weights now sit at partial derivation, and the N = 3 generation lock remains conditional on both the physical-realization theorem and the denominator theorem M = 3.</p></div>" +
         "<div class=\"stat-grid\">" +
           "<div class=\"stat-tile\"><strong>" + (2 * state.nValue) + "</strong><span>fermionic weight</span></div>" +
           "<div class=\"stat-tile\"><strong>3</strong><span>SO(3) denominator</span></div>" +
