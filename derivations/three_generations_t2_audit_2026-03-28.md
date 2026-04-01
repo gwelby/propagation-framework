@@ -235,3 +235,13 @@ The current `DERIVED 0.98` board row is too strong.
 ## Strongest Honest Statement After Audit
 
 > PF strongly supports the structure in which fermions carry topological weight `2` and the Koide target `Q = 2/3` uniquely selects `N = 3` once the denominator `M = 3` is fixed. But the current repo still owes one formal theorem for why the denominator is exactly `3` from PF axioms alone. Until that theorem is closed, `N = 3` is best treated as a conditional theorem rather than a fully settled derivation.
+
+---
+
+## Follow-Up Audit Pointer — 2026-03-31
+
+The bounded follow-up audit of `derivations/t2_denominator_theorem.md` is recorded in:
+
+- `derivations/t2_denominator_theorem_audit_2026-03-31.md`
+
+That audit accepts the local `2×2` linear-algebra / co-dimension lemma inside the Fermi-point ansatz, but leaves T2 at `PARTIAL DERIVATION 0.85` because the PF order-parameter bridge, the PF -> `2×2` Fermi-point Hamiltonian bridge, and the identification of perturbation directions with massive bosonic restoration modes are still not derived from PF axioms alone.

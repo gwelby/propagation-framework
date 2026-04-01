@@ -75,7 +75,7 @@ $$W_{total} = 2N + M$$
 The leptonic Koide ratio is the fraction of the total weight carried by the fermionic sector:
 $$Q = \frac{2N}{2N + M}$$
 
-**Claim T2 (PARTIAL DERIVATION):** In 3D space, the denominator is strongly supported by convergent co-dimension / `SO(3)` / broken-symmetry arguments, all pointing to `M = 3`. But the current repo still lacks one single PF theorem proving that the co-dimension of the point defect, the number of broken directions, and the number of relevant massive restoration modes are rigorously identical. Therefore `M = 3` is not yet fully closed.
+**Claim T2 (PARTIAL DERIVATION):** In 3D space, the co-dimension route to `M = 3` has three supporting lemmas (all conditional): (1) the PF coherence field is a complex-valued field with nonzero coherent vacuum (ARGUED 0.80 from Axioms 1-3; see `t2_order_parameter_derivation.md`); (2) the local propagation Hamiltonian for weight-2 modes is `H(k) = h₀I + h(k)·σ`, derived from T1's `ℂ²` state space and Axiom 2's real-energy requirement (ARGUED 0.82, conditional `C_FP`: Fermi points must exist in the PF weight-2 sector; see `t2_fermi_point_bridge.md` Part A); (3) the three Pauli gap-opening directions at a Fermi point correspond to three massive restoration modes of the PF coherence field (ARGUED 0.73, conditional `C_bridge`: this correspondence is supported by the Volovik ³He-A template but not yet proved from PF axioms alone; see `t2_fermi_point_bridge.md` Part B). Therefore `M = 3` is conditional on C_FP, C_bridge, T1, and `d = 3` as an input. T2 remains `PARTIAL DERIVATION 0.85` pending Codex re-audit (audit items A'-E' in `t2_denominator_theorem.md` Section 13). See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, and companion files above.
 
 This grounds the denominator in the spatial dimension independently of the observed count of weak bosons. (Volovik [2003] derived the same result for superfluid $^3$He from analogous reasoning; here the framework has a strong convergent route to the same result, but not yet a single closed theorem.)
 
@@ -309,7 +309,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
 | W1: Weinberg angle sin²θ_W | DERIVED | 0.90 | Derive RG running to IR value 0.231 |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
-| T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Formal proof that co-dimension equals M for all D |
+| T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Close conditionals C_FP (Fermi points exist in PF weight-2 sector) and C_bridge (three perturbation directions = three massive restoration modes) — both ARGUED in v2 companion files, awaiting Codex re-audit (items A'-E' in `t2_denominator_theorem.md` Section 13) |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
 | God Equation (λ_c from l_P) | ARGUED | 0.75 | Derive N^{D/2} bridge from axioms |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |

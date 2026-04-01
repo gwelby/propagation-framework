@@ -1,290 +1,404 @@
-// Derivation Chain Visualizer
-// Interactive graph showing how results derive from axioms
-
+// Derivation Chain Visualizer - D3.js Force-Directed Graph
+// Maximum quality implementation with advanced features
 (function() {
-  // Derivation data structure
-  const derivationData = {
-    nodes: [
-      // Axioms (root nodes)
-      {
-        id: 'axiom1',
-        label: 'Axiom 1',
-        title: 'Propagation is Fundamental',
-        type: 'axiom',
-        x: 200,
-        y: 400,
-        description: 'Everything that exists propagates through a structured medium.',
-        formula: '∃ medium M such that ∀ entities e: e propagates in M'
-      },
-      {
-        id: 'axiom2',
-        label: 'Axiom 2',
-        title: 'Finite Causal Velocity',
-        type: 'axiom',
-        x: 200,
-        y: 200,
-        description: 'Every medium has a maximum signal speed c. No causal influence propagates faster.',
-        formula: '∃ c > 0: ∀ signals s: |v_s| ≤ c'
-      },
-      {
-        id: 'axiom3',
-        label: 'Axiom 3',
-        title: 'Coherence',
-        type: 'axiom',
-        x: 200,
-        y: 600,
-        description: 'Stable structure requires self-reinforcing, coherent propagation.',
-        formula: 'Stable ⇔ Coherent closed-loop propagation'
-      },
-      
-      // Derived results
-      {
-        id: 'bohr',
-        label: 'Bohr Quantization',
-        title: 'Atomic spectra from phase closure',
-        type: 'conditional',
-        confidence: 0.82,
-        x: 500,
-        y: 500,
-        description: 'Circular eikonal orbits with phase closure yield Bohr-like 1/k² spectrum.',
-        formula: 'r_k = 2k², E_k = -1/(4k²)',
-        sources: ['bohr_quantization_audit_2026-03-27.md'],
-        derivation: ['axiom3', 'circular-eikonal-model', 'phase-closure']
-      },
-      
-      {
-        id: 'gravity-refraction',
-        label: 'Gravity as Refraction',
-        title: 'Optical geometry of spacetime',
-        type: 'derived',
-        confidence: 0.95,
-        x: 500,
-        y: 300,
-        description: 'Gravity is refractive bending of propagation paths in a medium with density gradient.',
-        formula: 'n(r) = 1 + r_s/r → d/ds(n dx/ds) = ∇n',
-        sources: ['gr_fermat_equivalence.md'],
-        derivation: ['axiom1', 'axiom2', 'optical-metric']
-      },
-      
-      {
-        id: 'topological-weights',
-        label: 'Topological Weights',
-        title: '(2,1) from SO(3) topology',
-        type: 'partial',
-        confidence: 0.85,
-        x: 500,
-        y: 700,
-        description: 'π₁(SO(3)) = ℤ₂ gives two loop classes with closure orders 1 and 2.',
-        formula: 'π₁(SO(3)) → {weight-1, weight-2}',
-        sources: ['topological_weights_t1_audit_2026-03-28.md'],
-        derivation: ['axiom1', 'so3-topology']
-      },
-      
-      {
-        id: 'koide',
-        label: 'Koide Q=2/3',
-        title: 'Geometric identity from resonance',
-        type: 'derived',
-        confidence: 0.95,
-        x: 800,
-        y: 600,
-        description: 'Three equal-strength resonances at 120° force Q = 2/3 exactly.',
-        formula: 'Q = (m_e + m_μ + m_τ)² / (2(m_e² + m_μ² + m_τ²)) = 2/3',
-        sources: ['koide_formula_explanations/MASTER.md'],
-        derivation: ['axiom3', 'three-resonances', '120°-geometry']
-      },
-      
-      {
-        id: 'three-generations',
-        label: 'Three Generations',
-        title: 'N=3 from topology + Koide',
-        type: 'conditional',
-        confidence: 0.85,
-        x: 800,
-        y: 400,
-        description: 'Q(N) = 2N/(2N+3) = 2/3 gives N=3 as unique integer solution.',
-        formula: 'Q(N) = 2N/(2N+3), Q=2/3 → N=3',
-        sources: ['three_generation_topology/MASTER.md'],
-        derivation: ['topological-weights', 'koide', 'q-function']
-      },
-      
-      {
-        id: 'weinberg',
-        label: 'Weinberg Angle',
-        title: 'sin²θ_W from Casimir polynomial',
-        type: 'derived',
-        confidence: 0.90,
-        x: 1100,
-        y: 300,
-        description: 'Casimir polynomial with Axiom 3b selects k=1, yielding sin²θ_W ≈ 0.22310.',
-        formula: 'x² + C₂x - C₂ = 0 → sin²θ_W = 0.22310',
-        sources: ['g3_casimir_weinberg_angle.md'],
-        derivation: ['axiom3', 'axiom3b', 'casimir-polynomial']
-      },
-      
-      {
-        id: 'god-equation',
-        label: 'God Equation',
-        title: 'λ_c from Planck scale',
-        type: 'conditional',
-        confidence: 0.88,
-        x: 1100,
-        y: 500,
-        description: 'Predicts top quark Compton wavelength to 0.4% with zero free parameters.',
-        formula: 'λ_c = √2·l_P·exp(4π²N^(D/2)/b₀)',
-        sources: ['lambda_c_from_axioms.md'],
-        derivation: ['axiom1', 'axiom2', 'axiom3', 'z3-structure', 'coherence-volume']
+  'use strict';
+
+  // Configuration
+  const CONFIG = {
+    width: 1400,
+    height: 800,
+    nodeRadius: 30,
+    axiomRadius: 35,
+    linkDistance: 150,
+    forceStrength: -1000,
+    collisionRadius: 50,
+    zoomExtent: [0.1, 4],
+    colors: {
+      DERIVED: '#44ff88',
+      CONDITIONAL: '#ffaa00',
+      'PARTIAL DERIVATION': '#00cfff',
+      ARGUED: '#ff6b6b',
+      EMPIRICAL: '#ffdd55',
+      axiom: '#9b59b6',
+      link: {
+        DERIVED: '#44ff88',
+        CONDITIONAL: '#ffaa00',
+        ARGUED: '#ff6b6b'
       }
-    ],
-    
-    edges: [
-      // Direct dependencies
-      { from: 'axiom3', to: 'bohr', type: 'conditional' },
-      { from: 'axiom1', to: 'gravity-refraction', type: 'derived' },
-      { from: 'axiom2', to: 'gravity-refraction', type: 'derived' },
-      { from: 'axiom1', to: 'topological-weights', type: 'partial' },
-      { from: 'axiom3', to: 'koide', type: 'derived' },
-      { from: 'topological-weights', to: 'three-generations', type: 'conditional' },
-      { from: 'koide', to: 'three-generations', type: 'conditional' },
-      { from: 'axiom3', to: 'weinberg', type: 'derived' },
-      { from: 'axiom1', to: 'god-equation', type: 'conditional' },
-      { from: 'axiom2', to: 'god-equation', type: 'conditional' },
-      { from: 'axiom3', to: 'god-equation', type: 'conditional' },
-      
-      // Cross-connections
-      { from: 'gravity-refraction', to: 'weinberg', type: 'argued' },
-      { from: 'three-generations', to: 'god-equation', type: 'argued' }
-    ]
+    }
   };
 
   // State
+  let simulation;
+  let svg, g, link, node, label;
   let currentZoom = 1;
   let selectedNode = null;
-  let svg = null;
-  let svgGroup = null;
+  let performanceMonitor = {
+    frameCount: 0,
+    lastTime: performance.now(),
+    fps: 60
+  };
 
-  // Initialize
+  // Initialize when DOM and data are ready
   function init() {
-    svg = document.getElementById('derivationGraph');
-    svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    svgGroup.setAttribute('id', 'graphGroup');
-    svg.appendChild(svgGroup);
-    
-    renderGraph();
+    // Check if data is loaded
+    if (!window.PFExplorerData || !window.PFTruth) {
+      setTimeout(init, 100);
+      return;
+    }
+
+    setupSVG();
+    buildGraph();
+    setupInteractions();
+    setupPerformanceMonitoring();
     updateStatistics();
-    setupEventListeners();
   }
 
-  // Render the graph
-  function renderGraph() {
+  // Setup SVG container
+  function setupSVG() {
+    const container = d3.select('#derivationGraph');
+    
     // Clear existing content
-    svgGroup.innerHTML = '';
+    container.selectAll('*').remove();
     
-    // Apply zoom transform
-    svgGroup.setAttribute('transform', `scale(${currentZoom})`);
+    // Add definitions for markers and gradients
+    const defs = container.append('defs');
     
-    // Draw edges
-    derivationData.edges.forEach(edge => {
-      const fromNode = derivationData.nodes.find(n => n.id === edge.from);
-      const toNode = derivationData.nodes.find(n => n.id === edge.to);
-      
-      if (fromNode && toNode) {
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', fromNode.x);
-        line.setAttribute('y1', fromNode.y);
-        line.setAttribute('x2', toNode.x);
-        line.setAttribute('y2', toNode.y);
-        line.setAttribute('class', `edge edge-${edge.type}`);
-        line.setAttribute('marker-end', `url(#arrow-${edge.type})`);
-        line.setAttribute('data-from', edge.from);
-        line.setAttribute('data-to', edge.to);
+    // Arrow markers
+    ['DERIVED', 'CONDITIONAL', 'ARGUED'].forEach(status => {
+      defs.append('marker')
+        .attr('id', `arrow-${status.toLowerCase()}`)
+        .attr('markerWidth', 10)
+        .attr('markerHeight', 10)
+        .attr('refX', 9)
+        .attr('refY', 3)
+        .attr('orient', 'auto')
+        .attr('markerUnits', 'strokeWidth')
+        .append('path')
+        .attr('d', 'M0,0 L0,6 L9,3 z')
+        .attr('fill', CONFIG.colors.link[status]);
+    });
+
+    // Glow filter
+    const glow = defs.append('filter')
+      .attr('id', 'glow');
+    
+    glow.append('feGaussianBlur')
+      .attr('stdDeviation', 3)
+      .attr('result', 'coloredBlur');
+    
+    glow.append('feMerge')
+      .selectAll('feMergeNode')
+      .data(['coloredBlur', 'SourceGraphic'])
+      .enter().append('feMergeNode')
+      .attr('in', d => d);
+
+    // Gradients for nodes
+    Object.entries(CONFIG.colors).forEach(([key, color]) => {
+      if (key !== 'link') {
+        const gradient = defs.append('radialGradient')
+          .attr('id', `gradient-${key.toLowerCase()}`);
         
-        svgGroup.appendChild(line);
+        gradient.append('stop')
+          .attr('offset', '0%')
+          .attr('stop-color', color)
+          .attr('stop-opacity', 0.8);
+        
+        gradient.append('stop')
+          .attr('offset', '100%')
+          .attr('stop-color', color)
+          .attr('stop-opacity', 0.3);
       }
     });
+
+    // Main group for zoom/pan
+    svg = container.append('g');
     
-    // Draw nodes
-    derivationData.nodes.forEach(node => {
-      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      g.setAttribute('class', `node node-${node.type}`);
-      g.setAttribute('data-id', node.id);
-      g.setAttribute('transform', `translate(${node.x}, ${node.y})`);
-      
-      // Node circle
-      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      circle.setAttribute('r', node.type === 'axiom' ? '35' : '30');
-      g.appendChild(circle);
-      
-      // Node label
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('class', 'node-text');
-      text.setAttribute('dy', '5');
-      text.textContent = node.label;
-      g.appendChild(text);
-      
-      // Confidence for non-axioms
-      if (node.confidence) {
-        const confText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        confText.setAttribute('class', 'confidence-text');
-        confText.setAttribute('dy', '45');
-        confText.textContent = node.confidence.toFixed(2);
-        g.appendChild(confText);
+    // Setup zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent(CONFIG.zoomExtent)
+      .on('zoom', (event) => {
+        currentZoom = event.transform.k;
+        svg.attr('transform', event.transform);
+        updateLabelVisibility();
+      });
+    
+    container.call(zoom);
+    
+    // Link group
+    link = svg.append('g').attr('class', 'links');
+    
+    // Node group
+    node = svg.append('g').attr('class', 'nodes');
+    
+    // Label group
+    label = svg.append('g').attr('class', 'labels');
+  }
+
+  // Build graph from data
+  function buildGraph() {
+    const results = window.PFTruth.getAuditedResults();
+    const nodes = [];
+    const links = [];
+    const nodeMap = new Map();
+
+    // Create axiom nodes
+    ['axiom1', 'axiom2', 'axiom3'].forEach((id, i) => {
+      const axiom = {
+        id: id,
+        label: `Axiom ${i + 1}`,
+        title: ['Propagation is Fundamental', 'Finite Causal Velocity', 'Coherence'][i],
+        type: 'axiom',
+        status: 'axiom',
+        confidence: 1.0,
+        x: CONFIG.width * 0.2,
+        y: CONFIG.height * (0.25 + i * 0.25)
+      };
+      nodes.push(axiom);
+      nodeMap.set(id, axiom);
+    });
+
+    // Create result nodes
+    results.forEach(result => {
+      const node = {
+        id: result.id,
+        label: result.shortTitle || result.title,
+        title: result.title,
+        type: 'result',
+        status: result.status,
+        confidence: result.confidence || 0,
+        description: result.summary,
+        formula: result.formula,
+        sources: result.sources,
+        derivation: result.derivation || []
+      };
+      nodes.push(node);
+      nodeMap.set(result.id, node);
+    });
+
+    // Create links based on derivations
+    results.forEach(result => {
+      if (result.derivation) {
+        result.derivation.forEach(dep => {
+          const source = nodeMap.get(dep);
+          if (source) {
+            links.push({
+              source: dep,
+              target: result.id,
+              type: result.status.toLowerCase(),
+              value: 1
+            });
+          }
+        });
       }
-      
-      // Click handler
-      g.addEventListener('click', () => selectNode(node));
-      
-      svgGroup.appendChild(g);
+    });
+
+    // Create force simulation
+    simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links)
+        .id(d => d.id)
+        .distance(CONFIG.linkDistance)
+        .strength(0.5))
+      .force('charge', d3.forceManyBody()
+        .strength(CONFIG.forceStrength))
+      .force('center', d3.forceCenter(CONFIG.width / 2, CONFIG.height / 2))
+      .force('collision', d3.forceCollide()
+        .radius(d => d.type === 'axiom' ? CONFIG.axiomRadius * 1.5 : CONFIG.collisionRadius))
+      .force('x', d3.forceX(CONFIG.width / 2).strength(0.1))
+      .force('y', d3.forceY(CONFIG.height / 2).strength(0.1));
+
+    // Render links
+    const linkSelection = link.selectAll('line')
+      .data(links)
+      .enter().append('line')
+      .attr('class', d => `link link-${d.type}`)
+      .attr('stroke', d => CONFIG.colors.link[d.type] || '#666')
+      .attr('stroke-width', 2)
+      .attr('stroke-opacity', 0.6)
+      .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+    // Render nodes
+    const nodeSelection = node.selectAll('g')
+      .data(nodes)
+      .enter().append('g')
+      .attr('class', 'node')
+      .call(d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended));
+
+    // Node circles
+    nodeSelection.append('circle')
+      .attr('r', d => d.type === 'axiom' ? CONFIG.axiomRadius : CONFIG.nodeRadius)
+      .attr('fill', d => `url(#gradient-${d.type === 'axiom' ? 'axiom' : d.status.toLowerCase()})`)
+      .attr('stroke', d => CONFIG.colors[d.type === 'axiom' ? 'axiom' : d.status] || '#666')
+      .attr('stroke-width', 2);
+
+    // Node icons/symbols
+    nodeSelection.append('text')
+      .attr('class', 'node-symbol')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.35em')
+      .attr('font-size', d => d.type === 'axiom' ? '20px' : '16px')
+      .attr('fill', 'white')
+      .attr('pointer-events', 'none')
+      .text(d => {
+        if (d.type === 'axiom') return 'A';
+        switch(d.status) {
+          case 'DERIVED': return '✓';
+          case 'CONDITIONAL': return '?';
+          case 'PARTIAL DERIVATION': return '◐';
+          case 'ARGUED': return '◇';
+          case 'EMPIRICAL': return '◈';
+          default: return '○';
+        }
+      });
+
+    // Node labels
+    const labelSelection = label.selectAll('text')
+      .data(nodes)
+      .enter().append('text')
+      .attr('class', 'node-label')
+      .attr('text-anchor', 'middle')
+      .attr('dy', d => (d.type === 'axiom' ? CONFIG.axiomRadius : CONFIG.nodeRadius) + 20)
+      .attr('font-size', '12px')
+      .attr('fill', '#ccc')
+      .attr('pointer-events', 'none')
+      .text(d => d.label);
+
+    // Node click handler
+    nodeSelection.on('click', (event, d) => {
+      selectNode(d);
+      event.stopPropagation();
+    });
+
+    // Update positions on tick
+    simulation.on('tick', () => {
+      linkSelection
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+      nodeSelection
+        .attr('transform', d => `translate(${d.x},${d.y})`);
+
+      labelSelection
+        .attr('x', d => d.x)
+        .attr('y', d => d.y);
+    });
+  }
+
+  // Setup interactions
+  function setupInteractions() {
+    // Zoom controls
+    d3.select('#zoomIn').on('click', () => {
+      const svg = d3.select('#derivationGraph');
+      const zoom = d3.zoom().scaleExtent(CONFIG.zoomExtent);
+      svg.transition().duration(300).call(zoom.scaleBy, 1.3);
+    });
+
+    d3.select('#zoomOut').on('click', () => {
+      const svg = d3.select('#derivationGraph');
+      const zoom = d3.zoom().scaleExtent(CONFIG.zoomExtent);
+      svg.transition().duration(300).call(zoom.scaleBy, 0.7);
+    });
+
+    d3.select('#resetView').on('click', () => {
+      const svg = d3.select('#derivationGraph');
+      const zoom = d3.zoom().scaleExtent(CONFIG.zoomExtent);
+      svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+    });
+
+    // Back button
+    d3.select('#backBtn').on('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    // Close detail panel
+    d3.select('#closeDetail').on('click', () => {
+      d3.select('#detailPanel').classed('active', false);
+      selectedNode = null;
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'Escape':
+          d3.select('#detailPanel').classed('active', false);
+          selectedNode = null;
+          break;
+        case '+':
+        case '=':
+          d3.select('#zoomIn').node().click();
+          break;
+        case '-':
+        case '_':
+          d3.select('#zoomOut').node().click();
+          break;
+        case '0':
+          d3.select('#resetView').node().click();
+          break;
+      }
     });
   }
 
   // Select and show node details
-  function selectNode(node) {
-    selectedNode = node;
+  function selectNode(nodeData) {
+    selectedNode = nodeData;
     
-    const panel = document.getElementById('detailPanel');
-    const title = document.getElementById('detailTitle');
-    const content = document.getElementById('detailContent');
+    const panel = d3.select('#detailPanel');
+    const title = d3.select('#detailTitle');
+    const content = d3.select('#detailContent');
     
-    title.textContent = node.title;
+    title.text(nodeData.title);
     
     let html = `
       <div class="detail-section">
-        <h4>Description</h4>
-        <p>${node.description}</p>
+        <h4>Type</h4>
+        <p>${nodeData.type === 'axiom' ? 'Fundamental Axiom' : 'Derived Result'}</p>
       </div>
     `;
     
-    if (node.formula) {
+    if (nodeData.description) {
       html += `
         <div class="detail-section">
-          <h4>Key Formula</h4>
-          <div class="detail-formula">${node.formula}</div>
+          <h4>Description</h4>
+          <p>${nodeData.description}</p>
         </div>
       `;
     }
     
-    if (node.confidence) {
-      const statusClass = `confidence-${node.type}`;
+    if (nodeData.formula) {
+      html += `
+        <div class="detail-section">
+          <h4>Key Formula</h4>
+          <div class="detail-formula">${nodeData.formula}</div>
+        </div>
+      `;
+    }
+    
+    if (nodeData.confidence && nodeData.type !== 'axiom') {
+      const statusClass = `confidence-${nodeData.status.toLowerCase().replace(' ', '-')}`;
       html += `
         <div class="detail-section">
           <h4>Status</h4>
           <span class="detail-confidence ${statusClass}">
-            ${node.type.toUpperCase()} (${node.confidence})
+            ${nodeData.status} (${nodeData.confidence.toFixed(2)})
           </span>
         </div>
       `;
     }
     
-    if (node.derivation && node.derivation.length > 0) {
+    if (nodeData.derivation && nodeData.derivation.length > 0) {
       html += `
         <div class="detail-section">
           <h4>Derivation Path</h4>
           <ul class="derivation-steps">
       `;
       
-      node.derivation.forEach((step, i) => {
-        const stepNode = derivationData.nodes.find(n => n.id === step);
+      nodeData.derivation.forEach(step => {
+        const stepNode = window.PFTruth.getResult(step);
         if (stepNode) {
           html += `<li>${stepNode.title}</li>`;
         }
@@ -293,86 +407,101 @@
       html += `</ul></div>`;
     }
     
-    if (node.sources) {
+    if (nodeData.sources) {
       html += `
         <div class="detail-section">
           <h4>Sources</h4>
       `;
-      node.sources.forEach(source => {
-        html += `<p><a href="../../${source}" target="_blank">${source}</a></p>`;
-      });
+      if (Array.isArray(nodeData.sources)) {
+        nodeData.sources.forEach(source => {
+          if (typeof source === 'string') {
+            html += `<p><a href="../../${source}" target="_blank">${source}</a></p>`;
+          } else if (source.href) {
+            html += `<p><a href="${source.href}" target="_blank">${source.label || source.href}</a></p>`;
+          }
+        });
+      }
       html += `</div>`;
     }
     
-    content.innerHTML = html;
-    panel.classList.add('active');
+    content.html(html);
+    panel.classed('active', true);
   }
 
   // Update statistics
   function updateStatistics() {
-    const totalNodes = derivationData.nodes.length;
-    const derivedCount = derivationData.nodes.filter(n => n.type === 'derived').length;
-    const avgConfidence = derivationData.nodes
-      .filter(n => n.confidence)
-      .reduce((sum, n) => sum + n.confidence, 0) / 
-      derivationData.nodes.filter(n => n.confidence).length;
+    const results = window.PFTruth.getAuditedResults();
+    const counts = window.PFTruth.getCountsByStatus();
+    
+    d3.select('#totalNodes').text(results.length + 3); // +3 for axioms
+    d3.select('#derivedCount').text(counts.DERIVED || 0);
+    
+    const avgConfidence = results.reduce((sum, r) => sum + (r.confidence || 0), 0) / results.length;
+    d3.select('#avgConfidence').text(avgConfidence.toFixed(2));
     
     // Find longest derivation chain
     let longestChain = 0;
-    derivationData.nodes.forEach(node => {
-      if (node.derivation) {
-        longestChain = Math.max(longestChain, node.derivation.length);
+    results.forEach(result => {
+      if (result.derivation) {
+        longestChain = Math.max(longestChain, result.derivation.length);
       }
     });
-    
-    document.getElementById('totalNodes').textContent = totalNodes;
-    document.getElementById('derivedCount').textContent = derivedCount;
-    document.getElementById('avgConfidence').textContent = avgConfidence.toFixed(2);
-    document.getElementById('longestChain').textContent = longestChain;
+    d3.select('#longestChain').text(longestChain);
   }
 
-  // Setup event listeners
-  function setupEventListeners() {
-    // Back button
-    document.getElementById('backBtn').addEventListener('click', () => {
-      window.location.href = 'index.html';
-    });
-    
-    // Close detail panel
-    document.getElementById('closeDetail').addEventListener('click', () => {
-      document.getElementById('detailPanel').classList.remove('active');
-    });
-    
-    // Zoom controls
-    document.getElementById('zoomIn').addEventListener('click', () => {
-      currentZoom = Math.min(currentZoom * 1.2, 3);
-      renderGraph();
-    });
-    
-    document.getElementById('zoomOut').addEventListener('click', () => {
-      currentZoom = Math.max(currentZoom / 1.2, 0.5);
-      renderGraph();
-    });
-    
-    document.getElementById('resetView').addEventListener('click', () => {
-      currentZoom = 1;
-      renderGraph();
-    });
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.getElementById('detailPanel').classList.remove('active');
-      } else if (e.key === '+' || e.key === '=') {
-        currentZoom = Math.min(currentZoom * 1.2, 3);
-        renderGraph();
-      } else if (e.key === '-' || e.key === '_') {
-        currentZoom = Math.max(currentZoom / 1.2, 0.5);
-        renderGraph();
+  // Update label visibility based on zoom
+  function updateLabelVisibility() {
+    const shouldShowLabels = currentZoom > 0.5;
+    d3.selectAll('.node-label')
+      .style('opacity', shouldShowLabels ? 1 : 0);
+  }
+
+  // Drag functions
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  // Performance monitoring
+  function setupPerformanceMonitoring() {
+    function updateFPS() {
+      performanceMonitor.frameCount++;
+      const now = performance.now();
+      const delta = now - performanceMonitor.lastTime;
+      
+      if (delta >= 1000) {
+        performanceMonitor.fps = Math.round((performanceMonitor.frameCount * 1000) / delta);
+        performanceMonitor.frameCount = 0;
+        performanceMonitor.lastTime = now;
+        
+        // Log FPS for debugging
+        if (performanceMonitor.fps < 30) {
+          console.warn(`Low FPS detected: ${performanceMonitor.fps}`);
+        }
       }
-    });
+      
+      requestAnimationFrame(updateFPS);
+    }
+    
+    requestAnimationFrame(updateFPS);
   }
 
-  // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', init);
+  // Initialize when ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

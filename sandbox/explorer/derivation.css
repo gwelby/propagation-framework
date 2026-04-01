@@ -129,93 +129,92 @@ body {
   overflow: hidden;
 }
 
+/* D3.js Graph Styles */
 #derivationGraph {
   width: 100%;
   height: 800px;
   cursor: grab;
+  background: radial-gradient(circle at center, rgba(0, 207, 255, 0.02) 0%, transparent 70%);
 }
 
 #derivationGraph:active {
   cursor: grabbing;
 }
 
+/* Node styles */
 #derivationGraph .node {
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-#derivationGraph .node:hover {
+#derivationGraph .node:hover circle {
   filter: url(#glow);
+  stroke-width: 3;
 }
 
-#derivationGraph .node-axiom {
-  fill: #9b59b6;
-  stroke: #8e44ad;
+#derivationGraph .node-symbol {
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
-#derivationGraph .node-derived {
-  fill: #44ff88;
-  stroke: #00cc66;
-}
-
-#derivationGraph .node-conditional {
-  fill: #ffaa00;
-  stroke: #ff8800;
-}
-
-#derivationGraph .node-argued {
-  fill: #ff6b6b;
-  stroke: #ff4444;
-}
-
-#derivationGraph .node-partial {
-  fill: #00cfff;
-  stroke: #0099cc;
-}
-
-#derivationGraph .node-empirical {
-  fill: #ffdd55;
-  stroke: #ffcc00;
-}
-
-#derivationGraph .node-text {
-  fill: #fff;
+#derivationGraph .node-label {
   font-size: 12px;
   font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   pointer-events: none;
-  text-anchor: middle;
+  transition: opacity 0.3s ease;
 }
 
-#derivationGraph .confidence-text {
-  fill: rgba(255, 255, 255, 0.7);
-  font-size: 10px;
-  pointer-events: none;
-  text-anchor: middle;
-}
-
-#derivationGraph .edge {
+/* Link styles */
+#derivationGraph .link {
   fill: none;
   stroke-width: 2;
   opacity: 0.6;
   transition: all 0.3s ease;
+  pointer-events: none;
 }
 
-#derivationGraph .edge-derived {
-  stroke: #44ff88;
-}
-
-#derivationGraph .edge-conditional {
-  stroke: #ffaa00;
-}
-
-#derivationGraph .edge-argued {
-  stroke: #ff6b6b;
-}
-
-#derivationGraph .edge:hover {
+#derivationGraph .link:hover {
   opacity: 1;
   stroke-width: 3;
 }
+
+/* Force-directed optimizations */
+#derivationGraph .nodes,
+#derivationGraph .links,
+#derivationGraph .labels {
+  will-change: transform;
+}
+
+/* Mini-map placeholder */
+.mini-map {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  height: 150px;
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Performance indicator */
+.performance-indicator {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(26, 26, 46, 0.9);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #888;
+  border: 1px solid #333;
+}
+
+.performance-indicator.good { color: #44ff88; }
+.performance-indicator.warning { color: #ffaa00; }
+.performance-indicator.poor { color: #ff6b6b; }
 
 /* Detail Panel */
 .detail-panel {

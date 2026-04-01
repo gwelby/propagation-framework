@@ -1,0 +1,215 @@
+# T1 / T2 Post-Audit Epic — Path to Truth Verification
+
+*What still needs to close after the 2026-03-31 bounded theorem audits*
+
+---
+
+## Purpose
+
+This note replaces the older pre-audit epic language for the T1 numerator route and the T2 denominator route.
+
+Both fronts materially improved on 2026-03-31.
+Neither front closed.
+
+The right post-audit posture is:
+
+- **T1**: sharpened, still `PARTIAL DERIVATION 0.85`
+- **T2**: sharpened, still `PARTIAL DERIVATION 0.85`
+- **T3 / Three Generations**: still `CONDITIONAL 0.85`
+
+The value of the March 31 work is not that it proved the numerator or denominator theorems.
+The value is that it moved both gaps from vague convergence language to exact missing lemmas.
+
+---
+
+## Current Truth
+
+### T1 — Physical Realization of `(2,1)`
+
+**Board status**: `PARTIAL DERIVATION 0.85`
+
+What is now closed:
+
+1. `π₁(SO(3)) ≅ ℤ₂` gives a two-class closure-order structure.
+2. The natural minimal lifted closure integers are `1` and `2`.
+3. The `SU(2)` lift step now survives as a **conditional covering-space result**:
+   if a genuine weight-2 mode is physically admitted, it lives on the `SU(2)` lift rather than on `SO(3)` alone.
+
+What is still open:
+
+1. **Extremal principle bridge**  
+   Why Axiom 3 selects the candidate Family C functional
+
+   `F_C = I(Phi_int; Phi_ext)`
+
+   as the correct selector for stable branch population.
+
+2. **Strict coherence-deficit bridge**  
+   The chain rule gives only
+
+   `F_C^tot >= F_C^(1)`.
+
+   The strict step
+
+   `F_C^tot > F_C^(1)`
+
+   still requires the extra non-redundancy hypothesis
+
+   `A_NR: I(Phi_int^(2); Phi_ext^(2) | Phi_int^(1), Phi_ext^(1)) > 0`.
+
+So the live T1 gap is no longer "why `SU(2)`?".
+The live T1 gap is:
+
+> why Axiom 3 forces physical population of the available weight-2 branch.
+
+---
+
+### T2 — Denominator Theorem `M = 3`
+
+**Board status**: `PARTIAL DERIVATION 0.85` — unchanged. v2 companion files submitted for Codex re-audit.
+
+What is now closed conditionally (unchanged from v1):
+
+1. If one grants a local two-band Hermitian Hamiltonian
+
+   `H(k) = h_0(k) I_2 + h(k) · sigma`
+
+   then:
+   - the degeneracy condition is `h(k_F) = 0`
+   - in `k in ℝ^3`, a generic band-touching point is isolated
+   - the co-dimension is `3`
+   - the gap-opening perturbation space is `span_R{sigma_1, sigma_2, sigma_3}`
+   - that space has dimension `3`
+
+2. The Volovik / `³He-A` analogy is used correctly as a structural template rather than as the proof.
+
+**What v2 companion files added (2026-03-31)**:
+
+1. **PF order-parameter bridge** (`t2_order_parameter_derivation.md`)
+   The coherence field `Ψ : ℝ³ × ℝ → ℂ` promoted from bare ansatz to **ARGUED (0.80)** derivation from Axioms 1-3. Complex structure forced by Axiom 2 wave kinematics; nonzero vacuum forced by Axiom 3. Gap OP-1 named: Axioms 1-3 do not uniquely rule out `ℂⁿ` for `n > 1`; single-component minimality rests on T1 local structure argument. Status: gap is bounded and named, not closed.
+
+2. **PF → `2×2` Fermi-point Hamiltonian bridge** (`t2_fermi_point_bridge.md` Part A)
+   Derived from T1's `ℂ²` state space + Axiom 2's real-energy requirement without importing condensed-matter band structure. The Pauli decomposition is a linear algebra theorem, not a physical import. New named conditional `C_FP`: Fermi points must exist in the PF weight-2 sector (not derived from Axioms 1-3). Status: bridge argued (0.82), conditional `C_FP` named.
+
+3. **Perturbation-space → bosonic restoration-mode bridge** (`t2_fermi_point_bridge.md` Part B)
+   Argued (0.73) via the Volovik template: each gap-opening direction opens a distinct coherence re-locking channel; distinct channels = independent massive restoration modes. New named conditional `C_bridge`: this correspondence is argued, not proved from PF axioms alone. Status: bridge argued (0.73), conditional `C_bridge` named.
+
+4. **Explicit `d = 3` input**
+   Unchanged. Named explicitly throughout v2. Still an input, not a PF consequence.
+
+**Live T2 gaps after v2**:
+
+The live T2 gap is now more precisely stated than before:
+
+> 1. **`C_FP`**: Prove that the PF weight-2 propagation sector has Fermi points (band-touching points in 3D momentum space), or find a different T2 route that does not require their existence.
+> 2. **`C_bridge`**: Prove from PF axioms alone that each of the three gap-opening Pauli directions at a Fermi point is an independent massive bosonic restoration mode of the PF coherence field — without invoking the Volovik condensed-matter template as justification.
+
+These are sharper than the pre-v2 gaps. The unknowns are now localized enough to attack directly.
+
+---
+
+## T3 Depends On Both
+
+**Three Generations** remains:
+
+> once the numerator theorem and denominator theorem are both granted,
+> `Q(N) = 2N / (2N + 3) = 2/3`
+> gives `N = 3` uniquely.
+
+That algebra is exact.
+The two load-bearing blockers are now explicit:
+
+1. **T1 blocker**: Axiom 3 physical-population bridge for the weight-2 branch
+2. **T2 blocker**: PF-to-`2×2` Fermi-point bridge plus restoration-mode identification
+
+So T3 is no longer a vague "topology probably gives 3" claim.
+It is a clean conditional statement with two named unresolved denominators.
+
+---
+
+## Correct Next Work
+
+### Track A — Close T1 honestly
+
+Do **not** spend time re-litigating the `SU(2)` lift.
+That is no longer the weak point.
+
+The exact T1 targets are:
+
+1. Derive why Axiom 3 selects the Family C extremal principle rather than merely permitting it.
+2. Derive `A_NR`, or replace it with a stronger PF-native lemma that yields strict coherence deficit without smuggling.
+3. Classify whether partially populated branch configurations are forbidden, metastable, or merely lower-scoring.
+
+### Track B — Close T2 honestly
+
+Do **not** claim `M = 3` just because the local Pauli algebra gives three perturbation directions.
+
+**Updated exact T2 targets after v2 (2026-03-31)**:
+
+1. ~~Derive the PF order parameter rather than positing it as a minimal ansatz.~~ **Partially done** (ARGUED 0.80 in `t2_order_parameter_derivation.md`). Gap OP-1 named and bounded.
+2. ~~Derive the local `2×2` Hermitian Fermi-point Hamiltonian from T1 + Axioms 1-3.~~ **Argued (0.82)** in `t2_fermi_point_bridge.md` Part A. Conditional `C_FP` named.
+3. Prove that the three perturbation directions are the three massive restoration modes of the PF coherence field. **Argued (0.73)** in `t2_fermi_point_bridge.md` Part B. Conditional `C_bridge` named — this is the live attack surface.
+4. Keep the `d = 3` dependence explicit until PF actually derives dimensionality. **Done** — named explicitly throughout v2.
+
+**New exact T2 targets**:
+
+5. Close `C_FP`: prove Fermi points exist in the PF weight-2 sector from Axioms 1-3 + T1, or find a T2 route that does not require their existence.
+6. Close `C_bridge`: prove from PF axioms alone that each gap-opening Pauli direction is an independent massive bosonic restoration mode, without relying on the ³He-A template.
+
+### Track C — Protect T3 from premature promotion
+
+T3 must stay `CONDITIONAL 0.85` until both tracks close.
+
+Do not promote on the basis of:
+
+- convergence language,
+- analogy to `³He`,
+- Goldstone counting imported from elsewhere,
+- or the emotional fact that `N = 3` is central to the framework.
+
+---
+
+## Acceptance Criteria
+
+### T1 upgrade gate
+
+T1 may upgrade only if:
+
+- the Axiom 3 selector is derived rather than merely proposed,
+- the strict coherence-deficit step no longer depends on an external `A_NR`,
+- and Codex audit signs off on the physical-population bridge.
+
+### T2 upgrade gate
+
+T2 may upgrade only if:
+
+- the PF order parameter is derived or explicitly justified as an adopted corollary,
+- the PF-to-`2×2` Fermi-point Hamiltonian bridge is closed,
+- the perturbation directions are proved to be the bosonic restoration modes,
+- and Codex audit signs off on the theorem rather than only the conditional lemma.
+
+### T3 upgrade gate
+
+T3 may upgrade only if:
+
+- T1 numerator closure is signed off,
+- T2 denominator closure is signed off,
+- and the owning docs remain synchronized to the narrower theorem language.
+
+---
+
+## Strongest Honest Summary
+
+After the March 31 work, the framework does **not** yet prove either:
+
+- why PF must physically realize the weight-2 branch, or
+- why PF must count exactly three massive restoration modes.
+
+But it now knows the exact missing bridges:
+
+- **T1**: extremal principle + strict non-redundancy
+- **T2**: PF coherence dynamics -> `2×2` Fermi-point Hamiltonian -> restoration-mode identification
+
+That is real progress.
+The unknowns are now localized enough to attack without lying.
+

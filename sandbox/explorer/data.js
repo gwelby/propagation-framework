@@ -123,12 +123,14 @@
         kind: "Fundamental Physics",
         scaleId: "matter",
         formula: "π₁(SO(3)) ≅ Z₂ → closure orders {1,2}",
-        summary: "In 3D rotation topology, the two loop classes yield possible closure orders of 1 and 2, giving a mathematically natural (2,1) pair. The axioms alone do not yet prove physical realization of the weight-2 branch.",
+        summary: "In 3D rotation topology, the two loop classes yield possible closure orders of 1 and 2, giving a mathematically natural (2,1) pair. The `SU(2)` lift step survives conditionally, but the axioms still do not prove physical realization of the weight-2 branch.",
         falsifier: "Proof that the closure-order interpretation is wrong, or a derivation showing only the trivial branch is physically realizable.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
+          { label: "derivations/three_generations_t1_proof.md", href: "../../derivations/three_generations_t1_proof.md" },
           { label: "derivations/topological_weights_t1_audit_2026-03-28.md", href: "../../derivations/topological_weights_t1_audit_2026-03-28.md" },
-          { label: "derivations/topological_weight_from_propagation.md", href: "../../derivations/topological_weight_from_propagation.md" }
+          { label: "derivations/t1_physical_realization_theorem.md", href: "../../derivations/t1_physical_realization_theorem.md" },
+          { label: "derivations/t1_physical_realization_theorem_audit_2026-03-31.md", href: "../../derivations/t1_physical_realization_theorem_audit_2026-03-31.md" }
         ],
         panelId: "generations"
       },
@@ -158,11 +160,14 @@
         kind: "Fundamental Physics",
         scaleId: "matter",
         formula: "Q(N) = 2N / (2N + 3), set Q = 2/3, solve N = 3",
-        summary: "Given the physical (2,1) closure-weight branch and denominator M=3, N=3 exactly satisfies the Koide ratio. Gaps remain in proving both numerator and denominator theorems.",
+        summary: "Given the physical (2,1) closure-weight branch and denominator M=3, N=3 exactly satisfies the Koide ratio. The live gaps are now explicit: T1 still owes physical realization of the weight-2 branch, and T2 still owes the PF-to-`2×2` Fermi-point bridge plus restoration-mode identification.",
         falsifier: "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to N ≠ 3.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
+          { label: "derivations/three_generations_t1_proof.md", href: "../../derivations/three_generations_t1_proof.md" },
+          { label: "derivations/three_generations_t2_proof.md", href: "../../derivations/three_generations_t2_proof.md" },
           { label: "derivations/three_generations_t2_audit_2026-03-28.md", href: "../../derivations/three_generations_t2_audit_2026-03-28.md" },
+          { label: "derivations/t2_denominator_theorem_audit_2026-03-31.md", href: "../../derivations/t2_denominator_theorem_audit_2026-03-31.md" },
           { label: "derivations/topological_weights_t1_audit_2026-03-28.md", href: "../../derivations/topological_weights_t1_audit_2026-03-28.md" }
         ],
         panelId: "generations"

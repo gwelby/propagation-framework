@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirac Belt Trick — 720° Rotation Lock</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="belt-trick.css">
+</head>
+<body class="mode-story">
+  <div class="shell-glow shell-glow-a"></div>
+  <div class="shell-glow shell-glow-b"></div>
+  <div class="shell-grid"></div>
+
+  <div class="app-shell">
+    <header class="belt-trick-header">
+      <div class="header-content">
+        <button id="backBtn" class="back-button">
+          <span class="back-arrow">←</span>
+          Back to Explorer
+        </button>
+        
+        <div class="header-title">
+          <h1>Dirac Belt Trick</h1>
+          <p class="header-subtitle">π₁(SO(3)) = ℤ₂ — 720° rotation lock</p>
+        </div>
+
+        <div class="view-controls">
+          <button id="playBtn" class="control-button">
+            <span class="icon">▶</span>
+          </button>
+          <button id="resetBtn" class="control-button">
+            <span class="icon">⟲</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="belt-trick-main">
+      <!-- 3D Visualization Container -->
+      <section class="visualization-section">
+        <div class="scene-container">
+          <div id="beltScene" class="belt-scene">
+            <!-- Belt visualization will be rendered here -->
+            <div class="belt-container">
+              <div class="belt" id="belt">
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+                <div class="belt-segment"></div>
+              </div>
+              <div class="rotation-object" id="rotationObject">
+                <div class="object-face front">1</div>
+                <div class="object-face back">2</div>
+                <div class="object-face right">3</div>
+                <div class="object-face left">4</div>
+                <div class="object-face top">5</div>
+                <div class="object-face bottom">6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Controls Panel -->
+      <section class="controls-section">
+        <div class="control-panel">
+          <h3>Rotation Controls</h3>
+          
+          <div class="slider-control">
+            <label>Rotation Angle: <span id="rotationValue">0°</span></label>
+            <input type="range" id="rotationSlider" min="0" max="720" value="0" step="1">
+          </div>
+
+          <div class="slider-control">
+            <label>Animation Speed: <span id="speedValue">1x</span></label>
+            <input type="range" id="speedSlider" min="0.1" max="3" value="1" step="0.1">
+          </div>
+
+          <div class="button-group">
+            <button id="rotate360" class="action-button">Rotate 360°</button>
+            <button id="rotate720" class="action-button">Rotate 720°</button>
+          </div>
+
+          <div class="loop-selector">
+            <label>Loop Class:</label>
+            <div class="loop-options">
+              <label class="loop-option">
+                <input type="radio" name="loopClass" value="trivial" checked>
+                <span>Trivial (360°)</span>
+              </label>
+              <label class="loop-option">
+                <input type="radio" name="loopClass" value="nontrivial">
+                <span>Non-trivial (720°)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Explanation Panel -->
+      <section class="explanation-section">
+        <div class="explanation-content">
+          <h3>The Mathematics</h3>
+          <div class="math-box">
+            <p>π₁(SO(3)) ≅ ℤ₂</p>
+            <p>The fundamental group of SO(3) is ℤ₂, meaning there are two distinct classes of rotations:</p>
+            <ul>
+              <li><strong>Trivial loop:</strong> 360° rotation (returns to original state)</li>
+              <li><strong>Non-trivial loop:</strong> 720° rotation (required for full return)</li>
+            </ul>
+          </div>
+
+          <h3>Physical Interpretation</h3>
+          <div class="physics-box">
+            <p>The belt trick demonstrates that a 360° rotation creates a twist in the belt that cannot be removed without rotating again. Only after 720° does the system return to its original configuration.</p>
+            <p>This topological property underlies:</p>
+            <ul>
+              <li>Spin-1/2 particles in quantum mechanics</li>
+              <li>The (2,1) weight structure in the Propagation Framework</li>
+              <li>Fermion behavior under 2π rotations</li>
+            </ul>
+          </div>
+
+          <div class="status-indicator" id="statusIndicator">
+            <span class="status-text">Ready to rotate</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load scripts -->
+  <script src="belt-trick.js"></script>
+</body>
+</html>

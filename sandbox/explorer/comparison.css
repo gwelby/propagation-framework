@@ -2,9 +2,9 @@
 /* Extends the existing dark theme */
 
 .comparison-mode {
-  background: #0a0a1a;
-  color: #e0e0e0;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-primary);
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -12,12 +12,13 @@
 
 /* Header */
 .comparison-header {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border-bottom: 1px solid #333;
-  padding: 20px 0;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.9) 0%, rgba(3, 8, 16, 0.95) 100%);
+  border-bottom: 1px solid var(--line);
+  padding: var(--spacing-3) 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -100,55 +101,55 @@
 
 /* Parameter Section */
 .parameter-section {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 40px;
-  margin-bottom: 50px;
+  padding: var(--spacing-5);
+  margin-bottom: var(--spacing-6);
   text-align: center;
 }
 
 .parameter-visual {
   display: flex;
   justify-content: space-around;
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-5);
   flex-wrap: wrap;
 }
 
 .parameter-column {
   flex: 1;
   min-width: 200px;
-  padding: 30px 20px;
-  background: #0f0f1f;
+  padding: var(--spacing-4) var(--spacing-3);
+  background: var(--bg-card);
   border-radius: 10px;
-  border: 1px solid #222;
-  transition: all 0.3s ease;
+  border: 1px solid var(--line);
+  transition: all var(--transition-normal);
 }
 
 .parameter-column:hover {
-  border-color: #00cfff;
+  border-color: var(--cyan);
   transform: translateY(-5px);
 }
 
 .parameter-column h3 {
-  font-size: 1.1rem;
-  color: #888;
-  margin-bottom: 20px;
+  font-size: var(--font-size-lg);
+  color: var(--muted);
+  margin-bottom: var(--spacing-3);
   font-weight: 400;
 }
 
 .parameter-count {
   font-size: 4rem;
   font-weight: 700;
-  color: #666;
+  color: var(--muted);
   line-height: 1;
-  margin-bottom: 10px;
-  transition: all 0.5s ease;
+  margin-bottom: var(--spacing-2);
+  transition: all var(--transition-slow);
 }
 
 .parameter-count.pf {
-  color: #00cfff;
+  color: var(--cyan);
   text-shadow: 0 0 40px rgba(0, 207, 255, 0.5);
 }
 
@@ -173,15 +174,15 @@
 }
 
 .count-button {
-  background: linear-gradient(135deg, #00cfff 0%, #0088aa 100%);
+  background: var(--gradient-cyan);
   color: #000;
   border: none;
   padding: 16px 40px;
-  font-size: 1.1rem;
+  font-size: var(--font-size-md);
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .count-button:hover {
@@ -204,8 +205,8 @@
 
 .comparison-table-container {
   overflow-x: auto;
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
 }
 
@@ -284,11 +285,11 @@
 }
 
 .falsify-card {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 30px;
-  transition: all 0.3s ease;
+  padding: var(--spacing-4);
+  transition: all var(--transition-normal);
 }
 
 .falsify-card:hover {
@@ -395,10 +396,10 @@
 }
 
 .scale-visual {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 40px;
+  padding: var(--spacing-5);
 }
 
 .scale-bar {
@@ -522,12 +523,12 @@
 }
 
 .delta-card {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 30px;
+  padding: var(--spacing-4);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .delta-card:hover {
@@ -555,12 +556,12 @@
 
 /* CTA Section */
 .cta-section {
-  background: linear-gradient(135deg, #111 0%, #1a1a2e 100%);
-  border: 1px solid #333;
+  background: linear-gradient(135deg, rgba(8, 16, 30, 0.6) 0%, rgba(3, 8, 16, 0.8) 100%);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 50px 40px;
+  padding: var(--spacing-6) var(--spacing-5);
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: var(--spacing-6);
 }
 
 .cta-section h2 {
@@ -596,7 +597,7 @@
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, #00cfff 0%, #0088aa 100%);
+  background: var(--gradient-cyan);
   color: #000;
 }
 

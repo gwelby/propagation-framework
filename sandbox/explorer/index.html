@@ -1,19 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Primary Meta Tags -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Propagation Framework Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="The Propagation Framework Explorer - Interactive visualization of how reality derives from three axioms. Explore quantum mechanics, gravity, and particle physics through propagation-based physics.">
+  <meta name="keywords" content="physics, quantum mechanics, propagation framework, axioms, science visualization, interactive physics, theoretical physics">
+  <meta name="author" content="Propagation Framework Team">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fundamentals.physics/explorer/">
+  <meta property="og:title" content="Propagation Framework Explorer - Interactive Physics">
+  <meta property="og:description" content="Explore how reality derives from three simple axioms. Interactive visualizations of quantum mechanics, gravity, and particle physics.">
+  <meta property="og:image" content="https://fundamentals.physics/explorer/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Propagation Framework">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://fundamentals.physics/explorer/">
+  <meta property="twitter:title" content="Propagation Framework Explorer">
+  <meta property="twitter:description" content="Interactive exploration of how reality derives from three axioms">
+  <meta property="twitter:image" content="https://fundamentals.physics/explorer/assets/twitter-image.png">
+  
+  <!-- Additional Meta -->
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="msapplication-TileColor" content="#0a0a1a">
+  <meta name="application-name" content="Propagation Framework Explorer">
+  <meta name="apple-mobile-web-app-title" content="PF Explorer">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Performance & Security -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Title -->
+  <title>Propagation Framework Explorer | Interactive Physics Visualization</title>
+  
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Propagation Framework Explorer",
+    "description": "Interactive visualization of how reality derives from three axioms",
+    "url": "https://fundamentals.physics/explorer/",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Propagation Framework Team"
+    }
+  }
+  </script>
 </head>
 <body class="mode-story">
-  <div class="shell-glow shell-glow-a"></div>
-  <div class="shell-glow shell-glow-b"></div>
-  <div class="shell-grid"></div>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Initializing Explorer...</p>
+      <noscript>
+        <p style="color: #ff6b6b; margin-top: 20px;">JavaScript is required for the Propagation Framework Explorer</p>
+      </noscript>
+    </div>
+  </div>
 
+  <!-- Skip to main content for accessibility -->
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Background Effects -->
+  <div class="shell-glow shell-glow-a" aria-hidden="true"></div>
+  <div class="shell-glow shell-glow-b" aria-hidden="true"></div>
+  <div class="shell-grid" aria-hidden="true"></div>
+
+  <!-- Main Application Shell -->
   <div class="app-shell">
-    <aside class="app-rail">
+    <aside class="app-rail" role="navigation" aria-label="Main navigation">
       <div class="rail-brand">
         <p class="eyebrow">Propagation Framework</p>
         <h1>The Explorer</h1>
@@ -25,9 +106,9 @@
       <div class="rail-panel">
         <div class="rail-panel-head">
           <span>Mode</span>
-          <div class="mode-toggle" id="modeToggle">
-            <button class="mode-button is-active" data-mode="story" type="button">Story</button>
-            <button class="mode-button" data-mode="audit" type="button">Math + Audit</button>
+          <div class="mode-toggle" role="tablist" id="modeToggle">
+            <button class="mode-button is-active" data-mode="story" type="button" role="tab" aria-selected="true" aria-controls="panelStage">Story</button>
+            <button class="mode-button" data-mode="audit" type="button" role="tab" aria-selected="false" aria-controls="panelStage">Math + Audit</button>
           </div>
         </div>
         <p class="rail-copy story-only">
@@ -41,12 +122,12 @@
       <div class="rail-panel">
         <div class="rail-panel-head">
           <span>Audited Totals</span>
-          <button class="drawer-toggle" id="drawerToggle" type="button">Evidence</button>
+          <button class="drawer-toggle" id="drawerToggle" type="button" aria-expanded="false" aria-controls="appDrawer">Evidence</button>
         </div>
-        <div class="metric-stack" id="metricStack"></div>
+        <div class="metric-stack" id="metricStack" role="status" aria-live="polite"></div>
       </div>
 
-      <nav class="route-nav" id="routeNav" aria-label="Explorer panels"></nav>
+      <nav class="route-nav" id="routeNav" aria-label="Explorer panels" role="tablist"></nav>
 
       <div class="rail-panel rail-truth">
         <div class="rail-panel-head">
@@ -60,41 +141,46 @@
       </div>
 
       <div class="rail-panel rail-journey">
-        <button id="journeyModeBtn" class="journey-mode-btn" type="button">
-          <span class="journey-icon">🌟</span>
+        <button id="journeyModeBtn" class="journey-mode-btn" type="button" aria-describedby="journey-description">
+          <span class="journey-icon" aria-hidden="true">🌟</span>
           <span>Start Journey Mode</span>
         </button>
-        <p class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+        <p id="journey-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
           New: 8-minute guided experience from the opening question to the audit wall
         </p>
       </div>
 
       <div class="rail-panel rail-comparison">
-        <button id="comparisonBtn" class="comparison-mode-btn" type="button">
-          <span class="comparison-icon">⚖️</span>
+        <button id="comparisonBtn" class="comparison-mode-btn" type="button" aria-describedby="comparison-description">
+          <span class="comparison-icon" aria-hidden="true">⚖️</span>
           <span>Framework Comparison</span>
         </button>
-        <p class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+        <p id="comparison-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
           PF vs Standard Model vs String Theory
         </p>
       </div>
 
       <div class="rail-panel rail-derivation">
-        <button id="derivationBtn" class="derivation-mode-btn" type="button">
-          <span class="derivation-icon">🔗</span>
+        <button id="derivationBtn" class="derivation-mode-btn" type="button" aria-describedby="derivation-description">
+          <span class="derivation-icon" aria-hidden="true">🔗</span>
           <span>Derivation Chains</span>
         </button>
-        <p class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+        <p id="derivation-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
           Interactive axiom-to-result paths
         </p>
       </div>
     </aside>
 
-    <main class="app-main">
+    <main class="app-main" id="mainContent">
       <header class="stage-head">
-        <div>
-          <p class="eyebrow" id="panelEyebrow">Scale Stack</p>
-          <h2 id="panelTitle">The full ladder in one view</h2>
+        <div style="display: flex; align-items: flex-start; gap: var(--spacing-2);">
+          <button class="mobile-nav-toggle" id="mobileNavToggle" title="Toggle Sidebar" aria-expanded="false" aria-controls="app-rail">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <div>
+            <p class="eyebrow" id="panelEyebrow">Scale Stack</p>
+            <h2 id="panelTitle">The full ladder in one view</h2>
+          </div>
         </div>
         <div class="head-actions">
           <div class="head-chip" id="headChipA">3 axioms</div>
@@ -103,20 +189,42 @@
         </div>
       </header>
 
-      <section class="panel-stage" id="panelStage"></section>
+      <section class="panel-stage" id="panelStage" role="tabpanel" aria-labelledby="panelTitle"></section>
     </main>
 
-    <aside class="app-drawer" id="appDrawer">
+    <aside class="app-drawer" id="appDrawer" role="complementary" aria-hidden="true">
       <div class="drawer-head">
         <div>
           <p class="eyebrow" id="drawerEyebrow">Evidence</p>
           <h3 id="drawerTitle">Select a result</h3>
         </div>
-        <button class="drawer-close" id="drawerClose" type="button">Close</button>
+        <button class="drawer-close" id="drawerClose" type="button" aria-label="Close evidence drawer">Close</button>
       </div>
-      <div class="drawer-body" id="drawerBody"></div>
+      <div class="drawer-body" id="drawerBody" role="region" aria-label="Evidence details"></div>
     </aside>
   </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTopBtn" title="Back to top" aria-label="Back to top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Performance Monitoring (development only) -->
+  <script>
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      window.addEventListener('load', () => {
+        const perfData = performance.getEntriesByType('navigation')[0];
+        console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+        
+        // Monitor Core Web Vitals
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            console.log(entry.name, entry.value);
+          }
+        }).observe({entryTypes: ['largest-contentful-paint', 'first-input', 'cumulative-layout-shift']});
+      });
+    }
+  </script>
 
   <script src="data.js"></script>
   <script src="core.js"></script>
@@ -130,6 +238,21 @@
   <script src="panels/dashboard.js"></script>
 
   <script>
+    // Loading screen management
+    window.addEventListener('load', () => {
+      const loadingScreen = document.getElementById('loadingScreen');
+      if (loadingScreen) {
+        // Hide loading screen after everything is loaded
+        setTimeout(() => {
+          loadingScreen.classList.add('hidden');
+          // Remove from DOM after transition
+          setTimeout(() => {
+            loadingScreen.remove();
+          }, 500);
+        }, 500);
+      }
+    });
+
     // Journey Mode button handler
     document.getElementById('journeyModeBtn').addEventListener('click', () => {
       window.location.href = 'journey.html';
@@ -144,6 +267,65 @@
     document.getElementById('derivationBtn').addEventListener('click', () => {
       window.location.href = 'derivation.html';
     });
+
+    // UX Overhaul JS
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    const panelStage = document.getElementById('panelStage');
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    
+    // Track scrolling either on body or panelStage, whichever is scrolling
+    const scrollContainer = window.matchMedia('(max-width: 960px)').matches ? window : panelStage;
+    
+    scrollContainer.addEventListener('scroll', () => {
+      const scrollY = scrollContainer.scrollY || scrollContainer.scrollTop;
+      if (scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    mobileNavToggle.addEventListener('click', () => {
+      const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+      mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+      document.body.classList.toggle('nav-open');
+    });
+
+    // Keyboard navigation enhancement
+    document.addEventListener('keydown', (e) => {
+      // Alt + J for Journey Mode
+      if (e.altKey && e.key === 'j') {
+        e.preventDefault();
+        document.getElementById('journeyModeBtn').click();
+      }
+      // Alt + D for Derivation
+      if (e.altKey && e.key === 'd') {
+        e.preventDefault();
+        document.getElementById('derivationBtn').click();
+      }
+      // Alt + C for Comparison
+      if (e.altKey && e.key === 'c') {
+        e.preventDefault();
+        document.getElementById('comparisonBtn').click();
+      }
+    });
+
+    // Service Worker registration for PWA capabilities (optional)
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
   </script>
 </body>
 </html>
