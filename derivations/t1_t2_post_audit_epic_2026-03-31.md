@@ -144,17 +144,20 @@ The exact T1 targets are:
 
 Do **not** claim `M = 3` just because the local Pauli algebra gives three perturbation directions.
 
-**Updated exact T2 targets after v2 (2026-03-31)**:
+The exact T2 targets remain unchanged from the March 31 audit. v2 companion files (`t2_order_parameter_derivation.md`, `t2_fermi_point_bridge.md`) were submitted to narrow these targets; a Codex review found they added useful narrowing but did not close any of the three bridges. Specifically:
 
-1. ~~Derive the PF order parameter rather than positing it as a minimal ansatz.~~ **Partially done** (ARGUED 0.80 in `t2_order_parameter_derivation.md`). Gap OP-1 named and bounded.
-2. ~~Derive the local `2×2` Hermitian Fermi-point Hamiltonian from T1 + Axioms 1-3.~~ **Argued (0.82)** in `t2_fermi_point_bridge.md` Part A. Conditional `C_FP` named.
-3. Prove that the three perturbation directions are the three massive restoration modes of the PF coherence field. **Argued (0.73)** in `t2_fermi_point_bridge.md` Part B. Conditional `C_bridge` named — this is the live attack surface.
-4. Keep the `d = 3` dependence explicit until PF actually derives dimensionality. **Done** — named explicitly throughout v2.
+- The order-parameter file had three overclaims (corrected in v2.1, Gap OP-1a and Gap OP-2 named; status revised to ARGUED 0.72)
+- Bridge 2 still presupposes translation invariance of the PF medium (new named conditional `C_mom`)
+- Bridge 3 renamed the core hidden step as `C_bridge` rather than closing it
 
-**New exact T2 targets**:
+The targets remain:
 
-5. Close `C_FP`: prove Fermi points exist in the PF weight-2 sector from Axioms 1-3 + T1, or find a T2 route that does not require their existence.
-6. Close `C_bridge`: prove from PF axioms alone that each gap-opening Pauli direction is an independent massive bosonic restoration mode, without relying on the ³He-A template.
+1. Derive the PF order parameter from Axioms 1-3 (promoted from bare ansatz but still ARGUED with named gaps OP-1a and OP-2).
+2. Derive the local `2×2` Hermitian Fermi-point Hamiltonian from T1 + Axioms 1-3, without assuming translation invariance (`C_mom`) or band-touching point existence (`C_FP`).
+3. Prove that the three perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — this is the live core hidden step.
+4. Keep the `d = 3` dependence explicit until PF derives dimensionality.
+
+See `t2_denominator_theorem.md` Section 13 for all four Codex objections, and `three_generations_t2_proof.md` for the strongest honest current T2 statement.
 
 ### Track C — Protect T3 from premature promotion
 

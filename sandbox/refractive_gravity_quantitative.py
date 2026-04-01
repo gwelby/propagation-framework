@@ -19,12 +19,14 @@ Run: python sandbox/refractive_gravity_quantitative.py
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+from pathlib import Path
 
 # Natural units: G = c = 1
 G = 1.0
 c = 1.0
 M = 1.0
 rs = 2 * G * M / (c ** 2)  # = 2
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 
 def null_geodesic_equation(y, phi, alpha):
@@ -184,7 +186,7 @@ def main():
     
     b_vals = [r[0] for r in results]
     gr_vals = [r[1] for r in results]
-    sim_vals = [r[2] for r in results]
+    sim_vals = [r[3] for r in results]
     
     ax1.plot(b_vals, gr_vals, 'b-', label='GR (2rs/b)', linewidth=2)
     ax1.plot(b_vals, sim_vals, 'ro', label='Simulation', markersize=8)
@@ -194,7 +196,7 @@ def main():
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
-    error_vals = [r[3] for r in results]
+    error_vals = [r[4] for r in results]
     ax2.plot(b_vals, error_vals, 'g-', linewidth=2, marker='s', markersize=8)
     ax2.set_xlabel('Impact Parameter b')
     ax2.set_ylabel('Error (%)')
@@ -202,9 +204,10 @@ def main():
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('d:\\Fundamentals\\sandbox\\refractive_verification.png', dpi=150)
-    print("Plot saved: sandbox/refractive_verification.png")
-    plt.show()
+    output_path = OUTPUT_DIR / 'refractive_verification.png'
+    plt.savefig(output_path, dpi=150)
+    print(f"Plot saved: {output_path.relative_to(OUTPUT_DIR.parent)}")
+    plt.close(fig)
 
 
 if __name__ == "__main__":

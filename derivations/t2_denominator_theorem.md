@@ -90,7 +90,11 @@ This form is exhaustive and unique. No condensed-matter band structure is assume
 
 **Fermi point**: a momentum `k_F` where `h(k_F) = 0` — two bands become degenerate.
 
-**Named conditional** (`C_FP`): This framing requires the PF medium to have Fermi points in the weight-2 sector. Existence of such points is not derived from Axioms 1-3 alone; it depends on the specific PF dynamics (see `t2_fermi_point_bridge.md` Section A.2).
+**Named conditionals**:
+- `C_mom`: The medium is translation-invariant → modes can be labeled by conserved momentum `k` → `H(k)` makes sense as a function. Not derived from Axioms 1-3 (Codex finding 1, 2026-03-31).
+- `C_FP`: Fermi points actually exist in the PF weight-2 sector. Not derived from Axioms 1-3.
+
+Both were present but unnamed in the v1 draft. `C_mom` is the deeper pre-condition.
 
 ---
 
@@ -330,27 +334,34 @@ Short version:
 
 ---
 
-## 13. Codex Audit Targets (v2 — for companion files)
+## 13. Codex Objections and Audit Targets (v2)
 
-*These items are for Codex's re-audit of the v2 bridge companion files. They supersede the v1 audit items A-E.*
+*v2 audit findings from Codex (2026-03-31). These supersede the v1 audit items A-E.*
 
-**Audit item A'** (`t2_order_parameter_derivation.md`):
-- A'1: Does the Axiom 2 argument (complex structure from wave dispersion) hold without importing quantum mechanics or a spin group? The claim is purely about the phase degree of freedom in classical wave solutions.
-- A'2: Does the Axiom 3 argument (nonzero vacuum) hold from the Coherence axiom as stated in `the_propagation_framework.md`?
-- A'3: Is the Section 4 minimality argument correct — specifically that T1's local weight-2 structure makes the single-component global order parameter sufficient for the denominator count?
-- A'4: Does the derived PF coherence field match `axiom3_coherence_functional_spec.md` and `theory_of_propagation.md` without importing their structure?
+**Objection 1 (Bridge 2 momentum-space assumption)**:
+`t2_fermi_point_bridge.md` Part A uses "at momentum `k`" and Fermi-point language from the first line of the derivation. This presupposes a momentum-space description of the medium — translation invariance, Fourier duality, the existence of a `k`-dependent operator. That is the original hidden step, not a consequence of T1's `SU(2)` double-cover argument. Naming it `C_FP` (Fermi-point existence) localized one part of the gap but left the deeper pre-condition unnamed. **Fixed in v2**: added `C_mom` (translation invariance / momentum-space description) as a separate named conditional.
 
-**Audit item B'** (`t2_fermi_point_bridge.md` Part A):
-Does the derivation of `H(k) = h₀I + h·σ` from T1's `ℂ²` state space + Axiom 2's real-energy requirement hold without importing a spin group by hand? Specifically: does T1's "weight-2 mode lives on `SU(2)` double cover" directly imply that the mode state lives in `ℂ²` without additional input?
+**Objection 2 (Order-parameter overclaims)**:
+`t2_order_parameter_derivation.md` had three overclaims:
+- (a) Axiom 2 was promoted to the specific dispersion `ω² = c²|k|²`. This is massless relativistic dispersion — not forced by "finite causal velocity" alone.
+- (b) "Amplitude + phase can be packaged as ℂ" was treated as proving the state space IS `ℂ`. Two real numbers `(A, φ)` remain two real numbers; `ℂ` is the natural minimal algebraic packaging, not uniquely forced over `ℝ²`.
+- (c) `|Ψ_vac| = 0` was claimed to mean "the medium carries no signal." A zero-background state can support propagating perturbations; the zero-mean-field exclusion rests on a specific reading of Axiom 3 that must be stated, not assumed.
+**Fixed in v2**: all three corrected; `C_mom`, Gap OP-1a, and Gap OP-2 named explicitly in the companion file. Status revised to ARGUED 0.72.
 
-**Audit item C'** (`t2_fermi_point_bridge.md` Part A, conditional C_FP):
-Is `C_FP` (existence of Fermi points in the PF weight-2 sector) a serious gap that should be elevated to the main claims board? Can it be addressed by a general argument that weight-2 propagation modes in 3D must have band crossings under Axioms 1-3, or does it require specifying the PF dynamics more concretely?
+**Objection 3 (Split-brain between CLAIMS.md and downstream docs)**:
+After v2, `ACTIVE_ISSUES.md`, `FALSIFICATION_PAPER_DRAFT.md`, and `t1_t2_post_audit_epic` had been updated to the compressed C_FP/C_bridge language from the unaudited companion files, while `CLAIMS.md` (truth-order #2) retained the broader gap description (PF → local `2×2` Fermi-point structure plus restoration-mode proof). The lower-priority docs were running ahead of the truth-order board.
+**Fixed in v2**: downstream docs reverted to CLAIMS.md-consistent language. See Section 10 CLAIMS.md update.
 
-**Audit item D'** (`t2_fermi_point_bridge.md` Part B, Bridge 3):
-Does the Bridge 3 argument prove that the three Pauli perturbation directions are the three massive bosonic restoration modes of the PF coherence field? Or does it shift the hidden step to "channels of coherence-field re-locking are independent massive bosonic modes" (conditional `C_bridge`) — in which case `C_bridge` should be named as a new formal gap on the claims board?
+**Objection 4 (Bridge 3 relocates, not closes)**:
+`t2_fermi_point_bridge.md` Step B.3.2 identified "gap direction" with "coherence re-locking channel." This is the same hidden step named in the March 28 audit, renamed as `C_bridge` rather than closed. The PF coherence field does not yet have a PF-native dynamics establishing the correspondence between algebraic deformation directions of the local Hamiltonian and physical massive bosonic restoration modes. The Volovik ³He-A template confirms the mathematics is physically realized elsewhere but does not substitute for the PF derivation.
+**Fixed in v2**: Step B.3.2 now explicitly labels this as `C_bridge` and states it is an analogy, not a proof.
 
-**Audit item E'** (cross-cutting):
-Does the `d = 3` dependence remain explicit and correctly named throughout v2? Does it need to be added as a named row on the `CLAIMS.md` board as a PF input assumption, or can it remain as an implicit premise of the Fermi-point route?
+**Audit items for Codex re-audit**:
+- **A'**: Do the three gap corrections in `t2_order_parameter_derivation.md` (OP-1a, OP-2, status 0.72) correctly bound the overclaims without creating new ones?
+- **B'**: Does the addition of `C_mom` in `t2_fermi_point_bridge.md` Part A correctly name the pre-condition, or is there a deeper issue with the T1 → `ℂ²` → `H(k)` chain?
+- **C'**: Is `C_bridge` now correctly stated as "the same hidden step renamed" rather than "an argued bridge"? Does this make the T2 gap sharper or just rename it again?
+- **D'**: Is the `d = 3` input correctly named throughout v2, and should it appear on the `CLAIMS.md` board as an explicit PF input assumption?
+- **E'**: Does the coherence tensor bridge note (`t2_coherence_tensor_bridge.md`) change the T2 status in any way, or does it remain a follow-up scaffold as stated in `three_generations_t2_proof.md` Section 7?
 
 ---
 

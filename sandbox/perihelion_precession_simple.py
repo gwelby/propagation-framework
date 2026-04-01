@@ -17,12 +17,14 @@ Run: python sandbox/perihelion_precession_simple.py
 
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 # Natural units: G = c = 1
 G = 1.0
 c = 1.0
 M = 1.0
 rs = 2 * G * M / (c ** 2)  # = 2
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 
 def precession_from_refractive_model(a, e):
@@ -162,9 +164,10 @@ def main():
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('d:\\Fundamentals\\sandbox\\perihelion_precession_simple.png', dpi=150)
-    print("Plot saved: sandbox/perihelion_precession_simple.png")
-    # plt.show()  # Skip interactive display
+    output_path = OUTPUT_DIR / 'perihelion_precession_simple.png'
+    plt.savefig(output_path, dpi=150)
+    print(f"Plot saved: {output_path.relative_to(OUTPUT_DIR.parent)}")
+    plt.close(fig)
 
     # Example orbit visualization
     print()
@@ -190,9 +193,10 @@ def main():
     ax.legend()
     ax.grid(True, alpha=0.3)
     ax.set_aspect('equal')
-    plt.savefig('d:\\Fundamentals\\sandbox\\precessing_orbit_simple.png', dpi=150)
-    print("Orbit plot saved: sandbox/precessing_orbit_simple.png")
-    # plt.show()  # Skip interactive display
+    orbit_path = OUTPUT_DIR / 'precessing_orbit_simple.png'
+    plt.savefig(orbit_path, dpi=150)
+    print(f"Orbit plot saved: {orbit_path.relative_to(OUTPUT_DIR.parent)}")
+    plt.close(fig)
 
 
 if __name__ == "__main__":

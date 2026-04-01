@@ -4,7 +4,7 @@
 **Purpose**: Close the two remaining bridges identified by the 2026-03-31 Codex audit:
 - **Bridge 2**: Derive the local `2×2` Fermi-point Hamiltonian from T1 + Axioms 1-2, without importing condensed-matter band structure.
 - **Bridge 3**: Prove that the three Pauli gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field.
-**Status**: ARGUED (0.78) — Bridge 2 is cleaner (0.82); Bridge 3 is the harder step (0.73)
+**Status**: ARGUED (0.72) — Bridge 2 revised down after Codex finding 1 (C_mom unnamed); Bridge 3 revised down after Codex finding 4 (C_bridge is a renamed hidden step, not an argued bridge)
 **Author**: Claude (2026-03-31)
 **Audit target**: Codex — see audit items B', C', D' at end of file
 **Parent**: `t2_denominator_theorem.md` Sections 3 and 5 (updated with pointers to this file)
@@ -40,7 +40,10 @@ T1 (as currently closed, conditional on the physical-realization bridge for the 
 
 ### A.2 From Two-Component Representation to a `2×2` Hamiltonian
 
-**Input from T1**: A weight-2 mode is a section of the `SU(2)` bundle over physical space. The state of such a mode at momentum `k` is a vector in `ℂ²`.
+**Named conditional C_mom** (added after Codex finding 1):
+The derivation below frames modes "at momentum `k`" and writes `H(k)` as a function of momentum. This presupposes that the PF medium is **translation-invariant**, so that mode states can be labeled by a conserved momentum `k ∈ ℝ³` (i.e., the medium has a Fourier description). Translation invariance is a structural assumption about the PF medium not yet derived from Axioms 1-3. Without `C_mom`, the momentum-space Hamiltonian `H(k)` does not follow from the axioms, and the Fermi-point framing does not apply.
+
+**Input from T1**: A weight-2 mode is a section of the `SU(2)` bundle over physical space. The state of such a mode at momentum `k` (conditional on `C_mom`) is a vector in `ℂ²`.
 
 **Input from Axiom 2**: The propagation dynamics of the medium must be causal and Lorentz-invariant. The energy of a mode as a function of momentum must be real (observable energies are real numbers). The operator `H(k)` that produces real eigenvalues acting on `ℂ²` must be **Hermitian**.
 
@@ -95,14 +98,20 @@ Massive here means: the excitation has a nonzero energy gap at `k = k_F`. The ga
 
 For each `i ∈ {1, 2, 3}`, the perturbation `δH = mᵢ σᵢ` (with `mᵢ ≠ 0`, all others zero) opens a gap of `2|mᵢ|` at `k_F`. The three perturbations are independent: adding `m₁σ₁` is not equivalent to any combination of `m₂σ₂` and `m₃σ₃` because `{σ₁, σ₂, σ₃}` are linearly independent (proved in `t2_denominator_theorem.md` Section 5).
 
-**Step B.3.2 — Each opened gap is a distinct massive mode**:
+**Step B.3.2 — Each opened gap is a distinct massive mode (C_bridge)**:
 
-A gap opening at `k_F` in direction `mᵢσᵢ` corresponds to the coherence field acquiring a nonzero expectation value in the `σᵢ` direction of the Hamiltonian perturbation space. This is the PF analogue of a condensate acquiring a vev in a particular channel.
+A gap opening at `k_F` in direction `mᵢσᵢ` corresponds to the coherence field acquiring a nonzero expectation value in the `σᵢ` direction of the Hamiltonian perturbation space.
 
-In the language of the PF coherence field `Ψ` (from `t2_order_parameter_derivation.md`):
+**Audit warning (Codex finding 4)**: The identification "gap direction = coherence re-locking channel" in this step is the same hidden step the March 31 audit named — it has been renamed `C_bridge`, not closed. The claim that each algebraic deformation direction of the local Hamiltonian corresponds to an independent physical massive bosonic restoration mode of the PF coherence field is an assertion supported by the Volovik template, not a derivation from PF axioms. In the ³He-A case, Volovik derives this correspondence from the explicit BCS order parameter. The PF coherence field `Ψ` (from `t2_order_parameter_derivation.md`) does not yet have a PF-native dynamics that establishes this correspondence.
+
+The argument below is therefore an analogy, not a proof:
+
+In the language of the PF coherence field `Ψ`:
 - The degenerate Fermi point is where `Ψ` is locally phase-unlocked: the two-component mode cannot distinguish the two branches.
-- Each independent gap direction `mᵢσᵢ` corresponds to a distinct way `Ψ` can re-lock: a distinct **massive restoration mode** of the coherence field.
-- Because the three directions `{σ₁, σ₂, σ₃}` span the full gap-opening space, there are exactly three independent ways to re-lock, hence three independent massive restoration modes.
+- Each independent gap direction `mᵢσᵢ` is *posited* to correspond to a distinct way `Ψ` can re-lock (a distinct massive restoration mode) by analogy with the Volovik case.
+- The three directions spanning the full gap-opening space *would* give three independent restoration modes — if the posited correspondence holds.
+
+This posited correspondence is `C_bridge`. It is what Bridge 3 still needs to prove from PF axioms.
 
 **Step B.3.3 — The Volovik template makes this concrete**:
 
@@ -129,13 +138,15 @@ At a Fermi point `k_F` of the PF coherence field (conditional on `C_FP` from Par
 
 ## C. Named Conditionals
 
+**C_mom** (new, Codex finding 1): The PF medium must be translation-invariant so that mode states can be labeled by conserved momentum `k ∈ ℝ³`. Not derived from Axioms 1-3. Without this, `H(k)` does not exist as a function of momentum, and the Fermi-point framing does not apply.
+
 **C_FP** (from Part A): The PF medium must have Fermi points in the weight-2 sector. Not derived from Axioms 1-3 alone.
 
-**C_gen** (from `t2_denominator_theorem.md` Section 9): The Jacobian `Dh(k_F)` must be nonsingular for the co-dimension argument to produce isolated Fermi points. Generic for smooth maps; not verified for the specific PF Hamiltonian.
+**C_gen**: The Jacobian `Dh(k_F)` must be nonsingular for the co-dimension argument. Generic for smooth maps; not verified for the specific PF Hamiltonian.
 
-**C_local** (from Part B): The restoration-mode argument is local: it applies at a single Fermi point. Multiple Fermi points may interact through topological charges. The total mode count may involve summing contributions from multiple Fermi points; Volovik shows this is controlled by topological charge (winding number), but the PF version of this global argument is not yet written.
+**C_local**: The mode count is local to one Fermi point. Global count requires summing over all Fermi points weighted by topological charge. Not yet written for PF.
 
-**C_bridge** (from Part B, Step B.3.2): The identification of "gap direction" with "coherence-field re-locking channel" is the core assertion of Bridge 3. It is physically natural and Volovik-template-supported but not yet proved from PF axioms alone without invoking the condensed-matter analogy.
+**C_bridge** (the core gap, Codex finding 4): "Gap direction = coherence-field re-locking channel = massive bosonic restoration mode" is the hidden step from the March 28 audit, renamed. It is not closed by the Volovik analogy. The PF coherence field does not yet have a native dynamics that establishes this correspondence without importing the condensed-matter template.
 
 ---
 

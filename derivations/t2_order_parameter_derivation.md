@@ -43,33 +43,23 @@ This is the minimal signal-carrying state. We do not assert `S` is larger withou
 
 **Axiom 2** (Finite Causal Velocity): Every medium has a maximum signal speed `c`. No causal influence propagates faster.
 
-Axiom 2 forces wave-like solutions on the medium state. Specifically, linear perturbations of `σ` around a uniform state must satisfy a wave equation with dispersion relation:
+Axiom 2 establishes a finite maximum signal speed `c`. It does not specify a particular dispersion relation — `ω² = c²|k|²` (massless relativistic) is one possible form; other dispersive media with finite speed also satisfy Axiom 2. What Axiom 2 does force is that wave solutions of the medium must have a well-defined phase: at each point the medium state can advance or lag, and this phase is a degree of freedom independent of amplitude.
 
-```
-ω² = c² |k|²
-```
+**Claim**: The medium state requires a two-parameter local description (amplitude + phase). The natural minimal algebraic packaging of these two parameters is a complex number.
 
-This is the relativistic dispersion relation with no preferred frame (Axiom 2 is Lorentz-invariant).
+**Argument**:
 
-**Claim**: The minimal state space `S` consistent with this dispersion relation is `ℂ`, not `ℝ`.
-
-**Proof**:
-
-Consider a linearized perturbation `δσ` around a uniform medium state. The general real solution to `ω² = c²|k|²` for a single wave mode is:
+A propagating wave mode at momentum `k` has a linearized perturbation of the form:
 
 ```
 δσ(x, t) = A cos(k·x − ωt + φ)
 ```
 
-This requires tracking two real parameters per mode: amplitude `A` and phase `φ`. The natural algebraic packaging of `(A, φ)` is a complex number:
+This requires two real parameters per mode: amplitude `A` and phase `φ`. The complex number `ψ = A e^{iφ}` packages both in a single algebraic object, making superposition and phase arithmetic natural.
 
-```
-ψ = A e^{iφ}
-```
+A strictly real-valued state space `S = ℝ` can encode amplitude but cannot directly represent the phase degree of freedom without doubling the state space — which is precisely what `ℂ = ℝ²` with complex multiplication does. Two-component real vectors `(A, φ)` ∈ ℝ² would also work algebraically; `ℂ` is the standard packaging with the additional structure of complex multiplication.
 
-so that `δσ = Re(ψ e^{i(k·x − ωt)})`.
-
-A real-valued state space `S = ℝ` cannot algebraically encode the phase `φ` without introducing an auxiliary variable — which is precisely what `ℂ` is. The complex structure is therefore not imported; it is forced by the need to parameterize the solution space of the Axiom-2 wave equation with a single algebraic object.
+**Gap OP-1a** (named): Axiom 2 motivates `ℂ` as the natural minimal encoding, but does not uniquely force `ℂ` over `ℝ²` as the state space. Both are two-dimensional over `ℝ`. The choice of `ℂ` (with its multiplicative structure) is natural for wave physics but is argued, not proved from Axiom 2 alone.
 
 **Conclusion**: The medium state field is:
 
@@ -77,7 +67,7 @@ A real-valued state space `S = ℝ` cannot algebraically encode the phase `φ` w
 Ψ : ℝ³ × ℝ → ℂ
 ```
 
-**Note**: This argument shows `ℂ` is natural; it does not yet rule out higher-dimensional `S` (e.g., `S = ℂⁿ` for `n > 1`). That is addressed in Section 4. □
+where `ℂ` is the natural minimal packaging. **Note**: This argument does not rule out higher-dimensional `S = ℂⁿ` for `n > 1`. That is addressed in Section 4. □
 
 ---
 
@@ -87,16 +77,18 @@ A real-valued state space `S = ℝ` cannot algebraically encode the phase `φ` w
 
 Apply Axiom 3 to the uniform state `Ψ = const`:
 
-- If `|Ψ_vac| = 0`: the medium carries no signal. By Axiom 1, this is not a physical medium — it cannot carry anything. Forbidden.
-- If `Ψ_vac = ρ₀ e^{iφ_0}` with `ρ₀ > 0`: the medium carries a uniform phase, which is a coherent state. This is the maximal-coherence uniform solution. By Axiom 3, this mode does not disperse; it is stable.
+- If `Ψ_vac = ρ₀ e^{iφ_0}` with `ρ₀ > 0`: the medium carries a uniform coherent amplitude. By Axiom 3, this self-reinforcing coherent state is stable.
+- If `|Ψ_vac| = 0`: the mean field is zero. A zero-mean-field state can still support propagating perturbations — Axiom 1 is not violated. However, a zero mean field has no coherent amplitude to self-reinforce: Axiom 3 requires self-reinforcing propagation for stable structure, and a state with `ρ₀ = 0` has no mean coherence to reinforce.
 
-**Conclusion**:
+**Gap OP-2** (named): The argument above is weaker than claimed in the original draft. A medium with `ρ₀ = 0` can carry signal through perturbations even if the mean field is zero (standard field theory in the symmetric/unbroken phase). Axiom 3 as currently stated ("stable structure requires self-reinforcing, coherent propagation; incoherent modes disperse") must be interpreted as requiring a nonzero coherent mean field, not merely the existence of perturbations, for `ρ₀ = 0` to be forbidden. This interpretation is natural but is an argued reading of Axiom 3, not a clean logical consequence.
+
+**Conclusion (conditional on Gap OP-2 reading)**:
 
 ```
 |Ψ_vac| = ρ₀ > 0
 ```
 
-The vacuum of the PF coherence field is nonzero. Phase `φ_0` is arbitrary (no preferred phase — this is the U(1) degree of freedom in the vacuum). □
+Under the interpretation that Axiom 3 selects states with nonzero coherent mean field, the PF vacuum is nonzero. Phase `φ_0` is undetermined (U(1) degree of freedom in the vacuum). □
 
 ---
 
@@ -130,11 +122,11 @@ with:
 
 For the purpose of the T2 denominator count, this single complex scalar is the sufficient minimal object, given T1's constraint to weight-2 local structure.
 
-**Status of this theorem**: ARGUED (0.80).
+**Status of this theorem**: ARGUED (0.72) — weakened from the earlier 0.80 claim.
 
-- The complex structure follows cleanly from Axiom 2 (Section 2 proof).
-- The nonzero vacuum follows cleanly from Axiom 3 (Section 3 proof).
-- The single-component minimality claim (Section 4) is argued, not proved: it rests on the claim that T1's local weight-2 structure is sufficient for the denominator count, without requiring a global multi-component order parameter. Codex should verify this.
+- The complex structure is natural given Axiom 2 wave kinematics, but `ℂ` is the minimal natural packaging, not uniquely forced over `ℝ²` (Gap OP-1a).
+- The nonzero vacuum is supported by Axiom 3, but the exclusion of `ρ₀ = 0` rests on an argued reading of Axiom 3 — a zero-mean-field medium can still carry perturbations (Gap OP-2).
+- The single-component minimality claim (Section 4) is argued: T1's local weight-2 structure is argued to be sufficient for the denominator count without a global multi-component order parameter. This is not proved.
 
 ---
 

@@ -56,16 +56,23 @@
               "<div class=\"stat-tile\"><strong>1</strong><span>unsynced item</span></div>" +
             "</div>" +
           "</section>" +
+          "<div class=\"view-toggle\">" +
+            "<button class=\"view-toggle-btn is-active\" data-view=\"list\">List View</button>" +
+            "<button class=\"view-toggle-btn\" data-view=\"graph\">Derivation Graph</button>" +
+          "</div>" +
           "<div class=\"controls-row\" id=\"dashboardFilters\"></div>" +
           "<div class=\"controls-row\" id=\"dashboardSearchRow\">" +
             "<input type=\"text\" id=\"dashboardSearch\" placeholder=\"Search claims, formulas, falsifiers...\" class=\"search-input\">" +
           "</div>" +
           "<div class=\"group-list\" id=\"dashboardGroups\"></div>" +
+          "<div class=\"graph-container\" id=\"derivationGraph\" style=\"display: none;\"></div>" +
         "</div>";
 
       this.state = {
         activeFilter: "all",
-        searchQuery: ""
+        searchQuery: "",
+        currentView: "list",
+        graph: null
       };
 
       this.renderFilters(ctx, counts);
@@ -74,10 +81,21 @@
     },
 
     unmount: function () {
+      if (this.state.graph) {
+        this.state.graph.destroy();
+      }
       this.state = null;
     },
 
-    resize: function () {},
+    resize: function () {
+      if (this.state.graph && this.state.currentView === "graph") {
+        // Resize graph if needed
+        const container = document.getElementById("derivationGraph");
+        if (container) {
+          container.style.height = Math.max(400, window.innerHeight - 400) + "px";
+        }
+      }
+    },
 
     renderFilters: function (ctx, counts) {
       var filtersRoot = ctx.stage.querySelector("#dashboardFilters");
@@ -190,6 +208,66 @@
           self.renderResults(ctx);
         });
       }
+      
+      // View toggle buttons
+      var viewButtons = ctx.stage.querySelectorAll(".view-toggle-btn");
+      viewButtons.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          viewButtons.forEach(b => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          
+          var view = btn.getAttribute("data-view");
+          self.switchView(ctx, view);
+        });
+      });
+    },
+    
+    switchView: function(ctx, view) {
+      this.state.currentView = view;
+      var listContainer = ctx.stage.querySelector("#dashboardGroups");
+      var graphContainer = ctx.stage.querySelector("#derivationGraph");
+      
+      if (view === "graph") {
+        listContainer.style.display = "none";
+        graphContainer.style.display = "block";
+        this.initGraph(ctx);
+      } else {
+        listContainer.style.display = "block";
+        graphContainer.style.display = "none";
+        if (this.state.graph) {
+          this.state.graph.destroy();
+          this.state.graph = null;
+        }
+      }
+    },
+    
+    initGraph: function(ctx) {
+      if (this.state.graph) {
+        this.state.graph.destroy();
+      }
+      
+      // Load D3 if not already loaded
+      if (typeof d3 === "undefined") {
+        var script = document.createElement("script");
+        script.src = "https://d3js.org/d3.v7.min.js";
+        script.onload = () => {
+          this.createGraph(ctx);
+        };
+        document.head.appendChild(script);
+      } else {
+        this.createGraph(ctx);
+      }
+    },
+    
+    createGraph: function(ctx) {
+      var container = document.getElementById("derivationGraph");
+      if (!container || !window.DerivationGraph) return;
+      
+      // Set height
+      container.style.height = Math.max(400, window.innerHeight - 400) + "px";
+      
+      // Create graph
+      this.state.graph = new window.DerivationGraph(container, ctx.data);
     },
 
     update: function () {}

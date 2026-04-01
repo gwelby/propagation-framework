@@ -12,7 +12,7 @@
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and the generation structure of the Standard Model emerge from three axioms about a propagation medium. The central results are: (1) the number of fermion generations is uniquely fixed at three by the topology of three-dimensional space, independent of any free parameter; (2) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by energy minimization of three resonance modes, not a numerical coincidence; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is derived from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$; (4) the non-existence of a fourth generation follows from a coherence ceiling condition derivable from the same axioms, and constitutes a stronger claim than the Standard Model's electroweak precision exclusion. We identify five experiments that would falsify the framework, three of which can be conducted with existing equipment or data within twelve months. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is derived from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We identify five experiments that would falsify the framework, but only parts of TEST 1 and TEST 2 are directly executable with the current local sandbox and public data; TEST 3-5 depend on external experimental programs. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
 
 ---
 
@@ -20,7 +20,7 @@ We present a minimal framework in which matter, forces, and the generation struc
 
 The Standard Model successfully describes particle physics but does not explain its own structure. Why are there exactly three generations of fermions? Why does the Koide formula $Q = (m_e + m_\mu + m_\tau)/(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2 = 2/3$ hold to four significant figures? These are treated as numerical coincidences or free parameters.
 
-We propose that both facts are consequences of the same underlying structure: a propagation medium in three spatial dimensions in which stable matter corresponds to topologically protected resonance modes. The derivation does not invoke supersymmetry, extra dimensions, or fine-tuning. It requires three axioms and the observed dimensionality of space.
+We propose that both facts may be consequences of the same underlying structure: a propagation medium in three spatial dimensions in which stable matter corresponds to topologically protected resonance modes. The derivation does not invoke supersymmetry, extra dimensions, or fine-tuning. It requires three axioms and the observed dimensionality of space.
 
 This paper is written as a falsification document. Each claim is labeled with its derivation status (DERIVED, ARGUED, or EMPIRICAL), and each prediction is accompanied by a specific falsification criterion. We report results honestly, including where the derivation chain is incomplete.
 
@@ -75,9 +75,9 @@ $$W_{total} = 2N + M$$
 The leptonic Koide ratio is the fraction of the total weight carried by the fermionic sector:
 $$Q = \frac{2N}{2N + M}$$
 
-**Claim T2 (PARTIAL DERIVATION):** In 3D space, the co-dimension route to `M = 3` has three supporting lemmas (all conditional): (1) the PF coherence field is a complex-valued field with nonzero coherent vacuum (ARGUED 0.80 from Axioms 1-3; see `t2_order_parameter_derivation.md`); (2) the local propagation Hamiltonian for weight-2 modes is `H(k) = h₀I + h(k)·σ`, derived from T1's `ℂ²` state space and Axiom 2's real-energy requirement (ARGUED 0.82, conditional `C_FP`: Fermi points must exist in the PF weight-2 sector; see `t2_fermi_point_bridge.md` Part A); (3) the three Pauli gap-opening directions at a Fermi point correspond to three massive restoration modes of the PF coherence field (ARGUED 0.73, conditional `C_bridge`: this correspondence is supported by the Volovik ³He-A template but not yet proved from PF axioms alone; see `t2_fermi_point_bridge.md` Part B). Therefore `M = 3` is conditional on C_FP, C_bridge, T1, and `d = 3` as an input. T2 remains `PARTIAL DERIVATION 0.85` pending Codex re-audit (audit items A'-E' in `t2_denominator_theorem.md` Section 13). See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, and companion files above.
+**Claim T2 (PARTIAL DERIVATION):** In 3D space, the denominator is strongly supported by convergent co-dimension arguments pointing to `M = 3`. Codex audit (2026-03-31): the co-dimension draft proves a useful conditional lemma inside a local `2×2` Fermi-point Hamiltonian ansatz — in 3D, the codimension of a generic band-touching point and the dimension of the gap-opening perturbation space are both `3`. The PF theorem is not yet closed. v2 companion files narrowed the gaps but introduced new named conditionals: `C_mom` (translation invariance of the PF medium, not derived from Axioms 1-3), `C_FP` (Fermi points must exist in the weight-2 sector), and `C_bridge` (the three Pauli perturbation directions must be proved to be massive bosonic restoration modes of the PF coherence field, not merely algebraic deformation parameters). Codex found that Bridge 3 renamed rather than closed the core hidden step from the March 28 audit. Therefore `M = 3` is not yet fully closed. See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, and `t2_denominator_theorem.md` Section 13 for all four Codex objections.
 
-This grounds the denominator in the spatial dimension independently of the observed count of weak bosons. (Volovik [2003] derived the same result for superfluid $^3$He from analogous reasoning; here the framework has a strong convergent route to the same result, but not yet a single closed theorem.)
+This is the current strongest route for grounding the denominator in the spatial dimension independently of the observed count of weak bosons. (Volovik [2003] derived the same result for superfluid $^3$He from analogous reasoning; here the framework has a strong convergent route to the same result, but not yet a single closed theorem.)
 
 Substituting $M = 3$:
 $$Q(N) = \frac{2N}{2N + 3}$$
@@ -85,7 +85,7 @@ $$Q(N) = \frac{2N}{2N + 3}$$
 Setting $Q = 2/3$ (the Koide ratio, measured):
 $$\frac{2}{3} = \frac{2N}{2N+3} \implies N = 3$$
 
-**Claim T3 (CONDITIONAL):** If the denominator theorem `M = 3` holds, then the number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights $(2,1)$.
+**Claim T3 (CONDITIONAL):** If the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` both hold, then the number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights `(2,1)`.
 
 ### 3.3 Why Q = 2/3 Is Exact: The Geometric Identity
 
@@ -190,7 +190,19 @@ This is the central section. Each test has a specific pass/fail criterion. A sin
 
 ---
 
-### TEST 1 — EEG Phase Transition (Near-Term, No Cost)
+### 6.0 What We Can Test Ourselves Now
+
+| Test | Local status | Current reality |
+|------|--------------|-----------------|
+| TEST 1 — EEG phase transition | Partially self-testable | Local simulator runs; real-data analysis still needs Python deps (`mne`, `pandas`) plus headset / dataset access |
+| TEST 2 — Neutrino Koide | Self-testable from public data | Current local scan already disfavors universality; JUNO can sharpen the exclusion |
+| TEST 3 — Fourth generation exclusion | Not locally self-testable | Requires collider discovery / null searches |
+| TEST 4 — Tau $g-2$ | Not locally self-testable | No closed local $\delta a_\tau$ prediction yet; depends on Belle II or equivalent |
+| TEST 5 — GW dispersion | Not locally self-testable | Existing data constrain it; a distinctive PF beyond-GR prediction is not yet closed |
+
+---
+
+### TEST 1 — EEG Phase Transition (Near-Term, Low Cost)
 **Tests:** Whether cognitive insight follows the same topological phase-transition mathematics as particle physics.
 
 **Framework prediction:** A cognitive insight event is a phase transition in the propagation medium — identical in mathematical structure to a particle reaching the coherence ceiling and undergoing topological phase change. Specifically, the framework predicts that **Critical Slowing Down (CSD)** precedes every genuine insight event:
@@ -208,7 +220,7 @@ This is the central section. Each test has a specific pass/fail criterion. A sin
 
 ---
 
-### TEST 2 — Neutrino Koide (Near-Term, No Cost, Waiting on JUNO)
+### TEST 2 — Neutrino Koide (Near-Term, Public Data Now; JUNO Will Refine)
 **Tests:** Whether the Koide $Q = 2/3$ ratio is universal across fermionic sectors or specific to charged leptons.
 
 **Framework prediction:** If the equilateral-triangle amplitude geometry (Claim G1) is a consequence of the medium's properties and not specific to the charged-lepton sector, then neutrino masses should satisfy:
@@ -219,13 +231,19 @@ With Normal Ordering and $m_{\nu_1} \approx 0$:
 - $m_{\nu_3} = \sqrt{\Delta m^2_{31}} \approx 0.0501$ eV
 - Brannen prediction for $m_{\nu_1}$: $\approx 0.00038$ eV
 
-Computed: $Q_\nu \approx 0.667$ (within 0.5% of 2/3).
+Current local computation does **not** support universality:
+
+- Brannen point: $Q_\nu \approx 0.522$
+- Best current scan with normal ordering: $Q_\nu \approx 0.550$
+- Best current scan with inverted ordering: $Q_\nu \approx 0.479$
+
+So the neutrino-sector universality conjecture is already under pressure from current oscillation inputs. JUNO is a sharpening test, not the first time this quantity can be evaluated.
 
 **Measurement:** JUNO experiment (Jiangmen Underground Neutrino Observatory) will constrain $\Delta m^2_{21}$ to sub-percent precision in 2026.
 
-**Falsification criterion:** If JUNO measures $Q_\nu$ more than 5% from 2/3 (>3$\sigma$ from the predicted value), the universality of the Koide mechanism is falsified. *Note: This would NOT falsify the charged-lepton result (which is measured), but would constrain the framework's scope.*
+**Falsification criterion:** If the updated oscillation window after JUNO continues to keep $Q_\nu$ more than 5% from $2/3$, the universality of the Koide mechanism is falsified. *Note: This would NOT falsify the charged-lepton result (which is measured), but would constrain the framework's scope.*
 
-**Pass:** $Q_\nu = 2/3 \pm 5\%$ is consistent with the framework.
+**Current status:** Negative for universality under present local scans; waiting on JUNO to tighten the error bars.
 
 ---
 
@@ -267,7 +285,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 ### TEST 5 — Gravitational Wave Dispersion (Medium-Term, LIGO/LISA Data)
 **Tests:** Whether gravity is refractive or geometric (i.e., whether the medium interpretation makes predictions beyond General Relativity).
 
-**Framework prediction (Claim F1):** If gravity is refraction in the medium, then the gravitational wave propagation speed through a varying-density region should show frequency dependence — the medium's refractive index may be wavelength-dependent at scales approaching $\lambda_c$.
+**Framework extension target:** The exact current theorem (Claim F1) is the optical/Randers equivalence for null propagation in static/stationary gravity. A distinctive gravitational-wave dispersion signal would be a **beyond-current-claim** extension of that theorem, not part of the exact result already closed.
 
 **Standard GR prediction:** Gravitational waves propagate at exactly $c$, with no dispersion.
 
@@ -309,7 +327,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
 | W1: Weinberg angle sin²θ_W | DERIVED | 0.90 | Derive RG running to IR value 0.231 |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
-| T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Close conditionals C_FP (Fermi points exist in PF weight-2 sector) and C_bridge (three perturbation directions = three massive restoration modes) — both ARGUED in v2 companion files, awaiting Codex re-audit (items A'-E' in `t2_denominator_theorem.md` Section 13) |
+| T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
 | God Equation (λ_c from l_P) | ARGUED | 0.75 | Derive N^{D/2} bridge from axioms |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
@@ -332,11 +350,11 @@ Any one of these would move the framework from "consistent with data" to "unique
 
 ## 10. Discussion
 
-The framework presented here is minimal: three axioms (with one corollary), one observed fact (D = 3), and the requirement that structure be topologically stable. From these, several of the deepest unexplained features of the Standard Model — the three-generation structure, the Koide mass ratio, and the Weinberg angle — emerge as derived consequences rather than free parameters.
+The framework presented here is minimal: three axioms (with one corollary), one observed fact (D = 3), and the requirement that structure be topologically stable. From these, several of the deepest unexplained features of the Standard Model — the charged-lepton Koide mass ratio, gravity as optical geometry for null propagation, and the Weinberg angle — emerge as derived consequences rather than free parameters. The generation-count result is still conditional on unresolved numerator / denominator bridge theorems.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The coherence length $\lambda_c$ is calibrated to the top quark mass rather than derived from first principles ($0.4\%$ numerical agreement via the God Equation, but the N^{D/2} bridge remains open). The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (sleep cycles, EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has multiple DERIVED results with confidence $\geq 0.85$, plus a wider ring of argued bridges and model theorems. The path to further confirmation requires experimental validation of unique predictions — things this framework predicts and the Standard Model does not.
+The framework now has multiple DERIVED results with confidence $\geq 0.85$, plus a wider ring of argued bridges and model theorems. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which of those predictions are already executable, which are only partially executable, and which remain external.
 
 The five tests above define that path.
 

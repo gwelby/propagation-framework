@@ -23,12 +23,14 @@ Run: python sandbox/shapiro_delay.py
 
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 # Physical constants (SI units for realism)
 G = 6.67430e-11  # m³/(kg·s²)
 c = 299792458.0  # m/s
 M_sun = 1.98847e30  # kg
 rs_sun = 2 * G * M_sun / c**2  # Schwarzschild radius of Sun ≈ 2954 m
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # Earth and reflector distances (typical radar ranging setup)
 r_earth = 1.496e11  # 1 AU in meters (Earth-Sun distance)
@@ -227,9 +229,10 @@ def main():
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('d:\\Fundamentals\\sandbox\\shapiro_delay.png', dpi=150)
-    print("Plot saved: sandbox/shapiro_delay.png")
-    plt.show()
+    output_path = OUTPUT_DIR / 'shapiro_delay.png'
+    plt.savefig(output_path, dpi=150)
+    print(f"Plot saved: {output_path.relative_to(OUTPUT_DIR.parent)}")
+    plt.close(fig)
     
     # Historical note
     print()
