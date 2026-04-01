@@ -1,22 +1,58 @@
 /**
- * Journey Mode — The 5-Minute Narrative Experience
+ * Journey Mode — The 8-Minute Narrative Experience
  * Propagation Framework Explorer
- * 
- * A guided journey through the framework's strongest results
  */
+(function () {
+  "use strict";
 
-(function() {
-  'use strict';
+  var currentSection = "opening";
+  var sections = ["opening", "act1", "act2", "act3", "act4", "epilogue"];
+  var truth = window.PFExplorerTruth || window.PFTruth;
 
-  // State
-  let currentSection = 'opening';
-  const sections = ['opening', 'act1', 'act2', 'act3', 'act4', 'epilogue'];
+  var bohrCtx = null;
+  var generationsCtx = null;
+  var godEqCtx = null;
 
-  // Canvas contexts
-  let bohrCtx, generationsCtx, godEqCtx;
+  var bohrState = {
+    started: false,
+    electron: null,
+    orbits: []
+  };
 
-  // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
+  var generationsState = {
+    started: false,
+    rotation: 0,
+    isDragging: false,
+    lastX: 0,
+    currentN: 3
+  };
+
+  var godEquationState = {
+    started: false,
+    currentN: 3,
+    currentD: 3,
+    currentLambda: 1.145e-18
+  };
+
+  var falsificationIds = [
+    "koide-law",
+    "weinberg-angle",
+    "god-equation",
+    "forces-refraction",
+    "bohr-quantization",
+    "three-generations"
+  ];
+
+  var falsificationMeta = {
+    "koide-law": { icon: "🔬", title: "Break the Koide relation" },
+    "weinberg-angle": { icon: "🔭", title: "Break the Weinberg angle" },
+    "god-equation": { icon: "🌌", title: "Break the God Equation" },
+    "forces-refraction": { icon: "💫", title: "Break the optical force map" },
+    "bohr-quantization": { icon: "⚛️", title: "Break the circular-eikonal Bohr sector" },
+    "three-generations": { icon: "🧬", title: "Break the N = 3 lock" }
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
     initNavigation();
     initOpening();
     initAct1();
@@ -27,96 +63,108 @@
     updateProgress();
   });
 
-  // Navigation
+  function getTruth() {
+    return truth || window.PFExplorerTruth || window.PFTruth;
+  }
+
   function initNavigation() {
-    // Next buttons
-    document.querySelectorAll('.next-act').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const currentIndex = sections.indexOf(currentSection);
+    document.querySelectorAll(".next-act").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var currentIndex = sections.indexOf(currentSection);
         if (currentIndex < sections.length - 1) {
           goToSection(sections[currentIndex + 1]);
         }
       });
     });
 
-    // Progress steps
-    document.querySelectorAll('.progress-step').forEach(step => {
-      step.addEventListener('click', () => {
-        const section = step.dataset.step;
-        goToSection(section);
+    document.querySelectorAll(".progress-step").forEach(function (step) {
+      step.addEventListener("click", function () {
+        goToSection(step.dataset.step);
       });
     });
   }
 
   function goToSection(sectionId) {
-    // Hide current
-    document.getElementById(`journey-${currentSection}`).classList.remove('active');
-    
-    // Show new
+    var currentNode = document.getElementById("journey-" + currentSection);
+    var nextNode = document.getElementById("journey-" + sectionId);
+
+    if (currentNode) {
+      currentNode.classList.remove("active");
+    }
+    if (nextNode) {
+      nextNode.classList.add("active");
+    }
+
     currentSection = sectionId;
-    document.getElementById(`journey-${sectionId}`).classList.add('active');
-    
-    // Update progress
     updateProgress();
-    
-    // Initialize section-specific logic
-    if (sectionId === 'act1') initBohrAnimation();
-    if (sectionId === 'act2') initGenerationsAnimation();
-    if (sectionId === 'act3') initGodEquationAnimation();
-    if (sectionId === 'act4') populateResults();
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (sectionId === "act1") {
+      ensureBohrAnimation();
+    }
+    if (sectionId === "act2") {
+      ensureGenerationsAnimation();
+      renderGenerationsScene(generationsState.currentN);
+    }
+    if (sectionId === "act3") {
+      ensureGodEquationAnimation();
+      refreshGodEquation();
+    }
+    if (sectionId === "act4") {
+      populateAct4();
+    }
+    if (sectionId === "epilogue") {
+      populateFalsificationCards();
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function updateProgress() {
-    const currentIndex = sections.indexOf(currentSection);
-    document.querySelectorAll('.progress-step').forEach((step, index) => {
-      step.classList.remove('active', 'completed');
+    var currentIndex = sections.indexOf(currentSection);
+    document.querySelectorAll(".progress-step").forEach(function (step, index) {
+      step.classList.remove("active", "completed");
       if (index === currentIndex) {
-        step.classList.add('active');
+        step.classList.add("active");
       } else if (index < currentIndex) {
-        step.classList.add('completed');
+        step.classList.add("completed");
       }
     });
   }
 
-  // Opening Sequence
   function initOpening() {
-    const beginBtn = document.getElementById('begin-journey');
-    beginBtn.addEventListener('click', () => {
-      goToSection('act1');
-    });
+    var beginButton = document.getElementById("begin-journey");
+    if (beginButton) {
+      beginButton.addEventListener("click", function () {
+        goToSection("act1");
+      });
+    }
 
-    // Animate axiom cards
-    setTimeout(() => {
-      document.querySelectorAll('.axiom-card').forEach((card, i) => {
-        setTimeout(() => {
-          card.classList.add('revealed');
-        }, i * 400);
+    setTimeout(function () {
+      document.querySelectorAll(".axiom-card").forEach(function (card, index) {
+        setTimeout(function () {
+          card.classList.add("revealed");
+        }, index * 400);
       });
     }, 500);
   }
 
-  // Act I: Bohr Quantization
   function initAct1() {
-    const canvas = document.getElementById('bohr-canvas');
-    bohrCtx = canvas.getContext('2d');
-    resizeCanvas(canvas);
+    var canvas = document.getElementById("bohr-canvas");
+    if (!canvas) {
+      return;
+    }
+
+    bohrCtx = canvas.getContext("2d");
+    bohrState.orbits = buildBohrOrbits();
+    bohrState.electron = {
+      phase: 0,
+      targetOrbit: bohrState.orbits[0]
+    };
   }
 
-  function initBohrAnimation() {
-    const canvas = document.getElementById('bohr-canvas');
-    if (!canvas) return;
-    
-    resizeCanvas(canvas);
-    
-    let electron = { x: 0, y: 0, phase: 0, orbit: 1 };
-    let orbits = [];
-    let animationId;
-
-    // Create allowed orbits
-    for (let k = 1; k <= 4; k++) {
+  function buildBohrOrbits() {
+    var orbits = [];
+    for (var k = 1; k <= 4; k += 1) {
       orbits.push({
         k: k,
         radius: 2 * k * k,
@@ -124,519 +172,613 @@
         phase: 0
       });
     }
+    return orbits;
+  }
 
-    canvas.addEventListener('click', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.clientX - rect.left - canvas.width / 2) * 2;
-      const y = (e.clientY - rect.top - canvas.height / 2) * 2;
-      
-      const dist = Math.sqrt(x * x + y * y);
-      const closestOrbit = orbits.reduce((prev, curr) => {
-        return Math.abs(dist - curr.radius) < Math.abs(dist - prev.radius) ? curr : prev;
-      });
-      
-      electron = {
-        x: x / dist * closestOrbit.radius,
-        y: y / dist * closestOrbit.radius,
+  function ensureBohrAnimation() {
+    var canvas = document.getElementById("bohr-canvas");
+    if (!canvas || bohrState.started) {
+      if (canvas) {
+        resizeCanvas(canvas);
+      }
+      return;
+    }
+
+    resizeCanvas(canvas);
+    bohrState.started = true;
+
+    canvas.addEventListener("click", function (event) {
+      var rect = canvas.getBoundingClientRect();
+      var localX = event.clientX - rect.left - canvas.width / 2;
+      var localY = event.clientY - rect.top - canvas.height / 2;
+      var dist = Math.max(1, Math.sqrt(localX * localX + localY * localY));
+      var scale = bohrOrbitScreenScale(canvas);
+
+      var closestOrbit = bohrState.orbits.reduce(function (best, orbit) {
+        return Math.abs(dist - orbit.radius * scale) < Math.abs(dist - best.radius * scale)
+          ? orbit
+          : best;
+      }, bohrState.orbits[0]);
+
+      bohrState.electron = {
         phase: 0,
-        orbit: closestOrbit.k,
         targetOrbit: closestOrbit
       };
     });
 
-    function animate() {
-      const ctx = bohrCtx;
-      const w = canvas.width;
-      const h = canvas.height;
-      
-      // Clear
-      ctx.fillStyle = '#0f0f1f';
-      ctx.fillRect(0, 0, w, h);
-      
-      // Draw nucleus
+    requestAnimationFrame(animateBohr);
+  }
+
+  function bohrOrbitScreenScale(canvas) {
+    return Math.min(canvas.width, canvas.height) * 0.08;
+  }
+
+  function animateBohr() {
+    var canvas = document.getElementById("bohr-canvas");
+    if (!canvas || !bohrCtx) {
+      return;
+    }
+
+    var ctx = bohrCtx;
+    var w = canvas.width;
+    var h = canvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var scale = bohrOrbitScreenScale(canvas);
+
+    ctx.fillStyle = "#0f0f1f";
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.fillStyle = "#ff5555";
+    ctx.shadowColor = "#ff5555";
+    ctx.shadowBlur = 18;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    bohrState.orbits.forEach(function (orbit) {
+      var screenRadius = orbit.radius * scale;
+      var isActive = bohrState.electron && bohrState.electron.targetOrbit.k === orbit.k;
+
       ctx.beginPath();
-      ctx.arc(w / 2, h / 2, 8, 0, Math.PI * 2);
-      ctx.fillStyle = '#ff5555';
-      ctx.fill();
-      ctx.shadowColor = '#ff5555';
-      ctx.shadowBlur = 20;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      
-      // Draw orbits
-      orbits.forEach(orbit => {
-        const screenRadius = Math.min(w, h) * 0.15 * orbit.k;
-        
-        // Check if electron is on this orbit
-        const isActive = electron.targetOrbit && electron.targetOrbit.k === orbit.k;
-        
-        ctx.beginPath();
-        ctx.arc(w / 2, h / 2, screenRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = isActive ? '#44ff88' : '#333';
-        ctx.lineWidth = isActive ? 3 : 1;
-        ctx.stroke();
-        
-        // Draw phase indicator
-        if (isActive) {
-          orbit.phase += 0.05;
-          const phaseX = w / 2 + Math.cos(orbit.phase) * screenRadius;
-          const phaseY = h / 2 + Math.sin(orbit.phase) * screenRadius;
-          
-          ctx.beginPath();
-          ctx.arc(phaseX, phaseY, 6, 0, Math.PI * 2);
-          ctx.fillStyle = '#00cfff';
-          ctx.fill();
-          
-          // Phase trail
-          ctx.beginPath();
-          ctx.arc(w / 2, h / 2, screenRadius, orbit.phase - 0.5, orbit.phase);
-          ctx.strokeStyle = 'rgba(0, 207, 255, 0.3)';
-          ctx.lineWidth = 8;
-          ctx.stroke();
-        }
-      });
-      
-      // Draw electron
-      if (electron.targetOrbit) {
-        const orbit = electron.targetOrbit;
-        const screenRadius = Math.min(w, h) * 0.15 * orbit.k;
-        electron.phase += 0.08;
-        electron.x = Math.cos(electron.phase) * screenRadius;
-        electron.y = Math.sin(electron.phase) * screenRadius;
-        
-        ctx.beginPath();
-        ctx.arc(w / 2 + electron.x, h / 2 + electron.y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = '#00cfff';
-        ctx.fill();
-        ctx.shadowColor = '#00cfff';
-        ctx.shadowBlur = 15;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-      
-      // Draw allowed energies
-      ctx.fillStyle = '#888';
-      ctx.font = '12px monospace';
-      ctx.textAlign = 'right';
-      orbits.forEach((orbit, i) => {
-        const y = h - 30 - i * 25;
-        ctx.fillText(`k=${orbit.k}: E = ${orbit.energy.toFixed(4)}`, w - 20, y);
-        
-        // Energy level line
-        ctx.beginPath();
-        ctx.moveTo(w - 150, y - 8);
-        ctx.lineTo(w - 20, y - 8);
-        ctx.strokeStyle = orbit.k === electron.targetOrbit?.k ? '#44ff88' : '#444';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      });
-      
-      animationId = requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    // Store animation ID for cleanup
-    canvas._animationId = animationId;
-  }
-
-  // Act II: Three Generations
-  function initAct2() {
-    const canvas = document.getElementById('generations-canvas');
-    generationsCtx = canvas.getContext('2d');
-    resizeCanvas(canvas);
-    
-    // N slider
-    const nSlider = document.getElementById('n-slider');
-    const nValue = document.getElementById('n-value');
-    const qResult = document.getElementById('q-result');
-    const lockIndicator = document.getElementById('lock-indicator');
-    
-    function updateGenerations() {
-      const N = parseInt(nSlider.value);
-      nValue.textContent = N;
-      
-      const Q = (2 * N) / (2 * N + 3);
-      const isLock = N === 3;
-      
-      qResult.textContent = `Q(${N}) = ${2*N}/${2*N+3} = ${Q.toFixed(6)} ${isLock ? '= 2/3' : ''}`;
-      lockIndicator.style.display = isLock ? 'block' : 'none';
-      lockIndicator.textContent = isLock ? '✓ Exact match to nature' : '';
-      
-      drawGenerations(N);
-    }
-    
-    nSlider.addEventListener('input', updateGenerations);
-    updateGenerations();
-  }
-
-  function initGenerationsAnimation() {
-    const canvas = document.getElementById('generations-canvas');
-    if (!canvas) return;
-    resizeCanvas(canvas);
-    
-    let rotation = 0;
-    let isDragging = false;
-    let lastX = 0;
-    
-    canvas.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      lastX = e.clientX;
-    });
-    
-    canvas.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        rotation += (e.clientX - lastX) * 0.02;
-        lastX = e.clientX;
-      }
-    });
-    
-    canvas.addEventListener('mouseup', () => isDragging = false);
-    canvas.addEventListener('mouseleave', () => isDragging = false);
-    
-    function drawGenerations(N) {
-      const ctx = generationsCtx;
-      const w = canvas.width;
-      const h = canvas.height;
-      
-      ctx.fillStyle = '#0f0f1f';
-      ctx.fillRect(0, 0, w, h);
-      
-      const cx = w / 2;
-      const cy = h / 2;
-      const radius = Math.min(w, h) * 0.25;
-      
-      // Draw SO(3) visualization
-      // Belt trick / Dirac string
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(rotation);
-      
-      // Draw the three generation points at 120°
-      for (let i = 0; i < 3; i++) {
-        const angle = (i * 2 * Math.PI / 3) + rotation;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        
-        // Draw connection to center
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(x, y);
-        ctx.strokeStyle = i < N ? '#00cfff' : '#333';
-        ctx.lineWidth = i < N ? 3 : 1;
-        ctx.stroke();
-        
-        // Draw generation point
-        ctx.beginPath();
-        ctx.arc(x, y, i < N ? 12 : 8, 0, Math.PI * 2);
-        ctx.fillStyle = i < N ? '#00cfff' : '#333';
-        ctx.fill();
-        
-        if (i < N) {
-          ctx.shadowColor = '#00cfff';
-          ctx.shadowBlur = 15;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-        
-        // Label
-        ctx.fillStyle = i < N ? '#fff' : '#666';
-        ctx.font = '14px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(i < N ? ['e', 'μ', 'τ'][i] : '?', x * 1.2, y * 1.2);
-      }
-      
-      // Draw 120° arcs
-      for (let i = 0; i < 3; i++) {
-        const startAngle = (i * 2 * Math.PI / 3);
-        const endAngle = ((i + 1) * 2 * Math.PI / 3);
-        
-        ctx.beginPath();
-        ctx.arc(0, 0, radius * 0.5, startAngle, endAngle);
-        ctx.strokeStyle = '#44ff88';
-        ctx.lineWidth = 2;
-        ctx.setLineDash([5, 5]);
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-      
-      // Draw π₁(SO(3)) visualization
-      ctx.fillStyle = '#888';
-      ctx.font = '12px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('π₁(SO(3)) ≅ ℤ₂', 0, -radius - 30);
-      ctx.fillText('Two loop classes: contractible & non-contractible', 0, -radius - 10);
-      
-      ctx.restore();
-      
-      // Draw Q(N) calculation
-      ctx.fillStyle = '#888';
-      ctx.font = '12px sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('Topological constraint: 3D rotations have exactly 2 kinds of closed paths', 20, h - 40);
-      ctx.fillText('This forces the (2,1) weight partition → Q(N) = 2N/(2N+3)', 20, h - 20);
-    }
-    
-    // Initial draw
-    const N = parseInt(document.getElementById('n-slider').value);
-    drawGenerations(N);
-    
-    // Animation loop
-    function animate() {
-      if (!isDragging) {
-        rotation += 0.005;
-      }
-      const nSlider = document.getElementById('n-slider');
-      if (nSlider) {
-        const N = parseInt(nSlider.value);
-        drawGenerations(N);
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-  }
-
-  // Act III: God Equation
-  function initAct3() {
-    const canvas = document.getElementById('god-equation-canvas');
-    godEqCtx = canvas.getContext('2d');
-    resizeCanvas(canvas);
-    
-    // Sliders
-    const nSlider = document.getElementById('n-slider-ge');
-    const nValue = document.getElementById('n-value-ge');
-    const dSlider = document.getElementById('d-slider');
-    const dValue = document.getElementById('d-value');
-    const geResult = document.getElementById('ge-result');
-    const geObserved = document.getElementById('ge-observed');
-    const geError = document.getElementById('ge-error');
-    
-    function updateGodEquation() {
-      const N = parseInt(nSlider.value);
-      const D = parseInt(dSlider.value);
-      
-      nValue.textContent = N;
-      dValue.textContent = D;
-      
-      // God Equation: λ_c = √2 · l_P · exp(4π² N^(D/2) / b₀)
-      const l_P = 1.616e-35;
-      const b0 = 16/3;
-      const exponent = (4 * Math.PI * Math.PI * Math.pow(N, D/2)) / b0;
-      const lambda_c = Math.sqrt(2) * l_P * Math.exp(exponent);
-      
-      const observed = 1.14e-18;
-      const error = Math.abs(lambda_c - observed) / observed * 100;
-      
-      geResult.textContent = `Predicted: ${lambda_c.toExponential(3)} m`;
-      geObserved.textContent = `Observed: ${observed.toExponential(3)} m`;
-      
-      if (N === 3 && D === 3) {
-        geError.textContent = `Error: ${error.toFixed(1)}% • Zero fitted parameters`;
-        geError.style.color = '#44ff88';
-      } else {
-        geError.textContent = `Error: ${error.toFixed(1)}% • Not the physical point`;
-        geError.style.color = error < 10 ? '#ffdd55' : '#ff5555';
-      }
-      
-      drawGodEquation(N, D, lambda_c);
-    }
-    
-    nSlider.addEventListener('input', updateGodEquation);
-    dSlider.addEventListener('input', updateGodEquation);
-    updateGodEquation();
-  }
-
-  function initGodEquationAnimation() {
-    const canvas = document.getElementById('god-equation-canvas');
-    if (!canvas) return;
-    resizeCanvas(canvas);
-    
-    function drawGodEquation(N, D, lambda_c) {
-      const ctx = godEqCtx;
-      const w = canvas.width;
-      const h = canvas.height;
-      
-      ctx.fillStyle = '#0f0f1f';
-      ctx.fillRect(0, 0, w, h);
-      
-      // Draw logarithmic scale
-      const scales = [
-        { label: 'Planck', value: -35, y: h - 60 },
-        { label: 'Matter', value: -18, y: h - 120 },
-        { label: 'Atomic', value: -10, y: h - 180 },
-        { label: 'Human', value: 0, y: h - 240 }
-      ];
-      
-      const minY = -40;
-      const maxY = 5;
-      const scaleY = (h - 100) / (maxY - minY);
-      
-      // Draw scale lines
-      ctx.strokeStyle = '#333';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(80, 50);
-      ctx.lineTo(80, h - 50);
+      ctx.arc(cx, cy, screenRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = isActive ? "#44ff88" : "#333";
+      ctx.lineWidth = isActive ? 3 : 1;
       ctx.stroke();
-      
-      // Draw markers
-      scales.forEach(scale => {
-        const y = h - 50 - (scale.value - minY) * scaleY;
-        
+
+      if (isActive) {
+        orbit.phase += 0.05;
         ctx.beginPath();
-        ctx.moveTo(70, y);
-        ctx.lineTo(80, y);
-        ctx.strokeStyle = '#666';
+        ctx.arc(cx, cy, screenRadius, orbit.phase - 0.5, orbit.phase);
+        ctx.strokeStyle = "rgba(0, 207, 255, 0.3)";
+        ctx.lineWidth = 8;
         ctx.stroke();
-        
-        ctx.fillStyle = '#888';
-        ctx.font = '12px sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText(`10^${scale.value} m`, 65, y + 4);
-        
-        ctx.fillStyle = '#666';
-        ctx.fillText(scale.label, 65, y - 8);
-      });
-      
-      // Draw predicted point
-      const logLambda = Math.log10(lambda_c);
-      const predY = h - 50 - (logLambda - minY) * scaleY;
-      
+      }
+    });
+
+    if (bohrState.electron && bohrState.electron.targetOrbit) {
+      var activeOrbit = bohrState.electron.targetOrbit;
+      var radius = activeOrbit.radius * scale;
+      bohrState.electron.phase += 0.08;
+      var ex = cx + Math.cos(bohrState.electron.phase) * radius;
+      var ey = cy + Math.sin(bohrState.electron.phase) * radius;
+
       ctx.beginPath();
-      ctx.arc(150, predY, 8, 0, Math.PI * 2);
-      ctx.fillStyle = N === 3 && D === 3 ? '#44ff88' : '#ff5555';
-      ctx.fill();
-      ctx.shadowColor = ctx.fillStyle;
+      ctx.arc(ex, ey, 8, 0, Math.PI * 2);
+      ctx.fillStyle = "#00cfff";
+      ctx.shadowColor = "#00cfff";
       ctx.shadowBlur = 15;
       ctx.fill();
       ctx.shadowBlur = 0;
-      
-      ctx.fillStyle = '#fff';
-      ctx.font = '11px sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(`Prediction (N=${N}, D=${D})`, 165, predY + 4);
-      
-      // Draw observed point
-      const logObserved = Math.log10(1.14e-18);
-      const obsY = h - 50 - (logObserved - minY) * scaleY;
-      
+    }
+
+    ctx.fillStyle = "#888";
+    ctx.font = "12px monospace";
+    ctx.textAlign = "right";
+    bohrState.orbits.forEach(function (orbit, index) {
+      var y = h - 30 - index * 25;
+      ctx.fillText("k=" + orbit.k + ": E = " + orbit.energy.toFixed(4), w - 20, y);
+
       ctx.beginPath();
-      ctx.arc(250, obsY, 8, 0, Math.PI * 2);
-      ctx.fillStyle = '#00cfff';
+      ctx.moveTo(w - 150, y - 8);
+      ctx.lineTo(w - 20, y - 8);
+      ctx.strokeStyle =
+        bohrState.electron && bohrState.electron.targetOrbit.k === orbit.k ? "#44ff88" : "#444";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+
+    requestAnimationFrame(animateBohr);
+  }
+
+  function initAct2() {
+    var canvas = document.getElementById("generations-canvas");
+    var slider = document.getElementById("n-slider");
+    if (!canvas || !slider) {
+      return;
+    }
+
+    generationsCtx = canvas.getContext("2d");
+    generationsState.currentN = parseInt(slider.value, 10);
+
+    slider.addEventListener("input", function () {
+      generationsState.currentN = parseInt(slider.value, 10);
+      refreshGenerationsText();
+      if (currentSection === "act2") {
+        renderGenerationsScene(generationsState.currentN);
+      }
+    });
+
+    refreshGenerationsText();
+  }
+
+  function ensureGenerationsAnimation() {
+    var canvas = document.getElementById("generations-canvas");
+    if (!canvas) {
+      return;
+    }
+
+    resizeCanvas(canvas);
+    if (generationsState.started) {
+      return;
+    }
+
+    generationsState.started = true;
+
+    canvas.addEventListener("mousedown", function (event) {
+      generationsState.isDragging = true;
+      generationsState.lastX = event.clientX;
+    });
+
+    canvas.addEventListener("mousemove", function (event) {
+      if (!generationsState.isDragging) {
+        return;
+      }
+      generationsState.rotation += (event.clientX - generationsState.lastX) * 0.02;
+      generationsState.lastX = event.clientX;
+    });
+
+    ["mouseup", "mouseleave"].forEach(function (type) {
+      canvas.addEventListener(type, function () {
+        generationsState.isDragging = false;
+      });
+    });
+
+    requestAnimationFrame(animateGenerations);
+  }
+
+  function refreshGenerationsText() {
+    var nValue = document.getElementById("n-value");
+    var qResult = document.getElementById("q-result");
+    var lockIndicator = document.getElementById("lock-indicator");
+    var N = generationsState.currentN;
+    var qValue = (2 * N) / (2 * N + 3);
+
+    if (nValue) {
+      nValue.textContent = N;
+    }
+
+    if (qResult) {
+      qResult.textContent = "Q(" + N + ") = " + (2 * N) + "/" + (2 * N + 3) + " = " + qValue.toFixed(6);
+    }
+
+    if (lockIndicator) {
+      if (N === 3) {
+        lockIndicator.style.display = "block";
+        lockIndicator.textContent = "Conditional lock once T1 and T2 are granted";
+      } else {
+        lockIndicator.style.display = "block";
+        lockIndicator.textContent = "Misses the audited Koide target";
+      }
+    }
+  }
+
+  function animateGenerations() {
+    if (currentSection === "act2" || generationsState.started) {
+      if (!generationsState.isDragging) {
+        generationsState.rotation += 0.005;
+      }
+      renderGenerationsScene(generationsState.currentN);
+    }
+
+    requestAnimationFrame(animateGenerations);
+  }
+
+  function renderGenerationsScene(N) {
+    var canvas = document.getElementById("generations-canvas");
+    if (!canvas || !generationsCtx) {
+      return;
+    }
+
+    var ctx = generationsCtx;
+    var w = canvas.width;
+    var h = canvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var radius = Math.min(w, h) * 0.25;
+
+    ctx.fillStyle = "#0f0f1f";
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    for (var i = 0; i < 3; i += 1) {
+      var angle = i * 2 * Math.PI / 3 + generationsState.rotation;
+      var x = Math.cos(angle) * radius;
+      var y = Math.sin(angle) * radius;
+      var active = i < Math.min(N, 3);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = active ? "#00cfff" : "#333";
+      ctx.lineWidth = active ? 3 : 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(x, y, active ? 12 : 8, 0, Math.PI * 2);
+      ctx.fillStyle = active ? "#00cfff" : "#444";
+      if (active) {
+        ctx.shadowColor = "#00cfff";
+        ctx.shadowBlur = 15;
+      }
       ctx.fill();
-      
-      ctx.fillStyle = '#fff';
-      ctx.fillText('Observed (matter scale)', 265, obsY + 4);
-      
-      // Draw connection line
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = active ? "#fff" : "#666";
+      ctx.font = "14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(active ? ["e", "μ", "τ"][i] : "?", x * 1.2, y * 1.2);
+    }
+
+    for (var arcIndex = 0; arcIndex < 3; arcIndex += 1) {
+      var startAngle = arcIndex * 2 * Math.PI / 3;
+      var endAngle = (arcIndex + 1) * 2 * Math.PI / 3;
+
       ctx.beginPath();
-      ctx.moveTo(150, predY);
-      ctx.lineTo(250, obsY);
-      ctx.strokeStyle = N === 3 && D === 3 ? '#44ff88' : '#ff5555';
+      ctx.arc(0, 0, radius * 0.5, startAngle, endAngle);
+      ctx.strokeStyle = "#44ff88";
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]);
       ctx.stroke();
       ctx.setLineDash([]);
-      
-      // Draw equation
-      ctx.fillStyle = '#888';
-      ctx.font = '11px monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText('λ_c = √2 · l_P · exp(4π² N^(D/2) / b₀)', 20, 30);
-      ctx.fillText(`b₀ = 16/3 (QCD beta function)`, 20, 50);
-      
-      // Highlight the physical point
+    }
+
+    ctx.fillStyle = "#888";
+    ctx.font = "12px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("π₁(SO(3)) ≅ ℤ₂", 0, -radius - 30);
+    ctx.fillText("(2,1) closure orders: partial theorem, not full physical realization", 0, -radius - 10);
+    ctx.restore();
+
+    ctx.fillStyle = "#888";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("Q(N) = 2N / (2N + 3) hits 2/3 only at N = 3.", 20, h - 40);
+    ctx.fillText("That algebraic lock becomes physical only when the numerator and denominator theorems close.", 20, h - 20);
+  }
+
+  function initAct3() {
+    var canvas = document.getElementById("god-equation-canvas");
+    var nSlider = document.getElementById("n-slider-ge");
+    var dSlider = document.getElementById("d-slider");
+    if (!canvas || !nSlider || !dSlider) {
+      return;
+    }
+
+    godEqCtx = canvas.getContext("2d");
+    godEquationState.currentN = parseInt(nSlider.value, 10);
+    godEquationState.currentD = parseInt(dSlider.value, 10);
+
+    nSlider.addEventListener("input", function () {
+      godEquationState.currentN = parseInt(nSlider.value, 10);
+      refreshGodEquation();
+    });
+
+    dSlider.addEventListener("input", function () {
+      godEquationState.currentD = parseInt(dSlider.value, 10);
+      refreshGodEquation();
+    });
+  }
+
+  function ensureGodEquationAnimation() {
+    var canvas = document.getElementById("god-equation-canvas");
+    if (!canvas) {
+      return;
+    }
+
+    resizeCanvas(canvas);
+    godEquationState.started = true;
+  }
+
+  function refreshGodEquation() {
+    var nValue = document.getElementById("n-value-ge");
+    var dValue = document.getElementById("d-value");
+    var geResult = document.getElementById("ge-result");
+    var geObserved = document.getElementById("ge-observed");
+    var geError = document.getElementById("ge-error");
+    var N = godEquationState.currentN;
+    var D = godEquationState.currentD;
+    var lP = 1.616e-35;
+    var b0 = 16 / 3;
+    var exponent = (4 * Math.PI * Math.PI * Math.pow(N, D / 2)) / b0;
+    var lambdaC = Math.sqrt(2) * lP * Math.exp(exponent);
+    var observed = 1.14e-18;
+    var error = Math.abs(lambdaC - observed) / observed * 100;
+
+    godEquationState.currentLambda = lambdaC;
+
+    if (nValue) {
+      nValue.textContent = N;
+    }
+    if (dValue) {
+      dValue.textContent = D;
+    }
+    if (geResult) {
+      geResult.textContent = "Predicted: " + lambdaC.toExponential(3) + " m";
+    }
+    if (geObserved) {
+      geObserved.textContent = "Observed: " + observed.toExponential(3) + " m";
+    }
+    if (geError) {
       if (N === 3 && D === 3) {
-        ctx.fillStyle = 'rgba(68, 255, 136, 0.1)';
-        ctx.fillRect(0, obsY - 30, w, 60);
-        
-        ctx.fillStyle = '#44ff88';
-        ctx.font = 'bold 14px sans-serif';
-        ctx.fillText('✓ Only (N=3, D=3) lands in the habitable window', 20, obsY + 80);
+        geError.textContent = "Status: CONDITIONAL 0.88 • numerical anchor error " + error.toFixed(1) + "%";
+        geError.style.color = "#44ff88";
+      } else {
+        geError.textContent = "Status: CONDITIONAL • off the physical point";
+        geError.style.color = "#ffdd55";
       }
     }
-    
-    // Initial draw
-    const nSlider = document.getElementById('n-slider-ge');
-    const dSlider = document.getElementById('d-slider');
-    if (nSlider && dSlider) {
-      const N = parseInt(nSlider.value);
-      const D = parseInt(dSlider.value);
-      const l_P = 1.616e-35;
-      const b0 = 16/3;
-      const lambda_c = Math.sqrt(2) * l_P * Math.exp((4 * Math.PI * Math.PI * Math.pow(N, D/2)) / b0);
-      drawGodEquation(N, D, lambda_c);
+
+    renderGodEquation(N, D, lambdaC);
+  }
+
+  function renderGodEquation(N, D, lambdaC) {
+    var canvas = document.getElementById("god-equation-canvas");
+    if (!canvas || !godEqCtx) {
+      return;
+    }
+
+    var ctx = godEqCtx;
+    var w = canvas.width;
+    var h = canvas.height;
+    var minLog = -40;
+    var maxLog = 5;
+    var scaleY = (h - 100) / (maxLog - minLog);
+    var scales = [
+      { label: "Planck", value: -35 },
+      { label: "Matter", value: -18 },
+      { label: "Atomic", value: -10 },
+      { label: "Human", value: 0 }
+    ];
+
+    ctx.fillStyle = "#0f0f1f";
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(80, 50);
+    ctx.lineTo(80, h - 50);
+    ctx.stroke();
+
+    scales.forEach(function (scale) {
+      var y = h - 50 - (scale.value - minLog) * scaleY;
+
+      ctx.beginPath();
+      ctx.moveTo(70, y);
+      ctx.lineTo(80, y);
+      ctx.strokeStyle = "#666";
+      ctx.stroke();
+
+      ctx.fillStyle = "#888";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText("10^" + scale.value + " m", 65, y + 4);
+      ctx.fillText(scale.label, 65, y - 8);
+    });
+
+    var predictedY = h - 50 - (Math.log10(lambdaC) - minLog) * scaleY;
+    var observedY = h - 50 - (Math.log10(1.14e-18) - minLog) * scaleY;
+    var activeColor = N === 3 && D === 3 ? "#44ff88" : "#ff5555";
+
+    ctx.beginPath();
+    ctx.arc(150, predictedY, 8, 0, Math.PI * 2);
+    ctx.fillStyle = activeColor;
+    ctx.shadowColor = activeColor;
+    ctx.shadowBlur = 15;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    ctx.beginPath();
+    ctx.arc(250, observedY, 8, 0, Math.PI * 2);
+    ctx.fillStyle = "#00cfff";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(150, predictedY);
+    ctx.lineTo(250, observedY);
+    ctx.strokeStyle = activeColor;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "11px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("Prediction (N=" + N + ", D=" + D + ")", 165, predictedY + 4);
+    ctx.fillText("Observed matter scale", 265, observedY + 4);
+
+    ctx.fillStyle = "#888";
+    ctx.font = "11px monospace";
+    ctx.fillText("λ_c = √2 · l_P · exp(4π² N^(D/2) / b₀)", 20, 30);
+    ctx.fillText("Wave 6/7 hardware is evidence for Path A chirality, not theorem closure.", 20, 50);
+
+    if (N === 3 && D === 3) {
+      ctx.fillStyle = "rgba(68, 255, 136, 0.1)";
+      ctx.fillRect(0, observedY - 30, w, 60);
+      ctx.fillStyle = "#44ff88";
+      ctx.font = "bold 14px sans-serif";
+      ctx.fillText("Conditional physical point: the remaining bridges are operator, Markov, and H_prod.", 20, observedY + 80);
     }
   }
 
-  // Act IV: Scoreboard
   function initAct4() {
-    // Populated by populateResults()
+    populateAct4();
+  }
+
+  function populateAct4() {
+    populateJourneyComparisonTable();
+    populateResults();
+    populateBigNumbers();
+  }
+
+  function populateJourneyComparisonTable() {
+    var api = getTruth();
+    if (!api) {
+      return;
+    }
+
+    var counts = api.getCountsByStatus();
+    var audited = api.getAuditedResults();
+    var falsifiableCount = audited.filter(function (result) {
+      return result.falsifier;
+    }).length;
+
+    setText("journey-pf-free", "3 axioms");
+    setText("journey-pf-derived", counts.total + " audited claims • " + (counts.DERIVED || 0) + " derived");
+    setText("journey-pf-falsifiable", "Yes (" + falsifiableCount + " audited falsifiers)");
   }
 
   function populateResults() {
-    const container = document.getElementById('results-cards-container');
-    if (!container) return;
-    
-    const data = window.PFExplorerData;
-    if (!data) return;
-    
-    container.innerHTML = '';
-    
-    data.results.forEach(result => {
-      if (result.unsynced) return; // Skip unsynced
-      
-      const card = document.createElement('div');
-      card.className = `result-card status-${result.status.toLowerCase().replace(' ', '-')}`;
-      
-      const statusClass = result.status.toLowerCase().replace(' ', '-');
-      
-      card.innerHTML = `
-        <div class="result-card-title">${result.title}</div>
-        <div class="result-card-status ${statusClass}">${result.status}</div>
-        <div class="result-card-formula">${result.formula}</div>
-        <div class="result-card-confidence">Confidence: ${(result.confidence * 100).toFixed(0)}%</div>
-      `;
-      
+    var api = getTruth();
+    var container = document.getElementById("results-cards-container");
+    if (!api || !container) {
+      return;
+    }
+
+    container.innerHTML = "";
+
+    api.sortResultsForNarrative(api.getAuditedResults()).forEach(function (result) {
+      var card = document.createElement("div");
+      var statusClass = api.statusToClass(result.status);
+      var badgeClass = statusClass.replace(/^status-/, "");
+
+      card.className = "result-card " + statusClass;
+      card.innerHTML = [
+        '<div class="result-card-title">' + escapeHtml(result.title) + "</div>",
+        '<div class="result-card-status ' + badgeClass + '">' + escapeHtml(result.status) + "</div>",
+        '<div class="result-card-formula">' + escapeHtml(result.formula) + "</div>",
+        '<div class="result-card-confidence">Confidence: ' + Math.round((result.confidence || 0) * 100) + "%</div>"
+      ].join("");
+
       container.appendChild(card);
     });
   }
 
-  // Epilogue
+  function populateBigNumbers() {
+    var api = getTruth();
+    if (!api) {
+      return;
+    }
+
+    var counts = api.getCountsByStatus();
+    setText("journey-count-total", counts.total);
+    setText("journey-count-derived", counts.DERIVED || 0);
+    setText("journey-count-conditional", counts.CONDITIONAL || 0);
+  }
+
   function initEpilogue() {
-    const restartBtn = document.getElementById('restart-journey');
-    const exploreBtn = document.getElementById('explore-more');
-    
-    restartBtn.addEventListener('click', () => {
-      goToSection('opening');
-    });
-    
-    exploreBtn.addEventListener('click', () => {
-      window.location.href = 'index.html';
+    var restartButton = document.getElementById("restart-journey");
+    var exploreButton = document.getElementById("explore-more");
+
+    if (restartButton) {
+      restartButton.addEventListener("click", function () {
+        goToSection("opening");
+      });
+    }
+
+    if (exploreButton) {
+      exploreButton.addEventListener("click", function () {
+        window.location.href = "index.html";
+      });
+    }
+
+    populateFalsificationCards();
+  }
+
+  function populateFalsificationCards() {
+    var api = getTruth();
+    var container = document.getElementById("journey-falsification-cards");
+    if (!api || !container) {
+      return;
+    }
+
+    container.innerHTML = "";
+
+    falsificationIds.forEach(function (id) {
+      var result = api.getResult(id);
+      if (!result) {
+        return;
+      }
+
+      var meta = falsificationMeta[id] || { icon: "•", title: result.title };
+      var card = document.createElement("div");
+      card.className = "falsify-card";
+      card.innerHTML = [
+        '<div class="falsify-icon">' + meta.icon + "</div>",
+        '<div class="falsify-title">' + escapeHtml(meta.title) + "</div>",
+        '<div class="falsify-detail">' + escapeHtml(result.falsifier || "See audited claim entry.") + "</div>"
+      ].join("");
+      container.appendChild(card);
     });
   }
 
-  // Utilities
   function resizeCanvas(canvas) {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = Math.min(500, rect.width * 0.6);
+    if (!canvas || !canvas.parentElement) {
+      return;
+    }
+
+    var rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = Math.max(320, Math.floor(rect.width));
+    canvas.height = Math.min(500, Math.max(260, Math.floor(rect.width * 0.6)));
   }
 
-  window.addEventListener('resize', () => {
-    if (currentSection === 'act1') {
-      const canvas = document.getElementById('bohr-canvas');
-      if (canvas) resizeCanvas(canvas);
+  function setText(id, value) {
+    var node = document.getElementById(id);
+    if (node) {
+      node.textContent = value;
     }
-    if (currentSection === 'act2') {
-      const canvas = document.getElementById('generations-canvas');
-      if (canvas) resizeCanvas(canvas);
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  window.addEventListener("resize", function () {
+    if (currentSection === "act1") {
+      ensureBohrAnimation();
     }
-    if (currentSection === 'act3') {
-      const canvas = document.getElementById('god-equation-canvas');
-      if (canvas) resizeCanvas(canvas);
+    if (currentSection === "act2") {
+      ensureGenerationsAnimation();
+      renderGenerationsScene(generationsState.currentN);
+    }
+    if (currentSection === "act3") {
+      ensureGodEquationAnimation();
+      renderGodEquation(
+        godEquationState.currentN,
+        godEquationState.currentD,
+        godEquationState.currentLambda
+      );
     }
   });
-
 })();

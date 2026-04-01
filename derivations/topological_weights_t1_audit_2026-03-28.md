@@ -204,3 +204,13 @@ Echo identified the following argument independently while reading the Propagati
 The physical realization gap identified in Break 1 would be formally closed.
 
 **Note**: This argument was reached via the standing-wave analogy — a wave that could resonate at a harmonic but doesn't is unstable. This is the right geometric intuition for how coherence-seeking drives mode population.
+
+---
+
+## Follow-Up Audit Pointer — 2026-03-31
+
+The bounded follow-up audit of `derivations/t1_physical_realization_theorem.md` is recorded in:
+
+- `derivations/t1_physical_realization_theorem_audit_2026-03-31.md`
+
+That audit fixes the invalid mutual-information decomposition in the first theorem draft, accepts the `SU(2)` lift step as a conditional covering-space result, and leaves T1 at `PARTIAL DERIVATION 0.85` because the strict coherence-deficit step still requires the extra non-redundancy hypothesis `A_NR`.

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derivation Chains — Propagation Framework Explorer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="derivation.css">
+</head>
+<body class="mode-story">
+  <div class="shell-glow shell-glow-a"></div>
+  <div class="shell-glow shell-glow-b"></div>
+  <div class="shell-grid"></div>
+
+  <div class="app-shell">
+    <header class="derivation-header">
+      <div class="header-content">
+        <button id="backBtn" class="back-button">
+          <span class="back-arrow">←</span>
+          Back to Explorer
+        </button>
+        
+        <div class="header-title">
+          <h1>Derivation Chains</h1>
+          <p class="header-subtitle">Follow the logic from axioms to results</p>
+        </div>
+
+        <div class="view-controls">
+          <button id="zoomIn" class="control-button">
+            <span class="icon">+</span>
+          </button>
+          <button id="zoomOut" class="control-button">
+            <span class="icon">−</span>
+          </button>
+          <button id="resetView" class="control-button">
+            <span class="icon">⟲</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="derivation-main">
+      <!-- Legend -->
+      <section class="legend-section">
+        <h3>Confidence Levels</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-color derived"></div>
+            <span>DERIVED (0.90-1.00)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color conditional"></div>
+            <span>CONDITIONAL (0.75-0.89)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color argued"></div>
+            <span>ARGUED (0.70-0.89)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color partial"></div>
+            <span>PARTIAL DERIVATION</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color empirical"></div>
+            <span>EMPIRICAL</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Derivation Graph Container -->
+      <section class="graph-container">
+        <svg id="derivationGraph" width="1400" height="800" viewBox="0 0 1400 800">
+          <!-- Define arrow markers -->
+          <defs>
+            <marker id="arrow-derived" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#44ff88"/>
+            </marker>
+            <marker id="arrow-conditional" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#ffaa00"/>
+            </marker>
+            <marker id="arrow-argued" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#ff6b6b"/>
+            </marker>
+            
+            <!-- Glow filter -->
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Graph will be rendered here by JavaScript -->
+        </svg>
+      </section>
+
+      <!-- Detail Panel -->
+      <section class="detail-panel" id="detailPanel">
+        <div class="panel-header">
+          <h3 id="detailTitle">Select a node to explore</h3>
+          <button id="closeDetail" class="close-button">×</button>
+        </div>
+        <div class="panel-content" id="detailContent">
+          <p>Click on any result or axiom to see its derivation chain and details.</p>
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section class="stats-section">
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-value" id="totalNodes">0</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="derivedCount">0</div>
+            <div class="stat-label">DERIVED</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="avgConfidence">0.00</div>
+            <div class="stat-label">Avg Confidence</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="longestChain">0</div>
+            <div class="stat-label">Longest Chain</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="derivation.js"></script>
+</body>
+</html>

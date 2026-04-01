@@ -5,7 +5,7 @@ Static interactive atlas for the current Propagation Framework sandbox.
 ## What Ships
 
 - `sandbox/explorer/index.html` opens directly in a browser with no build step.
-- `sandbox/explorer/journey.html` — **NEW**: 5-minute guided narrative experience
+- `sandbox/explorer/journey.html` — **NEW**: 8-minute guided narrative experience
 - `CLAIMS.md` drives audited badges and totals.
 - `UNDERSTAND.md` extends placement and explanatory copy.
 - Story mode gives the visual argument first.
@@ -22,6 +22,7 @@ Current curated snapshot:
 ## Routes
 
 ### Reference Explorer (index.html)
+
 - `#hub` Scale Stack navigator
 - `#refraction` Forces as Refraction
 - `#generations` Why Exactly Three
@@ -32,25 +33,39 @@ Current curated snapshot:
 - `#dashboard` Audit wall
 
 ### Journey Mode (journey.html)
-A guided 5-minute narrative experience:
+
+A guided 8-minute narrative experience:
+
 - **Opening**: Three axioms appear — "What if the universe is just... propagation?"
-- **Act I**: Bohr quantization from Axiom 3 (interactive electron placement)
-- **Act II**: Three generations from topology (N-slider with Q(N) live computation)
-- **Act III**: God Equation (N,D sliders showing only (3,3) works)
+- **Act I**: Circular-eikonal Bohr-like spectrum (interactive electron placement)
+- **Act II**: Conditional N=3 lock with the live Q(N) algebra
+- **Act III**: God Equation audit snapshot (N,D sliders around the conditional physical point)
 - **Act IV**: Full scoreboard + framework comparison table
 - **Epilogue**: Falsification wall (6 ways to kill the framework)
 
 **Best for**: First-time visitors, presentations, sharing with physicists
 
 ### Framework Comparison (comparison.html) — NEW
+
 Side-by-side comparison of physics frameworks:
 - Interactive parameter counter (PF: 3, SM: 19, String: 10^500)
 - Head-to-head table (10 metrics)
 - Falsifiability matrix (how to kill each framework)
-- Scale coverage visualizer (Planck → Human)
+- Scale coverage visualizer (repo scope view across scales)
 - The Delta: 6 key PF differences
 
 **Best for**: Context for physicists, "why should I care" question
+
+### Derivation Chains (derivation.html) — NEW
+
+Interactive visualization of how results derive from axioms:
+- Click-to-explore node graph (axioms → intermediate → results)
+- Color-coded by confidence level (DERIVED, CONDITIONAL, etc.)
+- Detail panel with formulas and derivation paths
+- Zoom/pan controls for exploring the full graph
+- Statistics dashboard (total nodes, average confidence, longest chain)
+
+**Best for**: Understanding the logical structure, verifying derivation paths
 
 ## Wave 2 Additions
 
@@ -69,8 +84,9 @@ Side-by-side comparison of physics frameworks:
 ```text
 sandbox/explorer/
 ├── index.html          ← Reference explorer (8 panels + dashboard)
-├── journey.html        ← 5-minute narrative experience
+├── journey.html        ← 8-minute narrative experience
 ├── comparison.html     ← Framework comparison (PF vs SM vs String)
+├── derivation.html     ← NEW: Interactive derivation chain visualizer
 ├── style.css           ← Dark theme with glowing accents
 ├── core.js             ← Math utilities, rendering helpers
 ├── data.js             ← Results from CLAIMS.md
@@ -78,6 +94,8 @@ sandbox/explorer/
 ├── journey.js          ← Journey narrative flow + animations
 ├── comparison.css      ← Comparison-specific styles
 ├── comparison.js       ← Comparison interactive logic
+├── derivation.css      ← NEW: Derivation visualizer styles
+├── derivation.js       ← NEW: Interactive graph logic
 ├── panels/
 │   ├── hub.js
 │   ├── refraction.js
@@ -94,6 +112,7 @@ sandbox/explorer/
 
 - `sandbox_results.md` remains the top truth source for what actually held or failed.
 - `CLAIMS.md` defines explorer audit status.
+- `data.js` is the Explorer truth layer derived from `CLAIMS.md`; Journey and Comparison must source PF claims from it rather than hardcoding stronger copy.
 - `UNDERSTAND.md` may extend explanation, but it does not silently promote claims.
 - Unsynced items are visible context, not audited claims.
 

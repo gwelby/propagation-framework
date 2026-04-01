@@ -78,6 +78,16 @@
           PF vs Standard Model vs String Theory
         </p>
       </div>
+
+      <div class="rail-panel rail-derivation">
+        <button id="derivationBtn" class="derivation-mode-btn" type="button">
+          <span class="derivation-icon">🔗</span>
+          <span>Derivation Chains</span>
+        </button>
+        <p class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+          Interactive axiom-to-result paths
+        </p>
+      </div>
     </aside>
 
     <main class="app-main">
@@ -128,6 +138,11 @@
     // Framework Comparison button handler
     document.getElementById('comparisonBtn').addEventListener('click', () => {
       window.location.href = 'comparison.html';
+    });
+
+    // Derivation Chains button handler
+    document.getElementById('derivationBtn').addEventListener('click', () => {
+      window.location.href = 'derivation.html';
     });
   </script>
 </body>

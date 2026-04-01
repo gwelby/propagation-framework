@@ -2,7 +2,7 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-03-27 (Repo coherence + Bohr quantization hostile audit integrated)
+**Last updated**: 2026-03-31 (T1 physical-realization theorem attempt integrated)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
 **Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md`
@@ -148,7 +148,7 @@ Everything below is a *consequence* of the three rules above plus the topology o
 
 ### 💒 Age 5
 
-Imagine you're spinning a top. Some tops need to spin around ONCE to look the same again — like a round ball. Other tops need to spin around TWICE to look the same — like a playing card (flip it once and the picture is upside down, flip it again and it's right-side up). The universe has these two kinds of spinners: one-flip things (bosons — like light) and two-flip things (fermions — like you and me).
+Imagine you're spinning a top. Some tops need to spin around ONCE to look the same again — like a round ball. Other tops need to spin around TWICE to look the same — like a playing card (flip it once and the picture is upside down, flip it again and it's right-side up). The universe has these two closure styles. Physics seems to use them in the boson-like and fermion-like pattern we observe, but that full identification is still one theorem short.
 
 ### 📖 Student
 
@@ -188,9 +188,9 @@ You know how there are three bears in Goldilocks — Papa Bear, Mama Bear, and B
 
 ### 📖 Student
 
-The two-flip particles (fermions) each carry weight 2. The one-flip side of the story still has one live theorem gap: the framework has strong reasons to expect a denominator of 3 from 3D space, but the exact PF proof is not yet fully closed.
+The current PF reading is that the two-flip branch supplies the matter-side numerator weight 2. But that physical reading is still conditional on the numerator theorem: the framework has narrowed the gap, not erased it. The companion weight-1 side of the story still has one live theorem gap too: the framework has strong reasons to expect a denominator of 3 from 3D space, but the exact PF proof is not yet fully closed.
 
-So the total weight is argued to be: **2N** (from N generations of fermions) + **3** (from the bosonic side of the lock).
+So the total weight is argued to be: **2N** (from N generations on the weight-2 branch, under the current physical reading) + **3** (from the weight-1 side of the lock).
 
 The Koide formula tells us the ratio should be **2/3**. Setting up the equation:
 
@@ -204,8 +204,8 @@ Three generations of matter, conditionally. Not because anyone likes the number 
 
 The generation count formula emerges from two inputs:
 
-1. **Numerator** $2N$: Each generation contributes one fermion family with topological weight 2. $N$ generations give total fermionic weight $2N$.
-2. **Denominator** $2N + 3$: the total topological weight is argued to include a bosonic denominator of 3 from the 3D geometry / broken-symmetry structure, but that exact theorem is still the live hinge.
+1. **Numerator** $2N$: under the current physical reading, each generation contributes one weight-2 matter family. Closing T1 means proving this reading rather than importing observed fermions.
+2. **Denominator** $2N + 3$: the total topological weight is argued to include a weight-1 denominator of 3 from the 3D geometry / broken-symmetry structure, but that exact theorem is still the live hinge.
 
 Setting $Q = 2/3$ (the Koide geometric identity — see Result 3):
 
@@ -717,7 +717,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 
 | Result | Status | Confidence | Level |
 |--------|--------|------------|-------|
-| **(2,1) Topological Weights** | **PARTIAL DERIVATION** | 0.85 | Closure-order theorem survives; physical branch theorem still open |
+| **(2,1) Topological Weights** | **PARTIAL DERIVATION** | 0.85 | Closure-order theorem survives; `t1_physical_realization_theorem.md` sharpens the gap to the Family C extremal-principle / strict-deficit audit |
 | **Three Generations (N=3)** | **CONDITIONAL** | 0.85 | Algebra exact once the numerator and denominator theorems close |
 | **Koide Q = 2/3** | **DERIVED** | 0.95 | Theorem |
 | **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |

@@ -25,7 +25,7 @@
     <!-- Hero Statement -->
     <section class="hero-section">
       <h2>Why This Framework Matters</h2>
-      <p class="hero-subtitle">Not all physics frameworks are created equal. Some fit. Some predict. Some derive.</p>
+      <p class="hero-subtitle">This page gives context, not canon. PF values are sourced from the audited Explorer data; Standard Model and String Theory columns are orientation only.</p>
     </section>
 
     <!-- Interactive Parameter Counter -->
@@ -35,7 +35,7 @@
           <h3>Propagation Framework</h3>
           <div class="parameter-count" id="pf-count">0</div>
           <div class="parameter-label">Free Parameters</div>
-          <div class="parameter-detail">3 axioms, 0 fitted values</div>
+          <div class="parameter-detail" id="pf-parameter-detail">3 axioms • audited values load from data.js</div>
         </div>
         <div class="parameter-column">
           <h3>Standard Model</h3>
@@ -72,52 +72,52 @@
                 <div class="metric-name">Free Parameters</div>
                 <div class="metric-note">Independent inputs required</div>
               </td>
-              <td class="pf-cell highlight">3 axioms</td>
-              <td>19+</td>
-              <td>10^500+ vacua</td>
+              <td class="pf-cell highlight" id="pf-free-cell">3 axioms</td>
+              <td>19+ measured inputs</td>
+              <td>Large theory space</td>
             </tr>
             <tr>
               <td>
                 <div class="metric-name">Derived Predictions</div>
                 <div class="metric-note">Calculated, not fitted</div>
               </td>
-              <td class="pf-cell highlight">9 (pre-dicted)</td>
-              <td>0 (all fit)</td>
-              <td>0 (all post-dicted)</td>
+              <td class="pf-cell highlight" id="pf-derived-cell">22 audited claims • 3 derived</td>
+              <td>Parameter-rich effective model</td>
+              <td>No unique low-energy prediction</td>
             </tr>
             <tr>
               <td>
                 <div class="metric-name">Falsifiable</div>
                 <div class="metric-note">Can be proven wrong</div>
               </td>
-              <td class="pf-cell highlight">Yes (9 ways)</td>
+              <td class="pf-cell highlight" id="pf-falsifiable-cell">Yes (audited falsifiers)</td>
               <td>Yes</td>
-              <td>No</td>
+              <td>Open question in practice</td>
             </tr>
             <tr>
               <td>
                 <div class="metric-name">Derives N=3?</div>
                 <div class="metric-note">Three generations of matter</div>
               </td>
-              <td class="pf-cell highlight">Yes (topology)</td>
+              <td class="pf-cell highlight" id="pf-generations-cell">Conditional</td>
               <td>No (input)</td>
               <td>No (input)</td>
             </tr>
             <tr>
               <td>
-                <div class="metric-name">Derives Atomic Structure?</td>
+                <div class="metric-name">Derives Atomic Structure?</div>
                 <div class="metric-note">Quantization from first principles</div>
               </td>
-              <td class="pf-cell highlight">Yes (Axiom 3)</td>
+              <td class="pf-cell highlight" id="pf-atomic-cell">Conditional (circular-eikonal subset)</td>
               <td>No (QM postulate)</td>
               <td>No</td>
             </tr>
             <tr>
               <td>
-                <div class="metric-name">Derives Weinberg Angle?</td>
+                <div class="metric-name">Derives Weinberg Angle?</div>
                 <div class="metric-note">sin²θ_W from geometry</div>
               </td>
-              <td class="pf-cell highlight">Yes (0.22310)</td>
+              <td class="pf-cell highlight" id="pf-weinberg-cell">Derived (0.22310, scheme caveat)</td>
               <td>No (measured)</td>
               <td>No</td>
             </tr>
@@ -126,18 +126,18 @@
                 <div class="metric-name">Scale Coverage</div>
                 <div class="metric-note">Range of valid predictions</div>
               </td>
-              <td class="pf-cell highlight">Planck → Human</td>
+              <td class="pf-cell highlight" id="pf-scale-cell">Repo scope: Planck to human-scale narratives</td>
               <td>Particle physics</td>
-              <td>Everything (untestable)</td>
+              <td>Broad unification program</td>
             </tr>
             <tr>
               <td>
                 <div class="metric-name">Testable Predictions</div>
                 <div class="metric-note">Near-term experiments</div>
               </td>
-              <td class="pf-cell highlight">Variable c, Koide phase</td>
+              <td class="pf-cell highlight" id="pf-testable-cell">Variable c (argued), Koide phase (empirical)</td>
               <td>Higgs (done)</td>
-              <td>None</td>
+              <td>No shared near-term consensus test</td>
             </tr>
             <tr>
               <td>
@@ -170,19 +170,9 @@
         <!-- Propagation Framework -->
         <div class="falsify-card pf">
           <h3>Propagation Framework</h3>
-          <div class="falsify-count">9 Ways to Falsify</div>
-          <ul class="falsify-list">
-            <li>Discover a 4th generation of fermions</li>
-            <li>Break Koide relation (Q ≠ 2/3 by >0.001%)</li>
-            <li>Measure λ_c outside 1.0-1.3 × 10⁻¹⁸ m</li>
-            <li>Measure sin²θ_W outside 0.2227-0.2235</li>
-            <li>Prove optical/Randers mapping fails for null geodesics</li>
-            <li>Find stable sub-wavelength structures</li>
-            <li>Observe action at a distance</li>
-            <li>Break topological weight (2,1) prediction</li>
-            <li>Disprove phase closure → quantization</li>
-          </ul>
-          <div class="falsify-status honest">✅ Honest about all 9</div>
+          <div class="falsify-count" id="pf-falsify-count">Audited falsifiers from current PF claims</div>
+          <ul class="falsify-list" id="pf-falsify-list"></ul>
+          <div class="falsify-status honest" id="pf-falsify-status">✅ Sourced from audited claim text</div>
         </div>
 
         <!-- Standard Model -->
@@ -190,15 +180,14 @@
           <h3>Standard Model</h3>
           <div class="falsify-count">Known Falsifications</div>
           <ul class="falsify-list">
-            <li>Neutrino masses (already broken — requires extension)</li>
-            <li>Dark matter (no candidate in SM)</li>
-            <li>Dark energy (no explanation)</li>
-            <li>Gravity (not included)</li>
-            <li>Baryon asymmetry (unexplained)</li>
-            <li>Hierarchy problem (unexplained)</li>
-            <li>Strong CP problem (unexplained)</li>
+            <li>Neutrino masses require extension beyond the minimal Standard Model.</li>
+            <li>Dark matter is not explained within the minimal model.</li>
+            <li>Dark energy lies outside the Standard Model scope.</li>
+            <li>Gravity is not part of the Standard Model.</li>
+            <li>Baryon asymmetry remains incomplete.</li>
+            <li>Hierarchy and strong-CP questions remain open.</li>
           </ul>
-          <div class="falsify-status broken">⚠️ Already requires BSM physics</div>
+          <div class="falsify-status broken">⚠️ Context: successful but incomplete effective theory</div>
         </div>
 
         <!-- String Theory -->
@@ -208,12 +197,12 @@
           <ul class="falsify-list">
             <li>Landscape problem: 10^500+ vacua</li>
             <li>No unique low-energy prediction</li>
-            <li>Supersymmetry not found at LHC</li>
-            <li>Extra dimensions not observed</li>
-            <li>String scale inaccessible (10^18 GeV)</li>
-            <li>No experimental test proposed that would kill it</li>
+            <li>Supersymmetry is not experimentally established.</li>
+            <li>Extra dimensions are not experimentally established.</li>
+            <li>Typical string scales are far beyond current colliders.</li>
+            <li>Comparison here is contextual rather than locally audited.</li>
           </ul>
-          <div class="falsify-status unfalsifiable">❌ Not falsifiable with current technology</div>
+          <div class="falsify-status unfalsifiable">❌ Contextual orientation only</div>
         </div>
 
       </div>
@@ -226,15 +215,15 @@
         <div class="scale-bar">
           <div class="scale-segment planck" data-framework="pf">
             <div class="scale-label">Planck<br>10⁻³⁵ m</div>
-            <div class="scale-pf">PF predicts</div>
+            <div class="scale-pf">PF maps</div>
           </div>
           <div class="scale-segment matter" data-framework="pf">
             <div class="scale-label">Matter<br>10⁻¹⁸ m</div>
-            <div class="scale-pf">PF predicts</div>
+            <div class="scale-pf">PF maps</div>
           </div>
           <div class="scale-segment nuclear" data-framework="pf">
             <div class="scale-label">Nuclear<br>10⁻¹⁵ m</div>
-            <div class="scale-pf">PF predicts</div>
+            <div class="scale-pf">PF maps</div>
           </div>
           <div class="scale-segment atomic" data-frameworks="pf,sm">
             <div class="scale-label">Atomic<br>10⁻¹⁰ m</div>
@@ -252,11 +241,11 @@
           </div>
           <div class="scale-segment cellular" data-framework="pf">
             <div class="scale-label">Cellular<br>10⁻⁵ m</div>
-            <div class="scale-pf">PF extends</div>
+            <div class="scale-pf">PF explores</div>
           </div>
           <div class="scale-segment human" data-framework="pf">
             <div class="scale-label">Human<br>10⁰ m</div>
-            <div class="scale-pf">PF extends</div>
+            <div class="scale-pf">PF explores</div>
           </div>
           <div class="scale-segment planetary" data-frameworks="pf,sm,gr">
             <div class="scale-label">Planetary<br>10¹¹ m</div>
@@ -269,7 +258,7 @@
         <div class="scale-legend">
           <div class="legend-item">
             <span class="legend-color pf"></span>
-            <span>Propagation Framework (3 axioms → all scales)</span>
+            <span>Propagation Framework (audited repo scope)</span>
           </div>
           <div class="legend-item">
             <span class="legend-color sm"></span>
@@ -289,8 +278,8 @@
       <div class="delta-grid">
         <div class="delta-card">
           <div class="delta-icon">🎯</div>
-          <h3>Zero Free Parameters</h3>
-          <p>Not one fitted value. Every prediction comes from the three axioms alone.</p>
+          <h3>Small Primitive Set</h3>
+          <p>PF starts from three axioms, then reports which downstream claims are derived, conditional, argued, or empirical.</p>
         </div>
         <div class="delta-card">
           <div class="delta-icon">🔗</div>
@@ -305,7 +294,7 @@
         <div class="delta-card">
           <div class="delta-icon">🌍</div>
           <h3>Scale Unity</h3>
-          <p>One principle (Axiom 3 phase closure) works at EVERY scale from Planck to Human.</p>
+          <p>The repo uses one propagation language across many scales, while still marking where the bridge is conditional.</p>
         </div>
         <div class="delta-card">
           <div class="delta-icon">⚡</div>
@@ -315,7 +304,7 @@
         <div class="delta-card">
           <div class="delta-icon">💀</div>
           <h3>Radical Falsifiability</h3>
-          <p>Nine specific ways to kill this framework. We show them all. That's how real physics works.</p>
+          <p>Each audited PF claim carries a falsifier. The narrative pages should inherit that claim text instead of inventing stronger wording.</p>
         </div>
       </div>
     </section>
@@ -339,12 +328,14 @@
 
   <!-- Footer -->
   <footer class="comparison-footer">
-    <div class="footer-content">
-      <p>Propagation Framework Explorer — Framework Comparison</p>
-      <p>Data sourced from <a href="../../CLAIMS.md">CLAIMS.md</a> | <a href="index.html">Back to Explorer</a></p>
-    </div>
-  </footer>
+      <div class="footer-content">
+        <p>Propagation Framework Explorer — Framework Comparison</p>
+      <p>PF data sourced from <a href="../../CLAIMS.md">CLAIMS.md</a> via <code>data.js</code> | <a href="index.html">Back to Explorer</a></p>
+      </div>
+    </footer>
 
+  <script src="data.js"></script>
+  <script src="truth-utils.js"></script>
   <script src="comparison.js"></script>
 </body>
 </html>

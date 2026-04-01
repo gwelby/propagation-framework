@@ -61,11 +61,11 @@ $$\pi_1(\text{SO}(3)) \cong \mathbb{Z}_2$$
 
 This has a direct physical consequence. There are exactly two topologically distinct ways a propagation mode can close on itself in 3D:
 
-**Class B (Bosonic):** The mode returns to its original state after a $2\pi$ rotation. One circuit for closure. Topological weight $w = 1$.
+**Class 1 (contractible / bosonic-like):** The mode returns to its original state after a $2\pi$ rotation. One circuit for closure. Topological weight $w = 1$.
 
-**Class F (Fermionic):** The mode returns to $-\psi$ after $2\pi$ (the spinor property). Two circuits are required for closure. Topological weight $w = 2$.
+**Class 2 (lifted / fermionic-like):** On the nontrivial lifted branch, two circuits are required for closure. Topological weight $w = 2$. The physical fermion identification remains downstream of the numerator theorem.
 
-**Claim T1 (PARTIAL DERIVATION):** In a 3D propagation medium, Axiom 3 plus `π₁(SO(3)) ≅ Z₂` gives a two-class closure-order structure. If closure weight is defined as the minimal number of full circuits needed to return a lifted mode to identity, the natural closure integers are `(2,1)`. But the current repo does not yet prove that physical stable modes must realize the weight-2 spinorial branch, so the full fermion/boson distinction is not yet completely closed from PF axioms alone.
+**Claim T1 (PARTIAL DERIVATION):** In a 3D propagation medium, Axiom 3 plus `π₁(SO(3)) ≅ Z₂` gives a two-class closure-order structure. If closure weight is defined as the minimal number of full circuits needed to return a lifted mode to identity, the natural closure integers are `(2,1)`. Codex audit (2026-03-31): the revised T1 theorem file fixes the invalid mutual-information decomposition and cleanly isolates the `SU(2)` lift step, which survives as a conditional covering-space result. But the physical-realization bridge is still not derived: the chain rule gives only `F_C^tot >= F_C^(1)`, while strict coherence deficit requires an extra non-redundancy hypothesis `A_NR` not yet derived from Axioms 1-3. Therefore T1 remains `PARTIAL DERIVATION 0.85`, and the full fermion/boson distinction is still not completely closed from PF axioms alone.
 
 ### 3.2 Counting Stable Modes
 
@@ -302,7 +302,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the physical realization of the weight-2 spinorial branch from PF axioms alone |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |

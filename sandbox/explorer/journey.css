@@ -424,6 +424,13 @@
   font-weight: 400;
 }
 
+.comparison-note {
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
 .comparison-table table {
   width: 100%;
   border-collapse: collapse;
@@ -501,6 +508,10 @@
   border-left: 4px solid #ffdd55;
 }
 
+.result-card.status-partial {
+  border-left: 4px solid #ffb347;
+}
+
 .result-card.status-argued {
   border-left: 4px solid #ff9955;
 }
@@ -539,6 +550,11 @@
 .result-card-status.conditional {
   background: rgba(255, 221, 85, 0.2);
   color: #ffdd55;
+}
+
+.result-card-status.partial {
+  background: rgba(255, 179, 71, 0.2);
+  color: #ffb347;
 }
 
 .result-card-status.argued {

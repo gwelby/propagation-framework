@@ -21,13 +21,13 @@ The Propagation Framework Explorer already exists and is technically excellent:
 
 **But it's a reference tool, not an experience.**
 
-A physicist can look up any result, but they won't *feel* why this framework matters. They won't get chills when they realize three axioms derive nine results with zero free parameters.
+A physicist can look up any result, but they won't *feel* why this framework matters. The narrative layer only works if it stays synchronized with the audited snapshot in `CLAIMS.md` via `data.js`.
 
 ---
 
 ## ⦿ The Vision (What We're Building)
 
-### The 5-Minute Journey Mode
+### The 8-Minute Journey Mode
 
 A guided narrative experience that transforms a skeptic into someone who *gets it*. Not by reading 50 files, but by experiencing the power in their bones.
 
@@ -39,28 +39,28 @@ Opening (30s)
   → Three axioms appear
   → "Let's see what three axioms can build"
 
-Act I: The Strongest Result (2 min)
-  → Bohr quantization from Axiom 3
+Act I: The Circular-Eikonal Atom (2 min)
+  → Conditional Bohr-like spectrum in the Coulomb refraction model
   → Interactive: place electron, watch phase accumulate
   → Only integer orbits close
-  → "This isn't quantum mechanics. It's optics."
-  → "Same axiom that gives you atomic orbits also gives you..."
+  → "Refraction + phase closure pick the orbit family."
+  → "The stronger atomic claim remains conditional."
 
 Act II: The Generation Lock (2 min)
-  → Topological argument visualized
+  → Weight theorem and N=3 lock visualized
   → Interactive Q(N) slider
-  → "There cannot be 4 generations in 3D space"
-  → "Two results. One axiom. Still zero free parameters."
+  → "(2,1) survives as a partial derivation"
+  → "N=3 locks once the numerator and denominator theorems are granted"
 
 Act III: The Scale Bridge (2 min)
   → God Equation: Planck → matter
-  → Interactive (N,D) sliders — only (3,3) works
-  → "17 orders of magnitude. 0.4% error. Zero fitted parameters."
+  → Interactive (N,D) sliders around the conditional physical point
+  → "0.4% numerical anchor, but the theorem still owes its final bridges."
 
 Act IV: The Scoreboard (1 min)
   → ALL results with honest confidence
   → Comparison: SM (19 params) vs String (10^500) vs PF (3 axioms)
-  → "Nine derived results. Three axioms. Zero free parameters."
+  → "Twenty-two audited claims. Three derived. Public falsifiers."
 
 Epilogue: What Would Kill This (30s)
   → The falsification wall
@@ -82,12 +82,12 @@ A side-by-side comparison that creates instant context:
 | Metric | Standard Model | String Theory | Propagation Framework |
 |--------|---------------|---------------|----------------------|
 | Free parameters | 19+ | 10^500+ vacua | 3 axioms |
-| Derived predictions | 0 (all fit) | 0 (all post-dicted) | 9 (pre-dicted) |
-| Falsifiable | Yes | No | Yes (9 ways) |
-| Scale coverage | Particle physics only | Everything (untestable) | Planck → Human |
-| Derives N=3? | No (input) | No (input) | Yes (from topology) |
+| Derived predictions | Parameter-rich effective model | No unique low-energy set | 22 audited claims / 3 derived |
+| Falsifiable | Yes | Context-dependent | Audited falsifiers on every claim |
+| Scale coverage | Particle physics only | Broad unification program | Repo scope across scales |
+| Derives N=3? | No (input) | No (input) | Conditional |
 | Derives α? | No (input) | No (input) | Route mapped |
-| Derives atomic structure? | No (QM postulate) | No | Yes (Axiom 3) |
+| Derives atomic structure? | No (QM postulate) | No | Conditional (circular-eikonal subset) |
 
 **Impact**: Instantly shows WHY this framework matters
 
@@ -268,7 +268,7 @@ One button: "Present to Physicist"
 ```
 sandbox/explorer/
 ├── index.html          ← Existing reference explorer
-├── journey.html        ← NEW: The 5-minute narrative experience ★
+├── journey.html        ← NEW: The 8-minute narrative experience ★
 ├── comparison.html     ← NEW: Framework comparison dashboard
 ├── style.css           ← Existing dark theme
 ├── core.js             ← Existing math utilities
@@ -305,7 +305,7 @@ When complete, a physicist can:
 
 And they will walk away saying:
 
-> "Three axioms. Nine derived results. Zero free parameters. That's real."
+> "Three axioms. Twenty-two audited claims. Three derived results. That's real."
 
 ---
 
@@ -331,8 +331,8 @@ And they will walk away saying:
 **Features:**
 - Interactive parameter counter (PF: 3, SM: 19, String: 10^500)
 - Head-to-head table (10 metrics)
-- Falsifiability matrix (9 ways to kill PF vs SM vs String)
-- Scale coverage visualizer (Planck → Human)
+- Falsifiability matrix sourced from audited PF claim text
+- Scale coverage visualizer (repo scope across scales)
 - The Delta: 6 key PF differences
 - Call to action (links to Journey + Explorer)
 
@@ -355,7 +355,7 @@ And they will walk away saying:
 - 📋 Phase 4: Presentation Mode (~300 lines) — Export to PDF/MP4
 
 **Recommendation:**
-Celebrate Phases 1-2 as the core deliverables. Phases 3-4 are nice-to-have polish.
+Celebrate Phases 1-2 as the core deliverables. Phases 3-4 remain explicitly deferred until the narrative fronts stay audit-clean.
 
 The Explorer is now **transcendent**. A physicist can:
 1. Open `journey.html` → experience the full power in 8 minutes
@@ -363,7 +363,7 @@ The Explorer is now **transcendent**. A physicist can:
 3. See honest audit status → trust the truth policy
 4. Click to main Explorer → explore any result in depth
 
-Three axioms. Nine derived results. Zero free parameters.
+Three axioms. Twenty-two audited claims. Three derived results.
 
 **That's real.**
 
