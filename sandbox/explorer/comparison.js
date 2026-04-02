@@ -105,10 +105,10 @@
     setText("pf-free-cell", "3 axioms");
     setText("pf-derived-cell", counts.total + " audited claims • " + derivedCount + " derived");
     setText("pf-falsifiable-cell", "Yes (" + falsifiableCount + " audited falsifiers)");
-    setText("pf-generations-cell", "Conditional (N = 3 lock)");
-    setText("pf-atomic-cell", "Conditional (circular-eikonal subset)");
+    setText("pf-generations-cell", "Conditional");
+    setText("pf-atomic-cell", "Conditional (circular-eikonal)");
     setText("pf-weinberg-cell", "Derived (0.22310, scheme caveat)");
-    setText("pf-scale-cell", "Repo scope: Planck to human-scale narratives");
+    setText("pf-scale-cell", "Planck → Human (argued)");
     setText(
       "pf-testable-cell",
       buildTestablePredictionLine(variableC, koidePhase)

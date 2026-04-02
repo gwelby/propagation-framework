@@ -33,6 +33,7 @@
   let svg, g, link, node, label;
   let currentZoom = 1;
   let selectedNode = null;
+  let currentCategory = 'all';
   let performanceMonitor = {
     frameCount: 0,
     lastTime: performance.now(),
@@ -137,22 +138,26 @@
 
   // Build graph from data
   function buildGraph() {
-    const results = window.PFTruth.getAuditedResults();
+    const allResults = window.PFTruth.getAuditedResults();
+    const results = currentCategory === 'all'
+      ? allResults
+      : allResults.filter(r => r.category === currentCategory);
+    
     const nodes = [];
     const links = [];
     const nodeMap = new Map();
 
-    // Create axiom nodes
-    ['axiom1', 'axiom2', 'axiom3'].forEach((id, i) => {
+    // Create axiom nodes (always show all axioms)
+    ['axiom1', 'axiom2', 'axiom3', 'axiom3b'].forEach((id, i) => {
       const axiom = {
         id: id,
-        label: `Axiom ${i + 1}`,
-        title: ['Propagation is Fundamental', 'Finite Causal Velocity', 'Coherence'][i],
+        label: `A${i + 1}`,
+        title: ['Propagation is Fundamental', 'Finite Causal Velocity', 'Coherence', 'Minimal Winding'][i],
         type: 'axiom',
         status: 'axiom',
         confidence: 1.0,
         x: CONFIG.width * 0.2,
-        y: CONFIG.height * (0.25 + i * 0.25)
+        y: CONFIG.height * (0.15 + i * 0.18)
       };
       nodes.push(axiom);
       nodeMap.set(id, axiom);
@@ -320,6 +325,15 @@
       d3.select('#detailPanel').classed('active', false);
       selectedNode = null;
     });
+
+    // Category filter
+    const categoryFilter = document.getElementById('categoryFilter');
+    if (categoryFilter) {
+      categoryFilter.addEventListener('change', (e) => {
+        currentCategory = e.target.value;
+        rebuildGraph();
+      });
+    }
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
@@ -496,6 +510,16 @@
     }
     
     requestAnimationFrame(updateFPS);
+  }
+
+  // Rebuild graph with current category filter
+  function rebuildGraph() {
+    if (simulation) {
+      simulation.stop();
+    }
+    setupSVG();
+    buildGraph();
+    updateStatistics();
   }
 
   // Initialize when ready

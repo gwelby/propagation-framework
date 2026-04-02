@@ -71,7 +71,12 @@
           "<div class=\"stat-tile\"><strong>" + qValue.toFixed(4) + "</strong><span>computed Q(N)</span></div>" +
           "<div class=\"stat-tile\"><strong>" + (exact ? "match" : "miss") + "</strong><span>vs 2 / 3</span></div>" +
         "</div>" +
-        "<div class=\"scale-card-grid\" id=\"generationTokens\"></div>";
+        "<div class=\"scale-card-grid\" id=\"generationTokens\"></div>" +
+        "<div style=\"margin-top:16px;text-align:center;\">" +
+          "<a href=\"belt-trick.html\" class=\"soft-button\" style=\"display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;\">" +
+            "<span>🔗</span> See the Dirac Belt Trick — π₁(SO(3)) = ℤ₂" +
+          "</a>" +
+        "</div>";
 
       var range = state.info.querySelector("#generationRange");
       range.addEventListener("input", function (event) {

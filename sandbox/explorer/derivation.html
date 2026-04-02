@@ -29,13 +29,27 @@
         </div>
 
         <div class="view-controls">
-          <button id="zoomIn" class="control-button">
+          <div class="mode-toggle-3d" role="tablist">
+            <button id="mode2D" class="mode-3d-btn is-active" type="button" role="tab" aria-selected="true">2D Graph</button>
+            <button id="mode3D" class="mode-3d-btn" type="button" role="tab" aria-selected="false">3D Graph</button>
+          </div>
+          <div class="scale-filter">
+            <label for="categoryFilter">Category:</label>
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+              <option value="fundamental">Fundamental Physics</option>
+              <option value="signal">Signals & Structure</option>
+              <option value="biology">Biology & Mind</option>
+              <option value="open">Open Frontiers</option>
+            </select>
+          </div>
+          <button id="zoomIn" class="control-button" title="Zoom In">
             <span class="icon">+</span>
           </button>
-          <button id="zoomOut" class="control-button">
+          <button id="zoomOut" class="control-button" title="Zoom Out">
             <span class="icon">−</span>
           </button>
-          <button id="resetView" class="control-button">
+          <button id="resetView" class="control-button" title="Reset View">
             <span class="icon">⟲</span>
           </button>
         </div>
@@ -72,20 +86,9 @@
 
       <!-- Derivation Graph Container -->
       <section class="graph-container">
+        <!-- 2D SVG Graph -->
         <svg id="derivationGraph" width="1400" height="800" viewBox="0 0 1400 800">
-          <!-- Define arrow markers -->
           <defs>
-            <marker id="arrow-derived" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L0,6 L9,3 z" fill="#44ff88"/>
-            </marker>
-            <marker id="arrow-conditional" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L0,6 L9,3 z" fill="#ffaa00"/>
-            </marker>
-            <marker id="arrow-argued" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L0,6 L9,3 z" fill="#ff6b6b"/>
-            </marker>
-            
-            <!-- Glow filter -->
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
               <feMerge>
@@ -94,9 +97,9 @@
               </feMerge>
             </filter>
           </defs>
-
-          <!-- Graph will be rendered here by JavaScript -->
         </svg>
+        <!-- 3D Graph Container (hidden by default) -->
+        <div id="graph3D" class="graph-3d-container" style="display:none;"></div>
       </section>
 
       <!-- Detail Panel -->
@@ -138,5 +141,8 @@
   <script src="data.js"></script>
   <script src="truth-utils.js"></script>
   <script src="derivation.js"></script>
+  <!-- 3D Force Graph (lazy-loaded for 3D mode) -->
+  <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.73.1/dist/3d-force-graph.min.js" defer></script>
+  <script src="derivation-3d.js"></script>
 </body>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scale Ladder — Planck to Cosmic | Propagation Framework</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="scale-ladder.css">
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+</head>
+<body class="mode-story">
+  <div class="shell-glow shell-glow-a"></div>
+  <div class="shell-glow shell-glow-b"></div>
+  <div class="shell-grid"></div>
+
+  <div class="app-shell scale-ladder-shell">
+    <header class="scale-header">
+      <div class="header-content">
+        <button id="backBtn" class="back-button">
+          <span class="back-arrow">←</span>
+          Back to Explorer
+        </button>
+        
+        <div class="header-title">
+          <h1>Scale Ladder</h1>
+          <p class="header-subtitle">From Planck to Cosmic — 61 orders of magnitude</p>
+        </div>
+
+        <div class="scale-controls">
+          <button id="resetCamera" class="control-button" title="Reset View">
+            <span class="icon">⟲</span>
+          </button>
+          <button id="toggleLabels" class="control-button is-active" title="Toggle Labels">
+            <span class="icon">Aa</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="scale-main">
+      <!-- 3D Scene Container -->
+      <div id="scaleScene" class="scale-scene"></div>
+
+      <!-- Scale Info Panel -->
+      <div class="scale-info-panel" id="scaleInfoPanel">
+        <div class="scale-info-header">
+          <h3 id="scaleName">Select a scale</h3>
+          <button id="closeInfo" class="close-button">×</button>
+        </div>
+        <div class="scale-info-content" id="scaleInfoContent">
+          <p>Click any scale node to explore which Propagation Framework results live there.</p>
+        </div>
+      </div>
+
+      <!-- Scale Navigator -->
+      <div class="scale-navigator">
+        <div class="scale-nav-track">
+          <input type="range" id="scaleNavSlider" min="0" max="15" value="7" step="1">
+          <div class="scale-nav-labels">
+            <span>Planck</span>
+            <span>Cosmic</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="scale-legend">
+        <h4>PF Results by Scale</h4>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--cyan);"></div>
+            <span>Fundamental Physics</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--gold);"></div>
+            <span>Signals & Structure</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--lime);"></div>
+            <span>Biology & Mind</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--amber);"></div>
+            <span>Open Frontiers</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="scale-ladder.js"></script>
+</body>
+</html>

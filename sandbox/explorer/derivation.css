@@ -63,6 +63,71 @@ body {
 .view-controls {
   display: flex;
   gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* 3D Mode Toggle */
+.mode-toggle-3d {
+  display: flex;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.mode-3d-btn {
+  padding: 6px 14px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.mode-3d-btn:hover {
+  color: #ccc;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mode-3d-btn.is-active {
+  background: rgba(0, 207, 255, 0.15);
+  color: #00cfff;
+}
+
+/* Scale Filter */
+.scale-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scale-filter label {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.scale-filter select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.scale-filter select:focus {
+  outline: none;
+  border-color: #00cfff;
+}
+
+.scale-filter select option {
+  background: #1a1a2e;
+  color: #ccc;
 }
 
 .control-button {
@@ -127,6 +192,19 @@ body {
   background: #0a0a1a;
   position: relative;
   overflow: hidden;
+  min-height: 800px;
+}
+
+/* 3D Graph Container */
+.graph-3d-container {
+  width: 100%;
+  height: 800px;
+  background: radial-gradient(circle at center, rgba(0, 207, 255, 0.02) 0%, transparent 70%);
+}
+
+.graph-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* D3.js Graph Styles */

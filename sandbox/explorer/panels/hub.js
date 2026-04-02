@@ -36,6 +36,7 @@
               "<p class=\"hero-number\">" + ctx.data.scales.length + "</p>" +
               "<h3>One axiom spine, from Planck boundary to human-scale coherence.</h3>" +
               "<p>Every current result is placed on the same vertical ladder. Click any node to see which claims live there, then jump directly into the deep panels that compute them.</p>" +
+              '<p><a href="scale-ladder.html" class="soft-button" style="display:inline-block;margin-top:8px;text-decoration:none">Explore Scale Ladder →</a></p>' +
             "</div>" +
             "<div class=\"stat-grid\">" +
               "<div class=\"stat-tile\"><strong>" + (ctx.data.panelMeta.length - 1) + "</strong><span>deep panels with live browser math</span></div>" +

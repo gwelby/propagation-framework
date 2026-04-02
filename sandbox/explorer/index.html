@@ -191,6 +191,8 @@
         </div>
       </header>
 
+      <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
+
       <section class="panel-stage" id="panelStage" role="tabpanel" aria-labelledby="panelTitle"></section>
     </main>
 
@@ -273,23 +275,28 @@
 
     // UX Overhaul JS
     const backToTopBtn = document.getElementById('backToTopBtn');
-    const panelStage = document.getElementById('panelStage');
+    const scrollProgressBar = document.getElementById('scrollProgressBar');
     const mobileNavToggle = document.getElementById('mobileNavToggle');
     
-    // Track scrolling either on body or panelStage, whichever is scrolling
-    const scrollContainer = window.matchMedia('(max-width: 960px)').matches ? window : panelStage;
-    
-    scrollContainer.addEventListener('scroll', () => {
-      const scrollY = scrollContainer.scrollY || scrollContainer.scrollTop;
-      if (scrollY > 300) {
+    // Scroll progress bar
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgressBar.style.setProperty('--scroll-progress', progress + '%');
+      
+      // Back to top visibility
+      if (scrollTop > 300) {
         backToTopBtn.classList.add('visible');
       } else {
         backToTopBtn.classList.remove('visible');
       }
-    });
+    }
+    
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
     backToTopBtn.addEventListener('click', () => {
-      scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     mobileNavToggle.addEventListener('click', () => {
@@ -314,6 +321,21 @@
       if (e.altKey && e.key === 'c') {
         e.preventDefault();
         document.getElementById('comparisonBtn').click();
+      }
+      // Alt + B for Belt Trick
+      if (e.altKey && e.key === 'b') {
+        e.preventDefault();
+        window.location.href = 'belt-trick.html';
+      }
+      // Alt + S for Scale Ladder
+      if (e.altKey && e.key === 's') {
+        e.preventDefault();
+        window.location.href = 'scale-ladder.html';
+      }
+      // Escape closes mobile nav
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+        document.body.classList.remove('nav-open');
+        mobileNavToggle.setAttribute('aria-expanded', 'false');
       }
     });
 

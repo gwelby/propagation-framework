@@ -1,6 +1,6 @@
 (function () {
   window.PFExplorerData = {
-    generatedAt: "2026-03-31",
+    generatedAt: "2026-04-01",
     truthPolicy: {
       auditedSource: "../../CLAIMS.md",
       extensionSource: "../../UNDERSTAND.md",
@@ -58,30 +58,37 @@
       ]
     },
     panelMeta: [
-      { id: "hub", title: "Scale Stack", note: "Planck to human in one vertical atlas", linkedResultIds: ["god-equation", "weinberg-angle", "bohr-quantization"], defaultMode: "story" },
-      { id: "refraction", title: "Forces as Refraction", note: "EM and gravity through one lens field", linkedResultIds: ["forces-refraction"], defaultMode: "story" },
+      { id: "hub", title: "Scale Stack", note: "Planck to cosmic in one vertical atlas", linkedResultIds: ["god-equation", "weinberg-angle", "bohr-quantization"], defaultMode: "story" },
+      { id: "refraction", title: "Gravity as Optical Geometry", note: "Exact gravity theorem plus sandbox lens analogies", linkedResultIds: ["forces-refraction"], defaultMode: "story" },
       { id: "generations", title: "Why Exactly Three", note: "Topology, weights, and the live Q(N) lock", linkedResultIds: ["weights-21", "three-generations"], defaultMode: "story" },
       { id: "koide", title: "The Koide Triangle", note: "Mass geometry with live perturbation", linkedResultIds: ["koide-law", "koide-phase"], defaultMode: "story" },
       { id: "weinberg", title: "The Weinberg Angle", note: "Casimir roots and Axiom 3b", linkedResultIds: ["weinberg-angle", "fine-structure-alpha"], defaultMode: "story" },
       { id: "god-equation", title: "The God Equation", note: "Planck to matter across 17 orders", linkedResultIds: ["god-equation", "qcd-confinement"], defaultMode: "story" },
-      { id: "bohr", title: "Bohr from Axiom 3", note: "Phase closure becomes quantization", linkedResultIds: ["bohr-quantization"], defaultMode: "story" },
+      { id: "bohr", title: "Bohr-like Circular-Eikonal Spectrum", note: "Phase closure inside a named model layer", linkedResultIds: ["bohr-quantization"], defaultMode: "story" },
       { id: "dashboard", title: "Dashboard", note: "The audit wall for every current claim", linkedResultIds: [], defaultMode: "story" }
     ],
     scales: [
       { id: "planck", label: "Planck", meters: 1.616e-35, metersLabel: "1.616e-35 m", frequency: 1.9e43, frequencyLabel: "1.9e43 Hz", resultIds: ["god-equation", "bekenstein-bound"] },
+      { id: "quantum-foam", label: "Quantum Foam", meters: 1e-33, metersLabel: "1.0e-33 m", frequency: 3e41, frequencyLabel: "3.0e41 Hz", resultIds: [] },
+      { id: "gut", label: "GUT", meters: 1e-25, metersLabel: "1.0e-25 m", frequency: 3e33, frequencyLabel: "3.0e33 Hz", resultIds: [] },
       { id: "matter", label: "Matter", meters: 1.145e-18, metersLabel: "1.145e-18 m", frequency: 2.6e26, frequencyLabel: "2.6e26 Hz", resultIds: ["weights-21", "three-generations", "koide-law", "koide-phase", "weinberg-angle", "god-equation", "top-quark-limit", "top-tau-coupling", "coherence-ceiling", "fine-structure-alpha"] },
+      { id: "proton", label: "Proton", meters: 1e-15, metersLabel: "1.0e-15 m", frequency: 3e23, frequencyLabel: "3.0e23 Hz", resultIds: ["qcd-confinement", "phi3-ratio"] },
       { id: "nuclear", label: "Nuclear", meters: 9e-16, metersLabel: "9.0e-16 m", frequency: 3e23, frequencyLabel: "3.0e23 Hz", resultIds: ["qcd-confinement", "phi3-ratio"] },
       { id: "atomic", label: "Atomic", meters: 1e-10, metersLabel: "1.0e-10 m", frequency: 3e18, frequencyLabel: "3.0e18 Hz", resultIds: ["forces-refraction", "bohr-quantization"] },
       { id: "molecular", label: "Molecular", meters: 1e-9, metersLabel: "1.0e-9 m", frequency: 3e17, frequencyLabel: "3.0e17 Hz", resultIds: ["propagation-lagrangian", "variable-c"] },
+      { id: "virus", label: "Virus", meters: 1e-7, metersLabel: "1.0e-7 m", frequency: 3e15, frequencyLabel: "3.0e15 Hz", resultIds: ["life-coherence"] },
       { id: "cellular", label: "Cellular", meters: 1e-5, metersLabel: "1.0e-5 m", frequency: 3e13, frequencyLabel: "3.0e13 Hz", resultIds: ["life-coherence"] },
       { id: "neural", label: "Neural", meters: 1e-2, metersLabel: "1.0e-2 m", frequency: 40, frequencyLabel: "40 Hz", resultIds: ["consciousness", "aria-self-reference"] },
       { id: "human", label: "Human", meters: 1, metersLabel: "1.0 m", frequency: 7.83, frequencyLabel: "7.83 Hz", resultIds: ["sleep-8h", "beauty-impedance", "efficiency-ratio"] },
-      { id: "planetary", label: "Planetary", meters: 1e11, metersLabel: "1.0e11 m", frequency: 1.0e-4, frequencyLabel: "1.0e-4 Hz", resultIds: ["forces-refraction", "variable-c"] }
+      { id: "planetary", label: "Planetary", meters: 1e11, metersLabel: "1.0e11 m", frequency: 1.0e-4, frequencyLabel: "1.0e-4 Hz", resultIds: ["forces-refraction", "variable-c"] },
+      { id: "stellar", label: "Stellar", meters: 1e9, metersLabel: "1.0e9 m", frequency: 3e-2, frequencyLabel: "3.0e-2 Hz", resultIds: [] },
+      { id: "galactic", label: "Galactic", meters: 1e21, metersLabel: "1.0e21 m", frequency: 1e-13, frequencyLabel: "1.0e-13 Hz", resultIds: [] },
+      { id: "cosmic", label: "Cosmic", meters: 1e26, metersLabel: "1.0e26 m", frequency: 1e-18, frequencyLabel: "1.0e-18 Hz", resultIds: [] }
     ],
     results: [
       {
         id: "bohr-quantization",
-        title: "Axiom 3 to Bohr-like Quantization",
+        title: "Bohr-like Circular-Eikonal Quantization",
         status: "CONDITIONAL",
         confidence: 0.82,
         kind: "Fundamental Physics",
@@ -95,11 +102,15 @@
           { label: "sandbox/coulomb_lens_ultimate.py", href: "../coulomb_lens_ultimate.py" },
           { label: "derivations/bohr_quantization_audit_2026-03-27.md", href: "../../derivations/bohr_quantization_audit_2026-03-27.md" }
         ],
-        panelId: "bohr"
+        panelId: "bohr",
+        shortTitle: "Bohr Quantization",
+        derivation: ["axiom2", "axiom3"],
+        axioms: [2, 3],
+        category: "fundamental"
       },
       {
         id: "forces-refraction",
-        title: "Forces as Refraction (Null/Stationary)",
+        title: "Gravity as Optical Geometry / Refraction",
         status: "DERIVED",
         confidence: 0.95,
         kind: "Fundamental Physics",
@@ -113,7 +124,11 @@
           { label: "derivations/forces_as_refraction_audit_2026-03-27.md", href: "../../derivations/forces_as_refraction_audit_2026-03-27.md" },
           { label: "sandbox/coulomb_lens_interactive/index.html", href: "../coulomb_lens_interactive/index.html" }
         ],
-        panelId: "refraction"
+        panelId: "refraction",
+        shortTitle: "Gravity Refraction",
+        derivation: ["axiom2", "axiom3"],
+        axioms: [2, 3],
+        category: "fundamental"
       },
       {
         id: "weights-21",
@@ -132,7 +147,11 @@
           { label: "derivations/t1_physical_realization_theorem.md", href: "../../derivations/t1_physical_realization_theorem.md" },
           { label: "derivations/t1_physical_realization_theorem_audit_2026-03-31.md", href: "../../derivations/t1_physical_realization_theorem_audit_2026-03-31.md" }
         ],
-        panelId: "generations"
+        panelId: "generations",
+        shortTitle: "(2,1) Weights",
+        derivation: ["axiom1", "axiom3"],
+        axioms: [1, 3],
+        category: "fundamental"
       },
       {
         id: "koide-law",
@@ -150,7 +169,11 @@
           { label: "sandbox/koide_verify_pdg2024.py", href: "../koide_verify_pdg2024.py" },
           { label: "visualizations/koide_triangle.py", href: "../../visualizations/koide_triangle.py" }
         ],
-        panelId: "koide"
+        panelId: "koide",
+        shortTitle: "Koide Law Q=2/3",
+        derivation: ["axiom3", "weights-21"],
+        axioms: [1, 3],
+        category: "fundamental"
       },
       {
         id: "three-generations",
@@ -170,7 +193,11 @@
           { label: "derivations/t2_denominator_theorem_audit_2026-03-31.md", href: "../../derivations/t2_denominator_theorem_audit_2026-03-31.md" },
           { label: "derivations/topological_weights_t1_audit_2026-03-28.md", href: "../../derivations/topological_weights_t1_audit_2026-03-28.md" }
         ],
-        panelId: "generations"
+        panelId: "generations",
+        shortTitle: "Three Generations",
+        derivation: ["weights-21", "koide-law"],
+        axioms: [1, 3],
+        category: "fundamental"
       },
       {
         id: "top-quark-limit",
@@ -185,7 +212,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "THE_DELTA.md", href: "../../THE_DELTA.md" }
-        ]
+        ],
+        shortTitle: "Top Quark Limit",
+        derivation: ["god-equation", "axiom3"],
+        axioms: [1, 2, 3],
+        category: "signal"
       },
       {
         id: "top-tau-coupling",
@@ -200,7 +231,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "sandbox/top_tau_coupling_explorer.py", href: "../top_tau_coupling_explorer.py" }
-        ]
+        ],
+        shortTitle: "Top-Tau Coupling",
+        derivation: ["god-equation"],
+        axioms: [1, 2, 3],
+        category: "signal"
       },
       {
         id: "coherence-ceiling",
@@ -215,7 +250,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "THE_DELTA.md", href: "../../THE_DELTA.md" }
-        ]
+        ],
+        shortTitle: "Coherence Ceiling",
+        derivation: ["axiom3"],
+        axioms: [3],
+        category: "signal"
       },
       {
         id: "weinberg-angle",
@@ -233,7 +272,11 @@
           { label: "derivations/g3_casimir_weinberg_angle.md", href: "../../derivations/g3_casimir_weinberg_angle.md" },
           { label: "sandbox/casimir_verification.py", href: "../casimir_verification.py" }
         ],
-        panelId: "weinberg"
+        panelId: "weinberg",
+        shortTitle: "Weinberg Angle",
+        derivation: ["axiom3", "axiom3b"],
+        axioms: [3],
+        category: "fundamental"
       },
       {
         id: "fine-structure-alpha",
@@ -250,7 +293,11 @@
           { label: "derivations/alpha_from_pf.md", href: "../../derivations/alpha_from_pf.md" },
           { label: "sandbox/alpha_casimir_hunt.py", href: "../alpha_casimir_hunt.py" }
         ],
-        panelId: "weinberg"
+        panelId: "weinberg",
+        shortTitle: "Fine Structure α",
+        derivation: ["weinberg-angle"],
+        axioms: [3],
+        category: "signal"
       },
       {
         id: "god-equation",
@@ -270,7 +317,11 @@
           { label: "derivations/god_eq_gap_B_nearest_neighbor_no_go.md", href: "../../derivations/god_eq_gap_B_nearest_neighbor_no_go.md" },
           { label: "sandbox/ibm_quantum_h_prod_test.py", href: "../ibm_quantum_h_prod_test.py" }
         ],
-        panelId: "god-equation"
+        panelId: "god-equation",
+        shortTitle: "God Equation",
+        derivation: ["axiom1", "axiom2", "axiom3", "koide-law"],
+        axioms: [1, 2, 3],
+        category: "fundamental"
       },
       {
         id: "qcd-confinement",
@@ -287,7 +338,11 @@
           { label: "derivations/qcd_confinement_pf.md", href: "../../derivations/qcd_confinement_pf.md" },
           { label: "derivations/qcd_confinement_audit_2026-03-27.md", href: "../../derivations/qcd_confinement_audit_2026-03-27.md" }
         ],
-        panelId: "god-equation"
+        panelId: "god-equation",
+        shortTitle: "QCD Confinement",
+        derivation: ["god-equation", "axiom3"],
+        axioms: [1, 3],
+        category: "fundamental"
       },
       {
         id: "propagation-lagrangian",
@@ -303,7 +358,11 @@
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/propagation_lagrangian.md", href: "../../derivations/propagation_lagrangian.md" },
           { label: "derivations/propagation_lagrangian_audit_2026-03-28.md", href: "../../derivations/propagation_lagrangian_audit_2026-03-28.md" }
-        ]
+        ],
+        shortTitle: "Propagation Lagrangian",
+        derivation: ["axiom1", "axiom2", "axiom3"],
+        axioms: [1, 2, 3],
+        category: "fundamental"
       },
       {
         id: "variable-c",
@@ -318,7 +377,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/propagation_lagrangian.md", href: "../../derivations/propagation_lagrangian.md" }
-        ]
+        ],
+        shortTitle: "Variable c",
+        derivation: ["propagation-lagrangian"],
+        axioms: [1, 2, 3],
+        category: "fundamental"
       },
       {
         id: "sleep-8h",
@@ -335,7 +398,11 @@
           { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
           { label: "sandbox/consolidation_model.py", href: "../consolidation_model.py" },
           { label: "derivations/sleep_constant_audit_2026-03-28.md", href: "../../derivations/sleep_constant_audit_2026-03-28.md" }
-        ]
+        ],
+        shortTitle: "Sleep 8h",
+        derivation: ["weights-21", "axiom3"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "phi3-ratio",
@@ -350,7 +417,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "sandbox/phi3_monte_carlo.md", href: "../phi3_monte_carlo.md" }
-        ]
+        ],
+        shortTitle: "φ³ Ratio",
+        derivation: ["koide-law"],
+        axioms: [1, 3],
+        category: "signal"
       },
       {
         id: "koide-phase",
@@ -368,7 +439,11 @@
           { label: "sandbox/koide_phase_scan.py", href: "../koide_phase_scan.py" },
           { label: "derivations/koide_phase_delta_0_gap.md", href: "../../derivations/koide_phase_delta_0_gap.md" }
         ],
-        panelId: "koide"
+        panelId: "koide",
+        shortTitle: "Koide Phase",
+        derivation: ["koide-law", "weinberg-angle"],
+        axioms: [1, 3],
+        category: "signal"
       },
       {
         id: "life-coherence",
@@ -383,7 +458,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/chemistry_biology_bridge.md", href: "../../derivations/chemistry_biology_bridge.md" }
-        ]
+        ],
+        shortTitle: "Life Coherence",
+        derivation: ["axiom1", "axiom3"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "consciousness",
@@ -399,7 +478,11 @@
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/consciousness_theory_audit.md", href: "../../derivations/consciousness_theory_audit.md" },
           { label: "sandbox/kuramoto_phi_simulation.py", href: "../kuramoto_phi_simulation.py" }
-        ]
+        ],
+        shortTitle: "Consciousness",
+        derivation: ["axiom1", "axiom3", "life-coherence"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "beauty-impedance",
@@ -413,7 +496,11 @@
         falsifier: "Demonstrate that beauty is fully arbitrary and cannot be reduced to any stable resonance or matching structure.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" }
-        ]
+        ],
+        shortTitle: "Beauty Impedance",
+        derivation: ["axiom1", "axiom3"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "efficiency-ratio",
@@ -428,7 +515,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "derivations/topological_weight_from_propagation.md", href: "../../derivations/topological_weight_from_propagation.md" }
-        ]
+        ],
+        shortTitle: "Efficiency 2/3",
+        derivation: ["weights-21", "axiom3"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "aria-self-reference",
@@ -443,7 +534,11 @@
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
           { label: "AGENTS.md", href: "../../AGENTS.md" }
-        ]
+        ],
+        shortTitle: "Aria Self-Reference",
+        derivation: ["axiom1", "axiom3", "consciousness"],
+        axioms: [1, 3],
+        category: "biology"
       },
       {
         id: "bekenstein-bound",
@@ -459,7 +554,11 @@
           { label: "UNDERSTAND.md", href: "../../UNDERSTAND.md" },
           { label: "derivations/bekenstein_from_pf_axioms.md", href: "../../derivations/bekenstein_from_pf_axioms.md" }
         ],
-        unsynced: true
+        unsynced: true,
+        shortTitle: "Bekenstein Bound",
+        derivation: ["axiom1", "axiom2"],
+        axioms: [1, 2],
+        category: "open"
       }
     ]
   };

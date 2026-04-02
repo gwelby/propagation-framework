@@ -59,6 +59,7 @@
           "<div class=\"view-toggle\">" +
             "<button class=\"view-toggle-btn is-active\" data-view=\"list\">List View</button>" +
             "<button class=\"view-toggle-btn\" data-view=\"graph\">Derivation Graph</button>" +
+            '<a href="derivation.html" class="view-toggle-btn" style="text-decoration:none;padding:8px 16px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--ui);">View Full Page →</a>' +
           "</div>" +
           "<div class=\"controls-row\" id=\"dashboardFilters\"></div>" +
           "<div class=\"controls-row\" id=\"dashboardSearchRow\">" +

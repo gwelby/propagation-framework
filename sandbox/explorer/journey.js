@@ -37,7 +37,16 @@
     currentLambda: 1.145e-18,
     animationTime: 0,
     rgCurve: [],
-    isAnimating: false
+    isAnimating: false,
+    scene: null,
+    camera: null,
+    renderer: null,
+    composer: null,
+    surfaceMesh: null,
+    currentPoint: null,
+    currentLine: null,
+    gridHelper: null,
+    animFrameId: null
   };
 
   var falsificationIds = [
@@ -114,6 +123,11 @@
     if (sectionId === "act3") {
       ensureGodEquationAnimation();
       refreshGodEquation();
+    } else {
+      if (godEquationState.animFrameId) {
+        cancelAnimationFrame(godEquationState.animFrameId);
+        godEquationState.animFrameId = null;
+      }
     }
     if (sectionId === "act4") {
       populateAct4();
@@ -502,7 +516,7 @@
     if (lockIndicator) {
       if (N === 3) {
         lockIndicator.style.display = "block";
-        lockIndicator.textContent = "Conditional lock once T1 and T2 are granted";
+        lockIndicator.textContent = "CONDITIONAL (algebra locks at N=3)";
       } else {
         lockIndicator.style.display = "block";
         lockIndicator.textContent = "Misses the audited Koide target";
@@ -598,14 +612,13 @@
   }
 
   function initAct3() {
-    var canvas = document.getElementById("god-equation-canvas");
+    var container = document.getElementById("god-equation-container");
     var nSlider = document.getElementById("n-slider-ge");
     var dSlider = document.getElementById("d-slider");
-    if (!canvas || !nSlider || !dSlider) {
+    if (!container || !nSlider || !dSlider) {
       return;
     }
 
-    godEqCtx = canvas.getContext("2d");
     godEquationState.currentN = parseInt(nSlider.value, 10);
     godEquationState.currentD = parseInt(dSlider.value, 10);
 
@@ -618,16 +631,277 @@
       godEquationState.currentD = parseInt(dSlider.value, 10);
       refreshGodEquation();
     });
+
+    refreshGodEquation();
   }
 
   function ensureGodEquationAnimation() {
-    var canvas = document.getElementById("god-equation-canvas");
-    if (!canvas) {
-      return;
+    if (godEquationState.started) return;
+    godEquationState.started = true;
+  }
+
+  function godEquationComputeLambda(N, D) {
+    var lP = 1.616e-35;
+    var b0 = 16 / 3;
+    var exponent = (4 * Math.PI * Math.PI * Math.pow(N, D / 2)) / b0;
+    return Math.sqrt(2) * lP * Math.exp(exponent);
+  }
+
+  function godEquationLogRatio(N, D) {
+    var lambdaC = godEquationComputeLambda(N, D);
+    var observed = 1.14e-18;
+    return Math.log10(lambdaC / observed);
+  }
+
+  function initGodEquationThreeJS() {
+    var container = document.getElementById("god-equation-container");
+    if (!container || godEquationState.scene) return;
+
+    var w = container.clientWidth || 640;
+    var h = container.clientHeight || 480;
+
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a1a);
+    scene.fog = new THREE.FogExp2(0x0a0a1a, 0.015);
+
+    var camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
+    camera.position.set(8, 6, 12);
+    camera.lookAt(3.5, 3, 0);
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    container.appendChild(renderer.domElement);
+
+    var composer = new THREE.EffectComposer(renderer);
+    var renderPass = new THREE.RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    var bloomPass = new THREE.UnrealBloomPass(
+      new THREE.Vector2(w, h), 0.8, 0.4, 0.85
+    );
+    composer.addPass(bloomPass);
+
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 5;
+    controls.maxDistance = 30;
+    controls.target.set(3.5, 3, 0);
+    controls.update();
+
+    var ambientLight = new THREE.AmbientLight(0x334466, 0.6);
+    scene.add(ambientLight);
+
+    var dirLight = new THREE.DirectionalLight(0x88ccff, 1.2);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
+
+    var fillLight = new THREE.DirectionalLight(0x00cfff, 0.4);
+    fillLight.position.set(-5, 3, -5);
+    scene.add(fillLight);
+
+    var rimLight = new THREE.DirectionalLight(0xffdd55, 0.3);
+    rimLight.position.set(0, -5, 10);
+    scene.add(rimLight);
+
+    var gridHelper = new THREE.GridHelper(14, 14, 0x223344, 0x112233);
+    gridHelper.position.y = -2;
+    scene.add(gridHelper);
+
+    var surfaceMesh = buildGodEquationSurface(scene);
+
+    var currentPoint = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 24, 24),
+      new THREE.MeshStandardMaterial({
+        color: 0x44ff88,
+        emissive: 0x44ff88,
+        emissiveIntensity: 2,
+        metalness: 0.3,
+        roughness: 0.2
+      })
+    );
+    scene.add(currentPoint);
+
+    var currentLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 0, 0)
+      ]),
+      new THREE.LineBasicMaterial({ color: 0x44ff88, transparent: true, opacity: 0.6 })
+    );
+    scene.add(currentLine);
+
+    var obsGeometry = new THREE.SphereGeometry(0.12, 16, 16);
+    var obsMaterial = new THREE.MeshStandardMaterial({
+      color: 0x00cfff,
+      emissive: 0x00cfff,
+      emissiveIntensity: 1.5,
+      metalness: 0.5,
+      roughness: 0.1
+    });
+    var observedPoint = new THREE.Mesh(obsGeometry, obsMaterial);
+    observedPoint.position.set(3, 3, godEquationLogRatio(3, 3));
+    scene.add(observedPoint);
+
+    godEquationState.scene = scene;
+    godEquationState.camera = camera;
+    godEquationState.renderer = renderer;
+    godEquationState.composer = composer;
+    godEquationState.controls = controls;
+    godEquationState.surfaceMesh = surfaceMesh;
+    godEquationState.currentPoint = currentPoint;
+    godEquationState.currentLine = currentLine;
+    godEquationState.observedPoint = observedPoint;
+
+    container.style.cursor = "grab";
+
+    animateGodEquation();
+  }
+
+  function buildGodEquationSurface(scene) {
+    var N_min = 1, N_max = 6, N_steps = 30;
+    var D_min = 1, D_max = 5, D_steps = 20;
+
+    var positions = [];
+    var colors = [];
+    var indices = [];
+    var colorLow = new THREE.Color(0x004488);
+    var colorMid = new THREE.Color(0x00cfff);
+    var colorHigh = new THREE.Color(0xff6644);
+    var colorPhysical = new THREE.Color(0x44ff88);
+
+    var grid = [];
+    for (var di = 0; di <= D_steps; di++) {
+      var row = [];
+      for (var ni = 0; ni <= N_steps; ni++) {
+        var N = N_min + (ni / N_steps) * (N_max - N_min);
+        var D = D_min + (di / D_steps) * (D_max - D_min);
+        var logRatio = godEquationLogRatio(N, D);
+        var t = Math.max(0, Math.min(1, (logRatio + 4) / 8));
+        var c = new THREE.Color();
+        if (Math.abs(N - 3) < 0.3 && Math.abs(D - 3) < 0.3) {
+          c.lerpColors(colorMid, colorPhysical, 0.6);
+        } else {
+          if (t < 0.5) {
+            c.lerpColors(colorLow, colorMid, t * 2);
+          } else {
+            c.lerpColors(colorMid, colorHigh, (t - 0.5) * 2);
+          }
+        }
+        row.push({ N: ni, D: di, x: N, y: D, z: logRatio, color: c });
+      }
+      grid.push(row);
     }
 
-    resizeCanvas(canvas);
-    godEquationState.started = true;
+    for (var di = 0; di < D_steps; di++) {
+      for (var ni = 0; ni < N_steps; ni++) {
+        var i = positions.length / 3;
+        var p00 = grid[di][ni];
+        var p10 = grid[di + 1][ni];
+        var p01 = grid[di][ni + 1];
+        var p11 = grid[di + 1][ni + 1];
+
+        positions.push(p00.x, p00.y, p00.z);
+        positions.push(p10.x, p10.y, p10.z);
+        positions.push(p01.x, p01.y, p01.z);
+        positions.push(p11.x, p11.y, p11.z);
+
+        colors.push(p00.color.r, p00.color.g, p00.color.b);
+        colors.push(p10.color.r, p10.color.g, p10.color.b);
+        colors.push(p01.color.r, p01.color.g, p01.color.b);
+        colors.push(p11.color.r, p11.color.g, p11.color.b);
+
+        indices.push(i, i + 1, i + 2);
+        indices.push(i + 1, i + 3, i + 2);
+      }
+    }
+
+    var geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setIndex(indices);
+    geometry.computeVertexNormals();
+
+    var material = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      side: THREE.DoubleSide,
+      metalness: 0.2,
+      roughness: 0.5,
+      transparent: true,
+      opacity: 0.85
+    });
+
+    var mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    var wireMat = new THREE.MeshBasicMaterial({
+      color: 0x00cfff,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.06
+    });
+    var wireMesh = new THREE.Mesh(geometry.clone(), wireMat);
+    wireMesh.material.opacity = 0.04;
+    scene.add(wireMesh);
+
+    var axisMat = new THREE.LineBasicMaterial({ color: 0x556677, transparent: true, opacity: 0.5 });
+    var axisGeoms = [
+      [[N_min, 0, 0], [N_max, 0, 0]],
+      [[0, D_min, 0], [0, D_max, 0]],
+      [[0, 0, -4], [0, 0, 4]]
+    ];
+    axisGeoms.forEach(function (pts) {
+      var g = new THREE.BufferGeometry().setFromPoints(pts.map(function (p) { return new THREE.Vector3(p[0], p[1], p[2]); }));
+      scene.add(new THREE.Line(g, axisMat));
+    });
+
+    var labelCanvas = document.createElement("canvas");
+    labelCanvas.width = 128;
+    labelCanvas.height = 32;
+    var labelCtx = labelCanvas.getContext("2d");
+    labelCtx.fillStyle = "#aabbcc";
+    labelCtx.font = "14px monospace";
+    labelCtx.fillText("N (generations)", 0, 20);
+    var labelTex = new THREE.CanvasTexture(labelCanvas);
+    var spriteMat = new THREE.SpriteMaterial({ map: labelTex, transparent: true });
+    var sprite = new THREE.Sprite(spriteMat);
+    sprite.position.set(3.5, -0.5, 0);
+    sprite.scale.set(3, 0.6, 1);
+    scene.add(sprite);
+
+    return mesh;
+  }
+
+  function updateGodEquationPoint(N, D, lambdaC) {
+    if (!godEquationState.currentPoint) return;
+    var logRatio = godEquationLogRatio(N, D);
+    var isPhysical = N === 3 && D === 3;
+    var pointColor = isPhysical ? 0x44ff88 : 0xff6644;
+    godEquationState.currentPoint.position.set(N, D, logRatio);
+    godEquationState.currentPoint.material.color.setHex(pointColor);
+    godEquationState.currentPoint.material.emissive.setHex(pointColor);
+    godEquationState.currentPoint.material.emissiveIntensity = isPhysical ? 2.5 : 1.5;
+
+    var linePoints = [
+      new THREE.Vector3(N, D, -3),
+      new THREE.Vector3(N, D, logRatio)
+    ];
+    godEquationState.currentLine.geometry.setFromPoints(linePoints);
+    godEquationState.currentLine.material.color.setHex(pointColor);
+  }
+
+  function animateGodEquation() {
+    if (!godEquationState.scene) return;
+    godEquationState.animFrameId = requestAnimationFrame(animateGodEquation);
+    if (godEquationState.controls) {
+      godEquationState.controls.update();
+    }
+    if (godEquationState.composer) {
+      godEquationState.composer.render();
+    }
   }
 
   function refreshGodEquation() {
@@ -638,31 +912,17 @@
     var geError = document.getElementById("ge-error");
     var N = godEquationState.currentN;
     var D = godEquationState.currentD;
-    var lP = 1.616e-35;
-    var b0 = 16 / 3;
-    var exponent = (4 * Math.PI * Math.PI * Math.pow(N, D / 2)) / b0;
-    var lambdaC = Math.sqrt(2) * lP * Math.exp(exponent);
+    var lambdaC = godEquationComputeLambda(N, D);
     var observed = 1.14e-18;
     var error = Math.abs(lambdaC - observed) / observed * 100;
 
     godEquationState.currentLambda = lambdaC;
-    
-    // Reset animation when values change
     godEquationState.animationTime = 0;
-    godEquationState.rgCurve = [];
 
-    if (nValue) {
-      nValue.textContent = N;
-    }
-    if (dValue) {
-      dValue.textContent = D;
-    }
-    if (geResult) {
-      geResult.textContent = "Predicted: " + lambdaC.toExponential(3) + " m";
-    }
-    if (geObserved) {
-      geObserved.textContent = "Observed: " + observed.toExponential(3) + " m";
-    }
+    if (nValue) nValue.textContent = N;
+    if (dValue) dValue.textContent = D;
+    if (geResult) geResult.textContent = "Predicted: " + lambdaC.toExponential(3) + " m";
+    if (geObserved) geObserved.textContent = "Observed: " + observed.toExponential(3) + " m";
     if (geError) {
       if (N === 3 && D === 3) {
         geError.textContent = "Status: CONDITIONAL 0.88 • numerical anchor error " + error.toFixed(1) + "%";
@@ -673,220 +933,21 @@
       }
     }
 
-    renderGodEquation(N, D, lambdaC);
+    ensureGodEquationAnimation();
+    if (!godEquationState.scene) {
+      initGodEquationThreeJS();
+    } else {
+      updateGodEquationPoint(N, D, lambdaC);
+    }
   }
 
   function renderGodEquation(N, D, lambdaC) {
-    var canvas = document.getElementById("god-equation-canvas");
-    if (!canvas || !godEqCtx) {
-      return;
-    }
-
-    var ctx = godEqCtx;
-    var w = canvas.width;
-    var h = canvas.height;
-    var minLog = -40;
-    var maxLog = 5;
-    var scaleY = (h - 100) / (maxLog - minLog);
-    var scales = [
-      { label: "Planck", value: -35 },
-      { label: "GUT", value: -25 },
-      { label: "Matter", value: -18 },
-      { label: "Atomic", value: -10 },
-      { label: "Human", value: 0 }
-    ];
-
-    // Clear canvas with fade effect
-    ctx.fillStyle = "rgba(15, 15, 31, 0.95)";
-    ctx.fillRect(0, 0, w, h);
-
-    // Draw grid
-    ctx.strokeStyle = "#222";
-    ctx.lineWidth = 1;
-    for (let i = minLog; i <= maxLog; i += 5) {
-      const y = h - 50 - (i - minLog) * scaleY;
-      ctx.beginPath();
-      ctx.moveTo(80, y);
-      ctx.lineTo(w - 20, y);
-      ctx.stroke();
-    }
-
-    // Draw axis
-    ctx.strokeStyle = "#444";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(80, 50);
-    ctx.lineTo(80, h - 50);
-    ctx.stroke();
-
-    // Draw scale labels
-    scales.forEach(function (scale) {
-      var y = h - 50 - (scale.value - minLog) * scaleY;
-
-      ctx.beginPath();
-      ctx.moveTo(70, y);
-      ctx.lineTo(80, y);
-      ctx.strokeStyle = "#666";
-      ctx.stroke();
-
-      ctx.fillStyle = "#888";
-      ctx.font = "12px sans-serif";
-      ctx.textAlign = "right";
-      ctx.fillText("10^" + scale.value + " m", 65, y + 4);
-      ctx.fillText(scale.label, 65, y - 8);
-    });
-
-    // Calculate and draw RG running curve
-    if (!godEquationState.isAnimating) {
-      godEquationState.isAnimating = true;
-      animateRGCurve();
-    }
-
-    // Draw the RG curve
-    drawRGCurve(ctx, w, h, minLog, scaleY);
-
-    // Calculate positions
-    var predictedY = h - 50 - (Math.log10(lambdaC) - minLog) * scaleY;
-    var observedY = h - 50 - (Math.log10(1.14e-18) - minLog) * scaleY;
-    var activeColor = N === 3 && D === 3 ? "#44ff88" : "#ff5555";
-
-    // Draw predicted point with glow
-    const glowSize = 15 + Math.sin(godEquationState.animationTime * 0.003) * 5;
-    const gradient = ctx.createRadialGradient(150, predictedY, 0, 150, predictedY, glowSize);
-    gradient.addColorStop(0, activeColor);
-    gradient.addColorStop(0.5, activeColor + "80");
-    gradient.addColorStop(1, "transparent");
-    
-    ctx.beginPath();
-    ctx.arc(150, predictedY, glowSize, 0, Math.PI * 2);
-    ctx.fillStyle = gradient;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(150, predictedY, 8, 0, Math.PI * 2);
-    ctx.fillStyle = activeColor;
-    ctx.shadowColor = activeColor;
-    ctx.shadowBlur = 15;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // Draw observed point with pulsing effect
-    const pulseSize = 8 + Math.sin(godEquationState.animationTime * 0.005) * 2;
-    ctx.beginPath();
-    ctx.arc(250, observedY, pulseSize, 0, Math.PI * 2);
-    ctx.fillStyle = "#00cfff";
-    ctx.shadowColor = "#00cfff";
-    ctx.shadowBlur = 10;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // Draw connection line with animation
-    const dashOffset = (godEquationState.animationTime / 20) % 10;
-    ctx.setLineDash([5, 5]);
-    ctx.lineDashOffset = -dashOffset;
-    ctx.beginPath();
-    ctx.moveTo(150, predictedY);
-    ctx.lineTo(250, observedY);
-    ctx.strokeStyle = activeColor;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Labels
-    ctx.fillStyle = "#fff";
-    ctx.font = "11px sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText("Prediction (N=" + N + ", D=" + D + ")", 165, predictedY + 4);
-    ctx.fillText("Observed matter scale", 265, observedY + 4);
-
-    // Formula
-    ctx.fillStyle = "#888";
-    ctx.font = "11px monospace";
-    ctx.fillText("λ_c = √2 · l_P · exp(4π² N^(D/2) / b₀)", 20, 30);
-    
-    // Highlight physical window
-    if (N === 3 && D === 3) {
-      // Draw habitable window
-      ctx.fillStyle = "rgba(68, 255, 136, 0.05)";
-      ctx.fillRect(0, observedY - 40, w, 80);
-      
-      ctx.strokeStyle = "rgba(68, 255, 136, 0.3)";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(0, observedY - 40, w, 80);
-      
-      ctx.fillStyle = "#44ff88";
-      ctx.font = "bold 14px sans-serif";
-      ctx.fillText("✓ Physical Point: Only (3,3) lands in habitable window", 20, observedY + 80);
-      
-      // Error indicator
-      const error = Math.abs(lambdaC - 1.14e-18) / 1.14e-18 * 100;
-      ctx.fillStyle = "#ffdd55";
-      ctx.font = "12px sans-serif";
-      ctx.fillText("Numerical anchor error: " + error.toFixed(1) + "%", 20, observedY + 100);
-    } else {
-      ctx.fillStyle = "#ffaa00";
-      ctx.font = "bold 14px sans-serif";
-      ctx.fillText("✗ Outside physical window", 20, observedY + 80);
-    }
-
-    // Continue animation
-    godEquationState.animationTime++;
-    if (godEquationState.isAnimating) {
-      requestAnimationFrame(() => renderGodEquation(N, D, lambdaC));
-    }
+    refreshGodEquation();
   }
 
-  function drawRGCurve(ctx, w, h, minLog, scaleY) {
-    if (godEquationState.rgCurve.length === 0) {
-      // Initialize RG curve points
-      for (let mu = -35; mu <= 5; mu += 0.5) {
-        const energy = Math.pow(10, mu);
-        // Simplified RG running: α(μ) = α₀ / (1 - (α₀/2π) * ln(μ/μ₀))
-        const alpha0 = 1/137;
-        const mu0 = 1.14e-18;
-        const alpha = alpha0 / (1 - (alpha0 / (2 * Math.PI)) * Math.log(energy / mu0));
-        godEquationState.rgCurve.push({ mu, alpha });
-      }
-    }
+  function drawRGCurve(ctx, w, h, minLog, scaleY) {}
 
-    // Draw the curve
-    ctx.strokeStyle = "rgba(0, 207, 255, 0.6)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    
-    godEquationState.rgCurve.forEach((point, i) => {
-      const x = 100 + (i / godEquationState.rgCurve.length) * (w - 120);
-      const y = h - 50 - (Math.log10(point.alpha * 1e-10) - minLog) * scaleY;
-      
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    });
-    
-    ctx.stroke();
-
-    // Draw moving point on curve
-    const progress = (godEquationState.animationTime % 200) / 200;
-    const index = Math.floor(progress * (godEquationState.rgCurve.length - 1));
-    const point = godEquationState.rgCurve[index];
-    const x = 100 + (index / godEquationState.rgCurve.length) * (w - 120);
-    const y = h - 50 - (Math.log10(point.alpha * 1e-10) - minLog) * scaleY;
-    
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fillStyle = "#00cfff";
-    ctx.shadowColor = "#00cfff";
-    ctx.shadowBlur = 10;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  }
-
-  function animateRGCurve() {
-    // This function can be expanded to add more complex RG flow animations
-    // For now, the animation is handled in renderGodEquation
-  }
+  function animateRGCurve() {}
 
   function initAct4() {
     populateAct4();
@@ -1025,6 +1086,17 @@
       .replace(/'/g, "&#39;");
   }
 
+  function resizeGodEquation() {
+    var container = document.getElementById("god-equation-container");
+    if (!container || !godEquationState.renderer) return;
+    var w = container.clientWidth || 640;
+    var h = container.clientHeight || 480;
+    godEquationState.camera.aspect = w / h;
+    godEquationState.camera.updateProjectionMatrix();
+    godEquationState.renderer.setSize(w, h);
+    godEquationState.composer.setSize(w, h);
+  }
+
   window.addEventListener("resize", function () {
     if (currentSection === "act1") {
       ensureBohrAnimation();
@@ -1035,11 +1107,7 @@
     }
     if (currentSection === "act3") {
       ensureGodEquationAnimation();
-      renderGodEquation(
-        godEquationState.currentN,
-        godEquationState.currentD,
-        godEquationState.currentLambda
-      );
+      resizeGodEquation();
     }
   });
 })();

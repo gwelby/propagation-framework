@@ -65,7 +65,7 @@
           <div class="result-label">Result</div>
           <div class="result-item">r_k = 2k²</div>
           <div class="result-item">E_k = -1/(4k²)</div>
-          <div class="result-highlight">Status: CONDITIONAL in the circular-eikonal Coulomb model</div>
+          <div class="result-highlight">Status: CONDITIONAL (circular-eikonal)</div>
         </div>
         
         <div class="revelation-box">
@@ -148,15 +148,7 @@
     </div>
     
     <div class="interactive-container">
-      <div class="scale-visual">
-        <canvas id="god-equation-canvas"></canvas>
-        <div class="scale-bar">
-          <div class="scale-marker" data-scale="planck">Planck<br>10⁻³⁵ m</div>
-          <div class="scale-marker" data-scale="matter">Matter<br>10⁻¹⁸ m</div>
-          <div class="scale-marker" data-scale="atomic">Atomic<br>10⁻¹⁰ m</div>
-          <div class="scale-marker" data-scale="human">Human<br>10⁰ m</div>
-        </div>
-      </div>
+      <div class="scale-visual" id="god-equation-container"></div>
       
       <div class="explanation-panel">
         <div class="slider-control">
@@ -176,7 +168,7 @@
           <div class="equation">λ_c = √2 · l_P · exp(4π² N^(D/2) / b₀)</div>
           <div class="result-item" id="ge-result">Predicted: 1.145 × 10⁻¹⁸ m</div>
           <div class="result-item" id="ge-observed">Observed: 1.14 × 10⁻¹⁸ m</div>
-          <div class="result-highlight" id="ge-error">Status: CONDITIONAL • 0.4% numerical anchor</div>
+          <div class="result-highlight" id="ge-error">Status: CONDITIONAL 0.88 • 0.4% numerical anchor</div>
         </div>
         
         <div class="revelation-box">
@@ -344,6 +336,13 @@
 
   <script src="data.js"></script>
   <script src="truth-utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/CopyShader.js"></script>
   <script src="journey.js"></script>
 </body>
 </html>

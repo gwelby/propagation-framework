@@ -26,8 +26,8 @@
               "<div class=\"panel-header\">" +
                 "<div>" +
                   "<p class=\"eyebrow\">Refraction Sandbox</p>" +
-                  "<h3>EM and gravity share one local bending story.</h3>" +
-                  "<p>Drag sources, add attractors or repellers, and watch eikonal rays and Newton-style probes bend through the same field.</p>" +
+                  "<h3>Gravity is the exact theorem; this panel extends it as a sandbox lens story.</h3>" +
+                  "<p>Drag sources, add attractors or repellers, and watch eikonal rays plus Newton-style probes bend through the same normalized field toy.</p>" +
                 "</div>" +
               "</div>" +
               "<div class=\"controls-row\" id=\"refractionControls\"></div>" +
@@ -149,8 +149,8 @@
         ? "sandbox lens: n^2 = 1 + gain * sum(M / r)"
         : "sandbox lens: n^2 = gain + sum(q / r)";
       var bridge = state.mode === "gravity"
-        ? "Story bridge: the same local refractive gradient that bends EM rays can be re-used at planetary scale."
-        : "Story bridge: opposite signs turn the same local lens law from attraction into repulsion.";
+        ? "Exact claim: null gravity maps to optical geometry; this sandbox reuses that intuition in a normalized lens field."
+        : "Sandbox analogy: opposite signs turn the same local lens law from attraction into repulsion.";
 
       state.info.innerHTML =
         "<div class=\"panel-header\">" +
