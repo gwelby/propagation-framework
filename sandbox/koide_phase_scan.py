@@ -27,6 +27,9 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import warnings
 warnings.filterwarnings('ignore')
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ─────────────────────────────────────────────────────────────
 # PHYSICAL CONSTANTS
@@ -654,7 +657,7 @@ def make_figure(delta_exact, dscan, ms_scan, valid, d_uct, d_dsb,
     fig.suptitle('Koide Phase Scan — What Selects δ₀ ≈ 2/9 rad?',
                  fontsize=15, fontweight='bold', color='#eef4ff', y=0.97)
 
-    outpath = '/mnt/d/Fundamentals/sandbox/koide_phase_scan.png'
+    outpath = OUTPUT_DIR / 'koide_phase_scan.png'
     plt.savefig(outpath, dpi=150, bbox_inches='tight', facecolor=BG)
     print(f"Figure saved: {outpath}")
     plt.close(fig)
@@ -685,7 +688,7 @@ def main():
     print(f"\n  δ_exact   = {delta_exact:.12f} rad")
     print(f"  2/9 rad   = {2/9:.12f} rad  (reference)")
     print(f"  |δ - 2/9| = {abs(delta_exact - 2/9):.4e}  ({abs(delta_exact-2/9)/(2/9)*100:.6f}%)")
-    print(f"\n  Output: /mnt/d/Fundamentals/sandbox/koide_phase_scan.png")
+    print(f"\n  Output: {OUTPUT_DIR / 'koide_phase_scan.png'}")
 
 
 if __name__ == '__main__':

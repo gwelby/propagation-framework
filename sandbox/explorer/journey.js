@@ -9,26 +9,7 @@
   var sections = ["opening", "act1", "act2", "act3", "act4", "epilogue"];
   var truth = window.PFExplorerTruth || window.PFTruth;
 
-  var bohrCtx = null;
-  var generationsCtx = null;
   var godEqCtx = null;
-
-  var bohrState = {
-    started: false,
-    electron: null,
-    orbits: [],
-    wavePackets: [],
-    phaseAccumulation: 0,
-    showPhaseClosure: true
-  };
-
-  var generationsState = {
-    started: false,
-    rotation: 0,
-    isDragging: false,
-    lastX: 0,
-    currentN: 3
-  };
 
   var godEquationState = {
     started: false,
@@ -71,7 +52,6 @@
     initNavigation();
     initOpening();
     initAct1();
-    initAct2();
     initAct3();
     initAct4();
     initEpilogue();
@@ -114,12 +94,14 @@
     updateProgress();
 
     if (sectionId === "act1") {
-      ensureBohrAnimation();
+      ensureAct1Animation();
+    } else {
+      if (act1State.animFrameId) {
+        cancelAnimationFrame(act1State.animFrameId);
+        act1State.animFrameId = null;
+      }
     }
-    if (sectionId === "act2") {
-      ensureGenerationsAnimation();
-      renderGenerationsScene(generationsState.currentN);
-    }
+
     if (sectionId === "act3") {
       ensureGodEquationAnimation();
       refreshGodEquation();
@@ -168,447 +150,64 @@
     }, 500);
   }
 
+  var act1State = {
+    started: false,
+    animFrameId: null,
+    selectedN: 3
+  };
+
   function initAct1() {
-    var canvas = document.getElementById("bohr-canvas");
-    if (!canvas) {
-      return;
+    if (!window.PFRealityVisuals) return;
+
+    var gravityCanvas = document.getElementById('rvGravityJourney');
+    if (gravityCanvas) {
+      window.PFRealityVisuals.drawGravityRefraction(gravityCanvas);
     }
 
-    bohrCtx = canvas.getContext("2d");
-    bohrState.orbits = buildBohrOrbits();
-    bohrState.electron = {
-      phase: 0,
-      targetOrbit: bohrState.orbits[0]
-    };
-  }
-
-  function buildBohrOrbits() {
-    var orbits = [];
-    // Include both integer and non-integer orbits to show phase closure
-    for (var k = 1; k <= 4; k += 0.5) {
-      orbits.push({
-        k: k,
-        radius: 2 * k * k,
-        energy: -1 / (4 * k * k),
-        phase: 0,
-        isInteger: k === Math.floor(k)
-      });
-    }
-    return orbits;
-  }
-
-  function ensureBohrAnimation() {
-    var canvas = document.getElementById("bohr-canvas");
-    if (!canvas || bohrState.started) {
-      if (canvas) {
-        resizeCanvas(canvas);
-      }
-      return;
-    }
-
-    resizeCanvas(canvas);
-    bohrState.started = true;
-
-    canvas.addEventListener("click", function (event) {
-      var rect = canvas.getBoundingClientRect();
-      var localX = event.clientX - rect.left - canvas.width / 2;
-      var localY = event.clientY - rect.top - canvas.height / 2;
-      var dist = Math.max(1, Math.sqrt(localX * localX + localY * localY));
-      var scale = bohrOrbitScreenScale(canvas);
-
-      var closestOrbit = bohrState.orbits.reduce(function (best, orbit) {
-        return Math.abs(dist - orbit.radius * scale) < Math.abs(dist - best.radius * scale)
-          ? orbit
-          : best;
-      }, bohrState.orbits[0]);
-
-      bohrState.electron = {
-        phase: 0,
-        targetOrbit: closestOrbit
-      };
-    });
-
-    requestAnimationFrame(animateBohr);
-  }
-
-  function bohrOrbitScreenScale(canvas) {
-    return Math.min(canvas.width, canvas.height) * 0.08;
-  }
-
-  function animateBohr() {
-    var canvas = document.getElementById("bohr-canvas");
-    if (!canvas || !bohrCtx) {
-      return;
-    }
-
-    var ctx = bohrCtx;
-    var w = canvas.width;
-    var h = canvas.height;
-    var cx = w / 2;
-    var cy = h / 2;
-    var scale = bohrOrbitScreenScale(canvas);
-
-    // Clear canvas with fade effect
-    ctx.fillStyle = "rgba(15, 15, 31, 0.95)";
-    ctx.fillRect(0, 0, w, h);
-
-    // Draw nucleus with pulsing effect
-    const nucleusPulse = Math.sin(Date.now() * 0.002) * 2 + 8;
-    ctx.beginPath();
-    ctx.arc(cx, cy, nucleusPulse, 0, Math.PI * 2);
-    ctx.fillStyle = "#ff5555";
-    ctx.shadowColor = "#ff5555";
-    ctx.shadowBlur = 18 + Math.sin(Date.now() * 0.003) * 5;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // Draw nucleus glow layers
-    for (let i = 3; i > 0; i--) {
-      ctx.beginPath();
-      ctx.arc(cx, cy, nucleusPulse + i * 5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 85, 85, ${0.1 / i})`;
-      ctx.fill();
-    }
-
-    // Draw orbits and wave packets
-    bohrState.orbits.forEach(function (orbit) {
-      var screenRadius = orbit.radius * scale;
-      var isActive = bohrState.electron && bohrState.electron.targetOrbit.k === orbit.k;
-      var isInteger = orbit.k === Math.floor(orbit.k);
-
-      // Draw orbit path
-      ctx.beginPath();
-      ctx.arc(cx, cy, screenRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = isActive ? "#44ff88" : "#333";
-      ctx.lineWidth = isActive ? 3 : 1;
-      ctx.stroke();
-
-      // Draw wave packet if active
-      if (isActive && bohrState.showPhaseClosure) {
-        // Create wave packet visualization
-        var wavePoints = 100;
-        var wavelength = (2 * Math.PI * screenRadius) / (orbit.k * 4);
-        
-        ctx.beginPath();
-        for (var i = 0; i <= wavePoints; i++) {
-          var angle = (i / wavePoints) * Math.PI * 2;
-          var waveX = cx + Math.cos(angle) * screenRadius;
-          var waveY = cy + Math.sin(angle) * screenRadius;
-          
-          // Wave amplitude based on phase closure
-          var phase = (angle * orbit.k) + orbit.phase;
-          var amplitude = isInteger ? 15 : 5;
-          var waveOffset = Math.sin(phase) * amplitude;
-          
-          waveX += Math.cos(angle) * waveOffset;
-          waveY += Math.sin(angle) * waveOffset;
-          
-          if (i === 0) {
-            ctx.moveTo(waveX, waveY);
-          } else {
-            ctx.lineTo(waveX, waveY);
-          }
-        }
-        
-        ctx.closePath();
-        ctx.strokeStyle = isInteger ? "rgba(68, 255, 136, 0.6)" : "rgba(255, 170, 0, 0.3)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // Fill wave for integer orbits (constructive interference)
-        if (isInteger) {
-          ctx.fillStyle = "rgba(68, 255, 136, 0.1)";
-          ctx.fill();
-        }
-
-        // Update phase for animation
-        orbit.phase += 0.05;
-        
-        // Draw phase accumulation indicator
-        var phaseClosure = (orbit.phase % (2 * Math.PI)) / (2 * Math.PI);
-        ctx.beginPath();
-        ctx.arc(cx, cy, 5, 0, phaseClosure * Math.PI * 2);
-        ctx.strokeStyle = "#00cfff";
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      }
-    });
-
-    // Draw electron as wave packet
-    if (bohrState.electron && bohrState.electron.targetOrbit) {
-      var activeOrbit = bohrState.electron.targetOrbit;
-      var radius = activeOrbit.radius * scale;
-      bohrState.electron.phase += 0.08;
-      var ex = cx + Math.cos(bohrState.electron.phase) * radius;
-      var ey = cy + Math.sin(bohrState.electron.phase) * radius;
-
-      // Electron trail effect
-      for (let i = 5; i > 0; i--) {
-        const trailPhase = bohrState.electron.phase - i * 0.1;
-        const trailX = cx + Math.cos(trailPhase) * radius;
-        const trailY = cy + Math.sin(trailPhase) * radius;
-        
-        ctx.beginPath();
-        ctx.arc(trailX, trailY, 4 - i * 0.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 207, 255, ${0.1 * (6 - i) / 6})`;
-        ctx.fill();
-      }
-
-      // Electron wave packet with gradient
-      var gradient = ctx.createRadialGradient(ex, ey, 0, ex, ey, 20);
-      gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-      gradient.addColorStop(0.2, "rgba(0, 207, 255, 1)");
-      gradient.addColorStop(0.5, "rgba(0, 207, 255, 0.5)");
-      gradient.addColorStop(1, "rgba(0, 207, 255, 0)");
+    var genCanvas = document.getElementById('rvGenJourney');
+    if (genCanvas) {
+      window.PFRealityVisuals.drawTopologyDiagram(genCanvas, act1State.selectedN, act1State.selectedN);
       
-      ctx.beginPath();
-      ctx.arc(ex, ey, 20, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-      
-      // Core particle with glow
-      ctx.beginPath();
-      ctx.arc(ex, ey, 6, 0, Math.PI * 2);
-      ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "#00cfff";
-      ctx.shadowBlur = 20;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      
-      // Wave function visualization
-      ctx.strokeStyle = "rgba(0, 207, 255, 0.3)";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([5, 5]);
-      ctx.beginPath();
-      ctx.arc(ex, ey, 25, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
-
-    // Draw energy level diagram
-    ctx.fillStyle = "#888";
-    ctx.font = "12px monospace";
-    ctx.textAlign = "right";
-    bohrState.orbits.forEach(function (orbit, index) {
-      var y = h - 30 - index * 25;
-      var isInteger = orbit.k === Math.floor(orbit.k);
-      var isActive = bohrState.electron && bohrState.electron.targetOrbit.k === orbit.k;
-      
-      // Energy level line
-      ctx.beginPath();
-      ctx.moveTo(w - 150, y - 8);
-      ctx.lineTo(w - 20, y - 8);
-      ctx.strokeStyle = isActive ? "#44ff88" : isInteger ? "#666" : "#444";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      
-      // Energy text
-      ctx.fillStyle = isActive ? "#44ff88" : isInteger ? "#aaa" : "#666";
-      ctx.fillText("k=" + orbit.k + ": E = " + orbit.energy.toFixed(4), w - 160, y);
-      
-      // Phase closure indicator
-      if (isActive && isInteger) {
-        ctx.fillStyle = "#44ff88";
-        ctx.fillText("✓ Phase closure", w - 160, y + 15);
-      } else if (isActive && !isInteger) {
-        ctx.fillStyle = "#ffaa00";
-        ctx.fillText("✗ No closure", w - 160, y + 15);
-      }
-    });
-
-    // Phase accumulation display
-    if (bohrState.electron && bohrState.electron.targetOrbit) {
-      var activeOrbit = bohrState.electron.targetOrbit;
-      var phase = (bohrState.electron.phase * activeOrbit.k) % (2 * Math.PI);
-      var closurePercent = (phase / (2 * Math.PI)) * 100;
-      
-      ctx.fillStyle = "#00cfff";
-      ctx.font = "14px monospace";
-      ctx.textAlign = "left";
-      ctx.fillText("Phase Accumulation: " + closurePercent.toFixed(1) + "%", 20, 30);
-      
-      // Phase bar
-      ctx.fillStyle = "#333";
-      ctx.fillRect(20, 40, 200, 10);
-      ctx.fillStyle = "#00cfff";
-      ctx.fillRect(20, 40, (closurePercent / 100) * 200, 10);
-      
-      // Axiom 3 display
-      ctx.fillStyle = "#888";
-      ctx.font = "12px monospace";
-      ctx.fillText("∮ n·ds = 2πk (Axiom 3)", 20, 70);
-    }
-
-    requestAnimationFrame(animateBohr);
-  }
-
-  function initAct2() {
-    var canvas = document.getElementById("generations-canvas");
-    var slider = document.getElementById("n-slider");
-    if (!canvas || !slider) {
-      return;
-    }
-
-    generationsCtx = canvas.getContext("2d");
-    generationsState.currentN = parseInt(slider.value, 10);
-
-    slider.addEventListener("input", function () {
-      generationsState.currentN = parseInt(slider.value, 10);
-      refreshGenerationsText();
-      if (currentSection === "act2") {
-        renderGenerationsScene(generationsState.currentN);
-      }
-    });
-
-    refreshGenerationsText();
-  }
-
-  function ensureGenerationsAnimation() {
-    var canvas = document.getElementById("generations-canvas");
-    if (!canvas) {
-      return;
-    }
-
-    resizeCanvas(canvas);
-    if (generationsState.started) {
-      return;
-    }
-
-    generationsState.started = true;
-
-    canvas.addEventListener("mousedown", function (event) {
-      generationsState.isDragging = true;
-      generationsState.lastX = event.clientX;
-    });
-
-    canvas.addEventListener("mousemove", function (event) {
-      if (!generationsState.isDragging) {
-        return;
-      }
-      generationsState.rotation += (event.clientX - generationsState.lastX) * 0.02;
-      generationsState.lastX = event.clientX;
-    });
-
-    ["mouseup", "mouseleave"].forEach(function (type) {
-      canvas.addEventListener(type, function () {
-        generationsState.isDragging = false;
-      });
-    });
-
-    requestAnimationFrame(animateGenerations);
-  }
-
-  function refreshGenerationsText() {
-    var nValue = document.getElementById("n-value");
-    var qResult = document.getElementById("q-result");
-    var lockIndicator = document.getElementById("lock-indicator");
-    var N = generationsState.currentN;
-    var qValue = (2 * N) / (2 * N + 3);
-
-    if (nValue) {
-      nValue.textContent = N;
-    }
-
-    if (qResult) {
-      qResult.textContent = "Q(" + N + ") = " + (2 * N) + "/" + (2 * N + 3) + " = " + qValue.toFixed(6);
-    }
-
-    if (lockIndicator) {
-      if (N === 3) {
-        lockIndicator.style.display = "block";
-        lockIndicator.textContent = "CONDITIONAL (algebra locks at N=3)";
-      } else {
-        lockIndicator.style.display = "block";
-        lockIndicator.textContent = "Misses the audited Koide target";
+      var selector = document.getElementById('genNSelectorJourney');
+      if (selector) {
+        selector.querySelectorAll('.gen-n-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var n = Number(btn.getAttribute('data-n'));
+            act1State.selectedN = n;
+            selector.querySelectorAll('.gen-n-btn').forEach(function (b) {
+              b.classList.toggle('active', b.getAttribute('data-n') === String(n));
+            });
+            window.PFRealityVisuals.drawTopologyDiagram(genCanvas, n, n);
+          });
+        });
       }
     }
   }
 
-  function animateGenerations() {
-    if (currentSection === "act2" || generationsState.started) {
-      if (!generationsState.isDragging) {
-        generationsState.rotation += 0.005;
+  function ensureAct1Animation() {
+    if (!window.PFRealityVisuals) return;
+
+    var gravityCanvas = document.getElementById('rvGravityJourney');
+    if (gravityCanvas) {
+      window.PFRealityVisuals.drawGravityRefraction(gravityCanvas);
+    }
+
+    var genCanvas = document.getElementById('rvGenJourney');
+    if (genCanvas) {
+      window.PFRealityVisuals.drawTopologyDiagram(genCanvas, act1State.selectedN, act1State.selectedN);
+    }
+    
+    function animate() {
+      var matterCanvas = document.getElementById('rvMatterJourney');
+      if (matterCanvas && currentSection === "act1") {
+        window.PFRealityVisuals.drawParticleVsWave(matterCanvas);
+        act1State.animFrameId = requestAnimationFrame(animate);
       }
-      renderGenerationsScene(generationsState.currentN);
     }
-
-    requestAnimationFrame(animateGenerations);
-  }
-
-  function renderGenerationsScene(N) {
-    var canvas = document.getElementById("generations-canvas");
-    if (!canvas || !generationsCtx) {
-      return;
+    
+    if (!act1State.animFrameId && currentSection === "act1") {
+      animate();
     }
-
-    var ctx = generationsCtx;
-    var w = canvas.width;
-    var h = canvas.height;
-    var cx = w / 2;
-    var cy = h / 2;
-    var radius = Math.min(w, h) * 0.25;
-
-    ctx.fillStyle = "#0f0f1f";
-    ctx.fillRect(0, 0, w, h);
-
-    ctx.save();
-    ctx.translate(cx, cy);
-
-    for (var i = 0; i < 3; i += 1) {
-      var angle = i * 2 * Math.PI / 3 + generationsState.rotation;
-      var x = Math.cos(angle) * radius;
-      var y = Math.sin(angle) * radius;
-      var active = i < Math.min(N, 3);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = active ? "#00cfff" : "#333";
-      ctx.lineWidth = active ? 3 : 1;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(x, y, active ? 12 : 8, 0, Math.PI * 2);
-      ctx.fillStyle = active ? "#00cfff" : "#444";
-      if (active) {
-        ctx.shadowColor = "#00cfff";
-        ctx.shadowBlur = 15;
-      }
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      ctx.fillStyle = active ? "#fff" : "#666";
-      ctx.font = "14px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(active ? ["e", "μ", "τ"][i] : "?", x * 1.2, y * 1.2);
-    }
-
-    for (var arcIndex = 0; arcIndex < 3; arcIndex += 1) {
-      var startAngle = arcIndex * 2 * Math.PI / 3;
-      var endAngle = (arcIndex + 1) * 2 * Math.PI / 3;
-
-      ctx.beginPath();
-      ctx.arc(0, 0, radius * 0.5, startAngle, endAngle);
-      ctx.strokeStyle = "#44ff88";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([5, 5]);
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
-
-    ctx.fillStyle = "#888";
-    ctx.font = "12px monospace";
-    ctx.textAlign = "center";
-    ctx.fillText("π₁(SO(3)) ≅ ℤ₂", 0, -radius - 30);
-    ctx.fillText("(2,1) closure orders: partial theorem, not full physical realization", 0, -radius - 10);
-    ctx.restore();
-
-    ctx.fillStyle = "#888";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText("Q(N) = 2N / (2N + 3) hits 2/3 only at N = 3.", 20, h - 40);
-    ctx.fillText("That algebraic lock becomes physical only when the numerator and denominator theorems close.", 20, h - 20);
   }
 
   function initAct3() {
@@ -675,22 +274,33 @@
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
 
-    var composer = new THREE.EffectComposer(renderer);
-    var renderPass = new THREE.RenderPass(scene, camera);
-    composer.addPass(renderPass);
+    // Provide a fallback if EffectComposer isn't properly loaded via CDN/vendor
+    var composer;
+    if (THREE.EffectComposer && THREE.RenderPass && THREE.UnrealBloomPass) {
+        composer = new THREE.EffectComposer(renderer);
+        var renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
 
-    var bloomPass = new THREE.UnrealBloomPass(
-      new THREE.Vector2(w, h), 0.8, 0.4, 0.85
-    );
-    composer.addPass(bloomPass);
+        var bloomPass = new THREE.UnrealBloomPass(
+          new THREE.Vector2(w, h), 0.8, 0.4, 0.85
+        );
+        composer.addPass(bloomPass);
+        godEquationState.composer = composer;
+    }
 
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.minDistance = 5;
-    controls.maxDistance = 30;
-    controls.target.set(3.5, 3, 0);
-    controls.update();
+    // Since OrbitControls might be a property of THREE or global
+    var OrbitControls = THREE.OrbitControls || window.OrbitControls;
+    var controls;
+    if (OrbitControls) {
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 5;
+        controls.maxDistance = 30;
+        controls.target.set(3.5, 3, 0);
+        controls.update();
+        godEquationState.controls = controls;
+    }
 
     var ambientLight = new THREE.AmbientLight(0x334466, 0.6);
     scene.add(ambientLight);
@@ -749,8 +359,6 @@
     godEquationState.scene = scene;
     godEquationState.camera = camera;
     godEquationState.renderer = renderer;
-    godEquationState.composer = composer;
-    godEquationState.controls = controls;
     godEquationState.surfaceMesh = surfaceMesh;
     godEquationState.currentPoint = currentPoint;
     godEquationState.currentLine = currentLine;
@@ -901,6 +509,8 @@
     }
     if (godEquationState.composer) {
       godEquationState.composer.render();
+    } else {
+      godEquationState.renderer.render(godEquationState.scene, godEquationState.camera);
     }
   }
 
@@ -940,14 +550,6 @@
       updateGodEquationPoint(N, D, lambdaC);
     }
   }
-
-  function renderGodEquation(N, D, lambdaC) {
-    refreshGodEquation();
-  }
-
-  function drawRGCurve(ctx, w, h, minLog, scaleY) {}
-
-  function animateRGCurve() {}
 
   function initAct4() {
     populateAct4();
@@ -1060,16 +662,6 @@
     });
   }
 
-  function resizeCanvas(canvas) {
-    if (!canvas || !canvas.parentElement) {
-      return;
-    }
-
-    var rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = Math.max(320, Math.floor(rect.width));
-    canvas.height = Math.min(500, Math.max(260, Math.floor(rect.width * 0.6)));
-  }
-
   function setText(id, value) {
     var node = document.getElementById(id);
     if (node) {
@@ -1094,17 +686,12 @@
     godEquationState.camera.aspect = w / h;
     godEquationState.camera.updateProjectionMatrix();
     godEquationState.renderer.setSize(w, h);
-    godEquationState.composer.setSize(w, h);
+    if (godEquationState.composer) {
+        godEquationState.composer.setSize(w, h);
+    }
   }
 
   window.addEventListener("resize", function () {
-    if (currentSection === "act1") {
-      ensureBohrAnimation();
-    }
-    if (currentSection === "act2") {
-      ensureGenerationsAnimation();
-      renderGenerationsScene(generationsState.currentN);
-    }
     if (currentSection === "act3") {
       ensureGodEquationAnimation();
       resizeGodEquation();

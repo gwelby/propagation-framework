@@ -161,6 +161,7 @@
           "</div>" +
           "<span class=\"status-pill status-derived\">" + result.status + "</span>" +
         "</div>" +
+        ctx.app.renderWrongIntuition(result) +
         "<div class=\"formula\">" + formula + "</div>" +
         "<div class=\"note-box story-only\"><strong>How to use it</strong><p>Click empty space to place a new source. Drag an existing source to reshape the field. Negative sources only apply in EM mode.</p></div>" +
         "<div class=\"note-box audit-only\"><strong>Audit note</strong><p>Repo truth still lives in the optical metric and Randers / Finsler bridge. This panel is a normalized sandbox, not a scheme-derivation for the full stationary metric.</p></div>" +

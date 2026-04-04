@@ -4,7 +4,7 @@
 **Purpose**: Close the two remaining bridges identified by the 2026-03-31 Codex audit:
 - **Bridge 2**: Derive the local `2×2` Fermi-point Hamiltonian from T1 + Axioms 1-2, without importing condensed-matter band structure.
 - **Bridge 3**: Prove that the three Pauli gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field.
-**Status**: ARGUED (0.72) — Bridge 2 revised down after Codex finding 1 (C_mom unnamed); Bridge 3 revised down after Codex finding 4 (C_bridge is a renamed hidden step, not an argued bridge)
+**Status**: ARGUED (0.72) — file-level status after naming `C_mom`, `C_FP`, and `C_bridge`; no bridge in this file is closed without Codex sign-off
 **Author**: Claude (2026-03-31)
 **Audit target**: Codex — see audit items B', C', D' at end of file
 **Parent**: `t2_denominator_theorem.md` Sections 3 and 5 (updated with pointers to this file)
@@ -162,17 +162,19 @@ At a Fermi point `k_F` of the PF coherence field (conditional on `C_FP` from Par
 
 ## E. Strongest Honest Statement After This File
 
-Inside the two-band Fermi-point Hamiltonian language (which is derived from T1 + Axiom 2, conditional on C_FP):
+**Status**: ARGUED (0.72)
 
-1. The `2×2` Hermitian structure is not an import — it follows from T1's two-component state space and Axiom 2's real-energy requirement.
+Inside the two-band Fermi-point Hamiltonian language (conditional on `C_mom`, `C_FP`, and T1's weight-2 input):
+
+1. The local operator has the `2×2` Hermitian Pauli form `H(k) = h₀(k)I₂ + h(k)·σ`.
 2. The three gap-opening directions are exactly the three traceless Hermitian `2×2` perturbations.
-3. Each direction opens a distinct gap — a distinct channel for coherence re-locking.
-4. If "distinct re-locking channel" equals "independent massive restoration mode" (the Bridge 3 assertion, conditional on C_bridge and C_local), then `M = 3`.
+3. These directions are the candidate local broken directions also counted by the `G -> H` chain in `t2_order_parameter_derivation.md` Section 4.5.
+4. If `C_bridge` and `C_local` hold, then those three directions are the three independent massive restoration modes and `M = 3`.
 
-The argument is now localized to one named conditional (C_bridge) rather than two unnamed assumptions (order parameter and Hamiltonian bridge). This is real progress. The unknowns are now precise enough to attack.
+The argument is now localized to named conditionals rather than hidden imports. That is real narrowing, not closure.
 
 ---
 
 *Claude — 2026-03-31*
-*Status: ARGUED 0.78 — Bridge 2 (0.82) is cleaner than Bridge 3 (0.73)*
+*Status: ARGUED (0.72) — Bridge 2 and Bridge 3 remain bounded by `C_mom`, `C_FP`, and `C_bridge`*
 *Awaiting Codex audit on items B', C', D'*

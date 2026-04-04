@@ -10,6 +10,9 @@
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   
+  <!-- Local Typography -->
+  <link rel="stylesheet" href="vendor/fonts.css">
+  
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fundamentals.physics/explorer/">
@@ -32,13 +35,7 @@
   <meta name="msapplication-TileColor" content="#0a0a1a">
   <meta name="application-name" content="Propagation Framework Explorer">
   <meta name="apple-mobile-web-app-title" content="PF Explorer">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
-  <!-- Performance & Security -->
-  <link rel="dns-prefetch" href="//fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
   <!-- Title -->
   <title>Propagation Framework Explorer | Interactive Physics Visualization</title>
@@ -51,6 +48,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="derivation.css">
   <link rel="stylesheet" href="derivation-graph.css">
+  <link rel="stylesheet" href="print.css" media="print">
   
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
@@ -75,6 +73,40 @@
   </script>
 </head>
 <body class="mode-story">
+  <!-- Visual Hook — Confrontation Overlay -->
+  <div id="visualHookOverlay" class="visual-hook-overlay" role="dialog" aria-modal="true" aria-labelledby="hook-title" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; inset: 0; background: var(--void); z-index: 9999; transition: opacity 0.5s ease; opacity: 0;">
+    <div class="vh-inner" style="max-width: 800px; padding: 40px; border: 1px solid rgba(200, 168, 255, 0.2); border-radius: 12px; background: var(--deep); box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);">
+      <div class="vh-content vh-confrontation">
+        <h1 class="vh-headline" style="color:var(--axiom); font-size: 3rem; margin-bottom: 24px; font-family: var(--headline);">YOUR MODEL OF REALITY IS WRONG.</h1>
+        <div class="vh-claims" style="font-size:1.4rem; margin:32px 0; color:var(--text); line-height: 1.8; font-family: var(--body);">
+          <p>Gravity isn't a pull. Matter isn't particles.</p>
+          <p>Three generations makes no sense.</p>
+          <p>The universe has no dark matter.</p>
+        </div>
+        <div class="vh-actions" style="margin-top: 40px;">
+          <button class="vh-cta" id="vhStartBtn" type="button" style="background:var(--axiom); color:var(--void); border: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: var(--ui);">
+            [But the math works. Explore why.]
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="vh-content">
+        <div class="vh-scale-label" id="vhScaleLabel">10⁰ m — Human</div>
+        <p class="vh-beat-text" id="vhBeatText">At your scale, reality looks solid.</p>
+      </div>
+      <div class="vh-progress-track" aria-hidden="true">
+        <div class="vh-progress-fill" id="vhProgressFill"></div>
+      </div>
+      <div class="vh-actions">
+        <button class="vh-skip-btn" id="vhSkipBtn" type="button">Skip →</button>
+      </div>
+      <div class="vh-zoom-hint" id="vhZoomHint">
+        <span>Zooming through 61 orders of magnitude</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Loading Screen -->
   <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite">
     <div class="loading-content">
@@ -88,6 +120,10 @@
 
   <!-- Skip to main content for accessibility -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Screen reader live region for dynamic announcements -->
+  <div id="srAnnouncer" class="sr-live sr-live--polite" aria-live="polite" aria-atomic="true"></div>
+  <div id="srAnnouncerAssertive" class="sr-live sr-live--assertive" aria-live="assertive" aria-atomic="true"></div>
 
   <!-- Background Effects -->
   <div class="shell-glow shell-glow-a" aria-hidden="true"></div>
@@ -127,6 +163,15 @@
           <button class="drawer-toggle" id="drawerToggle" type="button" aria-expanded="false" aria-controls="appDrawer">Evidence</button>
         </div>
         <div class="metric-stack" id="metricStack" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="rail-panel rail-a11y">
+        <div class="rail-panel-head">
+          <span>Accessibility</span>
+        </div>
+        <button id="highContrastToggle" class="chip-button a11y-btn" type="button" aria-pressed="false">
+          High Contrast
+        </button>
       </div>
 
       <nav class="route-nav" id="routeNav" aria-label="Explorer panels" role="tablist"></nav>
@@ -171,6 +216,16 @@
           Interactive axiom-to-result paths
         </p>
       </div>
+
+      <div class="rail-panel rail-playground">
+        <button id="playgroundBtn" class="playground-mode-btn" type="button" aria-describedby="playground-description">
+          <span class="playground-icon" aria-hidden="true">〰️</span>
+          <span>Propagation Lab</span>
+        </button>
+        <p id="playground-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
+          Click to spawn waves — see coherence emerge
+        </p>
+      </div>
     </aside>
 
     <main class="app-main" id="mainContent">
@@ -186,8 +241,8 @@
         </div>
         <div class="head-actions">
           <div class="head-chip" id="headChipA">3 axioms</div>
-          <div class="head-chip" id="headChipB">file:// ready</div>
-          <div class="head-chip" id="headChipC">0 network</div>
+          <div class="head-chip" id="headChipB">static shell</div>
+          <div class="head-chip" id="headChipC">browser native</div>
         </div>
       </header>
 
@@ -204,7 +259,7 @@
         </div>
         <button class="drawer-close" id="drawerClose" type="button" aria-label="Close evidence drawer">Close</button>
       </div>
-      <div class="drawer-body" id="drawerBody" role="region" aria-label="Evidence details"></div>
+      <div class="drawer-body" id="drawerBody" role="region" aria-label="Evidence details" aria-live="polite" aria-atomic="false"></div>
     </aside>
   </div>
 
@@ -218,18 +273,37 @@
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       window.addEventListener('load', () => {
         const perfData = performance.getEntriesByType('navigation')[0];
-        console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+        const loadTime = perfData && perfData.loadEventEnd >= perfData.fetchStart
+          ? perfData.loadEventEnd - perfData.fetchStart
+          : Math.round(performance.now());
+        console.log('Page Load Time:', loadTime, 'ms');
         
         // Monitor Core Web Vitals
-        new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            console.log(entry.name, entry.value);
-          }
-        }).observe({entryTypes: ['largest-contentful-paint', 'first-input', 'cumulative-layout-shift']});
+        const supportedEntries = Array.isArray(PerformanceObserver.supportedEntryTypes)
+          ? PerformanceObserver.supportedEntryTypes
+          : [];
+        const observedEntries = ['largest-contentful-paint', 'first-input', 'cumulative-layout-shift']
+          .filter((entryType) => supportedEntries.includes(entryType));
+
+        if (observedEntries.length) {
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              console.log(entry.name || entry.entryType, entry.value != null ? entry.value : entry.startTime);
+            }
+          }).observe({ entryTypes: observedEntries });
+        }
       });
     }
   </script>
 
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="vendor/EffectComposer.js"></script>
+  <script src="vendor/RenderPass.js"></script>
+  <script src="vendor/ShaderPass.js"></script>
+  <script src="vendor/CopyShader.js"></script>
+  <script src="vendor/LuminosityHighPassShader.js"></script>
+  <script src="vendor/UnrealBloomPass.js"></script>
   <script src="data.js"></script>
   <script src="core.js"></script>
   <script src="panels/hub.js"></script>
@@ -240,9 +314,74 @@
   <script src="panels/god-equation.js"></script>
   <script src="panels/bohr.js"></script>
   <script src="panels/dashboard.js"></script>
+  <script src="panels/consciousness.js"></script>
+  <script src="reality-correction.js"></script>
   <script src="derivation-graph.js"></script>
 
   <script>
+    /* ═══════════════════════════════════════════════════════════
+       CONFRONTATION OVERLAY — Static Hook
+       ═══════════════════════════════════════════════════════════ */
+    (function () {
+      const SESSION_KEY = 'pf_explorer_visited';
+      let overlayEl, startBtnEl;
+
+      function getOverlayElements() {
+        overlayEl = document.getElementById('visualHookOverlay');
+        startBtnEl = document.getElementById('vhStartBtn');
+      }
+
+      function closeOverlay() {
+        if (!overlayEl) return;
+        overlayEl.style.opacity = '0';
+        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+        setTimeout(() => {
+          overlayEl.style.display = 'none';
+        }, 500);
+      }
+
+      function init() {
+        getOverlayElements();
+        if (startBtnEl) {
+            startBtnEl.addEventListener('click', closeOverlay);
+            startBtnEl.addEventListener('mouseover', () => {
+                startBtnEl.style.transform = 'scale(1.05)';
+                startBtnEl.style.boxShadow = '0 0 20px rgba(200, 168, 255, 0.4)';
+            });
+            startBtnEl.addEventListener('mouseout', () => {
+                startBtnEl.style.transform = 'scale(1)';
+                startBtnEl.style.boxShadow = 'none';
+            });
+        }
+        
+        try {
+          if (!sessionStorage.getItem(SESSION_KEY)) {
+            if (overlayEl) {
+                overlayEl.style.display = 'flex';
+                setTimeout(() => {
+                    overlayEl.style.opacity = '1';
+                }, 100);
+            }
+          } else {
+            if (overlayEl) overlayEl.style.display = 'none';
+          }
+        } catch (e) {
+          if (overlayEl) {
+            overlayEl.style.display = 'flex';
+            setTimeout(() => {
+                overlayEl.style.opacity = '1';
+            }, 100);
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+
     // Loading screen management
     window.addEventListener('load', () => {
       const loadingScreen = document.getElementById('loadingScreen');
@@ -271,6 +410,11 @@
     // Derivation Chains button handler
     document.getElementById('derivationBtn').addEventListener('click', () => {
       window.location.href = 'derivation.html';
+    });
+
+    // Propagation Playground button handler
+    document.getElementById('playgroundBtn').addEventListener('click', () => {
+      window.location.href = 'playground.html';
     });
 
     // UX Overhaul JS

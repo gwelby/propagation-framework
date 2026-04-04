@@ -138,9 +138,9 @@ Two classes of closed paths exist: contractible and non-contractible. If stable 
 
 ---
 
-# PART TWO: WHAT FOLLOWS — The Derived Results
+# PART TWO: WHAT FOLLOWS — Results, Bridges, and Frontiers
 
-Everything below is a *consequence* of the three rules above plus the topology of 3D space. No additional physics is assumed.
+Everything below is part of the framework's downstream claim set. Some items are derived, some are conditional or argued, and the status labels below remain governed by `CLAIMS.md`.
 
 ---
 
@@ -281,7 +281,7 @@ Algebraic check confirms: (1) $\delta_\text{Koide} = 2/9$ within PDG measurement
 
 ---
 
-## Result 4: Gravity Is Refraction
+## Result 4: Gravity as Optical Geometry
 
 ### 💒 Age 5
 
@@ -293,7 +293,7 @@ Now imagine the whole universe is like that glass of water, but the "thickness" 
 
 Einstein showed that massive objects curve spacetime, and things follow curved paths (geodesics) through that curvature. But Einstein's geodesic equation is *mathematically identical* to Fermat's principle in optics — the principle that light takes the fastest path.
 
-The framework takes this literally: gravity is not *like* refraction. It IS refraction.
+The framework takes the narrow theorem literally: in the null static/stationary domain, gravity can be written as optical geometry. The broader slogan that all force-like behavior is refraction remains a larger frontier claim.
 
 Near a mass $M$, the local "speed of light" drops slightly. The refractive index becomes:
 
@@ -406,7 +406,7 @@ $$\lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0}\ri
 Where:
 - $\lambda_c$ = matter coherence scale (Compton wavelength of the top quark)
 - $l_P$ = Planck length (the smallest meaningful length, $\sim 10^{-35}$ m)
-- $N = 3$ (generations — derived from topology)
+- $N = 3$ (the current generation lock, still conditional on the numerator and denominator bridges)
 - $D = 3$ (spatial dimensions)
 - $b_0 = 16/3$ (SO(3) beta function coefficient with $N = 3$ fermion generations)
 
@@ -427,7 +427,7 @@ Here the transmutation runs from the Planck scale to the matter coherence scale,
 
 $$\alpha_{SO(3)}(l_P) = \frac{1}{2\pi N^{D/2}}$$
 
-The $N^{D/2}$ factor has been identified as the **Fisher Information Volume** of the phase-locking manifold via the Generation-Channel Additivity Theorem:
+The current candidate bridge treats the $N^{D/2}$ factor as the **Fisher Information Volume** of the phase-locking manifold via the Generation-Channel Additivity Theorem:
 
 $$\sqrt{\det G} = N^{D/2} \sqrt{\det g}$$
 
@@ -622,9 +622,9 @@ This gives a Bohr-like spectrum for the circular-orbit family in natural units.
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.95**.
+**Status: CONDITIONAL / MODEL THEOREM.** Confidence: **0.82**.
 
-**Significance**: This is the same Axiom 3 that fixes the generation count ($N = 3$), the Weinberg angle (via Axiom 3b), and forces the God Equation gap to close. It now also derives atomic structure. The phase-closure condition is not just a consistency requirement — it is the universal quantization principle.
+**Significance**: This shows that the same phase-closure language which appears in the generation and Weinberg-angle stories can reproduce a Bohr-like circular spectrum inside a named model layer. That is a real structural bridge, but not yet a universal axiom-only quantization theorem.
 
 **What would falsify it**: Proof that the eikonal approximation is invalid for atomic orbits, or that the Coulomb refractive index derivation breaks at some step.
 

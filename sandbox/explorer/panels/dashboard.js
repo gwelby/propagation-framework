@@ -250,7 +250,7 @@
       // Load D3 if not already loaded
       if (typeof d3 === "undefined") {
         var script = document.createElement("script");
-        script.src = "https://d3js.org/d3.v7.min.js";
+        script.src = "vendor/d3.v7.min.js";
         script.onload = () => {
           this.createGraph(ctx);
         };

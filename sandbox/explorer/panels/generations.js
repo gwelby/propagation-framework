@@ -57,6 +57,7 @@
           "</div>" +
           "<span class=\"status-pill status-conditional\">CONDITIONAL</span>" +
         "</div>" +
+        ctx.app.renderWrongIntuition(ctx.app.getResult('three-generations')) +
         "<div class=\"control-group\">" +
           "<label for=\"generationRange\">Generation count N</label>" +
           "<input id=\"generationRange\" type=\"range\" min=\"1\" max=\"5\" step=\"1\" value=\"" + state.nValue + "\">" +

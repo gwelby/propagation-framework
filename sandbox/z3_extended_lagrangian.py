@@ -53,6 +53,9 @@ matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ── colour palette ────────────────────────────────────────────────────────────
 BG   = '#0a0a1a'
@@ -415,7 +418,7 @@ ax[3].text(epsilons[mid], max(anisotropy[mid]*0.5, 0.05),
 overall = "C₃ symmetry ↔ Fisher isotropy: TWO-WAY CONFIRMED" if all_pass else "C₃ / Fisher: PARTIAL"
 fig.suptitle(f'Z₃ Toy Lagrangian — {overall}', color=FG, fontsize=12, y=0.98, fontweight='bold')
 
-out_path = '/mnt/d/Fundamentals/sandbox/z3_extended_lagrangian.png'
+out_path = OUTPUT_DIR / 'z3_extended_lagrangian.png'
 fig.savefig(out_path, dpi=150, bbox_inches='tight', facecolor=BG)
 plt.close(fig)
 print(f"\nFigure saved → {out_path}")

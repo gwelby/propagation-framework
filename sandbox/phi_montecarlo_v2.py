@@ -34,6 +34,9 @@ MASSES USED:
 import math
 import numpy as np
 import datetime
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -133,7 +136,7 @@ print("=" * 60)
 
 # ── Append to sandbox_results.md ──────────────────────────────────────────────
 
-results_path = "/mnt/d/Fundamentals/sandbox/sandbox_results.md"
+results_path = OUTPUT_DIR / "sandbox_results.md"
 with open(results_path, "a", encoding="utf-8") as f:
     f.write(f"\n---\n\n")
     f.write(f"## {datetime.date.today()} — phi_montecarlo_v2.py\n\n")

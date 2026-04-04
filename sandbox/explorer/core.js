@@ -42,6 +42,15 @@
     return node;
   }
 
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function uniqueKinds(results) {
     var seen = {};
     var out = [];
@@ -154,6 +163,7 @@
       this.dom.headChipA = document.getElementById("headChipA");
       this.dom.headChipB = document.getElementById("headChipB");
       this.dom.headChipC = document.getElementById("headChipC");
+      this.dom.mobileNavToggle = document.getElementById("mobileNavToggle");
     },
 
     bindGlobalEvents: function () {
@@ -185,6 +195,100 @@
       this.dom.drawerClose.addEventListener("click", function () {
         self.toggleDrawer(false);
       });
+
+      this.bindKeyboardNav();
+      this.bindHighContrastToggle();
+    },
+
+    bindKeyboardNav: function () {
+      var self = this;
+      var NAV_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"];
+      var routeButtons;
+
+      function getRouteButtons() {
+        return Array.from(self.dom.routeNav.querySelectorAll(".route-button"));
+      }
+
+      document.addEventListener("keydown", function (e) {
+        var routeId = self.state.route;
+        if (!routeId) return;
+
+        // Arrow key navigation in route nav
+        if (e.target === self.dom.routeNav || e.target.closest(".route-nav")) {
+          if (NAV_KEYS.indexOf(e.key) === -1) return;
+          e.preventDefault();
+          routeButtons = getRouteButtons();
+          var currentIndex = routeButtons.findIndex(function (btn) {
+            return btn.getAttribute("data-route") === routeId;
+          });
+          var nextIndex;
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            nextIndex = (currentIndex + 1) % routeButtons.length;
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            nextIndex = (currentIndex - 1 + routeButtons.length) % routeButtons.length;
+          } else if (e.key === "Home") {
+            nextIndex = 0;
+          } else if (e.key === "End") {
+            nextIndex = routeButtons.length - 1;
+          }
+          if (nextIndex !== undefined && routeButtons[nextIndex]) {
+            routeButtons[nextIndex].focus();
+            self.navigate(routeButtons[nextIndex].getAttribute("data-route"));
+          }
+          return;
+        }
+
+        // Escape closes drawer or mobile nav
+        if (e.key === "Escape") {
+          if (self.state.drawerOpen) {
+            self.toggleDrawer(false);
+            self.dom.drawerClose.focus();
+          }
+          if (document.body.classList.contains("nav-open")) {
+            document.body.classList.remove("nav-open");
+            self.dom.mobileNavToggle && self.dom.mobileNavToggle.setAttribute("aria-expanded", "false");
+          }
+        }
+
+        // Ctrl+/ opens keyboard shortcuts help (future enhancement)
+        if (e.key === "/" && e.ctrlKey) {
+          e.preventDefault();
+        }
+      });
+
+      // Route buttons: focus management
+      routeButtons = getRouteButtons();
+      routeButtons.forEach(function (btn) {
+        btn.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            self.navigate(btn.getAttribute("data-route"));
+          }
+        });
+      });
+    },
+
+    bindHighContrastToggle: function () {
+      var self = this;
+      var btn = document.getElementById("highContrastToggle");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        document.body.classList.toggle("high-contrast");
+        var isHC = document.body.classList.contains("high-contrast");
+        btn.setAttribute("aria-pressed", String(isHC));
+        btn.textContent = isHC ? "Standard Contrast" : "High Contrast";
+        try {
+          localStorage.setItem("pf_high_contrast", isHC ? "1" : "0");
+        } catch (e) {}
+      });
+      // Restore preference
+      try {
+        if (localStorage.getItem("pf_high_contrast") === "1") {
+          document.body.classList.add("high-contrast");
+          btn.setAttribute("aria-pressed", "true");
+          btn.textContent = "Standard Contrast";
+        }
+      } catch (e) {}
     },
 
     resolveRoute: function () {
@@ -258,7 +362,7 @@
       this.dom.panelEyebrow.textContent = meta ? meta.note : "Propagation Framework Explorer";
       this.dom.headChipA.textContent = routeId === "dashboard" ? "audit wall" : "live computation";
       this.dom.headChipB.textContent = routeId === "hub" ? "scale atlas" : "shared evidence drawer";
-      this.dom.headChipC.textContent = routeId === "dashboard" ? "CLAIMS + UNDERSTAND" : "file:// ready";
+      this.dom.headChipC.textContent = routeId === "dashboard" ? "CLAIMS + UNDERSTAND" : "browser native";
       this.renderNav();
 
       this.state.activePanelCtx = {
@@ -301,6 +405,21 @@
         this.state.drawerOpen = !this.state.drawerOpen;
       }
       this.applyDrawerState();
+      if (this.state.drawerOpen) {
+        this.dom.drawerClose.focus();
+        this.announceToScreenReader("Evidence drawer opened");
+      } else {
+        this.announceToScreenReader("Evidence drawer closed");
+      }
+    },
+
+    announceToScreenReader: function (message) {
+      var announcer = document.getElementById("srAnnouncer");
+      if (!announcer) return;
+      announcer.textContent = "";
+      setTimeout(function () {
+        announcer.textContent = message;
+      }, 50);
     },
 
     applyDrawerState: function () {
@@ -340,6 +459,10 @@
       return this.data.panelMeta.find(function (panel) {
         return panel.id === panelId;
       });
+    },
+
+    statusToClass: function (status) {
+      return statusClassMap[status] || statusClassMap.OPEN;
     },
 
     getResultPanelId: function (result) {
@@ -459,6 +582,25 @@
           PFExplorer.navigate(button.getAttribute("data-open-panel"));
         });
       });
+    },
+
+    renderWrongIntuition: function (result) {
+      if (!result || !result.wrongIntuition) return "";
+      var wi = result.wrongIntuition;
+      var evidenceAttr = wi.evidencePanel ? ' data-evidence="' + wi.evidencePanel + '"' : '';
+      return (
+        '<div class="wrong-intuition-callout story-only"' + evidenceAttr + '>' +
+          '<div class="wi-header">' +
+            '<span class="wi-badge">Your intuition</span>' +
+          '</div>' +
+          '<p class="wi-intuition">' + escapeHtml(wi.intuition) + '</p>' +
+          '<div class="wi-divider">' +
+            '<span class="wi-arrow">↓</span>' +
+          '</div>' +
+          '<p class="wi-reality-label">But actually:</p>' +
+          '<p class="wi-reality">' + escapeHtml(wi.reality) + '</p>' +
+        '</div>'
+      );
     },
 
     createResultCard: function (result, options) {

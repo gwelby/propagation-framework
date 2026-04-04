@@ -1,6 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 def analyze_session(file_path):
     print(f"Loading session data from: {file_path}")
@@ -57,7 +60,7 @@ def analyze_session(file_path):
     ax3.tick_params(colors='white')
 
     plt.tight_layout()
-    output_path = 'D:/Fundamentals/sandbox/real_eeg_analysis.png'
+    output_path = OUTPUT_DIR / 'real_eeg_analysis.png'
     plt.savefig(output_path, dpi=150, facecolor='#0A0A0A')
     print(f"Analysis plot saved to {output_path}")
 

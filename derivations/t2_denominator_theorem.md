@@ -2,7 +2,7 @@
 
 **File ID**: T2-DENOM-001
 **Claim**: Candidate co-dimension route for the denominator `M` in `Q(N) = 2N / (2N + M)`: relate `M = 3` to the co-dimension of a propagation-medium Fermi point in 3D momentum space.
-**Status**: AUDITED DRAFT — no sign-off on T2 closure; the surviving result is a conditional 2×2 Fermi-point lemma, while T2 remains `PARTIAL DERIVATION 0.85`
+**Status**: ARGUED (0.72) — internal confidence synced across companion files; T2 remains `PARTIAL DERIVATION 0.85` on board until Codex sign-off.
 **Depends on**: T1 (the `(2,1)` topological weight partition), PF Axiom 3 (Coherence), and the PF premise that physical space has dimension `d = 3`.
 **Author**: Claude (draft, 2026-03-31)
 **Auditor**: Codex (`t2_denominator_theorem_audit_2026-03-31.md`)
@@ -60,11 +60,11 @@ From Axiom 1 (propagation requires a state-carrying medium), Axiom 2 (wave solut
 Ψ : ℝ³ × ℝ → ℂ,   |Ψ_vac| = ρ₀ > 0
 ```
 
-- Complex structure is forced by Axiom 2 (real fields cannot encode phase): ARGUED (0.85)
-- Nonzero vacuum is forced by Axiom 3 (zero vacuum fails to carry a signal, violating Axiom 1): ARGUED (0.85)
-- Single-component minimality for the T2 denominator count: ARGUED (0.80) — conditional on T1's local weight-2 structure being sufficient (see `t2_order_parameter_derivation.md` Section 4)
+- Complex structure is natural given Axiom 2 (minimal encoding), but Gap OP-1a remains (not uniquely forced over ℝ²): ARGUED (0.72)
+- Nonzero vacuum ARGUED by Axiom 3 (Gap OP-2: zero-mean-field can support perturbations; requires specific Axiom 3 reading): ARGUED (0.72)
+- Single-component minimality for the T2 denominator count: ARGUED (0.72), Gap OP-1a named in companion — conditional on T1's local weight-2 structure being sufficient (see `t2_order_parameter_derivation.md` Section 4)
 
-**Named gap**: `t2_order_parameter_derivation.md` carries Gap OP-1 — Axioms 1-3 do not uniquely rule out `Ψ : ℝ³ × ℝ → ℂⁿ` for `n > 1`; the single-component claim rests on the minimality argument (Section 4 of that file). `t2_coherence_tensor_bridge.md` explores whether a three-component order parameter is forced by T1 — status: does not change T2 status as of 2026-04-01.
+**Named gap**: `t2_order_parameter_derivation.md` still leaves open whether the global PF order parameter could be `Ψ : ℝ³ × ℝ → ℂⁿ` for `n > 1`; T2 uses T1's local weight-2 structure rather than a closed global single-component theorem. `t2_coherence_tensor_bridge.md` explores whether a three-component order parameter is forced by T1 — status: does not change T2 status as of 2026-04-01.
 
 No gauge group is assumed. The field `Ψ` carries propagation phase only.
 
@@ -168,10 +168,12 @@ which is `3`-dimensional.
 **Proof**:
 The Pauli matrices `{σ₁, σ₂, σ₃}` are linearly independent over `ℝ` — a standard result in linear algebra. Therefore `{σ₁, σ₂, σ₃}` form a basis for the real vector space of traceless Hermitian `2×2` matrices. This space has dimension `3`. □
 
-**Bridge Theorem 5.2 (Restoration-Mode Identification, ARGUED 0.73)**:
+**Bridge Theorem 5.2 (Restoration-Mode Identification, ARGUED 0.72)**:
 There are exactly `3` independent directions in which a mass perturbation can open a gap at the Fermi point. Each such direction corresponds to one independent massive bosonic restoration mode of the PF coherence field.
 
 **See**: `t2_fermi_point_bridge.md` Part B for the full argument (Bridge 3).
+
+**Symmetry Breaking Chain**: As derived in `t2_order_parameter_derivation.md` Section 4.5, the local symmetry `G = U(2)` breaks to `H = U(1)` post-locking. The dimension of the broken space `dim(G/H) = 3` matches the perturbation space dimension, providing a formal group-theoretic basis for `M = 3`.
 
 **Argument summary**: Each Pauli direction `mᵢσᵢ` opens a distinct gap (proved in Theorem 5.1 by linear independence). Each opened gap is a distinct channel of coherence-field re-locking — a distinct way the phase-unlocked state at `k_F` can restore coherence. Distinct re-locking channels are orthogonal in the `3`-dimensional perturbation space. Three orthogonal independent channels = three independent massive restoration modes. The Volovik ³He-A template confirms this identification in a physically realized system with identical mathematical structure.
 
@@ -223,7 +225,7 @@ Volovik shows these three modes correspond to the three massive bosons acquired 
 Axiom 1 + Axiom 2 + Axiom 3
     ↓
 PF coherence field Ψ : ℝ³ × ℝ → ℂ, |Ψ_vac| = ρ₀ > 0
-[ARGUED 0.80 — see t2_order_parameter_derivation.md; Gap OP-1 named]
+[ARGUED (0.72) — see t2_order_parameter_derivation.md Section 5; Gap OP-1a / Gap OP-2 named]
     ↓
 T1: closure order 2 → SU(2) double cover → state space ℂ²
 [PARTIAL DERIVATION 0.85 — physical-realization bridge still open]
@@ -244,7 +246,7 @@ Mass space: span{σ₁,σ₂,σ₃} ≅ ℝ³, dim = 3  (Section 5, Theorem 5.1)
 [DERIVED — standard linear algebra]
     ↓
 Bridge 3: each perturbation direction = one massive restoration mode
-[ARGUED 0.73 — conditional C_bridge; see t2_fermi_point_bridge.md Part B]
+[ARGUED 0.72 — conditional C_bridge; see t2_fermi_point_bridge.md Part B]
     ↓
 M = 3  (Bridge Theorem 5.2)
 [CONDITIONAL on C_FP + C_gen + C_bridge + T1 + d=3]
@@ -264,9 +266,9 @@ M = 3  (Bridge Theorem 5.2)
 
 **C_FP — Fermi points exist**: The PF weight-2 sector must have band-touching points in momentum space. Not derived from Axioms 1-3. Added in v2 as a named conditional (see `t2_fermi_point_bridge.md` Part A).
 
-**C_bridge — Restoration-mode identification**: Each gap-opening perturbation direction is an independent massive bosonic restoration mode of the PF coherence field. This is the core Bridge 3 assertion. ARGUED (0.73) via the Volovik template. The live Bridge 3 gap (see `t2_fermi_point_bridge.md` Part B, Section D).
+**C_bridge — Restoration-mode identification**: Each gap-opening perturbation direction is an independent massive bosonic restoration mode of the PF coherence field. This is the core Bridge 3 assertion. ARGUED (0.72) via the Volovik template. The live Bridge 3 gap (see `t2_fermi_point_bridge.md` Part B, Section D).
 
-**Upgraded from v1**: The PF order parameter is no longer a bare ansatz — it is an ARGUED derivation (0.80) in `t2_order_parameter_derivation.md`. This removes one of the three "not closed" items from the v1 audit, replacing it with a named bounded gap (OP-1).
+**Upgraded from v1**: The PF order parameter is no longer a bare ansatz — it is an ARGUED (0.72) bounded derivation in `t2_order_parameter_derivation.md`, with Gap OP-1a and Gap OP-2 named explicitly and the formal `G -> H` chain stated in Section 4.5.
 
 ---
 
@@ -277,9 +279,9 @@ M = 3  (Bridge Theorem 5.2)
 - the conditional lemma: for a generic map `h : ℝ³ → ℝ³`, a band-touching point has co-dimension `3` and the gap-opening perturbation space is `3`-dimensional
 
 ### New in v2 — what the companion files add:
-- **`t2_order_parameter_derivation.md`**: PF coherence field promoted from bare ansatz to ARGUED (0.80) derivation from Axioms 1-3. Gap OP-1 named (single-component minimality rests on T1 local structure argument).
+- **`t2_order_parameter_derivation.md`**: PF coherence field promoted from bare ansatz to ARGUED (0.72) derivation from Axioms 1-3. Gap OP-1a / Gap OP-2 named explicitly; the formal `G -> H` symmetry chain now appears in Section 4.5.
 - **`t2_fermi_point_bridge.md` Part A**: `2×2` Hamiltonian structure derived from T1's `ℂ²` state space + Axiom 2's real-energy requirement, without importing condensed-matter band structure. Conditional `C_FP` named explicitly.
-- **`t2_fermi_point_bridge.md` Part B**: Restoration-mode identification argued (0.73) via the Volovik template. Conditional `C_bridge` named explicitly.
+- **`t2_fermi_point_bridge.md` Part B**: Restoration-mode identification argued (0.72) via the Volovik template. Conditional `C_bridge` named explicitly.
 
 ### Still not closed after v2:
 - T1 physical-realization bridge (this file takes T1 as input)
@@ -293,16 +295,16 @@ M = 3  (Bridge Theorem 5.2)
 
 | Gap | v1 status | v2 status |
 |-----|-----------|-----------|
-| PF order parameter | bare ansatz | ARGUED 0.80, Gap OP-1 named |
+| PF order parameter | bare ansatz | ARGUED (0.72), Gap OP-1a / Gap OP-2 named |
 | `2×2` Hamiltonian from T1 | imported | derived conditional on C_FP |
-| restoration-mode identification | unaddressed | ARGUED 0.73, C_bridge named |
+| restoration-mode identification | unaddressed | ARGUED 0.72, C_bridge named |
 | T1 physical-realization | PARTIAL DERIVATION | unchanged |
 | `d = 3` | input, unnamed | input, named explicitly |
 | Fermi point existence | unnamed | C_FP named |
 | Jacobian genericity | unnamed | C_gen named |
 
 ### CLAIMS.md status:
-T2 remains `PARTIAL DERIVATION 0.85` until Codex audits the v2 companion files. If Codex signs off on all three bridges (OP derivation, `2×2` Hamiltonian, restoration-mode identification), T2 may upgrade to `CONDITIONAL 0.88` (conditional on T1, `d=3`, `C_FP`, `C_gen`, `C_bridge`, and `C_local`). Do not promote without Codex sign-off.
+T2 remains `PARTIAL DERIVATION 0.85` until Codex audits the v2 companion files. If Codex signs off on all three bridges (OP derivation, `2×2` Hamiltonian, restoration-mode identification), T2 may upgrade to `ARGUED (0.72)` (conditional on T1, `d=3`, `C_FP`, `C_gen`, `C_bridge`, and `C_local`). Do not promote without Codex sign-off.
 
 ---
 
@@ -346,7 +348,7 @@ Short version:
 - (a) Axiom 2 was promoted to the specific dispersion `ω² = c²|k|²`. This is massless relativistic dispersion — not forced by "finite causal velocity" alone.
 - (b) "Amplitude + phase can be packaged as ℂ" was treated as proving the state space IS `ℂ`. Two real numbers `(A, φ)` remain two real numbers; `ℂ` is the natural minimal algebraic packaging, not uniquely forced over `ℝ²`.
 - (c) `|Ψ_vac| = 0` was claimed to mean "the medium carries no signal." A zero-background state can support propagating perturbations; the zero-mean-field exclusion rests on a specific reading of Axiom 3 that must be stated, not assumed.
-**Fixed in v2**: all three corrected; `C_mom`, Gap OP-1a, and Gap OP-2 named explicitly in the companion file. Status revised to ARGUED 0.72.
+**Fixed in v2**: all three corrected; `C_mom`, Gap OP-1a, and Gap OP-2 named explicitly in the companion file. Status revised to ARGUED (0.72).
 
 **Objection 3 (Split-brain between CLAIMS.md and downstream docs)**:
 After v2, `ACTIVE_ISSUES.md`, `FALSIFICATION_PAPER_DRAFT.md`, and `t1_t2_post_audit_epic` had been updated to the compressed C_FP/C_bridge language from the unaudited companion files, while `CLAIMS.md` (truth-order #2) retained the broader gap description (PF → local `2×2` Fermi-point structure plus restoration-mode proof). The lower-priority docs were running ahead of the truth-order board.

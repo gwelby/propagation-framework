@@ -32,6 +32,9 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -384,7 +387,7 @@ def make_figure(K_values, results, final_verdict, slope_r, slope_dK):
         color=TEXT_COLOR, fontsize=11, y=0.98
     )
 
-    out_path = '/mnt/d/Fundamentals/sandbox/kuramoto_large_n.png'
+    out_path = OUTPUT_DIR / 'kuramoto_large_n.png'
     fig.savefig(out_path, dpi=140, facecolor=BG, bbox_inches='tight')
     plt.close(fig)
     print(f"  Figure saved: {out_path}")

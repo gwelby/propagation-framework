@@ -1,5 +1,5 @@
 // Derivation Graph 3D — Three.js Force-Directed Graph
-// Uses 3d-force-graph CDN for WebGL rendering with bloom post-processing
+// In offline mode the 3D bundle may be absent; degrade to 2D-only honestly.
 (function() {
   'use strict';
 
@@ -27,6 +27,14 @@
   function getNodeRadius(d) {
     if (d.type === 'axiom') return 12;
     return 5 + (d.confidence || 0) * 8;
+  }
+
+  function showUnavailableMessage(container) {
+    container.innerHTML =
+      '<div class="note-box" style="margin:24px;text-align:left">' +
+        '<strong>3D graph unavailable</strong>' +
+        '<p>This offline build keeps the audited 2D derivation graph fully local. The optional 3D force-graph bundle is not vendored here.</p>' +
+      '</div>';
   }
 
   function buildGraphData(category) {
@@ -92,6 +100,12 @@
   function init3DGraph(category) {
     const container = document.getElementById('graph3D');
     if (!container) return;
+
+    if (typeof ForceGraph3D !== 'function') {
+      showUnavailableMessage(container);
+      is3DActive = false;
+      return;
+    }
 
     // Destroy existing instance
     if (graph3DInstance) {
@@ -299,6 +313,12 @@
     var categoryFilter = document.getElementById('categoryFilter');
 
     if (mode2D && mode3D) {
+      if (typeof ForceGraph3D !== 'function') {
+        mode3D.disabled = true;
+        mode3D.title = '3D graph unavailable in this offline build';
+        mode3D.setAttribute('aria-disabled', 'true');
+      }
+
       mode2D.addEventListener('click', function() {
         mode2D.classList.add('is-active');
         mode2D.setAttribute('aria-selected', 'true');
@@ -310,6 +330,9 @@
       });
 
       mode3D.addEventListener('click', function() {
+        if (mode3D.disabled) {
+          return;
+        }
         mode3D.classList.add('is-active');
         mode3D.setAttribute('aria-selected', 'true');
         mode2D.classList.remove('is-active');

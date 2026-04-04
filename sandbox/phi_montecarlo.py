@@ -3,6 +3,9 @@ import random
 import numpy as np
 import scipy.stats as stats
 import datetime
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # Electron and up quark masses
 electron_mass = 0.000510999  # GeV
@@ -40,7 +43,7 @@ p_value = success_count / num_simulations
 print(f"p-value: {p_value:.6f}")
 
 # Append results to sandbox_results.md
-with open("D:\\Fundamentals\\sandbox\\sandbox_results.md", "a") as f:
+with open(OUTPUT_DIR / "sandbox_results.md", "a") as f:
     f.write(f"### {datetime.date.today()}\n")
     f.write(f"* Phi monte carlo test:\n")
     f.write(f"  + p-value: {p_value:.6f}\n")

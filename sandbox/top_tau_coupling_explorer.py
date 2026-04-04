@@ -23,6 +23,9 @@ import matplotlib.gridspec as gridspec
 from scipy import stats
 import warnings
 warnings.filterwarnings('ignore')
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ── PDG 2024 constants ──────────────────────────────────────────────────────
 M_T      = 172_690.0     # MeV  (top quark pole mass)
@@ -600,7 +603,7 @@ def make_figure(s1, s2, s3, s4, s5):
         color=WHITE, fontsize=14, fontweight='bold', y=0.975
     )
 
-    outpath = '/mnt/d/Fundamentals/sandbox/top_tau_coupling_explorer.png'
+    outpath = OUTPUT_DIR / 'top_tau_coupling_explorer.png'
     fig.savefig(outpath, dpi=150, bbox_inches='tight', facecolor=BG)
     plt.close(fig)
     print(f"\n  Figure saved → {outpath}")

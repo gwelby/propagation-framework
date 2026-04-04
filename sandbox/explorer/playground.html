@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propagation Playground — Propagation Framework Explorer</title>
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="playground.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body class="playground-mode">
+
+  <!-- Fullscreen canvas -->
+  <canvas id="playgroundCanvas"></canvas>
+
+  <!-- Controls HUD -->
+  <div class="playground-hud" id="playgroundHud">
+    <div class="hud-header">
+      <div class="hud-title">
+        <span class="eyebrow">Propagation Playground</span>
+        <h1>Wave Interference Lab</h1>
+      </div>
+      <div class="hud-actions">
+        <button class="hud-btn" id="hudReset" type="button">Reset</button>
+        <button class="hud-btn" id="hudStandingWave" type="button">Standing Wave Mode</button>
+        <button class="hud-btn hud-btn-secondary" id="hudGuide" type="button">Guide</button>
+      </div>
+    </div>
+
+    <div class="hud-controls">
+      <div class="control-group">
+        <label for="pgWavelength">Wavelength</label>
+        <input id="pgWavelength" type="range" min="20" max="120" step="1" value="60">
+        <output id="pgWavelengthOut">60 px</output>
+      </div>
+      <div class="control-group">
+        <label for="pgSpeed">Propagation speed</label>
+        <input id="pgSpeed" type="range" min="0.5" max="4" step="0.1" value="1.5">
+        <output id="pgSpeedOut">1.5</output>
+      </div>
+      <div class="control-group">
+        <label for="pgAmplitude">Amplitude</label>
+        <input id="pgAmplitude" type="range" min="0.3" max="2" step="0.05" value="1.0">
+        <output id="pgAmplitudeOut">1.0</output>
+      </div>
+      <div class="control-group">
+        <label for="pgDecay">Decay</label>
+        <input id="pgDecay" type="range" min="0" max="0.05" step="0.002" value="0.008">
+        <output id="pgDecayOut">0.008</output>
+      </div>
+    </div>
+
+    <div class="hud-stats" id="hudStats">
+      <div class="stat-pill">Sources: <strong id="statSources">0</strong></div>
+      <div class="stat-pill">Standing wave nodes: <strong id="statNodes">—</strong></div>
+      <div class="stat-pill" id="coherencePill">Coherence: <strong id="statCoherence">—</strong></div>
+    </div>
+  </div>
+
+  <!-- Instructions overlay (shown on first load) -->
+  <div class="playground-instructions" id="playgroundInstructions">
+    <div class="instructions-card">
+      <div class="instructions-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" stroke="var(--propagate)" stroke-width="2" stroke-dasharray="6 4"/>
+          <circle cx="24" cy="24" r="14" stroke="var(--axiom)" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="24" cy="24" r="6" fill="var(--propagate)" opacity="0.8"/>
+        </svg>
+      </div>
+      <h2>Click anywhere to spawn waves</h2>
+      <p>Each click adds a propagation source. Watch interference patterns emerge.<br>
+      When nodes lock at <span class="highlight">λ/2 spacing</span>, you get a standing wave — the same condition that picks out discrete atomic orbits.</p>
+      <div class="instructions-keys">
+        <span class="key-hint"><kbd>Click</kbd> Add source</span>
+        <span class="key-hint"><kbd>Right-click</kbd> Remove nearest</span>
+        <span class="key-hint"><kbd>Dbl-click</kbd> Standing wave pair</span>
+      </div>
+      <button class="hud-btn hud-btn-primary" id="startPlaying" type="button">Start playing</button>
+    </div>
+  </div>
+
+  <!-- Guide overlay -->
+  <div class="playground-guide-overlay" id="playgroundGuide" hidden>
+    <div class="guide-card">
+      <button class="guide-close" id="guideClose" type="button" aria-label="Close guide">&#x2715;</button>
+      <h2>What you're looking at</h2>
+      <div class="guide-section">
+        <h3>The wave equation</h3>
+        <div class="formula">ψ = Σ Aᵢ · sin(k·rᵢ − ω·t + φᵢ) · e^{−γ·rᵢ}</div>
+        <p>Each source emits a circular wave. Where waves <em>constructively interfere</em>, amplitude grows — the bright regions. Where they <em>destructively interfere</em>, they cancel — the dark regions.</p>
+      </div>
+      <div class="guide-section">
+        <h3>Green = Coherent</h3>
+        <p>Coherent regions glow green. Coherence means self-reinforcing structure — the same property that makes matter stable. In the propagation framework, <strong>matter is coherence</strong>.</p>
+      </div>
+      <div class="guide-section">
+        <h3>Standing waves = matter</h3>
+        <div class="formula">∮ n ds = 2πk  ⟹  discrete orbits</div>
+        <p>Double-click to place a <em>standing wave pair</em>. The nodes lock at λ/2 — exactly the phase closure condition that picks out discrete atomic orbits. This is why atoms have discrete energy levels.</p>
+      </div>
+      <div class="guide-section">
+        <h3>Three sources → tetrahedron</h3>
+        <p>Three equally-spaced sources at 120° form a triangle. Four sources at tetrahedral angles form a standing pattern. The propagation framework derives the <em>three generations</em> from this geometry.</p>
+      </div>
+      <div class="guide-section wrong-intuition">
+        <h3>Your intuition is wrong</h3>
+        <p><strong>Intuition:</strong> Matter is solid particles.<br>
+        <strong>Reality:</strong> Matter is stable self-reinforcing interference patterns — standing waves in the fabric of space.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wrong-intuition callout (bottom) -->
+  <div class="playground-wrong-callout" id="wrongCallout">
+    <div class="wrong-callout-inner">
+      <span class="wrong-label">WRONG INTUITION</span>
+      <p id="wrongCalloutText">Matter is solid particles.</p>
+      <span class="right-label">REALITY</span>
+      <p id="rightCalloutText">Matter is a stable self-reinforcing standing wave pattern.</p>
+    </div>
+  </div>
+
+  <!-- Source count badge -->
+  <div class="source-badge" id="sourceBadge" hidden>
+    <span id="sourceBadgeCount">0</span> sources
+  </div>
+
+  <script src="data.js"></script>
+  <script src="playground.js"></script>
+</body>
+</html>

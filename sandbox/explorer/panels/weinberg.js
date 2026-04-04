@@ -54,6 +54,7 @@
           "</div>" +
           "<span class=\"status-pill status-derived\">DERIVED</span>" +
         "</div>" +
+        ctx.app.renderWrongIntuition(ctx.app.getResult('weinberg-angle')) +
         "<div class=\"formula\">x^2 + C2 x - C2 = 0, then 1 - x_+(1/2) / x_+(1)</div>" +
         PFExplorer.compareBarHtml(prediction, reference, error, 0.2222, 0.2238) +
         "<div class=\"metric-row\">" +

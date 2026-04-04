@@ -2,7 +2,7 @@
 
 **File ID**: T2-OP-001
 **Purpose**: Promote the PF coherence field from a model ansatz (as it stood in the initial T2 draft) to a theorem derived from Axioms 1-3 alone.
-**Status**: ARGUED (0.80) — the minimal-scalar claim survives; the single-component claim requires the additional minimality argument in Section 4.
+**Status**: ARGUED (0.72) — Gap OP-1a and Gap OP-2 keep the order-parameter bridge bounded; the single-component claim remains argued, not proved.
 **Author**: Claude (2026-03-31)
 **Audit target**: Codex — see audit items A'1 through A'4 at end of file
 **Parent**: `t2_denominator_theorem.md` Section 2 (replaced with pointer to this file)
@@ -106,37 +106,99 @@ Therefore: for the purpose of T2's denominator count, the single complex scalar 
 
 ---
 
+## 4.5 PF Symmetry-Breaking Chain
+
+This subsection records the formal `G -> H` chain required by the T2 ticket. It does not upgrade the file beyond `ARGUED (0.72)`: the group-theoretic count still depends on T1's local weight-2 input and on `C_bridge` from `t2_fermi_point_bridge.md`.
+
+**Pre-locking local data**:
+Sections 2-3 argue for a nonzero complex coherence amplitude. If T1's weight-2 branch is locally realized, the unlocked local state is naturally written as a nonzero two-component complex vector
+
+```
+q ∈ ℂ² \ {0}.
+```
+
+The natural linear symmetry acting on this local data is
+
+```
+G = U(2).
+```
+
+This is the largest unitary group preserving the Hermitian norm on the two-component complex state.
+
+**Post-locking residual symmetry**:
+Coherence locking selects a definite local ray `[q_0]` in `ℂ²`. The subgroup preserving the locked ray up to overall phase is
+
+```
+H = U(1).
+```
+
+So the post-locking state keeps only the residual global phase freedom.
+
+**Broken-generator count**:
+The real dimensions are
+
+```
+dim_R U(2) = 4,   dim_R U(1) = 1,
+```
+
+hence
+
+```
+dim_R(G/H) = 4 - 1 = 3.
+```
+
+**Pauli realization**:
+At the locked state, the tangent directions orthogonal to the residual `U(1)` phase are represented by the traceless Hermitian generators
+
+```
+{σ₁, σ₂, σ₃}.
+```
+
+So the broken directions are the same three real directions that appear in the local `2×2` Hamiltonian perturbation space.
+
+**Lemma 4.5.1 (Conditional symmetry count)**:
+If the PF weight-2 sector admits the local `2×2` Hamiltonian description of `t2_fermi_point_bridge.md` Part A, then the broken directions of `G/H` are three-dimensional and match the Pauli perturbation space.
+
+**Corollary 4.5.2 (Conditional route to `M = 3`)**:
+If, in addition, `C_bridge` holds — i.e. each broken Pauli direction is an independent massive restoration mode of the PF coherence field — then
+
+```
+M = dim_R(G/H) = 3.
+```
+
+This is the PF analogue of the Volovik-style symmetry-breaking count. It is a real narrowing of the T2 target, not a closure of Bridge 3. □
+
+---
+
 ## 5. The Derived PF Order Parameter
 
-**Theorem (PF Coherence Field)**:
-From Axioms 1-3 alone, the medium carries a complex-valued field
+**Theorem (PF Coherence Field, bounded form)**:
+Axioms 1-3 argue that the PF medium is described, at minimum, by a complex-valued coherence field
 
 ```
 Ψ : ℝ³ × ℝ → ℂ
 ```
 
-with:
-- `Ψ` satisfies a wave equation with dispersion `ω² = c²|k|²` at the linear level (Axiom 2)
-- The vacuum satisfies `|Ψ_vac| = ρ₀ > 0` (Axiom 3 selects nonzero coherent vacuum)
-- Phase `φ_0` is undetermined at the uniform level (residual U(1) symmetry)
+with the following bounded claims:
 
-For the purpose of the T2 denominator count, this single complex scalar is the sufficient minimal object, given T1's constraint to weight-2 local structure.
+- Complex structure ARGUED by Axiom 2 (Gap OP-1a: `ℂ` is natural packaging, not uniquely forced over `ℝ²`): ARGUED (0.72)
+- Nonzero vacuum ARGUED by Axiom 3 (Gap OP-2: zero-mean-field can support perturbations; requires specific Axiom 3 reading): ARGUED (0.72)
+- Single-component minimality ARGUED (0.72), Gap OP-1a named in companion
+- Phase `φ_0` is undetermined at the uniform level (`U(1)` residual phase freedom)
 
-**Status of this theorem**: ARGUED (0.72) — weakened from the earlier 0.80 claim.
+For the purpose of the T2 denominator count, the local weight-2 structure from T1 is the controlling input; the global single-component order parameter remains argued rather than proved.
 
-- The complex structure is natural given Axiom 2 wave kinematics, but `ℂ` is the minimal natural packaging, not uniquely forced over `ℝ²` (Gap OP-1a).
-- The nonzero vacuum is supported by Axiom 3, but the exclusion of `ρ₀ = 0` rests on an argued reading of Axiom 3 — a zero-mean-field medium can still carry perturbations (Gap OP-2).
-- The single-component minimality claim (Section 4) is argued: T1's local weight-2 structure is argued to be sufficient for the denominator count without a global multi-component order parameter. This is not proved.
+**Status of this theorem**: ARGUED (0.72)
 
 ---
 
 ## 6. The Remaining Gap (Named for Codex)
 
-The surviving gap is:
+The surviving order-parameter gap is:
 
-> **Gap OP-1**: The Axioms 1-3 argument establishes that `Ψ : ℝ³ × ℝ → ℂ` with `|Ψ_vac| = ρ₀` is the minimal consistent field. But Axioms 1-3 do not uniquely force a single complex scalar — they rule out real-valued fields and zero vacuum, while leaving open the possibility of a higher-dimensional complex order parameter. For the denominator count, this gap is filled by T1's local weight-2 structure (see `t2_fermi_point_bridge.md`), but the global order parameter determination remains a formal open item.
+> **Remaining global-component gap**: Sections 2-5 argue for a complex coherence field with nonzero coherent mean amplitude, but Axioms 1-3 do not uniquely force the global component count to be one. The T2 denominator count uses T1's local weight-2 structure and the local `2×2` Hamiltonian language; it does not yet prove that the full PF order parameter cannot be `ℂⁿ` for `n > 1`.
 
-This gap does not block the T2 denominator argument, because the denominator count is local (it uses the Fermi-point Hamiltonian, not the global order parameter structure). It is named here for completeness and Codex verification.
+This gap does not block the local T2 denominator argument directly, because the denominator count is local (it uses the Fermi-point Hamiltonian, not the full global order-parameter manifold). It remains named here for completeness and Codex verification.
 
 ---
 
@@ -153,5 +215,5 @@ This gap does not block the T2 denominator argument, because the denominator cou
 ---
 
 *Claude — 2026-03-31*
-*Status: ARGUED 0.80 — promotes the PF order parameter from bare ansatz to bounded derivation*
+*Status: ARGUED (0.72) — promotes the PF order parameter from bare ansatz to bounded derivation*
 *Awaiting Codex audit before this file upgrades T2's OP-bridge status*

@@ -30,6 +30,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from scipy.optimize import minimize_scalar, brentq
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ── PDG 2024 values ──────────────────────────────────────────────────────────
 
@@ -286,7 +289,7 @@ ax4.set_ylabel('δ_IO (rad)')
 ax4.set_title('Normal vs Inverted Ordering Phases')
 ax4.legend(facecolor="#111122", labelcolor=fg, fontsize=8)
 
-plt.savefig('/mnt/d/Fundamentals/sandbox/neutrino_koide_scan.png',
+plt.savefig(OUTPUT_DIR / 'neutrino_koide_scan.png',
             dpi=150, bbox_inches='tight', facecolor=bg)
 plt.close()
-print("\nFigure saved: sandbox/neutrino_koide_scan.png")
+print(f"\nFigure saved: {(OUTPUT_DIR / 'neutrino_koide_scan.png').relative_to(OUTPUT_DIR.parent)}")

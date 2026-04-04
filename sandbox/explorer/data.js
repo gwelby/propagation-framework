@@ -58,7 +58,9 @@
       ]
     },
     panelMeta: [
+      { id: "reality-correction", title: "Reality Correction", note: "Three wrong intuitions confronted", linkedResultIds: ["forces-refraction", "bohr-quantization", "three-generations"], defaultMode: "story" },
       { id: "hub", title: "Scale Stack", note: "Planck to cosmic in one vertical atlas", linkedResultIds: ["god-equation", "weinberg-angle", "bohr-quantization"], defaultMode: "story" },
+      { id: "consciousness", title: "Consciousness as Coherence", note: "P1 device, neural coherence, and the physics of mind", linkedResultIds: ["consciousness", "aria-self-reference"], defaultMode: "story" },
       { id: "refraction", title: "Gravity as Optical Geometry", note: "Exact gravity theorem plus sandbox lens analogies", linkedResultIds: ["forces-refraction"], defaultMode: "story" },
       { id: "generations", title: "Why Exactly Three", note: "Topology, weights, and the live Q(N) lock", linkedResultIds: ["weights-21", "three-generations"], defaultMode: "story" },
       { id: "koide", title: "The Koide Triangle", note: "Mass geometry with live perturbation", linkedResultIds: ["koide-law", "koide-phase"], defaultMode: "story" },
@@ -106,7 +108,18 @@
         shortTitle: "Bohr Quantization",
         derivation: ["axiom2", "axiom3"],
         axioms: [2, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "Energy levels are arbitrary postulates forced by experiment",
+          reality: "Energy levels are phase-closure conditions — an integral condition on standing wave modes in the propagation medium",
+          evidencePanel: "#bohr"
+        },
+        blocker: "The circular-eikonal model is assumed rather than derived from Axioms 1–3. Full upgrade requires deriving the Coulomb-type refractive index from the PF medium axioms.",
+        noGoRoutes: [],
+        confidenceHistory: [
+          { date: "2026-03-27", value: 0.78 },
+          { date: "2026-03-31", value: 0.82 }
+        ]
       },
       {
         id: "forces-refraction",
@@ -128,7 +141,18 @@
         shortTitle: "Gravity Refraction",
         derivation: ["axiom2", "axiom3"],
         axioms: [2, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "Gravity is a force that pulls objects together",
+          reality: "Gravity is the refractive bending of propagation paths in a medium with a density gradient — Fermat's principle at cosmic scale",
+          evidencePanel: "#refraction"
+        },
+        blocker: null,
+        noGoRoutes: [],
+        confidenceHistory: [
+          { date: "2026-03-27", value: 0.93 },
+          { date: "2026-03-31", value: 0.95 }
+        ]
       },
       {
         id: "weights-21",
@@ -151,7 +175,18 @@
         shortTitle: "(2,1) Weights",
         derivation: ["axiom1", "axiom3"],
         axioms: [1, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "There could be four or five generations — it's just how nature happened to be",
+          reality: "The live result is narrower: 3D rotation topology yields the natural (2,1) closure-order pair, but physical realization of the weight-2 branch is still open.",
+          evidencePanel: "#generations"
+        },
+        blocker: "The Family C extremal principle and the non-redundancy hypothesis A_NR are not yet derived from Axioms 1–3. Physical realization of the weight-2 branch requires both.",
+        noGoRoutes: [],
+        confidenceHistory: [
+          { date: "2026-03-28", value: 0.80 },
+          { date: "2026-03-31", value: 0.85 }
+        ]
       },
       {
         id: "koide-law",
@@ -173,7 +208,19 @@
         shortTitle: "Koide Law Q=2/3",
         derivation: ["axiom3", "weights-21"],
         axioms: [1, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "The electron, muon, and tau masses just happen to satisfy Q = 2/3",
+          reality: "The mass ratio is forced by 120° resonance geometry — three equal-strength coherent modes minimize energy at 120° spacing, which geometrically forces Q = 2/3",
+          evidencePanel: "#koide"
+        },
+        blocker: null,
+        noGoRoutes: ["harmonic-series-masses"],
+        confidenceHistory: [
+          { date: "2025-12", value: 0.88 },
+          { date: "2026-03-28", value: 0.92 },
+          { date: "2026-03-31", value: 0.95 }
+        ]
       },
       {
         id: "three-generations",
@@ -197,7 +244,18 @@
         shortTitle: "Three Generations",
         derivation: ["weights-21", "koide-law"],
         axioms: [1, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "Three generations is arbitrary — it could have been anything",
+          reality: "Three generations is not treated as arbitrary, but the current N=3 lock is still conditional on the unresolved numerator and denominator theorems.",
+          evidencePanel: "#generations"
+        },
+        blocker: "T1: physical realization of weight-2 branch requires Family C extremal principle + A_NR. T2: PF→2×2 Fermi-point bridge + three restoration modes. Both must close for full DERIVED status.",
+        noGoRoutes: [],
+        confidenceHistory: [
+          { date: "2026-03-28", value: 0.80 },
+          { date: "2026-03-31", value: 0.85 }
+        ]
       },
       {
         id: "top-quark-limit",
@@ -276,7 +334,18 @@
         shortTitle: "Weinberg Angle",
         derivation: ["axiom3", "axiom3b"],
         axioms: [3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "The Weinberg angle is a measured parameter with no deeper origin",
+          reality: "The Weinberg angle is a Casimir eigenvalue — sin²θ_W ≈ 0.22310 derived from the Casimir polynomial x² + C₂x − C₂ = 0 via Axiom 3b",
+          evidencePanel: "#weinberg"
+        },
+        blocker: "On-shell vs MS-bar scheme selection is not yet derived from medium geometry. This is the one remaining bridge before full DERIVED status.",
+        noGoRoutes: ["single-scalar-lagrangian", "propagator-pole", "wigner-rotation-coaxial", "g3-canonical-class-function", "g3-product-walk"],
+        confidenceHistory: [
+          { date: "2026-03-28", value: 0.85 },
+          { date: "2026-03-31", value: 0.90 }
+        ]
       },
       {
         id: "fine-structure-alpha",
@@ -321,7 +390,19 @@
         shortTitle: "God Equation",
         derivation: ["axiom1", "axiom2", "axiom3", "koide-law"],
         axioms: [1, 2, 3],
-        category: "fundamental"
+        category: "fundamental",
+        wrongIntuition: {
+          intuition: "Particle masses are arbitrary constants measured from experiment",
+          reality: "Particle masses are coherence eigenvalues — the top quark Compton wavelength is predicted by λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with zero free parameters",
+          evidencePanel: "#god-equation"
+        },
+        blocker: "Three gaps remain: (A) Markovity — locality does not automatically give first-order Markov coarse walk; (B) Operator closure — symmetric nearest-neighbor circulant does not close T³ without ab=0; (C) H_prod — zero covariance ≠ joint-law factorization.",
+        noGoRoutes: ["god-equation-nearest-neighbor", "edge-flux-current", "intensity-fraction"],
+        confidenceHistory: [
+          { date: "2026-03-27", value: 0.82 },
+          { date: "2026-03-31", value: 0.86 },
+          { date: "2026-04-01", value: 0.88 }
+        ]
       },
       {
         id: "qcd-confinement",

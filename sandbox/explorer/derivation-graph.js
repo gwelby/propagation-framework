@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   
-  // Derivation Graph Engine
+  // Derivation Graph Engine — World-Class Implementation
   class DerivationGraph {
     constructor(container, data) {
       this.container = container;
@@ -12,11 +12,28 @@
       this.svg = null;
       this.width = 800;
       this.height = 600;
+      this.cssColors = {}; // Cache for CSS variable colors
       
       this.init();
     }
     
+    // Get color from CSS variables
+    getCSSColor(varName) {
+      if (!this.cssColors[varName]) {
+        const style = getComputedStyle(document.documentElement);
+        this.cssColors[varName] = style.getPropertyValue(varName).trim() || '#999';
+      }
+      return this.cssColors[varName];
+    }
+    
     init() {
+      // Check D3 dependency
+      if (typeof d3 === 'undefined') {
+        console.error('DerivationGraph: D3.js is required but not loaded');
+        this.container.innerHTML = '<div class="graph-error"><p>⚠️ Derivation graph requires D3.js library.</p><p>Please ensure D3 is loaded before initializing the graph.</p></div>';
+        return;
+      }
+      
       // Clear container
       this.container.innerHTML = '';
       
@@ -180,32 +197,36 @@
     }
     
     getNodeShape(d) {
+      // D3 v7 API: symbol().type().size()()
+      const size = d.radius * d.radius * 4; // Area, not radius
+      
       if (d.type === 'axiom') {
-        return d3.symbolTriangle(d.radius * 2);
+        return d3.symbol().type(d3.symbolTriangle).size(size)();
       } else if (d.type === 'theorem') {
-        return d3.symbolDiamond(d.radius * 2);
+        return d3.symbol().type(d3.symbolDiamond).size(size)();
       } else {
-        return d3.symbolCircle(d.radius);
+        return d3.symbol().type(d3.symbolCircle).size(size)();
       }
     }
     
     getNodeColor(d) {
-      if (d.type === 'axiom') return '#ffdd55';
+      // Use CSS variables for consistent design system
+      if (d.type === 'axiom') return this.getCSSColor('--planck');
       switch(d.status) {
-        case 'DERIVED': return '#44ff88';
-        case 'CONDITIONAL': return '#ffdd55';
-        case 'PARTIAL DERIVATION': return '#ffb24d';
-        case 'ARGUED': return '#ff9955';
-        case 'EMPIRICAL': return '#00cfff';
-        default: return '#999';
+        case 'DERIVED': return this.getCSSColor('--cohere');
+        case 'CONDITIONAL': return this.getCSSColor('--planck');
+        case 'PARTIAL DERIVATION': return this.getCSSColor('--refract');
+        case 'ARGUED': return this.getCSSColor('--refract');
+        case 'EMPIRICAL': return this.getCSSColor('--propagate');
+        default: return this.getCSSColor('--muted');
       }
     }
     
     getEdgeColor(type) {
       switch(type) {
-        case 'derives': return '#44ff88';
-        case 'conditional': return '#ffdd55';
-        default: return '#666';
+        case 'derives': return this.getCSSColor('--cohere');
+        case 'conditional': return this.getCSSColor('--planck');
+        default: return this.getCSSColor('--line-strong');
       }
     }
     
@@ -252,17 +273,26 @@
         </div>
       `;
       
-      modal.style.display = 'flex';
+      modal.className = 'graph-modal is-visible';
       
       // Close modal handlers
       modal.querySelector('.graph-modal-close').onclick = () => {
-        modal.style.display = 'none';
+        modal.classList.remove('is-visible');
       };
       modal.onclick = (e) => {
         if (e.target === modal) {
-          modal.style.display = 'none';
+          modal.classList.remove('is-visible');
         }
       };
+      
+      // Close on Escape key
+      const escHandler = (e) => {
+        if (e.key === 'Escape') {
+          modal.classList.remove('is-visible');
+          document.removeEventListener('keydown', escHandler);
+        }
+      };
+      document.addEventListener('keydown', escHandler);
     }
     
     destroy() {

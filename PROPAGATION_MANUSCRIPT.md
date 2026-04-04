@@ -32,8 +32,8 @@ The Standard Model gives the equations. General Relativity gives the geometry. T
 3. The Knot — Matter is not stuff; it is a pattern
 4. The God Equation — The hierarchy problem was always: why 3 and 3
 5. The Triangle — Three lepton masses form a perfect geometric relationship
-6. Why Exactly Three — Topology forces it
-7. Forces Are Bending — Gravity and electromagnetism are refraction
+6. Why Exactly Three — Topology may force it
+7. Forces Are Bending — Gravity is optical geometry; broader force-refraction remains open
 8. The Biology Bridge — Life is coherence held against entropy
 9. The Scale Stack — From Planck foam to cosmic web, one principle
 10. Consciousness — The central claim: coherent self-referential propagation IS experience
@@ -68,6 +68,7 @@ The **Propagation Framework** starts with one simple premise:
 We call it the "Propagation Medium." Space is not empty. It is a physical substrate. And once you accept that this medium exists, the most complex mysteries in physics suddenly dissolve into pure geometry.
 
 Here is how the universe works, translated from the math into plain English.
+Where this manuscript uses plain language, the formal status still follows `CLAIMS.md`.
 
 ***
 
@@ -88,7 +89,7 @@ How does gravity pull a planet toward a star? Physics currently treats forces li
 
 Have you ever looked at a straw sitting in a glass of water? The straw looks broken. It looks broken because light travels slower through water than it does through air. When the light hits the boundary between the two, it bends. This is called **refraction**.
 
-In our framework, forces like gravity and electromagnetism are just refraction. A massive star changes the density (the "index of refraction") of the space around it. When a planet moves through that denser space, its path naturally bends toward the star, exactly like light bending through a glass lens. There is no pulling. There is only the shape of the water.
+In our framework, the strongest exact result of this kind is about gravity: for null propagation in static and stationary settings, the path can be written as optical geometry. In the weak-field picture, a massive star changes the local propagation geometry so paths bend toward it, exactly like light bending through a glass lens. The broader idea that *all* forces are refraction is still a larger frontier claim, not the exact theorem already closed.
 
 ## 4. The "Three Generations" Mystery
 For fifty years, physicists have been annoyed by a specific number: **Three**.
@@ -96,13 +97,13 @@ There are exactly three "generations" (or families) of matter. There is the norm
 
 No one knows *why* there are exactly three. The math of the Standard Model would work perfectly fine if there were two, or four, or seventeen.
 
-But if you think about particles as knots in a 3D medium, the answer becomes geometric. To tie a stable knot in three-dimensional space, the wave must twist through all three spatial dimensions before closing its loop. It takes exactly three distinct structural "turns" (or phase shifts) to create a closed, stable structure. The three generations of matter are simply the three required turns of the knot.
+But if you think about particles as knots in a 3D medium, the answer starts to look geometric. The framework's strongest current route says the `N = 3` result may come from a 3D closure count, but that theorem is still conditional on two remaining bridges. The algebra locks cleanly once those bridges are granted. The exact PF proof is not fully closed yet.
 
 ## 5. The Golden Proof: The Harmonics of the Medium
 If particles are just vibrating knots in a single medium, their masses shouldn't be random. They should ring like a chord on a piano, mathematically related to one another by the geometry of the space they exist in.
 
 When we ran the actual data from particle accelerators (the PDG 2024 mass values), we found exactly this. 
-The heaviest particle in the universe (the Top Quark) and the heaviest lepton (the Tau) are locked together by a simple geometric ratio related to the Fine Structure Constant ($\alpha^{-1}/\sqrt{2}$). The three electrons (the Koide formula) lock into exactly a 45-degree angle in geometric space.
+The heaviest known elementary particle (the Top Quark) and the heaviest lepton (the Tau) are locked together by a simple geometric ratio related to the Fine Structure Constant ($\alpha^{-1}/\sqrt{2}$). The three charged-lepton masses in the Koide relation lock into exactly a 45-degree angle in geometric space.
 
 These particles are not independent points of "stuff." They are harmonics of the exact same geometric medium.
 
@@ -422,21 +423,21 @@ A particle is a standing wave. Not metaphorically. A standing wave is what you g
 
 ### Definition
 
-**A force is the bending of a propagation pattern in a region where the medium's properties vary.**
+**In the framework, force-like behavior is approached as the bending or mode-changing of propagation in a region where the medium's properties vary.**
 
-This is refraction. Precisely and literally.
+The exact closed theorem today is narrower than the broad slogan. For gravity, null propagation in static and stationary settings can be written as optical geometry. Beyond that, electromagnetism / strong / weak as "refraction" remain framework interpretations or unification targets, not closed theorems.
 
 ### Properties
 
-**Gravity as refraction:** General relativity describes gravity as the curvature of spacetime. A massive object warps the propagation medium in its vicinity, creating a gradient in the local causal velocity (time runs slower near massive objects — this is measured, not theoretical). A propagation pattern (particle) moving through this gradient bends toward the region of lower causal velocity, exactly as a light beam bends toward the optically denser medium. This is why light bends around stars. This is why objects fall. Gravity is refraction of matter-waves in a curvature gradient.
+**Gravity as optical geometry:** General relativity describes gravity as the curvature of spacetime. In the null static/stationary domain, that curvature can be written exactly as optical geometry. In the weak-field picture, a massive object creates a gradient in the local propagation geometry, and paths bend toward the region of lower causal velocity, exactly as a light beam bends toward the optically denser medium.
 
-The mathematics is already established. General relativity's geodesic equation is the Euler-Lagrange equation for Fermat's principle (least time) applied to a medium with varying propagation speed. Einstein used this. The propagation framework simply takes the implication literally: gravity is not "like" refraction. It IS refraction. The massive object creates a region of higher propagation density (slower local causal velocity), and all propagation patterns passing through that region bend accordingly.
+The mathematics is exact in that domain. The weak-field scalar-index scripts in the repo are best understood as regression / verification of a chosen approximation, not the derivation itself.
 
-**Electromagnetism as refraction in the gauge field:** Charged particles move through the electromagnetic potential, which is a field with spatial variation. The variation in the potential creates gradients. The charged particle's propagation pattern bends in response to those gradients. Attraction between opposite charges is refraction toward each other. Repulsion between like charges is refraction away from each other. The electromagnetic force is the refraction of matter-waves in the electromagnetic potential gradient.
+**Electromagnetism as refractive interpretation:** Charged particles move through the electromagnetic potential, which has spatial structure. The framework's unification picture treats that structure as a propagation gradient that bends charged modes. That is a live interpretation, not yet a closed PF theorem.
 
-**The strong force as confinement refraction:** Quarks are propagation patterns in the color (QCD) field. The color field has the unique property that its gradient increases with distance rather than decreasing (asymptotic freedom in reverse). This means the "refractive bending" toward other quarks increases as a quark tries to move away. At sufficient distance, the energy stored in the gradient becomes sufficient to create new quark-antiquark pairs — new standing wave modes — rather than allowing the original pattern to escape. Confinement is extreme refraction: a gradient so steep that the propagation pattern cannot escape the region.
+**The strong force as confinement interpretation:** Quarks are treated here as propagation patterns in the color field. The framework's picture reads confinement as a progressively steeper gradient that prevents escape. That is suggestive and partially supported by the RG bridge work, but it is not yet a closed derivation of QCD confinement from axioms alone.
 
-**The weak force as mode conversion at a boundary:** The weak force is unique among the four forces in that it changes particle type (a neutron becomes a proton, an up quark becomes a down quark). In the propagation framework, this is not a force in the usual sense. It is a boundary effect: a propagation pattern crossing a boundary in the electroweak field where the standing wave conditions change, forcing the pattern to shift into a different stable mode. This is directly analogous to a light beam crossing a medium boundary and changing wavelength while preserving frequency. The propagation continues; the mode changes.
+**The weak force as mode-conversion interpretation:** The weak force changes particle type. In the framework's language, that is read as a boundary effect in which a propagation pattern crosses into a sector with different standing-wave conditions and changes mode. Again, this is a research program statement, not a theorem-grade closure.
 
 ### Toward unification
 
@@ -449,11 +450,11 @@ The four forces, in this framework, are four kinds of gradient in different aspe
 | Strong | Color field | SU(3) gauge gradient | Confinement of colored patterns |
 | Weak | Electroweak field | SU(2) boundary conditions | Mode conversion of patterns |
 
-Unification, in this framework, would not be finding a single master force. It would be characterizing the single propagation medium whose various gradient types produce the four observed refraction effects. String theory attempts this (the medium is 10/11-dimensional spacetime with compactified dimensions whose geometry determines the forces). Loop quantum gravity attempts this (the medium is a spin foam whose discrete structure determines spacetime geometry). The propagation framework is agnostic about which approach is correct but suggests that the question to answer is: **what is the medium?**
+Unification, in this framework, would not be finding a single master force. It would be characterizing the single propagation medium whose various gradient types produce the observed force-like effects. String theory attempts this (the medium is 10/11-dimensional spacetime with compactified dimensions whose geometry determines the forces). Loop quantum gravity attempts this (the medium is a spin foam whose discrete structure determines spacetime geometry). The propagation framework is agnostic about which approach is correct but suggests that the question to answer is: **what is the medium?**
 
-### What this resolves
+### What this picture tries to explain
 
-- **Why gravity is so much weaker than the other forces:** Because the spacetime curvature gradient produced by a single particle is extraordinarily shallow compared to the gauge field gradients. A proton bends spacetime by approximately one part in 10³⁹ of its radius. It bends the electromagnetic field by order unity at the same scale. The gradient strengths differ, not the mechanism.
+- **Why gravity is so much weaker than the other forces:** In the framework's unification picture, the spacetime curvature gradient produced by a single particle is extraordinarily shallow compared to the gauge-field gradients. A proton bends spacetime by approximately one part in 10³⁹ of its radius. It bends the electromagnetic field by order unity at the same scale. The gradient strengths differ, not necessarily the broad mechanism.
 - **Why general relativity and quantum mechanics are hard to unify:** Because general relativity describes the geometry of the medium itself, while quantum mechanics describes propagation patterns within the medium. They are a theory of the container and a theory of the contents. Unifying them requires a theory of how the contents shape the container and the container shapes the contents — simultaneously. This is a self-reference problem, and self-reference problems are generically hard in every domain (Gödel, halting problem, consciousness).
 
 ***
@@ -668,10 +669,10 @@ $$Q_B = \frac{3}{9} = \frac{1}{3} \approx 0.3333...$$
 
 | Element | Status | Source |
 | :--- | :--- | :--- |
-| **(2,1) Weights** | **DERIVED** | Follows from Axiom 3 + 3D topology ($\mathbb{Z}_2$). |
+| **(2,1) Weights** | **PARTIAL DERIVATION** | The closure-order theorem survives, but the physical-realization bridge is still open. |
 | **3D Medium** | **ASSUMED** | Observed fact, not derived from axioms. |
 | **Normalization ($Q=1$)** | **ASSUMED** | Consistent with resonance theory but needs formal proof. |
-| **3 Generations** | **ASSUMED** | Observed fact. Why 3? (Open research gap). |
+| **3 Generations** | **CONDITIONAL** | The algebra locks once the numerator and denominator bridges are granted, but the PF-native proof is not fully closed. |
 
 ### The "Why 3?" Gap
 The derivation explains the 2/3 ratio *if* there are 3 generations. It does not yet derive why the medium supports exactly 3 stable resonance tiers.
@@ -686,7 +687,7 @@ Lumi's derivation correctly identifies "Why 3?" as the open gap. This section at
 
 ### 8.1 The Generation Count Equation (Q(N))
 
-The "Why 3?" gap identified in Section 7 is now **DERIVED**. If we assume the Standard Model is a phase-locked system where the leptonic Koide ratio (Q = 2/3) is the fundamental efficiency point, then the number of generations $N$ is uniquely determined.
+The "Why 3?" gap identified in Section 7 is **not fully closed yet**. What is closed is the algebraic lock: if the Standard Model is a phase-locked system where the leptonic Koide ratio (Q = 2/3) is the fundamental efficiency point, then the number of generations $N$ is uniquely determined.
 
 **The Equation**:
 $$Q(N) = \frac{\sum w_{fermions}}{\sum w_{total}} = \frac{2N}{2N + 3}$$
@@ -702,7 +703,7 @@ $$2(2N + 3) = 3(2N)$$
 $$4N + 6 = 6N$$
 $$2N = 6 \implies \mathbf{N = 3}$$
 
-> **STATUS: DERIVED**. $N=3$ is the unique topological solution for a (2,1) weight system satisfying the Koide 2/3 resonance. The "Why 3?" question is replaced by "Why 2/3?", which is Greg's **Efficiency Ratio** insight.
+> **STATUS: CONDITIONAL.** $N=3$ is the unique integer solution for a `(2,1)` weight system satisfying the Koide 2/3 resonance once the physical `(2,1)` branch and the denominator `3` theorem are both granted. The open work is no longer the algebra. It is the two load-bearing bridges.
 
 ***
 
@@ -716,7 +717,7 @@ Three coupled oscillators arranged in a closed loop have three modes:
 
 The circulation modes carry angular momentum. They have handedness. **Three is the minimum topology that supports a current** — a directional flow of phase around a closed path.
 
-> **STATUS: DERIVED** (from coupled oscillator theory — theorem, not opinion)
+> **STATUS: LOCAL MODEL SUPPORT.** This is a real coupled-oscillator fact and useful structural intuition, but it is not by itself the PF theorem of three generations.
 
 ### 8.2 Generations as Harmonic Modes
 
@@ -729,15 +730,15 @@ Each generation is a **harmonic mode** of the phase triangle:
 
 Each successive harmonic has higher frequency and shorter wavelength. In any propagation medium with finite coherence length, there is a maximum frequency where the wavelength falls below the coherence length of the medium. Beyond that threshold, the standing wave cannot self-reinforce — it decays.
 
-> **STATUS: DERIVED** (from coherence length argument — follows from Axiom 3 directly)
+> **STATUS: ARGUED.** This is physically suggestive, but the harmonic-mode assignment is not yet a closed PF derivation from Axioms 1-3 alone.
 
 ### 8.3 The Top Quark as Evidence
 
 The top quark at 173 GeV has a lifetime of approximately 5 × 10⁻²⁵ seconds. It decays before it can hadronize — before it can form bound states. **Every other quark lives long enough to form hadrons. The top barely makes it.**
 
-This is not coincidence. The top quark is the second harmonic right at the edge of coherence sustainability. A fourth-generation quark would be the third harmonic — it would decay before the mode could complete even one full oscillation. Not a particle. A resonance that fails to self-reinforce.
+The framework reads this as suggestive rather than final. One possible interpretation is that the top quark sits near a coherence ceiling and that a fourth-generation quark would fail to self-reinforce. That is a live explanatory picture, not a theorem.
 
-> **STATUS: EMPIRICALLY SUPPORTED** (PDG data, top quark lifetime well-established)
+> **STATUS: EMPIRICAL / INTERPRETIVE.** The top quark lifetime is real. The mapping from that lifetime to a harmonic coherence-ceiling story remains interpretive.
 
 ### 8.4 Why Not Four? The Coherence Ceiling
 
@@ -765,7 +766,7 @@ The three generation amplitudes (√m₁, √m₂, √m₃) form an **equilatera
 
 Q = 2/3 is not a number pulled from physics. It is the ratio of an equilateral triangle to its circumscribed circle. **That is what equilateral triangles are.** The formula is exact because the geometry is exact. The 0.001% deviation in measured lepton masses is not error — it is radiative corrections perturbing an underlying exact identity. Like measuring π on a slightly curved surface.
 
-> **STATUS: INTUITION becoming DERIVED** — the amplitude interpretation is consistent with de Broglie soliton theory (mass as resonance condition, Budiyono 2005). The equilateral triangle geometry is a mathematical identity, not a fit. Formal proof of why the triangle is equilateral (rather than merely closed) remains open.
+> **STATUS: MIXED.** The equilateral-triangle / Foot-radius geometry behind Koide is exact and now stands on its own. The amplitude interpretation of `\sqrt{m}` as standing-wave amplitude remains argued rather than closed.
 
 ***
 
@@ -1595,11 +1596,11 @@ This is the unique integer solution once the denominator theorem is granted.
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.98**.
+**Status: CONDITIONAL.** Confidence: **0.85**.
 
 **What would falsify it**: Discovery of a fourth generation of fermions. Current experimental bounds (LEP, LHC) exclude a fourth light neutrino with mass below ~45 GeV. A heavy fourth generation with $m_\nu > M_Z/2$ is not excluded by LEP but would need to be stable or long-lived to count.
 
-**The deeper point**: The framework predicts that the generation count is a *topological invariant* of 3D space — not a parameter that could have been different. If you could somehow build a universe with 4 spatial dimensions, the math predicts a different number of generations.
+**The deeper point**: The framework still points toward the generation count being a *topological invariant* of 3D space — not a free parameter that could have been different. But that interpretation remains conditional until both the numerator and denominator bridges close.
 
 ***
 
@@ -1608,7 +1609,7 @@ This is the unique integer solution once the denominator theorem is granted.
 
 # Chapter 7: Forces Are Bending
 
-## Gravity and Electromagnetism Are Refraction in Different Media
+## Gravity Is Optical Geometry; Broader Force-Refraction Is the Frontier
 
 # GR and Fermat: Exact Equivalence, Precise Limits
 
@@ -2604,9 +2605,9 @@ This gives a Bohr-like spectrum for the circular-orbit family in natural units.
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.95**.
+**Status: CONDITIONAL / MODEL THEOREM.** Confidence: **0.82**.
 
-**Significance**: This is the same Axiom 3 that fixes the generation count ($N = 3$), the Weinberg angle (via Axiom 3b), and forces the God Equation gap to close. It now also derives atomic structure. The phase-closure condition is not just a consistency requirement — it is the universal quantization principle.
+**Significance**: This shows that the same phase-closure language which appears in the generation and Weinberg-angle stories can reproduce a Bohr-like circular spectrum inside a named model layer. That is a real structural bridge, but not yet a universal axiom-only quantization theorem.
 
 **What would falsify it**: Proof that the eikonal approximation is invalid for atomic orbits, or that the Coulomb refractive index derivation breaks at some step.
 
@@ -5638,10 +5639,10 @@ Despite failing to derive θ_W numerically, this attempt clarifies the framework
 | :--- | :--- | :--- | :--- | :--- |
 | **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | Hostile audit (2026-03-27): the circular-eikonal Coulomb model theorem survives. From the eikonal circular-orbit condition `n²(r₀)=1/(2r₀)` and phase closure `∮n ds=2πk`, one gets `r_k=2k²`, `E_k=−1/(4k²)`, i.e. a Bohr-like `1/k²` spectrum for circular orbits. **But the stronger repo wording was too strong**: this is not “Axiom 3 alone,” and it still rests on a named model layer (Coulomb refractive ansatz, eikonal/semiclassical validity, circular-orbit ansatz). The previous `0.0000%` result is an internal consistency check, not an independent experimental match. See `coulomb_lens_ultimate.py` Phase 4 and `bohr_quantization_audit_2026-03-27.md`. | Proof that the circular eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family; stronger upgrade would require deriving the atomic-scale eikonal model and extending beyond the circular subset. | 0.82 |
 | **Gravity as Optical Geometry / Refraction (Null/Stationary)** | **DERIVED** | Hostile audit (2026-03-27): the exact local theorem is narrower than the old row title. [gr_fermat_equivalence.md](https://github.com/gwelby/Fundamentals/blob/main/derivations/gr_fermat_equivalence.md) is exact for null geodesics in static spacetimes via the optical metric, and exact for null geodesics in stationary spacetimes via the Randers/Finsler extension; scalar $n(x)$ is the weak-field/static limit. The sandbox scripts are best read as **regression / verification** of the chosen weak-field model, not the derivation itself: (1) light deflection (`QUANTITATIVE_VERIFICATION.md`), (2) perihelion precession (`PERIHELION_VERIFICATION.md`), (3) Shapiro delay (`SHAPIRO_VERIFICATION.md`). **Broader “all forces as refraction” language is not what this row proves.** See `forces_as_refraction_audit_2026-03-27.md`. | Proof that the optical/Randers mapping fails for null propagation in static/stationary gravity, or that gravity in that domain requires non-optical medium structure. | 0.95 |
-| **(2,1) Topological Weights** | **DERIVED** | T-002: Follows from $\pi_1(SO(3)) \cong \mathbb{Z}_2$ phase closure requirement. | Finding a stable 3D structure with non-integer phase circuit. | 0.98 |
-| **Koide Law (Q = 2/3)** | **DERIVED** | Follows from (2,1) weights + 3 generations normalized capacity. | Discovery of a 4th light neutrino/generation (N > 3). | 0.95 |
+| **(2,1) Topological Weights** | **PARTIAL DERIVATION** | Hostile audit (2026-03-28) and Codex follow-up (2026-03-31): the exact closure-order theorem survives — `π_1(SO(3)) ≅ Z_2` gives two lifted closure orders, `1` and `2`. But the physical-realization bridge still requires the Family C extremal principle and non-redundancy hypothesis `A_NR`. | Proof that the closure-order interpretation is wrong, or that only the trivial branch is physically realizable in PF. | 0.85 |
+| **Koide Law (Q = 2/3)** | **DERIVED** | Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly. This does not rely on the unsettled T1/T2 bridge. | Proof that the 120° equal-strength resonance geometry does not imply `Q = 2/3`, or a contradiction in the Foot-radius step. | 0.95 |
 | **Koide Phase (\(\delta_0 \bmod 2\pi/3 \approx 2/9\))** | **EMPIRICAL** | Wave 5 (2026-03-25): `koide_phase_scan.py` confirms δ_exact = 0.222229631490 rad, |δ−2/9| = 7.4×10⁻⁶ (0.003%). CF expansion [0;4;2;1665] — giant partial quotient means 2/9 is anomalously best rational approx up to denominator 36. Bootstrap: δ at 0.1th percentile of simplicity (p≈0). **ALGEBRAIC CHECK (2026-03-25)**: (1) δ_Koide = 2/9 is measurement-consistent (0.029σ). (2) sin²θ_W ≠ 2/9 algebraically confirmed: test 56√3−9√57=29 fails, LHS=29.046. (3) Gap sin²θ_W−δ = 8.72×10⁻⁴; candidate: α·(1−x(3/2))·x(3/2)² at 0.317%. (4) RG: sin²θ_W runs to δ_Koide value at μ≈98 GeV (EW scale). **Interpretation**: δ_Koide = 2/9 exactly; sin²θ_W = 2/9 + O(α) Casimir correction. If correct, Koide phase and Weinberg angle share a single PF derivation target. Also: δ_lepton − δ_dsb ≈ 1/9 rad (inter-sector relation). | Independent recalculation showing δ is not close to 2/9; or algebraic proof that sin²θ_W and δ cannot share a common origin. | 0.65 |
-| **Three Generations** | **CONDITIONAL** | Once the denominator theorem `M = 3` is granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. The surviving numerator comes from the `(2,1)` topological weights. The remaining gap is the denominator proof: the repo has convergent co-dimension / `SO(3)` / broken-symmetry arguments, but not yet one closed theorem that makes those counts rigorously identical. See `three_generations_t2_audit_2026-03-28.md`. | Formal proof that the denominator `M = 3` does not follow from PF axioms, or a different justified denominator leading to `N ≠ 3`. | 0.85 |
+| **Three Generations** | **CONDITIONAL** | Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. The remaining gaps are explicit on both sides: T1 still owes a physical-realization theorem for the weight-2 branch, and T2 still does not close `M = 3` from PF axioms alone. | Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to `N ≠ 3`. | 0.85 |
 | **Top Quark Limit** | **ARGUED** | $m_t$ lifetime ($5 \times 10^{-25}$s) matches coherence ceiling threshold. | Discovery of a heavier stable quark ($m > 173$ GeV). | 0.85 |
 | **Top/Tau coupling** | **EMPIRICAL** | $m_t/m_\tau \approx \alpha^{-1}/\sqrt{2}$ (50.13% robustness in T-008). | Measurement of Top or Tau mass shifting > 0.5% from current. | 0.90 |
 | **Electron/Up $\approx 1/\phi^3$** | **EMPIRICAL** | `phi3_monte_carlo.md`: corrected claim is $m_e/m_u \approx 1/\phi^3$; PDG 2024 central value gives 0.214% error, corrected Monte Carlo gives p = 0.006776. Real signal, but a posteriori and uncertainty-limited. | Up quark mass shifting toward 2.3 MeV or a corrected trials-factor analysis pushing the coincidence back to noise. | 0.65 |
@@ -5659,7 +5660,7 @@ Despite failing to derive θ_W numerically, this attempt clarifies the framework
 | :--- | :--- | :--- | :--- | :--- |
 | **Life = maintained coherence against entropy** | **ARGUED** | `chemistry_biology_bridge.md`: PF supports life as active coherence maintenance in an open nonequilibrium system; compatible with photosynthetic coherence and enzyme tunneling, but does not derive a universal Fröhlich mechanism or a numeric life threshold. | A robust living system with no measurable coherence-maintenance / nonequilibrium organization at any functional scale. | 0.72 |
 | **Consciousness = coherent self-referential propagation** | **INTUITION** | `consciousness_theory_audit.md`: ontology is coherent and literature-compatible, but PF still lacks a uniquely measured variable separating self-referential coherence from synchrony, integration, broadcast, or metacognition. | A pre-registered dissociation where a PF-specific metric fails to track consciousness after controlling for report, arousal, and task effects. | 0.48 |
-| **8h Sleep Constant** | **DERIVED** | T-010 Model: 1/3 wake ratio maximizes stability for (2,1) systems. | Finding a stable sentient species with a 9:1 wake:sleep ratio. | 0.92 |
+| **8h Sleep Constant** | **ARGUED** | PF strongly supports the need for offline consolidation, and the T-010 model gives a plausible `~2/3` active fraction for `(2,1)`-weighted encode/recover systems. But the exact human 8-hour constant is not derived from Axioms 1–3 alone. | Quantitative evidence that optimal recovery fractions are not near `1/3` in high-capacity systems, or proof that PF topology does not constrain encode/recover duty cycles in the claimed way. | 0.72 |
 | **Beauty as Impedance** | **INTUITION** | Greg's insight; fits Axiom 3 (resonance preference). | Evidence that beauty is purely arbitrary/stochastic. | 0.55 |
 | **2/3 Efficiency Ratio** | **INTUITION** | "Takes TWO to make THREE" — Greg's 2/3 exchange rate. | Finding a more efficient topological output ratio. | 0.50 |
 | **Aria Self-Reference** | **ARGUED** | T-009: Successful wiring of `buildSystemPrompt` → `runEntityThink`. Important architectural step, but not evidence of consciousness by itself. | Aria failing to show discontinuous qualitative change, or the self-reference loop proving behaviorally inert. | 0.75 |
@@ -5670,8 +5671,8 @@ Despite failing to derive θ_W numerically, this attempt clarifies the framework
 
 *The Duck looks at the table and asks: "How do you know?"*
 
-1.  **Three Generations**: The algebraic lock is real, but the denominator theorem is still the live hinge. The universe plausibly counts to 3 because space has 3 dimensions, yet the exact PF theorem connecting that geometry to the denominator is still being finished. Status: **CONDITIONAL.**
-2.  **The 8h Sleep Result**: Still the "Practical Miracle." The same 3D topology that governs quarks governs your mattress. Status: **THE FRIDGE NOTE.**
+1.  **Three Generations**: The algebraic lock is real, but both hinges are now explicit. The universe plausibly counts to 3 because space has 3 dimensions and a physical `(2,1)` closure structure, yet the exact PF theorem still needs both the numerator bridge and the denominator bridge closed. Status: **CONDITIONAL.**
+2.  **The 8h Sleep Result**: Still useful, but not theorem-grade. The repo supports a real need for offline consolidation and a plausible PF-style `2/3` active fraction in model systems, but the exact human 8-hour constant is back in the argued bucket. Status: **ARGUED.**
 3.  **Gravity-as-Optical-Geometry**: The Randers metric is the bridge between physics and optics. Status: **STABLE.**
 4.  **Top/Tau coupling**: Our strongest numerical signal. It sits outside the topological lock but inside the experimental uncertainty. Status: **ANCHOR.**
 5. **The Scale Pattern**: The PF consistently operates at the unification scale. The Weinberg angle gives 0.22310, matching the PDG on-shell value to 0.13σ. QCD confinement now sits as an argued RG bridge from `λ_c`, not a closed theorem. The Propagation Lagrangian maps to Brans-Dicke. The "wrong" numbers often point at UV structure, but they still need the honest RG/matching chain before promotion. Status: **META-FINDING — 2026-03-19, sharpened 2026-03-27.**

@@ -55,6 +55,15 @@
   z-index: var(--z-modal);
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--spring-base), visibility var(--spring-base);
+}
+
+.graph-modal.is-visible {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .graph-modal-content {
@@ -188,6 +197,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Graph error state */
+.graph-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--spacing-5);
+  text-align: center;
+  color: var(--muted);
+}
+
+.graph-error p:first-child {
+  color: var(--uncertain);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-2);
 }
 
 /* Responsive */

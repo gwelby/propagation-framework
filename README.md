@@ -13,6 +13,8 @@ an empty mathematical void, but as a physical medium through which information p
 The framework is not presented here as a finished theory with every gap closed. Some results are
 derived, some are argued, some are empirical, and some remain open. The live status of every major
 claim is tracked in [CLAIMS.md](./CLAIMS.md).
+Public-facing summaries in this repo should defer to that file rather than create a second formal
+scoreboard.
 
 At the center of the framework are three axioms:
 
@@ -31,7 +33,8 @@ In the Propagation Framework:
 
 - **Matter** is modeled as a stable, self-reinforcing propagation pattern
 - **Energy** is frequency
-- **Forces** are path-bending effects of the medium, described refractively
+- **Forces** are approached as path-bending or mode-changing effects of the medium; the exact
+  closed theorem today is gravity as optical geometry in its null/static-stationary domain
 - **Stable structure** exists only where coherence is maintained
 
 This repo asks what follows from those claims mathematically, and what survives contact with real
@@ -43,14 +46,14 @@ data.
 
 | Result | Status | Confidence |
 |--------|--------|------------|
-| Topological weights (2,1) from π₁(SO(3)) | DERIVED | 0.98 |
-| Three generations of matter | DERIVED | 0.98 |
+| Topological weights (2,1) from π₁(SO(3)) | PARTIAL DERIVATION | 0.85 |
+| Three generations of matter | CONDITIONAL | 0.85 |
 | Koide geometry: \(Q = 2/3 \iff R/A = \sqrt{2}\) | DERIVED | 0.95 |
-| Forces as refraction (Randers/Finsler equivalence) | DERIVED | 0.95 |
-| 8-hour sleep constant from (2,1) ratio | DERIVED | 0.92 |
+| Gravity as optical geometry / refraction (null/static-stationary) | DERIVED | 0.95 |
+| 8-hour sleep constant from (2,1) ratio | ARGUED | 0.72 |
 | Weinberg angle: \(\sin^2\theta_W \approx 0.22310\) via Axiom 3b | DERIVED | 0.90 |
-| QCD confinement from λ_c via RG running | DERIVED | 0.85 |
-| Matter scale from Planck scale (God Equation) | ARGUED | 0.75 |
+| QCD confinement from λ_c via RG running | ARGUED | 0.72 |
+| Matter scale from Planck scale (God Equation) | CONDITIONAL | 0.88 |
 | Top/tau mass ratio \(\approx \alpha^{-1}/\sqrt{2}\) | EMPIRICAL | 0.90 |
 
 The exact status definitions and falsification pathways are in [CLAIMS.md](./CLAIMS.md).
@@ -72,22 +75,25 @@ With \(N=3\), \(D=3\), and \(b_0 = 16/3\):
 - **Observed**: \(1.14 \times 10^{-18}\,\mathrm{m}\)
 - **Error**: \(0.4\%\)
 - **Fitting parameters**: \(0\)
-- **Status**: **ARGUED**, not DERIVED
+- **Status**: **CONDITIONAL**, not DERIVED
 
 What is closed:
 
-- the kinematic internal phase model
-- the exact \(N=3\) generational quotient structure
+- the numeric endpoint
+- the chiral-vs-symmetric selection evidence
 - the numerical agreement of the final scale
 
 What is still open:
 
 - the bridge from internal phase closure to the required spatial coherence-volume scaling
   \(N^{D/2}\)
+- the primitive operator / closure step on the actual derived \(\mathbb{Z}_3\) structure
+- a theorem-grade proof of `H_prod` rather than covariance-only support
 
 See [derivations/lambda_c_from_axioms.md](./derivations/lambda_c_from_axioms.md),
-[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md), and
-[derivations/product_walk_bridge_model.md](./derivations/product_walk_bridge_model.md).
+[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md),
+[derivations/product_walk_bridge_model.md](./derivations/product_walk_bridge_model.md), and
+[CLAIMS.md](./CLAIMS.md).
 
 You can run the numerical verification directly:
 
@@ -132,9 +138,9 @@ python visualizations/koide_triangle.py
 
 This repo keeps failures visible.
 
-- The harmonic-series mass claim failed. See [sandbox_results.md](./sandbox_results.md).
 - The corrected \(\phi^3\) electron/up-quark relation is interesting but remains uncertainty-limited
   and a posteriori. See [sandbox/phi3_monte_carlo.md](./sandbox/phi3_monte_carlo.md).
+- The harmonic-series mass claim failed. See [sandbox/sandbox_results.md](./sandbox/sandbox_results.md).
 
 A framework that only publishes successes is not science.
 
@@ -193,7 +199,7 @@ Output:
 The demo shows:
 1. Light rays bending through the refractive gradient (geometric optics)
 2. Matter in elliptical orbits (Newtonian limit)
-3. **Both are refraction in the same n(r) field**
+3. **Both are modeled as path-bending in the same weak-field \(n(r)\) field**
 
 ---
 

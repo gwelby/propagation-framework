@@ -24,12 +24,12 @@ Current curated snapshot:
 ### Reference Explorer (index.html)
 
 - `#hub` Scale Stack navigator
-- `#refraction` Forces as Refraction
+- `#refraction` Gravity as Optical Geometry
 - `#generations` Why Exactly Three
 - `#koide` The Koide Triangle
 - `#weinberg` The Weinberg Angle
 - `#god-equation` The God Equation
-- `#bohr` Bohr from Axiom 3
+- `#bohr` Bohr-like Circular-Eikonal Spectrum
 - `#dashboard` Audit wall
 
 ### Journey Mode (journey.html)
@@ -110,7 +110,7 @@ sandbox/explorer/
 
 ## Truth Policy
 
-- `sandbox_results.md` remains the top truth source for what actually held or failed.
+- `sandbox/sandbox_results.md` remains the top truth source for what actually held or failed.
 - `CLAIMS.md` defines explorer audit status.
 - `data.js` is the Explorer truth layer derived from `CLAIMS.md`; Journey and Comparison must source PF claims from it rather than hardcoding stronger copy.
 - `UNDERSTAND.md` may extend explanation, but it does not silently promote claims.

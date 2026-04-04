@@ -1,0 +1,577 @@
+/* ═══════════════════════════════════════════════════════════
+   No-Go Museum — Page Styles
+   Gallery of documented failed approaches
+   ═══════════════════════════════════════════════════════════ */
+
+.nogos-mode {
+  background: var(--void);
+  min-height: 100vh;
+}
+
+/* ── Shell layout ─────────────────────────────────────────── */
+.nogos-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.nogos-header {
+  padding: 48px 0 32px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+}
+
+.nogos-header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: start;
+}
+
+.nogos-back .back-link {
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.nogos-back .back-link:hover {
+  color: var(--propagate);
+  border-color: var(--propagate);
+  background: rgba(0, 207, 255, 0.06);
+}
+
+.nogos-title-block {
+  text-align: center;
+}
+
+.nogos-title-block .eyebrow {
+  font-family: var(--ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uncertain);
+  margin: 0 0 8px;
+}
+
+.nogos-title {
+  font-family: var(--headline);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 14px;
+  line-height: 1.1;
+}
+
+.nogos-subtitle {
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+.nogos-header-actions {
+  display: flex;
+  align-items: flex-start;
+}
+
+.filter-toggle-btn {
+  font-family: var(--ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.filter-toggle-btn:hover {
+  color: var(--text);
+  border-color: var(--propagate);
+}
+
+/* ── Filter bar ───────────────────────────────────────────── */
+.nogos-filter-bar {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  animation: slideDown 0.2s var(--spring);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  font-family: var(--ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-chip:hover {
+  border-color: var(--uncertain);
+  color: var(--uncertain);
+}
+
+.filter-chip.active {
+  background: rgba(255, 71, 87, 0.1);
+  border-color: var(--uncertain);
+  color: var(--uncertain);
+}
+
+/* ── Stats bar ────────────────────────────────────────────── */
+.nogos-stats-bar {
+  display: flex;
+  gap: 40px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.nogo-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nogo-stat strong {
+  font-family: var(--headline);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--uncertain);
+  line-height: 1;
+}
+
+.nogo-stat span {
+  font-family: var(--ui);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ── Gallery grid ──────────────────────────────────────────── */
+.nogos-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+  padding: 32px 0;
+}
+
+/* ── NO-GO card ───────────────────────────────────────────── */
+.nogo-card {
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 24px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  animation: fadeInUp 0.35s var(--spring) both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nogo-card:hover {
+  border-color: rgba(255, 71, 87, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(255, 71, 87, 0.08);
+}
+
+.nogo-card.positive:hover {
+  border-color: rgba(105, 255, 148, 0.35);
+  box-shadow: 0 8px 32px rgba(105, 255, 148, 0.06);
+}
+
+.nogo-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nogo-card-tag {
+  font-family: var(--ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 9px;
+  border-radius: 8px;
+  background: rgba(255, 71, 87, 0.12);
+  border: 1px solid rgba(255, 71, 87, 0.25);
+  color: var(--uncertain);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nogo-card.positive .nogo-card-tag {
+  background: rgba(105, 255, 148, 0.08);
+  border-color: rgba(105, 255, 148, 0.2);
+  color: var(--cohere);
+}
+
+.nogo-card-date {
+  font-family: var(--formula);
+  font-size: 0.65rem;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.nogo-card-title {
+  font-family: var(--headline);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.nogo-card-target {
+  font-family: var(--ui);
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  display: inline-block;
+}
+
+.nogo-card-target::before {
+  content: '→ ';
+  opacity: 0.5;
+}
+
+.nogo-card-failure {
+  font-family: var(--body);
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 71, 87, 0.04);
+  border-left: 2px solid rgba(255, 71, 87, 0.25);
+}
+
+.nogo-card.positive .nogo-card-failure {
+  background: rgba(105, 255, 148, 0.04);
+  border-left-color: rgba(105, 255, 148, 0.2);
+}
+
+.nogo-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+
+.nogo-card-lesson {
+  font-family: var(--ui);
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+  flex: 1;
+}
+
+.nogo-card-expand {
+  font-family: var(--ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--propagate);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 207, 255, 0.25);
+  background: rgba(0, 207, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.nogo-card-expand:hover {
+  background: rgba(0, 207, 255, 0.12);
+}
+
+/* ── Card stagger animation ────────────────────────────────── */
+.nogo-card:nth-child(1) { animation-delay: 0ms; }
+.nogo-card:nth-child(2) { animation-delay: 60ms; }
+.nogo-card:nth-child(3) { animation-delay: 120ms; }
+.nogo-card:nth-child(4) { animation-delay: 180ms; }
+.nogo-card:nth-child(5) { animation-delay: 240ms; }
+.nogo-card:nth-child(6) { animation-delay: 300ms; }
+.nogo-card:nth-child(7) { animation-delay: 360ms; }
+
+/* ── Philosophy footer ──────────────────────────────────────── */
+.nogos-philosophy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 48px 0;
+  border-top: 1px solid var(--line);
+}
+
+.philosophy-card {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.philosophy-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.philosophy-text h3 {
+  font-family: var(--headline);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.philosophy-text p {
+  font-family: var(--body);
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Detail overlay ────────────────────────────────────────── */
+.nogo-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(2, 4, 8, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+.nogo-detail-overlay[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.nogo-detail-card {
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 28px;
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 13, 26, 0.98);
+  padding: 36px 40px;
+  position: relative;
+  animation: slideUp 0.3s var(--spring);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.nogo-detail-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: color 0.15s;
+}
+
+.nogo-detail-close:hover {
+  color: var(--text);
+}
+
+.nogo-detail-header {
+  margin-bottom: 24px;
+}
+
+.nogo-detail-tag {
+  display: inline-block;
+  font-family: var(--ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 9px;
+  border-radius: 8px;
+  background: rgba(255, 71, 87, 0.12);
+  border: 1px solid rgba(255, 71, 87, 0.25);
+  color: var(--uncertain);
+  margin-bottom: 10px;
+}
+
+.nogo-detail-card.is-positive .nogo-detail-tag {
+  background: rgba(105, 255, 148, 0.08);
+  border-color: rgba(105, 255, 148, 0.2);
+  color: var(--cohere);
+}
+
+.nogo-detail-header h2 {
+  font-family: var(--headline);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.nogo-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nogo-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nogo-detail-section h4 {
+  font-family: var(--ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--propagate);
+  margin: 0;
+}
+
+.nogo-detail-section p,
+.nogo-detail-section ul {
+  font-family: var(--body);
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.nogo-detail-section ul {
+  padding-left: 20px;
+}
+
+.nogo-detail-section li {
+  margin-bottom: 4px;
+}
+
+.nogo-detail-section code {
+  font-family: var(--formula);
+  font-size: 0.82em;
+  background: rgba(0, 207, 255, 0.07);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--propagate);
+}
+
+.nogo-detail-sources {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.nogo-detail-sources h4 {
+  font-family: var(--ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.nogo-detail-sources a {
+  display: block;
+  font-family: var(--ui);
+  font-size: 0.78rem;
+  color: var(--propagate);
+  padding: 4px 0;
+  text-decoration: none;
+}
+
+.nogo-detail-sources a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nogos-header-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .nogos-title-block {
+    text-align: left;
+  }
+
+  .nogos-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .nogos-philosophy {
+    grid-template-columns: 1fr;
+  }
+
+  .nogo-detail-card {
+    padding: 24px;
+  }
+}

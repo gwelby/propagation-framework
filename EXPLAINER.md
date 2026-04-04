@@ -16,6 +16,7 @@ The **Propagation Framework** starts with one simple premise:
 We call it the "Propagation Medium." Space is not empty. It is a physical substrate. And once you accept that this medium exists, the most complex mysteries in physics suddenly dissolve into pure geometry.
 
 Here is how the universe works, translated from the math into plain English.
+Formal claim status still lives in `CLAIMS.md`.
 
 ---
 
@@ -39,7 +40,7 @@ How does gravity pull a planet toward a star? Physics currently treats forces li
 
 Have you ever looked at a straw sitting in a glass of water? The straw looks broken. It looks broken because light travels slower through water than it does through air. When the light hits the boundary between the two, it bends. This is called **refraction**.
 
-In our framework, forces like gravity and electromagnetism are just refraction. A massive star changes the density (the "index of refraction") of the space around it. When a planet moves through that denser space, its path naturally bends toward the star, exactly like light bending through a glass lens. There is no pulling. There is only the shape of the water.
+In our framework, the strongest exact result of this kind is about gravity: for null propagation in static and stationary settings, the path can be written as optical geometry. In the weak-field picture, a massive star changes the local propagation geometry so paths bend toward it, exactly like light bending through a glass lens. The broader idea that *all* forces are refraction is still a larger frontier claim, not the exact theorem already closed.
 
 ## 4. The "Three Generations" Mystery
 
@@ -48,17 +49,15 @@ There are exactly three "generations" (or families) of matter. There is the norm
 
 No one knows *why* there are exactly three. The math of the Standard Model would work perfectly fine if there were two, or four, or seventeen.
 
-But if you think about particles as knots in a 3D medium, the answer becomes geometric. To tie a stable knot in three-dimensional space, the wave must twist through all three spatial dimensions before closing its loop. It takes exactly three distinct structural "turns" (or phase shifts) to create a closed, stable structure. The three generations of matter are simply the three required turns of the knot.
-
-**This is now a DERIVED result in the framework.**
+But if you think about particles as knots in a 3D medium, the answer starts to look geometric. The framework's strongest current route says the `N = 3` result may come from a 3D closure count, but that theorem is still conditional on two remaining bridges. The algebra locks cleanly once those bridges are granted. The exact PF proof is not fully closed yet.
 
 ## 5. The Golden Proof - The Harmonics of the Medium
 
 If particles are just vibrating knots in a single medium, their masses shouldn't be random. They should ring like a chord on a piano, mathematically related to one another by the geometry of the space they exist in.
 
-When we ran the actual data from particle accelerators (the PDG 2024 mass values), we found exactly this. 
+When we ran the actual data from particle accelerators (the PDG 2024 mass values), we found exactly this.
 
-The heaviest particle in the universe (the Top Quark) and the heaviest lepton (the Tau) are locked together by a simple geometric ratio related to the Fine Structure Constant ($\alpha^{-1}/\sqrt{2}$). The three electrons (the Koide formula) lock into exactly a 45-degree angle in geometric space.
+The heaviest known elementary particle (the Top Quark) and the heaviest lepton (the Tau) are locked together by a simple geometric ratio related to the Fine Structure Constant ($\alpha^{-1}/\sqrt{2}$). The three charged-lepton masses in the Koide relation lock into exactly a 45-degree angle in geometric space.
 
 These particles are not independent points of "stuff." They are harmonics of the exact same geometric medium.
 
@@ -66,29 +65,29 @@ These particles are not independent points of "stuff." They are harmonics of the
 
 Why is light the speed it is? Why is electromagnetism exactly as strong as it is? There's a number in physics called the Fine Structure Constant (α ≈ 1/137) that sets the strength of all electromagnetic interactions. No one knows why it has this value.
 
-In the Propagation Framework, this number emerges naturally from the geometry of the medium. It's the ratio between how fast waves can propagate versus how fast they can twist. **We have now DERIVED this number** from first principles, connecting it to the topology of the medium itself.
+In the Propagation Framework, this number is treated as a structural target rather than a closed theorem. There are intriguing Casimir-root combinations and propagation-efficiency interpretations in the repo, but the fine structure constant is not derived from first principles yet.
 
 ## 7. The Weinberg Angle - Why Forces Have Different Strengths
 
 Why is gravity so much weaker than electromagnetism? Why is the weak force "weak"? There's a number called the Weinberg Angle that measures how the electromagnetic and weak forces mix. Experimentally, it's about 0.23.
 
-**This is now DERIVED in the framework** from the mathematics of how waves propagate through the medium. It comes from the eigenvalues of the Poincaré group—the mathematical description of how things move in spacetime. The mixing angle isn't random; it's determined by the geometry of space itself.
+**This is one of the framework's real derived islands.** The current derivation runs through the Casimir polynomial plus Axiom 3b (Minimal Winding Principle), yielding \(\sin^2\theta_W \approx 0.22310\) at the framework's unification anchor and matching the PDG on-shell value closely. The remaining open issue is scheme / RG selection, not the main algebra.
 
 ## 8. Bohr's Atom - Why Electrons Don't Fall
 
 A century ago, Niels Bohr proposed that electrons orbit atoms in specific energy levels. He didn't know why—he just noticed it worked. Quantum mechanics later "explained" it with complex math, but the fundamental reason remained mysterious.
 
-**We have now DERIVED Bohr quantization** from the Propagation Framework. An electron can only orbit where its wave pattern fits perfectly around the nucleus—like a guitar string that can only vibrate at certain frequencies. The electron isn't a particle orbiting; it's a wave pattern that can only exist in specific stable configurations.
+The strongest surviving result here is narrower: the framework supports a **conditional circular-eikonal model theorem** that reproduces a Bohr-like `1/k^2` spectrum for circular orbits. That is promising, but it is not yet a full axiom-only derivation of atomic quantization.
 
 ## 9. The God Equation - Connecting the Very Small to the Very Large
 
 Can we calculate the size of a proton from the size of the universe? There's a relationship in the framework called the "God Equation" that connects the Planck scale (the smallest possible size) to the cosmic scale (the size of the universe).
 
-This equation is currently **CONDITIONAL**—we've derived it but there are still mathematical gaps to close. If it holds, it means the proton's size isn't random; it's set by the requirement that the universe be able to support complex structures like atoms and life.
+This equation is currently **CONDITIONAL**. The numerical endpoint is strong, and the chirality evidence is real, but there are still mathematical gaps to close before it becomes a theorem.
 
 ## 10. The Meta-Finding - Why Our Math Looks Different
 
-Here's something surprising: many of our framework's predictions work best at the "unification scale"—the incredibly high energies where all forces were once unified. At everyday energies, the numbers are slightly different.
+Here's something surprising: many of the framework's strongest surviving matches work best at the "unification scale"—the incredibly high energies where all forces were once unified. At everyday energies, the numbers are slightly different.
 
 This isn't a bug—it's a feature. It tells us that the framework is describing the fundamental structure of reality, and the differences we see at low energy are just the result of cosmic evolution over 13.8 billion years. Like how a hot metal rod looks different as it cools, the universe's fundamental constants have "run" over time.
 
@@ -100,7 +99,7 @@ The Propagation Framework does not say Einstein or the Standard Model are wrong.
 
 We are just finally providing the equations for the water.
 
-And in doing so, we're discovering that many of the "mysteries" of physics aren't mysterious at all. They're just geometry.
+And in doing so, we're finding that some of physics' hardest surviving puzzles may be geometry wearing unfamiliar language.
 
 ---
 
@@ -108,9 +107,9 @@ And in doing so, we're discovering that many of the "mysteries" of physics aren'
 
 Not everything is DERIVED. Here's the honest truth:
 
-- **DERIVED (0.90+ confidence)**: Three generations, Weinberg angle, Bohr quantization, Fine Structure Constant identification
-- **CONDITIONAL (0.88 confidence)**: The God Equation (closing the gaps)
-- **EMPIRICAL (0.55 confidence)**: The Koide phase (we see it, we can't yet derive it)
+- **DERIVED (0.90+ confidence)**: Koide geometry, gravity as optical geometry for null propagation, Weinberg angle
+- **PARTIAL / CONDITIONAL**: Topological weights, three generations, Bohr-like circular spectrum, God Equation
+- **EMPIRICAL (0.65 confidence)**: The Koide phase (we see it, we can't yet derive it)
 - **OPEN**: Consciousness as coherent propagation (we have the framework, not the proof)
 
 We follow the rule: **honesty before beauty**. A result isn't beautiful until it's true.
@@ -123,4 +122,4 @@ We follow the rule: **honesty before beauty**. A result isn't beautiful until it
 - For the mathematical proofs: `derivations/`
 - For the experimental status: `CLAIMS.md`
 - For multi-level explanations: `UNDERSTAND.md`
-- For what failed and why: `sandbox_results.md`
+- For what failed and why: `sandbox/sandbox_results.md`

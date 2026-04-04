@@ -85,7 +85,7 @@ $$Q(N) = \frac{2N}{2N + 3}$$
 Setting $Q = 2/3$ (the Koide ratio, measured):
 $$\frac{2}{3} = \frac{2N}{2N+3} \implies N = 3$$
 
-**Claim T3 (CONDITIONAL):** If the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` both hold, then the number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights `(2,1)`.
+**Claim T3 (CONDITIONAL):** If the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` both hold, then the number of fermion generations is uniquely fixed at $N = 3$. This is the only positive integer satisfying the Koide constraint in a 3D medium with topological weights `(2,1)`. See `derivations/three_generations_closed_proof.md` for the clean assembly theorem and its current prerequisite gates.
 
 ### 3.3 Why Q = 2/3 Is Exact: The Geometric Identity
 
@@ -303,7 +303,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 
 | Prediction | Standard Model | This Framework |
 |-----------|----------------|----------------|
-| N = 3 generations | Free parameter | Uniquely derived from topology |
+| N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
 | Weinberg angle | Measured free parameter | Derived from Axiom 3b (0.13σ from PDG) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
@@ -329,7 +329,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | ARGUED | 0.75 | Derive N^{D/2} bridge from axioms |
+| God Equation (λ_c from l_P) | CONDITIONAL | 0.88 | Derive the coherence-volume bridge and prove `H_prod` rather than covariance-only support |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
@@ -375,9 +375,9 @@ Deviation: $0.000875\%$ — consistent with radiative corrections.
 
 ---
 
-## Appendix B — Derivation of Q(N) = 2N/(2N+3)
+## Appendix B — Conditional Assembly of Q(N) = 2N/(2N+3)
 
-Starting from Claim T1 (topological weights $(w_F, w_B) = (2, 1)$) and Claim T2 (M = 3 massive mediators in 3D):
+Granting the T1 numerator input (physical topological weights $(w_F, w_B) = (2, 1)$) and the T2 denominator input `M = 3`:
 
 $$Q(N) = \frac{\sum_{\text{fermions}} w_F}{\sum_{\text{fermions}} w_F + \sum_{\text{bosons}} w_B} = \frac{2N}{2N + 3}$$
 
@@ -386,7 +386,7 @@ $$\frac{2N}{2N+3} = \frac{2}{3}$$
 $$6N = 4N + 6$$
 $$N = 3$$
 
-The solution is unique for positive integers. $N = 3$ is the only generation count consistent with the Koide ratio in a 3D medium.
+The solution is unique for positive integers. Conditionally, $N = 3$ is the only generation count consistent with the Koide ratio in a 3D medium once the numerator and denominator theorems are both granted.
 
 ---
 

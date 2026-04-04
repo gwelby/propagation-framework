@@ -23,16 +23,22 @@ Left-handed chirality ≡ selecting only FORWARD-propagating modes.
 P_L ≡ projector onto k=1 eigenspace (and k=0 static mode).
 
 Under P_L:
-  S̄ restricted to {k=0,k=1} ≡ forward coupling only → pure shift structure
-  S̄² restricted to {k=2}     ≡ backward coupling     → zeroed out by P_L
+  The k=2 EIGENMODE is killed entirely (eigenvalue set to zero).
+  T_L is NOT reduced to a pure forward shift: |β/α| = 1 in position space.
 
-Result: If the weak coupling selects k=1 (left-handed, forward), then
-  T_projected ∝ S̄,  T_projected³ = scalar · I  (diagonal!)
-  and H_prod becomes viable.
+Result: Chiral projection makes T_L rank-2 (kills k=2 eigenmode), but does
+NOT eliminate the S̄² component from the position-space matrix. T_L³ in the
+full 3D position space has NONZERO off-diagonals — Gap B no-go still applies.
 
-This is NOT a proof from PF axioms. It is the mathematical structure of the
-chirality argument, made executable. Proving that the weak sector forces k=1
-selection is the remaining formal target for Path A.
+What IS true within the projected 2D subspace {k=0, k=1}: T_L has eigenvalues
+{1, -1/2}, and T_L³ restricted to that subspace is diagonal in the Fourier
+basis. This is 3-step periodicity in the projected sector, not full H_prod.
+
+This is NOT a proof from PF axioms. It makes the chirality argument executable
+and exposes two remaining targets for Path A:
+  (1) Prove P_L is forced by the Z3 Lagrangian + weak chiral structure.
+  (2) Prove Fourier-basis closure in the projected sector implies position-space
+      probability factorization (new gap — not visible before this computation).
 """
 
 import matplotlib
@@ -41,6 +47,9 @@ matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ── Build S̄ and Fourier basis on Z3 ─────────────────────────────────────────
 
@@ -199,39 +208,41 @@ for k, (es, ec) in enumerate(zip(ent_sym, ent_L)):
 
 print()
 print("=" * 70)
-print("PHYSICAL INTERPRETATION")
+print("PHYSICAL INTERPRETATION  [corrected — see audit 2026-03-31]")
 print("=" * 70)
-print("""
+print(f"""
 The Z3 Fourier eigenbasis splits the generation walk into three sectors:
 
-  k=0 (static):  both S̄ and S̄² have eigenvalue 1  — no propagation
-  k=1 (forward): S̄  eigenvalue e^{+2πi/3}          — left-handed chirality
-  k=2 (backward): S̄² eigenvalue e^{+2πi/3}          — right-handed chirality
+  k=0 (static):   S̄ and S̄² both have eigenvalue 1   — no propagation
+  k=1 (forward):  S̄  eigenvalue e^{{+2πi/3}}           — left-handed chirality
+  k=2 (backward): S̄  eigenvalue e^{{-2πi/3}}           — right-handed chirality
 
-The symmetric nearest-neighbor operator T = (1/2)(S̄ + S̄²) has EQUAL weight
-in the k=1 (forward) and k=2 (backward) sectors.
+The symmetric T = (1/2)(S̄ + S̄²) has EQUAL weight in k=1 and k=2.
 
-A left-handed chiral projection P_L = P0 + P1 keeps the static and forward
-sectors and kills the backward (right-handed) sector.
+WHAT P_L = P0 + P1 ACTUALLY DOES:
+  P_L kills the k=2 EIGENMODE (sets its eigenvalue to zero).
+  It does NOT eliminate S̄² from the position-space matrix.
 
-RESULT: The projected operator T_L = P_L · T_sym · P_L has:
-  α = forward coefficient (survives P_L)
-  β ≈ 0              (backward term killed by P_L)
+  Computed: |β/α| = 1.000  ← T_L retains equal forward AND backward
+  coupling in position space. T_L is NOT ∝ S̄ (NOT a pure shift).
 
-So T_L ∝ S̄ (pure shift), and T_L³ IS diagonal.
+3-STEP CLOSURE (CORRECTED):
+  T_L³ in the full 3D position space has NONZERO off-diagonals (see above).
+  Gap B no-go still applies: T_L³ is not diagonal in position space.
 
-WHAT THIS MEANS FOR H_prod:
-  If the weak coupling is left-handed (chiral), the generation walk is a
-  pure forward shift. The 3-step closure operator T³ = scalar · I is
-  diagonal. Gap B closes as soon as we prove that P_L is the correct
-  projector to apply — i.e., that the weak sector coupling forces k=1 only.
+  What IS true in the projected 2D subspace {{k=0, k=1}}:
+    T_L has eigenvalues {{1, -1/2}} and T_L³|_{{2D}} = diag(1, -1/8)
+    — diagonal in the Fourier eigenbasis of that 2D sector.
+  This is 3-step periodicity within the left-handed sector only.
 
-REMAINING FORMAL TARGET (Path A):
-  Show that the Z3 Lagrangian, under the chiral projection P_L of the weak
-  sector (which couples only left-handed generation fields), reduces the
-  coupling matrix from M = S̄ + S̄⁻¹ to T = a·S̄ alone.
-  This would make chirality a THEOREM of the propagation framework, not
-  a postulate.
+REMAINING FORMAL TARGETS FOR PATH A:
+  1. Prove P_L is forced by the Z3 Lagrangian under weak chiral coupling
+     (the original Path A target — still open).
+  2. Prove that Fourier-basis closure in the projected 2D sector translates
+     to position-space probability factorization for H_prod.
+     *** This is a NEW named gap, not visible before this computation. ***
+
+Gap B does NOT close from chiral projection alone. Both targets are open.
 """)
 
 # ── Plot ─────────────────────────────────────────────────────────────────────
@@ -328,11 +339,11 @@ chain = [
     ("Chirality Observation", "#f59e0b",
      "Weak force is left-handed (SM)\nOnly k=1 (forward) mode couples"),
     ("Chiral Projection", "#a78bfa",
-     "P_L kills k=2 (backward) term\nT_sym → T_L ∝ S̄  (b→0)"),
-    ("T_L³ = scalar · I", "#00e0b8",
-     "3-step closure IS diagonal\nunder chiral projection"),
-    ("H_prod closure (conditional)", "#2ecc71",
-     "Statistical independence holds\nIF P_L derived from ℤ₃ Lagrangian"),
+     "P_L kills k=2 EIGENMODE (not S̄² term)\n|β/α|=1 in position space — NOT pure shift"),
+    ("T_L³ in 2D subspace", "#00e0b8",
+     "Diagonal in Fourier basis of {k=0,k=1}\nBut NOT diagonal in full 3D position space"),
+    ("H_prod: TWO open gaps", "#e74c3c",
+     "Gap 1: prove P_L from ℤ₃ Lagrangian\nGap 2: 2D closure → position-space H_prod"),
 ]
 
 y = 0.92
@@ -344,12 +355,12 @@ for title, color, desc in chain:
     y -= 0.17
 
 ax4.text(0.05, 0.04,
-         "OPEN: derive P_L from ℤ₃ + weak chiral structure",
+         "OPEN: Gap 1 (P_L from ℤ₃) + Gap 2 (2D→H_prod)",
          color="#ffd166", fontsize=9, fontweight='bold',
          transform=ax4.transAxes,
          bbox=dict(boxstyle='round', fc='#2a1a00', alpha=0.8))
 
-plt.savefig('/mnt/d/Fundamentals/sandbox/chiral_projection_z3.png',
-            dpi=150, bbox_inches='tight', facecolor=bg)
+output_path = OUTPUT_DIR / 'chiral_projection_z3.png'
+plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor=bg)
 plt.close()
-print("\nFigure saved: sandbox/chiral_projection_z3.png")
+print(f"\nFigure saved: {output_path.relative_to(OUTPUT_DIR.parent)}")

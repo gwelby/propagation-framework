@@ -25,6 +25,9 @@ Output: appended to ../sandbox_results.md
 import numpy as np
 from scipy.stats import pearsonr
 from datetime import datetime
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # ─── Kuramoto dynamics ────────────────────────────────────────────────────────
 
@@ -245,7 +248,7 @@ dρ/dK peak at K = {results['K_drho_peak']:.2f}
 {"The Propagation Framework prediction holds: integrated information (consciousness) is maximized at the phase transition point, where the coherence gradient is steepest. This is the 'edge of order' — not synchronized, not disordered, but at the boundary. The framework's claim that consciousness scales with coherent complexity (not just coherent amplitude) is consistent with this result." if verdict == "CONFIRMED" else "See verdict above for interpretation."}
 """
 
-    results_path = "/mnt/d/Fundamentals/sandbox_results.md"
+    results_path = OUTPUT_DIR / "sandbox_results.md"
     with open(results_path, "a") as f:
         f.write(entry)
     print(f"\n  → Appended to sandbox_results.md")

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No-Go Museum — Propagation Framework Explorer</title>
+  <meta name="description" content="Documented failed approaches in the Propagation Framework. What was tried, why it didn't work, and what it taught us.">
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="nogos.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body class="nogos-mode mode-story">
+
+  <!-- Background -->
+  <div class="shell-glow shell-glow-a"></div>
+  <div class="shell-glow shell-glow-b"></div>
+
+  <!-- Main layout -->
+  <div class="nogos-shell">
+
+    <!-- Header -->
+    <header class="nogos-header">
+      <div class="nogos-header-inner">
+        <div class="nogos-back">
+          <a href="index.html" class="back-link">
+            <span aria-hidden="true">←</span> Back to Explorer
+          </a>
+        </div>
+        <div class="nogos-title-block">
+          <p class="eyebrow">What Was Tried and Why It Didn't Work</p>
+          <h1 class="nogos-title">No-Go Museum</h1>
+          <p class="nogos-subtitle">
+            Failed approaches are primary evidence, not footnotes. Each entry is a documented dead end —
+            what was tried, why the chain broke, and what the failure taught.
+          </p>
+        </div>
+        <div class="nogos-header-actions">
+          <button class="filter-toggle-btn" id="filterToggle" type="button">
+            Filter by frontier
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter bar -->
+    <div class="nogos-filter-bar" id="filterBar" hidden>
+      <div class="filter-chips">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="weinberg">Weinberg Angle</button>
+        <button class="filter-chip" data-filter="god-equation">God Equation</button>
+        <button class="filter-chip" data-filter="generations">Generation Count</button>
+        <button class="filter-chip" data-filter="koide">Koide / Mass</button>
+        <button class="filter-chip" data-filter="mass-harmony">Mass Harmony</button>
+        <button class="filter-chip" data-filter="topology">Topology</button>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="nogos-stats-bar">
+      <div class="nogo-stat">
+        <strong id="nogoTotal">7</strong>
+        <span>Documented dead ends</span>
+      </div>
+      <div class="nogo-stat">
+        <strong id="nogoFrontiers">5</strong>
+        <span>Frontier areas affected</span>
+      </div>
+      <div class="nogo-stat">
+        <strong>3</strong>
+        <span>Routes that closed positively (found something else)</span>
+      </div>
+    </div>
+
+    <!-- Museum gallery -->
+    <main class="nogos-gallery" id="nogosGallery">
+      <!-- Cards injected by nogos.js -->
+    </main>
+
+    <!-- Philosophy footer -->
+    <footer class="nogos-philosophy">
+      <div class="philosophy-card">
+        <div class="philosophy-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="var(--uncertain)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line x1="8" y1="8" x2="24" y2="24" stroke="var(--uncertain)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="philosophy-text">
+          <h3>Why document failures?</h3>
+          <p>
+            A theory that knows what it cannot do is more valuable than one that only knows what it can.
+            Every NO-GO entry here represents a genuine attempt — a route that seemed promising,
+            was pursued seriously, and was closed by a specific technical objection.
+            The objections are real. They are on record.
+          </p>
+        </div>
+      </div>
+      <div class="philosophy-card">
+        <div class="philosophy-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="var(--cohere)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <polyline points="10,20 16,10 22,20" stroke="var(--cohere)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="16" cy="22" r="1.5" fill="var(--cohere)"/>
+          </svg>
+        </div>
+        <div class="philosophy-text">
+          <h3>How to read a NO-GO</h3>
+          <p>
+            Each entry has three parts: <strong>the approach</strong> (what was tried),
+            <strong>the failure mode</strong> (exactly where and why the chain broke),
+            and <strong>the lesson</strong> (what this rules out and what it suggests instead).
+            Do not re-attempt the approach without reading the source document.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Detail overlay -->
+  <div class="nogo-detail-overlay" id="nogoDetailOverlay" hidden>
+    <div class="nogo-detail-card" id="nogoDetailCard">
+      <button class="nogo-detail-close" id="nogoDetailClose" type="button" aria-label="Close">&#x2715;</button>
+      <div class="nogo-detail-header">
+        <span class="nogo-detail-tag" id="nogoDetailTag"></span>
+        <h2 id="nogoDetailTitle"></h2>
+      </div>
+      <div class="nogo-detail-body" id="nogoDetailBody"></div>
+      <div class="nogo-detail-sources" id="nogoDetailSources"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="nogos.js"></script>
+</body>
+</html>

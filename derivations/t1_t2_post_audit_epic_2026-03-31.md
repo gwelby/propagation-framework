@@ -86,13 +86,13 @@ What is now closed conditionally (unchanged from v1):
 **What v2 companion files added (2026-03-31)**:
 
 1. **PF order-parameter bridge** (`t2_order_parameter_derivation.md`)
-   The coherence field `Ψ : ℝ³ × ℝ → ℂ` promoted from bare ansatz to **ARGUED (0.80)** derivation from Axioms 1-3. Complex structure forced by Axiom 2 wave kinematics; nonzero vacuum forced by Axiom 3. Gap OP-1 named: Axioms 1-3 do not uniquely rule out `ℂⁿ` for `n > 1`; single-component minimality rests on T1 local structure argument. Status: gap is bounded and named, not closed.
+   The coherence field `Ψ : ℝ³ × ℝ → ℂ` promoted from bare ansatz to **ARGUED (0.72)** derivation from Axioms 1-3. Complex structure forced by Axiom 2 wave kinematics; nonzero vacuum forced by Axiom 3. Gaps OP-1a/OP-2 named. Includes formal G→H symmetry breaking chain (U(2)→U(1)) in Section 4.5. Status: gap is bounded and named, not closed.
 
 2. **PF → `2×2` Fermi-point Hamiltonian bridge** (`t2_fermi_point_bridge.md` Part A)
-   Derived from T1's `ℂ²` state space + Axiom 2's real-energy requirement without importing condensed-matter band structure. The Pauli decomposition is a linear algebra theorem, not a physical import. New named conditional `C_FP`: Fermi points must exist in the PF weight-2 sector (not derived from Axioms 1-3). Status: bridge argued (0.82), conditional `C_FP` named.
+   Derived from T1's `ℂ²` state space + Axiom 2's real-energy requirement without importing condensed-matter band structure. The Pauli decomposition is a linear algebra theorem, not a physical import. New named conditionals `C_mom` and `C_FP`: the PF medium must admit a momentum-space description, and Fermi points must exist in the PF weight-2 sector. Status: bridge file remains **ARGUED (0.72)**.
 
 3. **Perturbation-space → bosonic restoration-mode bridge** (`t2_fermi_point_bridge.md` Part B)
-   Argued (0.73) via the Volovik template: each gap-opening direction opens a distinct coherence re-locking channel; distinct channels = independent massive restoration modes. New named conditional `C_bridge`: this correspondence is argued, not proved from PF axioms alone. Status: bridge argued (0.73), conditional `C_bridge` named.
+   Argued (**0.72**) via the Volovik template: the three Pauli directions are the candidate broken directions counted again by the formal G→H chain in `t2_order_parameter_derivation.md` Section 4.5, but `C_bridge` is still the live hidden step that would turn that count into three independent massive restoration modes. Status: bridge argued (0.72), conditional `C_bridge` named.
 
 4. **Explicit `d = 3` input**
    Unchanged. Named explicitly throughout v2. Still an input, not a PF consequence.
@@ -148,13 +148,13 @@ The exact T2 targets remain unchanged from the March 31 audit. v2 companion file
 
 - The order-parameter file had three overclaims (corrected in v2.1, Gap OP-1a and Gap OP-2 named; status revised to ARGUED 0.72)
 - Bridge 2 still presupposes translation invariance of the PF medium (new named conditional `C_mom`)
-- Bridge 3 renamed the core hidden step as `C_bridge` rather than closing it
+- Bridge 3 renamed the core hidden step as `C_bridge` rather than closing it (status revised to ARGUED 0.72)
 
 The targets remain:
 
-1. Derive the PF order parameter from Axioms 1-3 (promoted from bare ansatz but still ARGUED with named gaps OP-1a and OP-2).
+1. Derive the PF order parameter from Axioms 1-3 (promoted from bare ansatz but still ARGUED (0.72) with named gaps OP-1a and OP-2); the formal G→H chain in Section 4.5 organizes the count but does not close the theorem.
 2. Derive the local `2×2` Hermitian Fermi-point Hamiltonian from T1 + Axioms 1-3, without assuming translation invariance (`C_mom`) or band-touching point existence (`C_FP`).
-3. Prove that the three perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — this is the live core hidden step.
+3. Prove that the three perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — the Section 4.5 symmetry count sharpens this target but does not close it.
 4. Keep the `d = 3` dependence explicit until PF derives dimensionality.
 
 See `t2_denominator_theorem.md` Section 13 for all four Codex objections, and `three_generations_t2_proof.md` for the strongest honest current T2 statement.
@@ -215,4 +215,3 @@ But it now knows the exact missing bridges:
 
 That is real progress.
 The unknowns are now localized enough to attack without lying.
-
