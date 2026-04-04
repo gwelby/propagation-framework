@@ -11,6 +11,11 @@
  *
  * Dual-context: works in Explorer shell (panel registration) AND
  * standalone Journey mode (PFRealityVisuals export).
+ *
+ * WORLD-CLASS FEATURES:
+ * - Continuous wavefront simulation (not ray diagrams)
+ * - Web Audio API sound design (gravity drone, wave hum, topology chime)
+ * - Interactive mass dragging and wave source placement
  */
 (function () {
   'use strict';
@@ -31,14 +36,533 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  function smoothstep(edge0, edge1, x) {
+    var t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
 
   // ═══════════════════════════════════════════════════════════════
-  // 1. GRAVITY REFRACTION — Animated light rays through density gradient
+  // SOUND ENGINE — Web Audio API
   // ═══════════════════════════════════════════════════════════════
 
-  var _gravityAnimState = null;
+  var _audioCtx = null;
+  var _audioEnabled = false;
+  var _audioNodes = {};
 
-  function drawGravityRefraction(canvas, opts) {
+  function ensureAudioContext() {
+    if (_audioCtx) return _audioCtx;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      _audioCtx = new AC();
+      return _audioCtx;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function resumeAudio() {
+    var ctx = ensureAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    _audioEnabled = !!ctx;
+    return ctx;
+  }
+
+  // Enable audio on first user interaction (browser policy)
+  function enableAudioOnInteraction() {
+    if (!_audioEnabled) {
+      resumeAudio();
+    }
+  }
+
+  // ── Gravity Drone ──
+  // Low-frequency oscillator that deepens near mass
+
+  function startGravityDrone(intensity) {
+    if (!_audioEnabled) return;
+    stopGravityDrone();
+    var ctx = _audioCtx;
+    intensity = clamp(intensity || 0.3, 0, 1);
+
+    var osc1 = ctx.createOscillator();
+    var osc2 = ctx.createOscillator();
+    var gain = ctx.createGain();
+    var filter = ctx.createBiquadFilter();
+
+    osc1.type = 'sine';
+    osc1.frequency.value = lerp(55, 38, intensity); // A1 → lower
+    osc2.type = 'sine';
+    osc2.frequency.value = lerp(55.5, 38.3, intensity); // Slight detune for beating
+
+    filter.type = 'lowpass';
+    filter.frequency.value = lerp(200, 120, intensity);
+    filter.Q.value = 2;
+
+    gain.gain.value = 0;
+    gain.gain.linearRampToValueAtTime(0.06 * intensity, ctx.currentTime + 0.5);
+
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc1.start();
+    osc2.start();
+
+    _audioNodes.gravityDrone = { osc1: osc1, osc2: osc2, gain: gain, filter: filter };
+  }
+
+  function updateGravityDrone(intensity) {
+    if (!_audioEnabled || !_audioNodes.gravityDrone) return;
+    var ctx = _audioCtx;
+    var n = _audioNodes.gravityDrone;
+    intensity = clamp(intensity, 0, 1);
+    n.osc1.frequency.linearRampToValueAtTime(lerp(55, 38, intensity), ctx.currentTime + 0.1);
+    n.osc2.frequency.linearRampToValueAtTime(lerp(55.5, 38.3, intensity), ctx.currentTime + 0.1);
+    n.filter.frequency.linearRampToValueAtTime(lerp(200, 120, intensity), ctx.currentTime + 0.1);
+    n.gain.gain.linearRampToValueAtTime(0.06 * intensity, ctx.currentTime + 0.1);
+  }
+
+  function stopGravityDrone() {
+    if (_audioNodes.gravityDrone) {
+      var n = _audioNodes.gravityDrone;
+      var ctx = _audioCtx;
+      n.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
+      setTimeout(function () {
+        try { n.osc1.stop(); n.osc2.stop(); } catch (e) {}
+      }, 400);
+      _audioNodes.gravityDrone = null;
+    }
+  }
+
+  // ── Standing Wave Hum ──
+  // Sine wave at the standing wave frequency
+
+  function startWaveHum(freq, amplitude) {
+    if (!_audioEnabled) return;
+    stopWaveHum();
+    var ctx = _audioCtx;
+    freq = freq || 220; // A3
+    amplitude = clamp(amplitude || 0.5, 0, 1);
+
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    var filter = ctx.createBiquadFilter();
+
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+
+    filter.type = 'lowpass';
+    filter.frequency.value = freq * 3;
+    filter.Q.value = 1;
+
+    gain.gain.value = 0;
+    gain.gain.linearRampToValueAtTime(0.04 * amplitude, ctx.currentTime + 0.3);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+
+    _audioNodes.waveHum = { osc: osc, gain: gain, filter: filter, baseFreq: freq };
+  }
+
+  function updateWaveHum(amplitude) {
+    if (!_audioEnabled || !_audioNodes.waveHum) return;
+    var ctx = _audioCtx;
+    var n = _audioNodes.waveHum;
+    amplitude = clamp(amplitude, 0, 1);
+    n.gain.gain.linearRampToValueAtTime(0.04 * amplitude, ctx.currentTime + 0.05);
+  }
+
+  function stopWaveHum() {
+    if (_audioNodes.waveHum) {
+      var n = _audioNodes.waveHum;
+      var ctx = _audioCtx;
+      n.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+      setTimeout(function () { try { n.osc.stop(); } catch (e) {} }, 300);
+      _audioNodes.waveHum = null;
+    }
+  }
+
+  // ── Topology Chime ──
+  // Three-note chord when N=3 locks
+
+  function playTopologyChime(n) {
+    if (!_audioEnabled) return;
+    var ctx = _audioCtx;
+    var now = ctx.currentTime;
+
+    // Different chords for different N
+    var freqs;
+    if (n === 3) {
+      // Major triad — locked, harmonious
+      freqs = [261.63, 329.63, 392.00]; // C4, E4, G4
+    } else if (n === 2) {
+      // Dissonant interval — incomplete
+      freqs = [261.63, 277.18]; // C4, C#4
+    } else if (n === 4) {
+      // Chaotic cluster — too many
+      freqs = [261.63, 277.18, 293.66, 311.13];
+    } else {
+      // Single tone — trivial
+      freqs = [261.63];
+    }
+
+    freqs.forEach(function (freq, i) {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.value = 0;
+      gain.gain.linearRampToValueAtTime(0.03, now + 0.05 + i * 0.02);
+      gain.gain.linearRampToValueAtTime(0, now + 1.5);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now + i * 0.02);
+      osc.stop(now + 1.6);
+    });
+  }
+
+  // ── Public Sound API ──
+
+  window.PFSound = {
+    enable: enableAudioOnInteraction,
+    startGravityDrone: startGravityDrone,
+    updateGravityDrone: updateGravityDrone,
+    stopGravityDrone: stopGravityDrone,
+    startWaveHum: startWaveHum,
+    updateWaveHum: updateWaveHum,
+    stopWaveHum: stopWaveHum,
+    playTopologyChime: playTopologyChime,
+    isReady: function () { return _audioEnabled; }
+  };
+
+  // ═══════════════════════════════════════════════════════════════
+  // 1. GRAVITY WAVEFRONT SIMULATION — Continuous wave propagation
+  //    with spatially varying refractive index
+  // ═══════════════════════════════════════════════════════════════
+
+  var _gravitySim = null;
+
+  function initGravitySimulation(canvas) {
+    if (!canvas) return null;
+    var box = getCanvasBox(canvas, 160);
+    var w = box.width, h = box.height;
+
+    // Grid resolution (coarser than pixel for performance)
+    var cellSize = 3;
+    var cols = Math.ceil(w / cellSize);
+    var rows = Math.ceil(h / cellSize);
+
+    // Wave state: current and previous frames
+    var u = new Float32Array(cols * rows);
+    var uPrev = new Float32Array(cols * rows);
+    var uNext = new Float32Array(cols * rows);
+
+    // Refractive index field: n(x,y) = 1 + rs / |r - r_mass|
+    var nField = new Float32Array(cols * rows);
+
+    // Wave speed field: c(x,y) = c0 / n(x,y)
+    var cField = new Float32Array(cols * rows);
+
+    // Image data for rendering
+    var imageData = canvas.getContext('2d').createImageData(w, h);
+
+    return {
+      canvas: canvas,
+      ctx: canvas.getContext('2d'),
+      box: box,
+      cols: cols,
+      rows: rows,
+      cellSize: cellSize,
+      u: u,
+      uPrev: uPrev,
+      uNext: uNext,
+      nField: nField,
+      cField: cField,
+      imageData: imageData,
+      massX: 0.5,
+      massY: 0.5,
+      massStrength: 0.4,
+      waveFreq: 0.08,
+      waveAmp: 0.6,
+      damping: 0.998,
+      time: 0,
+      running: false,
+      dragging: false,
+      animFrameId: null
+    };
+  }
+
+  function updateGravityFields(sim) {
+    var cols = sim.cols, rows = sim.rows;
+    var massCol = sim.massX * cols;
+    var massRow = sim.massY * rows;
+    var rs = sim.massStrength * Math.min(cols, rows) * 0.3;
+
+    for (var j = 0; j < rows; j++) {
+      for (var i = 0; i < cols; i++) {
+        var dx = i - massCol;
+        var dy = j - massRow;
+        var dist = Math.sqrt(dx * dx + dy * dy) + 1; // +1 to avoid singularity
+        var nVal = 1 + rs / dist;
+        var idx = j * cols + i;
+        sim.nField[idx] = nVal;
+        sim.cField[idx] = 1 / nVal; // c = c0 / n, c0 = 1
+      }
+    }
+  }
+
+  function stepGravityWave(sim) {
+    var cols = sim.cols, rows = sim.rows;
+    var u = sim.u, uPrev = sim.uPrev, uNext = sim.uNext;
+    var cField = sim.cField;
+    var damping = sim.damping;
+
+    for (var j = 1; j < rows - 1; j++) {
+      for (var i = 1; i < cols - 1; i++) {
+        var idx = j * cols + i;
+        var c = cField[idx];
+
+        // 2D wave equation: u_tt = c² * (u_xx + u_yy)
+        // Discretized: u_next = 2*u - u_prev + c² * dt² * laplacian
+        var laplacian = u[idx - 1] + u[idx + 1] + u[idx - cols] + u[idx + cols] - 4 * u[idx];
+        var dt2 = 0.25; // Courant-stable timestep
+        uNext[idx] = 2 * u[idx] - uPrev[idx] + c * c * dt2 * laplacian;
+        uNext[idx] *= damping;
+      }
+    }
+
+    // Absorbing boundary conditions (damp edges)
+    var edgeDamp = 0.9;
+    for (var i = 0; i < cols; i++) {
+      uNext[i] *= edgeDamp; // top
+      uNext[(rows - 1) * cols + i] *= edgeDamp; // bottom
+    }
+    for (var j = 0; j < rows; j++) {
+      uNext[j * cols] *= edgeDamp; // left
+      uNext[j * cols + cols - 1] *= edgeDamp; // right
+    }
+
+    // Swap buffers
+    var tmp = uPrev;
+    sim.uPrev = u;
+    sim.u = uNext;
+    sim.uNext = tmp;
+  }
+
+  function driveGravityWave(sim, time) {
+    var cols = sim.cols, rows = sim.rows;
+    var u = sim.u;
+    var freq = sim.waveFreq;
+    var amp = sim.waveAmp;
+
+    // Drive from left edge: continuous plane wave
+    var driveCols = 3;
+    for (var j = 0; j < rows; j++) {
+      for (var di = 0; di < driveCols; di++) {
+        var idx = j * cols + di;
+        var phase = time * freq * Math.PI * 2;
+        // Smooth envelope to avoid sharp edges
+        var envelope = smoothstep(0, driveCols, di);
+        u[idx] += Math.sin(phase) * amp * envelope * 0.3;
+      }
+    }
+  }
+
+  function renderGravityWave(sim) {
+    var w = sim.box.width, h = sim.box.height;
+    var cols = sim.cols, rows = sim.rows;
+    var cellSize = sim.cellSize;
+    var u = sim.u;
+    var imageData = sim.imageData;
+    var data = imageData.data;
+
+    // Clear
+    for (var i = 0; i < data.length; i += 4) {
+      data[i] = 2;     // R
+      data[i + 1] = 4; // G
+      data[i + 2] = 8; // B
+      data[i + 3] = 255;
+    }
+
+    // Render wave field
+    for (var j = 0; j < rows; j++) {
+      for (var i = 0; i < cols; i++) {
+        var idx = j * cols + i;
+        var val = u[idx];
+
+        // Color mapping: positive = cyan, negative = deep blue
+        var absVal = Math.abs(val);
+        var px = Math.min(i * cellSize, w - 1);
+        var py = Math.min(j * cellSize, h - 1);
+
+        var r, g, b;
+        if (val > 0) {
+          // Cyan wave peaks
+          r = Math.floor(absVal * 0);
+          g = Math.floor(absVal * 200);
+          b = Math.floor(absVal * 255);
+        } else {
+          // Deep blue troughs
+          r = Math.floor(absVal * 10);
+          g = Math.floor(absVal * 30);
+          b = Math.floor(absVal * 120 + 20);
+        }
+
+        // Fill cell (cellSize × cellSize pixels)
+        for (var dy = 0; dy < cellSize && py + dy < h; dy++) {
+          for (var dx = 0; dx < cellSize && px + dx < w; dx++) {
+            var pi = ((py + dy) * w + (px + dx)) * 4;
+            data[pi] = Math.min(255, data[pi] + r);
+            data[pi + 1] = Math.min(255, data[pi + 1] + g);
+            data[pi + 2] = Math.min(255, data[pi + 2] + b);
+          }
+        }
+      }
+    }
+
+    // Draw mass indicator
+    var massPx = sim.massX * w;
+    var massPy = sim.massY * h;
+    var massR = Math.min(12, w * 0.03);
+
+    var ctx = sim.ctx;
+    ctx.putImageData(imageData, 0, 0);
+
+    // Mass glow
+    var grad = ctx.createRadialGradient(massPx, massPy, 0, massPx, massPy, massR * 4);
+    grad.addColorStop(0, 'rgba(255, 215, 0, 0.6)');
+    grad.addColorStop(0.3, 'rgba(255, 179, 71, 0.15)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(massPx, massPy, massR * 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(massPx, massPy, massR, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffd700';
+    ctx.shadowColor = '#ffd700';
+    ctx.shadowBlur = 12;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Labels
+    ctx.font = '10px "DM Sans", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(139, 163, 189, 0.5)';
+    ctx.fillText('wavefront →', 8, 14);
+
+    ctx.fillStyle = 'rgba(255, 71, 87, 0.5)';
+    ctx.textAlign = 'center';
+    ctx.font = '9px "DM Sans", sans-serif';
+    ctx.fillText('✗ "gravity pulls" — no, the wave slows down here', w / 2, h - 8);
+  }
+
+  function runGravitySimulation(sim) {
+    if (!sim || !sim.running) return;
+    sim.time += 1;
+
+    driveGravityWave(sim, sim.time);
+    stepGravityWave(sim);
+    stepGravityWave(sim); // 2 steps per frame for speed
+    renderGravityWave(sim);
+
+    // Update sound
+    if (_audioEnabled) {
+      updateGravityDrone(sim.massStrength);
+    }
+
+    sim.animFrameId = requestAnimationFrame(function () {
+      runGravitySimulation(sim);
+    });
+  }
+
+  function startGravitySimulation(canvas) {
+    if (!canvas) return;
+    stopGravitySimulation();
+
+    var sim = initGravitySimulation(canvas);
+    if (!sim) return;
+
+    updateGravityFields(sim);
+    sim.running = true;
+    _gravitySim = sim;
+
+    // Mouse/touch interaction: drag the mass
+    function getPos(e) {
+      var rect = canvas.getBoundingClientRect();
+      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) / rect.width,
+        y: (clientY - rect.top) / rect.height
+      };
+    }
+
+    function onDown(e) {
+      e.preventDefault();
+      var pos = getPos(e);
+      var dx = pos.x - sim.massX;
+      var dy = pos.y - sim.massY;
+      if (Math.sqrt(dx * dx + dy * dy) < 0.15) {
+        sim.dragging = true;
+      }
+    }
+
+    function onMove(e) {
+      if (!sim.dragging) return;
+      e.preventDefault();
+      var pos = getPos(e);
+      sim.massX = clamp(pos.x, 0.1, 0.9);
+      sim.massY = clamp(pos.y, 0.1, 0.9);
+      updateGravityFields(sim);
+    }
+
+    function onUp() {
+      sim.dragging = false;
+    }
+
+    canvas.addEventListener('mousedown', onDown);
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mouseup', onUp);
+    canvas.addEventListener('touchstart', onDown, { passive: false });
+    canvas.addEventListener('touchmove', onMove, { passive: false });
+    canvas.addEventListener('touchend', onUp);
+
+    sim._cleanup = function () {
+      canvas.removeEventListener('mousedown', onDown);
+      canvas.removeEventListener('mousemove', onMove);
+      canvas.removeEventListener('mouseup', onUp);
+      canvas.removeEventListener('touchstart', onDown);
+      canvas.removeEventListener('touchmove', onMove);
+      canvas.removeEventListener('touchend', onUp);
+    };
+
+    runGravitySimulation(sim);
+  }
+
+  function stopGravitySimulation() {
+    if (_gravitySim) {
+      _gravitySim.running = false;
+      if (_gravitySim.animFrameId) cancelAnimationFrame(_gravitySim.animFrameId);
+      if (_gravitySim._cleanup) _gravitySim._cleanup();
+      _gravitySim = null;
+    }
+    stopGravityDrone();
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // 2. STANDING WAVE — Two counter-propagating waves forming nodes
+  // ═══════════════════════════════════════════════════════════════
+
+  var _waveAnimState = null;
+
+  function drawParticleVsWave(canvas, opts) {
     if (!canvas) return;
     opts = opts || {};
     var ctx = canvas.getContext('2d');
@@ -49,179 +573,35 @@
     ctx.scale(box.dpr, box.dpr);
     ctx.clearRect(0, 0, cw, ch);
 
-    var cx = cw / 2, cy = ch / 2;
-    var time = opts.time || 0;
-    var showWrong = opts.showWrong !== false;
-
-    // ── Density gradient (medium gets denser toward massive object) ──
-    var starX = cx, starY = cy + ch * 0.15;
-    var grad = ctx.createRadialGradient(starX, starY, 0, starX, starY, cw * 0.6);
-    grad.addColorStop(0, 'rgba(0, 48, 96, 0.30)');
-    grad.addColorStop(0.4, 'rgba(0, 32, 64, 0.12)');
-    grad.addColorStop(1, 'rgba(0, 16, 32, 0.0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, cw, ch);
-
-    // ── Refractive index contour lines (concentric rings) ──
-    for (var ring = 1; ring <= 4; ring++) {
-      var ringR = ring * cw * 0.12;
-      ctx.beginPath();
-      ctx.arc(starX, starY, ringR, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(0, 207, 255, ' + (0.08 - ring * 0.015) + ')';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    // ── Massive object (star) ──
-    var starR = Math.min(16, cw * 0.04);
-    var starGrad = ctx.createRadialGradient(starX, starY, 0, starX, starY, starR * 3);
-    starGrad.addColorStop(0, 'rgba(255, 215, 0, 0.8)');
-    starGrad.addColorStop(0.3, 'rgba(255, 179, 71, 0.25)');
-    starGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = starGrad;
-    ctx.beginPath();
-    ctx.arc(starX, starY, starR * 3, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(starX, starY, starR, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffd700';
-    ctx.fill();
-    ctx.shadowColor = '#ffd700';
-    ctx.shadowBlur = 8;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // ── Animated light rays (multiple parallel rays bending) ──
-    var numRays = 5;
-    var raySpacing = ch * 0.06;
-    var rayStartX = cw * 0.05;
-
-    for (var ri = 0; ri < numRays; ri++) {
-      var impactParam = (ri - (numRays - 1) / 2) * raySpacing;
-      var rayStartY = starY + impactParam;
-      var bendAmount = 1.0 / (1.0 + Math.abs(impactParam) / (starR * 2));
-      var rayAlpha = 0.3 + 0.7 * bendAmount;
-
-      // Incoming ray (straight)
-      var hitX = starX - starR * 1.5;
-      var hitY = rayStartY;
-
-      ctx.beginPath();
-      ctx.moveTo(rayStartX, rayStartY);
-      ctx.lineTo(hitX, hitY);
-      ctx.strokeStyle = 'rgba(255, 221, 85, ' + rayAlpha + ')';
-      ctx.lineWidth = 1.5 + bendAmount;
-      ctx.stroke();
-
-      // Refracted ray (bent toward mass)
-      var bendAngle = bendAmount * 0.35;
-      var rayLen = cw * 0.45;
-      var endX = hitX + rayLen;
-      var endY = hitY + rayLen * Math.sin(bendAngle) * (impactParam >= 0 ? 1 : -1);
-
-      // Curved path through medium
-      ctx.beginPath();
-      ctx.moveTo(hitX, hitY);
-      var cpX = (hitX + endX) / 2;
-      var cpY = (hitY + endY) / 2 + bendAmount * ch * 0.04 * (impactParam >= 0 ? 1 : -1);
-      ctx.quadraticCurveTo(cpX, cpY, endX, endY);
-      ctx.strokeStyle = 'rgba(0, 207, 255, ' + rayAlpha + ')';
-      ctx.lineWidth = 1.5 + bendAmount;
-      ctx.stroke();
-
-      // Animated photon dot along the ray
-      var photonT = ((time * 0.3 + ri * 0.2) % 1.0);
-      var photonX, photonY;
-      if (photonT < 0.4) {
-        var t = photonT / 0.4;
-        photonX = lerp(rayStartX, hitX, t);
-        photonY = lerp(rayStartY, hitY, t);
-      } else {
-        var t = (photonT - 0.4) / 0.6;
-        var mt = 1 - t;
-        photonX = mt * mt * hitX + 2 * mt * t * cpX + t * t * endX;
-        photonY = mt * mt * hitY + 2 * mt * t * cpY + t * t * endY;
-      }
-      ctx.beginPath();
-      ctx.arc(photonX, photonY, 2 + bendAmount, 0, Math.PI * 2);
-      ctx.fillStyle = bendAmount > 0.5 ? 'rgba(0, 207, 255, 0.9)' : 'rgba(255, 221, 85, 0.7)';
-      ctx.fill();
-    }
-
-    // ── Normal line at closest approach ──
-    ctx.beginPath();
-    ctx.setLineDash([3, 3]);
-    ctx.moveTo(starX, starY - ch * 0.35);
-    ctx.lineTo(starX, starY + ch * 0.35);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // ── Labels ──
-    ctx.font = '10px "DM Sans", sans-serif';
-    ctx.textAlign = 'left';
-
-    // "vacuum" label
-    ctx.fillStyle = 'rgba(139, 163, 189, 0.5)';
-    ctx.fillText('vacuum (n ≈ 1)', 8, 14);
-
-    // "medium" label
-    ctx.fillText('medium (n > 1 near mass)', 8, ch - 8);
-
-    // ── Wrong intuition label ──
-    if (showWrong) {
-      ctx.fillStyle = 'rgba(255, 71, 87, 0.55)';
-      ctx.font = '9px "DM Sans", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('✗ "gravity pulls" — no, propagation bends', cw * 0.5, ch - 22);
-    }
-  }
-
-  // ── Gravity animation loop (for standalone Journey mode) ──
-
-  function startGravityAnimation(canvas) {
-    if (!canvas) return;
-    if (_gravityAnimState && _gravityAnimState.canvas === canvas) return;
-    stopGravityAnimation();
-    _gravityAnimState = { canvas: canvas, running: true };
-    var startTime = performance.now();
-    function frame() {
-      if (!_gravityAnimState || !_gravityAnimState.running) return;
-      var t = (performance.now() - startTime) / 1000;
-      drawGravityRefraction(canvas, { time: t });
-      _gravityAnimState.frameId = requestAnimationFrame(frame);
-    }
-    _gravityAnimState.frameId = requestAnimationFrame(frame);
-  }
-
-  function stopGravityAnimation() {
-    if (_gravityAnimState && _gravityAnimState.frameId) {
-      cancelAnimationFrame(_gravityAnimState.frameId);
-    }
-    _gravityAnimState = null;
-  }
-
-  // ═══════════════════════════════════════════════════════════════
-  // 2. PARTICLE vs STANDING WAVE — Animated with envelope + nodes
-  // ═══════════════════════════════════════════════════════════════
-
-  function drawParticleVsWave(canvas, opts) {
-    if (!canvas) return;
-    opts = opts || {};
-    var ctx = canvas.getContext('2d');
-    var box = getCanvasBox(canvas, 120);
-    var cw = box.width, ch = box.height;
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(box.dpr, box.dpr);
-    ctx.clearRect(0, 0, cw, ch);
-
     var t = opts.time !== undefined ? opts.time : (performance.now() / 1000);
     var midY = ch * 0.50;
-    var amp = ch * 0.22;
-    var numWaves = 4; // number of half-wavelengths
+    var amp = ch * 0.20;
+    var numWaves = 4;
+
+    // ── Show the two traveling waves (faint) ──
+    var waveAlpha = 0.25;
+    for (var dir = -1; dir <= 1; dir += 2) {
+      ctx.beginPath();
+      for (var xi = 0; xi <= cw; xi += 1) {
+        var x = xi / cw * Math.PI * numWaves;
+        var y = midY - Math.sin(x - dir * t * 1.5) * amp * 0.5;
+        if (xi === 0) ctx.moveTo(xi, y);
+        else ctx.lineTo(xi, y);
+      }
+      ctx.strokeStyle = dir === 1
+        ? 'rgba(0, 207, 255, ' + waveAlpha + ')'
+        : 'rgba(255, 179, 71, ' + waveAlpha + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    // Labels for traveling waves
+    ctx.font = '8px "DM Sans", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(0, 207, 255, 0.5)';
+    ctx.fillText('→ right-moving', 8, 12);
+    ctx.fillStyle = 'rgba(255, 179, 71, 0.5)';
+    ctx.fillText('← left-moving', 8, 22);
 
     // ── Envelope (dashed boundary) ──
     ctx.beginPath();
@@ -231,13 +611,12 @@
       if (xi === 0) ctx.moveTo(xi, yEnv);
       else ctx.lineTo(xi, yEnv);
     }
-    ctx.strokeStyle = 'rgba(105, 255, 148, 0.15)';
+    ctx.strokeStyle = 'rgba(105, 255, 148, 0.12)';
     ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
+    ctx.setLineDash([3, 3]);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Bottom envelope
     ctx.beginPath();
     for (var xi = 0; xi <= cw; xi += 1) {
       var xEnv = xi / cw * Math.PI * numWaves;
@@ -245,13 +624,13 @@
       if (xi === 0) ctx.moveTo(xi, yEnv);
       else ctx.lineTo(xi, yEnv);
     }
-    ctx.strokeStyle = 'rgba(105, 255, 148, 0.15)';
+    ctx.strokeStyle = 'rgba(105, 255, 148, 0.12)';
     ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
+    ctx.setLineDash([3, 3]);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // ── Standing wave: sin(kx) * cos(ωt) ──
+    // ── Standing wave: sin(kx) * cos(ωt) — the SUM of the two ──
     ctx.beginPath();
     for (var xi = 0; xi <= cw; xi += 1) {
       var x = xi / cw * Math.PI * numWaves;
@@ -259,17 +638,16 @@
       if (xi === 0) ctx.moveTo(xi, y);
       else ctx.lineTo(xi, y);
     }
-    ctx.strokeStyle = 'rgba(105, 255, 148, 0.9)';
+    ctx.strokeStyle = 'rgba(105, 255, 148, 0.95)';
     ctx.lineWidth = 2.5;
     ctx.shadowColor = 'rgba(105, 255, 148, 0.4)';
-    ctx.shadowBlur = 6;
+    ctx.shadowBlur = 8;
     ctx.stroke();
     ctx.shadowBlur = 0;
 
-    // ── Node markers (fixed points where wave always crosses zero) ──
+    // ── Node markers (pulsing) ──
     for (var n = 0; n <= numWaves; n++) {
       var nx = (n / numWaves) * cw;
-      // Pulsing node glow
       var nodeGlow = 0.5 + 0.5 * Math.sin(t * 2 + n);
       ctx.beginPath();
       ctx.arc(nx, midY, 3 + nodeGlow * 2, 0, Math.PI * 2);
@@ -277,41 +655,41 @@
       ctx.fill();
     }
 
-    // ── Wavelength marker ──
-    var lambdaStart = 0;
-    var lambdaEnd = (2 / numWaves) * cw;
+    // ── λ/2 spacing annotation ──
+    var halfLambdaStart = 0;
+    var halfLambdaEnd = (1 / numWaves) * cw;
     ctx.beginPath();
-    ctx.moveTo(lambdaStart, midY + amp + 14);
-    ctx.lineTo(lambdaEnd, midY + amp + 14);
+    ctx.moveTo(halfLambdaStart, midY + amp + 16);
+    ctx.lineTo(halfLambdaEnd, midY + amp + 16);
     ctx.strokeStyle = 'rgba(255, 221, 85, 0.5)';
     ctx.lineWidth = 1;
     ctx.stroke();
-    // Arrow heads
+    // Tick marks
     ctx.beginPath();
-    ctx.moveTo(lambdaStart, midY + amp + 11);
-    ctx.lineTo(lambdaStart, midY + amp + 17);
-    ctx.moveTo(lambdaEnd, midY + amp + 11);
-    ctx.lineTo(lambdaEnd, midY + amp + 17);
+    ctx.moveTo(halfLambdaStart, midY + amp + 13);
+    ctx.lineTo(halfLambdaStart, midY + amp + 19);
+    ctx.moveTo(halfLambdaEnd, midY + amp + 13);
+    ctx.lineTo(halfLambdaEnd, midY + amp + 19);
     ctx.stroke();
     ctx.fillStyle = 'rgba(255, 221, 85, 0.6)';
-    ctx.font = '9px "DM Sans", sans-serif';
+    ctx.font = '8px "DM Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('λ', (lambdaStart + lambdaEnd) / 2, midY + amp + 26);
+    ctx.fillText('λ/2', (halfLambdaStart + halfLambdaEnd) / 2, midY + amp + 28);
 
     // ── Labels ──
     ctx.fillStyle = '#69ff94';
     ctx.font = 'bold 10px "DM Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('standing wave — stable nodes at λ/2', cw / 2, 14);
+    ctx.fillText('two waves interfere → standing wave forms', cw / 2, ch - 18);
 
-    ctx.fillStyle = 'rgba(139, 163, 189, 0.7)';
+    ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
     ctx.font = '9px "DM Sans", sans-serif';
-    ctx.fillText('This is what matter IS: self-reinforcing propagation', cw / 2, ch - 6);
+    ctx.fillText('Stable nodes at λ/2 — this is what matter IS', cw / 2, ch - 6);
 
     // ── Particle ghost (faint, struck through) ──
-    var ghostX = cw * 0.28;
-    var ghostY = midY - amp * 0.5;
-    ctx.globalAlpha = 0.15 + 0.05 * Math.sin(t * 0.8);
+    var ghostX = cw * 0.78;
+    var ghostY = midY - amp * 0.6;
+    ctx.globalAlpha = 0.12 + 0.04 * Math.sin(t * 0.8);
     ctx.beginPath();
     ctx.arc(ghostX, ghostY, 7, 0, Math.PI * 2);
     ctx.fillStyle = '#ff6b9d';
@@ -324,14 +702,43 @@
     ctx.stroke();
     ctx.globalAlpha = 1;
 
-    ctx.fillStyle = 'rgba(255, 107, 157, 0.4)';
+    ctx.fillStyle = 'rgba(255, 107, 157, 0.35)';
     ctx.font = '8px "DM Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('"particle"', ghostX, ghostY + 20);
   }
 
+  function startWaveAnimation(canvas) {
+    if (!canvas) return;
+    if (_waveAnimState && _waveAnimState.canvas === canvas) return;
+    stopWaveAnimation();
+    _waveAnimState = { canvas: canvas, running: true };
+    var startTime = performance.now();
+
+    // Start sound
+    if (_audioEnabled) {
+      startWaveHum(220, 0.5);
+    }
+
+    function frame() {
+      if (!_waveAnimState || !_waveAnimState.running) return;
+      var t = (performance.now() - startTime) / 1000;
+      drawParticleVsWave(canvas, { time: t });
+      _waveAnimState.frameId = requestAnimationFrame(frame);
+    }
+    _waveAnimState.frameId = requestAnimationFrame(frame);
+  }
+
+  function stopWaveAnimation() {
+    if (_waveAnimState && _waveAnimState.frameId) {
+      cancelAnimationFrame(_waveAnimState.frameId);
+    }
+    _waveAnimState = null;
+    stopWaveHum();
+  }
+
   // ═══════════════════════════════════════════════════════════════
-  // 3. GENERATION TOPOLOGY — Animated with transitions
+  // 3. GENERATION TOPOLOGY — Interference-based visualization
   // ═══════════════════════════════════════════════════════════════
 
   var _topologyAnimState = null;
@@ -340,7 +747,7 @@
     if (!canvas) return;
     opts = opts || {};
     var ctx = canvas.getContext('2d');
-    var box = getCanvasBox(canvas, 140);
+    var box = getCanvasBox(canvas, 160);
     var cw = box.width, ch = box.height;
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -348,14 +755,8 @@
     ctx.clearRect(0, 0, cw, ch);
 
     var cx = cw / 2, cy = ch / 2;
-    var r = Math.min(cw, ch) * 0.28;
+    var r = Math.min(cw, ch) * 0.26;
     var time = opts.time || 0;
-    var transitionT = opts.transitionT !== undefined ? opts.transitionT : 1; // 0→1 animation progress
-    var prevN = opts.prevN !== undefined ? opts.prevN : n;
-
-    // Smooth transition between N values
-    var currentN = transitionT >= 1 ? n : (transitionT <= 0 ? prevN : n);
-    var easedT = easeInOut(clamp(transitionT, 0, 1));
 
     // ── Background glow ──
     var glowColor;
@@ -365,211 +766,142 @@
     else glowColor = 'rgba(200, 168, 255, 0.03)';
 
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 2, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r * 2.2, 0, Math.PI * 2);
     ctx.fillStyle = glowColor;
     ctx.fill();
 
-    // ── N=1: Trivial ──
-    if (currentN === 1) {
-      var pulse = 0.8 + 0.2 * Math.sin(time * 2);
+    // ── Interference pattern background ──
+    // Show what N channels of interference look like
+    var imgData = ctx.createImageData(cw, ch);
+    var data = imgData.data;
+    var numSources = n;
+    var sourceAngles = [];
+    for (var si = 0; si < numSources; si++) {
+      sourceAngles.push(-Math.PI / 2 + si * 2 * Math.PI / numSources);
+    }
+    var sourceR = r * 0.6;
+    var sources = sourceAngles.map(function (a) {
+      return { x: cx + sourceR * Math.cos(a), y: cy + sourceR * Math.sin(a) };
+    });
+
+    for (var py = 0; py < ch; py++) {
+      for (var px = 0; px < cw; px++) {
+        var waveSum = 0;
+        for (var si = 0; si < sources.length; si++) {
+          var dx = px - sources[si].x;
+          var dy = py - sources[si].y;
+          var dist = Math.sqrt(dx * dx + dy * dy) + 1;
+          var k = 0.15;
+          waveSum += Math.sin(dist * k - time * 2 + si * Math.PI * 2 / numSources) / Math.sqrt(dist);
+        }
+
+        var absVal = Math.abs(waveSum);
+        var intensity = clamp(absVal * 0.5, 0, 1);
+
+        var pi = (py * cw + px) * 4;
+        if (n === 3) {
+          // Green for coherent (N=3)
+          data[pi] = Math.floor(intensity * 20);
+          data[pi + 1] = Math.floor(intensity * 180 + 20);
+          data[pi + 2] = Math.floor(intensity * 80 + 10);
+        } else if (n === 4) {
+          // Red/pink for chaotic (N=4)
+          data[pi] = Math.floor(intensity * 150 + 15);
+          data[pi + 1] = Math.floor(intensity * 40 + 10);
+          data[pi + 2] = Math.floor(intensity * 60 + 10);
+        } else {
+          // Blue for incomplete (N=1,2)
+          data[pi] = Math.floor(intensity * 30);
+          data[pi + 1] = Math.floor(intensity * 80 + 15);
+          data[pi + 2] = Math.floor(intensity * 150 + 20);
+        }
+        data[pi + 3] = Math.floor(intensity * 60);
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    // ── Draw channel nodes ──
+    var nodeR = r * 1.1;
+    var angles = [];
+    for (var ni = 0; ni < n; ni++) {
+      angles.push(-Math.PI / 2 + ni * 2 * Math.PI / n);
+    }
+    var pts = angles.map(function (a) {
+      return { x: cx + nodeR * Math.cos(a), y: cy + nodeR * Math.sin(a) };
+    });
+
+    // Connection lines
+    for (var i = 0; i < n; i++) {
+      for (var j = i + 1; j < n; j++) {
+        ctx.beginPath();
+        ctx.moveTo(pts[i].x, pts[i].y);
+        ctx.lineTo(pts[j].x, pts[j].y);
+        var lineAlpha = n === 3 ? 0.5 : 0.2;
+        ctx.strokeStyle = n === 3
+          ? 'rgba(105, 255, 148, ' + lineAlpha + ')'
+          : n === 4
+          ? 'rgba(255, 107, 157, ' + lineAlpha + ')'
+          : 'rgba(0, 207, 255, ' + lineAlpha + ')';
+        ctx.lineWidth = n === 3 ? 2 : 1;
+        ctx.stroke();
+      }
+    }
+
+    // Nodes
+    var labels = ['e', 'μ', 'τ', 'X'];
+    pts.forEach(function (p, i) {
+      var nodePulse = 0.85 + 0.15 * Math.sin(time * 2 + i);
       ctx.beginPath();
-      ctx.arc(cx, cy, 8 * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = '#c8a8ff';
-      ctx.shadowColor = '#c8a8ff';
-      ctx.shadowBlur = 10;
+      ctx.arc(p.x, p.y, 9 * nodePulse, 0, Math.PI * 2);
+      ctx.fillStyle = n === 3 ? '#69ff94' : n === 4 ? '#ff6b9d' : '#00e5ff';
+      ctx.shadowColor = ctx.fillStyle;
+      ctx.shadowBlur = 8;
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      ctx.fillStyle = '#8ba3bd';
-      ctx.font = '11px "DM Sans", sans-serif';
+      ctx.fillStyle = '#020408';
+      ctx.font = 'bold 9px "DM Sans", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('N=1: trivial — no structure', cx, cy + 24);
-      ctx.fillStyle = 'rgba(255, 71, 87, 0.5)';
-      ctx.fillText('Cannot produce 3 generations', cx, cy + 38);
-      return;
-    }
+      ctx.textBaseline = 'middle';
+      ctx.fillText(labels[i], p.x, p.y);
+    });
 
-    // ── N=2: ℤ₂ — Only two classes ──
-    if (currentN === 2) {
-      var a0 = -Math.PI / 2;
-      var a1 = Math.PI / 2;
-      var p0x = cx + r * Math.cos(a0), p0y = cy + r * Math.sin(a0);
-      var p1x = cx + r * Math.cos(a1), p1y = cy + r * Math.sin(a1);
-
-      // Connection line (pulsing)
-      var linePulse = 0.5 + 0.3 * Math.sin(time * 1.5);
-      ctx.beginPath();
-      ctx.moveTo(p0x, p0y);
-      ctx.lineTo(p1x, p1y);
-      ctx.strokeStyle = 'rgba(0, 207, 255, ' + linePulse + ')';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Vertices
-      [p0x, p1x].forEach(function (px, i) {
-        var py = [p0y, p1y][i];
-        var isActive = selected === i || selected === 2;
-        ctx.beginPath();
-        ctx.arc(px, py, isActive ? 10 : 8, 0, Math.PI * 2);
-        ctx.fillStyle = isActive ? '#00e5ff' : '#334466';
-        ctx.fill();
-        if (isActive) {
-          ctx.strokeStyle = '#00e5ff';
-          ctx.lineWidth = 1.5;
-          ctx.shadowColor = '#00e5ff';
-          ctx.shadowBlur = 8;
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-        }
-      });
-
-      // Labels
-      ctx.fillStyle = '#8ba3bd';
-      ctx.font = '11px "DM Sans", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('N=2: ℤ₂ topology only', cx, cy + 24);
-      ctx.fillStyle = '#ff6b9d';
-      ctx.font = 'bold 10px "DM Sans", sans-serif';
-      ctx.fillText('✗ Only 2 channels — cannot form Koide triangle', cx, cy + 40);
-      return;
-    }
-
-    // ── N=3: LOCKED — Three generations at 120° ──
-    if (currentN === 3) {
-      var angles = [-Math.PI / 2, -Math.PI / 2 + 2 * Math.PI / 3, -Math.PI / 2 + 4 * Math.PI / 3];
-      var pts = angles.map(function (a) {
-        return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
-      });
-
-      // Triangle fill (subtle)
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      ctx.lineTo(pts[1].x, pts[1].y);
-      ctx.lineTo(pts[2].x, pts[2].y);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(105, 255, 148, 0.04)';
-      ctx.fill();
-
-      // Triangle edges (glowing)
-      var edgePulse = 0.6 + 0.2 * Math.sin(time * 1.2);
-      ctx.strokeStyle = 'rgba(105, 255, 148, ' + edgePulse + ')';
-      ctx.lineWidth = 2;
-      ctx.shadowColor = 'rgba(105, 255, 148, 0.3)';
-      ctx.shadowBlur = 6;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      // 120° angle arc
-      ctx.beginPath();
-      ctx.arc(pts[0].x, pts[0].y, 16, Math.PI * 0.17, Math.PI * 0.83);
-      ctx.strokeStyle = 'rgba(255, 221, 85, 0.4)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-      ctx.fillStyle = 'rgba(255, 221, 85, 0.5)';
-      ctx.font = '8px "DM Sans", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('120°', pts[0].x + 18, pts[0].y + 3);
-
-      // Vertices with labels
-      var labels = ['e', 'μ', 'τ'];
-      var masses = ['0.511 MeV', '105.7 MeV', '1776.8 MeV'];
-      pts.forEach(function (p, i) {
-        var isActive = selected === 3 || selected === i;
-        var nodeR = isActive ? 11 : 8;
-        var nodePulse = isActive ? (0.9 + 0.1 * Math.sin(time * 2 + i)) : 0.7;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, nodeR * nodePulse, 0, Math.PI * 2);
-        ctx.fillStyle = isActive ? '#69ff94' : '#2a4a2a';
-        ctx.fill();
-        if (isActive) {
-          ctx.strokeStyle = '#69ff94';
-          ctx.lineWidth = 1.5;
-          ctx.shadowColor = '#69ff94';
-          ctx.shadowBlur = 10;
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-        }
-
-        // Label inside node
-        ctx.fillStyle = isActive ? '#020408' : '#4a6a4a';
-        ctx.font = 'bold 9px "DM Sans", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(labels[i], p.x, p.y);
-
-        // Mass label outside
-        ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
-        ctx.font = '8px "DM Sans", sans-serif';
-        ctx.textBaseline = 'alphabetic';
-        var labelAngle = angles[i];
-        var labelR = r + 18;
-        ctx.fillText(masses[i], cx + labelR * Math.cos(labelAngle), cy + labelR * Math.sin(labelAngle) + 3);
-      });
-
-      // Status label
+    // ── Status label ──
+    ctx.textBaseline = 'alphabetic';
+    if (n === 3) {
       ctx.fillStyle = '#69ff94';
       ctx.font = 'bold 11px "DM Sans", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('N=3: LOCKED ✓', cx, cy + r + 28);
-      ctx.fillStyle = 'rgba(139, 163, 189, 0.7)';
+      ctx.fillText('N=3: LOCKED ✓', cx, cy + nodeR + 22);
+      ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
       ctx.font = '9px "DM Sans", sans-serif';
-      ctx.fillText('Koide Q = 2/3 — matches experiment', cx, cy + r + 42);
-      return;
-    }
-
-    // ── N=4: Destabilizes — Too many channels ──
-    if (currentN === 4) {
-      // Four vertices in asymmetric arrangement
-      var tetraAngles = [
-        -Math.PI / 2,
-        -Math.PI / 2 + 2 * Math.PI / 3,
-        -Math.PI / 2 + 4 * Math.PI / 3,
-        Math.PI / 6
-      ];
-      var tetraR = r * 0.85;
-      var tetraPts = tetraAngles.map(function (a, i) {
-        var offset = (i === 3) ? -r * 0.08 : 0;
-        return { x: cx + tetraR * Math.cos(a), y: cy + tetraR * Math.sin(a) + offset };
-      });
-
-      // All edges (complete graph K₄)
-      for (var i = 0; i < 4; i++) {
-        for (var j = i + 1; j < 4; j++) {
-          ctx.beginPath();
-          ctx.moveTo(tetraPts[i].x, tetraPts[i].y);
-          ctx.lineTo(tetraPts[j].x, tetraPts[j].y);
-          ctx.strokeStyle = 'rgba(255, 107, 157, 0.25)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
-      // Vertices
-      tetraPts.forEach(function (p, i) {
-        var jitter = 0.5 * Math.sin(time * 3 + i * 1.7);
-        ctx.beginPath();
-        ctx.arc(p.x + jitter, p.y + jitter * 0.5, 7, 0, Math.PI * 2);
-        ctx.fillStyle = '#ff6b9d';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255, 107, 157, 0.4)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      });
-
-      // Labels
+      ctx.fillText('Koide Q = 2/3 — triangular interference', cx, cy + nodeR + 36);
+    } else if (n === 4) {
       ctx.fillStyle = '#ff6b9d';
       ctx.font = 'bold 11px "DM Sans", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('N=4: destabilizes ✗', cx, cy + r + 28);
-      ctx.fillStyle = 'rgba(139, 163, 189, 0.7)';
+      ctx.fillText('N=4: chaotic ✗', cx, cy + nodeR + 22);
+      ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
       ctx.font = '9px "DM Sans", sans-serif';
-      ctx.fillText('Too many channels — coherence breaks', cx, cy + r + 42);
-      return;
+      ctx.fillText('Interference pattern unstable', cx, cy + nodeR + 36);
+    } else if (n === 2) {
+      ctx.fillStyle = '#00e5ff';
+      ctx.font = 'bold 11px "DM Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('N=2: ℤ₂ only', cx, cy + nodeR + 22);
+      ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
+      ctx.font = '9px "DM Sans", sans-serif';
+      ctx.fillText('Linear interference — no triangle', cx, cy + nodeR + 36);
+    } else {
+      ctx.fillStyle = '#c8a8ff';
+      ctx.font = 'bold 11px "DM Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('N=1: trivial', cx, cy + nodeR + 22);
+      ctx.fillStyle = 'rgba(139, 163, 189, 0.6)';
+      ctx.font = '9px "DM Sans", sans-serif';
+      ctx.fillText('No interference possible', cx, cy + nodeR + 36);
     }
   }
-
-  // ── Topology animation loop (for standalone Journey mode) ──
 
   function startTopologyAnimation(canvas, n, selected) {
     if (!canvas) return;
@@ -577,6 +909,12 @@
     stopTopologyAnimation();
     _topologyAnimState = { canvas: canvas, n: n, selected: selected, running: true };
     var startTime = performance.now();
+
+    // Play chime
+    if (_audioEnabled) {
+      playTopologyChime(n);
+    }
+
     function frame() {
       if (!_topologyAnimState || !_topologyAnimState.running) return;
       var t = (performance.now() - startTime) / 1000;
@@ -599,10 +937,16 @@
 
   window.PFRealityVisuals = {
     drawTopologyDiagram: drawTopologyDiagram,
-    drawGravityRefraction: drawGravityRefraction,
+    drawGravityRefraction: function (canvas, opts) {
+      // Backward compat: if called without simulation, start one
+      if (_gravitySim && _gravitySim.canvas === canvas) return;
+      startGravitySimulation(canvas);
+    },
     drawParticleVsWave: drawParticleVsWave,
-    startGravityAnimation: startGravityAnimation,
-    stopGravityAnimation: stopGravityAnimation,
+    startGravitySimulation: startGravitySimulation,
+    stopGravitySimulation: stopGravitySimulation,
+    startWaveAnimation: startWaveAnimation,
+    stopWaveAnimation: stopWaveAnimation,
     startTopologyAnimation: startTopologyAnimation,
     stopTopologyAnimation: stopTopologyAnimation
   };
@@ -645,13 +989,14 @@
       },
 
       unmount: function () {
-        stopGravityAnimation();
+        stopGravitySimulation();
+        stopWaveAnimation();
         stopTopologyAnimation();
         this.state = null;
       },
 
       resize: function () {
-        // Canvas elements are CSS-size-driven (no JS resize needed)
+        // Canvas elements are CSS-size-driven
       },
 
       renderCards: function (ctx) {
@@ -708,11 +1053,11 @@
               '</div>' +
               '<div class="reality-visual-wrap">' +
                 (card.visual === 'gravity'
-                  ? '<canvas class="reality-visual" id="rvGravity" height="140"></canvas>'
+                  ? '<canvas class="reality-visual" id="rvGravity" height="160"></canvas>'
                   : card.visual === 'matter'
-                  ? '<canvas class="reality-visual" id="rvMatter" height="120"></canvas>'
+                  ? '<canvas class="reality-visual" id="rvMatter" height="140"></canvas>'
                   : '<div class="gen-topology-wrap">' +
-                      '<canvas class="reality-visual" id="rvGen" height="140"></canvas>' +
+                      '<canvas class="reality-visual" id="rvGen" height="160"></canvas>' +
                       '<div class="gen-n-selector" id="genNSelector">' +
                         [1, 2, 3, 4].map(function (n) {
                           return '<button class="gen-n-btn' + (n === 3 ? ' active' : '') + '" data-n="' + n + '">N=' + n + '</button>';
@@ -731,10 +1076,10 @@
           );
         }).join('');
 
-        // Draw initial visuals
-        drawGravityRefraction(document.getElementById('rvGravity'));
-        drawParticleVsWave(document.getElementById('rvMatter'));
-        drawTopologyDiagram(document.getElementById('rvGen'), 3, 3);
+        // Start simulations
+        startGravitySimulation(document.getElementById('rvGravity'));
+        startWaveAnimation(document.getElementById('rvMatter'));
+        startTopologyAnimation(document.getElementById('rvGen'), 3, 3);
 
         // Generation N selector
         state.grid.querySelectorAll('.gen-n-btn').forEach(function (btn) {
@@ -744,7 +1089,8 @@
             state.grid.querySelectorAll('.gen-n-btn').forEach(function (b) {
               b.classList.toggle('active', b.getAttribute('data-n') === String(n));
             });
-            drawTopologyDiagram(document.getElementById('rvGen'), n, n);
+            stopTopologyAnimation();
+            startTopologyAnimation(document.getElementById('rvGen'), n, n);
           });
         });
 
@@ -788,25 +1134,16 @@
         var state = this.state;
         if (!state || !state.grid) return;
         state.animTime = time;
-
-        // Animate gravity refraction
-        var gravityCanvas = state.grid.querySelector('#rvGravity');
-        if (gravityCanvas) {
-          drawGravityRefraction(gravityCanvas, { time: time });
-        }
-
-        // Animate matter wave
-        var matterCanvas = state.grid.querySelector('#rvMatter');
-        if (matterCanvas) {
-          drawParticleVsWave(matterCanvas, { time: time });
-        }
-
-        // Animate topology (static per N, but pulse nodes)
-        var genCanvas = state.grid.querySelector('#rvGen');
-        if (genCanvas) {
-          drawTopologyDiagram(genCanvas, state.selectedN, state.selectedN, { time: time });
-        }
       }
     });
   }
+
+  // ── Enable audio on first click anywhere in the page ──
+  document.addEventListener('click', function () {
+    enableAudioOnInteraction();
+  }, { once: true });
+
+  document.addEventListener('touchstart', function () {
+    enableAudioOnInteraction();
+  }, { once: true });
 }());
