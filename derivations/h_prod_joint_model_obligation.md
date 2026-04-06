@@ -26,8 +26,10 @@
   one three-channel medium such that the channel closure events factorize.
 - **Noncanonical basis-fixed Family C** — requires H_basis derivation (why a specific
   basis inside the degenerate Q-sector is selected).
-- **Path A (CP violation → b→0)** — if the PF vacuum has κ≠0 and CP violation forces
-  b→0 (pure forward shift T=S̄), then T³=I exactly, and the one-hot factorization trivially holds.
+- **Path A (extra directional coupling → b→0)** — if an added weak-coupling structure
+  forces b→0 (pure forward shift T=S̄), then T³=I exactly, and the one-hot factorization
+  trivially holds. But the 2026-04-05 `\mathbb Z_6/\mathbb Z_2 \to \mathbb Z_3` audit says
+  the bare G1 kinematics do not force any canonical chirality-direction lock.
 
 ---
 
@@ -89,14 +91,18 @@ If CP violation forces b→0 (pure shift T=S̄):
 - One-hot return probability = 1 for every channel
 - P(X^(j)=1)=1 for all j, trivially independent
 
-The formal Path A target is: **prove that the ℤ₃ Lagrangian under left-chiral weak
-coupling drives b/a → 0 in the IR.**
+The formal Path A target is now narrower: **derive an added weak-coupling structure that
+drives b/a → 0 in the IR.** This can no longer be stated as "bare left-chiral G1
+kinematics force the pure shift."
 
 Current status: `chiral_projection_z3.py` shows P_L kills the k=2 eigenmode but does
-NOT eliminate S̄² from the position-space matrix (|β/α|=1 after projection).
+NOT eliminate S̄² from the position-space matrix (|β/α|=1 after projection). The
+2026-04-05 audit `path_a_z6_z3_chirality_intertwiner_audit_2026-04-05.md` then proves
+that the bare `\mathbb Z_6/\mathbb Z_2 \to \mathbb Z_3` kinematics do not force any
+canonical lock between quotient direction and spacetime chirality.
 Two remaining gaps:
-1. Prove P_L is forced by ℤ₃ Lagrangian under weak chiral coupling
-2. Prove Fourier-basis closure in projected 2D sector → position-space H_prod
+1. Derive a genuine generation-directional weak-coupling term or locking mechanism beyond bare G1
+2. If such a term exists, prove it really yields the position-space factorization needed for `H_prod`
 
 ### Obligation 1 has a candidate path (Lemma C)
 
@@ -120,9 +126,9 @@ or a genuinely new observable definition.
 
 Given the audit state:
 
-**Target A (highest leverage)**: Prove that under left-chiral weak coupling on the ℤ₃
-Lagrangian, the forward/backward asymmetry b/a → 0 in the IR. This is Path A
-and simultaneously closes Obligation 2.
+**Target A (highest leverage)**: Derive an explicit weak-coupling extension that
+produces a real generation-directional asymmetry b/a → 0 in the IR. This is the
+surviving Path A target and would simultaneously close Obligation 2.
 
 **Target B (parallel)**: Confirm Lemma C formally (Codex verification of the
 echo/extremal-coherence argument). This closes Obligation 1 and enables a Markov

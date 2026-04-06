@@ -56,7 +56,27 @@ vertex from G1 alone." The actual bounded question is narrower:
 The G1 model posits that the fundamental generation walk lives on a $\mathbb{Z}_6$ spinorial space, with the observable $\mathbb{Z}_3$ channels being the cosets of a $\mathbb{Z}_2$ quotient. 
 If the $\mathbb{Z}_2$ quotient is physically equivalent to the spacetime parity operation (or is intimately tied to the origin of spacetime chirality itself), then moving "forward" in $\mathbb{Z}_3$ might inherently carry a specific left-handed parity signature, while moving "backward" carries the conjugate right-handed signature.
 
-## 4. Next Actions
+## 4. Numerical Check: Z6/Z2 Conjugation Structure (Qwen, 2026-04-04)
+
+Qwen computed the exact conjugation structure of Z6/Z2:
+
+**Result 1:** `Deck @ S6 @ Deck ≠ S6_inv`. The Z2 deck transformation does NOT
+conjugate the forward shift to the backward shift on Z6.
+
+**Result 2:** `q(Deck(x)) = q(x)` for all x in Z6. The deck transformation acts
+TRIVIALLY on the Z3 quotient. It cannot distinguish S_bar from S_bar^2.
+
+**Result 3:** The Z2-even and Z2-odd sectors of l2(Z6) are spectrally distinct:
+- Even: {+1, e^{+2πi/3}, e^{-2πi/3}} — includes the uniform mode
+- Odd: {e^{+πi/3}, -1, e^{-πi/3}} — includes the π mode
+
+These are NOT forward/backward conjugates. They are different representations.
+
+**Conclusion:** The Z6/Z2 bare kinematics do NOT contain a natural intertwiner
+between S_bar/S_bar^2 and P_L/P_R. The Chiral-Generation Locking Ansatz
+requires additional structure beyond G1.
+
+## 5. Next Actions
 
 Do not claim Path A is closed. It is strictly contingent on this Ansatz.
 
