@@ -102,14 +102,24 @@ class PFToyWorldModel(nn.Module):
 
     def coherence(self, x_t: torch.Tensor, x_next: torch.Tensor) -> torch.Tensor:
         """
-        Placeholder coherence diagnostic: one-step recurrence / self-similarity.
-
-        This is intentionally weaker than a selector principle. High score means
-        the propagation pattern remains self-consistent across one step; it does
-        NOT mean the state is the symmetric k=0 mode or that a PF selection rule
-        has been derived.
+        Equal Norm Principle (Manus Pt 1):
+        Balance the energy/information equally between the symmetric U(1) centroid (P_0) 
+        and the chiral SU(3) traceless sector (Q).
+        
+        High coherence = balanced P0 and Q norm squared.
+        We return a score that is 1.0 when perfectly balanced, and lower otherwise.
         """
-        return F.cosine_similarity(x_t, x_next, dim=-1, eps=1e-8).unsqueeze(-1)
+        x_mean = x_next.mean(dim=-1, keepdim=True)
+        P0_x = x_mean.expand_as(x_next)
+        Q_x = x_next - P0_x
+        
+        P0_norm_sq = torch.norm(P0_x, dim=-1, keepdim=True) ** 2
+        Q_norm_sq = torch.norm(Q_x, dim=-1, keepdim=True) ** 2
+        
+        # Max score of 1.0 when P0_norm_sq == Q_norm_sq
+        diff = torch.abs(P0_norm_sq - Q_norm_sq)
+        score = torch.exp(-diff)
+        return score
 
     def observe(self, x_t: torch.Tensor) -> torch.Tensor:
         return self.obs_head(x_t)
