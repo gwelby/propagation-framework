@@ -5,6 +5,17 @@
 
 ---
 
+## 🌟 Start Here
+
+If you are new to the Propagation Framework, **do not start by reading the technical files in this repository.**
+
+Instead, start by experiencing the framework:
+👉 **[Open the Interactive Explorer (Start Here)](./sandbox/explorer/index.html)**
+
+The Explorer is the public gateway. It starts with the mysteries of reality and shows you the patterns visually before diving into the math.
+
+---
+
 ## What This Repository Is
 
 This repository documents the Propagation Framework: a research program that treats space not as

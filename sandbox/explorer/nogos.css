@@ -48,7 +48,7 @@
 .nogos-back .back-link:hover {
   color: var(--propagate);
   border-color: var(--propagate);
-  background: rgba(0, 207, 255, 0.06);
+  background: rgba(var(--propagate-rgb), 0.06);
 }
 
 .nogos-title-block {
@@ -143,7 +143,7 @@
 }
 
 .filter-chip.active {
-  background: rgba(255, 71, 87, 0.1);
+  background: rgba(var(--uncertain-rgb), 0.1);
   border-color: var(--uncertain);
   color: var(--uncertain);
 }
@@ -206,9 +206,9 @@
 }
 
 .nogo-card:hover {
-  border-color: rgba(255, 71, 87, 0.4);
+  border-color: rgba(var(--uncertain-rgb), 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(255, 71, 87, 0.08);
+  box-shadow: 0 8px 32px rgba(var(--uncertain-rgb), 0.08);
 }
 
 .nogo-card.positive:hover {
@@ -231,8 +231,8 @@
   letter-spacing: 0.1em;
   padding: 3px 9px;
   border-radius: 8px;
-  background: rgba(255, 71, 87, 0.12);
-  border: 1px solid rgba(255, 71, 87, 0.25);
+  background: rgba(var(--uncertain-rgb), 0.12);
+  border: 1px solid rgba(var(--uncertain-rgb), 0.25);
   color: var(--uncertain);
   white-space: nowrap;
   flex-shrink: 0;
@@ -284,8 +284,8 @@
   margin: 0;
   padding: 12px;
   border-radius: 10px;
-  background: rgba(255, 71, 87, 0.04);
-  border-left: 2px solid rgba(255, 71, 87, 0.25);
+  background: rgba(var(--uncertain-rgb), 0.04);
+  border-left: 2px solid rgba(var(--uncertain-rgb), 0.25);
 }
 
 .nogo-card.positive .nogo-card-failure {
@@ -318,15 +318,15 @@
   color: var(--propagate);
   padding: 4px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 207, 255, 0.25);
-  background: rgba(0, 207, 255, 0.05);
+  border: 1px solid rgba(var(--propagate-rgb), 0.25);
+  background: rgba(var(--propagate-rgb), 0.05);
   cursor: pointer;
   transition: all 0.15s;
   flex-shrink: 0;
 }
 
 .nogo-card-expand:hover {
-  background: rgba(0, 207, 255, 0.12);
+  background: rgba(var(--propagate-rgb), 0.12);
 }
 
 /* ── Card stagger animation ────────────────────────────────── */
@@ -386,7 +386,7 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: rgba(2, 4, 8, 0.8);
+  background: rgba(var(--void-rgb), 0.8);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: flex;
@@ -412,7 +412,7 @@
   overflow-y: auto;
   border-radius: 28px;
   border: 1px solid var(--line-strong);
-  background: rgba(5, 13, 26, 0.98);
+  background: rgba(var(--deep-rgb), 0.98);
   padding: 36px 40px;
   position: relative;
   animation: slideUp 0.3s var(--spring);
@@ -454,8 +454,8 @@
   letter-spacing: 0.1em;
   padding: 3px 9px;
   border-radius: 8px;
-  background: rgba(255, 71, 87, 0.12);
-  border: 1px solid rgba(255, 71, 87, 0.25);
+  background: rgba(var(--uncertain-rgb), 0.12);
+  border: 1px solid rgba(var(--uncertain-rgb), 0.25);
   color: var(--uncertain);
   margin-bottom: 10px;
 }
@@ -517,7 +517,7 @@
 .nogo-detail-section code {
   font-family: var(--formula);
   font-size: 0.82em;
-  background: rgba(0, 207, 255, 0.07);
+  background: rgba(var(--propagate-rgb), 0.07);
   padding: 1px 5px;
   border-radius: 4px;
   color: var(--propagate);

@@ -47,7 +47,7 @@
 .opening-title .highlight {
   color: var(--cyan);
   font-weight: 600;
-  text-shadow: 0 0 30px rgba(0, 207, 255, 0.5);
+  text-shadow: 0 0 30px rgba(var(--propagate-rgb), 0.5);
 }
 
 .opening-subtitle {
@@ -84,7 +84,7 @@
 
 .axiom-card:hover {
   border-color: var(--cyan);
-  box-shadow: 0 0 30px rgba(0, 207, 255, 0.2);
+  box-shadow: 0 0 30px rgba(var(--propagate-rgb), 0.2);
   transform: translateY(-5px);
   background: rgba(255, 255, 255, 0.08);
 }
@@ -108,9 +108,9 @@
 /* Journey Button */
 .journey-button {
   background: var(--gradient-cyan);
-  background-color: rgba(0, 207, 255, 0.1);
+  background-color: rgba(var(--propagate-rgb), 0.1);
   color: var(--text);
-  border: 1px solid rgba(0, 207, 255, 0.3);
+  border: 1px solid rgba(var(--propagate-rgb), 0.3);
   padding: 18px 40px;
   font-size: var(--font-size-lg);
   font-weight: 600;
@@ -125,8 +125,8 @@
 
 .journey-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 207, 255, 0.4);
-  background-color: rgba(0, 207, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(var(--propagate-rgb), 0.4);
+  background-color: rgba(var(--propagate-rgb), 0.25);
   border-color: var(--cyan);
 }
 
@@ -148,7 +148,7 @@
 .journey-button.secondary:hover {
   border-color: var(--cyan);
   color: var(--cyan);
-  background: rgba(0, 207, 255, 0.05);
+  background: rgba(var(--propagate-rgb), 0.05);
 }
 
 /* Act Headers */
@@ -160,9 +160,9 @@
 .act-label {
   display: inline-block;
   background: var(--gradient-cyan);
-  background-color: rgba(0, 207, 255, 0.15);
+  background-color: rgba(var(--propagate-rgb), 0.15);
   color: var(--cyan);
-  border: 1px solid rgba(0, 207, 255, 0.4);
+  border: 1px solid rgba(var(--propagate-rgb), 0.4);
   padding: 8px 18px;
   border-radius: 20px;
   font-size: var(--font-size-sm);
@@ -208,7 +208,7 @@
   position: relative;
   border: 1px solid #222;
   box-shadow: 
-    0 0 50px rgba(0, 207, 255, 0.1),
+    0 0 50px rgba(var(--propagate-rgb), 0.1),
     inset 0 0 100px rgba(0, 0, 0, 0.5);
 }
 
@@ -221,7 +221,7 @@
   bottom: -2px;
   background: linear-gradient(45deg, 
     transparent 30%, 
-    rgba(0, 207, 255, 0.1) 50%, 
+    rgba(var(--propagate-rgb), 0.1) 50%, 
     transparent 70%);
   border-radius: 12px;
   opacity: 0;
@@ -279,7 +279,7 @@
   height: 100%;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(0, 207, 255, 0.1) 50%, 
+    rgba(var(--propagate-rgb), 0.1) 50%, 
     transparent 100%);
   transition: left 0.5s ease;
 }
@@ -290,22 +290,22 @@
 
 .equation-box {
   border-left: 4px solid var(--cyan);
-  box-shadow: 0 4px 20px rgba(0, 207, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(var(--propagate-rgb), 0.1);
 }
 
 .equation-box:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(0, 207, 255, 0.2);
+  box-shadow: 0 6px 30px rgba(var(--propagate-rgb), 0.2);
 }
 
 .result-box {
   border-left: 4px solid var(--lime);
-  box-shadow: 0 4px 20px rgba(68, 255, 136, 0.1);
+  box-shadow: 0 4px 20px rgba(var(--cohere-rgb), 0.1);
 }
 
 .result-box:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(68, 255, 136, 0.2);
+  box-shadow: 0 6px 30px rgba(var(--cohere-rgb), 0.2);
 }
 
 .revelation-box {
@@ -403,7 +403,7 @@
   background: var(--cyan);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 207, 255, 0.5);
+  box-shadow: 0 0 10px rgba(var(--propagate-rgb), 0.5);
   transition: transform var(--transition-fast);
 }
 
@@ -458,7 +458,7 @@
   position: relative;
   border: 1px solid #222;
   box-shadow:
-    0 0 50px rgba(0, 207, 255, 0.1),
+    0 0 50px rgba(var(--propagate-rgb), 0.1),
     inset 0 0 100px rgba(0, 0, 0, 0.5);
   min-height: 480px;
 }
@@ -489,7 +489,7 @@
 }
 
 .scale-marker.active {
-  background: rgba(0, 207, 255, 0.2);
+  background: rgba(var(--propagate-rgb), 0.2);
   color: #00cfff;
   border: 1px solid #00cfff;
 }
@@ -556,7 +556,7 @@
 }
 
 .comparison-table tr:hover td {
-  background: rgba(0, 207, 255, 0.05);
+  background: rgba(var(--propagate-rgb), 0.05);
 }
 
 /* Results Grid */
@@ -591,7 +591,7 @@
 .result-card:hover {
   border-color: #00cfff;
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 207, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(var(--propagate-rgb), 0.15);
 }
 
 .result-card.status-derived {
@@ -637,12 +637,12 @@
 }
 
 .result-card-status.derived {
-  background: rgba(68, 255, 136, 0.2);
+  background: rgba(var(--cohere-rgb), 0.2);
   color: #44ff88;
 }
 
 .result-card-status.conditional {
-  background: rgba(255, 221, 85, 0.2);
+  background: rgba(var(--planck-rgb), 0.2);
   color: #ffdd55;
 }
 
@@ -652,7 +652,7 @@
 }
 
 .result-card-status.argued {
-  background: rgba(255, 153, 85, 0.2);
+  background: rgba(var(--refract-rgb), 0.2);
   color: #ff9955;
 }
 
@@ -709,7 +709,7 @@
 
 .big-number.highlight {
   color: #00cfff;
-  text-shadow: 0 0 40px rgba(0, 207, 255, 0.5);
+  text-shadow: 0 0 40px rgba(var(--propagate-rgb), 0.5);
 }
 
 .number-label {
@@ -843,7 +843,7 @@
 .progress-step.active {
   background: #00cfff;
   border-color: #00cfff;
-  box-shadow: 0 0 10px rgba(0, 207, 255, 0.5);
+  box-shadow: 0 0 10px rgba(var(--propagate-rgb), 0.5);
   transform: scale(1.3);
 }
 

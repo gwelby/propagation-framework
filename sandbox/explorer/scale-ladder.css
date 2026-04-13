@@ -62,7 +62,7 @@ body {
 
 .back-button:hover {
   color: var(--cyan);
-  background: rgba(0, 207, 255, 0.08);
+  background: rgba(var(--propagate-rgb), 0.08);
   transform: translateX(-2px);
 }
 
@@ -84,13 +84,13 @@ body {
 
 .control-button:hover {
   color: var(--cyan);
-  background: rgba(0, 207, 255, 0.08);
+  background: rgba(var(--propagate-rgb), 0.08);
 }
 
 .control-button.is-active {
   color: var(--cyan);
-  background: rgba(0, 207, 255, 0.12);
-  border-color: rgba(0, 207, 255, 0.3);
+  background: rgba(var(--propagate-rgb), 0.12);
+  border-color: rgba(var(--propagate-rgb), 0.3);
 }
 
 /* Main Scene */
@@ -217,7 +217,7 @@ body {
 
 .scale-result-item:hover {
   border-color: var(--cyan);
-  background: rgba(0, 207, 255, 0.06);
+  background: rgba(var(--propagate-rgb), 0.06);
   transform: translateX(-4px);
 }
 
@@ -235,15 +235,15 @@ body {
 }
 
 .scale-result-item .result-status.DERIVED {
-  background: rgba(68, 255, 136, 0.15);
+  background: rgba(var(--cohere-rgb), 0.15);
   color: var(--lime);
-  border: 1px solid rgba(68, 255, 136, 0.3);
+  border: 1px solid rgba(var(--cohere-rgb), 0.3);
 }
 
 .scale-result-item .result-status.CONDITIONAL {
-  background: rgba(255, 221, 85, 0.15);
+  background: rgba(var(--planck-rgb), 0.15);
   color: var(--gold);
-  border: 1px solid rgba(255, 221, 85, 0.3);
+  border: 1px solid rgba(var(--planck-rgb), 0.3);
 }
 
 .scale-result-item .result-status.ARGUED {
@@ -253,9 +253,9 @@ body {
 }
 
 .scale-result-item .result-status.EMPIRICAL {
-  background: rgba(255, 221, 85, 0.15);
+  background: rgba(var(--planck-rgb), 0.15);
   color: var(--amber);
-  border: 1px solid rgba(255, 221, 85, 0.3);
+  border: 1px solid rgba(var(--planck-rgb), 0.3);
 }
 
 /* Scale Navigator */
@@ -296,7 +296,7 @@ body {
   background: var(--cyan);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(0, 207, 255, 0.5);
+  box-shadow: 0 0 12px rgba(var(--propagate-rgb), 0.5);
 }
 
 .scale-nav-track input[type="range"]::-moz-range-thumb {
@@ -306,7 +306,7 @@ body {
   border-radius: 50%;
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 12px rgba(0, 207, 255, 0.5);
+  box-shadow: 0 0 12px rgba(var(--propagate-rgb), 0.5);
 }
 
 .scale-nav-labels {

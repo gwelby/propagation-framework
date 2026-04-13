@@ -50,7 +50,7 @@
 
 .back-button:hover,
 .journey-link:hover {
-  background: rgba(0, 207, 255, 0.1);
+  background: rgba(var(--propagate-rgb), 0.1);
   color: #00cfff;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .journey-link:hover {
-  background: rgba(255, 221, 85, 0.1);
+  background: rgba(var(--planck-rgb), 0.1);
   color: #ffdd55;
 }
 
@@ -150,7 +150,7 @@
 
 .parameter-count.pf {
   color: var(--cyan);
-  text-shadow: 0 0 40px rgba(0, 207, 255, 0.5);
+  text-shadow: 0 0 40px rgba(var(--propagate-rgb), 0.5);
 }
 
 .parameter-count.sm {
@@ -187,7 +187,7 @@
 
 .count-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 207, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(var(--propagate-rgb), 0.4);
 }
 
 /* Table Section */
@@ -242,7 +242,7 @@
 }
 
 .comparison-table tr:hover td {
-  background: rgba(0, 207, 255, 0.05);
+  background: rgba(var(--propagate-rgb), 0.05);
 }
 
 .comparison-table td.pf-cell {
@@ -298,12 +298,12 @@
 
 .falsify-card.pf:hover {
   border-color: #00cfff;
-  box-shadow: 0 15px 40px rgba(0, 207, 255, 0.15);
+  box-shadow: 0 15px 40px rgba(var(--propagate-rgb), 0.15);
 }
 
 .falsify-card.sm:hover {
   border-color: #ff9955;
-  box-shadow: 0 15px 40px rgba(255, 153, 85, 0.15);
+  box-shadow: 0 15px 40px rgba(var(--refract-rgb), 0.15);
 }
 
 .falsify-card.st:hover {
@@ -368,12 +368,12 @@
 }
 
 .falsify-status.honest {
-  background: rgba(68, 255, 136, 0.15);
+  background: rgba(var(--cohere-rgb), 0.15);
   color: #44ff88;
 }
 
 .falsify-status.broken {
-  background: rgba(255, 153, 85, 0.15);
+  background: rgba(var(--refract-rgb), 0.15);
   color: #ff9955;
 }
 
@@ -427,11 +427,11 @@
 }
 
 .scale-segment.pf {
-  background: linear-gradient(180deg, rgba(0, 207, 255, 0.2) 0%, rgba(0, 207, 255, 0.05) 100%);
+  background: linear-gradient(180deg, rgba(var(--propagate-rgb), 0.2) 0%, rgba(var(--propagate-rgb), 0.05) 100%);
 }
 
 .scale-segment[data-frameworks*="pf"] {
-  background: linear-gradient(180deg, rgba(0, 207, 255, 0.15) 0%, rgba(0, 207, 255, 0.03) 100%);
+  background: linear-gradient(180deg, rgba(var(--propagate-rgb), 0.15) 0%, rgba(var(--propagate-rgb), 0.03) 100%);
 }
 
 .scale-label {
@@ -461,12 +461,12 @@
 }
 
 .indicator-pf {
-  background: rgba(0, 207, 255, 0.2);
+  background: rgba(var(--propagate-rgb), 0.2);
   color: #00cfff;
 }
 
 .indicator-sm {
-  background: rgba(255, 153, 85, 0.2);
+  background: rgba(var(--refract-rgb), 0.2);
   color: #ff9955;
 }
 
@@ -534,7 +534,7 @@
 .delta-card:hover {
   border-color: #00cfff;
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 207, 255, 0.15);
+  box-shadow: 0 15px 40px rgba(var(--propagate-rgb), 0.15);
 }
 
 .delta-icon {
@@ -603,7 +603,7 @@
 
 .cta-button.primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 207, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(var(--propagate-rgb), 0.4);
 }
 
 .cta-button.secondary {

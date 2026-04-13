@@ -56,7 +56,7 @@ body {
 
 .back-button:hover {
   color: #00cfff;
-  background: rgba(0, 207, 255, 0.1);
+  background: rgba(var(--propagate-rgb), 0.1);
   transform: translateX(-2px);
 }
 
@@ -78,7 +78,7 @@ body {
 
 .control-button:hover {
   color: #00cfff;
-  background: rgba(0, 207, 255, 0.1);
+  background: rgba(var(--propagate-rgb), 0.1);
 }
 
 /* Main Layout */
@@ -91,7 +91,7 @@ body {
 
 /* 3D Visualization */
 .visualization-section {
-  background: radial-gradient(circle at center, rgba(0, 207, 255, 0.02) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(var(--propagate-rgb), 0.02) 0%, transparent 70%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -229,7 +229,7 @@ body {
 .action-button {
   flex: 1;
   padding: 10px;
-  background: rgba(0, 207, 255, 0.1);
+  background: rgba(var(--propagate-rgb), 0.1);
   border: 1px solid #00cfff;
   color: #00cfff;
   border-radius: 6px;
@@ -239,7 +239,7 @@ body {
 }
 
 .action-button:hover {
-  background: rgba(0, 207, 255, 0.2);
+  background: rgba(var(--propagate-rgb), 0.2);
   transform: translateY(-2px);
 }
 

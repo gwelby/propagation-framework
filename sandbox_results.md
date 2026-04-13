@@ -487,3 +487,85 @@ Scale 4 (Atomic) needs to reflect the 2026-03-27 hostile audit:
 **Job ID**: d71nqomqdfbc73d13fpg
 **Backend**: ibm_fez (156q)
 **Status**: In queue. When results land: check $|11\rangle$ state counts for off-diagonal mixing confirmation.
+
+---
+
+## April 2026 Rerun Results (2026-04-02)
+
+**Source**: `LOCAL_TEST_RESULTS_20260402.md` (Qwen Code)
+**Purpose**: Pressure tests and regression checks on live claims.
+
+### Koide Phase δ₀ = 2/9 — Rerun CONFIRMED
+**Script**: `sandbox/koide_phase_scan.py`
+**Result**:
+- δ_exact = 0.222229631490 rad
+- 2/9 = 0.222222222222 rad
+- |δ − 2/9| = 7.4093×10⁻⁶ rad (0.0033%)
+- **Strongest empirical anchor in the framework**
+- Status: EMPIRICAL 0.65 (unchanged — awaiting selector derivation T-022)
+
+### Neutrino Koide Universality — FALSIFIED
+**Script**: `sandbox/neutrino_koide_scan.py`
+**Result**:
+- Normal Ordering: Q_NO = 0.549622 — 17.5% from 2/3
+- Inverted Ordering: Q_IO = 0.479016 — 28.2% from 2/3
+- Universality falsified at >5% threshold under both orderings
+- **Interpretation**: Koide Q = 2/3 is an electromagnetic-sector identity. Neutrinos (weak-only) lack the amplitude-locking mechanism. Positive scope-delimiting result.
+- Status: EMPIRICAL 0.95 (new row added to CLAIMS.md 2026-04-12)
+
+### Topological Weights (2,1) — PRESSURE
+**Script**: `sandbox/spin_pair_classification.py`
+**Result**:
+- j=0.0 → χ = +1.0 → SURVIVOR
+- j=0.5 → χ = +1.0 → SURVIVOR
+- j=1.0 → χ = 0.0 → ANNIHILATED
+- j=1.5 → χ = -1.0 → SURVIVOR
+- **Contradicts simplified "j=1 survives, j=0.5 annihilated" narrative**
+- χ = -1 sector uninterpreted
+- Status: Pressure on old storytelling, not direct falsification of live T1 claim (A_NR still open)
+
+### Chiral Projection Path A — Gap B Confirmed
+**Script**: `sandbox/chiral_projection_z3.py`
+**Result**:
+- T_chiral³ is NOT diagonal in 3D position space
+- rank(T_chiral) = 2
+- Confirms existing Gap B no-go
+- Path A obligation: derive whether projected {k=0,k=1} sector closure implies position-space H_prod factorization
+- Status: CONDITIONAL 0.88 unchanged — gap already documented
+
+---
+
+## T-022 Casimir Selector Scan (2026-04-12)
+
+**Script**: `sandbox/casimir_delta_selector.py`
+**Task**: T-022 (WHATS_NEXT.md Attack 1)
+**Question**: Does the Casimir polynomial x² + C₂x - C₂ = 0 produce x* = 2/9 as a natural fixed point?
+**Pre-registered prediction**: Likely negative (no clean hit).
+
+### Result Summary
+
+**7 scans performed** across spins j = 0, 0.5, 1, 1.5, 2, 2.5, 3:
+
+| Scan | What was tested | Hits within ±0.001 of 2/9 |
+|------|----------------|---------------------------|
+| 1. Weinberg-type ratio R = 1 - x₊(j₁)/x₊(j₂) | All 42 ordered spin pairs | **1 hit**: (j=0.5, j=1) → R = 0.22310, gap = 8.79×10⁻⁴ |
+| 2. Root values x₊(j) | All 7 spins | 0 hits (nearest: x₊(0.5) = 0.569) |
+| 3. Root ratios x₊(j₁)/x₊(j₂) | All 42 ordered pairs | 0 hits |
+| 4. Root differences x₊(j₂) - x₊(j₁) | All 21 pairs | 0 hits |
+| 5. Algebraic combinations | x², 1-x, products, x*(1-y), (1-x)(1-y), x/(1+x), C₂/(C₂+k) | 0 hits (nearest: x₊(1.5)*(1-x₊(1)) = 0.2198, gap = 2.4×10⁻³) |
+| 6. Weinberg-Koide gap analysis | sin²θ_W - 2/9 = 8.79×10⁻⁴ | **Structured residual**: gap ≈ 0.948 × α·(1-x₊(2)) |
+| 7. Fixed-point check | What j would give x₊ = 2/9? | j ≈ 0.060 — not a physical half-integer spin |
+
+### Interpretation
+
+The **only** hit is the Weinberg angle itself: sin²θ_W = 0.22310 is within 0.40% of 2/9 = 0.22222. This is the already-known result, NOT a new independent derivation of 2/9.
+
+**The Casimir polynomial does NOT naturally produce 2/9 as a fixed point.** For x₊ = 2/9 exactly, the required C₂ = 0.0635 corresponds to j ≈ 0.060 — not a physical spin value. 2/9 does not satisfy the polynomial at j = 1/2 (residual = -0.534).
+
+**The structured residual** (Scan 6) is the most interesting finding: sin²θ_W - δ_Koide = 8.79×10⁻⁴ ≈ α·(1-x₊(2)) to within 5%. This suggests the Weinberg-Koide gap may have a Casimir structure involving α and the j=2 root, but this requires further investigation and is NOT a derivation.
+
+### Verdict
+- **Pre-registered prediction**: Likely negative → **CONFIRMED NEGATIVE**
+- **δ = 2/9 does not emerge from the Casimir polynomial sector alone**
+- **The gap sin²θ_W - 2/9 ≈ α·(1-x₊(2)) is a candidate for further investigation** (not a claim — a lead)
+- Status: T-022 CLOSED as honest negative. Do NOT upgrade Koide phase in CLAIMS.md.

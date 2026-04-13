@@ -11,7 +11,7 @@ from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 )
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 import os
 
 OUTPUT = os.path.join(os.path.dirname(__file__),
@@ -109,7 +109,7 @@ def build():
     story.append(Paragraph(
         "How Reality Derives Itself from Three Axioms", sSubtitle))
     story.append(Paragraph(
-        "Greg Welby  |  Independent Research  |  March 2026  |  "
+        "Greg Welby  |  Independent Research  |  April 2026  |  "
         "github.com/gwelby/propagation-framework", sSubtitle))
     story.append(HRFlowable(
         width="100%", thickness=1.5, color=RULE_COLOR, spaceAfter=6))
@@ -156,23 +156,30 @@ def build():
     rows = [
         [
             Paragraph("Three generations of matter", sTableCell),
-            status_cell("DERIVED", 0.98),
+            status_cell("CONDITIONAL", 0.85),
             Paragraph(
-                "N=3 is the unique integer satisfying Q(N)=2/3 in 3D "
-                "topology", sTableCell),
+                "Algebra locks at N=3, but denominator theorem "
+                "needs T2 bridge", sTableCell),
         ],
         [
             Paragraph("Topological weights (2,1)", sTableCell),
-            status_cell("DERIVED", 0.98),
+            status_cell("PARTIAL", 0.85),
             Paragraph(
-                "Fermion/boson distinction from pi_1(SO(3)) = Z_2",
+                "Closure order theorem proven, "
+                "physical-realization bridge open", sTableCell),
+        ],
+        [
+            Paragraph("Koide phase δ ≈ 2/9", sTableCell),
+            status_cell("EMPIRICAL", 0.65),
+            Paragraph(
+                "|δ-2/9| = 7.4×10⁻⁶ (0.003%). Strongest empirical anchor",
                 sTableCell),
         ],
         [
             Paragraph("Koide ratio Q = 2/3", sTableCell),
             status_cell("DERIVED", 0.95),
             Paragraph(
-                "Geometric identity: 120-degree spacing forces R/A = sqrt(2)",
+                "Geometric identity: 120° spacing forces R/A = √2",
                 sTableCell),
         ],
         [
@@ -184,25 +191,46 @@ def build():
         ],
         [
             Paragraph("8-hour sleep constant", sTableCell),
-            status_cell("DERIVED", 0.92),
+            status_cell("ARGUED", 0.72),
             Paragraph(
-                "Q=2/3 of 24h cycle = 8h consolidation",
-                sTableCell),
+                "2/3 active fraction plausible, but "
+                "8h not derived from axioms", sTableCell),
         ],
         [
             Paragraph(
-                "Weinberg angle sin^2(theta_W)", sTableCell),
+                "Weinberg angle sin²(θ_W)", sTableCell),
             status_cell("DERIVED", 0.90),
             Paragraph(
-                "0.22310 via Axiom 3b. Matches PDG to 0.13 sigma",
+                "0.22310 via Axiom 3b. Matches PDG on-shell to 0.13σ",
+                sTableCell),
+        ],
+        [
+            Paragraph("Fine structure constant α", sTableCell),
+            status_cell("ARGUED", 0.35),
+            Paragraph(
+                "Casimir combination hits 1/137.119 (0.061% error)",
+                sTableCell),
+        ],
+        [
+            Paragraph("Propagation Lagrangian", sTableCell),
+            status_cell("CONDITIONAL", 0.72),
+            Paragraph(
+                "Scalar-tensor EFT maps to Brans-Dicke in linear limit",
+                sTableCell),
+        ],
+        [
+            Paragraph("Variable c prediction", sTableCell),
+            status_cell("ARGUED", 0.65),
+            Paragraph(
+                "c_local = 1/√(1+λχ). Constrained by Cassini to λ≲10⁻²/M_Pl",
                 sTableCell),
         ],
         [
             Paragraph("QCD confinement from lambda_c", sTableCell),
             status_cell("ARGUED", 0.72),
             Paragraph(
-                "Argued RG bridge from lambda_c. 1-loop overshoots: 2.2 fm vs ~0.9 fm",
-                sTableCell),
+                "Argued RG bridge from lambda_c. "
+                "1-loop overshoots: 2.2 fm vs ~0.9 fm", sTableCell),
         ],
     ]
 
@@ -229,7 +257,7 @@ def build():
     story.append(t)
 
     # --- The God Equation ---
-    story.append(Paragraph("The God Equation (Argued, 0.75)", sSection))
+    story.append(Paragraph("The God Equation (CONDITIONAL, 0.88)", sSection))
     story.append(Paragraph(
         "lambda_c = sqrt(2) * l_P * exp(4*pi^2 * N^(D/2) / b_0)",
         sEquation))
@@ -237,8 +265,9 @@ def build():
         "Predicts the top quark Compton wavelength from the Planck length "
         "alone. N=3, D=3, b_0=16/3. Predicted: 1.145 x 10^-18 m. "
         "Measured: 1.14 x 10^-18 m. Error: 0.4%. Zero free parameters. "
-        "The bridge from internal phase closure to spatial coherence volume "
-        "N^(D/2) remains the key open theorem.",
+        "Key gap: H_prod (statistical independence) not yet proved. "
+        "Path A: chiral projection needs Fourier-to-position-space bridge. "
+        "Path B: actual closure object shows no near-decoupling.",
         sBody))
 
     # --- How to Kill It ---
@@ -249,8 +278,8 @@ def build():
         "not kinematic.", sTest))
     story.append(Paragraph(
         "<b>Show Koide Q != 2/3 for neutrinos.</b> "
-        "JUNO (2026) will constrain this. >5% deviation limits the "
-        "framework's universality.", sTest))
+        "Already falsified: Q_NO = 0.55, Q_IO = 0.48 "
+        "(>5% deviation). Koide is EM phenomenon.", sTest))
     story.append(Paragraph(
         "<b>EEG phase transitions:</b> If Critical Slowing Down does not "
         "precede cognitive insight in >=7/10 sessions, the cross-scale "
@@ -282,8 +311,8 @@ def build():
         sFooter))
     story.append(Paragraph(
         "This might be wrong. That is the point. "
-        "The framework that survives contact with data is the one "
-        "worth keeping.",
+        "The framework that survives contact with data "
+        "is the one worth keeping.",
         ParagraphStyle("FooterItalic", parent=sFooter,
                         fontName="Helvetica-Oblique", spaceBefore=2)))
 

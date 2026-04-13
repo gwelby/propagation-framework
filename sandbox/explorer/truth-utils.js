@@ -70,12 +70,43 @@
     });
   }
 
+  var _colorCache = {};
+  function getColor(tokenName) {
+    if (_colorCache[tokenName]) return _colorCache[tokenName];
+    if (typeof window !== 'undefined' && window.getComputedStyle) {
+      var rgbStr = window.getComputedStyle(document.documentElement).getPropertyValue('--' + tokenName + '-rgb');
+      if (rgbStr) {
+        var parts = rgbStr.split(',').map(function(s) { return parseInt(s.trim(), 10); });
+        if (parts.length >= 3 && !isNaN(parts[0])) {
+          var hex = (parts[0] << 16) | (parts[1] << 8) | parts[2];
+          _colorCache[tokenName] = hex;
+          return hex;
+        }
+      }
+    }
+    var fallbacks = {
+      'propagate': 0x00cfff,
+      'planck': 0xffdd55,
+      'cohere': 0x44ff88,
+      'refract': 0xff9955,
+      'axiom': 0xc8a8ff,
+      'cosmic': 0x7c5cbf,
+      'uncertain': 0xff4757,
+      'resonate': 0xff6b9d,
+      'surface': 0x091525,
+      'deep': 0x050d1a,
+      'void': 0x020408
+    };
+    return fallbacks[tokenName] || 0xffffff;
+  }
+
   var api = {
     getAuditedResults: getAuditedResults,
     getCountsByStatus: getCountsByStatus,
     getResult: getResult,
     statusToClass: statusToClass,
     sortResultsForNarrative: sortResultsForNarrative,
+    getColor: getColor,
 
     // Compatibility aliases for any existing narrative code.
     getResults: getResults,

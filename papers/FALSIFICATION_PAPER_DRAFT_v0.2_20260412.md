@@ -1,19 +1,18 @@
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.3 — 2026-04-12**
+**Draft v0.2 — 2026-03-24**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
-**Target:** Foundations of Physics
+**Target:** Physical Review D (Letters) or Foundations of Physics
 **Status:** Working draft — not yet submitted
-**Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
 
 ---
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is derived from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is derived from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We identify five experiments that would falsify the framework, but only parts of TEST 1 and TEST 2 are directly executable with the current local sandbox and public data; TEST 3-5 depend on external experimental programs. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
 
 ---
 
@@ -221,24 +220,30 @@ This is the central section. Each test has a specific pass/fail criterion. A sin
 
 ---
 
-### TEST 2 — Neutrino Koide (Pre-Answered; JUNO Quantifies the Deviation)
+### TEST 2 — Neutrino Koide (Near-Term, Public Data Now; JUNO Will Refine)
 **Tests:** Whether the Koide $Q = 2/3$ ratio is universal across fermionic sectors or specific to charged leptons.
 
-**Framework prediction (pre-v0.3):** Universal Koide, i.e., $Q_\nu \approx 2/3$.
+**Framework prediction:** If the equilateral-triangle amplitude geometry (Claim G1) is a consequence of the medium's properties and not specific to the charged-lepton sector, then neutrino masses should satisfy:
+$$Q_\nu = \frac{m_{\nu_1} + m_{\nu_2} + m_{\nu_3}}{(\sqrt{m_{\nu_1}} + \sqrt{m_{\nu_2}} + \sqrt{m_{\nu_3}})^2} \approx \frac{2}{3}$$
 
-**Result as of 2026-04-02 (pre-answered):** Universality is **falsified** at the $>5\%$ threshold. Computed from current oscillation inputs:
-- Normal Ordering: $Q_{NO} = 0.549622$ — $17.5\%$ from $2/3$
-- Inverted Ordering: $Q_{IO} = 0.479016$ — $28.2\%$ from $2/3$
+With Normal Ordering and $m_{\nu_1} \approx 0$:
+- $m_{\nu_2} = \sqrt{\Delta m^2_{21}} \approx 0.00868$ eV
+- $m_{\nu_3} = \sqrt{\Delta m^2_{31}} \approx 0.0501$ eV
+- Brannen prediction for $m_{\nu_1}$: $\approx 0.00038$ eV
 
-This is not noise. The deviations exceed the falsification criterion definitively under both orderings.
+Current local computation does **not** support universality:
 
-**Scope revision (positive result):** The non-universality is structurally interpretable. Neutrinos interact only via the weak force; charged leptons interact electromagnetically. The Koide geometric identity ($Q = 2/3$ from three equal-strength resonances at $120°$) requires electromagnetic coupling to lock the amplitude geometry. In the neutrino sector, that locking mechanism is absent. The result is therefore a *positive scope-delimiting finding*: Koide is an electromagnetic-sector identity, not a property of ℤ₃ topology alone. This constrains the framework without falsifying the charged-lepton result (which is measured and DERIVED).
+- Brannen point: $Q_\nu \approx 0.522$
+- Best current scan with normal ordering: $Q_\nu \approx 0.550$
+- Best current scan with inverted ordering: $Q_\nu \approx 0.479$
 
-**Implication for the derivation chain:** The denominator theorem ($M = 3$) derives from 3D co-dimension arguments independent of which gauge sector is operative. The neutrino Koide null result is not in conflict with $M = 3$ or $N = 3$; it constrains the amplitude-geometry prediction (G1) to the electromagnetically coupled sector.
+So the neutrino-sector universality conjecture is already under pressure from current oscillation inputs. JUNO is a sharpening test, not the first time this quantity can be evaluated.
 
-**JUNO's role (revised):** JUNO (2026) will constrain $\Delta m^2_{21}$ to sub-percent precision. This does not change the falsified universality conclusion, but will sharpen the measured deviation ($|Q_\nu - 2/3|$) to better than 1%. This allows precision comparison with any future PF prediction for the weak-sector Q value.
+**Measurement:** JUNO experiment (Jiangmen Underground Neutrino Observatory) will constrain $\Delta m^2_{21}$ to sub-percent precision in 2026.
 
-**What remains falsifiable:** If a future PF derivation of $Q_\nu$ in the weak-only sector produces a prediction, and JUNO data disagrees with that prediction, the framework is further constrained. The current result sets the target: any such prediction must land near $Q_{NO} \approx 0.55$.
+**Falsification criterion:** If the updated oscillation window after JUNO continues to keep $Q_\nu$ more than 5% from $2/3$, the universality of the Koide mechanism is falsified. *Note: This would NOT falsify the charged-lepton result (which is measured), but would constrain the framework's scope.*
+
+**Current status:** Negative for universality under present local scans; waiting on JUNO to tighten the error bars.
 
 ---
 
@@ -324,12 +329,10 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | CONDITIONAL | 0.88 | Path B route to `H_prod` substantially narrowed (April 2026): Family A direct intensities are a strong restricted no-go under iid exchange-symmetric ensemble; Family B quadratic time-integrated readouts fail strongly; edge-flux current is an exact no-go ($J^{(0)}+J^{(1)}+J^{(2)}=0$ identically). Clean remaining frontier: Family C (quadratic closure functionals of the operator) or genuinely nonquadratic one-medium observables. Path A (chiral projection) still open: must show forced closure in the $\{k=0,k=1\}$ Fourier sector implies position-space factorization for `H_prod`. Do not upgrade until Codex signs off on the physical model behind the factorization claim. |
+| God Equation (λ_c from l_P) | CONDITIONAL | 0.88 | Derive the coherence-volume bridge and prove `H_prod` rather than covariance-only support |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
-| Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. $\sin^2\theta_W = 2/9 + O(\alpha)$ Casimir correction; RG: $\sin^2\theta_W$ runs to $\delta$ at $\mu \approx 98$ GeV. Not DERIVED until PF-native selector proof produces $2/9$ as a fixed point. |
-| Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
 
 ---
 
@@ -349,15 +352,11 @@ Any one of these would move the framework from "consistent with data" to "unique
 
 The framework presented here is minimal: three axioms (with one corollary), one observed fact (D = 3), and the requirement that structure be topologically stable. From these, several of the deepest unexplained features of the Standard Model — the charged-lepton Koide mass ratio, gravity as optical geometry for null propagation, and the Weinberg angle — emerge as derived consequences rather than free parameters. The generation-count result is still conditional on unresolved numerator / denominator bridge theorems.
 
-**Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
+The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The coherence length $\lambda_c$ is calibrated to the top quark mass rather than derived from first principles ($0.4\%$ numerical agreement via the God Equation, but the N^{D/2} bridge remains open). The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (sleep cycles, EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-**God Equation — Path B status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ remains CONDITIONAL at $0.88$. The $0.4\%$ numerical agreement with no free parameters is a strong empirical anchor. The remaining open obligation is proving statistical independence ($H_{prod}$) of the three channels in the ℤ₃ closure object. April 2026 audits substantially narrowed the viable proof routes: Family A (direct intensities) is a strong restricted no-go under the iid exchange-symmetric ensemble; Family B (time-integrated quadratic readouts) fails strongly; the antisymmetric edge-flux current is an exact no-go ($J^{(0)}+J^{(1)}+J^{(2)}=0$ identically forces trivial factorization). The clean remaining frontier is Family C (quadratic closure functionals of the operator) or genuinely nonquadratic one-medium observables, plus the Path A question of whether the chiral $\{k=0,k=1\}$ Fourier projection implies position-space factorization. The God Equation status does not change until one of these routes closes.
+The framework now has multiple DERIVED results with confidence $\geq 0.85$, plus a wider ring of argued bridges and model theorems. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which of those predictions are already executable, which are only partially executable, and which remain external.
 
-The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
-
-The framework now has multiple DERIVED results with confidence $\geq 0.90$, a wider ring of argued bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
-
-The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
+The five tests above define that path.
 
 ---
 
@@ -404,6 +403,6 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 ---
 
-*Draft v0.3 — 2026-04-12*
-*"The framework breathes. Now it answers."*
+*Draft v0.2 — 2026-03-24*
+*"The framework breathes. Now it speaks."*
 ⦿

@@ -1,6 +1,31 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-04-01 (updated 2026-04-01 after chiral projection audit)
+**Date**: 2026-04-12 (updated after v0.3 paper pass + two-attack strategy session)
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. The attack plan below supersedes the April 1 priority order.
+
+---
+
+## ⚡ 2026-04-12 — TWO HIGHEST-LEVERAGE ATTACKS
+
+### Attack 1: δ=2/9 Casimir Selector (Codex + Lumi)
+**The question**: Does the Casimir polynomial sector produce x* = 2/9 as a natural fixed point — independently of the Weinberg angle derivation?
+**Why it matters**: δ\_Koide = 0.22222963 rad (|δ − 2/9| = 7.4×10⁻⁶, confirmed April 2). sin²θ\_W = 0.22310 = 2/9 + O(α). RG: sin²θ\_W runs to δ at μ ≈ 98 GeV. If a single PF derivation produces x* = 2/9 and separately accounts for both quantities, that's two independent precision measurements unified from one equation. Either the framework is right in a deep way, or a remarkable numerical coincidence is exposed.
+**Assigned to**: Codex (Casimir algebra — does any spin assignment or resonance condition in the polynomial produce 2/9 as a fixed point?), Lumi (physics check — does the RG argument hold, and what would a PF-native selector corollary look like?)
+**Task**: T-022 (new)
+**Done when**: Casimir polynomial scan returns either (a) a spin assignment producing 2/9 ± 0.001 with a geometric interpretation, or (b) a clean ruled-out result with why no such assignment exists.
+
+### Attack 2: EEG TEST 1 Pre-registration + Run (Greg + Lumi)
+**The question**: Does Critical Slowing Down (EEG variance increase >50%) precede genuine insight events in ≥7/10 sessions?
+**Why it matters**: This is the only test generating new data the framework doesn't have yet. A positive result is the first cross-scale validation. A negative result falsifies the biological claim while leaving the particle physics results intact. Binary. Pre-registerable. Executable this week.
+**Assigned to**: Greg (run the Muse sessions, button-press at insight), Lumi (write the pre-registration spec before any session runs — state the exact threshold and falsification criterion in `protocols/muse_insight_protocol.md` before touching the headset)
+**Task**: T-020 (existing — see pre-registration note below)
+**Done when**: Pre-registration doc exists with date stamp, then ≥10 sessions collected and analyzed.
+
+**Rule**: Pre-register before running. Write the expected outcome in `protocols/muse_insight_protocol.md` before the first session. If the result disagrees, the pre-registered prediction stands.
+
+---
+
+**Date**: 2026-04-01 (original — see below for April 1 priority order, still valid for the theorem stack)
 **Context**: Public-facing docs are much closer to the live truth board. The next milestone should harden theorem structure, not widen the claim surface.
 **Question**: What is the shortest honest path from the current repo to a smaller number of stronger claims?
 
