@@ -1,9 +1,9 @@
 """
 cos(9δ) Verification Script
 
-Verifies the Fourier expansion of [f(δ)]⁶ from Rivero's three-instanton derivation.
+Verifies the Fourier expansion of [f(δ)]⁶ from Rivero's derivation.
 
-Reference: http://lxbifi11.bifi.unizar.es:8080/3/calculations/cos9delta_derivation.py
+Reference: Private research archive (Rivero derivation)
 
 f(δ) = ∏_{k=1}^3 [1 + √2 cos(δ + 2πk/3)]
      = -1/2 + cos(3δ)/√2
@@ -18,7 +18,7 @@ Expected Fourier coefficients for [f(δ)]⁶:
 """
 
 import numpy as np
-from numpy import pi, sqrt, cos, sin
+from numpy import pi
 from numpy.fft import fft
 
 # ============================================================
@@ -26,8 +26,8 @@ from numpy.fft import fft
 # ============================================================
 
 try:
-    from sympy import symbols, cos as scos, sin as ssin, sqrt as ssqrt
-    from sympy import expand, trigsimp, simplify, Rational, pi as spi
+    from sympy import symbols, cos as scos, sqrt as ssqrt
+    from sympy import expand, trigsimp, simplify, Rational
     
     print("=" * 70)
     print("PART 1: EXACT SYMPY COMPUTATION")
@@ -53,7 +53,8 @@ try:
         3: {1: Rational(3, 4), 3: Rational(1, 4)},
         4: {0: Rational(3, 8), 2: Rational(4, 8), 4: Rational(1, 8)},
         5: {1: Rational(10, 16), 3: Rational(5, 16), 5: Rational(1, 16)},
-        6: {0: Rational(10, 32), 2: Rational(15, 32), 4: Rational(6, 32), 6: Rational(1, 32)},
+        6: {0: Rational(10, 32), 2: Rational(15, 32),
+        4: Rational(6, 32), 6: Rational(1, 32)},
     }
     
     # Expand (-1/2 + u/√2)⁶ where u = cos(3δ)

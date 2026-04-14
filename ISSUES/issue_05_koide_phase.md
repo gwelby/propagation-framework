@@ -10,7 +10,8 @@
 ## The Empirical Fact
 
 **Charged lepton Koide phase**:
-```
+
+```text
 δ₀ = 2.3166 rad
 δ₀ mod (2π/3) = 0.222230 rad
 2/9 = 0.222222... rad
@@ -19,19 +20,21 @@ Residual: 7.4 × 10⁻⁶ rad = 33 ppm
 Significance: 4.3σ (specific to 2/9), 3.1σ (with look-elsewhere)
 ```
 
-**Source**: `http://lxbifi11.bifi.unizar.es:8080/3/results/koide_phases.md`
+**Source**: Private research archive (not publicly accessible)
 
 ---
 
 ## The Mechanism (Rivero 2026)
 
 **Three-instanton superpotential**:
-```
+
+```text
 W_3 = c₃ (det M)³ / Λ¹⁸
 ```
 
 **Generates effective potential**:
-```
+
+```text
 V_eff(δ) ∝ [f(δ)]⁶ × (harmonic sum)
 
 where f(δ) = -1/2 + cos(3δ)/√2
@@ -39,19 +42,20 @@ where f(δ) = -1/2 + cos(3δ)/√2
 
 **Fourier expansion of [f(δ)]⁶**:
 
-| Harmonic | Amplitude | Relative |
-|----------|-----------|----------|
-| cos(3δ) | 0.2554 | 1.000 |
-| cos(6δ) | 0.1758 | 0.688 |
-| **cos(9δ)** | **0.0879** | **0.344** |
-| cos(12δ) | 0.0219 | 0.086 |
-| cos(15δ) | 0.0022 | 0.008 |
-| cos(18δ) | 0.00005 | 0.0002 |
+| Harmonic   | Amplitude | Relative |
+|------------|-----------|----------|
+| cos(3δ)    | 0.2554    | 1.000    |
+| cos(6δ)    | 0.1758    | 0.688    |
+| **cos(9δ)**| **0.0879**| **0.344**|
+| cos(12δ)   | 0.0219    | 0.086    |
+| cos(15δ)   | 0.0022    | 0.008    |
+| cos(18δ)   | 0.00005   | 0.0002   |
 
 **The gap**: cos(9δ) is **NOT dominant** — only 34% of cos(3δ) amplitude.
 
 **Why it still matters**: Z₉ discrete symmetry (from 3 instantons × 3 generations) breaks U(1) phase to Z₉. The potential has **9 minima** at:
-```
+
+```text
 δ = 2/9 + 2kπ/3,  k = 0,1,2
 ```
 
@@ -64,6 +68,7 @@ where f(δ) = -1/2 + cos(3δ)/√2
 ### What PF Has
 
 From `koide_geometric_equivalence.md`:
+
 - ✅ Derives **Q = 2/3** from energy equipartition ⟨z²⟩ = z₀²
 - ✅ Derives **three generations** from SO(3) topology
 - ✅ Derives **Z₃ symmetry** (120° phase steps in internal walk)
@@ -82,11 +87,11 @@ From `koide_phase_rivero_bridge_audit.md`:
 
 **PF Z₃ cycle forces any reduced phase potential into the cos(3nδ) harmonic tower.**
 
-| Harmonic | PF Origin | Rivero Mechanism | Status |
-|----------|-----------|------------------|--------|
-| cos(3δ) | Z₃ cycle (n=1) | One-instanton | ⚠️ Must be suppressed |
-| cos(6δ) | Z₃ cycle (n=2) | Two-instanton | ⚠️ Must be suppressed |
-| cos(9δ) | Z₃ cycle (n=3) | Three-instanton | ✅ Observed (33 ppm) |
+| Harmonic | PF Origin          | Rivero Mechanism | Status               |
+|----------|-------------------|------------------|----------------------|
+| cos(3δ)  | Z₃ cycle (n=1)   | One-instanton    | ⚠️ Must be suppressed |
+| cos(6δ)  | Z₃ cycle (n=2)   | Two-instanton    | ⚠️ Must be suppressed |
+| cos(9δ)  | Z₃ cycle (n=3)   | Three-instanton  | ✅ Observed (33 ppm)  |
 
 **The theorem**: PF coherence might eliminate n=1, n=2 harmonics, leaving cos(9δ) as first surviving term.
 
@@ -101,6 +106,7 @@ From `koide_phase_rivero_bridge_audit.md`:
 **Script**: `sandbox/cos9delta_verification.py`
 
 **Compute**:
+
 1. Fourier coefficients of [f(δ)]⁶ exactly (sympy)
 2. Verify amplitudes match Rivero's values
 3. Compute suppression ratios: cos(9δ)/cos(3δ), cos(9δ)/cos(6δ)
@@ -114,6 +120,7 @@ From `koide_phase_rivero_bridge_audit.md`:
 **Script**: `sandbox/z9_minima_count.py`
 
 **Compute**:
+
 1. Full V_eff(δ) = [f(δ)]⁶ × Σ_k 1/g_k(δ)²
 2. Count local minima in [0, 2π)
 3. Verify 9 minima (Z₉ symmetry)
@@ -125,7 +132,8 @@ From `koide_phase_rivero_bridge_audit.md`:
 **Script**: `sandbox/coherence_suppression.py`
 
 **Hypothesis**: PF coherence factor C(n) suppresses lower harmonics:
-```
+
+```text
 C(n) = exp(-n²/σ²)  or  C(n) = 1/n^p
 ```
 
@@ -138,6 +146,7 @@ C(n) = exp(-n²/σ²)  or  C(n) = 1/n^p
 ### Derivation Route (High Risk)
 
 Show that PF axioms imply:
+
 1. Z₃ cycle → cos(3nδ) harmonic tower ✅ (Codex proved)
 2. Coherence Axiom 3 → suppresses n=1, n=2 ⚠️ (open)
 3. Three-instanton dynamics → n=3 survives ✅ (Rivero has mechanism)
@@ -147,6 +156,7 @@ Show that PF axioms imply:
 ### Empirical Route (Medium Risk)
 
 Verify:
+
 1. All fermion triples have phases in one Z₃ fundamental domain ✅ (partial)
 2. Lepton phase is closest to rational with small denominator ✅ (33 ppm)
 3. Z₉ symmetry is unique subgroup compatible with PF ⚠️ (open)
@@ -169,30 +179,29 @@ This issue is falsified if:
 
 ## Related Issues
 
-| Issue | Connection |
-|-------|------------|
-| **#2 (Koide amplitude)** | Amplitude Q=2/3 is derived; phase δ₀ is the missing half |
-| **#3 (Weinberg angle)** | Independent — run in parallel |
-| **G3 (α bridge)** | Wilson loop phase was wrong tool (SU(2) traces are real) |
+| Issue                  | Connection                                                                 |
+|------------------------|----------------------------------------------------------------------------|
+| **#2 (Koide amplitude)**| Amplitude Q=2/3 is derived; phase δ₀ is the missing half           |
+| **#3 (Weinberg angle)** | Independent — run in parallel                                          |
+| **G3 (α bridge)**       | Wilson loop phase was wrong tool (SU(2) traces are real)               |
 
 ---
 
 ## Research Plan
 
-| Step | Task | Agent | Output |
-|------|------|-------|--------|
-| 1 | Verify cos(9δ) amplitudes | Qwen | `cos9delta_verification.py` |
-| 2 | Count Z₉ minima | Qwen | `z9_minima_count.py` |
-| 3 | Test coherence suppression | Qwen | `coherence_suppression.py` |
-| 4 | Derive n=1, n=2 suppression | Codex | `coherence_harmonic_suppression.md` |
-| 5 | Update CLAIMS.md | All | Koide phase entry |
+| Step | Task                       | Agent | Output                            |
+|------|----------------------------|-------|-----------------------------------|
+| 1    | Verify cos(9δ) amplitudes  | Qwen  | `cos9delta_verification.py`      |
+| 2    | Count Z₉ minima            | Qwen  | `z9_minima_count.py`              |
+| 3    | Test coherence suppression  | Qwen  | `coherence_suppression.py`        |
+| 4    | Derive n=1, n=2 suppression| Codex | `coherence_harmonic_suppression.md`|
+| 5    | Update CLAIMS.md            | All   | Koide phase entry                  |
 
 ---
 
 ## Resources
 
-- **Rivero server**: `http://lxbifi11.bifi.unizar.es:8080/3/`
-- **cos(9δ) derivation**: `calculations/cos9delta_derivation.py`
+- **cos(9δ) derivation**: Private research archive (calculations directory)
 - **Koide phases**: `results/koide_phases.md`
 - **Three-instanton**: `calculations/three_instanton_seiberg.py`
 - **Assembly round 19**: `results/assembly_round19.md`

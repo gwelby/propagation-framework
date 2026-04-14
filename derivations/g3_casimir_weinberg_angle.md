@@ -1,4 +1,5 @@
 # Issue #3: Weinberg Angle from Poincaré Casimir Eigenvalues
+
 *A candidate derivation of sin²θ_W from representation theory*
 
 **Date**: 2026-03-21
@@ -14,7 +15,7 @@
 
 Issue #3 is the derivation of sin²θ_W — the Weinberg mixing angle — from the Propagation Framework's axioms. Until now, we had no candidate mechanism. This changes that.
 
-Alejandro Rivero shared access to two weeks of agentic work (`lxbifi11.bifi.unizar.es:8080/3/`) in which his team derived sin²θ_W from the ratio of Poincaré group Casimir eigenvalues for spin-1/2 vs spin-1 representations. The derivation is:
+Alejandro Rivero shared access to two weeks of agentic work (private research archive) in which his team derived sin²θ_W from the ratio of Poincaré group Casimir eigenvalues for spin-1/2 vs spin-1 representations. The derivation is:
 
 - Algebraically exact (not a numerical fit)
 - Uniquely determined by three structural constraints (verified against 582 alternatives)
@@ -116,13 +117,13 @@ R_devries = (math.sqrt(19)-3)*(math.sqrt(19)-math.sqrt(3))/16
 
 ## 4. Comparison to Experiment
 
-| Quantity | Value |
-|---|---|
-| $R$ (algebraic) | 0.22310132... |
-| $\sin^2\theta_W$ PDG 2024 quoted | $0.22306 \pm 0.00033$ |
-| Tension | **0.13σ** |
+| Quantity                                     | Value                         |
+|---------------------------------------------|-------------------------------|
+| $R$ (algebraic)                             | 0.22310132...                 |
+| $\sin^2\theta_W$ PDG 2024 quoted            | $0.22306 \pm 0.00033$         |
+| Tension                                     | **0.13σ**                     |
 | $\sin^2\theta_W$ on-shell ($1 - M_W^2/M_Z^2$) | $0.22320 \pm 0.00026$ |
-| Tension with on-shell | **0.40σ** |
+| Tension with on-shell                       | **0.40σ**                     |
 
 **W-mass prediction**: From $M_W = M_Z\sqrt{1-R}$ with $M_Z = 91.1876$ GeV:
 
