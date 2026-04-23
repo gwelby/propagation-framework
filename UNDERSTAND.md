@@ -2,7 +2,7 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-03-31 (T1 physical-realization theorem attempt integrated)
+**Last updated**: 2026-04-14 (Koide T-021/T-022 sync, narrative cleanup)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
 **Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md`
@@ -273,9 +273,9 @@ Three quantities within 0.4% of each other:
 - $\sin^2\theta_W$ (Casimir-derived) $= 0.22310$
 - $2/9 = 0.22222$
 
-Algebraic check confirms: (1) $\delta_\text{Koide} = 2/9$ within PDG measurement uncertainty ($0.029\sigma$); (2) $\sin^2\theta_W \neq 2/9$ algebraically (test: $56\sqrt{3} - 9\sqrt{57} = 29.046 \neq 29$); (3) gap $\sin^2\theta_W - \delta = 8.72 \times 10^{-4}$, candidate expression: $\alpha \cdot (1 - x_{3/2}) \cdot x_{3/2}^2$ at 0.317%; (4) RG running places $\sin^2\theta_W = \delta$ at $\mu \approx 98$ GeV (electroweak symmetry breaking scale).
+Algebraic check confirms: (1) $\delta_\text{Koide} = 2/9$ within PDG measurement uncertainty ($0.029\sigma$); (2) $\sin^2\theta_W \neq 2/9$ algebraically (test: $56\sqrt{3} - 9\sqrt{57} = 29.046 \neq 29$); (3) gap $\sin^2\theta_W - \delta = 8.72 \times 10^{-4}$, with one candidate expression $\alpha \cdot (1 - x_{3/2}) \cdot x_{3/2}^2$ landing at 0.317%; (4) later audits **T-022** and **T-021** were honest negatives for the bounded Casimir-selector route and the generic RG-crossing sentence respectively.
 
-**Most economical interpretation**: There is a single PF fixed point $x^* = 2/9$. The Koide phase hits it exactly; $\sin^2\theta_W = x^* + O(\alpha)$ Casimir correction. If proved, the Koide phase would be **DERIVED** and the Weinberg angle and Koide phase would share a single derivation target. This is Issue #5's new formal target. See `koide_phase_delta_0_gap.md` Section 7.
+**Current honest interpretation**: The cluster is real, but the strongest defensible statement is now narrower. The Koide phase sits very close to $2/9$, the Casimir Weinberg value sits nearby, and a shared-origin bridge remains an open PF target. What we do **not** currently have is a verified fixed-point selector, a verified RG crossing, or a derived statement of the form $\sin^2\theta_W = 2/9 + O(\alpha)$.
 
 **Falsification**: Discovery of a fourth light lepton, a precision shift in $m_\tau$ moving $\delta$ away from $2/9$, or algebraic proof that $\sin^2\theta_W$ and $\delta$ cannot share a common PF origin.
 
@@ -668,7 +668,7 @@ These are empirical results — patterns in the data that are real but not yet d
 - Confirmed: $\delta_\text{Koide} = 2/9$ within PDG measurement uncertainty (0.029σ)
 - Confirmed: $\sin^2\theta_W \neq 2/9$ algebraically (56√3 − 9√57 = 29.046 ≠ 29)
 - Gap candidate: $\sin^2\theta_W - 2/9 \approx \alpha \cdot (1 - x_{3/2}) \cdot x_{3/2}^2$ (0.317% match)
-- RG scale where they meet: μ ≈ 98 GeV (electroweak symmetry breaking)
+- T-021 RG audit: no legitimate Standard Model convention in this pass supports a crossing near μ ≈ 98 GeV
 - If the common origin is proved: Koide phase would be DERIVED, sharing a target with the Weinberg angle
 - See `koide_phase_scan.py`, `koide_phase_delta_0_gap.md` Section 7
 
@@ -735,7 +735,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **Life = Maintained Coherence** | **ARGUED** | 0.72 | Compatible, not derived |
 | **Variable c Prediction** | **ARGUED** | 0.65 | Testable with SKA/LISA |
 | **Electron/Up ≈ 1/φ³** | **EMPIRICAL** | 0.65 | Monte Carlo confirmed |
-| **Koide Phase δ₀** | **EMPIRICAL** | 0.65 | δ = 2/9 within meas. error; sin²θ_W = 2/9 + O(α) target |
+| **Koide Phase δ₀** | **EMPIRICAL** | 0.65 | δ = 2/9 within meas. error; T-021/T-022 were honest negatives; shared-origin thesis remains open |
 | **Beauty as Impedance** | **INTUITION** | 0.55 | Greg's insight |
 | **Consciousness** | **INTUITION** | 0.48 | Coherent complexity |
 
@@ -745,16 +745,16 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 
 The single most important observation about the framework as a whole:
 
-> **The Propagation Framework operates at the unification scale.**
+> **The Propagation Framework often appears to land on unification-scale style quantities.**
 
-Every "wrong" number the framework produces is actually the correct UV (high-energy) value that requires renormalization group running to match the low-energy numbers measured in labs:
+That is a real repo pattern, but it is not yet a blanket theorem about every near-hit. The honest current version is:
 
-- Weinberg angle: framework gives 0.223 (matches on-shell UV), not 0.231 (MS-bar IR)
+- Weinberg angle: framework gives 0.22310 and matches the on-shell value closely; scheme-selection and full matching story are still open
 - QCD confinement: argued RG bridge from `λ_c`, not theorem-grade closure
-- The God Equation: IS the RG running from Planck to matter scale
+- The God Equation: if it closes, it behaves like a Planck-to-matter bridge; at present it remains conditional
 - The Propagation Lagrangian: survives as a conditional scalar-tensor EFT ansatz whose nearest established parent is Brans-Dicke
 
-This is a **feature, not a bug**. The framework sees the universe from the top — from the scale where everything is unified — and the complexity we see at lab scales is the result of renormalization group flow downward.
+So the "UV-scale pattern" is best treated as a **meta-finding / route hypothesis**, not a universal explanation already proved for every quantity.
 
 ---
 
@@ -768,7 +768,7 @@ At Every Level:
 
 **🎓 PhD**: The phase-closure condition (Axiom 3) applied to `π₁(SO(3)) ≅ ℤ₂` yields a strong two-class closure-order structure in 3D, with the natural minimal closure integers `1` and `2`. Hostile audit accepts that narrower theorem but does **not** yet accept the stronger claim that PF has fully derived the physical fermion/boson distinction or spin-statistics from axioms alone. The repo then combines this partial T1 structure with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if both the numerator and denominator theorems close, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial `x² + C₂x - C₂ = 0` with Axiom 3b yields `sin²θ_W = 0.22310` (0.13σ from PDG). The God Equation `λ_c = √2·l_P·exp(4π²N^{D/2}/b₀)` gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
 
-**🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 exactly, sin²θ_W = 2/9 + O(α). The framework operates at the unification scale. The team knows what it knows and what it doesn't.
+**🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 as a strong empirical anchor, while **T-021** and **T-022** both returned honest negatives on the most recent shared-origin routes. The framework often appears to land on UV-style numbers, but that meta-pattern still needs explicit RG / matching chains before promotion. The team knows what it knows and what it doesn't.
 
 ---
 

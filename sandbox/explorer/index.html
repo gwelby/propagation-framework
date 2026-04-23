@@ -73,38 +73,50 @@
   </script>
 </head>
 <body class="mode-story">
-  <!-- Visual Hook — Invitational Overlay (Hook A: Refraction) -->
-  <div id="visualHookOverlay" class="visual-hook-overlay" role="dialog" aria-modal="true" aria-labelledby="hook-title" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; inset: 0; background: var(--void); z-index: 9999; transition: opacity 0.5s ease; opacity: 0;">
-    <div class="vh-inner" style="max-width: 800px; padding: 40px; border: 1px solid rgba(200, 168, 255, 0.2); border-radius: 12px; background: var(--deep); box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);">
-      <div class="vh-content vh-confrontation">
-        <h1 class="vh-headline" id="hook-title" style="color:var(--axiom); font-size: 3rem; margin-bottom: 24px; font-family: var(--headline);">Gravity is not a pull.</h1>
-        <div class="vh-claims" style="font-size:1.4rem; margin:32px 0; color:var(--text); line-height: 1.8; font-family: var(--body);">
-          <p>Watch a straw in a glass of water. It looks broken, right?</p>
-          <p>That's because light bends when it changes speed.</p>
-          <p>Gravity works the same way. Space isn't empty—it's a medium.</p>
-          <p>Near massive objects, the medium gets 'thicker.' Things slow down. Paths bend.</p>
-          <p>No pulling. Just the shape of the water.</p>
-        </div>
-        <div class="vh-actions" style="margin-top: 40px;">
-          <button class="vh-cta" id="vhStartBtn" type="button" style="background:var(--axiom); color:var(--void); border: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: var(--ui);">
-            [See how the pattern connects everything]
-          </button>
-        </div>
-      </div>
+  <!-- ═══════════════════════════════════════════════════════════════
+       9-BEAT ZOOM SEQUENCE OVERLAY — "Your Intuition About Reality Is Wrong"
+       Pass 1: Narrative Architecture — Confrontational Opening
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="zoomSequenceOverlay" class="zoom-sequence-overlay" role="dialog" aria-modal="true" aria-labelledby="zs-headline" aria-describedby="zs-beat-text">
+    <!-- Fallback text layer for no-JS / SEO / accessibility -->
+    <div class="zs-fallback" id="zsFallback">
+      <h1>Your Intuition About Reality Is Wrong.</h1>
+      <p>At your scale, matter looks solid. Zoom in: atoms become fields. Zoom further: matter becomes standing pattern. Zoom further: space stops behaving like space. Zoom out: galaxies trace the same logic.</p>
+      <p>Different scales. Same propagation.</p>
+      <button type="button" id="zsFallbackBtn">Explore what replaces the old model</button>
     </div>
-  </div>
-      <div class="vh-content">
-        <div class="vh-scale-label" id="vhScaleLabel">10⁰ m — Human</div>
-        <p class="vh-beat-text" id="vhBeatText">At your scale, reality looks solid.</p>
+
+    <!-- Animated zoom sequence -->
+    <div class="zs-stage" id="zsStage" style="display: none;">
+      <!-- Scale indicator -->
+      <div class="zs-scale-marker" id="zsScaleMarker">
+        <span class="zs-scale-value" id="zsScaleValue">10⁰</span>
+        <span class="zs-scale-unit">m</span>
       </div>
-      <div class="vh-progress-track" aria-hidden="true">
-        <div class="vh-progress-fill" id="vhProgressFill"></div>
+
+      <!-- Main content -->
+      <div class="zs-content">
+        <h1 class="zs-headline" id="zsHeadline"></h1>
+        <p class="zs-beat-text" id="zsBeatText"></p>
       </div>
-      <div class="vh-actions">
-        <button class="vh-skip-btn" id="vhSkipBtn" type="button">Skip →</button>
+
+      <!-- Progress indicator -->
+      <div class="zs-progress" aria-hidden="true">
+        <div class="zs-progress-track">
+          <div class="zs-progress-fill" id="zsProgressFill"></div>
+        </div>
+        <div class="zs-beat-counter"><span id="zsBeatNum">1</span> / 9</div>
       </div>
-      <div class="vh-zoom-hint" id="vhZoomHint">
-        <span>Zooming through 61 orders of magnitude</span>
+
+      <!-- Controls -->
+      <div class="zs-controls">
+        <button type="button" class="zs-skip" id="zsSkipBtn">Skip →</button>
+      </div>
+
+      <!-- Zoom direction indicator -->
+      <div class="zs-direction" id="zsDirection">
+        <span class="zs-dir-arrow">↓</span>
+        <span class="zs-dir-label">Zooming In</span>
       </div>
     </div>
   </div>

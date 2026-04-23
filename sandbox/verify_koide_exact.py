@@ -65,6 +65,10 @@ print(f"  Q(rec)    = {Q_val:.15f}")
 print(f"  2/3       = {2/3:.15f}")
 print(f"  |Q - 2/3| = {abs(Q_val - 2/3):.2e}")
 
+import truth_audit_bridge
+audit_result = truth_audit_bridge.audit_claim("Koide Q=2/3", Q_val)
+print(audit_result)
+
 # Now let's also check the sqrt(m) values directly
 print("\n" + "=" * 70)
 print("DIRECT sqrt(m) CHECK")

@@ -151,13 +151,19 @@ gap B ≈ α · (1 − x(1.5)) · x(1.5)²   at 0.317% error
 ```
 where x(j) are Casimir polynomial roots. This uses only j ∈ {1/2, 1, 3/2} — the same roots that appear in the Weinberg angle derivation. No geometric mechanism identified yet.
 
-### RG interpretation
+### RG interpretation (audited 2026-04-13)
 
-The Renormalization Group running of sin²θ_W passes through the value δ_Koide ≈ 2/9 at:
-```
-μ ≈ 97.9 GeV  (near m_t ≈ 172.69 GeV and m_Z ≈ 91.2 GeV)
-```
-This places the "δ_Koide scale" within the electroweak symmetry breaking region. Whether this is structural (the Koide phase is the UV boundary condition at EW scale) or coincidental is open.
+The earlier sentence
+
+`sin²θ_W runs to δ_Koide at μ ≈ 97.9 GeV`
+
+does **not** survive the T-021 convention audit.
+
+- The direct on-shell quantity `1 - M_W^2/M_Z^2` is a fixed pole-mass ratio, not an RG trajectory.
+- The effective leptonic angle `sin^2(theta_eff^ell)` is a Z-pole extracted observable, not a generic running definition.
+- The legitimate running quantity in this pass is the `MS-bar` angle `s_hat^2(mu)`. Using current PDG inputs and a bounded one-loop SM helper gives `s_hat^2(98 GeV) = 0.231579930`, not `2/9`, and the PDG review places the electroweak minimum near `μ = M_W`, still above `2/9`.
+
+So the RG bridge is removed. Any remaining Koide/Weinberg connection must be PF-native or explicitly convention-specific.
 
 ### Updated interpretation of Issue #5
 
@@ -167,12 +173,12 @@ The layered picture from Section 6 survives intact, but now with sharper distinc
 - **sin²θ_W ≠ 2/9** — these are two genuinely distinct quantities sharing a 0.4% proximity.
 - **The proximity sin²θ_W ≈ δ_Koide ≈ 2/9** is triple: the Casimir-derived Weinberg angle, the Koide phase, and the simple fraction 2/9 all cluster within 0.4%. Whether this is a single derivation target or three separate coincidences is the key open question.
 
-The most economical interpretation: **there is a single PF quantity x* = 2/9, and:**
-- δ_Koide = x* exactly (within measurement error)
-- sin²θ_W = x* + O(α) correction from the Casimir polynomial
+The most economical live interpretation is now narrower:
 
-If this is correct, the Koide phase IS derivable from the same object as the Weinberg angle, with the 8.72×10⁻⁴ gap explained by the α correction term above.
+- `δ_Koide = 2/9` remains a measurement-consistent empirical anchor.
+- `sin²θ_W(Casimir) = 0.22310` remains a nearby derived quantity.
+- T-022 and T-021 both failed as selector bridges, so the shared-origin thesis is still open, not established.
 
-**This is the sharpest formal target for Issue #5.**
+**This remains the sharpest honest formal target for Issue #5, but not an upgraded derivation.**
 
-**Issue #5 updated confidence: EMPIRICAL (0.60). sin²θ_W ≠ 2/9 confirmed algebraically. δ_Koide = 2/9 survives. α-correction interpretation is new.**
+**Issue #5 updated confidence: EMPIRICAL (0.60). sin²θ_W ≠ 2/9 confirmed algebraically. δ_Koide = 2/9 survives. Generic RG-crossing language removed on audit.**

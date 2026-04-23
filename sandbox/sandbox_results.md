@@ -806,6 +806,96 @@ This isolates the lag-specific cross-node information flow peak.
 
 ---
 
+## 2026-04-12 — T-022 Casimir Selector Scan (`casimir_delta_selector.py`)
+
+**Task**: T-022  
+**Question**: Does the Casimir polynomial `x^2 + C_2 x - C_2 = 0` produce `x* = 2/9` as a natural fixed point?  
+**Pre-registered prediction**: likely negative.
+
+**Search space covered**:
+
+- spin roots `x_+(j)` for `j = 0, 1/2, 1, 3/2, 2, 5/2, 3`
+- Weinberg-type ratios `R = 1 - x_+(j_1)/x_+(j_2)`
+- direct root values, ratios, and differences
+- bounded algebraic combinations built from `x`, `1-x`, and simple products
+- reverse solve: what `j` would be required for `x_+(j) = 2/9`?
+
+**Result summary**:
+
+- only near-hit within `+-0.001` of `2/9` is the already-known Weinberg pair `(j_1, j_2) = (1/2, 1)`, giving `R = 0.22310`
+- no root value `x_+(j)` lands near `2/9`
+- nearest bounded algebraic near-miss found was `x_+(3/2) * (1 - x_+(1)) = 0.2198`, outside tolerance
+- exact reverse solve gives `j ~= 0.060` for `x_+(j) = 2/9`, which is not a physical half-integer spin
+
+**Interpretation**:
+
+The Casimir polynomial does **not** naturally produce `2/9` as a fixed point. The only hit is the Weinberg angle itself, which was already known. The most interesting residual is
+
+`sin^2(theta_W)_PF - 2/9 ~= 8.79e-4 ~= 0.948 * alpha * (1 - x_+(2))`,
+
+but that is only a structured lead, not a derivation.
+
+**Verdict**:
+
+- pre-registered prediction confirmed negative
+- `delta = 2/9` does **not** emerge from the Casimir polynomial sector alone
+- Koide phase status unchanged: remain `EMPIRICAL`, do not upgrade from T-022
+
+---
+
+## 2026-04-13 — T-021 RG Audit for the Koide/Weinberg Crossing (`weinberg_rg_crossing_check.py`)
+
+**Task**: T-021  
+**Question**: Does any legitimate Standard Model definition of `sin^2(theta_W)(mu)` cross `delta ~= 2/9`, and specifically does any audited convention support the sentence `mu ~= 98 GeV`?
+
+**Method**:
+
+- separate direct on-shell pole-mass ratio, `MS-bar` running angle, and effective leptonic angle
+- use current PDG 2025 particle listings for `M_W` and `M_Z`
+- use PDG 2025 electroweak review for `sin^2(theta_eff^ell)` and `s_hat_Z^2`
+- use a bounded one-loop SM running helper for `s_hat^2(mu)` above `M_Z`
+
+**Anchors**:
+
+- `delta_target = 2/9 = 0.222222222222`
+- `delta_exact = 0.222229631490`
+- `sin^2(theta_W)_PF = 0.223101322301`
+- direct pole-mass on-shell ratio with current PDG masses: `1 - M_W^2/M_Z^2 = 0.223209492843`
+- `sin^2(theta_eff^ell) = 0.23154 +- 0.00006`
+- `s_hat_Z^2 = 0.23122 +- 0.00006`
+
+**Running check**:
+
+| `mu` | `s_hat^2(mu)` |
+|---:|---:|
+| `80.3692 GeV` | `0.230589619` |
+| `91.1880 GeV` | `0.231220000` |
+| `98 GeV` | `0.231579930` |
+| `100 GeV` | `0.231680904` |
+| `172.61 GeV` | `0.234416236` |
+| `1 TeV` | `0.243312660` |
+
+**Sensitivity at 98 GeV**:
+
+- central: `0.231579930`
+- PDG `1 sigma` corner window: `[0.231519888, 0.231639972]`
+- derivative `d s_hat^2 / d ln(mu)` at `98 GeV` is positive: `+0.004997604`
+
+**Interpretation**:
+
+- the direct pole-mass ratio is fixed once the pole masses are chosen; it is **not** RG flow
+- the effective leptonic angle is a Z-pole extracted observable; it is **not** a generic running definition
+- the legitimate running quantity in this pass is `s_hat^2(mu)`, and it stays well above `2/9` in the electroweak region audited here
+- the earlier repo sentence "`sin^2(theta_W)` runs to `delta` at `mu ~= 98 GeV`" does **not** survive
+
+**Verdict**:
+
+- T-021 is an honest negative on the `98 GeV` crossing claim
+- no audited Standard Model convention in this pass supports a crossing at `mu ~= 98 GeV`
+- Koide phase remains `EMPIRICAL`; any remaining bridge must be PF-native or convention-specific
+
+---
+
 ## 2026-03-31 — phi_vs_delay.py — Chord Postulate Test (v5: baseline-subtracted cross-corr)
 
 **Prediction tested**: Phi proxy peaks at lag = 88–176 ms

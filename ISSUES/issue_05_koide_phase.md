@@ -2,7 +2,7 @@
 
 **Created**: 2026-03-21  
 **Priority**: HIGH (4.5σ empirical signal)  
-**Status**: OPEN — gap identified, mechanism partially understood  
+**Status**: OPEN — empirical anchor survives; selector mechanism still open after T-021 / T-022  
 **Related**: Issue #2 (Koide amplitude), G3 (internal phase bridge)
 
 ---
@@ -24,7 +24,20 @@ Significance: 4.3σ (specific to 2/9), 3.1σ (with look-elsewhere)
 
 ---
 
-## The Mechanism (Rivero 2026)
+## 2026-04-14 Audit Update
+
+Current repo truth is narrower than the original issue framing:
+
+- `δ₀ mod (2π/3)` remains a strong empirical anchor near `2/9`
+- **T-022 (2026-04-12)** was a negative for the bounded Casimir-selector scan
+- **T-021 (2026-04-13)** was a negative for the generic repo sentence that `sin²θ_W` runs to `δ` near `98 GeV`
+- the shared-origin thesis remains open
+
+What follows below is therefore best read as a **historical candidate mechanism / bibliography lead**, not as accepted PF repo truth.
+
+---
+
+## Historical Candidate Mechanism (Rivero Thread / Unverified In-Repo)
 
 **Three-instanton superpotential**:
 
@@ -53,7 +66,12 @@ where f(δ) = -1/2 + cos(3δ)/√2
 
 **The gap**: cos(9δ) is **NOT dominant** — only 34% of cos(3δ) amplitude.
 
-**Why it still matters**: Z₉ discrete symmetry (from 3 instantons × 3 generations) breaks U(1) phase to Z₉. The potential has **9 minima** at:
+**Historical expectation only**: if lower harmonics cancelled and `cos(9δ)` became the leading
+term, the reduced phase potential would show a Z₉-type minimum structure. That was the old target,
+not current repo truth. The 2026-04-20 tolerance/proxy audit confirms that the historical proxy
+`[f(δ)]⁶ × Σ_k 1/g_k(δ)²` has **6 minima** on `[0, 2π)`, not 9, and misses the empirical phase
+badly. So the sentence below should now be read as the old hoped-for pattern, not an audited
+result:
 
 ```text
 δ = 2/9 + 2kπ/3,  k = 0,1,2
@@ -91,9 +109,9 @@ From `koide_phase_rivero_bridge_audit.md`:
 |----------|-------------------|------------------|----------------------|
 | cos(3δ)  | Z₃ cycle (n=1)   | One-instanton    | ⚠️ Must be suppressed |
 | cos(6δ)  | Z₃ cycle (n=2)   | Two-instanton    | ⚠️ Must be suppressed |
-| cos(9δ)  | Z₃ cycle (n=3)   | Three-instanton  | ✅ Observed (33 ppm)  |
+| cos(9δ)  | Z₃ cycle (n=3)   | Three-instanton  | ⚠️ Present in the tower, not yet dominant |
 
-**The theorem**: PF coherence might eliminate n=1, n=2 harmonics, leaving cos(9δ) as first surviving term.
+**The hypothesis**: PF coherence might eliminate n=1, n=2 harmonics, leaving cos(9δ) as first surviving term.
 
 **What needs proof**: Show that PF Axiom 3 (coherence necessary for stable structure) suppresses lower harmonics.
 
@@ -123,9 +141,10 @@ From `koide_phase_rivero_bridge_audit.md`:
 
 1. Full V_eff(δ) = [f(δ)]⁶ × Σ_k 1/g_k(δ)²
 2. Count local minima in [0, 2π)
-3. Verify 9 minima (Z₉ symmetry)
+3. Check whether 9 minima really occur, rather than assuming Z₉ symmetry
 
-**Expected**: 9 minima at δ ≈ 2/9 + 2kπ/3
+**Historical expectation**: 9 minima at δ ≈ 2/9 + 2kπ/3  
+**Audited update (2026-04-20)**: the proxy in this issue file does not realize that pattern.
 
 ### Task 3: Coherence Suppression Model
 
@@ -149,7 +168,7 @@ Show that PF axioms imply:
 
 1. Z₃ cycle → cos(3nδ) harmonic tower ✅ (Codex proved)
 2. Coherence Axiom 3 → suppresses n=1, n=2 ⚠️ (open)
-3. Three-instanton dynamics → n=3 survives ✅ (Rivero has mechanism)
+3. Three-instanton dynamics → n=3 survives as the leading term ⚠️ (not yet shown)
 
 **Result**: δ₀ = 2/9 is the unique minimum of the leading surviving harmonic.
 
@@ -194,8 +213,8 @@ This issue is falsified if:
 | 1    | Verify cos(9δ) amplitudes  | Qwen  | `cos9delta_verification.py`      |
 | 2    | Count Z₉ minima            | Qwen  | `z9_minima_count.py`              |
 | 3    | Test coherence suppression  | Qwen  | `coherence_suppression.py`        |
-| 4    | Derive n=1, n=2 suppression| Codex | `coherence_harmonic_suppression.md`|
-| 5    | Update CLAIMS.md            | All   | Koide phase entry                  |
+| 4    | Derive n=1, n=2 suppression only if PF-native bridge exists | Codex | `coherence_harmonic_suppression.md` |
+| 5    | Keep CLAIMS.md narrow unless a verified selector survives audit | All | Koide phase entry |
 
 ---
 
@@ -210,5 +229,5 @@ This issue is falsified if:
 
 *Issue created: 2026-03-21*  
 *Empirical status: 33 ppm (4.3σ)*  
-*Mechanism: Z₉ symmetry from three-instanton dynamics*  
-*PF gap: Coherence suppression of n=1, n=2 harmonics*
+*Historical mechanism candidate: Z₉ symmetry from three-instanton dynamics*  
+*Current audited gap: no scalar selector survives; lower-harmonic suppression and empirical phase selection remain open*

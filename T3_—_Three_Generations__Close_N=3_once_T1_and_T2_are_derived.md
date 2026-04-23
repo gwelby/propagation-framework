@@ -1,23 +1,17 @@
-# T3 - Three Generations: Close N=3 once T1 and T2 are derived
+# T3 - Three Generations: Close N=3
 
 ## What This Is
 
-**Frontier**: Three Generations `N=3` - `CONDITIONAL 0.85`  
-**Current state**: blocked by unresolved T1 and T2 theorem gaps  
-**Owning sources**:
+**Frontier:** Three Generations `N=3`  
+**Current state:** `CONDITIONAL 0.85`  
+**Owning sources:**
 - `CLAIMS.md`
+- `ACTIVE_ISSUES.md`
 - `derivations/three_generations_closed_proof.md`
-- `derivations/three_generations_t2_audit_2026-03-28.md`
-- `derivations/t1_physical_realization_theorem_audit_2026-03-31.md`
-- `derivations/t2_denominator_theorem_audit_2026-03-31.md`
+- `derivations/t3_phi_harmonic_closure.md`
+- `derivations/t3_phi_harmonic_closure_codex_audit_2026-04-22.md`
 
-This file tracks the T3 assembly work after the March 31 bounded audits.
-The algebra is already exact.
-The prerequisites are not.
-
-So the current implementation target is:
-
-> write the clean assembly proof now, keep T3 conditional, and avoid any status upgrade language until T1 and T2 actually close.
+**Status Update (2026-04-22):** The proposed phi-harmonic closure route was audited and rejected. T3 remains conditional on the unresolved T1 numerator and T2 denominator bridges.
 
 ---
 
@@ -25,26 +19,17 @@ So the current implementation target is:
 
 Today the repo truth order says:
 
-- T1 / numerator route: `PARTIAL DERIVATION 0.85`
-- T2 / denominator route: `PARTIAL DERIVATION 0.85`
-- T3 / Three Generations: `CONDITIONAL 0.85`
+- **T1 / numerator route:** `PARTIAL DERIVATION 0.85`
+- **T2 / denominator route:** `PARTIAL DERIVATION 0.85`
+- **T3 / Three Generations:** `CONDITIONAL 0.85`
 
-That means this ticket is still blocked as a full theorem-closing pass.
-It is **not** blocked as preparatory implementation work.
-
----
-
-## Implemented In This Pass
-
-1. Added `derivations/three_generations_closed_proof.md` as the exact conditional assembly theorem.
-2. Synchronized summary wording so T3 is not described as fully derived while T1 and T2 remain open.
-3. Left the claim status unchanged at `CONDITIONAL 0.85`.
+The exact algebraic lock is real, but the input theorems are not closed.
 
 ---
 
 ## Conditional Algebraic Chain
 
-```
+```text
 T1 (not yet closed): PF must physically realize closure weights (2,1)
     -> numerator of Q(N) = 2N/(2N+M) is 2N
 
@@ -62,26 +47,37 @@ The uncertainty is entirely in the T1 and T2 bridges.
 
 ---
 
-## Promotion Gate
+## 2026-04-22 Phi-Harmonic Candidate Audit
 
-T3 may upgrade only if:
+Cascade proposed a new route through phi-harmonic coherence maximization. Codex audit rejected it.
 
-- T1 receives a Codex audit that upgrades the physical `(2,1)` numerator theorem
-- T2 receives a Codex audit that upgrades the denominator theorem `M = 3`
-- the assembly file is re-audited to confirm no new hidden step was introduced
-- the owning status docs are synchronized in truth order
+What failed:
 
-Until then, the correct wording is:
+- The scoring function gave `N=3` a unique exact-match bonus because `Q(3)=2/3`.
+- Without that target-specific bonus, `N=4` beats `N=3` under the same score family.
+- The route still imports `2N`, `M=3`, and `Q=2/3`, so it is not independent of T1/T2.
+- The script's own phi-scaling diagnostic reports a large mismatch between charged-lepton square-root mass ratios and phi.
 
-> Three Generations is a conditional theorem with exact algebra and two named unresolved prerequisite bridges.
+See `derivations/t3_phi_harmonic_closure_codex_audit_2026-04-22.md`.
 
 ---
 
 ## Acceptance Criteria
 
-- [x] `derivations/three_generations_closed_proof.md` exists and cites the live T1/T2 audits
-- [x] Repo summary language no longer overstates T3 as fully derived
-- [ ] T1 is upgraded to DERIVED by Codex audit
-- [ ] T2 is upgraded to DERIVED by Codex audit
-- [ ] Codex audits the final assembly theorem after the prerequisites close
-- [ ] `CLAIMS.md` is promoted only after those prerequisite audits exist
+- [x] `derivations/three_generations_closed_proof.md` exists.
+- [x] Exact algebraic lock from `Q(N)=2N/(2N+3)` and `Q=2/3` to `N=3` is documented.
+- [x] Phi-harmonic closure candidate audited.
+- [x] Phi-harmonic closure candidate rejected as target-loaded.
+- [ ] T1 physical-realization theorem closes under Codex audit.
+- [ ] T2 denominator theorem closes under Codex audit.
+- [ ] Only after both gates close: update `CLAIMS.md`, `ACTIVE_ISSUES.md`, and this ticket.
+
+---
+
+## Strongest Honest Statement
+
+PF already has the exact algebraic lock from `Q(N)=2N/(2N+3)` and `Q=2/3` to the unique positive integer solution `N=3`.
+
+What it still lacks are the two load-bearing input theorems: why stable PF modes must physically realize the weight-2 branch, and why the PF denominator is exactly `3` from native 3D coherence dynamics.
+
+Until those two bridges close, Three Generations remains a conditional theorem rather than a derived one.

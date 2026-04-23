@@ -739,5 +739,220 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     PFExplorer.boot();
+    PFExplorer.initZoomSequence();
   });
+
+  /* ═══════════════════════════════════════════════════════════════
+     9-BEAT ZOOM SEQUENCE — Pass 1: Narrative Architecture
+     "Your Intuition About Reality Is Wrong"
+     ═══════════════════════════════════════════════════════════════ */
+  PFExplorer.initZoomSequence = function () {
+    var overlay = document.getElementById("zoomSequenceOverlay");
+    var fallback = document.getElementById("zsFallback");
+    var stage = document.getElementById("zsStage");
+    var headlineEl = document.getElementById("zsHeadline");
+    var beatTextEl = document.getElementById("zsBeatText");
+    var scaleValueEl = document.getElementById("zsScaleValue");
+    var progressFill = document.getElementById("zsProgressFill");
+    var beatNumEl = document.getElementById("zsBeatNum");
+    var skipBtn = document.getElementById("zsSkipBtn");
+    var fallbackBtn = document.getElementById("zsFallbackBtn");
+    var directionEl = document.getElementById("zsDirection");
+
+    if (!overlay) return;
+
+    // 9-beat sequence data — the narrative spine
+    var beats = [
+      {
+        scale: "10⁰",
+        scaleLog: 0,
+        headline: "Your Intuition About Reality Is Wrong.",
+        text: "At your scale, reality looks solid.",
+        direction: "in"
+      },
+      {
+        scale: "10⁻⁵",
+        scaleLog: -5,
+        headline: "Cellular",
+        text: "Zoom in: solidity becomes living structure.",
+        direction: "in"
+      },
+      {
+        scale: "10⁻⁹",
+        scaleLog: -9,
+        headline: "Molecular",
+        text: "Zoom in: structure becomes bond, vibration, and pattern.",
+        direction: "in"
+      },
+      {
+        scale: "10⁻¹⁰",
+        scaleLog: -10,
+        headline: "Atomic",
+        text: "Zoom in: atoms are mostly field.",
+        direction: "in"
+      },
+      {
+        scale: "10⁻¹⁸",
+        scaleLog: -18,
+        headline: "Matter",
+        text: "Zoom further: matter resolves into standing pattern.",
+        direction: "in"
+      },
+      {
+        scale: "10⁻³⁵",
+        scaleLog: -35,
+        headline: "Planck",
+        text: "Zoom further: space stops behaving like space.",
+        direction: "in"
+      },
+      {
+        scale: "10⁷",
+        scaleLog: 7,
+        headline: "Planetary",
+        text: "Zoom out: worlds move through curved propagation.",
+        direction: "out"
+      },
+      {
+        scale: "10²¹",
+        scaleLog: 21,
+        headline: "Galactic",
+        text: "Zoom out: galaxies settle into density-wave structure.",
+        direction: "out"
+      },
+      {
+        scale: "10²⁶",
+        scaleLog: 26,
+        headline: "Cosmic",
+        text: "The universe draws the same logic at the largest scale.",
+        direction: "out"
+      }
+    ];
+
+    var currentBeat = 0;
+    var isRunning = false;
+    var beatDuration = 3500; // ms per beat (8-10s total sequence)
+    var transitionDuration = 400; // ms for text transitions
+
+    // Check sessionStorage for "seen" flag
+    var hasSeenSequence = false;
+    try {
+      hasSeenSequence = sessionStorage.getItem("pf_zoom_sequence_seen") === "1";
+    } catch (e) {}
+
+    // Exit handler — navigate to wave visualization, the proof IS the experience
+    function exitSequence() {
+      if (!isRunning) return;
+      isRunning = false;
+      overlay.classList.add("zs-exiting");
+      setTimeout(function () {
+        // Mark as seen
+        try {
+          sessionStorage.setItem("pf_zoom_sequence_seen", "1");
+        } catch (e) {}
+        // Navigate to scale ladder with waves active — words → propagation
+        window.location.href = "scale-ladder.html?mode=propagation&autostart=1";
+      }, 500);
+    }
+
+    // Render a beat
+    function renderBeat(index) {
+      var beat = beats[index];
+      if (!beat) return;
+
+      // Exit animation on current content
+      headlineEl.classList.add("zs-exit");
+      beatTextEl.classList.add("zs-exit");
+
+      setTimeout(function () {
+        // Update content
+        headlineEl.textContent = beat.headline;
+        beatTextEl.textContent = beat.text;
+        scaleValueEl.textContent = beat.scale;
+        beatNumEl.textContent = String(index + 1);
+
+        // Update progress
+        var progress = ((index + 1) / beats.length) * 100;
+        progressFill.style.width = String(progress) + "%";
+
+        // Update direction indicator
+        if (beat.direction === "out") {
+          directionEl.classList.add("zs-zoom-out");
+          directionEl.querySelector(".zs-dir-label").textContent = "Zooming Out";
+          directionEl.querySelector(".zs-dir-arrow").textContent = "↑";
+        } else {
+          directionEl.classList.remove("zs-zoom-out");
+          directionEl.querySelector(".zs-dir-label").textContent = "Zooming In";
+          directionEl.querySelector(".zs-dir-arrow").textContent = "↓";
+        }
+
+        // Enter animation
+        headlineEl.classList.remove("zs-exit");
+        beatTextEl.classList.remove("zs-exit");
+      }, transitionDuration);
+    }
+
+    // Advance to next beat
+    function nextBeat() {
+      if (!isRunning) return;
+      currentBeat++;
+      if (currentBeat >= beats.length) {
+        // Final beat complete — show closing text then exit
+        setTimeout(function () {
+          headlineEl.textContent = "Different scales. Same propagation.";
+          beatTextEl.textContent = "Three axioms. Twenty-two audited claims.";
+          progressFill.style.width = "100%";
+          setTimeout(exitSequence, 2500);
+        }, beatDuration);
+        return;
+      }
+      renderBeat(currentBeat);
+      setTimeout(nextBeat, beatDuration);
+    }
+
+    // Start sequence
+    function startSequence() {
+      if (hasSeenSequence) {
+        // Skip if already seen this session
+        overlay.style.display = "none";
+        return;
+      }
+      isRunning = true;
+      fallback.style.display = "none";
+      stage.style.display = "flex";
+      renderBeat(0);
+      setTimeout(nextBeat, beatDuration);
+    }
+
+    // Skip handler
+    if (skipBtn) {
+      skipBtn.addEventListener("click", exitSequence);
+    }
+
+    // Fallback handler (for no-JS or accessibility)
+    if (fallbackBtn) {
+      fallbackBtn.addEventListener("click", function () {
+        exitSequence();
+      });
+    }
+
+    // Keyboard: Escape skips, Space advances
+    overlay.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        exitSequence();
+      } else if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        if (currentBeat < beats.length - 1) {
+          // Advance immediately
+          currentBeat++;
+          renderBeat(currentBeat);
+        } else {
+          exitSequence();
+        }
+      }
+    });
+
+    // Start after a brief delay for page load
+    setTimeout(startSequence, 300);
+  };
 }());

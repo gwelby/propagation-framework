@@ -10,9 +10,9 @@
 ### 1. Co-author Required
 APS journals require at least one co-author with an academic institution.
 - Greg Welby is listed as independent researcher
-- Need: a physics professor, postdoc, or collaborator who can vouch for the derivations
-- Alternative: Foundations of Physics is more open to independent researchers — may be a better target
-- **Action:** Greg needs to identify and approach a potential co-author
+- **Live lead: Dr. Alberto Rivero** (al.rivero@gmail.com) — contacted March 24, followed up April 11. If he responds and engages on the technical bridge, he is a candidate co-author. He has the math background to vouch for the Koide and Weinberg angle derivations.
+- Alternative: Foundations of Physics is more open to independent researchers — may be a better target if Rivero doesn't engage
+- **Action:** If Rivero responds positively, ask him directly about co-authorship. If not, pursue other physics contacts or consider Foundations of Physics.
 
 ### 2. Draft is Stale (needs update to v0.3)
 The April 1 Codex audit and April 2 pressure tests changed the status of several claims:

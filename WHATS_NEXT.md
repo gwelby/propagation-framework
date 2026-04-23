@@ -1,18 +1,18 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-04-12 (updated after v0.3 paper pass + two-attack strategy session)
-**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. The attack plan below supersedes the April 1 priority order.
+**Date**: 2026-04-13 (updated after the T-021 RG audit)
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The priority order below supersedes the April 12 attack framing.
 
 ---
 
-## ⚡ 2026-04-12 — TWO HIGHEST-LEVERAGE ATTACKS
+## ⚡ 2026-04-13 — POST-AUDIT PRIORITIES
 
-### Attack 1: δ=2/9 Casimir Selector (Codex + Lumi)
-**The question**: Does the Casimir polynomial sector produce x* = 2/9 as a natural fixed point — independently of the Weinberg angle derivation?
-**Why it matters**: δ\_Koide = 0.22222963 rad (|δ − 2/9| = 7.4×10⁻⁶, confirmed April 2). sin²θ\_W = 0.22310 = 2/9 + O(α). RG: sin²θ\_W runs to δ at μ ≈ 98 GeV. If a single PF derivation produces x* = 2/9 and separately accounts for both quantities, that's two independent precision measurements unified from one equation. Either the framework is right in a deep way, or a remarkable numerical coincidence is exposed.
-**Assigned to**: Codex (Casimir algebra — does any spin assignment or resonance condition in the polynomial produce 2/9 as a fixed point?), Lumi (physics check — does the RG argument hold, and what would a PF-native selector corollary look like?)
-**Task**: T-022 (new)
-**Done when**: Casimir polynomial scan returns either (a) a spin assignment producing 2/9 ± 0.001 with a geometric interpretation, or (b) a clean ruled-out result with why no such assignment exists.
+### Attack 1: Koide Phase Selector Beyond Casimir/RG (Codex + Lumi)
+**The question**: After T-022 and T-021 both failed, is there any PF-native selector left that can produce `x* = 2/9` without reusing the rejected bridges?
+**Why it matters**: δ\_Koide = 0.22222963 rad (|δ − 2/9| = 7.4×10⁻⁶, confirmed April 2) remains one of the strongest empirical anchors in the repo. But the two most obvious bridge attempts are now gone: T-022 did **not** find `2/9` in the bounded Casimir polynomial sector, and T-021 did **not** find any legitimate Standard Model convention where `sin²θ_W(μ)` crosses δ near `98 GeV`. Any next step has to be a genuinely new selector route, not more Casimir scanning and not a generic RG story.
+**Assigned to**: Codex (new selector mechanisms only), Lumi (scope integrity and convention discipline)
+**Status of prior subtasks**: T-022 algebra scan complete negative. T-021 RG physics check complete negative.
+**Done when**: either (a) a new PF-native selector route is written with explicit falsifiers, or (b) the repo demotes the shared-origin thesis further.
 
 ### Attack 2: EEG TEST 1 Pre-registration + Run (Greg + Lumi)
 **The question**: Does Critical Slowing Down (EEG variance increase >50%) precede genuine insight events in ≥7/10 sessions?

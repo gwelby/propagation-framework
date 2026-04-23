@@ -34,9 +34,29 @@
     wireKeyboard();
     wireResize();
 
-    // Initial navigation to matter scale
-    _engine.navigateToScale('matter', { duration: 1400 });
-    showScaleInfo('matter');
+    // Check for autostart from zoom sequence — words → waves
+    var params = new URLSearchParams(window.location.search);
+    var autostart = params.get('autostart') === '1';
+    var mode = params.get('mode');
+
+    if (autostart) {
+      // Coming from zoom sequence — immediately start at Human scale with waves active
+      // Use timeout to ensure engine is fully initialized
+      setTimeout(function () {
+        _engine.navigateToScale('human', { duration: 0, force: true });
+        showScaleInfo('human');
+        // Trigger wave visualization after brief settle
+        setTimeout(function () {
+          if (_engine.triggerWaveVisualization) {
+            _engine.triggerWaveVisualization('human');
+          }
+        }, 300);
+      }, 100);
+    } else {
+      // Normal entry — navigate to matter scale
+      _engine.navigateToScale('matter', { duration: 1400 });
+      showScaleInfo('matter');
+    }
 
     // Start render loop
     animate();

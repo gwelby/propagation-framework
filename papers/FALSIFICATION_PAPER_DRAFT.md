@@ -328,7 +328,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
-| Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. $\sin^2\theta_W = 2/9 + O(\alpha)$ Casimir correction; RG: $\sin^2\theta_W$ runs to $\delta$ at $\mu \approx 98$ GeV. Not DERIVED until PF-native selector proof produces $2/9$ as a fixed point. |
+| Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
 
 ---

@@ -3453,3 +3453,301 @@ a.skip-link:focus {
     min-height: 180px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   9-BEAT ZOOM SEQUENCE OVERLAY — Pass 1: Narrative Architecture
+   "Your Intuition About Reality Is Wrong"
+   ═══════════════════════════════════════════════════════════════ */
+
+.zoom-sequence-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--void);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--headline);
+  overflow: hidden;
+}
+
+/* Fallback for no-JS / accessibility */
+.zs-fallback {
+  max-width: 800px;
+  padding: 40px;
+  text-align: center;
+  animation: zs-fade-in 0.8s var(--ease-out-expo);
+}
+
+.zs-fallback h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: var(--axiom);
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+
+.zs-fallback p {
+  font-family: var(--body);
+  font-size: 1.3rem;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.zs-fallback button {
+  margin-top: 40px;
+  background: var(--axiom);
+  color: var(--void);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-family: var(--ui);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s var(--spring), box-shadow 0.2s ease;
+}
+
+.zs-fallback button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 168, 255, 0.3);
+}
+
+/* Animated stage */
+.zs-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  animation: zs-fade-in 0.6s var(--ease-out-expo);
+}
+
+/* Scale marker (10^x m) */
+.zs-scale-marker {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  font-family: var(--formula);
+  font-size: 1.2rem;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: all 0.5s var(--ease-out-expo);
+}
+
+.zs-scale-value {
+  color: var(--planck);
+  font-weight: 500;
+}
+
+.zs-scale-unit {
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+/* Main content area */
+.zs-content {
+  text-align: center;
+  max-width: 900px;
+  animation: zs-content-enter 0.8s var(--ease-out-expo);
+}
+
+.zs-headline {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  color: var(--axiom);
+  margin-bottom: 32px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 60px rgba(200, 168, 255, 0.15);
+  transition: opacity 0.4s ease, transform 0.4s var(--spring);
+}
+
+.zs-headline.zs-exit {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.zs-beat-text {
+  font-family: var(--body);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+  transition: opacity 0.4s ease, transform 0.4s var(--spring);
+}
+
+.zs-beat-text.zs-exit {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Progress indicator */
+.zs-progress {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(400px, 80vw);
+  text-align: center;
+}
+
+.zs-progress-track {
+  height: 3px;
+  background: rgba(var(--muted-rgb), 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.zs-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--axiom), var(--propagate));
+  width: 0%;
+  transition: width 0.5s var(--ease-out-expo);
+}
+
+.zs-beat-counter {
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Skip button */
+.zs-controls {
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
+}
+
+.zs-skip {
+  background: transparent;
+  border: 1px solid rgba(var(--muted-rgb), 0.3);
+  color: var(--muted);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: var(--ui);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zs-skip:hover {
+  border-color: var(--axiom);
+  color: var(--axiom);
+  background: rgba(var(--axiom-rgb), 0.05);
+}
+
+/* Zoom direction indicator */
+.zs-direction {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: var(--ui);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.zs-dir-arrow {
+  font-size: 1.5rem;
+  animation: zs-bounce 1.5s ease-in-out infinite;
+}
+
+.zs-direction.zs-zoom-out .zs-dir-arrow {
+  animation-direction: reverse;
+}
+
+/* Animations */
+@keyframes zs-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zs-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes zs-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* Exit animation */
+.zoom-sequence-overlay.zs-exiting {
+  animation: zs-exit 0.5s var(--ease-out-expo) forwards;
+}
+
+@keyframes zs-exit {
+  to {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .zs-stage {
+    padding: 40px 24px;
+  }
+
+  .zs-scale-marker {
+    top: 40px;
+    left: 24px;
+    font-size: 1rem;
+  }
+
+  .zs-direction {
+    display: none;
+  }
+
+  .zs-controls {
+    bottom: 40px;
+    right: 24px;
+  }
+
+  .zs-progress {
+    bottom: 80px;
+  }
+
+  .zs-fallback {
+    padding: 24px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .zs-headline,
+  .zs-beat-text {
+    transition: opacity 0.2s ease;
+  }
+
+  .zs-dir-arrow {
+    animation: none;
+  }
+
+  @keyframes zs-content-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

@@ -492,7 +492,10 @@ def section5_known_identities():
     print()
 
     # ── Koide phase ──
-    # Standard: δ₀ ≈ 2/9 rad, but from Koide formula δ = π/12 for charged leptons
+    # Repo empirical anchor: reduced charged-lepton phase δ₀ ≈ 2/9 rad.
+    # π/12 appears in some literature/model interpretations as a separate
+    # phase-shift breadcrumb; this block compares both candidates inside the
+    # alpha-identity scan. It does NOT re-derive the measured Koide phase.
     delta_koide = 2.0/9.0         # "2/9 phase"
     delta_pi12  = pi/12.0         # Koide exact
 

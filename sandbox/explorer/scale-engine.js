@@ -222,6 +222,16 @@
 
   function flyToY(targetY, durationMs, onDone) {
     if (_transitionTimer) cancelAnimationFrame(_transitionTimer);
+
+    // Handle instant jump (duration = 0) without NaN
+    if (!durationMs || durationMs <= 0) {
+      _camera.position.y = targetY;
+      _controls.target.y = targetY;
+      _isTransitioning = false;
+      if (onDone) onDone();
+      return;
+    }
+
     _isTransitioning = true;
     const startY = _camera.position.y;
     const startTargetY = _controls.target.y;
@@ -260,7 +270,7 @@
       _clock = new THREE.Clock();
       _scene = new THREE.Scene();
       _scene.background = new THREE.Color(0x020408);
-      _scene.fog = new THREE.FogExp2(0x020408, 0.006);
+      _scene.fog = new THREE.FogExp2(0x020408, 0.002);  // Reduced density for visibility
 
       _camera = new THREE.PerspectiveCamera(
         48,
@@ -479,6 +489,55 @@
 
     getActiveSceneApi: function () {
       return _sceneRegistry[_currentScaleId] || null;
+    },
+
+    /**
+     * Trigger wave visualization for the current scale — the proof IS the experience.
+     * Activates propagation wave demonstration at the selected scale.
+     * @param {string} scaleId — optional scale to visualize (defaults to current)
+     */
+    triggerWaveVisualization: function (scaleId) {
+      var targetId = scaleId || _currentScaleId;
+      var api = _sceneRegistry[targetId];
+
+      // Pulse the scale node to indicate wave activation
+      var nodeMesh = _scaleMeshes.find(function (m) {
+        return m.userData && m.userData.scaleId === targetId;
+      });
+
+      if (nodeMesh) {
+        // Visual pulse — the wave begins here
+        var originalScale = nodeMesh.scale.x;
+        var pulseDuration = 600;
+        var startTime = performance.now();
+
+        function pulse() {
+          var elapsed = performance.now() - startTime;
+          var progress = Math.min(elapsed / pulseDuration, 1);
+          var wave = Math.sin(progress * Math.PI) * 0.3;
+          var newScale = originalScale * (1 + wave);
+          nodeMesh.scale.set(newScale, newScale, newScale);
+
+          if (progress < 1) {
+            requestAnimationFrame(pulse);
+          } else {
+            nodeMesh.scale.set(originalScale, originalScale, originalScale);
+          }
+        }
+        pulse();
+      }
+
+      // Notify the per-scale scene to begin wave mode
+      if (api && typeof api.beginWaveMode === 'function') {
+        api.beginWaveMode();
+      }
+
+      // Dispatch event for external listeners
+      try {
+        window.dispatchEvent(new CustomEvent('pf:wave-visualization-started', {
+          detail: { scaleId: targetId, timestamp: performance.now() }
+        }));
+      } catch (e) {}
     },
 
     resize: function () {

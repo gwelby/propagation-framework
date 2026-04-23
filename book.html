@@ -9323,15 +9323,16 @@ rad,</td>
 <td style="text-align: left;">= 7.4×10⁻⁶ (0.003%). CF expansion
 [0;4;2;1665] — giant partial quotient means 2/9 is anomalously best
 rational approx up to denominator 36. Bootstrap: δ at 0.1th percentile
-of simplicity (p≈0). <strong>ALGEBRAIC CHECK (2026-03-25)</strong>: (1)
-δ_Koide = 2/9 is measurement-consistent (0.029σ). (2) sin²θ_W ≠ 2/9
-algebraically confirmed: test 56√3−9√57=29 fails, LHS=29.046. (3) Gap
-sin²θ_W−δ = 8.72×10⁻⁴; candidate: α·(1−x(3/2))·x(3/2)² at 0.317%. (4)
-RG: sin²θ_W runs to δ_Koide value at μ≈98 GeV (EW scale).
-<strong>Interpretation</strong>: δ_Koide = 2/9 exactly; sin²θ_W = 2/9 +
-O(α) Casimir correction. If correct, Koide phase and Weinberg angle
-share a single PF derivation target. Also: δ_lepton − δ_dsb ≈ 1/9 rad
-(inter-sector relation).</td>
+of simplicity (p≈0). <strong>T-022 (2026-04-12)</strong>: Casimir
+selector scan returned an honest negative; no bounded Casimir-sector
+combination produced <code>x* = 2/9</code>. <strong>T-021
+(2026-04-13)</strong>: RG convention audit returned an honest negative;
+the audited quantities do <strong>not</strong> support the generic repo
+sentence that <code>sin^2(theta_W)</code> runs to <code>δ</code> near
+98 GeV. <strong>Interpretation after T-021/T-022</strong>: <code>δ</code>
+near <code>2/9</code> remains a strong empirical phase anchor, the
+nearby Casimir Weinberg value remains interesting, but the shared-origin
+thesis is not yet derived.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Three Generations</strong></td>
@@ -9605,24 +9606,27 @@ the bridge between physics and optics. Status:
 <li><strong>Top/Tau coupling</strong>: Our strongest numerical signal.
 It sits outside the topological lock but inside the experimental
 uncertainty. Status: <strong>ANCHOR.</strong></li>
-<li><strong>The Scale Pattern</strong>: The PF consistently operates at
-the unification scale. The Weinberg angle gives 0.22310, matching the
-PDG on-shell value to 0.13σ. QCD confinement now sits as an argued RG
-bridge from <code>λ_c</code>, not a closed theorem. The Propagation
-Lagrangian maps to Brans-Dicke. The “wrong” numbers often point at UV
-structure, but they still need the honest RG/matching chain before
-promotion. Status: <strong>META-FINDING — 2026-03-19, sharpened
-2026-03-27.</strong></li>
+<li><strong>The Scale Pattern</strong>: The PF often appears to land on
+unification-scale style quantities. The Weinberg angle gives 0.22310
+and matches the PDG on-shell value closely; QCD confinement currently
+sits as an argued RG bridge from <code>λ_c</code>; and the Propagation
+Lagrangian maps structurally to Brans-Dicke. That is a real
+meta-pattern, but it is <strong>not</strong> yet a blanket theorem that
+every near-hit is “really the UV value.” The RG / scheme / matching
+chain still has to be written explicitly case by case. Status:
+<strong>META-FINDING — 2026-03-19, sharpened 2026-04-14.</strong></li>
 <li><strong>The God Equation</strong>: stays
-<strong>CONDITIONAL</strong> after Codex audit (2026-03-25). Wave 5
-produced a genuine ℤ₃-resolved Lagrangian and a stronger circulant
-internal story. But three steps did <strong>not</strong> pass audit: (A)
-Axiom 2 does not by itself give first-order Markovity of the coarse
-walk; (B) <code>T_eff = K³·I</code> is shown only for the pure-shift
-walk ansatz, not the actual derived nearest-neighbor circulant; (C) zero
-cross-channel amplitude / covariance is weaker than full statistical
-independence. Status: <strong>0.88, CONDITIONAL</strong>.</li>
-<li><strong>Gap B CLOSED NEGATIVELY (2026-03-26)</strong>: Theorem
+<strong>CONDITIONAL</strong> after Codex audit. Wave 5 produced a
+genuine ℤ₃-resolved Lagrangian and a stronger circulant internal story,
+but the remaining bridge is now narrower and more explicit than the
+older summary implied. The IBM chirality result supports identity
+preservation in the chiral medium, but does <strong>not</strong> prove a
+pure-shift closure object and does <strong>not</strong> replace the need
+for <code>H_prod</code>. Path A remains a projected-sector route needing
+the Fourier-to-position-space bridge; Path B's natural edge-flux current
+is now an exact no-go. Status: <strong>0.88, CONDITIONAL</strong>.</li>
+<li><strong>Gap B CLOSED NEGATIVELY (2026-03-26, Path A reframed
+2026-04-01)</strong>: Theorem
 proved: for <span class="math inline"><em>T</em> = <em>a</em><em>S̄</em> + <em>b</em><em>S̄</em><sup>2</sup></span>
 on ℤ₃, <span class="math inline"><em>T</em><sup>3</sup></span> is
 diagonal iff <span class="math inline"><em>a</em><em>b</em> = 0</span>.
@@ -9630,13 +9634,19 @@ Actual symmetric EOM operator (<span class="math inline"><em>a</em> = <em>b<
 — off-diagonal entries (3) exceed diagonal (2). Generations strongly mix
 at 3 steps; the pure-shift closure used in the God Equation argument is
 NOT a property of the physical nearest-neighbor circulant. <strong>Path
-A (new formal target)</strong>: CP violation (Jarlskog <span class="math inline"><em>J</em> ≠ 0</span>) explicitly breaks <span class="math inline"><em>a</em> = <em>b</em></span> symmetry. Derive
-<span class="math inline"><em>b</em>/<em>a</em> → 0</span> from the
-chiral structure of the weak sector coupling in the ℤ₃ Lagrangian. If
-proved, Gap B closes positively via physics, not by assumption. See
+A (corrected formal target)</strong>: chiral projection kills the
+<code>k=2</code> Fourier eigenmode, but it does <strong>not</strong>
+eliminate the <span class="math inline"><em>S̄</em><sup>2</sup></span>
+term in position space, and the 2026-04-02 pressure test confirmed that
+<code>T_chiral^3</code> is not diagonal in 3D position space. The live
+Path A obligation is therefore narrower: derive whether the projected
+<code>{k=0,k=1}</code> sector is forced by the ℤ₃ Lagrangian, and
+whether closure in that 2D Fourier sector implies the position-space
+probability factorization required for <code>H_prod</code>. See
 <code>god_eq_gap_B_nearest_neighbor_no_go.md</code>,
 <code>chiral_projection_z3.py</code>,
-<code>chiral_vs_symmetric_entropy.py</code>.</li>
+<code>chiral_vs_symmetric_entropy.py</code>,
+<code>LOCAL_TEST_RESULTS_20260402.md</code>.</li>
 <li><strong>Neutrino Koide null result (2026-03-26)</strong>: Neutrinos
 do NOT satisfy the Koide relation. Normal ordering: <span class="math inline"><em>Q</em> ≈ 0.55</span> (<span class="math inline">|<em>Q</em> − 2/3| = 0.117</span>). Inverted
 ordering: <span class="math inline"><em>Q</em> ≈ 0.48</span>. The purely
@@ -9649,15 +9659,16 @@ work, not just ℤ₃ topology. See
 quantities within 0.4% of each other: δ_Koide = 0.22223 rad, sin²θ_W
 (Casimir) = 0.22310, 2/9 = 0.22222. Algebraic check confirms: (a) δ =
 2/9 within measurement uncertainty (0.029σ); (b) sin²θ_W ≠ 2/9
-algebraically (gap 4.63×10⁻² in the 56√3−9√57=29 test). The most
-economical PF interpretation: there is a single target x* = 2/9, δ_Koide
-= x* exactly, and sin²θ_W = x* + O(α) Casimir correction. If proved, the
-Koide phase would be DERIVED. The gap sin²θ_W − δ = 8.72×10⁻⁴ has a
-candidate: α·(1−x(3/2))·x(3/2)² at 0.317%. The RG scale where sin²θ_W
-runs to δ is μ ≈ 98 GeV — the electroweak symmetry breaking scale.
-Status: <strong>EMPIRICAL/INTUITION. The formal target is
-identified.</strong> See <code>koide_phase_delta_0_gap.md</code> Section
-7.</li>
+algebraically (gap 4.63×10⁻² in the 56√3−9√57=29 test). The gap
+sin²θ_W − δ = 8.72×10⁻⁴ has a candidate:
+α·(1−x(3/2))·x(3/2)² at 0.317%. Later audits <strong>T-022</strong> and
+<strong>T-021</strong> were honest negatives for the bounded
+Casimir-selector route and the generic RG-crossing sentence
+respectively. The current honest interpretation is narrower: the
+cluster is real, but the shared-origin bridge remains open and there is
+no verified fixed-point selector yet. Status:
+<strong>EMPIRICAL/INTUITION. The formal target remains open.</strong>
+See <code>koide_phase_delta_0_gap.md</code> Section 7.</li>
 </ol>
 <hr/>
 <div class="keep-together"><h2 id="open-gaps-priority-list">⦿ Open Gaps (Priority List)</h2><ol type="1">
@@ -9688,10 +9699,12 @@ define a joint probability model that genuinely proves
 <li><strong>Koide Phase Selection</strong>: PF derives Q=2/3 (amplitude)
 but not δ₀ (phase). <strong>Wave 5 algebraic check (2026-03-25) sharpens
 the target</strong>: δ_Koide = 2/9 within measurement uncertainty
-(0.029σ); sin²θ_W ≠ 2/9 algebraically but equals 2/9 + O(α) Casimir
-correction. <strong>Formal target</strong>: prove x* = 2/9 is a PF fixed
-point, with δ_Koide = x* and sin²θ_W = x* + α·(1−x(3/2))·x(3/2)². RG:
-sin²θ_W runs to δ at μ ≈ 98 GeV. See
+(0.029σ); sin²θ_W ≠ 2/9 algebraically. <strong>T-022</strong> ruled out
+the bounded Casimir-selector scan as a source of x* = 2/9, and
+<strong>T-021</strong> ruled out the generic repo sentence that
+sin²θ_W runs to δ at μ ≈ 98 GeV. <strong>Formal target</strong>: find a
+PF-native selector for δ = 2/9, or demote the shared-origin thesis
+further if no such selector exists. See
 <code>koide_phase_delta_0_gap.md</code> (Section 7 has full derivation
 record).</li>
 <li><strong>Weinberg Angle — Unification Anchor</strong>: Framework

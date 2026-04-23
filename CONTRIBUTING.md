@@ -27,9 +27,9 @@ These are the specific mathematical problems where the framework needs help. Eac
 **What would close it**: A derivation of the renormalization group flow from the unification scale to the electroweak scale within the propagation medium, or a proof that standard RG is the unique running consistent with PF axioms.
 
 ### Koide Phase Selection — Why \(\delta_0 \bmod 2\pi/3 \approx 2/9\)? (Priority 4)
-**Status**: EMPIRICAL (0.55)
+**Status**: EMPIRICAL (0.65)
 **File**: `derivations/koide_phase_delta_0_gap.md`
-**The problem**: PF derives the Koide amplitude Q=2/3 but not the reduced phase \(\delta_0 \bmod 2\pi/3\), which determines which specific mass triple sits on the Koide cone. Rivero reports the charged-lepton phase within 33 ppm of \(2/9\), with a candidate \(\cos(9\delta)\) instanton potential. PF derives the arena and the phase variable but not the harmonic suppression that selects the phase.
+**The problem**: PF derives the Koide amplitude Q=2/3 but not the reduced phase \(\delta_0 \bmod 2\pi/3\), which determines which specific mass triple sits on the Koide cone. The charged-lepton reduced phase remains a strong empirical anchor at \(2/9\), but two later route screens narrowed the live search space: **T-022 (2026-04-12)** was a negative for the bounded Casimir-selector scan, and **T-021 (2026-04-13)** was a negative for the generic repo sentence that \(\sin^2\theta_W\) runs to \(\delta\) near 98 GeV. Rivero-style / \(\cos(9\delta)\) mechanisms remain literature leads, not accepted PF derivations.
 **What would close it**: A derivation from the internal phase/holonomy structure that selects \(\delta_0\), or a proof that PF requires additional dynamics beyond the current axioms.
 
 ### Consciousness Metric (Priority 5)

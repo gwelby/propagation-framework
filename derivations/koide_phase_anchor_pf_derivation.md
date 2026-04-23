@@ -146,7 +146,7 @@ vs actual gap B = 8.72 × 10⁻⁴. Remarkably close (0.23% error).
 
 **What this means physically**: The Casimir root at j=3/2 appears in the correction. Spin 3/2 is the next half-integer spin after the spin-1 and spin-1/2 used in the Weinberg angle derivation. In PF terms, the 3-step walk has an effective representation content that includes j = 3/2 as a composite of three j = 1/2 steps.
 
-**The possible derivation**: If the Renormalization Group running of sin²θ_W from the Koide scale (μ ≈ 97.9 GeV, where sin²θ_W = δ_Koide) to the Casimir scale introduces a one-loop correction involving spin-3/2 composite states, the gap B would follow naturally.
+**Updated interpretation after T-021**: the earlier RG sentence does not survive the convention audit. No legitimate Standard Model definition in this pass supports a crossing near μ ≈ 98 GeV, so this gap-B lead cannot currently be framed as running from a "Koide scale." If the α-correction structure is real, it will need a different PF-native explanation.
 
 **Status**: This α-correction formula is the strongest numerical bridge between the two quantities. Whether it has a PF-native derivation is the key open question. It merits a dedicated bounded pass.
 
