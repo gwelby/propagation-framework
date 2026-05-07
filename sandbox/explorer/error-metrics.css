@@ -1,0 +1,244 @@
+/* ───────────────────────────────────────────────────────────────────────
+   Error Metrics Section (Refraction Panel)
+   ─────────────────────────────────────────────────────────────────────── */
+.error-metrics-section {
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  margin-top: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.error-metrics-header h4 {
+  margin: 0 0 var(--spacing-1) 0;
+  font-family: var(--headline);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.error-metrics-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.heatmap-controls {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.heatmap-toggle {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.heatmap-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+.heatmap-toggle.active {
+  background: var(--cyan);
+  color: var(--deep);
+  border-color: var(--cyan);
+  font-weight: 600;
+}
+
+.heatmap-container {
+  position: relative;
+  background: var(--deep);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+}
+
+#errorHeatmapCanvas {
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.heatmap-tooltip {
+  position: absolute;
+  display: none;
+  background: var(--panel-strong);
+  border: 1px solid var(--line-strong);
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  pointer-events: none;
+  z-index: 100;
+  min-width: 220px;
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.tooltip-header {
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  color: var(--cyan);
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.tooltip-label {
+  color: var(--muted);
+}
+
+.tooltip-row.error-row {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+  font-weight: 600;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--line);
+}
+
+.heatmap-legend-title {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.heatmap-legend-scale {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.heatmap-gradient {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgb(105, 255, 148) 0%, rgb(255, 255, 48) 10%, rgb(255, 205, 0) 25%, rgb(255, 71, 87) 100%);
+}
+
+.heatmap-legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.verification-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.verification-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.verification-card.excellent {
+  border-top: 3px solid rgb(105, 255, 148);
+}
+
+.verification-card.good {
+  border-top: 3px solid rgb(255, 179, 71);
+}
+
+.verification-card.fair {
+  border-top: 3px solid rgb(255, 71, 87);
+}
+
+.verification-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.verification-card h5 {
+  margin: 0;
+  font-family: var(--headline);
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.error-badge {
+  background: rgba(255,255,255,0.06);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.excellent .error-badge { color: rgb(105, 255, 148); background: rgba(105, 255, 148, 0.1); }
+.good .error-badge { color: rgb(255, 179, 71); background: rgba(255, 179, 71, 0.1); }
+.fair .error-badge { color: rgb(255, 71, 87); background: rgba(255, 71, 87, 0.1); }
+
+.prediction-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.prediction-row .label {
+  color: var(--muted);
+}
+
+.prediction-row .value {
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.verification-card .formula {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--cyan);
+}
+
+.verification-card .card-footer {
+  margin-top: auto;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+.excellent .card-footer { color: rgb(105, 255, 148); }
+.good .card-footer { color: rgb(255, 179, 71); }
+.fair .card-footer { color: rgb(255, 71, 87); }
+

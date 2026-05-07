@@ -70,6 +70,11 @@
     _engine.getControls().update();
     _engine.tick(dt, time);
 
+    // Update label visibility based on camera position
+    if (_engine.updateLabelVisibility) {
+      _engine.updateLabelVisibility(_engine.getCamera().position.y);
+    }
+
     if (_engine.getComposer()) {
       _engine.getComposer().render();
     } else {
@@ -159,21 +164,35 @@
   }
 
   function wireKeyboard() {
+    var lastKeyTime = 0;
+    var KEY_DEBOUNCE = 250; // ms between key presses
+
     document.addEventListener('keydown', function (e) {
+      if (e.repeat) return; // Prevent rapid jumps when holding down keys
+
       if (e.key === 'Escape') {
         window.location.href = 'index.html';
+        return;
       }
       if (e.key === 'l' || e.key === 'L') {
         document.getElementById('toggleLabels').click();
+        return;
       }
-      // Arrow key navigation
+
+      // Arrow key navigation with debounce
+      var now = Date.now();
+      if (now - lastKeyTime < KEY_DEBOUNCE) return;
+
       var scales = _engine.getScales();
       var currentIdx = scales.findIndex(function (s) { return s.id === _engine.getCurrentScaleId(); });
-      if (e.key === 'ArrowUp' && currentIdx < scales.length - 1) {
+
+      if ((e.key === 'ArrowUp' || e.key === 'ArrowRight') && currentIdx < scales.length - 1) {
+        lastKeyTime = now;
         _engine.navigateToScale(scales[currentIdx + 1].id);
         showScaleInfo(scales[currentIdx + 1].id);
       }
-      if (e.key === 'ArrowDown' && currentIdx > 0) {
+      if ((e.key === 'ArrowDown' || e.key === 'ArrowLeft') && currentIdx > 0) {
+        lastKeyTime = now;
         _engine.navigateToScale(scales[currentIdx - 1].id);
         showScaleInfo(scales[currentIdx - 1].id);
       }

@@ -16,6 +16,12 @@
       
       this.init();
     }
+
+    measure() {
+      const rect = this.container.getBoundingClientRect();
+      this.width = Math.max(720, Math.floor(rect.width || 800));
+      this.height = Math.max(520, Math.floor(rect.height || 600));
+    }
     
     // Get color from CSS variables
     getCSSColor(varName) {
@@ -36,12 +42,16 @@
       
       // Clear container
       this.container.innerHTML = '';
+
+      this.measure();
       
       // Create SVG
       this.svg = d3.select(this.container)
         .append('svg')
         .attr('width', this.width)
-        .attr('height', this.height);
+        .attr('height', this.height)
+        .attr('viewBox', `0 0 ${this.width} ${this.height}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet');
       
       // Create zoom behavior
       const zoom = d3.zoom()
@@ -66,47 +76,29 @@
     }
     
     processData() {
-      // Create nodes from results
-      this.nodes = this.data.results.map(result => ({
+      // Source from the audited PFClaimsData if available, else fallback to constructor data
+      var pfc = window.PFClaimsData || {};
+      var allClaims = pfc.CLAIMS || (this.data && this.data.results) || [];
+      var allNogos  = pfc.NOGOS  || [];
+
+      // Create nodes from claims
+      this.nodes = allClaims.map(result => ({
         id: result.id,
         title: result.title,
-        status: result.status,
+        status: result.status && result.status.label ? result.status.label : (result.status || 'UNKNOWN'),
         confidence: result.confidence,
         type: this.getNodeType(result),
-        radius: this.getNodeRadius(result)
+        radius: this.getNodeRadius(result),
+        isNogo: false,
       }));
-      
-      // Create edges from sources
-      this.edges = [];
-      this.data.results.forEach(result => {
-        if (result.sources) {
-          result.sources.forEach(source => {
-            const sourceId = typeof source === 'string' ? source : source.href || source;
-            const sourceResult = this.data.results.find(r => 
-              r.id === sourceId || 
-              r.sources?.some(s => 
-                typeof s === 'string' ? s === sourceId : s.href === sourceId
-              )
-            );
-            
-            if (sourceResult) {
-              this.edges.push({
-                source: sourceResult.id,
-                target: result.id,
-                type: this.getEdgeType(result.status)
-              });
-            }
-          });
-        }
-      });
-      
+
       // Add axiom nodes
       const axioms = [
         { id: 'axiom1', title: 'Axiom 1: Propagation', type: 'axiom' },
         { id: 'axiom2', title: 'Axiom 2: Finite Velocity', type: 'axiom' },
         { id: 'axiom3', title: 'Axiom 3: Coherence', type: 'axiom' }
       ];
-      
+
       axioms.forEach(axiom => {
         if (!this.nodes.find(n => n.id === axiom.id)) {
           this.nodes.push({
@@ -114,19 +106,65 @@
             title: axiom.title,
             type: 'axiom',
             radius: 30,
-            status: 'AXIOM'
+            status: 'AXIOM',
+            isNogo: false,
+          });
+        }
+      });
+
+      // Add NO-GO route nodes as shattered evidence nodes
+      allNogos.forEach(nogo => {
+        this.nodes.push({
+          id: nogo.id,
+          title: nogo.title,
+          status: 'NO-GO',
+          type: 'nogo',
+          radius: 18,
+          isNogo: true,
+          nogoTarget: nogo.target,
+          lesson: nogo.lesson,
+        });
+      });
+
+      // Create edges
+      this.edges = [];
+      allClaims.forEach(result => {
+        const axiomSources = ['axiom1', 'axiom3'];
+        const text = `${result.id} ${result.title} ${result.story || ''}`.toLowerCase();
+        if (/causal|gravity|variable c|light|bohr|coulomb|propagation/.test(text)) {
+          axiomSources.push('axiom2');
+        }
+        axiomSources.forEach(source => {
+          this.edges.push({
+            source,
+            target: result.id,
+            type: this.getEdgeType(result.status && result.status.label ? result.status.label : result.status)
+          });
+        });
+      });
+
+      // Add NO-GO edges: from target claim toward the no-go node (failed route)
+      allNogos.forEach(nogo => {
+        if (nogo.target) {
+          this.edges.push({
+            source: nogo.target,
+            target: nogo.id,
+            type: 'nogo',
           });
         }
       });
     }
     
     getNodeType(result) {
-      if (result.status === 'AXIOM') return 'axiom';
+      if (result.type === 'nogo') return 'nogo';
+      var statusLabel = result.status && result.status.label ? result.status.label : result.status;
+      if (statusLabel === 'AXIOM') return 'axiom';
       if (result.formula && result.derivation) return 'theorem';
       return 'result';
     }
     
     getNodeRadius(result) {
+      if (result.type === 'nogo') return 16;
       const baseRadius = 20;
       if (result.confidence > 0.9) return baseRadius + 10;
       if (result.confidence > 0.7) return baseRadius + 5;
@@ -134,8 +172,10 @@
     }
     
     getEdgeType(status) {
-      if (status === 'DERIVED') return 'derives';
-      if (status === 'CONDITIONAL') return 'conditional';
+      var lbl = status && status.label ? status.label : status;
+      if (lbl === 'DERIVED') return 'derives';
+      if (lbl === 'CONDITIONAL') return 'conditional';
+      if (lbl === 'NO-GO') return 'nogo';
       return 'depends';
     }
     
@@ -155,8 +195,13 @@
         .enter().append('line')
         .attr('class', d => `link link-${d.type}`)
         .attr('stroke', d => this.getEdgeColor(d.type))
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', d => d.type === 'conditional' ? '5,5' : 'none');
+        .attr('stroke-width', d => d.type === 'nogo' ? 1.5 : 2)
+        .attr('stroke-dasharray', d => {
+          if (d.type === 'nogo') return '4,4';
+          if (d.type === 'conditional') return '5,5';
+          return 'none';
+        })
+        .attr('opacity', d => d.type === 'nogo' ? 0.5 : 1);
       
       // Create node groups
       const node = this.g.append('g')
@@ -170,18 +215,43 @@
       node.append('path')
         .attr('d', d => this.getNodeShape(d))
         .attr('fill', d => this.getNodeColor(d))
-        .attr('stroke', '#fff')
-        .attr('stroke-width', 2)
+        .attr('stroke', d => d.isNogo ? '#ff4455' : '#fff')
+        .attr('stroke-width', d => d.isNogo ? 2.5 : 2)
+        .attr('stroke-dasharray', d => d.isNogo ? '4,2' : 'none')
+        .attr('opacity', d => d.isNogo ? 0.7 : 1)
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.showDetails(d));
+
+      // NO-GO cross mark (×) for failed route nodes
+      node.filter(d => d.isNogo)
+        .append('text')
+        .text('×')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '0.35em')
+        .attr('font-size', '16px')
+        .attr('font-weight', '900')
+        .attr('fill', '#ff4455')
+        .style('pointer-events', 'none');
       
-      // Add labels
-      node.append('text')
+      // Add labels (skip for NO-GO nodes — the X mark is sufficient)
+      node.filter(d => !d.isNogo)
+        .append('text')
         .text(d => d.title.length > 20 ? d.title.substring(0, 20) + '...' : d.title)
         .attr('text-anchor', 'middle')
         .attr('dy', '.35em')
         .attr('font-size', '12px')
         .attr('fill', '#fff')
+        .style('pointer-events', 'none');
+
+      // NO-GO label below node
+      node.filter(d => d.isNogo)
+        .append('text')
+        .text(d => d.title.length > 16 ? d.title.substring(0, 16) + '…' : d.title)
+        .attr('text-anchor', 'middle')
+        .attr('dy', d => d.radius + 14)
+        .attr('font-size', '9px')
+        .attr('fill', '#ff4455')
+        .attr('opacity', 0.8)
         .style('pointer-events', 'none');
       
       // Update positions on tick
@@ -199,7 +269,12 @@
     getNodeShape(d) {
       // D3 v7 API: symbol().type().size()()
       const size = d.radius * d.radius * 4; // Area, not radius
-      
+
+      if (d.type === 'nogo') {
+        // Shattered / X shape for NO-GO routes — use a custom path
+        const s = d.radius * 0.85;
+        return `M${-s},${-s} L${s},${s} M${s},${-s} L${-s},${s}`;
+      }
       if (d.type === 'axiom') {
         return d3.symbol().type(d3.symbolTriangle).size(size)();
       } else if (d.type === 'theorem') {
@@ -210,6 +285,7 @@
     }
     
     getNodeColor(d) {
+      if (d.type === 'nogo') return 'rgba(255,68,85,0.12)'; // Shattered red — mostly transparent, border carries the weight
       // Use CSS variables for consistent design system
       if (d.type === 'axiom') return this.getCSSColor('--planck');
       switch(d.status) {
@@ -226,6 +302,7 @@
       switch(type) {
         case 'derives': return this.getCSSColor('--cohere');
         case 'conditional': return this.getCSSColor('--planck');
+        case 'nogo': return '#ff4455';
         default: return this.getCSSColor('--line-strong');
       }
     }
@@ -249,8 +326,16 @@
     }
     
     showDetails(node) {
-      const result = this.data.results.find(r => r.id === node.id);
-      if (!result) return;
+      // Try claim first, then no-go, then fallback to graph modal
+      var pfc = window.PFClaimsData || {};
+      var result = (pfc.CLAIMS || []).find(r => r.id === node.id) ||
+                   (pfc.NOGOS  || []).find(r => r.id === node.id) ||
+                   (this.data && this.data.results && this.data.results.find(r => r.id === node.id));
+
+      if (window.PFExplorer && typeof window.PFExplorer.focusResult === 'function' && result) {
+        window.PFExplorer.focusResult(result.id, { open: true });
+        return;
+      }
       
       // Create or update detail modal
       let modal = document.getElementById('graph-detail-modal');
@@ -300,6 +385,19 @@
         this.simulation.stop();
       }
       this.container.innerHTML = '';
+    }
+
+    resize() {
+      if (!this.svg || !this.simulation) return;
+      this.measure();
+      this.svg
+        .attr('width', this.width)
+        .attr('height', this.height)
+        .attr('viewBox', `0 0 ${this.width} ${this.height}`);
+      this.simulation
+        .force('center', d3.forceCenter(this.width / 2, this.height / 2))
+        .alpha(0.25)
+        .restart();
     }
   }
   

@@ -3,7 +3,13 @@
 <head>
   <!-- Primary Meta Tags -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="The Propagation Framework Explorer - Interactive visualization of how reality derives from three axioms. Explore quantum mechanics, gravity, and particle physics through propagation-based physics.">
   <meta name="keywords" content="physics, quantum mechanics, propagation framework, axioms, science visualization, interactive physics, theoretical physics">
   <meta name="author" content="Propagation Framework Team">
@@ -18,7 +24,7 @@
   <meta property="og:url" content="https://fundamentals.physics/explorer/">
   <meta property="og:title" content="Propagation Framework Explorer - Interactive Physics">
   <meta property="og:description" content="Explore how reality derives from three simple axioms. Interactive visualizations of quantum mechanics, gravity, and particle physics.">
-  <meta property="og:image" content="https://fundamentals.physics/explorer/assets/og-image.png">
+  <meta property="og:image" content="assets/og-image.svg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Propagation Framework">
@@ -28,7 +34,7 @@
   <meta property="twitter:url" content="https://fundamentals.physics/explorer/">
   <meta property="twitter:title" content="Propagation Framework Explorer">
   <meta property="twitter:description" content="Interactive exploration of how reality derives from three axioms">
-  <meta property="twitter:image" content="https://fundamentals.physics/explorer/assets/twitter-image.png">
+  <meta property="twitter:image" content="assets/twitter-image.svg">
   
   <!-- Additional Meta -->
   <meta name="theme-color" content="#0a0a1a">
@@ -43,6 +49,9 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
   
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
@@ -73,442 +82,371 @@
   </script>
 </head>
 <body class="mode-story">
-  <!-- ═══════════════════════════════════════════════════════════════
-       9-BEAT ZOOM SEQUENCE OVERLAY — "Your Intuition About Reality Is Wrong"
-       Pass 1: Narrative Architecture — Confrontational Opening
-       ═══════════════════════════════════════════════════════════════ -->
-  <div id="zoomSequenceOverlay" class="zoom-sequence-overlay" role="dialog" aria-modal="true" aria-labelledby="zs-headline" aria-describedby="zs-beat-text">
-    <!-- Fallback text layer for no-JS / SEO / accessibility -->
-    <div class="zs-fallback" id="zsFallback">
-      <h1>Your Intuition About Reality Is Wrong.</h1>
-      <p>At your scale, matter looks solid. Zoom in: atoms become fields. Zoom further: matter becomes standing pattern. Zoom further: space stops behaving like space. Zoom out: galaxies trace the same logic.</p>
-      <p>Different scales. Same propagation.</p>
-      <button type="button" id="zsFallbackBtn">Explore what replaces the old model</button>
-    </div>
-
-    <!-- Animated zoom sequence -->
-    <div class="zs-stage" id="zsStage" style="display: none;">
-      <!-- Scale indicator -->
-      <div class="zs-scale-marker" id="zsScaleMarker">
-        <span class="zs-scale-value" id="zsScaleValue">10⁰</span>
-        <span class="zs-scale-unit">m</span>
-      </div>
-
-      <!-- Main content -->
-      <div class="zs-content">
-        <h1 class="zs-headline" id="zsHeadline"></h1>
-        <p class="zs-beat-text" id="zsBeatText"></p>
-      </div>
-
-      <!-- Progress indicator -->
-      <div class="zs-progress" aria-hidden="true">
-        <div class="zs-progress-track">
-          <div class="zs-progress-fill" id="zsProgressFill"></div>
-        </div>
-        <div class="zs-beat-counter"><span id="zsBeatNum">1</span> / 9</div>
-      </div>
-
-      <!-- Controls -->
-      <div class="zs-controls">
-        <button type="button" class="zs-skip" id="zsSkipBtn">Skip →</button>
-      </div>
-
-      <!-- Zoom direction indicator -->
-      <div class="zs-direction" id="zsDirection">
-        <span class="zs-dir-arrow">↓</span>
-        <span class="zs-dir-label">Zooming In</span>
-      </div>
-    </div>
-  </div>
-
   <!-- Loading Screen -->
   <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite">
     <div class="loading-content">
       <div class="loading-spinner"></div>
-      <p class="loading-text">Initializing Explorer...</p>
-      <noscript>
-        <p style="color: #ff6b6b; margin-top: 20px;">JavaScript is required for the Propagation Framework Explorer</p>
-      </noscript>
+      <p class="loading-text">Initializing Observatory...</p>
     </div>
   </div>
 
-  <!-- Skip to main content for accessibility -->
+  <!-- Accessibility anchors -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
+  <div id="srAnnouncer" class="sr-live" aria-live="polite" aria-atomic="true"></div>
+  <div id="srAnnouncerAssertive" class="sr-live" aria-live="assertive" aria-atomic="true"></div>
 
-  <!-- Screen reader live region for dynamic announcements -->
-  <div id="srAnnouncer" class="sr-live sr-live--polite" aria-live="polite" aria-atomic="true"></div>
-  <div id="srAnnouncerAssertive" class="sr-live sr-live--assertive" aria-live="assertive" aria-atomic="true"></div>
+  <!--
+       TOP COMMAND BAR - persistent across all workspaces
+       Scale scrubber | Story/Audit/Math | Status filters | Search
+       -->
+  <header class="command-bar" id="commandBar" role="toolbar" aria-label="Observatory controls">
+    <div class="cb-brand">
+      <button class="cb-sidebar-toggle" id="sidebarToggle" type="button"
+              aria-expanded="true" aria-controls="workspaceSidebar" title="Toggle workspace sidebar">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="1" y="1" width="6" height="16" rx="1"/><rect x="10" y="1" width="7" height="16" rx="1" opacity=".4"/>
+        </svg>
+      </button>
+      <span class="cb-brand-name">PF Explorer</span>
+    </div>
+    <!-- CommandBar.mount() fills this -->
+    <div class="cb-controls" id="cbControls"></div>
+  </header>
 
-  <!-- Background Effects -->
-  <div class="shell-glow shell-glow-a" aria-hidden="true"></div>
-  <div class="shell-glow shell-glow-b" aria-hidden="true"></div>
-  <div class="shell-grid" aria-hidden="true"></div>
+  <!--
+       MAIN LAYOUT: sidebar + stage + drawer
+       -->
+  <div class="app-layout" id="appLayout">
 
-  <!-- Main Application Shell -->
-  <div class="app-shell">
-    <aside class="app-rail" role="navigation" aria-label="Main navigation">
-      <div class="rail-brand">
-        <p class="eyebrow">Propagation Framework</p>
-        <h1>The Explorer</h1>
-        <p class="rail-copy">
-          One propagation spine. Every scale. Every current result shown honestly.
-        </p>
-      </div>
+    <!-- LEFT SIDEBAR - workspace lenses + scale orientation rail -->
+    <aside class="workspace-sidebar" id="workspaceSidebar" role="navigation" aria-label="Workspace lenses">
+      <div class="ws-inner">
+        <!-- Workspace nav -->
+        <nav class="ws-nav" id="wsNav" aria-label="Primary workspaces" role="tablist">
 
-      <div class="rail-panel">
-        <div class="rail-panel-head">
-          <span>Mode</span>
-          <div class="mode-toggle" role="tablist" id="modeToggle">
-            <button class="mode-button is-active" data-mode="story" type="button" role="tab" aria-selected="true" aria-controls="panelStage">Story</button>
-            <button class="mode-button" data-mode="audit" type="button" role="tab" aria-selected="false" aria-controls="panelStage">Math + Audit</button>
+          <div class="ws-nav-group-label">Explore</div>
+          <button class="ws-btn is-active" data-route="observatory" type="button" role="tab" aria-selected="true" title="Observatory">
+            <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">⦿</span>
+            <span class="ws-btn-label">Observatory</span>
+            <span class="ws-btn-note">All demos + live field</span>
+          </button>
+          <button class="ws-btn" data-route="scale-ladder-panel" type="button" role="tab" aria-selected="false" title="Scale Ladder">
+            <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">↕</span>
+            <span class="ws-btn-label">Scale Ladder</span>
+            <span class="ws-btn-note">Planck → Cosmic</span>
+          </button>
+
+          <div class="ws-nav-group-label">Live Demos</div>
+          <button class="ws-btn" data-route="refraction" type="button" role="tab" aria-selected="false" title="Gravity as Refraction">
+            <span class="ws-btn-icon ws-icon--green" aria-hidden="true">⌁</span>
+            <span class="ws-btn-label">Gravity = Refraction</span>
+            <span class="ws-btn-note">DERIVED · light bending</span>
+          </button>
+          <button class="ws-btn" data-route="koide" type="button" role="tab" aria-selected="false" title="Koide Resonance">
+            <span class="ws-btn-icon ws-icon--green" aria-hidden="true">⟁</span>
+            <span class="ws-btn-label">Koide Resonance</span>
+            <span class="ws-btn-note">DERIVED · 3 leptons</span>
+          </button>
+          <button class="ws-btn" data-route="weinberg" type="button" role="tab" aria-selected="false" title="Weinberg Angle">
+            <span class="ws-btn-icon ws-icon--green" aria-hidden="true">θ</span>
+            <span class="ws-btn-label">Weinberg Angle</span>
+            <span class="ws-btn-note">DERIVED · sin²θ_W</span>
+          </button>
+          <button class="ws-btn" data-route="bohr" type="button" role="tab" aria-selected="false" title="Bohr Spectrum">
+            <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">ψ</span>
+            <span class="ws-btn-label">Bohr Spectrum</span>
+            <span class="ws-btn-note">CONDITIONAL · phase closure</span>
+          </button>
+          <button class="ws-btn" data-route="generations" type="button" role="tab" aria-selected="false" title="Three Generations">
+            <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">N³</span>
+            <span class="ws-btn-label">3 Generations</span>
+            <span class="ws-btn-note">CONDITIONAL · why 3?</span>
+          </button>
+          <button class="ws-btn" data-route="god-equation" type="button" role="tab" aria-selected="false" title="God Equation">
+            <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">Λ</span>
+            <span class="ws-btn-label">God Equation</span>
+            <span class="ws-btn-note">CONDITIONAL · λ_c</span>
+          </button>
+          <button class="ws-btn" data-route="consciousness" type="button" role="tab" aria-selected="false" title="Consciousness">
+            <span class="ws-btn-icon ws-icon--gray" aria-hidden="true">∞</span>
+            <span class="ws-btn-label">Consciousness</span>
+            <span class="ws-btn-note">INTUITION · hypothesis</span>
+          </button>
+          <button class="ws-btn" data-route="foundations" type="button" role="tab" aria-selected="false" title="Foundations">
+            <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">∇</span>
+            <span class="ws-btn-label">Foundations</span>
+            <span class="ws-btn-note">The 3 axioms</span>
+          </button>
+
+          <div class="ws-nav-group-label">Audit</div>
+          <button class="ws-btn" data-route="proof-atlas" type="button" role="tab" aria-selected="false" title="Proof Atlas">
+            <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">◈</span>
+            <span class="ws-btn-label">Proof Atlas</span>
+            <span class="ws-btn-note">Derivation graph</span>
+          </button>
+          <button class="ws-btn" data-route="definition-lattice" type="button" role="tab" aria-selected="false" title="Definition Lattice">
+            <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">⬡</span>
+            <span class="ws-btn-label">Definition Lattice</span>
+            <span class="ws-btn-note">19 canonicals</span>
+          </button>
+          <button class="ws-btn ws-btn--nogo" data-route="no-go-museum" type="button" role="tab" aria-selected="false" title="No-Go Museum">
+            <span class="ws-btn-icon ws-icon--red" aria-hidden="true">✕</span>
+            <span class="ws-btn-label">No-Go Museum</span>
+            <span class="ws-btn-note">Failed routes</span>
+          </button>
+          <button class="ws-btn" data-route="experiment-bench" type="button" role="tab" aria-selected="false" title="Experiment Bench">
+            <span class="ws-btn-icon ws-icon--gold" aria-hidden="true">⚗</span>
+            <span class="ws-btn-label">Experiment Bench</span>
+            <span class="ws-btn-note">Audit wall</span>
+          </button>
+
+          <div class="ws-nav-group-label">Standalone</div>
+          <a class="ws-btn ws-btn--link" href="belt-trick.html" target="_blank" title="Belt Trick — spin topology">
+            <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">∞</span>
+            <span class="ws-btn-label">Belt Trick</span>
+            <span class="ws-btn-note">Spin topology demo ↗</span>
+          </a>
+          <a class="ws-btn ws-btn--link" href="playground.html" target="_blank" title="Playground">
+            <span class="ws-btn-icon ws-icon--gold" aria-hidden="true">⚡</span>
+            <span class="ws-btn-label">Playground</span>
+            <span class="ws-btn-note">Interactive field ↗</span>
+          </a>
+          <a class="ws-btn ws-btn--link" href="scale-ladder.html" target="_blank" title="Scale Ladder full screen">
+            <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">↕</span>
+            <span class="ws-btn-label">Scale Ladder FS</span>
+            <span class="ws-btn-note">Full screen ↗</span>
+          </a>
+          <a class="ws-btn ws-btn--link" href="journey.html" target="_blank" title="Story Journey">
+            <span class="ws-btn-icon ws-icon--gold" aria-hidden="true">→</span>
+            <span class="ws-btn-label">Story Journey</span>
+            <span class="ws-btn-note">Guided path ↗</span>
+          </a>
+
+        </nav>
+
+        <div class="ws-divider"></div>
+
+        <!-- Vertical scale orientation rail -->
+        <div class="ws-scale-rail" id="wsScaleRail" aria-label="Scale orientation">
+          <div class="ws-scale-head">Scale</div>
+          <div class="ws-scale-ticks" id="wsScaleTicks">
+            <div class="ws-scale-tick" data-scale-index="7"><span class="ws-tick-exp">10^26</span><span class="ws-tick-lbl">Cosmic</span></div>
+            <div class="ws-scale-tick" data-scale-index="6"><span class="ws-tick-exp">10^9</span><span class="ws-tick-lbl">Stellar</span></div>
+            <div class="ws-scale-tick" data-scale-index="5" data-current="true"><span class="ws-tick-exp">10^0</span><span class="ws-tick-lbl">Human</span></div>
+            <div class="ws-scale-tick" data-scale-index="4"><span class="ws-tick-exp">10^-6</span><span class="ws-tick-lbl">Molecular</span></div>
+            <div class="ws-scale-tick" data-scale-index="3"><span class="ws-tick-exp">10^-10</span><span class="ws-tick-lbl">Atomic</span></div>
+            <div class="ws-scale-tick" data-scale-index="2"><span class="ws-tick-exp">10^-15</span><span class="ws-tick-lbl">Nuclear</span></div>
+            <div class="ws-scale-tick" data-scale-index="1"><span class="ws-tick-exp">10^-18</span><span class="ws-tick-lbl">Electroweak</span></div>
+            <div class="ws-scale-tick" data-scale-index="0"><span class="ws-tick-exp">10^-35</span><span class="ws-tick-lbl">Planck</span></div>
           </div>
+          <div class="ws-scale-cursor" id="wsScaleCursor"></div>
         </div>
-        <p class="rail-copy story-only">
-          Start with the visual claim. Open the drawer when you want equations, falsifiers, and sources.
-        </p>
-        <p class="rail-copy audit-only">
-          Status text is pinned to the current repo state. Unsynced items are visible but excluded from audited totals.
-        </p>
-      </div>
 
-      <div class="rail-panel">
-        <div class="rail-panel-head">
-          <span>Audited Totals</span>
-          <button class="drawer-toggle" id="drawerToggle" type="button" aria-expanded="false" aria-controls="appDrawer">Evidence</button>
+        <div class="ws-divider"></div>
+
+        <!-- Live metrics (compact) -->
+        <div class="ws-metrics" id="wsMetrics" role="status" aria-live="polite" aria-label="Audit totals"></div>
+
+        <div class="ws-divider"></div>
+
+        <!-- Truth policy compact -->
+        <div class="ws-truth">
+          <span class="ws-truth-lbl">Truth source</span>
+          <p class="ws-truth-copy">CLAIMS.md -> data.claims.js -> UI. Codex audit passed. Status badges are data.</p>
+          <button class="ws-truth-drawer" id="drawerToggle" type="button" aria-expanded="false" aria-controls="appDrawer">Evidence drawer</button>
         </div>
-        <div class="metric-stack" id="metricStack" role="status" aria-live="polite"></div>
-      </div>
 
-      <div class="rail-panel rail-a11y">
-        <div class="rail-panel-head">
-          <span>Accessibility</span>
-        </div>
-        <button id="highContrastToggle" class="chip-button a11y-btn" type="button" aria-pressed="false">
-          High Contrast
-        </button>
-      </div>
-
-      <nav class="route-nav" id="routeNav" aria-label="Explorer panels" role="tablist"></nav>
-
-      <div class="rail-panel rail-truth">
-        <div class="rail-panel-head">
-          <span>Truth Policy</span>
-        </div>
-        <p class="rail-copy">
-          <strong>CLAIMS.md</strong> drives audited badges and totals.
-          <strong>UNDERSTAND.md</strong> extends scale placement and explanatory copy.
-          Items present only in <strong>UNDERSTAND.md</strong> render as <strong>Unsynced</strong>.
-        </p>
-      </div>
-
-      <div class="rail-panel rail-journey">
-        <button id="journeyModeBtn" class="journey-mode-btn" type="button" aria-describedby="journey-description">
-          <span class="journey-icon" aria-hidden="true">🌟</span>
-          <span>Start Journey Mode</span>
-        </button>
-        <p id="journey-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
-          New: 8-minute guided experience from the opening question to the audit wall
-        </p>
-      </div>
-
-      <div class="rail-panel rail-comparison">
-        <button id="comparisonBtn" class="comparison-mode-btn" type="button" aria-describedby="comparison-description">
-          <span class="comparison-icon" aria-hidden="true">⚖️</span>
-          <span>Framework Comparison</span>
-        </button>
-        <p id="comparison-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
-          PF vs Standard Model vs String Theory
-        </p>
-      </div>
-
-      <div class="rail-panel rail-derivation">
-        <button id="derivationBtn" class="derivation-mode-btn" type="button" aria-describedby="derivation-description">
-          <span class="derivation-icon" aria-hidden="true">🔗</span>
-          <span>Derivation Chains</span>
-        </button>
-        <p id="derivation-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
-          Interactive axiom-to-result paths
-        </p>
-      </div>
-
-      <div class="rail-panel rail-playground">
-        <button id="playgroundBtn" class="playground-mode-btn" type="button" aria-describedby="playground-description">
-          <span class="playground-icon" aria-hidden="true">〰️</span>
-          <span>Propagation Lab</span>
-        </button>
-        <p id="playground-description" class="rail-copy" style="font-size: 0.75rem; margin-top: 8px;">
-          Click to spawn waves — see coherence emerge
-        </p>
+        <!-- High contrast -->
+        <button id="highContrastToggle" class="ws-a11y-btn" type="button" aria-pressed="false">High Contrast</button>
       </div>
     </aside>
 
+    <!-- CENTER STAGE -->
     <main class="app-main" id="mainContent">
-      <header class="stage-head">
-        <div style="display: flex; align-items: flex-start; gap: var(--spacing-2);">
-          <button class="mobile-nav-toggle" id="mobileNavToggle" title="Toggle Sidebar" aria-expanded="false" aria-controls="app-rail">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-          </button>
-          <div>
-            <p class="eyebrow" id="panelEyebrow">Scale Stack</p>
-            <h2 id="panelTitle">The full ladder in one view</h2>
-          </div>
-        </div>
-        <div class="head-actions">
-          <div class="head-chip" id="headChipA">3 axioms</div>
-          <div class="head-chip" id="headChipB">static shell</div>
-          <div class="head-chip" id="headChipC">browser native</div>
-        </div>
-      </header>
-
-      <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
-
-      <section class="panel-stage" id="panelStage" role="tabpanel" aria-labelledby="panelTitle"></section>
+      <section class="panel-stage" id="panelStage" role="tabpanel" aria-labelledby="panelTitle" tabindex="-1">
+        <!-- Active workspace mounts here -->
+      </section>
     </main>
 
-    <aside class="app-drawer" id="appDrawer" role="complementary" aria-hidden="true">
+    <!-- RIGHT EVIDENCE DRAWER -->
+    <aside class="app-drawer" id="appDrawer" role="complementary" aria-hidden="true" aria-label="Evidence inspector">
+      <div class="drawer-resize-handle" id="drawerResizeHandle" title="Drag to resize"></div>
       <div class="drawer-head">
         <div>
           <p class="eyebrow" id="drawerEyebrow">Evidence</p>
-          <h3 id="drawerTitle">Select a result</h3>
+          <h3 id="drawerTitle">Select a claim</h3>
         </div>
-        <button class="drawer-close" id="drawerClose" type="button" aria-label="Close evidence drawer">Close</button>
+        <button class="drawer-close" id="drawerClose" type="button" aria-label="Close evidence drawer">x</button>
       </div>
-      <div class="drawer-body" id="drawerBody" role="region" aria-label="Evidence details" aria-live="polite" aria-atomic="false"></div>
+      <div class="drawer-body" id="drawerBody" role="region" aria-live="polite" aria-atomic="false"></div>
     </aside>
-  </div>
 
-  <!-- Back to Top Button -->
-  <button class="back-to-top" id="backToTopBtn" title="Back to top" aria-label="Back to top">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-  </button>
+  </div><!-- /app-layout -->
 
-  <!-- Performance Monitoring (development only) -->
-  <script>
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      window.addEventListener('load', () => {
-        const perfData = performance.getEntriesByType('navigation')[0];
-        const loadTime = perfData && perfData.loadEventEnd >= perfData.fetchStart
-          ? perfData.loadEventEnd - perfData.fetchStart
-          : Math.round(performance.now());
-        console.log('Page Load Time:', loadTime, 'ms');
-        
-        // Monitor Core Web Vitals
-        const supportedEntries = Array.isArray(PerformanceObserver.supportedEntryTypes)
-          ? PerformanceObserver.supportedEntryTypes
-          : [];
-        const observedEntries = ['largest-contentful-paint', 'first-input', 'cumulative-layout-shift']
-          .filter((entryType) => supportedEntries.includes(entryType));
+  <!-- Hidden panel title for ARIA (updated by core.js) -->
+  <span id="panelTitle" class="sr-only"></span>
+  <span id="panelEyebrow" class="sr-only"></span>
 
-        if (observedEntries.length) {
-          new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) {
-              console.log(entry.name || entry.entryType, entry.value != null ? entry.value : entry.startTime);
-            }
-          }).observe({ entryTypes: observedEntries });
-        }
-      });
-    }
-  </script>
-
+  <!--
+       SCRIPTS - load order matters
+       -->
   <script src="vendor/three.min.js"></script>
-  <script src="vendor/OrbitControls.js"></script>
-  <script src="vendor/EffectComposer.js"></script>
-  <script src="vendor/RenderPass.js"></script>
-  <script src="vendor/ShaderPass.js"></script>
-  <script src="vendor/CopyShader.js"></script>
-  <script src="vendor/LuminosityHighPassShader.js"></script>
-  <script src="vendor/UnrealBloomPass.js"></script>
-  <script src="data.js"></script>
+  <script src="vendor/Tone.js"></script>
+  <script src="performance-engine.js"></script>
+  <script src="audio-engine.js"></script>
+  <script src="transition-engine.js"></script>
+
+  <!-- Codex-audited data layer - exposes window.PFDataGraph -->
+  <script src="data.graph.js"></script>
+  <script src="truth-utils.js"></script>
+
+  <!-- Legacy data layer (compatibility handled by truth-utils.js) -->
+  <!-- <script src="data.claims.js"></script> -->
+  <!-- <script src="data.js"></script> -->
+
+  <!-- Visualization Engines -->
+  <script src="vendor/d3.v7.min.js"></script>
+  <script src="derivation-graph.js"></script>
+
+
+  <!-- Core shell -->
+  <script src="command-bar.js"></script>
+  <script src="source-viewer.js"></script>
   <script src="core.js"></script>
-  <script src="panels/hub.js"></script>
+
+  <!-- Workspace panels (primary) -->
+  <script src="panels/observatory.js"></script>
+  <script src="panels/proof-atlas.js"></script>
+  <script src="panels/definition-lattice.js"></script>
+  <script src="panels/no-go-museum.js"></script>
+  <script src="panels/experiment-bench.js"></script>
+
+  <!-- Existing specialist panels (drill-downs, preserved) -->
+  <script src="panels/foundations.js"></script>
   <script src="panels/refraction.js"></script>
   <script src="panels/generations.js"></script>
   <script src="panels/koide.js"></script>
   <script src="panels/weinberg.js"></script>
+  <script src="panels/koide-weinberg-bridge.js"></script>
   <script src="panels/god-equation.js"></script>
   <script src="panels/bohr.js"></script>
-  <script src="panels/dashboard.js"></script>
   <script src="panels/consciousness.js"></script>
+
   <script src="reality-correction.js"></script>
-  <script src="derivation-graph.js"></script>
+  <script src="touch-controller.js"></script>
 
   <script>
-    /* ═══════════════════════════════════════════════════════════
-       CONFRONTATION OVERLAY — Static Hook
-       ═══════════════════════════════════════════════════════════ */
-    (function () {
-      const SESSION_KEY = 'pf_explorer_visited';
-      let overlayEl, startBtnEl;
+    // Bootstrap
 
-      function getOverlayElements() {
-        overlayEl = document.getElementById('visualHookOverlay');
-        startBtnEl = document.getElementById('vhStartBtn');
-      }
-
-      function closeOverlay() {
-        if (!overlayEl) return;
-        overlayEl.style.opacity = '0';
-        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
-        setTimeout(() => {
-          overlayEl.style.display = 'none';
-        }, 500);
-      }
-
-      function init() {
-        getOverlayElements();
-        if (startBtnEl) {
-            startBtnEl.addEventListener('click', closeOverlay);
-            startBtnEl.addEventListener('mouseover', () => {
-                startBtnEl.style.transform = 'scale(1.05)';
-                startBtnEl.style.boxShadow = '0 0 20px rgba(200, 168, 255, 0.4)';
-            });
-            startBtnEl.addEventListener('mouseout', () => {
-                startBtnEl.style.transform = 'scale(1)';
-                startBtnEl.style.boxShadow = 'none';
-            });
-        }
-        
-        try {
-          if (!sessionStorage.getItem(SESSION_KEY)) {
-            if (overlayEl) {
-                overlayEl.style.display = 'flex';
-                setTimeout(() => {
-                    overlayEl.style.opacity = '1';
-                }, 100);
-            }
-          } else {
-            if (overlayEl) overlayEl.style.display = 'none';
-          }
-        } catch (e) {
-          if (overlayEl) {
-            overlayEl.style.display = 'flex';
-            setTimeout(() => {
-                overlayEl.style.opacity = '1';
-            }, 100);
-          }
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
-
-    // Loading screen management
-    window.addEventListener('load', () => {
-      const loadingScreen = document.getElementById('loadingScreen');
-      if (loadingScreen) {
-        // Hide loading screen after everything is loaded
-        setTimeout(() => {
-          loadingScreen.classList.add('hidden');
-          // Remove from DOM after transition
-          setTimeout(() => {
-            loadingScreen.remove();
-          }, 500);
-        }, 500);
-      }
+    // Sidebar toggle
+    var sidebarToggle = document.getElementById('sidebarToggle');
+    var sidebar = document.getElementById('workspaceSidebar');
+    var layout = document.getElementById('appLayout');
+    sidebarToggle.addEventListener('click', function() {
+      var collapsed = layout.classList.toggle('sidebar-collapsed');
+      sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
     });
 
-    // Journey Mode button handler
-    document.getElementById('journeyModeBtn').addEventListener('click', () => {
-      window.location.href = 'journey.html';
-    });
-
-    // Framework Comparison button handler
-    document.getElementById('comparisonBtn').addEventListener('click', () => {
-      window.location.href = 'comparison.html';
-    });
-
-    // Derivation Chains button handler
-    document.getElementById('derivationBtn').addEventListener('click', () => {
-      window.location.href = 'derivation.html';
-    });
-
-    // Propagation Playground button handler
-    document.getElementById('playgroundBtn').addEventListener('click', () => {
-      window.location.href = 'playground.html';
-    });
-
-    // UX Overhaul JS
-    const backToTopBtn = document.getElementById('backToTopBtn');
-    const scrollProgressBar = document.getElementById('scrollProgressBar');
-    const mobileNavToggle = document.getElementById('mobileNavToggle');
-    
-    // Scroll progress bar
-    function updateScrollProgress() {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      scrollProgressBar.style.setProperty('--scroll-progress', progress + '%');
-      
-      // Back to top visibility
-      if (scrollTop > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    }
-    
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    mobileNavToggle.addEventListener('click', () => {
-      const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
-      mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
-      document.body.classList.toggle('nav-open');
-    });
-
-    // Keyboard navigation enhancement
-    document.addEventListener('keydown', (e) => {
-      // Alt + J for Journey Mode
-      if (e.altKey && e.key === 'j') {
-        e.preventDefault();
-        document.getElementById('journeyModeBtn').click();
-      }
-      // Alt + D for Derivation
-      if (e.altKey && e.key === 'd') {
-        e.preventDefault();
-        document.getElementById('derivationBtn').click();
-      }
-      // Alt + C for Comparison
-      if (e.altKey && e.key === 'c') {
-        e.preventDefault();
-        document.getElementById('comparisonBtn').click();
-      }
-      // Alt + B for Belt Trick
-      if (e.altKey && e.key === 'b') {
-        e.preventDefault();
-        window.location.href = 'belt-trick.html';
-      }
-      // Alt + S for Scale Ladder
-      if (e.altKey && e.key === 's') {
-        e.preventDefault();
-        window.location.href = 'scale-ladder.html';
-      }
-      // Escape closes mobile nav
-      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
-        document.body.classList.remove('nav-open');
-        mobileNavToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    // Service Worker registration for PWA capabilities (optional)
-    if ('serviceWorker' in navigator && location.protocol === 'https:') {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('SW registered: ', registration);
-          })
-          .catch(registrationError => {
-            console.log('SW registration failed: ', registrationError);
-          });
+    // Workspace nav -> core.js routing
+    var wsNav = document.getElementById('wsNav');
+    if (wsNav && window.PFExplorer) {
+      wsNav.addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-route]');
+        if (!btn) return;
+        PFExplorer.navigate(btn.getAttribute('data-route'));
       });
     }
-  </script>
+
+    // Sync sidebar scale ticks <-> CommandBar
+    document.addEventListener('pf:scaleChange', function(e) {
+      var idx = e.detail.index;
+      document.querySelectorAll('.ws-scale-tick').forEach(function(t) {
+        var ti = parseInt(t.getAttribute('data-scale-index'), 10);
+        t.classList.toggle('is-current', ti === idx);
+        t.removeAttribute('data-current');
+        if (ti === idx) t.setAttribute('data-current', 'true');
+      });
+      // Move cursor
+      var cursor = document.getElementById('wsScaleCursor');
+      var totalTicks = 8;
+      var invertedPct = ((totalTicks - 1 - idx) / (totalTicks - 1)) * 100;
+      if (cursor) cursor.style.top = invertedPct + '%';
+    });
+
+    // Sidebar scale tick clicks -> CommandBar
+    document.querySelectorAll('.ws-scale-tick').forEach(function(t) {
+      t.addEventListener('click', function() {
+        var idx = parseInt(t.getAttribute('data-scale-index'), 10);
+        if (window.CommandBar) CommandBar.setScale(idx);
+      });
+    });
+
+    // Loading screen removal
+    window.addEventListener('load', function() {
+      var ls = document.getElementById('loadingScreen');
+      if (ls) setTimeout(function() { ls.classList.add('hidden'); setTimeout(function(){ ls.remove(); }, 500); }, 600);
+    });
+
+    // High contrast
+    var hcBtn = document.getElementById('highContrastToggle');
+    if (hcBtn) {
+      hcBtn.addEventListener('click', function() {
+        var on = document.body.classList.toggle('high-contrast');
+        hcBtn.setAttribute('aria-pressed', String(on));
+        hcBtn.textContent = on ? 'Standard Contrast' : 'High Contrast';
+        try { localStorage.setItem('pf_high_contrast', on ? '1' : '0'); } catch(e){}
+      });
+      try {
+        if (localStorage.getItem('pf_high_contrast') === '1') {
+          document.body.classList.add('high-contrast');
+          hcBtn.setAttribute('aria-pressed', 'true');
+          hcBtn.textContent = 'Standard Contrast';
+        }
+      } catch(e){}
+    }
+
+    // Evidence drawer resize
+    (function () {
+      var handle = document.getElementById('drawerResizeHandle');
+      var drawer = document.getElementById('appDrawer');
+      if (!handle || !drawer) return;
+      var startX, startW, dragging = false;
+      var MIN_W = 280, MAX_W = 720;
+
+      handle.addEventListener('mousedown', function (e) {
+        dragging = true;
+        startX = e.clientX;
+        startW = drawer.offsetWidth;
+        handle.classList.add('is-dragging');
+        document.body.style.cursor = 'ew-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function (e) {
+        if (!dragging) return;
+        var delta = startX - e.clientX;  // drag left = wider
+        var newW = Math.min(MAX_W, Math.max(MIN_W, startW + delta));
+        drawer.style.width = newW + 'px';
+        drawer.style.minWidth = newW + 'px';
+        drawer.style.maxWidth = newW + 'px';
+      });
+
+      document.addEventListener('mouseup', function () {
+        if (!dragging) return;
+        dragging = false;
+        handle.classList.remove('is-dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      });
+    })();
+
+    // Service worker (PWA)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').catch(function(){});
+      });
+    }
+</script>
 </body>
 </html>

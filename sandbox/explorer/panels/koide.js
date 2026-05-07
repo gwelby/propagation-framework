@@ -34,7 +34,6 @@
     var vertices = sqrtMasses.map(function (s) { return s / maxSqrt * r; });
 
     // Tetrahedral angles (unwrapped for 2D display as equilateral triangle projection)
-    // Electron at top, muon/tau at base corners (120° spacing)
     var angles = [-Math.PI / 2, -Math.PI / 2 + (2 * Math.PI) / 3, -Math.PI / 2 + (4 * Math.PI) / 3];
     return vertices.map(function (v, i) {
       return {
@@ -49,10 +48,10 @@
 
   // ── Three.js Koide Renderer ────────────────────────────────────────────────
 
-  function createRenderer(stage) {
+  function createRenderer(stage, canvas) {
     var container = document.createElement('div');
-    container.style.cssText = 'position:absolute;inset:0;';
-    stage.appendChild(container);
+    container.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+    canvas.parentElement.appendChild(container);
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -85,13 +84,13 @@
     return { container: container, renderer: renderer, scene: scene, camera: camera };
   }
 
-  function buildKoide3D(state, ctx) {
-    var r = createRenderer(state.canvas.parentElement);
-    state._3d = r;
+  function buildKoide3D(panelState, ctx) {
+    var r = createRenderer(ctx.stage, panelState.canvas);
+    panelState._3d = r;
 
     // Triangle line (edges between mass vertices)
     var lineGeo = new THREE.BufferGeometry();
-    var linePositions = new Float32Array(3 * 3 * 3); // 3 vertices × 3 coords
+    var linePositions = new Float32Array(3 * 3 * 3); 
     lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
     var lineMat = new THREE.LineBasicMaterial({
       color: 0xffdd55,
@@ -151,46 +150,34 @@
     var refRing = new THREE.Mesh(refGeo, refMat);
     r.scene.add(refRing);
 
-    state._3d.meshes = vertexMeshes;
-    state._3d.triangleLine = triangleLine;
-    state._3d.centerMesh = centerMesh;
-    state._3d.refRing = refRing;
+    panelState._3d.meshes = vertexMeshes;
+    panelState._3d.triangleLine = triangleLine;
+    panelState._3d.centerMesh = centerMesh;
+    panelState._3d.refRing = refRing;
 
     // Bloom post-processing
-    try {
-      var composer = new THREE.EffectComposer(r.renderer);
-      composer.addPass(new THREE.RenderPass(r.scene, r.camera));
-      var bloom = new THREE.UnrealBloomPass(
-        new THREE.Vector2(state.canvas.clientWidth, state.canvas.clientHeight),
-        0.6, 0.4, 0.82
-      );
-      composer.addPass(bloom);
-      state._3d.composer = composer;
-    } catch (e) {
-      state._3d.composer = null;
+    if (window.THREE && window.THREE.EffectComposer) {
+      try {
+        var composer = new THREE.EffectComposer(r.renderer);
+        composer.addPass(new THREE.RenderPass(r.scene, r.camera));
+        var bloom = new THREE.UnrealBloomPass(
+          new THREE.Vector2(panelState.canvas.clientWidth, panelState.canvas.clientHeight),
+          0.6, 0.4, 0.82
+        );
+        composer.addPass(bloom);
+        panelState._3d.composer = composer;
+      } catch (e) {
+        panelState._3d.composer = null;
+      }
     }
-
-    // Resize
-    function resize3d() {
-      var w = state.canvas.clientWidth;
-      var h = state.canvas.clientHeight;
-      r.camera.aspect = w / h;
-      r.camera.updateProjectionMatrix();
-      r.renderer.setSize(w, h);
-      if (r.composer) r.composer.setSize(w, h);
-    }
-    resize3d();
-    state._3d.resize = resize3d;
-    window.addEventListener('resize', resize3d);
-    state._3d.resizeHandler = resize3d;
 
     return r;
   }
 
-  function updateKoide3D(state, time) {
-    if (!state._3d) return;
-    var r = state._3d;
-    var current = buildMassSet(state.selectedMass, state.deltaPct);
+  function updateKoide3D(panelState, time) {
+    if (!panelState._3d) return;
+    var r = panelState._3d;
+    var current = buildMassSet(panelState.selectedMass, panelState.deltaPct);
     var masses = valuesFromSet(current);
     var verts = tetrahedronVertices(masses);
 
@@ -199,11 +186,10 @@
       var v = verts[i];
       mesh.position.set(v.x, v.y, 0);
 
-      // Breathing animation: vertices pulse slightly
+      // Breathing animation
       var breathe = 1 + 0.04 * Math.sin(time * 1.2 + i * 2.1);
       mesh.scale.setScalar(breathe);
 
-      // Update ring position
       if (mesh.userData.ring) {
         mesh.userData.ring.position.copy(mesh.position);
         mesh.userData.ring.rotation.z = time * 0.4 + i;
@@ -217,7 +203,6 @@
     });
     posAttr.needsUpdate = true;
 
-    // Animate ref ring
     r.refRing.rotation.z = time * 0.15;
 
     // Camera slow orbit
@@ -226,23 +211,25 @@
     r.camera.lookAt(0, 0, 0);
   }
 
-  function disposeKoide3D(state) {
-    if (!state._3d) return;
-    window.removeEventListener('resize', state._3d.resizeHandler);
-    state._3d.meshes.forEach(function (m) {
-      m.geometry.dispose();
-      m.material.dispose();
-    });
-    state._3d.composer = null;
-    state._3d.renderer.dispose();
-    state._3d.container.remove();
-    state._3d = null;
+  function disposeKoide3D(panelState) {
+    if (!panelState || !panelState._3d) return;
+    var r = panelState._3d;
+    if (r.meshes) {
+      r.meshes.forEach(function (m) {
+        m.geometry.dispose();
+        m.material.dispose();
+      });
+    }
+    if (r.renderer) r.renderer.dispose();
+    if (r.container) r.container.remove();
+    panelState._3d = null;
   }
 
   // ── Panel Registration ─────────────────────────────────────────────────────
 
   window.PFExplorer.registerPanel({
     id: 'koide',
+    title: 'Koide Mass Geometry',
     mount: function (ctx) {
       ctx.stage.innerHTML =
         '<div class="panel-wrap">' +
@@ -252,7 +239,7 @@
                 '<div>' +
                   '<p class="eyebrow">Mass Geometry</p>' +
                   '<h3>The charged lepton triangle stays near one exact target.</h3>' +
-                  '<p>Perturb one PDG mass and watch Q pull away from 2 / 3 while the amplitude geometry loosens.</p>' +
+                  '<p>Perturb one PDG mass and watch Q pull away from 2/3 while the amplitude geometry loosens.</p>' +
                 '</div>' +
               '</div>' +
               '<canvas class="panel-canvas" id="koideCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>' +
@@ -262,7 +249,7 @@
           '</div>' +
         '</div>';
 
-      this.state = {
+      this.panelState = {
         canvas: ctx.stage.querySelector('#koideCanvas'),
         info: ctx.stage.querySelector('#koideInfo'),
         selectedMass: 'tau',
@@ -272,91 +259,99 @@
       this.renderInfo(ctx);
     },
 
-    unmount: function () {
-      disposeKoide3D(this.state);
-      this.state = null;
+    unmount: function (ctx) {
+      disposeKoide3D(this.panelState);
+      this.panelState = null;
     },
 
     resize: function (ctx) {
-      var state = this.state;
-      if (state._3d && state._3d.resize) {
-        state._3d.resize();
-      }
+      var ps = this.panelState;
+      if (!ps || !ps._3d) return;
+      var r = ps._3d;
+      var w = ps.canvas.clientWidth;
+      var h = ps.canvas.clientHeight;
+      r.camera.aspect = w / h;
+      r.camera.updateProjectionMatrix();
+      r.renderer.setSize(w, h);
+      if (r.composer) r.composer.setSize(w, h);
     },
 
     renderInfo: function (ctx) {
-      var state = this.state;
-      var current = buildMassSet(state.selectedMass, state.deltaPct);
+      var self = this;
+      var ps = this.panelState;
+      var current = buildMassSet(ps.selectedMass, ps.deltaPct);
       var masses = valuesFromSet(current);
       var qValue = ctx.utils.koideQ(masses);
       var ra = ctx.utils.computeKoideRA(masses);
       var deviationPct = Math.abs(qValue - 2 / 3) / (2 / 3) * 100;
       var isLocked = deviationPct < 0.01;
 
-      state.info.innerHTML =
+      ps.info.innerHTML =
         '<div class="panel-header">' +
           '<div>' +
             '<p class="eyebrow">PDG 2024 lepton masses</p>' +
             '<h3>Q = ' + qValue.toFixed(7) + ' <span style="font-size:0.7em;color:var(--' + (isLocked ? 'cohere' : 'resonate') + ')">(' + (isLocked ? 'LOCKED' : deviationPct.toFixed(3) + '% off') + ')</span></h3>' +
-            '<p>The baseline triangle is unnervingly tight. Even a small single-mass perturbation bends both Q and R / A away from the repo target.</p>' +
+            '<p>The baseline triangle is unnervingly tight. Even a small perturbation bends both Q and R/A away from the target.</p>' +
           '</div>' +
           '<span class="status-pill status-derived">DERIVED</span>' +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('koide-law')) +
         '<div class="control-group">' +
           '<label for="koideMassSelect">Perturb this mass</label>' +
-          '<select id="koideMassSelect"><option value="electron">electron</option><option value="muon">muon</option><option value="tau">tau</option></select>' +
+          '<select id="koideMassSelect" class="premium-select">' +
+            '<option value="electron">electron</option>' +
+            '<option value="muon">muon</option>' +
+            '<option value="tau">tau</option>' +
+          '</select>' +
         '</div>' +
         '<div class="control-group">' +
           '<label for="koideDelta">Mass offset (%)</label>' +
-          '<input id="koideDelta" type="range" min="-5" max="5" step="0.1" value="' + state.deltaPct + '">' +
-          '<output id="koideDeltaOut">' + state.deltaPct.toFixed(1) + '%</output>' +
+          '<input id="koideDelta" class="premium-slider" type="range" min="-5" max="5" step="0.1" value="' + ps.deltaPct + '">' +
+          '<output id="koideDeltaOut">' + ps.deltaPct.toFixed(1) + '%</output>' +
         '</div>' +
-        '<div class="formula">Q = sum m_i / (sum sqrt(m_i))^2,  R / A = ' + ra.ratio.toFixed(5) + '</div>' +
+        '<div class="formula">Q = sum m_i / (sum sqrt(m_i))^2,  R/A = ' + ra.ratio.toFixed(5) + '</div>' +
         '<div class="stat-grid">' +
           '<div class="stat-tile"><strong>' + current.electron.toFixed(6) + '</strong><span>electron MeV</span></div>' +
           '<div class="stat-tile"><strong>' + current.muon.toFixed(4) + '</strong><span>muon MeV</span></div>' +
           '<div class="stat-tile"><strong>' + current.tau.toFixed(2) + '</strong><span>tau MeV</span></div>' +
           '<div class="stat-tile"><strong style="color:var(--' + (isLocked ? 'cohere' : 'resonate') + ')">' + deviationPct.toFixed(4) + '%</strong><span>deviation from 2/3</span></div>' +
         '</div>' +
-        '<div class="note-box story-only"><strong>Story</strong><p>The baseline triangle is unnervingly tight. Even a small single-mass perturbation bends both Q and R/A away from the repo target.</p></div>' +
-        '<div class="note-box audit-only"><strong>Audit</strong><p>The phase frontier remains empirical. The amplitude lock is derived; the delta_0 = 2/9 target is displayed below as a separate signal, not silently promoted.</p></div>' +
-        '<div class="drawer-block" style="padding:0;border:0">' +
-          '<span class="eyebrow">2 / 9 cluster</span>' +
-          PFExplorer.compareBarHtml(0.22310, 2 / 9, 0.00045, 0.2218, 0.2236) +
-          '<div class="metric-row">' +
+        '<div class="drawer-block" style="padding:16px 0;border:0">' +
+          '<span class="eyebrow">2/9 cluster</span>' +
+          ctx.app.compareBarHtml(0.22310, 2 / 9, 0.00045, 0.2218, 0.2236) +
+          '<div class="metric-row" style="margin-top:12px">' +
             '<span class="metric-pill">delta_Koide = 0.2222296</span>' +
-            '<span class="metric-pill">2 / 9 = 0.2222222</span>' +
+            '<span class="metric-pill">2/9 = 0.2222222</span>' +
             '<span class="metric-pill">sin^2(theta_W) = 0.22310</span>' +
           '</div>' +
         '</div>';
 
-      state.info.querySelector('#koideMassSelect').value = state.selectedMass;
-      state.info.querySelector('#koideMassSelect').addEventListener('change', function (event) {
-        state.selectedMass = event.target.value;
-        PFExplorer.state.activePanel.renderInfo(ctx);
+      ps.info.querySelector('#koideMassSelect').value = ps.selectedMass;
+      ps.info.querySelector('#koideMassSelect').addEventListener('change', function (e) {
+        ps.selectedMass = e.target.value;
+        self.renderInfo(ctx);
       });
-      state.info.querySelector('#koideDelta').addEventListener('input', function (event) {
-        state.deltaPct = Number(event.target.value);
-        state.info.querySelector('#koideDeltaOut').textContent = state.deltaPct.toFixed(1) + '%';
-        PFExplorer.state.activePanel.renderInfo(ctx);
+      ps.info.querySelector('#koideDelta').addEventListener('input', function (e) {
+        ps.deltaPct = Number(e.target.value);
+        ps.info.querySelector('#koideDeltaOut').textContent = ps.deltaPct.toFixed(1) + '%';
+        self.renderInfo(ctx);
       });
-      ctx.app.syncActiveResultCards();
 
-      // Build 3D scene on first render
-      if (!state._3d) {
-        buildKoide3D(state, ctx);
+      if (!ps._3d) {
+        buildKoide3D(ps, ctx);
+        this.resize(ctx);
       }
     },
 
     update: function (ctx, dt, time) {
-      if (!this.state._3d) return;
-      updateKoide3D(this.state, time);
+      if (!this.panelState || !this.panelState._3d) return;
+      updateKoide3D(this.panelState, time);
 
-      if (this.state._3d.composer) {
-        this.state._3d.composer.render();
+      var r = this.panelState._3d;
+      if (r.composer) {
+        r.composer.render();
       } else {
-        this.state._3d.renderer.render(this.state._3d.scene, this.state._3d.camera);
+        r.renderer.render(r.scene, r.camera);
       }
     }
   });

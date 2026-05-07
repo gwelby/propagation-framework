@@ -1,15 +1,22 @@
 /**
- * Bohr Panel — Enhanced with Wave Packet Phase Closure
+ * Bohr Panel — Enhanced with Wave Packet Phase Closure + Spectral Diagram
  * 
  * Shows the standing wave condition: ∮ n ds = 2πk
  * Wave packets propagate around the orbit. At integer k, they interfere
  * constructively and close perfectly. At non-integer k, they drift and fade.
+ * 
+ * NEW: Spectral Line Diagram
+ * - Energy level diagram with E_k = -1/(4k²) levels
+ * - Transition arrows showing photon emission/absorption
+ * - Lyman, Balmer, Paschen series visualization
+ * - Interactive: click level to view orbit, click transition for photon animation
  * 
  * The visualization shows:
  *   1. The orbit as a phase closure ring
  *   2. Animated wave packets at configurable k
  *   3. Standing wave nodes (where amplitude = 0) highlighted in magenta
  *   4. "LOCKED" indicator when k is integer ± tolerance
+ *   5. Spectral energy diagram with transition series
  */
 (function () {
   'use strict';
@@ -17,6 +24,55 @@
   function nearestInteger(value) {
     return Math.round(value);
   }
+
+  // ── SPECTRAL DIAGRAM UTILITIES ────────────────────────────────────────────
+
+  function calculateEnergyLevel(k) {
+    // E_k = -1/(4k²) from the circular-eikonal Coulomb model
+    return -1 / (4 * k * k);
+  }
+
+  function calculateRadius(k) {
+    // r_k = 2k² from the circular-eikonal Coulomb model
+    return 2 * k * k;
+  }
+
+  function wavelengthForTransition(kUpper, kLower) {
+    // 1/λ = R_H * (1/n_lower² - 1/n_upper²)
+    // Using k directly: ΔE = E_upper - E_lower = -1/(4k_upper²) - (-1/(4k_lower²))
+    // Photon energy = -ΔE (emission)
+    var eUpper = calculateEnergyLevel(kUpper);
+    var eLower = calculateEnergyLevel(kLower);
+    var deltaE = eLower - eUpper; // positive for emission (lower is more negative)
+    if (deltaE <= 0) return null;
+    // λ ∝ 1/ΔE (in atomic units)
+    return 1 / deltaE;
+  }
+
+  function getSeriesName(kLower) {
+    // n = 2k is the closure quantum number
+    var n = 2 * kLower;
+    switch (n) {
+      case 2: return 'Lyman';
+      case 4: return 'Balmer';
+      case 6: return 'Paschen';
+      case 8: return 'Brackett';
+      default: return 'n=' + n;
+    }
+  }
+
+  function getSeriesColor(kLower) {
+    var n = 2 * kLower;
+    switch (n) {
+      case 2: return '#00cfff'; // Cyan - Lyman (UV)
+      case 4: return '#44ff88'; // Green - Balmer (Visible)
+      case 6: return '#ffdd55'; // Gold - Paschen (IR)
+      case 8: return '#ff6b8a'; // Pink - Brackett (Far IR)
+      default: return '#cccccc';
+    }
+  }
+
+  // ── 3D BOHR VISUALIZATION ─────────────────────────────────────────────────
 
   function buildBohr3D(state) {
     var container = document.createElement('div');
@@ -211,7 +267,322 @@
     r.container.remove();
   }
 
-  // ── Panel Registration ───────────────────────────────────────────────────
+  // ── SPECTRAL DIAGRAM ──────────────────────────────────────────────────────
+
+  function createSpectralDiagram(state) {
+    var container = document.createElement('div');
+    container.id = 'spectralDiagram';
+    container.className = 'spectral-diagram';
+    container.style.cssText = 'width:100%;height:280px;background:#0a0a1a;border:1px solid #1a1a2e;border-radius:8px;position:relative;overflow:hidden;';
+
+    // SVG for energy levels and transitions
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.setAttribute('viewBox', '0 0 600 280');
+    svg.style.cssText = 'position:absolute;top:0;left:0;';
+
+    // Define gradients and filters
+    var defs = document.createElementNS(svgNS, 'defs');
+    defs.innerHTML = [
+      '<filter id="glow" x="-50%" y="-50%" width="200%" height="200%">',
+      '<feGaussianBlur stdDeviation="2" result="coloredBlur"/>',
+      '<feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>',
+      '</filter>',
+      '<linearGradient id="photonGradient" x1="0%" y1="0%" x2="100%" y2="0%">',
+      '<stop offset="0%" stop-color="#00cfff" stop-opacity="1"/>',
+      '<stop offset="50%" stop-color="#ffdd55" stop-opacity="0.8"/>',
+      '<stop offset="100%" stop-color="#00cfff" stop-opacity="1"/>',
+      '</linearGradient>'
+    ].join('');
+    svg.appendChild(defs);
+
+    // Title
+    var title = document.createElementNS(svgNS, 'text');
+    title.setAttribute('x', '300');
+    title.setAttribute('y', '20');
+    title.setAttribute('text-anchor', 'middle');
+    title.setAttribute('fill', '#cccccc');
+    title.setAttribute('font-size', '12');
+    title.setAttribute('font-weight', 'bold');
+    title.textContent = 'Energy Level Diagram — E_k = -1/(4k²)';
+    svg.appendChild(title);
+
+    // Energy axis label
+    var yLabel = document.createElementNS(svgNS, 'text');
+    yLabel.setAttribute('x', '15');
+    yLabel.setAttribute('y', '140');
+    yLabel.setAttribute('text-anchor', 'middle');
+    yLabel.setAttribute('fill', '#666');
+    yLabel.setAttribute('font-size', '10');
+    yLabel.setAttribute('transform', 'rotate(-90, 15, 140)');
+    yLabel.textContent = 'Energy (atomic units)';
+    svg.appendChild(yLabel);
+
+    // Draw energy levels (k = 1 to 6)
+    var maxK = 6;
+    var minEnergy = calculateEnergyLevel(1); // -0.25
+    var maxEnergy = 0.05; // Just above zero
+    var energyRange = maxEnergy - minEnergy;
+    var levelX = 120;
+    var levelWidth = 120;
+
+    for (var k = 1; k <= maxK; k++) {
+      var energy = calculateEnergyLevel(k);
+      var y = 240 - ((energy - minEnergy) / energyRange) * 200;
+      var n = 2 * k; // closure quantum number
+      var color = getSeriesColor(k);
+
+      // Energy level line
+      var line = document.createElementNS(svgNS, 'line');
+      line.setAttribute('x1', levelX);
+      line.setAttribute('y1', y);
+      line.setAttribute('x2', levelX + levelWidth);
+      line.setAttribute('y2', y);
+      line.setAttribute('stroke', color);
+      line.setAttribute('stroke-width', k === nearestInteger(state.kLike) ? '3' : '2');
+      line.setAttribute('filter', 'url(#glow)');
+      line.setAttribute('class', 'energy-level');
+      line.setAttribute('data-k', k);
+      line.style.cursor = 'pointer';
+      line.style.transition = 'all 0.3s';
+      svg.appendChild(line);
+
+      // Level label (k and n)
+      var label = document.createElementNS(svgNS, 'text');
+      label.setAttribute('x', levelX - 10);
+      label.setAttribute('y', y + 4);
+      label.setAttribute('text-anchor', 'end');
+      label.setAttribute('fill', color);
+      label.setAttribute('font-size', '11');
+      label.setAttribute('font-weight', 'bold');
+      label.textContent = 'k=' + k + ' (n=' + n + ')';
+      svg.appendChild(label);
+
+      // Energy value
+      var eLabel = document.createElementNS(svgNS, 'text');
+      eLabel.setAttribute('x', levelX + levelWidth + 10);
+      eLabel.setAttribute('y', y + 4);
+      eLabel.setAttribute('fill', '#888');
+      eLabel.setAttribute('font-size', '9');
+      eLabel.textContent = energy.toFixed(4);
+      svg.appendChild(eLabel);
+
+      // Radius annotation
+      var rLabel = document.createElementNS(svgNS, 'text');
+      rLabel.setAttribute('x', levelX + levelWidth + 60);
+      rLabel.setAttribute('y', y + 4);
+      rLabel.setAttribute('fill', '#666');
+      rLabel.setAttribute('font-size', '8');
+      rLabel.textContent = 'r=' + calculateRadius(k).toFixed(1);
+      svg.appendChild(rLabel);
+    }
+
+    // Draw zero energy line (ionization threshold)
+    var zeroY = 240 - ((0 - minEnergy) / energyRange) * 200;
+    var zeroLine = document.createElementNS(svgNS, 'line');
+    zeroLine.setAttribute('x1', levelX - 20);
+    zeroLine.setAttribute('y1', zeroY);
+    zeroLine.setAttribute('x2', levelX + levelWidth + 100);
+    zeroLine.setAttribute('y2', zeroY);
+    zeroLine.setAttribute('stroke', '#444');
+    zeroLine.setAttribute('stroke-width', '1');
+    zeroLine.setAttribute('stroke-dasharray', '4,2');
+    svg.appendChild(zeroLine);
+
+    var zeroLabel = document.createElementNS(svgNS, 'text');
+    zeroLabel.setAttribute('x', levelX + levelWidth + 105);
+    zeroLabel.setAttribute('y', zeroY + 3);
+    zeroLabel.setAttribute('fill', '#666');
+    zeroLabel.setAttribute('font-size', '9');
+    zeroLabel.textContent = 'E=0 (ionization)';
+    svg.appendChild(zeroLabel);
+
+    // Draw transition series (Lyman: n→1, Balmer: n→2, Paschen: n→3)
+    var transitionGroup = document.createElementNS(svgNS, 'g');
+    transitionGroup.id = 'transitions';
+
+    function drawTransition(kUpper, kLower, xOffset, opacity) {
+      var eUpper = calculateEnergyLevel(kUpper);
+      var eLower = calculateEnergyLevel(kLower);
+      var yUpper = 240 - ((eUpper - minEnergy) / energyRange) * 200;
+      var yLower = 240 - ((eLower - minEnergy) / energyRange) * 200;
+      var x = levelX + levelWidth + xOffset;
+      var color = getSeriesColor(kLower);
+      var seriesName = getSeriesName(kLower);
+
+      // Transition arrow (wavy line for photon)
+      var arrow = document.createElementNS(svgNS, 'path');
+      var midY = (yUpper + yLower) / 2;
+      var waveAmp = 3;
+      var path = 'M' + x + ',' + yUpper + ' Q' + (x + waveAmp) + ',' + (yUpper + (yLower - yUpper) * 0.25) + ' ' + x + ',' + midY + ' Q' + (x - waveAmp) + ',' + (yUpper + (yLower - yUpper) * 0.75) + ' ' + x + ',' + yLower;
+      arrow.setAttribute('d', path);
+      arrow.setAttribute('stroke', color);
+      arrow.setAttribute('stroke-width', '2');
+      arrow.setAttribute('fill', 'none');
+      arrow.setAttribute('opacity', opacity);
+      arrow.setAttribute('marker-end', 'url(#arrowhead)');
+      arrow.setAttribute('class', 'transition-arrow');
+      arrow.setAttribute('data-from', kUpper);
+      arrow.setAttribute('data-to', kLower);
+      arrow.style.cursor = 'pointer';
+      transitionGroup.appendChild(arrow);
+
+      // Photon wavelength annotation
+      var lambda = wavelengthForTransition(kUpper, kLower);
+      if (lambda) {
+        var lambdaLabel = document.createElementNS(svgNS, 'text');
+        lambdaLabel.setAttribute('x', x + 10);
+        lambdaLabel.setAttribute('y', midY);
+        lambdaLabel.setAttribute('fill', color);
+        lambdaLabel.setAttribute('font-size', '8');
+        lambdaLabel.setAttribute('opacity', opacity);
+        lambdaLabel.textContent = 'λ~' + lambda.toFixed(1);
+        transitionGroup.appendChild(lambdaLabel);
+      }
+    }
+
+    // Draw series
+    // Lyman series (transitions to k=1, n=2)
+    for (var ku = 2; ku <= 5; ku++) {
+      drawTransition(ku, 1, 40 + (ku - 2) * 25, state.showAllSeries ? 0.8 : 0.15);
+    }
+
+    // Balmer series (transitions to k=2, n=4) 
+    if (state.showAllSeries || state.activeSeries === 'balmer') {
+      for (var ku = 3; ku <= 6; ku++) {
+        drawTransition(ku, 2, 140 + (ku - 3) * 25, state.showAllSeries ? 0.6 : 0.8);
+      }
+    }
+
+    // Paschen series (transitions to k=3, n=6)
+    if (state.showAllSeries || state.activeSeries === 'paschen') {
+      for (var ku = 4; ku <= 6; ku++) {
+        drawTransition(ku, 3, 220 + (ku - 4) * 20, state.showAllSeries ? 0.5 : 0.8);
+      }
+    }
+
+    svg.appendChild(transitionGroup);
+
+    // Series legend
+    var legendY = 50;
+    var series = [
+      { name: 'Lyman (n→2)', color: '#00cfff', desc: 'UV' },
+      { name: 'Balmer (n→4)', color: '#44ff88', desc: 'Visible' },
+      { name: 'Paschen (n→6)', color: '#ffdd55', desc: 'IR' }
+    ];
+    series.forEach(function(s, i) {
+      var ly = legendY + i * 18;
+      var rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', '480');
+      rect.setAttribute('y', ly - 6);
+      rect.setAttribute('width', '12');
+      rect.setAttribute('height', '12');
+      rect.setAttribute('fill', s.color);
+      rect.setAttribute('rx', '2');
+      svg.appendChild(rect);
+
+      var text = document.createElementNS(svgNS, 'text');
+      text.setAttribute('x', '498');
+      text.setAttribute('y', ly + 3);
+      text.setAttribute('fill', '#aaa');
+      text.setAttribute('font-size', '9');
+      text.textContent = s.name + ' ' + s.desc;
+      svg.appendChild(text);
+    });
+
+    // Photon animation circle (hidden initially)
+    var photon = document.createElementNS(svgNS, 'circle');
+    photon.id = 'photon';
+    photon.setAttribute('r', '5');
+    photon.setAttribute('fill', 'url(#photonGradient)');
+    photon.setAttribute('filter', 'url(#glow)');
+    photon.setAttribute('opacity', '0');
+    svg.appendChild(photon);
+
+    container.appendChild(svg);
+
+    // Click handlers for energy levels
+    container.querySelectorAll('.energy-level').forEach(function(line) {
+      line.addEventListener('click', function() {
+        var k = parseInt(line.getAttribute('data-k'));
+        state.kLike = k;
+        state.spectralLevelClicked = k;
+        PFExplorer.state.activePanel.renderInfo(PFExplorer.state.activePanel.ctx);
+      });
+      line.addEventListener('mouseenter', function() {
+        line.setAttribute('stroke-width', '4');
+      });
+      line.addEventListener('mouseleave', function() {
+        var k = parseInt(line.getAttribute('data-k'));
+        line.setAttribute('stroke-width', k === nearestInteger(state.kLike) ? '3' : '2');
+      });
+    });
+
+    // Click handlers for transitions
+    container.querySelectorAll('.transition-arrow').forEach(function(arrow) {
+      arrow.addEventListener('click', function() {
+        var kFrom = parseInt(arrow.getAttribute('data-from'));
+        var kTo = parseInt(arrow.getAttribute('data-to'));
+        animatePhotonEmission(container, kFrom, kTo, minEnergy, energyRange);
+      });
+    });
+
+    return container;
+  }
+
+  function animatePhotonEmission(container, kFrom, kTo, minEnergy, energyRange) {
+    var photon = container.querySelector('#photon');
+    var eFrom = calculateEnergyLevel(kFrom);
+    var eTo = calculateEnergyLevel(kTo);
+    var levelX = 120;
+    var levelWidth = 120;
+
+    var yFrom = 240 - ((eFrom - minEnergy) / energyRange) * 200;
+    var yTo = 240 - ((eTo - minEnergy) / energyRange) * 200;
+    var x = levelX + levelWidth + 40;
+
+    // Simple animation using requestAnimationFrame
+    var startTime = performance.now();
+    var duration = 1000;
+
+    photon.setAttribute('opacity', '1');
+
+    function step(now) {
+      var elapsed = now - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var y = yFrom + (yTo - yFrom) * progress;
+
+      photon.setAttribute('cx', x);
+      photon.setAttribute('cy', y);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // Fade out
+        setTimeout(function() {
+          photon.setAttribute('opacity', '0');
+        }, 200);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function updateSpectralDiagram(state) {
+    var container = document.getElementById('spectralDiagram');
+    if (!container) return;
+
+    // Update highlight based on current k
+    var lines = container.querySelectorAll('.energy-level');
+    lines.forEach(function(line) {
+      var k = parseInt(line.getAttribute('data-k'));
+      line.setAttribute('stroke-width', k === nearestInteger(state.kLike) ? '3' : '2');
+    });
+  }
+
+  // ── PANEL REGISTRATION ────────────────────────────────────────────────────
 
   window.PFExplorer.registerPanel({
     id: 'bohr',
@@ -238,7 +609,11 @@
         canvas: ctx.stage.querySelector('#bohrCanvas'),
         info: ctx.stage.querySelector('#bohrInfo'),
         kLike: 1,
-        phase: 0
+        phase: 0,
+        showAllSeries: false,
+        activeSeries: 'balmer',
+        spectralLevelClicked: null,
+        ctx: ctx
       };
 
       this.renderInfo(ctx);
@@ -271,6 +646,20 @@
       var stable = mismatch < 0.02;
       var statusColor = stable ? 'var(--cohere)' : 'var(--resonate)';
 
+      // Build spectral diagram section
+      var spectralSection = '<div class="spectral-section" style="margin:16px 0;padding:12px;background:#0f0f1a;border:1px solid #1a1a2e;border-radius:8px;">';
+      spectralSection += '<h4 style="margin:0 0 12px 0;color:#cccccc;font-size:13px;">Bohr-like Spectrum: 1/k² Energy Levels</h4>';
+      spectralSection += '<div id="spectralContainer"></div>';
+      spectralSection += '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">';
+      spectralSection += '<button type="button" class="chip-button" id="toggleSeries">' + (state.showAllSeries ? 'Show Active Only' : 'Show All Series') + '</button>';
+      spectralSection += '<button type="button" class="chip-button" data-series="balmer">Balmer (Visible)</button>';
+      spectralSection += '<button type="button" class="chip-button" data-series="paschen">Paschen (IR)</button>';
+      spectralSection += '</div>';
+      spectralSection += '<p style="margin:10px 0 0 0;color:#888;font-size:10px;line-height:1.4;">';
+      spectralSection += '<strong>Click</strong> an energy level to view that orbit. <strong>Click</strong> a transition arrow to animate photon emission. ';
+      spectralSection += 'The circular-eikonal model yields r_k = 2k² and E_k = -1/(4k²), a Bohr-like 1/k² spectrum.';
+      spectralSection += '</p></div>';
+
       state.info.innerHTML =
         '<div class="panel-header">' +
           '<div>' +
@@ -283,7 +672,7 @@
         ctx.app.renderWrongIntuition(ctx.app.getResult('bohr-quantization')) +
         '<div class="control-group">' +
           '<label for="bohrK">Continuous winding k</label>' +
-          '<input id="bohrK" type="range" min="0.8" max="4.2" step="0.01" value="' + state.kLike + '">' +
+          '<input id="bohrK" class="premium-slider" type="range" min="0.8" max="4.2" step="0.01" value="' + state.kLike + '">' +
           '<output id="bohrKOut">k = ' + state.kLike.toFixed(2) + '</output>' +
         '</div>' +
         '<div class="metric-row">' +
@@ -292,6 +681,7 @@
           '<button class="chip-button" type="button" data-k="3">k = 3</button>' +
           '<button class="chip-button" type="button" data-k="4">k = 4</button>' +
         '</div>' +
+        spectralSection +
         '<div class="formula">r_k = 2k^2,  E_k = -1/(4k^2),  integral n ds = 2pi k</div>' +
         '<div class="stat-grid">' +
           '<div class="stat-tile"><strong>' + radius.toFixed(3) + '</strong><span>radius</span></div>' +
@@ -302,19 +692,42 @@
         '<div class="note-box story-only"><strong>Story</strong><p>' + (stable
           ? 'The orbit is phase-locked because the wave closes on itself after exactly k circuits. This is why atoms have discrete energy levels — they are standing wave conditions, not orbiting particles.'
           : 'The orbit misses perfect closure. After each circuit the phase has drifted slightly, so the pattern disperses over time. No stable atom at this k.') + '</p></div>' +
-        '<div class="note-box audit-only"><strong>Audit</strong><p>Current repo status is conditional, not derived from Axiom 3 alone. At integer k the panel reports exact formula-level closure inside the named model layer.</p></div>';
+        '<div class="note-box audit-only"><strong>Audit</strong><p>Current repo status is conditional, not derived from Axiom 3 alone. At integer k the panel reports exact formula-level closure inside the named model layer. The Bohr-like spectrum emerges from the circular-eikonal Coulomb model with phase closure.</p></div>';
 
+      // Add event listeners
       state.info.querySelector('#bohrK').addEventListener('input', function (e) {
         state.kLike = Number(e.target.value);
+        updateSpectralDiagram(state);
         PFExplorer.state.activePanel.renderInfo(ctx);
       });
+
       Array.prototype.forEach.call(state.info.querySelectorAll('[data-k]'), function (btn) {
         btn.addEventListener('click', function () {
           state.kLike = Number(btn.getAttribute('data-k'));
+          updateSpectralDiagram(state);
           PFExplorer.state.activePanel.renderInfo(ctx);
         });
       });
 
+      // Series toggle
+      var toggleBtn = state.info.querySelector('#toggleSeries');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          state.showAllSeries = !state.showAllSeries;
+          PFExplorer.state.activePanel.renderInfo(ctx);
+        });
+      }
+
+      // Series selector buttons
+      Array.prototype.forEach.call(state.info.querySelectorAll('[data-series]'), function (btn) {
+        btn.addEventListener('click', function () {
+          state.activeSeries = btn.getAttribute('data-series');
+          state.showAllSeries = false;
+          PFExplorer.state.activePanel.renderInfo(ctx);
+        });
+      });
+
+      // Initialize 3D if needed
       if (!state._3d) {
         state._3d = buildBohr3D(state);
         var self = this;
@@ -326,6 +739,13 @@
           if (state._3d.composer) state._3d.composer.setSize(w, h);
         };
         window.addEventListener('resize', state._3d._resizeHandler);
+      }
+
+      // Create and inject spectral diagram
+      var spectralContainer = state.info.querySelector('#spectralContainer');
+      if (spectralContainer) {
+        var diagram = createSpectralDiagram(state);
+        spectralContainer.appendChild(diagram);
       }
     },
 

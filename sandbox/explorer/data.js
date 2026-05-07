@@ -1,6 +1,6 @@
 (function () {
   window.PFExplorerData = {
-    generatedAt: "2026-04-01",
+    generatedAt: "2026-05-06",
     truthPolicy: {
       auditedSource: "../../CLAIMS.md",
       extensionSource: "../../UNDERSTAND.md",
@@ -58,6 +58,7 @@
       ]
     },
     panelMeta: [
+      { id: "foundations", title: "Axiomatic Foundations", note: "Interactive Propagation Lab and core definitions", linkedResultIds: [], defaultMode: "story" },
       { id: "reality-correction", title: "Reality Correction", note: "Three wrong intuitions confronted", linkedResultIds: ["forces-refraction", "bohr-quantization", "three-generations"], defaultMode: "story" },
       { id: "hub", title: "Scale Stack", note: "Planck to cosmic in one vertical atlas", linkedResultIds: ["god-equation", "weinberg-angle", "bohr-quantization"], defaultMode: "story" },
       { id: "consciousness", title: "Consciousness as Coherence", note: "P1 device, neural coherence, and the physics of mind", linkedResultIds: ["consciousness", "aria-self-reference"], defaultMode: "story" },
@@ -65,6 +66,7 @@
       { id: "generations", title: "Why Exactly Three", note: "Topology, weights, and the live Q(N) lock", linkedResultIds: ["weights-21", "three-generations"], defaultMode: "story" },
       { id: "koide", title: "The Koide Triangle", note: "Mass geometry with live perturbation", linkedResultIds: ["koide-law", "koide-phase"], defaultMode: "story" },
       { id: "weinberg", title: "The Weinberg Angle", note: "Casimir roots and Axiom 3b", linkedResultIds: ["weinberg-angle", "fine-structure-alpha"], defaultMode: "story" },
+      { id: "koide-weinberg-bridge", title: "Koide/Weinberg Bridge", note: "RG running analysis — close but not connected", linkedResultIds: ["koide-phase", "weinberg-angle"], defaultMode: "story" },
       { id: "god-equation", title: "The God Equation", note: "Planck to matter across 17 orders", linkedResultIds: ["god-equation", "qcd-confinement"], defaultMode: "story" },
       { id: "bohr", title: "Bohr-like Circular-Eikonal Spectrum", note: "Phase closure inside a named model layer", linkedResultIds: ["bohr-quantization"], defaultMode: "story" },
       { id: "dashboard", title: "Dashboard", note: "The audit wall for every current claim", linkedResultIds: [], defaultMode: "story" }
@@ -86,6 +88,236 @@
       { id: "stellar", label: "Stellar", meters: 1e9, metersLabel: "1.0e9 m", frequency: 3e-2, frequencyLabel: "3.0e-2 Hz", resultIds: [] },
       { id: "galactic", label: "Galactic", meters: 1e21, metersLabel: "1.0e21 m", frequency: 1e-13, frequencyLabel: "1.0e-13 Hz", resultIds: [] },
       { id: "cosmic", label: "Cosmic", meters: 1e26, metersLabel: "1.0e26 m", frequency: 1e-18, frequencyLabel: "1.0e-18 Hz", resultIds: [] }
+    ],
+    definitions: [
+      {
+        id: "medium",
+        title: "The Medium",
+        shortTitle: "Medium",
+        status: "CANONICAL v1.0",
+        summary: "The minimal causal-coherence structure required for physical propagation.",
+        text: "The Medium is defined by roles, not by a claimed substance: it supplies state-bearing structure, finite-speed causal evolution, stable coherent modes, gradients that alter propagation paths, and quantization conditions selecting which patterns persist.",
+        falsifier: "Fails if controllable FTL signaling is demonstrated, local Lorentz invariance is detectably violated, particle stability cannot be represented, or a PF claim requires contradiction between Medium roles.",
+        sources: [
+          { label: "definitions/medium.md", href: "../../definitions/medium.md" }
+        ]
+      },
+      {
+        id: "axioms",
+        title: "The Three Axioms",
+        shortTitle: "Axioms",
+        status: "CANONICAL v1.0",
+        summary: "The root starting points of the Propagation Framework: propagation, causal velocity, coherence, plus the bounded Axiom 3b selection principle.",
+        text: "The axioms define the framework's starting vocabulary. They do not by themselves prove every downstream numerical claim; those claims remain governed by CLAIMS.md and their audits.",
+        falsifier: "Fails if propagation, finite causal velocity, or coherence are made redundant, contradicted by the canonical definitions, or used to silently promote conditional numerical claims.",
+        sources: [
+          { label: "definitions/axioms.md", href: "../../definitions/axioms.md" }
+        ]
+      },
+      {
+        id: "coherence",
+        title: "Coherence",
+        shortTitle: "Coherence",
+        status: "CANONICAL v1.0",
+        summary: "Stable relational structure among states under evolution.",
+        text: "Coherence appears as stable phase relationships in waves, basis-dependent off-diagonal density-matrix structure in quantum systems, and persistent organized correlations or invariants in dynamical systems.",
+        falsifier: "Without specifying system, relation, metric, time window, and threshold, a coherence claim is undefined.",
+        sources: [
+          { label: "definitions/coherence.md", href: "../../definitions/coherence.md" }
+        ]
+      },
+      {
+        id: "decoherence",
+        title: "Decoherence",
+        shortTitle: "Decoherence",
+        status: "CANONICAL v1.0",
+        summary: "Environment-mediated loss of accessible coherence through uncontrolled coupling.",
+        text: "Decoherence is not a separate noise substance. It is the mechanism by which correlations with uncontrolled environmental degrees of freedom suppress accessible phase relations and stabilize classical records.",
+        falsifier: "Fails if it is treated as universal collapse, a universal rate formula, or loss of information from the global quantum state rather than loss of accessible local coherence.",
+        sources: [
+          { label: "definitions/decoherence.md", href: "../../definitions/decoherence.md" }
+        ]
+      },
+      {
+        id: "causal-velocity",
+        title: "Causal Velocity",
+        shortTitle: "Causal Velocity",
+        status: "CANONICAL v1.0",
+        summary: "The upper bound on controllable causal influence in a specified medium or theory.",
+        text: "In relativistic vacuum this bound is the local Lorentz-invariant constant c. In effective media, lower characteristic speeds may bound particular excitations without replacing the fundamental front-velocity constraint.",
+        falsifier: "Fails if controllable FTL signaling is demonstrated or local Lorentz-invariance violation is detected.",
+        sources: [
+          { label: "definitions/causal_velocity.md", href: "../../definitions/causal_velocity.md" }
+        ]
+      },
+      {
+        id: "time",
+        title: "Time",
+        shortTitle: "Time",
+        status: "CANONICAL v1.0",
+        summary: "The ordering and metric of state changes along physical histories.",
+        text: "Proper time is invariant duration along a timelike worldline. Coordinate time is a reference-frame convention for labeling events. Time is not a universal global now.",
+        falsifier: "Fails if it violates SR or GR clock comparison, introduces an undetectable preferred frame, or treats the speculative arrow/frontier language as canonical.",
+        sources: [
+          { label: "definitions/time.md", href: "../../definitions/time.md" }
+        ]
+      },
+      {
+        id: "mode",
+        title: "Mode",
+        shortTitle: "Mode",
+        status: "CANONICAL v1.0",
+        summary: "A stable, distinguishable pattern of the Medium under allowed evolution.",
+        text: "A mode is a state with persistence, boundary or normalization conditions, and identifiable behavior under propagation. Particles, waves, and bound structures can be treated as modes when these conditions hold.",
+        falsifier: "Fails if every state is treated as a mode, if localization/boundary conditions are omitted, or if Standard Model spectrum claims are smuggled in as already derived.",
+        sources: [
+          { label: "definitions/mode.md", href: "../../definitions/mode.md" }
+        ]
+      },
+      {
+        id: "energy",
+        title: "Energy",
+        shortTitle: "Energy",
+        status: "CANONICAL v1.0",
+        summary: "The conserved generator associated with time evolution of a physical system.",
+        text: "In quantum terms, energy is represented by Hamiltonian eigenvalues or expectation values. PF frequency language is bounded by standard Hamiltonian and Noether structure.",
+        falsifier: "Fails if energy is equated with information, consciousness, amplitude, or an arbitrary frequency without a Hamiltonian or conservation context.",
+        sources: [
+          { label: "definitions/energy.md", href: "../../definitions/energy.md" }
+        ]
+      },
+      {
+        id: "matter",
+        title: "Matter",
+        shortTitle: "Matter",
+        status: "CANONICAL v1.0",
+        summary: "Stable fermionic mode structures: quarks, leptons, and their composites.",
+        text: "Matter is scoped to the Standard Model matter sector and composite structures made from it. Force carriers are fields/modes, but not matter under this definition.",
+        falsifier: "Fails if it classifies all energy or all fields as matter, erases the matter/force-carrier boundary, or claims unresolved PF charge/generation derivations as canonical.",
+        sources: [
+          { label: "definitions/matter.md", href: "../../definitions/matter.md" }
+        ]
+      },
+      {
+        id: "forces",
+        title: "Forces",
+        shortTitle: "Forces",
+        status: "CANONICAL v1.0",
+        summary: "Interactions that change the motion, momentum, state, or propagation path of modes.",
+        text: "Forces are not primitive pushes. They are field-mediated or geometry-mediated interactions. Gravity/refraction language is domain-bounded; strong and weak PF mappings remain open.",
+        falsifier: "Fails if it collapses all interactions into one overbroad force claim, overstates gravity-as-refraction outside its audited domain, or treats open strong/weak mappings as solved.",
+        sources: [
+          { label: "definitions/forces.md", href: "../../definitions/forces.md" }
+        ]
+      },
+      {
+        id: "gradient",
+        title: "Gradient",
+        shortTitle: "Gradient",
+        status: "CANONICAL v1.0",
+        summary: "A position-dependent variation in a scalar, field, connection, medium property, or effective propagation structure.",
+        text: "The definition separates ordinary gradients, Levi-Civita connection terms, gauge-covariant derivatives, and PF interpretive gradients. Christoffel symbols are not simple scalar gradients.",
+        falsifier: "Fails if it overwrites standard mathematics, conflates Levi-Civita and gauge-covariant derivatives, or treats all connection coefficients as simple scalar gradients.",
+        sources: [
+          { label: "definitions/gradient.md", href: "../../definitions/gradient.md" }
+        ]
+      },
+      {
+        id: "propagation",
+        title: "Propagation",
+        shortTitle: "Propagation",
+        status: "CANONICAL v1.0",
+        summary: "Movement of distinguishable change through a Medium at or below causal velocity.",
+        text: "Propagation is formalized by bootstrap from Axiom 1, not derived from Medium after the fact. It requires distinguishable change, a Medium, and a bounded causal update relation.",
+        falsifier: "Fails if it permits controllable superluminal signaling, lacks distinguishable change, or treats mere existence of a state as propagation.",
+        sources: [
+          { label: "definitions/propagation.md", href: "../../definitions/propagation.md" }
+        ]
+      },
+      {
+        id: "observer",
+        title: "Observer",
+        shortTitle: "Observer",
+        status: "CANONICAL v1.0",
+        summary: "A physical system whose state changes through interaction with a propagation and can, in stronger cases, preserve a record.",
+        text: "Observer types separate thermodynamic interaction, structural recording, correlated propagation, and self-correlating Type 4 dynamics. Consciousness and the measurement problem remain open beyond the bounded structural definition.",
+        falsifier: "Fails if consciousness is required for ordinary observation, if Type 4 claims lack a mechanism, or if the proper-time boundary is replaced by a global now.",
+        sources: [
+          { label: "definitions/observer.md", href: "../../definitions/observer.md" }
+        ]
+      },
+      {
+        id: "information",
+        title: "Information",
+        shortTitle: "Information",
+        status: "CANONICAL v1.0",
+        summary: "Distinguishability and correlation relative to a specified reference or noise background.",
+        text: "Information is not a substance. It is physically instantiated as state distinguishability, records, and correlations. Shannon, von Neumann, and thermodynamic entropy measures are separated.",
+        falsifier: "Fails if the basis/reference is unspecified, if information is equated with energy or semantic meaning, or if PF allows Maxwell-demon erasure without thermodynamic cost.",
+        sources: [
+          { label: "definitions/information.md", href: "../../definitions/information.md" }
+        ]
+      },
+      {
+        id: "minimum-substrate",
+        title: "Minimum Substrate",
+        shortTitle: "Minimum Substrate",
+        status: "CANONICAL v1.0",
+        summary: "The minimal local quantum dynamical structure sufficient to support PF Medium roles.",
+        text: "A single qubit or qutrit can be a local fiber but cannot be the whole Medium. A local quantum dynamical net or QCA is the minimal constructive representative, while Lorentz/Poincare recovery remains open.",
+        falsifier: "Fails if a single isolated finite-dimensional Hilbert space supports all canonical PF definitions, if controllable FTL signaling appears, or if no PF-compliant substrate can recover relativistic behavior.",
+        sources: [
+          { label: "definitions/minimum_substrate.md", href: "../../definitions/minimum_substrate.md" }
+        ]
+      },
+      {
+        id: "measurement",
+        title: "Measurement",
+        shortTitle: "Measurement",
+        status: "CANONICAL v1.0",
+        summary: "Record creation through coupling, amplification, and stabilization.",
+        text: "Measurement is separated into Shannon and von Neumann regimes and bounded as a physical record-creation process. Born rule derivation and unique outcome selection remain open.",
+        falsifier: "Fails if measurement is treated as mere interaction without a stable record, if Born-rule derivation is claimed without proof, or if consciousness is inserted as a required condition.",
+        sources: [
+          { label: "definitions/measurement.md", href: "../../definitions/measurement.md" }
+        ]
+      },
+      {
+        id: "state",
+        title: "State",
+        shortTitle: "State",
+        status: "CANONICAL v1.0",
+        summary: "The specified configuration of a specified physical system in a specified representation.",
+        text: "Quantum states are density operators or vectors with a named system, basis/observable context, and boundary. Pointer states are decohered classical limits, not separate ontology.",
+        falsifier: "Fails if state is confused with trajectory, information, a bare eigenstate list, a global accessible state of the whole Medium, or an interpretation of quantum mechanics.",
+        sources: [
+          { label: "definitions/state.md", href: "../../definitions/state.md" }
+        ]
+      },
+      {
+        id: "field",
+        title: "Field",
+        shortTitle: "Field",
+        status: "CANONICAL v1.0",
+        summary: "A rule assigning physical degrees of freedom to points, regions, graph nodes, or substrate sites.",
+        text: "Fields live on or within the Medium; they are not the Medium itself. Modes are stable solutions or excitations of fields, and gauge-dependent quantities must be separated from observables.",
+        falsifier: "Fails if field, Medium, state, and mode are collapsed into one category, or if gauge-dependent variables are treated as directly observable without qualification.",
+        sources: [
+          { label: "definitions/field.md", href: "../../definitions/field.md" }
+        ]
+      },
+      {
+        id: "coupling",
+        title: "Coupling",
+        shortTitle: "Coupling",
+        status: "CANONICAL v1.0",
+        summary: "Dynamical dependence between Medium subsystems that lets state changes in one subsystem influence another.",
+        text: "Coupling is the primitive relation beneath specialized cases such as measurement, decoherence, and force-like interaction. It does not imply a universal strength formula or a record by itself.",
+        falsifier: "Fails if coupling is equated with measurement, decoherence, or force without the added conditions those cases require, or if influence is allowed outside causal-velocity bounds.",
+        sources: [
+          { label: "definitions/coupling.md", href: "../../definitions/coupling.md" }
+        ]
+      }
     ],
     results: [
       {
@@ -255,7 +487,8 @@
         confidenceHistory: [
           { date: "2026-03-28", value: 0.80 },
           { date: "2026-03-31", value: 0.85 }
-        ]
+        ],
+        hostileAudit: "[CODEX AUDIT 2026-03-31: DEMOTION TO CONDITIONAL]\n> The draft proves a useful conditional lemma inside a local 2x2 Fermi-point Hamiltonian ansatz.\n> However, it still ASSUMES rather than derives the PF order parameter.\n> It does NOT prove that the three perturbation directions are the three massive restoration modes of the PF coherence field.\n> STATUS REJECTED: DERIVED -> CONDITIONAL."
       },
       {
         id: "top-quark-limit",
@@ -345,7 +578,8 @@
         confidenceHistory: [
           { date: "2026-03-28", value: 0.85 },
           { date: "2026-03-31", value: 0.90 }
-        ]
+        ],
+        hostileAudit: "[CODEX AUDIT: CASIMIR GAP]\n> WARNING: Route B (Lagrangian) fails. Single-scalar PF Lagrangian cannot yield the polynomial.\n> WARNING: Route A Lemma 1 contradicts de Broglie wavelength.\n> SUCCESS: Axiom 3b Minimal Winding argument holds formally.\n> STATUS: DERIVED, but MS-bar scheme selection remains empirically calibrated."
       },
       {
         id: "fine-structure-alpha",
@@ -402,7 +636,8 @@
           { date: "2026-03-27", value: 0.82 },
           { date: "2026-03-31", value: 0.86 },
           { date: "2026-04-01", value: 0.88 }
-        ]
+        ],
+        hostileAudit: "[CODEX AUDIT 2026-04-14: FATAL NO-GO ON ROUTE B]\n> T^3 operator expansion yields mixed cross-terms.\n> Symmetric nearest-neighbor circulant CANNOT close without ab=0 (triviality).\n> Route B is dead. Path A (chirality) or non-diagonal rewrites are the only mathematical survivors.\n> STATUS REMAINS: CONDITIONAL."
       },
       {
         id: "qcd-confinement",
@@ -553,7 +788,7 @@
         kind: "Biology and Mind",
         scaleId: "neural",
         formula: "Interior experience is the inside view of recursive coherence",
-        summary: "The ontology is coherent inside the framework, but the repo still treats the missing operational metric as the key unresolved problem.",
+        summary: "The ontology is coherent inside the framework, but the repo still treats the missing operational metric as the key unresolved problem. Note: The exact phase-locking math ($F_C$) governing the top quark is the exact same math governing human nervous system coherence (e.g. seizures).",
         falsifier: "Pre-register a PF-specific metric and show it fails to track conscious state after controlling for report, arousal, and task effects.",
         sources: [
           { label: "CLAIMS.md", href: "../../CLAIMS.md" },
@@ -563,7 +798,12 @@
         shortTitle: "Consciousness",
         derivation: ["axiom1", "axiom3", "life-coherence"],
         axioms: [1, 3],
-        category: "biology"
+        category: "biology",
+        wrongIntuition: {
+          intuition: "Physics happens out there, consciousness happens in here.",
+          reality: "The math is identical. A human seizure is a failure of $F_C$ phase-locking. P1 companion tracks the exact same topological invariants that keep particles stable.",
+          evidencePanel: "#consciousness"
+        }
       },
       {
         id: "beauty-impedance",
@@ -640,6 +880,44 @@
         derivation: ["axiom1", "axiom2"],
         axioms: [1, 2],
         category: "open"
+      },
+      {
+        id: "nogo-harmonic-series",
+        title: "Harmonic Series of Masses",
+        status: "NO-GO",
+        confidence: 0.0,
+        kind: "Graveyard",
+        scaleId: "matter",
+        formula: "m_n = m_0 / n",
+        summary: "The first elegant hypothesis that failed the honest test. The team hoped particle masses followed a simple harmonic phase closure sequence.",
+        falsifier: "Monte Carlo simulation on the sandbox. The coefficient of variation returned 0.94, which is statistically indistinguishable from random noise.",
+        sources: [
+          { label: "sandbox_results.md", href: "../../sandbox_results.md" }
+        ],
+        shortTitle: "Harmonic Series",
+        derivation: [],
+        axioms: [],
+        category: "graveyard",
+        hostileAudit: "[CODEX AUDIT: FATAL DEMOTION]\n> BEAUTIFUL BUT WRONG.\n> The Monte Carlo run over PDG data explicitly rejects the harmonic sequence.\n> Do not mistake elegance for empirical reality. This path is dead."
+      },
+      {
+        id: "nogo-single-scalar",
+        title: "Single-Scalar PF Lagrangian",
+        status: "NO-GO",
+        confidence: 0.0,
+        kind: "Graveyard",
+        scaleId: "molecular",
+        formula: "L_prop = 1/2 (partial chi)^2 - V(chi)",
+        summary: "Attempted to derive the Casimir polynomial and Weinberg angle from a purely single-scalar field action.",
+        falsifier: "Mathematical impossibility. A single scalar cannot yield the required topological crossing term C2.",
+        sources: [
+          { label: "derivations/propagation_lagrangian.md", href: "../../derivations/propagation_lagrangian.md" }
+        ],
+        shortTitle: "Single-Scalar Lagr",
+        derivation: [],
+        axioms: [],
+        category: "graveyard",
+        hostileAudit: "[CODEX AUDIT: NO-GO ON ROUTE B]\n> You cannot pull a vector-like rotational eigenvalue (C2) from a pure single-component scalar trace without explicit cross-sector coupling.\n> Route B is mathematically dead."
       }
     ]
   };

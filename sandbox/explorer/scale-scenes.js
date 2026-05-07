@@ -96,223 +96,139 @@
         });
       },
 
-      deactivate: clearScene
+      getSharedElements: function () {
+        return _activeObjects.slice(0, 8);
+      },
+
+      getLODLevel: function () {
+        return 1;
+      },
+
+      prepare: function (lodSettings) {
+        if (lodSettings) {
+          console.log('[QuantumFoamScene] Preparing with LOD:', lodSettings);
+        }
+      },
+
+      deactivate: clearScene,
+      dispose: clearScene
     },
 
-    gut: {
+    proton: {
       activate: function (scene, camera) {
         _scene = scene;
         _camera = camera;
-        var mat = window.PropagationShaders.createWaveFieldMaterial({
-          scale: 0.8,
-          decay: 0.4,
-          color1: 0x9b59b6,
-          color2: 0x7b2cbf,
-          bgColor: 0x020408
-        });
-        var geo = new THREE.PlaneGeometry(18, 12);
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(6, metersToY(1e-25), 0);
-        track(mesh, mat);
-        scene.add(mesh);
-        addScaleLabel(scene, 'GUT Scale — 10⁻²⁵ m', mesh.position, 0x9b59b6);
-      },
+        var pos = new THREE.Vector3(5, metersToY(1e-15), 0);
 
-      update: function (dt, time) {
-        _activeMaterials.forEach(function (m) {
-          if (m.uniforms && m.uniforms.uTime) m.uniforms.uTime.value = time;
-        });
-      },
-
-      deactivate: clearScene
-    },
-
-    matter: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-
-        // Central helix — standing wave = mass
-        var helixGeo = window.PropagationShaders.createHelixRibbonGeometry(1.8, 8, 3, 0.12);
-        var helixMat = new THREE.MeshStandardMaterial({
-          color: 0x00e5ff,
-          emissive: 0x00e5ff,
-          emissiveIntensity: 0.55,
-          metalness: 0.7,
-          roughness: 0.25,
+        // Central proton glow
+        var coreGeo = new THREE.SphereGeometry(1.2, 32, 32);
+        var coreMat = new THREE.MeshStandardMaterial({
+          color: 0x00b4d8,
+          emissive: 0x00b4d8,
+          emissiveIntensity: 0.6,
           transparent: true,
-          opacity: 0.9
+          opacity: 0.8
         });
-        var helix = new THREE.Mesh(helixGeo, helixMat);
-        helix.position.set(5, metersToY(1.145e-18) - 2, 0);
-        track(helix, helixMat);
-        scene.add(helix);
+        var core = new THREE.Mesh(coreGeo, coreMat);
+        core.position.copy(pos);
+        track(core, coreMat);
+        scene.add(core);
 
-        // Coherence shell
-        var shellGeo = new THREE.SphereGeometry(2.8, 48, 48);
+        // Three quarks (up, up, down) in triangular arrangement
+        var quarkColors = [0xff6b6b, 0x69ff94, 0x4488ff];
+        var quarkPositions = [
+          new THREE.Vector3(0, 1.8, 0),
+          new THREE.Vector3(1.56, -0.9, 0),
+          new THREE.Vector3(-1.56, -0.9, 1.2)
+        ];
+        quarkPositions.forEach(function (offset, i) {
+          var qGeo = new THREE.SphereGeometry(0.35, 24, 24);
+          var qMat = new THREE.MeshStandardMaterial({
+            color: quarkColors[i],
+            emissive: quarkColors[i],
+            emissiveIntensity: 0.7
+          });
+          var quark = new THREE.Mesh(qGeo, qMat);
+          quark.position.copy(pos).add(offset);
+          quark.userData.baseOffset = offset.clone();
+          quark.userData.phase = i * Math.PI * 2 / 3;
+          track(quark, qMat);
+          scene.add(quark);
+
+          // Gluon field line to center
+          var lineGeo = new THREE.CylinderGeometry(0.03, 0.03, offset.length(), 8);
+          var lineMat = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+          });
+          var line = new THREE.Mesh(lineGeo, lineMat);
+          line.position.copy(pos).add(offset.clone().multiplyScalar(0.5));
+          line.lookAt(pos.clone().add(offset));
+          line.rotateX(Math.PI / 2);
+          line.userData.quarkIndex = i;
+          track(line, lineMat);
+          scene.add(line);
+        });
+
+        // Confinement field shell
+        var shellGeo = new THREE.SphereGeometry(2.5, 48, 48);
         var shellMat = window.PropagationShaders.createFieldDensityMaterial({
-          density: 0.4,
-          coherence: 0.75,
-          fieldColor: 0x00e5ff,
-          cohColor: 0x69ff94,
+          density: 0.5,
+          coherence: 0.8,
+          fieldColor: 0x00b4d8,
+          cohColor: 0x00e5ff,
           bgColor: 0x020408
         });
         var shell = new THREE.Mesh(shellGeo, shellMat);
-        shell.position.copy(helix.position);
+        shell.position.copy(pos);
         track(shell, shellMat);
         scene.add(shell);
 
-        // Orbital electron indicator
-        var orbGeo = new THREE.TorusGeometry(3.6, 0.06, 8, 64);
-        var orbMat = new THREE.MeshStandardMaterial({
-          color: 0x00e5ff,
-          emissive: 0x00e5ff,
-          emissiveIntensity: 0.3,
-          transparent: true,
-          opacity: 0.4
-        });
-        var orb = new THREE.Mesh(orbGeo, orbMat);
-        orb.position.copy(helix.position);
-        orb.rotation.x = Math.PI / 4;
-        track(orb, orbMat);
-        scene.add(orb);
-
-        addScaleLabel(scene, 'Matter Scale — 10⁻¹⁸ m', helix.position, 0x00e5ff);
+        addScaleLabel(scene, 'Proton Scale — 10⁻¹⁵ m', pos, 0x00b4d8);
       },
 
       update: function (dt, time) {
         _activeMaterials.forEach(function (m) {
           if (m.uniforms && m.uniforms.uTime) m.uniforms.uTime.value = time;
         });
+        // Orbit quarks around center
         _activeObjects.forEach(function (o) {
-          if (o.geometry && o.geometry.type === 'TorusGeometry') {
-            o.rotation.z += dt * 0.3;
-          }
-          if (o.geometry && o.geometry.type === 'TubeGeometry') {
-            o.rotation.y += dt * 0.15;
-          }
-        });
-      },
-
-      deactivate: clearScene
-    },
-
-    atomic: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-        var mat = window.PropagationShaders.createWaveFieldMaterial({
-          scale: 1.2,
-          decay: 0.35,
-          color1: 0x0077b6,
-          color2: 0x00e5ff,
-          bgColor: 0x020408
-        });
-        var geo = new THREE.PlaneGeometry(20, 14);
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(6, metersToY(1e-10), 0);
-        track(mesh, mat);
-        scene.add(mesh);
-
-        // Bohr orbit rings
-        var radii = [3, 5, 7];
-        radii.forEach(function (r, i) {
-          var orbGeo = new THREE.TorusGeometry(r, 0.07, 8, 64);
-          var orbMat = new THREE.MeshStandardMaterial({
-            color: 0x0077b6,
-            emissive: 0x0077b6,
-            emissiveIntensity: 0.25,
-            transparent: true,
-            opacity: 0.4 - i * 0.1
-          });
-          var orb = new THREE.Mesh(orbGeo, orbMat);
-          orb.position.set(mesh.position.x, mesh.position.y, mesh.position.z);
-          orb.rotation.x = Math.PI / 2 + (i - 1) * 0.3;
-          track(orb, orbMat);
-          scene.add(orb);
-        });
-        addScaleLabel(scene, 'Atomic Scale — 10⁻¹⁰ m', mesh.position, 0x0077b6);
-      },
-
-      update: function (dt, time) {
-        _activeMaterials.forEach(function (m) {
-          if (m.uniforms && m.uniforms.uTime) m.uniforms.uTime.value = time;
-        });
-        _activeObjects.forEach(function (o) {
-          if (o.geometry && o.geometry.type === 'TorusGeometry') {
-            o.rotation.z += dt * (0.2 + o.geometry.parameters.tube * 0.02);
+          if (o.userData.baseOffset) {
+            var speed = 2.0;
+            var angle = time * speed + o.userData.phase;
+            var radius = 1.5;
+            o.position.x = _activeObjects[0].position.x + Math.cos(angle) * radius;
+            o.position.z = _activeObjects[0].position.z + Math.sin(angle) * radius;
           }
         });
       },
 
-      deactivate: clearScene
-    },
+      getSharedElements: function () {
+        return _activeObjects.slice(0, 4);
+      },
 
-    molecular: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-        var mat = window.PropagationShaders.createWaveFieldMaterial({
-          scale: 0.9,
-          decay: 0.28,
-          color1: 0x48cae4,
-          color2: 0x69ff94,
-          bgColor: 0x020408
-        });
-        var geo = new THREE.PlaneGeometry(18, 12);
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(6, metersToY(1e-9), 0);
-        track(mesh, mat);
-        scene.add(mesh);
+      getLODLevel: function () {
+        return 0;
+      },
 
-        // Bond lines between nodes
-        var nodes = [
-          new THREE.Vector3(-3, 0, 0),
-          new THREE.Vector3(0, 2, 0),
-          new THREE.Vector3(3, 0, 0),
-          new THREE.Vector3(0, -2, 0)
-        ];
-        for (var i = 0; i < nodes.length; i++) {
-          var next = nodes[(i + 1) % nodes.length];
-          var mid = new THREE.Vector3().addVectors(nodes[i], next).multiplyScalar(0.5);
-          var bondGeo = new THREE.CylinderGeometry(0.05, 0.05, nodes[i].distanceTo(next), 8);
-          var bondMat = new THREE.MeshStandardMaterial({
-            color: 0x48cae4,
-            emissive: 0x48cae4,
-            emissiveIntensity: 0.3,
-            transparent: true,
-            opacity: 0.6
-          });
-          var bond = new THREE.Mesh(bondGeo, bondMat);
-          bond.position.copy(mesh.position).add(mid);
-          bond.lookAt(mesh.position.clone().add(nodes[i]).add(nodes[(i + 1) % 4]));
-          bond.rotateX(Math.PI / 2);
-          track(bond, bondMat);
-          scene.add(bond);
-
-          // Node spheres
-          var nodeGeo = new THREE.SphereGeometry(0.3, 16, 16);
-          var nodeMat = new THREE.MeshStandardMaterial({
-            color: 0x69ff94,
-            emissive: 0x69ff94,
-            emissiveIntensity: 0.5
-          });
-          var node = new THREE.Mesh(nodeGeo, nodeMat);
-          node.position.copy(mesh.position).add(nodes[i]);
-          track(node, nodeMat);
-          scene.add(node);
+      prepare: function (lodSettings) {
+        if (lodSettings) {
+          console.log('[ProtonScene] Preparing with LOD:', lodSettings);
         }
-        addScaleLabel(scene, 'Molecular Scale — 10⁻⁹ m', mesh.position, 0x48cae4);
       },
 
-      update: function (dt, time) {
-        _activeMaterials.forEach(function (m) {
-          if (m.uniforms && m.uniforms.uTime) m.uniforms.uTime.value = time;
-        });
-      },
-
-      deactivate: clearScene
+      deactivate: clearScene,
+      dispose: clearScene
     },
+
+    gut: window.GUTScene || null,
+
+    matter: window.ComptonScene || null,
+
+    atomic: window.AtomicScene || null,
+
+    molecular: window.MolecularScene || null,
 
     virus: {
       activate: function (scene, camera) {
@@ -378,62 +294,25 @@
         });
       },
 
-      deactivate: clearScene
-    },
-
-    cellular: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-        var geo = new THREE.SphereGeometry(6, 48, 48);
-        var mat = window.PropagationShaders.createFieldDensityMaterial({
-          density: 0.55,
-          coherence: 0.7,
-          fieldColor: 0x80ed99,
-          cohColor: 0x69ff94,
-          bgColor: 0x020408
-        });
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(5, metersToY(1e-5), 0);
-        track(mesh, mat);
-        scene.add(mesh);
-
-        // Cytoskeleton filaments
-        for (var f = 0; f < 8; f++) {
-          var curve = new THREE.CatmullRomCurve3([
-            mesh.position.clone(),
-            new THREE.Vector3(
-              mesh.position.x + (Math.random() - 0.5) * 8,
-              mesh.position.y + (Math.random() - 0.5) * 8,
-              mesh.position.z + (Math.random() - 0.5) * 8
-            )
-          ]);
-          var filGeo = new THREE.TubeGeometry(curve, 20, 0.08, 8, false);
-          var filMat = new THREE.MeshStandardMaterial({
-            color: 0x80ed99,
-            emissive: 0x80ed99,
-            emissiveIntensity: 0.3,
-            transparent: true,
-            opacity: 0.6
-          });
-          var fil = new THREE.Mesh(filGeo, filMat);
-          track(fil, filMat);
-          scene.add(fil);
-        }
-        addScaleLabel(scene, 'Cellular Scale — 10⁻⁵ m', mesh.position, 0x80ed99);
+      getSharedElements: function () {
+        return _activeObjects.slice(0, 5);
       },
 
-      update: function (dt, time) {
-        _activeMaterials.forEach(function (m) {
-          if (m.uniforms && m.uniforms.uTime) m.uniforms.uTime.value = time;
-        });
-        if (_activeObjects[0]) {
-          _activeObjects[0].rotation.y += dt * 0.06;
+      getLODLevel: function () {
+        return 1;
+      },
+
+      prepare: function (lodSettings) {
+        if (lodSettings) {
+          console.log('[VirusScene] Preparing with LOD:', lodSettings);
         }
       },
 
-      deactivate: clearScene
+      deactivate: clearScene,
+      dispose: clearScene
     },
+
+    cellular: window.CellularScene || null,
 
     neural: {
       activate: function (scene, camera) {
@@ -487,121 +366,27 @@
         });
       },
 
-      deactivate: clearScene
+      getSharedElements: function () {
+        return _activeObjects.slice(0, 6);
+      },
+
+      getLODLevel: function () {
+        return 1;
+      },
+
+      prepare: function (lodSettings) {
+        if (lodSettings) {
+          console.log('[NeuralScene] Preparing with LOD:', lodSettings);
+        }
+      },
+
+      deactivate: clearScene,
+      dispose: clearScene
     },
 
-    human: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-        // Simple human silhouette (torso approximation)
-        var torsoGeo = new THREE.CapsuleGeometry(1.2, 3, 8, 16);
-        var torsoMat = new THREE.MeshStandardMaterial({
-          color: 0xffb347,
-          emissive: 0xffb347,
-          emissiveIntensity: 0.15,
-          metalness: 0.3,
-          roughness: 0.6,
-          transparent: true,
-          opacity: 0.8
-        });
-        var torso = new THREE.Mesh(torsoGeo, torsoMat);
-        torso.position.set(5, metersToY(1), 0);
-        track(torso, torsoMat);
-        scene.add(torso);
+    human: window.HumanScene || null,
 
-        // Head
-        var headGeo = new THREE.SphereGeometry(0.9, 24, 24);
-        var head = new THREE.Mesh(headGeo, torsoMat);
-        head.position.set(5, metersToY(1) + 2.8, 0);
-        track(head, torsoMat);
-        scene.add(head);
-
-        // Torus for 2/3 ratio symbol
-        var ratioGeo = new THREE.TorusGeometry(0.5, 0.08, 8, 32);
-        var ratioMat = new THREE.MeshStandardMaterial({
-          color: 0xffb347,
-          emissive: 0xffb347,
-          emissiveIntensity: 0.5,
-          transparent: true,
-          opacity: 0.7
-        });
-        var ratio = new THREE.Mesh(ratioGeo, ratioMat);
-        ratio.position.set(8, metersToY(1), 0);
-        track(ratio, ratioMat);
-        scene.add(ratio);
-
-        addScaleLabel(scene, 'Human Scale — 10⁰ m', torso.position, 0xffb347);
-      },
-
-      update: function (dt, time) {
-        _activeObjects.forEach(function (o) {
-          if (o.geometry && o.geometry.type === 'TorusGeometry') {
-            o.rotation.x += dt * 0.4;
-            o.rotation.y += dt * 0.3;
-          }
-        });
-      },
-
-      deactivate: clearScene
-    },
-
-    planetary: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
-        // Planet sphere
-        var geo = new THREE.SphereGeometry(5, 48, 48);
-        var mat = new THREE.MeshStandardMaterial({
-          color: 0xff9f43,
-          emissive: 0xff9f43,
-          emissiveIntensity: 0.2,
-          metalness: 0.4,
-          roughness: 0.55
-        });
-        var mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(5, metersToY(1e11), 0);
-        track(mesh, mat);
-        scene.add(mesh);
-
-        // Atmosphere glow
-        var atmGeo = new THREE.SphereGeometry(5.6, 48, 48);
-        var atmMat = new THREE.MeshBasicMaterial({
-          color: 0xff9f43,
-          transparent: true,
-          opacity: 0.08,
-          side: THREE.BackSide
-        });
-        var atm = new THREE.Mesh(atmGeo, atmMat);
-        atm.position.copy(mesh.position);
-        track(atm, atmMat);
-        scene.add(atm);
-
-        // Orbit path
-        var orbGeo = new THREE.TorusGeometry(9, 0.06, 8, 64);
-        var orbMat = new THREE.MeshStandardMaterial({
-          color: 0xff9f43,
-          emissive: 0xff9f43,
-          emissiveIntensity: 0.2,
-          transparent: true,
-          opacity: 0.3
-        });
-        var orb = new THREE.Mesh(orbGeo, orbMat);
-        orb.position.copy(mesh.position);
-        orb.rotation.x = Math.PI / 3;
-        track(orb, orbMat);
-        scene.add(orb);
-
-      addScaleLabel(scene, 'Planetary Scale — 10⁷ m', mesh.position, 0xff9f43);
-      },
-
-      update: function (dt, time) {
-        if (_activeObjects[0]) _activeObjects[0].rotation.y += dt * 0.05;
-        if (_activeObjects[1]) _activeObjects[1].rotation.z += dt * 0.02;
-      },
-
-      deactivate: clearScene
-    },
+    planetary: window.PlanetaryScene || null,
 
     stellar: {
       activate: function (scene, camera) {
@@ -642,77 +427,33 @@
         }
       },
 
-      deactivate: clearScene
-    },
+      getSharedElements: function () {
+        return _activeObjects.slice(0, 2);
+      },
 
-    galactic: {
-      activate: function (scene, camera) {
-        _scene = scene;
-        _camera = camera;
+      getLODLevel: function () {
+        return 2;
+      },
 
-        // Spiral galaxy (simplified)
-        var spiralArms = 2;
-        var armCount = 200;
-        var positions = new Float32Array(armCount * 3);
-        for (var a = 0; a < spiralArms; a++) {
-          var offset = (a / spiralArms) * Math.PI * 2;
-          for (var i = 0; i < armCount / spiralArms; i++) {
-            var t = i / (armCount / spiralArms);
-            var r = 1 + t * 10;
-            var angle = offset + t * Math.PI * 2.5;
-            var idx = (a * armCount / spiralArms + i) * 3;
-            positions[idx] = r * Math.cos(angle);
-            positions[idx + 1] = (Math.random() - 0.5) * 0.8;
-            positions[idx + 2] = r * Math.sin(angle);
-          }
+      prepare: function (lodSettings) {
+        if (lodSettings) {
+          console.log('[StellarScene] Preparing with LOD:', lodSettings);
         }
-        var pGeo = new THREE.BufferGeometry();
-        pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        var pMat = new THREE.PointsMaterial({
-          color: 0x7c5cbf,
-          size: 0.25,
-          transparent: true,
-          opacity: 0.8
-        });
-        var galaxy = new THREE.Points(pGeo, pMat);
-        galaxy.position.set(5, metersToY(1e21), 0);
-        galaxy.userData.rotSpeed = 0.04;
-        track(galaxy, pMat);
-        scene.add(galaxy);
-
-        // Central bulge
-        var bulgeGeo = new THREE.SphereGeometry(1.5, 24, 24);
-        var bulgeMat = new THREE.MeshStandardMaterial({
-          color: 0xffdd55,
-          emissive: 0xffdd55,
-          emissiveIntensity: 0.6,
-          transparent: true,
-          opacity: 0.7
-        });
-        var bulge = new THREE.Mesh(bulgeGeo, bulgeMat);
-        bulge.position.copy(galaxy.position);
-        track(bulge, bulgeMat);
-        scene.add(bulge);
-
-        addScaleLabel(scene, 'Galactic Scale — 10²¹ m', galaxy.position, 0x7c5cbf);
       },
 
-      update: function (dt, time) {
-        _activeObjects.forEach(function (o) {
-          if (o.userData.rotSpeed) {
-            o.rotation.y += dt * o.userData.rotSpeed;
-          }
-        });
-      },
-
-      deactivate: clearScene
+      deactivate: clearScene,
+      dispose: clearScene
     },
+
+    galactic: window.GalacticScene || null,
+
+    nuclear: window.NuclearScene || null,
 
     cosmic: window.CosmicScene || null,
   };
 
   // Scales with no custom scene use the default node only
-  var noCustomScene = ['proton', 'nuclear'];
+  var noCustomScene = [];
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Propagation Framework Explorer">
+  <rect width="1200" height="630" fill="#0a0a1a"/>
+  <circle cx="310" cy="315" r="110" fill="none" stroke="#00cfff" stroke-width="10"/>
+  <circle cx="600" cy="315" r="145" fill="none" stroke="#44ff88" stroke-width="10"/>
+  <circle cx="890" cy="315" r="110" fill="none" stroke="#ffdd55" stroke-width="10"/>
+  <path d="M420 315H490M710 315H780" stroke="#e8f0ff" stroke-width="8" stroke-linecap="round"/>
+  <text x="600" y="520" text-anchor="middle" fill="#e8f0ff" font-family="Georgia, serif" font-size="56">PF Explorer</text>
+  <text x="600" y="570" text-anchor="middle" fill="#99a8c7" font-family="Arial, sans-serif" font-size="28">Audited physics definitions and claims</text>
+</svg>

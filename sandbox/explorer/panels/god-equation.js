@@ -378,12 +378,12 @@
         ctx.app.renderWrongIntuition(ctx.app.getResult('god-equation')) +
         '<div class="control-group">' +
           '<label for="godN">Generations N</label>' +
-          '<input id="godN" type="range" min="1" max="5" step="1" value="' + state.nValue + '">' +
+          '<input id="godN" class="premium-slider" type="range" min="1" max="5" step="1" value="' + state.nValue + '">' +
           '<output id="godNOut">N = ' + state.nValue + (state.nValue === 3 ? ' ← PF target' : '') + '</output>' +
         '</div>' +
         '<div class="control-group">' +
           '<label for="godD">Spatial dimensions D</label>' +
-          '<input id="godD" type="range" min="1" max="5" step="1" value="' + state.dValue + '">' +
+          '<input id="godD" class="premium-slider" type="range" min="1" max="5" step="1" value="' + state.dValue + '">' +
           '<output id="godDOut">D = ' + state.dValue + (state.dValue === 3 ? ' ← physical' : '') + '</output>' +
         '</div>' +
         '<div class="formula">lambda_c = sqrt(2) l_P exp(4 pi^2 N^(D/2) / b0),  b0 = (22 - 2N) / 3</div>' +

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Propagation Framework Explorer">
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="45%" r="65%">
+      <stop offset="0" stop-color="#00cfff" stop-opacity="0.35"/>
+      <stop offset="0.55" stop-color="#44ff88" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#0a0a1a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#00cfff"/>
+      <stop offset="0.55" stop-color="#44ff88"/>
+      <stop offset="1" stop-color="#ffdd55"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a1a"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <g fill="none" stroke="url(#line)" stroke-width="8" stroke-linecap="round" opacity="0.95">
+    <circle cx="310" cy="315" r="96"/>
+    <circle cx="600" cy="315" r="132"/>
+    <circle cx="890" cy="315" r="96"/>
+    <path d="M406 315H468M732 315H794"/>
+    <path d="M520 228C580 178 672 186 724 248"/>
+    <path d="M520 402C580 452 672 444 724 382"/>
+  </g>
+  <text x="600" y="520" text-anchor="middle" fill="#e8f0ff" font-family="Georgia, serif" font-size="56">Propagation Framework Explorer</text>
+  <text x="600" y="570" text-anchor="middle" fill="#99a8c7" font-family="Arial, sans-serif" font-size="26">19 canonical definitions, audited claims, and interactive derivation maps</text>
+</svg>

@@ -56,7 +56,7 @@
         "</div>" +
         ctx.app.renderWrongIntuition(ctx.app.getResult('weinberg-angle')) +
         "<div class=\"formula\">x^2 + C2 x - C2 = 0, then 1 - x_+(1/2) / x_+(1)</div>" +
-        PFExplorer.compareBarHtml(prediction, reference, error, 0.2222, 0.2238) +
+        ctx.app.compareBarHtml(prediction, reference, error, 0.2222, 0.2238) +
         "<div class=\"metric-row\">" +
           "<span class=\"metric-pill\">prediction = " + prediction.toFixed(5) + "</span>" +
           "<span class=\"metric-pill\">quoted PDG on-shell = 0.22337</span>" +

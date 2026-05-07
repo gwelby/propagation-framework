@@ -17,7 +17,7 @@
 (function () {
   'use strict';
 
-  const LOG_MIN = Math.log10(1.616e-35);
+  const LOG_MIN = -40;
   const LOG_MAX = 26;
   const LOG_RANGE = LOG_MAX - LOG_MIN;
   const BEAM_LENGTH = 100;
@@ -27,6 +27,7 @@
   }
 
   const SCALE_DEFAULTS = [
+    { id: 'axiomatic-root',label: 'Axiomatic Root', meters: 1e-40, color: 0xff0055, hex: '#ff0055' },
     { id: 'planck',      label: 'Planck',      meters: 1.616e-35, color: 0xffd700, hex: '#ffd700' },
     { id: 'quantum-foam',label: 'Quantum Foam', meters: 1e-33,      color: 0xd4a017, hex: '#d4a017' },
     { id: 'gut',         label: 'GUT',          meters: 1e-25,      color: 0x9b59b6, hex: '#9b59b6' },
@@ -51,6 +52,7 @@
   let _scaleRingMeshes = [];
   let _centralBeam;
   let _particles;
+  let _mediumLayer;
   let _clock;
   let _container;
   let _currentScaleId = 'matter';
@@ -127,13 +129,59 @@
         roughness: 0.5
       });
       const mesh = new THREE.Mesh(geo, mat);
+
+      // Human Anchor Highlight
+      if (scale.id === 'human') {
+        mat.emissiveIntensity = 0.8;
+        const auraGeo = new THREE.SphereGeometry(radius + 1.2, 32, 32);
+        const auraMat = new THREE.MeshBasicMaterial({ color: scale.color, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
+        const aura = new THREE.Mesh(auraGeo, auraMat);
+        mesh.add(aura);
+        mesh.userData.isHumanAnchor = true;
+      }
+
+      // Graveyard (NO-GO) visual integration — use audited PFClaimsData layer
+      var hasNoGo = false;
+      (function () {
+        var pfc = window.PFClaimsData;
+        if (!pfc) return;
+        // Check if any SCALE_ANCHOR for this scale has a claim that is NO-GO,
+        // OR if any NOGO entry has a target scaleId matching this node.
+        var anchors = pfc.SCALE_ANCHORS || [];
+        var anchor = anchors.find(function (a) {
+          // Match by approximate log₁₀ distance: find anchors near this scale
+          return Math.abs(Math.log10(scale.meters) - Math.log10(a.meters)) < 1.5;
+        });
+        if (anchor && anchor.claims) {
+          var claims = pfc.CLAIMS || [];
+          var nogos  = pfc.NOGOS  || [];
+          // Check if any claim at this anchor is NO-GO status
+          anchor.claims.forEach(function (cid) {
+            var c = claims.find(function (x) { return x.id === cid; });
+            if (c && c.status && c.status.label === 'NO-GO') hasNoGo = true;
+          });
+          // Also flag if any NO-GO route targets a claim anchored here
+          anchor.claims.forEach(function (cid) {
+            var n = nogos.find(function (x) { return x.target === cid; });
+            if (n) hasNoGo = true; // Amber warning: has at least one failed route
+          });
+        }
+      }());
+      if (hasNoGo) {
+        mat.wireframe = true;
+        mat.color.setHex(0xff4757); // Scar Tissue Red
+        mat.emissive.setHex(0xff4757);
+        mat.emissiveIntensity = 0.5;
+        mat.transparent = true;
+        mat.opacity = 0.6;
+        mesh.userData.isGraveyard = true;
+      }
+
       mesh.position.set(0, y, 0);
-      mesh.userData = {
-        scaleId: scale.id,
-        scaleIndex: index,
-        baseScale: scale,
-        radius: radius
-      };
+      mesh.userData.scaleId = scale.id;
+      mesh.userData.scaleIndex = index;
+      mesh.userData.baseScale = scale;
+      mesh.userData.radius = radius;
       _scene.add(mesh);
       _scaleMeshes.push(mesh);
 
@@ -187,20 +235,54 @@
     });
     _particles = new THREE.Points(pGeo, pMat);
     _scene.add(_particles);
+
+    // Medium Layer (Quantum Foam background)
+    const foamGeo = new THREE.BufferGeometry();
+    const foamCount = 2000;
+    const foamPos = new Float32Array(foamCount * 3);
+    for (let i = 0; i < foamCount; i++) {
+      foamPos[i * 3]     = (Math.random() - 0.5) * 200;
+      foamPos[i * 3 + 1] = Math.random() * (BEAM_LENGTH + 20) - 10;
+      foamPos[i * 3 + 2] = (Math.random() - 0.5) * 200;
+    }
+    foamGeo.setAttribute('position', new THREE.BufferAttribute(foamPos, 3));
+    const foamMat = new THREE.PointsMaterial({
+      color: 0x8800ff,
+      size: 0.35,
+      transparent: true,
+      opacity: 0.15,
+      blending: THREE.AdditiveBlending
+    });
+    _mediumLayer = new THREE.Points(foamGeo, foamMat);
+    _mediumLayer.visible = false; // toggled via API
+    _scene.add(_mediumLayer);
   }
 
   function buildLabels() {
+    // Rightmost scales that need LEFT-side labels to avoid info panel
+    var leftSideIndices = [12, 13, 14, 15]; // planetary, stellar, galactic, cosmic
+
     SCALE_DEFAULTS.forEach(function (scale, index) {
       const y = metersToY(scale.meters);
-      const label = makeLabel(scale.label, scale.hex);
       const r = _scaleMeshes[index].userData.radius;
-      label.position.set(r + 3, y, 0);
+
+      // Position: right side for most, left side for top scales
+      var isLeftSide = leftSideIndices.indexOf(index) >= 0;
+      var xOffset = isLeftSide ? -(r + 3) : (r + 3);
+
+      const label = makeLabel(scale.label, scale.hex, isLeftSide);
+      label.position.set(xOffset, y, 0);
+
+      // Store original position for reference
+      label.userData.baseX = xOffset;
+      label.userData.baseY = y;
+
       _scene.add(label);
       _scaleLabels.push(label);
     });
   }
 
-  function makeLabel(text, colorHex) {
+  function makeLabel(text, colorHex, alignRight) {
     const canvas = document.createElement('canvas');
     canvas.width = 320;
     canvas.height = 72;
@@ -208,13 +290,15 @@
     ctx.clearRect(0, 0, 320, 72);
     ctx.font = 'bold 26px DM Sans, sans-serif';
     ctx.fillStyle = colorHex;
-    ctx.textAlign = 'left';
+    // For left-side labels, align right so text extends away from the node
+    ctx.textAlign = alignRight ? 'right' : 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, 8, 36);
+    ctx.fillText(text, alignRight ? 312 : 8, 36);
     const tex = new THREE.CanvasTexture(canvas);
     const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.92 });
     const sprite = new THREE.Sprite(mat);
     sprite.scale.set(14, 3.2, 1);
+    sprite.center.set(alignRight ? 1 : 0, 0.5);
     return sprite;
   }
 
@@ -257,6 +341,25 @@
     _scaleLabels.forEach(function (l) { l.visible = visible; });
   }
 
+  // Update label visibility based on camera distance — hide distant labels
+  function updateLabelVisibility(cameraY) {
+    if (!_showLabels) return;
+    const VISIBILITY_RANGE = 12; // Reduced range to prevent overlap
+    _scaleLabels.forEach(function (label, i) {
+      const labelY = label.position.y;
+      const distance = Math.abs(labelY - cameraY);
+      // Fade out distant labels
+      if (distance < VISIBILITY_RANGE) {
+        label.visible = true;
+        // Quadratic fade down to 0 for smoother transitions
+        const opacity = 1 - Math.pow(distance / VISIBILITY_RANGE, 2);
+        label.material.opacity = Math.max(0.0, opacity * 0.92);
+      } else {
+        label.visible = false;
+      }
+    });
+  }
+
   // ── Public API ────────────────────────────────────────────────────────────
 
   window.ScaleEngine = {
@@ -270,7 +373,17 @@
       _clock = new THREE.Clock();
       _scene = new THREE.Scene();
       _scene.background = new THREE.Color(0x020408);
-      _scene.fog = new THREE.FogExp2(0x020408, 0.002);  // Reduced density for visibility
+
+      // Get device performance profile for quality settings
+      var perfProfile = window.PerformanceEngine ? window.PerformanceEngine.DeviceProfile : null;
+      var pixelRatio = perfProfile ? perfProfile.pixelRatio : Math.min(window.devicePixelRatio, 2);
+      var enableBloom = perfProfile ? perfProfile.enableBloom : true;
+      var enableShadows = perfProfile ? perfProfile.enableShadows : true;
+      var shaderQuality = perfProfile ? perfProfile.shaderQuality : 'full';
+
+      // Adjust fog density based on tier
+      var fogDensity = perfProfile && perfProfile.tier === 'low' ? 0.005 : 0.002;
+      _scene.fog = new THREE.FogExp2(0x020408, fogDensity);
 
       _camera = new THREE.PerspectiveCamera(
         48,
@@ -280,10 +393,22 @@
       _camera.position.set(0, metersToY(1e-18), 55);
       _camera.lookAt(0, metersToY(1e-18), 0);
 
-      _renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-      _renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      _renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      _renderer.toneMappingExposure = 1.1;
+      _renderer = new THREE.WebGLRenderer({
+        antialias: perfProfile ? perfProfile.tier !== 'low' : true,
+        alpha: true,
+        powerPreference: perfProfile && perfProfile.tier === 'low' ? 'low-power' : 'high-performance'
+      });
+      _renderer.setPixelRatio(pixelRatio);
+      _renderer.setClearColor(0x020408, 1);
+
+      // Tone mapping only on capable devices
+      if (shaderQuality !== 'low') {
+        _renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        _renderer.toneMappingExposure = 1.1;
+      } else {
+        _renderer.toneMapping = THREE.NoToneMapping;
+      }
+
       if (_container) {
         _renderer.setSize(_container.clientWidth, _container.clientHeight);
         _container.appendChild(_renderer.domElement);
@@ -322,30 +447,52 @@
       rim.position.set(30, 70, 30);
       _scene.add(rim);
 
-      // Bloom post-processing
-      try {
-        var EffectComposerCtor = getThreeAddon('EffectComposer');
-        var RenderPassCtor = getThreeAddon('RenderPass');
-        var UnrealBloomPassCtor = getThreeAddon('UnrealBloomPass');
-        if (!EffectComposerCtor || !RenderPassCtor || !UnrealBloomPassCtor) {
-          throw new Error('Post-processing addons not available');
+      // Bloom post-processing (conditional based on device tier)
+      if (enableBloom && shaderQuality !== 'low') {
+        try {
+          var EffectComposerCtor = getThreeAddon('EffectComposer');
+          var RenderPassCtor = getThreeAddon('RenderPass');
+          var UnrealBloomPassCtor = getThreeAddon('UnrealBloomPass');
+          if (!EffectComposerCtor || !RenderPassCtor || !UnrealBloomPassCtor) {
+            throw new Error('Post-processing addons not available');
+          }
+          _composer = new EffectComposerCtor(_renderer);
+          _composer.addPass(new RenderPassCtor(_scene, _camera));
+
+          // Adjust bloom quality based on tier
+          var bloomStrength = shaderQuality === 'medium' ? 0.4 : 0.55;
+          var bloomRadius = shaderQuality === 'medium' ? 0.3 : 0.38;
+          var bloomThreshold = shaderQuality === 'medium' ? 0.9 : 0.82;
+
+          const bloom = new UnrealBloomPassCtor(
+            new THREE.Vector2(
+              _container ? _container.clientWidth : 1280,
+              _container ? _container.clientHeight : 720
+            ),
+            bloomStrength, bloomRadius, bloomThreshold
+          );
+          _composer.addPass(bloom);
+        } catch (e) {
+          _composer = null;
         }
-        _composer = new EffectComposerCtor(_renderer);
-        _composer.addPass(new RenderPassCtor(_scene, _camera));
-        const bloom = new UnrealBloomPassCtor(
-          new THREE.Vector2(
-            _container ? _container.clientWidth : 1280,
-            _container ? _container.clientHeight : 720
-          ),
-          0.55, 0.38, 0.82
-        );
-        _composer.addPass(bloom);
-      } catch (e) {
+      } else {
         _composer = null;
       }
 
       buildSceneGraph();
       buildLabels();
+
+      // Initialize TransitionEngine with our scene/camera/renderer
+      if (window.TransitionEngine && window.TransitionEngine.init) {
+        window.TransitionEngine.init(
+          window.ScaleEngine,
+          _scene,
+          _camera,
+          _renderer,
+          _composer
+        );
+        console.log('[ScaleEngine] TransitionEngine integrated');
+      }
 
       return window.ScaleEngine;
     },
@@ -389,14 +536,27 @@
         cb(scale, index);
       });
 
-      // Switch registered scale scene
+      // Switch registered scale scene with PerformanceEngine LOD hooks
       if (_sceneRegistry[scaleId] && _sceneRegistry[scaleId].activate) {
         Object.keys(_sceneRegistry).forEach(function (id) {
           if (_sceneRegistry[id] && _sceneRegistry[id].deactivate) {
             _sceneRegistry[id].deactivate();
           }
         });
-        _sceneRegistry[scaleId].activate(_scene, _camera);
+        
+        // Get LOD settings from PerformanceEngine
+        var lodSettings = null;
+        if (window.PerformanceEngine && window.PerformanceEngine.getLODSettings) {
+          lodSettings = window.PerformanceEngine.getLODSettings(scaleId);
+        }
+        
+        // Prepare scene using TransitionEngine if available
+        if (window.TransitionEngine && window.TransitionEngine.prepareScene) {
+          window.TransitionEngine.prepareScene(scaleId, lodSettings);
+        }
+        
+        // Activate the scene with LOD-aware settings
+        _sceneRegistry[scaleId].activate(_scene, _camera, lodSettings);
       }
     },
 
@@ -470,9 +630,16 @@
     },
 
     setLabelsVisible: setLabelsVisible,
+    updateLabelVisibility: updateLabelVisibility,
 
     isTransitioning: function () {
       return _isTransitioning;
+    },
+
+    toggleMediumLayer: function (visible) {
+      if (_mediumLayer) {
+        _mediumLayer.visible = visible !== undefined ? visible : !_mediumLayer.visible;
+      }
     },
 
     /**
@@ -481,6 +648,20 @@
      * @param {number} time - elapsed time in seconds
      */
     tick: function (dt, time) {
+      // Update TransitionEngine for smooth camera transitions
+      if (window.TransitionEngine && window.TransitionEngine.update) {
+        window.TransitionEngine.update(dt, time);
+      }
+
+      if (_mediumLayer && _mediumLayer.visible) {
+        _mediumLayer.rotation.y += 0.05 * dt;
+        var positions = _mediumLayer.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i+1] += Math.sin(time * 2 + positions[i]) * 0.01;
+        }
+        _mediumLayer.geometry.attributes.position.needsUpdate = true;
+      }
+
       var api = _sceneRegistry[_currentScaleId];
       if (api && typeof api.update === 'function') {
         api.update(dt, time);
@@ -489,6 +670,10 @@
 
     getActiveSceneApi: function () {
       return _sceneRegistry[_currentScaleId] || null;
+    },
+
+    getSceneRegistry: function () {
+      return _sceneRegistry;
     },
 
     /**

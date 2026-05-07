@@ -4,12 +4,316 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No-Go Museum — Propagation Framework Explorer</title>
-  <meta name="description" content="Documented failed approaches in the Propagation Framework. What was tried, why it didn't work, and what it taught us.">
+  <meta name="description" content="Documented failed approaches in the Propagation Framework. What was tried, why it didn't work, and what it taught us. Celebrating honest negatives.">
   <link rel="stylesheet" href="vendor/fonts.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="nogos.css">
   <link rel="stylesheet" href="print.css" media="print">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    /* Enhanced No-Go Museum Styles */
+    .nogos-mode {
+      --failed-red: #ff4444;
+      --failed-red-dim: rgba(255, 68, 68, 0.15);
+      --negative-orange: #ff8c42;
+      --negative-orange-dim: rgba(255, 140, 66, 0.15);
+      --nogo-coral: #ff6b6b;
+      --nogo-coral-dim: rgba(255, 107, 107, 0.15);
+      --positive-green: #44ff88;
+      --positive-green-dim: rgba(68, 255, 136, 0.15);
+    }
+
+    /* Status Badges */
+    .nogo-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 2px solid var(--badge-color);
+      color: var(--badge-color);
+      background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(255,255,255,0.05));
+      box-shadow: 0 0 20px var(--badge-color) 20;
+    }
+
+    .badge-icon {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Card Question */
+    .nogo-card-question {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--uncertain);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Result Display */
+    .nogo-card-result {
+      margin: 12px 0;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(255,0,0,0.05));
+      border: 1px solid rgba(255, 100, 100, 0.3);
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+
+    .nogo-card-result .result-label {
+      color: var(--failed-red);
+      font-weight: 600;
+    }
+
+    /* Expanded Content */
+    .nogo-card-expanded {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      animation: expandSlide 0.3s ease;
+    }
+
+    @keyframes expandSlide {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .expanded-section {
+      margin-bottom: 16px;
+    }
+
+    .expanded-section h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-icon {
+      font-size: 14px;
+    }
+
+    .why-failed-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .why-failed-list li {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: rgba(255, 100, 100, 0.08);
+      border-radius: 8px;
+      border-left: 2px solid var(--failed-red);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .lesson-text {
+      padding: 12px 16px;
+      background: linear-gradient(135deg, rgba(255, 200, 100, 0.15), rgba(255, 200, 100, 0.05));
+      border: 1px solid rgba(255, 200, 100, 0.3);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e8dcc0;
+    }
+
+    .celebration {
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.15), rgba(100, 200, 255, 0.05));
+      border: 1px solid rgba(100, 200, 255, 0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+
+    .celebration-text {
+      font-size: 14px;
+      color: #a8d0e0;
+      font-style: italic;
+    }
+
+    .source-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(0, 150, 255, 0.15);
+      border: 1px solid rgba(0, 150, 255, 0.3);
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--link);
+      transition: all 0.2s;
+    }
+
+    .source-link:hover {
+      background: rgba(0, 150, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Positive Cards */
+    .nogo-card.positive .nogo-card-badge {
+      --badge-color: var(--positive-green);
+      border-color: var(--positive-green);
+      color: var(--positive-green);
+    }
+
+    .nogo-card.positive .why-failed-list li {
+      background: rgba(68, 255, 136, 0.08);
+      border-left-color: var(--positive-green);
+    }
+
+    .nogo-card.positive .lesson-text {
+      background: linear-gradient(135deg, rgba(68, 255, 136, 0.15), rgba(68, 255, 136, 0.05));
+      border-color: rgba(68, 255, 136, 0.3);
+      color: #c0e8d0;
+    }
+
+    /* Detail Overlay Enhanced */
+    .nogo-detail-card {
+      --status-color: var(--failed-red);
+    }
+
+    .nogo-detail-card.is-positive {
+      --status-color: var(--positive-green);
+    }
+
+    .nogo-detail-tag {
+      background: var(--status-color);
+      color: #000;
+      font-weight: 700;
+    }
+
+    #nogoDetailQuestion {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 16px;
+      margin: 10px 0;
+      padding: 10px 16px;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--status-color);
+      border-radius: 0 8px 8px 0;
+    }
+
+    #nogoDetailResult {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(255,0,0,0.05));
+      border: 1px solid rgba(255, 100, 100, 0.3);
+      border-radius: 10px;
+    }
+
+    .detail-why-failed {
+      list-style: none;
+      padding: 0;
+    }
+
+    .detail-why-failed li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: rgba(255, 100, 100, 0.08);
+      border-radius: 10px;
+      border-left: 3px solid var(--failed-red);
+    }
+
+    .lesson-highlight {
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(255, 200, 100, 0.15), rgba(255, 200, 100, 0.05));
+      border: 1px solid rgba(255, 200, 100, 0.3);
+      border-radius: 12px;
+    }
+
+    .celebration-highlight {
+      font-size: 15px;
+      font-style: italic;
+      color: #a8d0e0;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.15), rgba(100, 200, 255, 0.05));
+      border: 1px solid rgba(100, 200, 255, 0.3);
+      border-radius: 12px;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .source-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba(0, 100, 200, 0.1);
+      border: 1px solid rgba(0, 150, 255, 0.3);
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .source-card:hover {
+      background: rgba(0, 150, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .source-icon {
+      font-size: 20px;
+    }
+
+    .source-label {
+      flex: 1;
+      font-size: 12px;
+    }
+
+    .source-arrow {
+      color: var(--link);
+    }
+
+    /* Stats Bar Enhancement */
+    .nogo-stat strong {
+      color: var(--failed-red);
+      text-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+    }
+
+    /* Philosophy Cards Enhancement */
+    .philosophy-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--failed-red), var(--negative-orange), var(--nogo-coral));
+      opacity: 0.5;
+    }
+  </style>
 </head>
 <body class="nogos-mode mode-story">
 
@@ -34,6 +338,7 @@
           <p class="nogos-subtitle">
             Failed approaches are primary evidence, not footnotes. Each entry is a documented dead end —
             what was tried, why the chain broke, and what the failure taught.
+            <strong style="color: var(--failed-red);">We celebrate honest negatives.</strong>
           </p>
         </div>
         <div class="nogos-header-actions">
@@ -47,7 +352,7 @@
     <!-- Filter bar -->
     <div class="nogos-filter-bar" id="filterBar" hidden>
       <div class="filter-chips">
-        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip active" data-filter="all">All Exhibits</button>
         <button class="filter-chip" data-filter="weinberg">Weinberg Angle</button>
         <button class="filter-chip" data-filter="god-equation">God Equation</button>
         <button class="filter-chip" data-filter="generations">Generation Count</button>
@@ -60,7 +365,7 @@
     <!-- Stats bar -->
     <div class="nogos-stats-bar">
       <div class="nogo-stat">
-        <strong id="nogoTotal">7</strong>
+        <strong id="nogoTotal">0</strong>
         <span>Documented dead ends</span>
       </div>
       <div class="nogo-stat">
@@ -68,8 +373,12 @@
         <span>Frontier areas affected</span>
       </div>
       <div class="nogo-stat">
-        <strong>3</strong>
-        <span>Routes that closed positively (found something else)</span>
+        <strong id="nogoPositive">0</strong>
+        <span>Routes that closed positively</span>
+      </div>
+      <div class="nogo-stat" style="border-left: 2px solid rgba(255,100,100,0.3); padding-left: 20px;">
+        <strong style="color: #ff8c42;">∞</strong>
+        <span>Lessons learned</span>
       </div>
     </div>
 
@@ -83,17 +392,18 @@
       <div class="philosophy-card">
         <div class="philosophy-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="14" stroke="var(--uncertain)" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <line x1="8" y1="8" x2="24" y2="24" stroke="var(--uncertain)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="14" stroke="var(--failed-red)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line x1="8" y1="8" x2="24" y2="24" stroke="var(--failed-red)" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="philosophy-text">
-          <h3>Why document failures?</h3>
+          <h3>Why celebrate failures?</h3>
           <p>
             A theory that knows what it cannot do is more valuable than one that only knows what it can.
             Every NO-GO entry here represents a genuine attempt — a route that seemed promising,
             was pursued seriously, and was closed by a specific technical objection.
             The objections are real. They are on record.
+            <strong style="color: var(--failed-red);">Red is the color of killed hypotheses — and of protected effort.</strong>
           </p>
         </div>
       </div>
@@ -108,10 +418,29 @@
         <div class="philosophy-text">
           <h3>How to read a NO-GO</h3>
           <p>
-            Each entry has three parts: <strong>the approach</strong> (what was tried),
+            Each entry has four parts: <strong>the question</strong> (what was asked),
+            <strong>the result</strong> (what actually happened),
             <strong>the failure mode</strong> (exactly where and why the chain broke),
             and <strong>the lesson</strong> (what this rules out and what it suggests instead).
             Do not re-attempt the approach without reading the source document.
+            The celebration note explains why we're glad this failed.
+          </p>
+        </div>
+      </div>
+      <div class="philosophy-card">
+        <div class="philosophy-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2v6M16 24v6M2 16h6M24 16h6" stroke="#ff8c42" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="6" stroke="#ff8c42" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="philosophy-text">
+          <h3>The PF Methodology</h3>
+          <p>
+            The Propagation Framework derives its credibility not from claiming success at every turn,
+            but from documenting failures as proudly as successes. This is primary evidence.
+            A visitor to this museum should see that the framework has been tested, challenged,
+            and has evolved through honest confrontation with its own limitations.
           </p>
         </div>
       </div>
@@ -126,8 +455,11 @@
       <div class="nogo-detail-header">
         <span class="nogo-detail-tag" id="nogoDetailTag"></span>
         <h2 id="nogoDetailTitle"></h2>
+        <p id="nogoDetailQuestion"></p>
+        <div id="nogoDetailResult"></div>
       </div>
       <div class="nogo-detail-body" id="nogoDetailBody"></div>
+      <div class="nogo-detail-section" id="nogoDetailCelebration" style="display: none;"></div>
       <div class="nogo-detail-sources" id="nogoDetailSources"></div>
     </div>
   </div>

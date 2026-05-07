@@ -7,17 +7,19 @@ Static interactive atlas for the current Propagation Framework sandbox.
 - `sandbox/explorer/index.html` opens directly in a browser with no build step.
 - `sandbox/explorer/journey.html` — **NEW**: 8-minute guided narrative experience
 - `CLAIMS.md` drives audited badges and totals.
+- `definitions/README.md` drives the canonical definition snapshot.
 - `UNDERSTAND.md` extends placement and explanatory copy.
 - Story mode gives the visual argument first.
 - Math + Audit mode exposes formulas, source trails, falsifiers, and conditional gaps.
 
 Current curated snapshot:
 
-- `23` visible results
-- `22` audited results
+- `25` visible results
+- `24` audited results
 - `1` unsynced item kept visible but excluded from totals
-- `7` deep computation panels plus the dashboard
-- **NEW**: Journey Mode with 4 acts + epilogue
+- `19` canonical definitions exposed through `data.js`
+- `12` interactive panels plus supporting routes
+- Journey Mode with 4 acts + epilogue
 
 ## Routes
 
@@ -86,25 +88,34 @@ sandbox/explorer/
 ├── index.html          ← Reference explorer (8 panels + dashboard)
 ├── journey.html        ← 8-minute narrative experience
 ├── comparison.html     ← Framework comparison (PF vs SM vs String)
-├── derivation.html     ← NEW: Interactive derivation chain visualizer
+├── derivation.html     ← Interactive derivation chain visualizer
+├── nogos.html          ← No-go route ledger
+├── playground.html     ← Propagation playground
+├── scale-ladder.html   ← Planck-to-cosmic scale ladder
+├── belt-trick.html     ← Standalone Dirac belt trick visualization
 ├── style.css           ← Dark theme with glowing accents
 ├── core.js             ← Math utilities, rendering helpers
-├── data.js             ← Results from CLAIMS.md
+├── data.js             ← Results from CLAIMS.md + 19 canonical definitions
 ├── journey.css         ← Journey-specific styles
 ├── journey.js          ← Journey narrative flow + animations
 ├── comparison.css      ← Comparison-specific styles
 ├── comparison.js       ← Comparison interactive logic
-├── derivation.css      ← NEW: Derivation visualizer styles
-├── derivation.js       ← NEW: Interactive graph logic
+├── derivation.css      ← Derivation visualizer styles
+├── derivation.js       ← Interactive graph logic
 ├── panels/
 │   ├── hub.js
 │   ├── refraction.js
 │   ├── generations.js
 │   ├── koide.js
 │   ├── weinberg.js
+│   ├── koide-weinberg-bridge.js
 │   ├── god-equation.js
 │   ├── bohr.js
+│   ├── consciousness.js
 │   └── dashboard.js
+├── workers/            ← Web workers for heavier visual/compute tasks
+├── vendor/             ← Local browser dependencies
+├── assets/             ← Social/PWA preview assets
 └── README.md
 ```
 
@@ -112,7 +123,8 @@ sandbox/explorer/
 
 - `sandbox/sandbox_results.md` remains the top truth source for what actually held or failed.
 - `CLAIMS.md` defines explorer audit status.
-- `data.js` is the Explorer truth layer derived from `CLAIMS.md`; Journey and Comparison must source PF claims from it rather than hardcoding stronger copy.
+- `definitions/README.md` defines canonical definition status.
+- `data.js` is the Explorer truth layer derived from `CLAIMS.md` and `definitions/README.md`; Journey and Comparison must source PF claims from it rather than hardcoding stronger copy.
 - `UNDERSTAND.md` may extend explanation, but it does not silently promote claims.
 - Unsynced items are visible context, not audited claims.
 
@@ -159,23 +171,18 @@ Recommended manual check:
 
 Recommended syntax check:
 
-```powershell
-node --check core.js
-node --check data.js
-node --check panels\dashboard.js
-node --check panels\hub.js
-node --check panels\god-equation.js
+```bash
+for f in *.js panels/*.js workers/*.js; do node --check "$f"; done
 ```
 
 Automated browser smoke tests can use a temporary local loopback server. The app itself is still designed to work from `file://`.
 
-## Planned, Not Yet Shipped
+## Remaining Hardening
 
-- Belt trick / Dirac string visualization in the Generations panel
-- Refraction error metrics and heatmap overlays
-- Koide / Weinberg running-link visual
-- Bohr spectral-line diagram
-- richer keyboard accessibility
+- Automated data generation from `CLAIMS.md` and `definitions/README.md` instead of hand-curated `data.js`.
+- A checked-in browser smoke script for the eight primary routes.
+- Richer keyboard accessibility across 3D and canvas panels.
+- Custom visualizations for every scale-ladder stop.
 
 ## Scope Guard
 
