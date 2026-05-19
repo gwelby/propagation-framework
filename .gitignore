@@ -7,8 +7,8 @@ Private/
 movie/
 Income/
 BUSINESS.md
-TASKS.md
-WORKSPACE.md
+/TASKS.md
+/WORKSPACE.md
 
 # 2. Agent Prompts and Internal Logs
 AGENTS*.md
@@ -51,10 +51,10 @@ verification/.cache/
 
 # 6. Runtime telemetry / IDE state / auto-generated manifests / build noise
 .vscode/
-AGENT_RESONANCE.jsonl
-AGENT_RESONANCE_DASHBOARD.txt
-index.json
-assemble_log.txt
+/AGENT_RESONANCE.jsonl
+/AGENT_RESONANCE_DASHBOARD.txt
+/index.json
+/assemble_log.txt
 archive/AGENT_BLACKBOARD_flooded_*.jsonl
 *.pyc
 .pytest_cache/
