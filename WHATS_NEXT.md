@@ -1,7 +1,34 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-04-13 (updated after the T-021 RG audit)
-**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The priority order below supersedes the April 12 attack framing.
+**Date**: 2026-05-13 (updated after the frontier audit)
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map.
+
+---
+
+## 2026-05-13 — FRONTIER AUDIT PRIORITY
+
+### Attack 1: G3-OP-MAP — Oscillator-to-Closure Map (Codex + DeepSeek)
+**The question**: Can Axioms 1-3 plus the Z3-extended Lagrangian derive a PF-native map from continuous phase-space trajectories `(chi, v)` to the discrete closure probability operator `T_sym^3` used by `H_prod`?
+
+**Why it matters**: The S2 gate exposed that the state-sufficiency question is premature. The Q-sector tracker shows the linearized oscillator does not behave like `T_sym^3` over tested horizons (`alpha ~= +0.89`, not `-1/8`). The measurement-map explorer found no tested map that is simultaneously PF-native, channel-resolving, and closure-aligned. Until this map exists, Obligation 2 blocks Obligation 1 and makes Obligation 3 unreachable.
+
+**Allowed candidate classes**:
+- spectral measurement map using the DFT basis that diagonalizes `M`,
+- coarse-graining / RG map from oscillator trajectories to channel probabilities,
+- damping / environment mechanism derived from PF vacuum structure,
+- nonlinear completion that produces the discrete closure operator after reduction.
+
+**Current subroute evidence**: The spectral/DFT map, simple linear damping, and block-average coarse-graining have all tested negative after the 2026-05-13 codomain correction. Do not cite the old `~0.19` KL floor as a corrected spectral result; corrected spectral-power results are `>= 1.1293` in the audited damping/coarse-graining scripts. These are scoped sandbox negatives, not a theorem that every PF-native coarse-graining or environment route is dead.
+
+**Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`; or (b) the tested class fails cleanly and the repo records that the linearized Z3 Lagrangian cannot supply the primitive closure operator without new physics.
+
+**Read first**: `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_spectral_contract_audit_2026-05-13.md`, `derivations/g3_op_map_coarse_damping_audit_2026-05-13.md`, `derivations/s2_pf_native_gate_contract_2026-05-10.md`, `derivations/h_prod_joint_model_obligation.md`, `verification/operator_algebra.py`, `/mnt/d/DeepSeek/REPORTS/oscillator_to_closure_boundary.md`, `/mnt/d/DeepSeek/REPORTS/measurement_map_exploration.md`.
+
+### Attack 2: Axiom 3 Selector / T1-T2 Bridges (on hold until a contract exists)
+T1 and T2 remain partial derivations with named bridges (`A_NR`, `C_mom`, `C_FP`, `C_bridge`). Do not reopen them as broad theory work. Reopen only if a selector contract `S = (D, F, R, V, X)` is written with an actual verification gate.
+
+### Attack 3: Koide Phase (frozen)
+Do not reopen Koide phase unless a genuinely new PF-native selector appears. The Casimir, RG, projective, character-normal-form, Chebyshev, and historical-proxy lanes are fenced or negative.
 
 ---
 
@@ -142,7 +169,8 @@ No more treating a good number as closure.
   - the free linearized `ℤ₃` vacuum points away from the Family A escape covariance
   - stronger PF/energy/entropy closure language is not signed off yet
   - See `derivations/god_eq_pf_vacuum_ensemble_analysis_2026-04-01.md` and `..._audit_...md`
-- Family C (quadratic closure functionals of the operator): still open and is now the last natural quadratic Path B candidate
+- Canonical Family C (quadratic closure functionals of the operator): **now an exact no-go (2026-04-02)**. The real symmetric canonical operator algebra is exactly `span{P_0, Q}` (2-dimensional, fully C_3-invariant), so every C_3-covariant canonical kernel family collapses to `K_0 = K_1 = K_2`. See `derivations/god_eq_path_b_family_c_counterexample_search_2026-04-02.md` and `derivations/god_eq_path_b_family_c_operator_functionals_2026-04-01.md`.
+- Noncanonical basis-fixed Family C probe (`Q|e_j><e_j|Q`): still open but gated on a new hidden step `H_basis` — derive why a specific basis inside the degenerate Q-sector is physically selected. The free linearized `ℤ₃` vacuum does not supply this selection (`Sigma_vac` is itself C_3-circulant; see `derivations/god_eq_pf_vacuum_propagator_exact_2026-04-01.md`).
 - Nonquadratic one-medium observables: still open in principle, but now need a genuinely new probability model rather than another current-style rephrasing
 
 Working card:

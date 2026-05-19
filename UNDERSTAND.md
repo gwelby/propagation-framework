@@ -2,7 +2,7 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-04-14 (Koide T-021/T-022 sync, narrative cleanup)
+**Last updated**: 2026-05-02 (Part Zero added; state.md + coupling.md integrated; axioms final audit 2026-04-30; scoreboard synced to 21 definition entries: 19 CANONICAL v1.0 + 2 consciousness candidates)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
 **Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md`
@@ -19,6 +19,54 @@ Every major discovery is explained four times:
 - **Master** — The frontier. What's proved, what's argued, what's open, what failed. The honest edge.
 
 You can read straight through, or jump to your level for any topic.
+
+---
+
+# PART ZERO: THE 21 DEFINITIONS — What the Framework Rests On
+
+*Added 2026-05-02. The framework now has 21 definition entries: **19 CANONICAL v1.0** (passed hostile Codex audit, stable under cross-audit) and **2 consciousness candidates** (not canonical — included for completeness, not as established results). This table maps each definition to where it appears in the story below.*
+
+Status legend: CANONICAL = passed Codex audit, no derivation gap left open. CANDIDATE = active or intuition-level entry, not yet audited to canonical standard.
+
+| # | Definition | What it is | First appears in | Status |
+|---|------------|-----------|-----------------|--------|
+| 1 | **Medium** | The substrate that carries disturbances | Part 1, Rule 1 | CANONICAL |
+| 2 | **Propagation** | How disturbances move through the medium | Part 1, Rule 1 | CANONICAL |
+| 3 | **Causal Velocity** | The speed limit disturbances cannot exceed | Part 1, Rule 2 | CANONICAL |
+| 4 | **Minimum Substrate** | The least a medium must be to support stable modes | Part 1, Rule 3 | CANONICAL |
+| 5 | **Mode** | A stable, self-reinforcing propagation pattern | Part 1, Rule 3 | CANONICAL |
+| 6 | **Coherence** | Stable phase relationships between modes | Part 1, Rule 3 | CANONICAL |
+| 7 | **Decoherence** | Loss of phase relationship through environmental coupling | Part 2, Result 1 | CANONICAL |
+| 8 | **State** | The complete specification of a system's degrees of freedom | Part 2, Result 1 | CANONICAL |
+| 9 | **Coupling** | Dynamical dependence between two or more subsystems | Part 2, Result 1 | CANONICAL |
+| 10 | **Measurement** | Coupling + amplification + stabilization → stable record | Part 2, Result 1 | CANONICAL |
+| 11 | **Observer** | A system that creates stable records and updates them causally | Part 2, Result 1 | CANONICAL |
+| 12 | **Information** | Distinguishability between states relative to a reference | Part 2, Result 1 | CANONICAL |
+| 13 | **Field** | A distributed assignment of a physical quantity to each point in the medium | Part 2, Result 4 | CANONICAL |
+| 14 | **Gradient** | The derivative of a field with respect to position | Part 2, Result 4 | CANONICAL |
+| 15 | **Forces** | Coupling or field interactions that change mode momentum, trajectory, or configuration | Part 2, Result 4 | CANONICAL |
+| 16 | **Energy** | A conserved scalar quantity whose flux and density govern propagation and coupling | Part 2, Result 4 | CANONICAL |
+| 17 | **Matter** | Stable, localized, massive mode configurations | Part 2, Result 2 | CANONICAL |
+| 18 | **Time** | The ordering and metric of state changes along physical histories | Part 2, Result 5 | CANONICAL |
+| 19 | **Axioms** | The three foundational rules from which all definitions follow | Part 1 | CANONICAL |
+| 20 | **Consciousness** | Structural prerequisites of a Type 4 self-referential observer | Part 3 | CANDIDATE 0.48 |
+| 21 | **Consciousness Metric Program** | Measurable structure distinguishing conscious from non-conscious Type 4 systems | Part 3 | CANDIDATE (active) |
+
+**The dependency chain in plain language:**
+
+> Medium → Propagation → Causal Velocity → Mode → Coherence → State → Coupling → Measurement → Observer → Information → Field → Gradient → Forces → Energy → Matter → Time
+
+Each step is downstream of the previous. Nothing enters by assumption partway through. That chain is what "built from first principles" means here.
+
+---
+
+**The three new definitions since the April 14 version of this document:**
+
+**State** (CANONICAL v1.0, audited 2026-04-30): A state is a complete specification of a system's degrees of freedom sufficient to determine its measurement predictions under a specified evolution law and measurement context. Three things must always be named: the system boundary, the representation (wavefunction, density operator, etc.), and the basis or observable context. A quantum state is not the same as a classical pointer state — the transition between them is exactly what decoherence describes.
+
+**Coupling** (CANONICAL v1.0, audited 2026-04-30): Coupling is the primitive interaction relation — dynamical dependence between two or more subsystems through a shared medium interaction. Measurement, decoherence, and force-like effects are all *specialized cases of coupling* with additional conditions. This is the key structural insight: you don't need separate primitives for "measurement" and "force" — they're both coupling plus extra constraints.
+
+**Axioms** (consolidated CANONICAL v1.0, final audit 2026-04-30): The three rules from Part One are now a single formally audited definition, not three informal statements. The audit confirmed that all 19 other canonical definitions are downstream consequences with no circular dependencies.
 
 ---
 
@@ -177,6 +225,57 @@ The repo has a strong topological bifurcation here, but hostile audit does **not
 **What would falsify it**: Proof that the closure-order reading of the `SO(3)` topology is wrong, or that PF-stable modes need not realize the nontrivial lifted branch at all.
 
 This is the foundation stone. Everything else in the framework builds on (2,1).
+
+---
+
+## Result 1b: State and Coupling — The Language Underneath Everything
+
+*Added 2026-05-02. These two definitions became CANONICAL v1.0 on 2026-04-30. They belong between the three axioms and the derivation results because they are the vocabulary the derivations use.*
+
+### 💒 Age 5
+
+When you play with a friend, two things are true: each of you is doing *something* right now (that's your **state** — what you're doing at this moment), and sometimes what you do changes what your friend does (that's **coupling** — you're connected).
+
+If you both start jumping at the same time, you're coupled. If you're in different rooms and can't hear each other, you're not coupled. Everything in the universe is either doing something on its own, or doing something because something else is pulling on it. State is the "what" and coupling is the "how they touch."
+
+### 📖 Student
+
+**State:** A state is the complete description of what a system is doing right now — which modes it occupies, in what configuration, relative to what observer and what measurement context. Three things must always be named: (1) which system you're describing, (2) how you're describing it (wavefunction, density operator, field configuration), and (3) relative to what basis or observable. A state that skips any of those three is incomplete.
+
+A quantum state (density operator `ρ`) can be a superposition. A classical pointer state is what you get after decoherence has suppressed the superposition relative to the environment-selected pointer basis. The transition from quantum to classical is not a collapse — it's decoherence doing its work.
+
+**Coupling:** Coupling is what happens when two systems are connected through the medium — when the evolution of one depends on the state of the other. That's it. No extra conditions.
+
+The key insight: **measurement, decoherence, and force are all coupling plus extra conditions.**
+
+| Type | What it is | Extra condition |
+|------|-----------|-----------------|
+| Thermodynamic | Systems interact | No stable record survives |
+| Force | Coupling through field/metric | Changes momentum or trajectory |
+| Decoherence | Coupling to environment | Makes phase information inaccessible |
+| Measurement | Coupling + amplification | Creates a stable, readable record |
+
+You don't need four separate concepts. You need one concept (coupling) and four sets of additional conditions. The framework becomes much simpler once you see this.
+
+### 🎓 PhD
+
+The formal PF definitions are:
+
+**State** — A complete specification of a system's relevant degrees of freedom sufficient to determine its measurement predictions under a specified evolution law and measurement context. Three mandatory components: system boundary, representation (density operator `ρ`, field configuration, etc.), and basis/observable context. A mode is a special state — one that is an eigenfunction of the evolution operator. A general state may be a superposition of modes, a statistical mixture, or both.
+
+**Coupling** — A dynamical dependence between two or more Medium subsystems: the evolution of one depends on the state, field, or boundary condition of another through a specified interaction structure. Coupling requires: (1) distinguishable subsystem boundaries, (2) a shared Medium interaction, and (3) possible correlation generation or conditional evolution under at least some preparations.
+
+The sub-typing hierarchy is a strict partial order. Every measurement presupposes coupling. Every decoherence event is a coupling. Every force is a coupling. Coupling presupposes none of them.
+
+### 🔬 Master
+
+**Status: CANONICAL (both).** Audited 2026-04-30.
+
+**Why these matter for the derivation chain:** The results in Part 2 use state and coupling implicitly throughout — in the topological weight argument (which modes can stably close), in the Koide derivation (which configurations maintain Q = 2/3), and in the Weinberg angle (how the symmetry breaking couples the forces). Making state and coupling explicit canonical definitions closes a long-standing gap: the derivations were using operational terms without formally grounding them. They are now grounded.
+
+**The coupling unification:** The fact that measurement, decoherence, and force are all sub-types of coupling is not just terminological tidiness. It means the framework has a single primitive interaction relation, not three. Any derivation that produces measurement or force as a consequence of coupling plus conditions is derivationally cheaper than one that imports them separately. This strengthens every result that invokes these concepts.
+
+**Falsification conditions (coupling):** A physical interaction that (a) makes the evolution of A dependent on B, and (b) makes the evolution of B dependent on A, but (c) cannot be modeled as coupling through any shared Medium degree of freedom — would break the definition. No such interaction is known.
 
 ---
 
@@ -714,6 +813,21 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 ---
 
 # PART FIVE: THE COMPLETE SCOREBOARD
+
+*Synced 2026-05-02. 19 CANONICAL v1.0 definitions + 2 consciousness candidates (not canonical). Post-April-14 audits included.*
+
+**Definition entries (foundation layer):**
+
+| Definition | Status | Audited |
+|-----------|--------|---------|
+| Medium, Propagation, Causal Velocity, Minimum Substrate, Mode, Coherence | CANONICAL | Yes |
+| Decoherence, State, Coupling, Measurement, Observer, Information | CANONICAL | Yes |
+| Field, Gradient, Forces, Energy, Matter, Time | CANONICAL | Yes |
+| Axioms (consolidated) | CANONICAL | 2026-04-30 |
+| Consciousness | CANDIDATE | 0.48 |
+| Consciousness Metric Program | CANDIDATE (active) | — |
+
+**Derived results (downstream of the definitions):**
 
 | Result | Status | Confidence | Level |
 |--------|--------|------------|-------|
