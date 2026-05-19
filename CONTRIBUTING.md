@@ -72,3 +72,15 @@ These are the specific mathematical problems where the framework needs help. Eac
 GitHub: [@gwelby](https://github.com/gwelby)
 
 *Built by one person working with AI collaborators over 18 months. No institution. No funding. The framework that survives contact with data is the one worth keeping.*
+
+---
+
+## Panel render-health (PFExplorer contributors)
+
+If you are adding or modifying an interactive panel under `sandbox/explorer/panels/`, follow the render-health contract in [`.kiro/specs/explorer-panel-render-health/`](.kiro/specs/explorer-panel-render-health/requirements.md). In short:
+
+- **Use the canonical panel skeleton** in [`design.md`](.kiro/specs/explorer-panel-render-health/design.md) (sizing at renderer creation, post-mount `this.resize(ctx)`, window-resize handler attach/detach, full dispose on unmount).
+- **Static audit first**: `python sandbox/explorer/check_panel_health.py` must exit 0 before any push. The tool catches unsized renderers, missing resize wiring, unsized composers, hard-coded `aspect=1`, unclamped `Math.exp`, and sub-pixel `PointsMaterial.size`.
+- **Visual pass second**: `python sandbox/explorer/visual_pass.py` must exit 0 against a running `serve.py`. Every registered panel has to paint a non-background pixel in the 200×200 stage-centre sample. Silent fallback to observatory counts as FAIL.
+- **Release gate**: follow [`sandbox/explorer/RELEASE_CHECKLIST.md`](sandbox/explorer/RELEASE_CHECKLIST.md) before pushing to `gh-pages`. A green build or a successful `git push` is necessary but not sufficient — Requirement 10 is explicit: visual evidence is required.
+- **Evidence trail**: append one row per panel to [`sandbox/explorer/VISUAL_PASS_RESULTS.md`](sandbox/explorer/VISUAL_PASS_RESULTS.md) after each run. Append-only; do not edit prior rows.

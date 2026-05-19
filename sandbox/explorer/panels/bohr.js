@@ -81,12 +81,15 @@
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    var w = state.canvas.parentElement.clientWidth || 640;
+    var h = state.canvas.parentElement.clientHeight || 400;
+    renderer.setSize(w, h, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.3;
     container.appendChild(renderer.domElement);
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    var camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
     camera.position.set(0, 3, 12);
     camera.lookAt(0, 0, 0);
 
@@ -96,16 +99,40 @@
     scene.add(dir);
 
     // Nucleus (central charge)
+    var nucleusGroup = new THREE.Group();
     var nucleusGeo = new THREE.SphereGeometry(0.8, 32, 32);
     var nucleusMat = new THREE.MeshStandardMaterial({
       color: 0xffd700,
-      emissive: 0xffd700,
-      emissiveIntensity: 0.6,
+      emissive: 0xffaa00,
+      emissiveIntensity: 0.8,
       metalness: 0.4,
       roughness: 0.3
     });
     var nucleus = new THREE.Mesh(nucleusGeo, nucleusMat);
-    scene.add(nucleus);
+    nucleusGroup.add(nucleus);
+    
+    // Add point light to nucleus
+    var nucLight = new THREE.PointLight(0xffdd55, 2.0, 15);
+    nucleusGroup.add(nucLight);
+    
+    // Add glow sprite to nucleus
+    var canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    var ctx2d = canvas.getContext('2d');
+    var grad = ctx2d.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255, 200, 50, 1)');
+    grad.addColorStop(0.2, 'rgba(255, 150, 0, 0.5)');
+    grad.addColorStop(1, 'rgba(255, 100, 0, 0)');
+    ctx2d.fillStyle = grad;
+    ctx2d.fillRect(0, 0, 128, 128);
+    var tex = new THREE.CanvasTexture(canvas);
+    var spriteMat = new THREE.SpriteMaterial({ map: tex, color: 0xffffff, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+    var glowSprite = new THREE.Sprite(spriteMat);
+    glowSprite.scale.set(4, 4, 1);
+    nucleusGroup.add(glowSprite);
+
+    scene.add(nucleusGroup);
 
     // Orbit ring (the standing wave boundary)
     var orbitGeo = new THREE.TorusGeometry(4.5, 0.04, 8, 128);
@@ -125,7 +152,7 @@
       uniforms: {
         uTime: { value: 0 },
         uK: { value: state.kLike },
-        uColor: { value: new THREE.Color(0x00e5ff) }
+        uColor: { value: new THREE.Color(0x00cfff) }
       },
       vertexShader: [
         'varying vec2 vUv;',
@@ -144,14 +171,15 @@
         '  float phase = uK * angle - uTime * 2.5;',
         '  float wave = sin(phase) * 0.5 + 0.5;',
         '  // Node detection: where wave amplitude ≈ 0',
-        '  float node = smoothstep(0.08, 0.0, abs(sin(phase)));',
-        '  vec3 waveColor = mix(uColor, vec3(1.0, 0.42, 0.71), node * 0.6);',
-        '  float alpha = 0.6 + 0.3 * wave;',
+        '  float node = smoothstep(0.12, 0.0, abs(sin(phase)));',
+        '  vec3 waveColor = mix(uColor, vec3(1.0, 0.2, 0.6), node * 0.8);',
+        '  float alpha = 0.5 + 0.5 * wave;',
         '  gl_FragColor = vec4(waveColor, alpha);',
         '}'
       ].join('\n'),
       transparent: true,
       side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
       depthWrite: false
     });
     var waveRing = new THREE.Mesh(waveGeo, waveMat);
@@ -160,10 +188,12 @@
     // Reference orbit rings (k=1,2,3,4 ghosts)
     [1, 2, 3, 4].forEach(function (k) {
       var refGeo = new THREE.TorusGeometry(4.5 * k / state.kLike, 0.03, 8, 64);
-      var refMat = new THREE.MeshBasicMaterial({
-        color: k === nearestInteger(state.kLike) ? 0xffdd55 : 0x334466,
+      var isNearest = k === nearestInteger(state.kLike);
+      var refMat = new THREE.MeshStandardMaterial({
+        color: isNearest ? 0x00cfff : 0x334466,
+        emissive: isNearest ? 0x0088aa : 0x000000,
         transparent: true,
-        opacity: k === nearestInteger(state.kLike) ? 0.3 : 0.08
+        opacity: isNearest ? 0.6 : 0.15
       });
       var refRing = new THREE.Mesh(refGeo, refMat);
       scene.add(refRing);
@@ -182,10 +212,11 @@
     // Bloom
     try {
       var composer = new THREE.EffectComposer(renderer);
+      composer.setSize(w, h);
       composer.addPass(new THREE.RenderPass(scene, camera));
       var bloom = new THREE.UnrealBloomPass(
-        new THREE.Vector2(state.canvas.clientWidth || 400, state.canvas.clientHeight || 300),
-        0.5, 0.4, 0.82
+        new THREE.Vector2(w, h),
+        2.0, 0.4, 0.82
       );
       composer.addPass(bloom);
       return { container: container, renderer: renderer, scene: scene, camera: camera, composer: composer,
@@ -256,14 +287,19 @@
   function disposeBohr3D(r) {
     if (!r) return;
     window.removeEventListener('resize', r._resizeHandler);
-    r.waveRing.geometry.dispose();
-    r.waveRing.material.dispose();
-    r.orbitRing.geometry.dispose();
-    r.orbitRing.material.dispose();
-    r.nucleus.geometry.dispose();
-    r.nucleus.material.dispose();
-    r.nodeGroup.children.forEach(function (n) { n.geometry.dispose(); n.material.dispose(); });
-    if (r.composer) r.renderer.dispose();
+    // Dispose every geometry/material reachable from the scene graph. This
+    // covers the named meshes (nucleus, orbit ring, wave ring, node group)
+    // AND the reference orbit rings added in the [1,2,3,4].forEach loop,
+    // which a hand-written list previously missed.
+    r.scene.traverse(function (obj) {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) {
+        if (Array.isArray(obj.material)) obj.material.forEach(function (m) { m.dispose(); });
+        else obj.material.dispose();
+      }
+    });
+    if (r.composer && r.composer.dispose) r.composer.dispose();
+    r.renderer.dispose();
     r.container.remove();
   }
 
@@ -593,9 +629,10 @@
             '<section class="canvas-panel" style="position:relative">' +
               '<div class="panel-header">' +
                 '<div>' +
-                  '<p class="eyebrow">Phase Closure Orbit</p>' +
-                  '<h3>Only integer winding survives. Everything else fades.</h3>' +
-                  '<p>The slider moves through continuous k-like radii. Stable orbits glow at integer winding.</p>' +
+                  '<p class="eyebrow"><span style="color:#ffaa33; font-family:serif; margin-right:8px;">ψ</span> Phase Closure Orbit</p>' +
+                  '<h3><span style="color:#44ff88; font-family:serif; margin-right:8px;">◈</span> Only integer winding survives. Everything else fades.</h3>' +
+                  '<p>The slider moves through continuous k-like radii. Stable orbits glow at integer winding numbers, representing the fundamental standing wave condition.</p>' +
+                  '<p class="interaction-cue"><strong>Interaction:</strong> Drag the slider to vary the orbit radius. Observe how only integer winding numbers (k) survive phase closure.</p>' +
                 '</div>' +
               '</div>' +
               '<canvas class="panel-canvas" id="bohrCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>' +
@@ -626,13 +663,15 @@
 
     resize: function (ctx) {
       var state = this.state;
-      if (state._3d) {
-        var w = state.canvas.clientWidth, h = state.canvas.clientHeight;
-        state._3d.camera.aspect = w / h;
-        state._3d.camera.updateProjectionMatrix();
-        state._3d.renderer.setSize(w, h);
-        if (state._3d.composer) state._3d.composer.setSize(w, h);
-      }
+      if (!state || !state._3d) return;
+      var r = state._3d;
+      var w = state.canvas.parentElement.clientWidth;
+      var h = state.canvas.parentElement.clientHeight;
+      if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.
+      r.camera.aspect = w / h;
+      r.camera.updateProjectionMatrix();
+      r.renderer.setSize(w, h, false);
+      if (r.composer) r.composer.setSize(w, h);
     },
 
     renderInfo: function (ctx) {
@@ -731,14 +770,12 @@
       if (!state._3d) {
         state._3d = buildBohr3D(state);
         var self = this;
-        state._3d._resizeHandler = function () {
-          var w = state.canvas.clientWidth, h = state.canvas.clientHeight;
-          state._3d.camera.aspect = w / h;
-          state._3d.camera.updateProjectionMatrix();
-          state._3d.renderer.setSize(w, h);
-          if (state._3d.composer) state._3d.composer.setSize(w, h);
-        };
+        state._3d._resizeHandler = function () { self.resize(ctx); };
         window.addEventListener('resize', state._3d._resizeHandler);
+        // Snap the renderer to the current panel size on first mount. The
+        // initial size baked into buildBohr3D is just a safety floor; the
+        // real dimensions only become available after the DOM lays out.
+        self.resize(ctx);
       }
 
       // Create and inject spectral diagram

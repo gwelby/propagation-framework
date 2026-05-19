@@ -45,6 +45,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.3;
     container.appendChild(renderer.domElement);
 
     // Post-processing
@@ -52,7 +53,7 @@
     try {
       composer = new THREE.EffectComposer(renderer);
       composer.addPass(new THREE.RenderPass(scene, camera));
-      var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), BELT_CONFIG.bloomStrength, BELT_CONFIG.bloomRadius, BELT_CONFIG.bloomThreshold);
+      var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85);
       composer.addPass(bloom);
     } catch(e) {}
 
@@ -65,34 +66,48 @@
 
     // Ribbon
     var ribbonGeo = new THREE.PlaneGeometry(BELT_CONFIG.ribbonWidth, BELT_CONFIG.ribbonLength, BELT_CONFIG.ribbonWidthSegments, BELT_CONFIG.ribbonSegments);
-    var ribbonMat = new THREE.MeshStandardMaterial({
-      color: BELT_CONFIG.ribbonColor1,
-      emissive: BELT_CONFIG.ribbonEmissive,
-      metalness: 0.3,
-      roughness: 0.6,
+    var ribbonMat = new THREE.MeshPhysicalMaterial({
+      color: 0x00e5ff,
+      emissive: 0x004455,
+      metalness: 0.2,
+      roughness: 0.1,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1,
+      transmission: 0.8,
+      thickness: 0.2,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.9
+      opacity: 0.95
     });
     var ribbon = new THREE.Mesh(ribbonGeo, ribbonMat);
     ribbon.rotation.x = Math.PI / 2;
     ribbon.position.set(0, 0, -BELT_CONFIG.ribbonLength / 2);
     scene.add(ribbon);
 
-    // Cube group
+    // Cube group (now smooth spheres)
     var rotationGroup = new THREE.Group();
-    var cubeGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    var cubeMat = new THREE.MeshStandardMaterial({ color: BELT_CONFIG.objectColor, metalness: 0.5 });
-    var cube = new THREE.Mesh(cubeGeo, cubeMat);
-    rotationGroup.add(cube);
+    var sphereGeo = new THREE.SphereGeometry(0.4, 32, 32);
+    var endMat = new THREE.MeshStandardMaterial({ 
+      color: 0xffdd55, 
+      emissive: 0xffaa00,
+      emissiveIntensity: 0.4,
+      metalness: 0.6,
+      roughness: 0.2
+    });
+    var movingSphere = new THREE.Mesh(sphereGeo, endMat);
+    rotationGroup.add(movingSphere);
+    
+    // Add point light to the moving end to cast dynamic shadows
+    var movingLight = new THREE.PointLight(0xffdd55, 1.5, 10);
+    movingLight.position.set(0, 0, 0);
+    rotationGroup.add(movingLight);
+    
     rotationGroup.position.set(0, 0, -BELT_CONFIG.ribbonLength);
     scene.add(rotationGroup);
 
     // Fixed origin
-    var fixedGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    var fixedMat = new THREE.MeshStandardMaterial({ color: 0x888888 });
-    var fixedCube = new THREE.Mesh(fixedGeo, fixedMat);
-    scene.add(fixedCube);
+    var fixedSphere = new THREE.Mesh(sphereGeo, endMat);
+    scene.add(fixedSphere);
 
     panelState._3d = {
       scene: scene,
@@ -147,9 +162,10 @@
             "<section class=\"canvas-panel\">" +
               "<div class=\"panel-header\">" +
                 "<div>" +
-                  "<p class=\"eyebrow\">π₁(SO(3)) = ℤ₂</p>" +
-                  "<h3>The Belt Trick: Why 720° = Identity</h3>" +
-                  "<p>Spin-1/2 particles require 4π rotation to return to original state. This underlies the (2,1) weight ratio.</p>" +
+                  "<p class=\"eyebrow\"><span style=\"color:#ffaa33; font-family:serif; margin-right:8px;\">N³</span> π₁(SO(3)) = ℤ₂</p>" +
+                  "<h3><span style=\"color:#00cfff; font-family:serif; margin-right:8px;\">⬡</span> The Belt Trick: Why 720° = Identity</h3>" +
+                  "<p>Spin-1/2 particles require 4π rotation to return to their original state. This topological requirement underlies the (2,1) weight ratio found in the derivation of the three generations.</p>" +
+                  "<p class=\"interaction-cue\"><strong>Interaction:</strong> Click 'Animate 720°' to untangle the ribbon by rotating it fully twice. Adjust the generation count N below to see the Q(N) shift.</p>" +
                 "</div>" +
               "</div>" +
               "<div id=\"beltTrickContainer\" class=\"belt-trick-container\" style=\"height:300px;position:relative\"></div>" +
@@ -170,9 +186,20 @@
 
       createBelt3D(this.panelState, ctx);
       this.renderInfo(ctx);
+
+      // Wire the window resize listener to the canonical resize() method
+      // and then snap once so the first frame already matches the laid-out
+      // DOM instead of createBelt3D's initial-size fallback.
+      var self = this;
+      this.panelState._resizeHandler = function () { self.resize(ctx); };
+      window.addEventListener('resize', this.panelState._resizeHandler);
+      self.resize(ctx);
     },
 
     unmount: function () {
+      if (this.panelState && this.panelState._resizeHandler) {
+        window.removeEventListener('resize', this.panelState._resizeHandler);
+      }
       disposeBelt3D(this.panelState);
       this.panelState = null;
     },
@@ -183,9 +210,10 @@
       var r = ps._3d;
       var w = ps.beltContainer.clientWidth;
       var h = ps.beltContainer.clientHeight;
+      if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.
       r.camera.aspect = w / h;
       r.camera.updateProjectionMatrix();
-      r.renderer.setSize(w, h);
+      r.renderer.setSize(w, h, false);
       if (r.composer) r.composer.setSize(w, h);
     },
 

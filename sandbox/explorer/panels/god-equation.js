@@ -26,7 +26,15 @@
     var exp = exponentFor(n, d);
     var anchorExp = exponentFor(3, 3);
     if (exp == null || anchorExp == null) return null;
-    return CLAIM_ANCHOR * Math.exp(exp - anchorExp);
+    // The (N,D) slider range is [1,5]x[1,5]. At (5,5) the delta from the
+    // (3,3) anchor is ~513, so raw Math.exp(delta) overflows to Infinity.
+    // Clamp the delta so the readout stays finite and the error metric
+    // stays legible. This is a display guard, not a physics change — the
+    // actual theorem is only claimed at (3,3).
+    var delta = exp - anchorExp;
+    if (delta > 60) return CLAIM_ANCHOR * Math.exp(60);
+    if (delta < -60) return CLAIM_ANCHOR * Math.exp(-60);
+    return CLAIM_ANCHOR * Math.exp(delta);
   }
 
   function sourceListHtml(sources) {
@@ -96,12 +104,18 @@
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Give the renderer a real initial size so it is not stuck at Three.js's
+    // 300x150 default. We use the stage's current client dimensions and fall
+    // back to a sensible default when the stage has not yet been laid out.
+    var initW = stage.clientWidth || 640;
+    var initH = stage.clientHeight || 400;
+    renderer.setSize(initW, initH, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+    var camera = new THREE.PerspectiveCamera(40, initW / initH, 0.1, 1000);
     camera.position.set(0, 8, 20);
     camera.lookAt(0, 0, 0);
 
@@ -123,11 +137,14 @@
     function computeHeight(n, d) {
       var exp = exponentFor(Math.round(n), Math.round(d));
       if (exp == null) return 0;
-      // Normalize: range from 0 (Planck) to 1 (observed matter)
       var anchorExp = exponentFor(3, 3);
       if (anchorExp == null) return 0;
+      // Delta from the (3,3) anchor, clamped so the surface stays on screen.
+      // Without clamping, (5,5) blows up to exp(~513) and the whole surface
+      // flattens to zero with one corner at infinity.
       var delta = exp - anchorExp;
-      return Math.exp(delta * 0.3); // scale factor for visibility
+      var clamped = Math.max(-6, Math.min(6, delta * 0.05));
+      return Math.exp(clamped);
     }
 
     for (var i = 0; i <= nSegments; i++) {
@@ -167,14 +184,31 @@
     geometry.setIndex(indices);
     geometry.computeVertexNormals();
 
-    var material = new THREE.MeshStandardMaterial({
+    var material = new THREE.MeshPhysicalMaterial({
       vertexColors: true,
-      metalness: 0.5,
-      roughness: 0.4,
-      side: THREE.DoubleSide
+      metalness: 0.4,
+      roughness: 0.2,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1,
+      transmission: 0.7,
+      thickness: 0.5,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.9
     });
     var surface = new THREE.Mesh(geometry, material);
     scene.add(surface);
+
+    // Add wireframe overlay for tech/premium feel
+    var wireMat = new THREE.MeshBasicMaterial({
+      color: 0x00e5ff,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15,
+      blending: THREE.AdditiveBlending
+    });
+    var wireSurface = new THREE.Mesh(geometry, wireMat);
+    scene.add(wireSurface);
 
     // Anchor point at (3,3) — the God Equation landing
     var anchorGeo = new THREE.SphereGeometry(0.4, 24, 24);
@@ -201,6 +235,7 @@
     // Particle dots along the exp curve
     var particleCount = 300;
     var pPositions = new Float32Array(particleCount * 3);
+    var pOffsets = new Float32Array(particleCount);
     for (var p = 0; p < particleCount; p++) {
       var pn = 1 + Math.random() * 4;
       var pd = 1 + Math.random() * 4;
@@ -208,14 +243,40 @@
       pPositions[p * 3] = (pn - 1) / 4 * 10 - 5;
       pPositions[p * 3 + 1] = ph;
       pPositions[p * 3 + 2] = (pd - 1) / 4 * 10 - 5;
+      pOffsets[p] = Math.random() * Math.PI * 2;
     }
     var pGeo = new THREE.BufferGeometry();
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-    var pMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.08,
+    pGeo.setAttribute('aOffset', new THREE.BufferAttribute(pOffsets, 1));
+    
+    var pMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color(0xffffff) }
+      },
+      vertexShader: [
+        'attribute float aOffset;',
+        'varying float vAlpha;',
+        'uniform float uTime;',
+        'void main() {',
+        '  vAlpha = 0.3 + 0.7 * sin(uTime * 3.0 + aOffset);',
+        '  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);',
+        '  gl_PointSize = (4.0 + 2.0 * sin(uTime * 2.0 + aOffset)) * (10.0 / -mvPosition.z);',
+        '  gl_Position = projectionMatrix * mvPosition;',
+        '}'
+      ].join('\n'),
+      fragmentShader: [
+        'uniform vec3 uColor;',
+        'varying float vAlpha;',
+        'void main() {',
+        '  float d = distance(gl_PointCoord, vec2(0.5));',
+        '  if (d > 0.5) discard;',
+        '  gl_FragColor = vec4(uColor, vAlpha * (1.0 - d * 2.0));',
+        '}'
+      ].join('\n'),
       transparent: true,
-      opacity: 0.4
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
     });
     var particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
@@ -242,10 +303,10 @@
       );
       composer.addPass(bloom);
       return { container: container, renderer: renderer, scene: scene, camera: camera, composer: composer,
-        surface: surface, anchorMesh: anchorMesh, anchorRing: anchorRing, particles: particles };
+        surface: surface, wireSurface: wireSurface, anchorMesh: anchorMesh, anchorRing: anchorRing, particles: particles };
     } catch (e) {
       return { container: container, renderer: renderer, scene: scene, camera: camera, composer: null,
-        surface: surface, anchorMesh: anchorMesh, anchorRing: anchorRing, particles: particles };
+        surface: surface, wireSurface: wireSurface, anchorMesh: anchorMesh, anchorRing: anchorRing, particles: particles };
     }
   }
 
@@ -269,7 +330,12 @@
     r.anchorRing.rotation.y = time * 0.5;
 
     // Glow pulse
-    r.anchorMesh.material.emissiveIntensity = 0.7 + 0.3 * Math.sin(time * 2.5);
+    var pulse = 0.5 + 0.5 * Math.sin(time * 3.0);
+    r.anchorMesh.material.emissiveIntensity = 0.8 + 0.7 * pulse;
+    r.anchorMesh.scale.setScalar(1.0 + 0.1 * pulse);
+    
+    // Update particle shader time
+    r.particles.material.uniforms.uTime.value = time;
 
     // Surface color update based on current (N,D)
     var isClaimPoint = (n === 3 && d === 3);
@@ -298,6 +364,7 @@
     window.removeEventListener('resize', r._resizeHandler);
     r.surface.geometry.dispose();
     r.surface.material.dispose();
+    r.wireSurface.material.dispose();
     r.anchorMesh.geometry.dispose();
     r.anchorMesh.material.dispose();
     r.anchorRing.geometry.dispose();
@@ -319,9 +386,10 @@
             '<section class="canvas-panel" style="position:relative">' +
               '<div class="panel-header">' +
                 '<div>' +
-                  '<p class="eyebrow">Planck to Matter</p>' +
-                  '<h3>The hierarchy is one exponential climb, not a loose metaphor.</h3>' +
-                  '<p>Move N and D and the ladder either lands near the matter window or misses it by orders of magnitude.</p>' +
+                  '<p class="eyebrow"><span style="color:#ffaa33; font-family:serif; margin-right:8px;">Λ</span> Planck to Matter</p>' +
+                  '<h3><span style="color:#00cfff; font-family:serif; margin-right:8px;">Σ</span> The hierarchy is one exponential climb, not a loose metaphor.</h3>' +
+                  '<p>Move N and D and the ladder either lands near the matter window or misses it by orders of magnitude. The (3,3) anchor is the predicted physical reality.</p>' +
+                  '<p class="interaction-cue"><strong>Interaction:</strong> Use the sliders below to explore the exponential hierarchy from the Planck scale. Review the current frontier analysis.</p>' +
                 '</div>' +
               '</div>' +
               '<canvas class="panel-canvas" id="godCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>' +
@@ -363,7 +431,9 @@
       var b0 = b0ForN(state.nValue);
       var prediction = lambdaFor(state.nValue, state.dValue);
       var errorPct = prediction ? Math.abs(prediction - OBSERVED) / OBSERVED * 100 : null;
-      var audit = ctx.data.godEquationAudit || { dependencyChain: [], gaps: [] };
+      var audit = (ctx.data && ctx.data.godEquationAudit)
+        || (window.PFExplorerData && window.PFExplorerData.godEquationAudit)
+        || { dependencyChain: [], gaps: [] };
       var isClaimPoint = (state.nValue === 3 && state.dValue === 3);
 
       state.info.innerHTML =
@@ -416,13 +486,13 @@
         state._3d = createRenderer3D(state.canvas.parentElement);
         var self = this;
         state._3d._resizeHandler = function () {
-          var w = state.canvas.clientWidth, h = state.canvas.clientHeight;
-          state._3d.camera.aspect = w / h;
-          state._3d.camera.updateProjectionMatrix();
-          state._3d.renderer.setSize(w, h);
-          if (state._3d.composer) state._3d.composer.setSize(w, h);
+          self.resize(ctx);
         };
         window.addEventListener('resize', state._3d._resizeHandler);
+        // Snap the renderer to the current panel size on first mount. The
+        // initial size baked into createRenderer3D is just a safety floor;
+        // the real dimensions only become available after the DOM lays out.
+        this.resize(ctx);
       }
     },
 

@@ -36,10 +36,11 @@
         "<div class=\"panel-wrap\">" +
           "<section class=\"hero-panel\">" +
             "<div class=\"hero-copy\">" +
-              "<p class=\"eyebrow\">Scale Stack Navigator</p>" +
+              "<p class=\"eyebrow\"><span style=\"color:#00cfff; font-family:serif; margin-right:8px;\">↕</span> Scale Stack Navigator</p>" +
               "<p class=\"hero-number\">" + ctx.data.scales.length + "</p>" +
-              "<h3>One axiom spine, from Planck boundary to human-scale coherence.</h3>" +
+              "<h3><span style=\"color:#ffaa33; font-family:serif; margin-right:8px;\">◈</span> One axiom spine, from Planck boundary to human-scale coherence.</h3>" +
               "<p>Every current result is placed on the same vertical ladder. Click any node to see which claims live there, then jump directly into the deep panels that compute them.</p>" +
+              "<p class=\"interaction-cue\"><strong>Interaction:</strong> Orbit the 3D ladder. Click a floating scale node to load its mapped results.</p>" +
               '<p><a href="scale-ladder.html" class="soft-button" style="display:inline-block;margin-top:8px;text-decoration:none;background:var(--propagate);color:var(--void);font-weight:bold;">Launch Full 3D Scale Ladder →</a></p>' +
               '<p><a href="playground.html" class="soft-button" style="display:inline-block;margin-top:6px;text-decoration:none">Propagation Playground →</a></p>' +
             "</div>" +
@@ -75,6 +76,7 @@
         renderer: null,
         composer: null,
         nodes: [],
+        particles: null,
         raycaster: new THREE.Raycaster(),
         mouse: new THREE.Vector2(),
         animFrame: null
@@ -82,6 +84,14 @@
 
       this.init3D(ctx);
       this.renderDetails(ctx);
+
+      // Wire the window resize listener to the canonical resize() method
+      // and then snap once so the first frame already matches the laid-out
+      // DOM instead of init3D's default-size fallback.
+      var self = this;
+      this.state._resizeHandler = function () { self.resize(ctx); };
+      window.addEventListener('resize', this.state._resizeHandler);
+      self.resize(ctx);
     },
 
     init3D: function(ctx) {
@@ -90,8 +100,8 @@
       var h = this.state.container.clientHeight || 600;
 
       var scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x050d1a);
-      scene.fog = new THREE.FogExp2(0x050d1a, 0.05);
+      scene.background = new THREE.Color(0x020610);
+      scene.fog = new THREE.FogExp2(0x020610, 0.04);
 
       var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
       camera.position.set(0, 0, 30);
@@ -99,32 +109,48 @@
       var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
       this.state.container.appendChild(renderer.domElement);
 
       var composer;
-      if (window.THREE.EffectComposer) {
+      try {
           composer = new THREE.EffectComposer(renderer);
           composer.addPass(new THREE.RenderPass(scene, camera));
-          var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), 1.2, 0.4, 0.85);
+          var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), 1.5, 0.4, 0.85);
           composer.addPass(bloom);
-      }
+      } catch(e) {}
 
       // Beam
-      var beamGeo = new THREE.CylinderGeometry(0.05, 0.05, 40, 8);
-      var beamMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.1 });
+      var beamGeo = new THREE.CylinderGeometry(0.08, 0.08, 40, 16);
+      var beamMat = new THREE.MeshBasicMaterial({ 
+        color: 0x00cfff, 
+        transparent: true, 
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
       var beam = new THREE.Mesh(beamGeo, beamMat);
       scene.add(beam);
 
       // Particles
       var pGeo = new THREE.BufferGeometry();
       var pPos = [];
-      for (let i = 0; i < 200; i++) {
-          pPos.push((Math.random() - 0.5) * 20, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 10 - 5);
+      for (let i = 0; i < 300; i++) {
+          pPos.push((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 20 - 5);
       }
       pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pPos, 3));
-      var pMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.3 });
+      var pMat = new THREE.PointsMaterial({ 
+        color: 0x00e5ff, 
+        size: 0.12, 
+        transparent: true, 
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
       var particles = new THREE.Points(pGeo, pMat);
       scene.add(particles);
+      this.state.particles = particles;
 
       // Nodes
       var scales = ctx.data.scales;
@@ -136,11 +162,12 @@
         var logM = Math.log10(s.meters);
         var normalizedY = ((logM - logMin) / range) * 30 - 15; // Map to -15 to 15 range
 
-        var geo = new THREE.SphereGeometry(0.3 + (i * 0.02), 16, 16);
+        var geo = new THREE.IcosahedronGeometry(0.3 + (i * 0.02), 1);
         var mat = new THREE.MeshStandardMaterial({ 
           color: 0x445566, 
-          emissive: 0x223344,
-          roughness: 0.4
+          emissive: 0x112233,
+          roughness: 0.2,
+          metalness: 0.8
         });
         var mesh = new THREE.Mesh(geo, mat);
         mesh.position.y = normalizedY;
@@ -163,9 +190,9 @@
         scene.add(sprite);
       });
 
-      var ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      var ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
       scene.add(ambientLight);
-      var dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      var dirLight = new THREE.DirectionalLight(0xffffff, 2);
       dirLight.position.set(10, 10, 10);
       scene.add(dirLight);
 
@@ -215,10 +242,11 @@
             var isSelected = id === this.state.selectedScaleId;
             var isHovered = id === this.state.hoveredScaleId;
 
-            node.rotation.y = time * 0.5 + node.userData.index;
+            node.rotation.y = time * 0.3 + node.userData.index;
+            node.rotation.x = time * 0.2 + node.userData.index * 0.5;
 
             if (isSelected) {
-                node.material.color.setHex(0x00e5ff);
+                node.material.color.setHex(0x00cfff);
                 node.material.emissive.setHex(0x0088aa);
                 node.scale.setScalar(1.5 + Math.sin(time * 3) * 0.1);
             } else if (isHovered) {
@@ -232,6 +260,16 @@
             }
         });
 
+        // Particle motion
+        if (this.state.particles) {
+            this.state.particles.rotation.y = time * 0.05;
+            var pts = this.state.particles.geometry.attributes.position.array;
+            for (var i = 0; i < pts.length; i += 3) {
+                pts[i+1] += Math.sin(time + i) * 0.01;
+            }
+            this.state.particles.geometry.attributes.position.needsUpdate = true;
+        }
+
         // Slow camera drift
         this.state.camera.position.y = Math.sin(time * 0.2) * 2;
         this.state.camera.lookAt(0, this.state.camera.position.y, 0);
@@ -244,6 +282,9 @@
     },
 
     unmount: function () {
+      if (this.state && this.state._resizeHandler) {
+          window.removeEventListener('resize', this.state._resizeHandler);
+      }
       if (this.state && this.state.animFrame) {
           cancelAnimationFrame(this.state.animFrame);
       }
@@ -254,9 +295,10 @@
       if (!this.state || !this.state.camera) return;
       var w = this.state.container.clientWidth;
       var h = this.state.container.clientHeight;
+      if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.
       this.state.camera.aspect = w / h;
       this.state.camera.updateProjectionMatrix();
-      this.state.renderer.setSize(w, h);
+      this.state.renderer.setSize(w, h, false);
       if (this.state.composer) this.state.composer.setSize(w, h);
     },
 

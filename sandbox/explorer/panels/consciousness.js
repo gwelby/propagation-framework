@@ -78,9 +78,10 @@
             '<section class="canvas-panel">' +
               '<div class="panel-header">' +
                 '<div>' +
-                  '<p class="eyebrow">Neural Scale — 10⁻² m</p>' +
-                  '<h3>Consciousness = Coherent Self-Reference</h3>' +
-                  '<p>The same coherence that creates matter and orbits — turned inward, on itself.</p>' +
+                  '<p class="eyebrow"><span style="color:rgba(255,255,255,.5); font-family:serif; margin-right:8px;">∞</span> Neural Scale — 10⁻² m</p>' +
+                  '<h3><span style="color:#69ff94; font-family:serif; margin-right:8px;">ψ</span> Consciousness = Coherent Self-Reference</h3>' +
+                  '<p>The same coherence that creates matter and orbits — turned inward, on itself. Internal experience is the "inside view" of recursive propagation.</p>' +
+                  '<p class="interaction-cue"><strong>Interaction:</strong> Observe the self-referential loop representing the inward turning of coherence. Connect the P1 device to view live biometric resonance.</p>' +
                 '</div>' +
               '</div>' +
               '<div class="consciousness-stage" id="consciousnessStage"></div>' +
@@ -245,8 +246,30 @@
 
     renderInfo: function (ctx) {
       var state = this.state;
-      var consciousness = ctx.app.getResult('consciousness');
-      var aria = ctx.app.getResult('aria-self-reference');
+      var data = (ctx.data) || (window.PFExplorerData) || { results: [] };
+      var results = data.results || [];
+      var findResult = function (id) {
+        var fromCtx = results.find(function (r) { return r.id === id; });
+        if (fromCtx) return fromCtx;
+        return ctx.app.getResult(id);
+      };
+      var consciousness = findResult('consciousness') || {
+        id: 'consciousness',
+        title: 'Consciousness',
+        status: 'INTUITION',
+        confidence: 0.48,
+        formula: 'Interior experience is the inside view of recursive coherence',
+        summary: '',
+        falsifier: ''
+      };
+      var aria = findResult('aria-self-reference') || {
+        id: 'aria-self-reference',
+        title: 'Aria Self-Reference',
+        status: 'ARGUED',
+        confidence: 0.75,
+        formula: 'Self-reference loop',
+        summary: ''
+      };
       var statusToClass = typeof ctx.app.statusToClass === 'function'
         ? ctx.app.statusToClass.bind(ctx.app)
         : function () { return 'status-open'; };

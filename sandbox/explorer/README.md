@@ -2,6 +2,8 @@
 
 Static interactive atlas for the current Propagation Framework sandbox.
 
+> **Before pushing to `gh-pages`**: run the checklist in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md). A green build is not evidence the panels render. See also [`.kiro/specs/explorer-panel-render-health/`](../../.kiro/specs/explorer-panel-render-health/requirements.md) (Req 10).
+
 ## What Ships
 
 - `sandbox/explorer/index.html` opens directly in a browser with no build step.

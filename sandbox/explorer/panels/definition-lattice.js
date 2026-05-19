@@ -46,13 +46,14 @@
     var listHTML = ordered.map(function(def, idx) {
       var deps = (def.dependencies || []);
       var depHTML = deps.length
-        ? '<div class="dl-def-deps">Depends on: ' + deps.map(function(d){
+        ? '<div class="dl-def-deps">Requires Coherence: ' + deps.map(function(d){
             return '<button class="dl-dep-link" data-focus-def="'+d+'" type="button">'+d+'</button>';
           }).join(', ') + '</div>'
-        : '<div class="dl-def-deps dl-def-deps--root">Root definition — no dependencies</div>';
+        : '<div class="dl-def-deps dl-def-deps--root">Axiomatic Root — Propagation starts here</div>';
 
       return [
         '<article class="dl-def-card" data-def-id="' + def.id + '" tabindex="0">',
+          '<div class="dl-vibe-icon" aria-hidden="true">≋</div>',
           '<div class="dl-def-head">',
             '<div class="dl-def-num">' + String(idx + 1).padStart(2, '0') + '</div>',
             '<div class="dl-def-meta">',
@@ -63,13 +64,15 @@
           '<p class="dl-def-oneliner">' + def.oneLiner + '</p>',
           depHTML,
           '<div class="dl-def-views">',
-            '<div class="dl-def-story story-only">' + def.storyLine + '</div>',
+            '<div class="dl-def-story story-only">' + 
+              '<span class="dl-narrative-cue">Insight:</span> ' + def.storyLine + 
+            '</div>',
             '<div class="dl-def-audit audit-only">',
-              '<div class="dl-audit-row"><span class="dl-lbl">Audit:</span><span>' + def.auditLine + '</span></div>',
-              '<div class="dl-audit-row dl-not-this"><span class="dl-lbl">Not this:</span><span>' + def.notThis + '</span></div>',
+              '<div class="dl-audit-row"><span class="dl-lbl">Audit Boundary:</span><span>' + def.auditLine + '</span></div>',
+              '<div class="dl-audit-row dl-not-this"><span class="dl-lbl">Conceptual Trap:</span><span>' + def.notThis + '</span></div>',
             '</div>',
             '<div class="dl-def-math math-only">',
-              '<span class="dl-file-ref">📄 ' + (def.file || '') + '</span>',
+              '<span class="dl-file-ref">📄 Evidence: ' + (def.file || '') + '</span>',
             '</div>',
           '</div>',
         '</article>',
@@ -83,8 +86,8 @@
       '<div class="dl-shell">',
         '<div class="dl-sidebar">',
           '<div class="dl-sidebar-head">',
-            '<h3 class="dl-sidebar-title">Canonical Definitions</h3>',
-            '<p class="dl-sidebar-sub">These ' + ordered.length + ' definitions are the permitted vocabulary of the framework. Every claim must trace to these primitives. None may be promoted or demoted by UI code.</p>',
+            '<h3 class="dl-sidebar-title"><span style="color:#00cfff; font-family:serif; margin-right:8px;">≋</span> The Vocabulary of Reality</h3>',
+            '<p class="dl-sidebar-sub">Before we can see what reality *is*, we must define the medium it propagates through. These ' + ordered.length + ' primitives are the only permitted words in the framework. No magic. No exceptions.</p>',
           '</div>',
           '<div class="dl-def-list" id="dlDefList">',
             listHTML,
@@ -92,15 +95,18 @@
         '</div>',
         '<div class="dl-graph-pane">',
           '<div class="dl-graph-head">',
-            '<h3 class="dl-graph-title">Dependency Graph</h3>',
-            '<p class="dl-graph-sub">Edges show "is required by" relationships. Root nodes (no dependencies) are the axiom primitives.</p>',
+            '<h3 class="dl-graph-title">Lattice of Coherence</h3>',
+            '<p class="dl-graph-sub">Each node is a concept. Each line is a prerequisite. Watch how reality builds itself from the Medium up.</p>',
+            '<p class="interaction-cue"><strong>Interaction:</strong> Click any node to navigate to its details in the sidebar and observe its dependency resonance.</p>',
           '</div>',
           '<div class="dl-graph-canvas-wrap">',
+            '<div class="dl-graph-overlay">PHASE TRANSITION IN PROGRESS</div>',
             svgHTML,
           '</div>',
           '<div class="dl-inspector" id="dlInspector">',
             '<div class="dl-inspector-empty">',
-              '<span>Select a definition to inspect it</span>',
+              '<div class="dl-vibe-pulse" aria-hidden="true">≋</div>',
+              '<span>Select a definition to observe its resonance</span>',
             '</div>',
           '</div>',
         '</div>',

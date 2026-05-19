@@ -397,6 +397,72 @@
       // Stub for panel-specific updates
     },
 
+    // Data accessors backed by window.PFExplorerData (curated snapshot).
+    getAuditedResults: function () {
+      var src = window.PFExplorerData || { results: [] };
+      return (src.results || []).filter(function (r) { return !r.unsynced; });
+    },
+
+    getLinkedPanelIdsForScale: function (scale) {
+      if (!scale || !scale.resultIds) return [];
+      var src = window.PFExplorerData || { panelMeta: [] };
+      var resultIds = scale.resultIds;
+      var linked = {};
+      (src.panelMeta || []).forEach(function (p) {
+        (p.linkedResultIds || []).forEach(function (rid) {
+          if (resultIds.indexOf(rid) >= 0) linked[p.id] = true;
+        });
+      });
+      return Object.keys(linked);
+    },
+
+    statusToClass: function (status) {
+      if (window.PFTruth && typeof window.PFTruth.statusToClass === 'function') {
+        return window.PFTruth.statusToClass(status);
+      }
+      if (status && typeof status === 'object' && status.label) {
+        return window.PFTruth && window.PFTruth.statusToClass
+          ? window.PFTruth.statusToClass(status.label)
+          : 'status-open';
+      }
+      return 'status-open';
+    },
+
+    createResultCard: function (result, options) {
+      options = options || {};
+      var card = document.createElement('div');
+      if (!result) {
+        card.className = 'result-card';
+        card.textContent = '—';
+        return card;
+      }
+      var statusStr = (result.status && result.status.label) ? result.status.label : (result.status || 'OPEN');
+      var statusClass = PF.statusToClass(statusStr);
+      card.className = 'result-card ' + statusClass;
+      if (result.id) card.setAttribute('data-result-id', result.id);
+      var confidence = (typeof result.confidence === 'number')
+        ? Math.round(result.confidence * 100) + '%' : 'n/a';
+      var parts = [
+        '<div class="result-card-head">',
+          '<div class="result-card-title">', (result.title || ''), '</div>',
+          '<div class="result-card-status ', statusClass.replace(/^status-/, ''), '">', statusStr, '</div>',
+        '</div>'
+      ];
+      if (result.formula) parts.push('<div class="result-card-formula">', result.formula, '</div>');
+      parts.push('<div class="result-card-confidence">Confidence: ', confidence, '</div>');
+      if (options.showInlineFalsifier && result.falsifier) {
+        parts.push('<div class="result-card-falsifier"><strong>Falsifier:</strong> ', result.falsifier, '</div>');
+      }
+      if (result.summary) parts.push('<div class="result-card-summary">', result.summary, '</div>');
+      card.innerHTML = parts.join('');
+      if (options.wholeCardFocus && result.id) {
+        card.addEventListener('click', function () {
+          if (typeof PF.focusResult === 'function') PF.focusResult(result.id, { open: true });
+        });
+      }
+      return card;
+    },
+
     // ── Utils / Logic ───────────────────────────────────────────────────────
 
     getResult: function (id) {
@@ -410,7 +476,8 @@
         stage: dom.stage,
         state: state,
         app: PF,
-        utils: PF.utils
+        utils: PF.utils,
+        data: window.PFExplorerData || { results: [], scales: [], panelMeta: [], definitions: [] }
       };
     },
 
@@ -428,6 +495,11 @@
       casimirRoot: function (j) {
         var c2 = j * (j + 1);
         return (-c2 + Math.sqrt(c2 * c2 + 4 * c2)) / 2;
+      },
+      formatScientific: function (value, digits) {
+        if (value === null || value === undefined || isNaN(value)) return 'n/a';
+        var d = (typeof digits === 'number') ? digits : 3;
+        return Number(value).toExponential(d);
       },
       koideQ: function (masses) {
         var sumSqrt = masses.reduce(function (a, b) { return a + Math.sqrt(b); }, 0);

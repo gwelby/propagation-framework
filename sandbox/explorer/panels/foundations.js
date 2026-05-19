@@ -7,9 +7,10 @@
         "<div class=\"panel-wrap\">" +
           "<section class=\"hero-panel\">" +
             "<div class=\"hero-copy\">" +
-              "<p class=\"eyebrow\">Axiomatic Foundations Lab</p>" +
+              "<p class=\"eyebrow\"><span style=\"color:#00cfff; font-family:serif; margin-right:8px;\">∇</span> Axiomatic Foundations Lab</p>" +
               "<h3>The fundamental primitives of reality.</h3>" +
-              "<p>Select an entry concept to visualize its mechanics. The Explorer data layer now carries all 19 canonical definitions; this panel highlights the original four foundation concepts.</p>" +
+              "<p>Select an entry concept to visualize its mechanics. These primitives are the only permitted words in the framework. No magic. No exceptions.</p>" +
+              "<p class=\"interaction-cue\"><strong>Interaction:</strong> Select an axiom to switch views. Drag the Falsification slider to inject thermal noise and test structural collapse.</p>" +
             "</div>" +
             "<div class=\"stat-grid\">" +
               "<div class=\"stat-tile axiomatic-btn is-active\" data-axiom=\"medium\" style=\"cursor:pointer;\"><strong>1</strong><span>The Medium</span></div>" +
@@ -45,6 +46,7 @@
         scene: null,
         camera: null,
         renderer: null,
+        composer: null,
         animFrame: null,
         visuals: {} // store threejs groups
       };
@@ -53,6 +55,14 @@
       this.bindEvents(ctx);
       this.renderDetails(ctx);
       this.updateVisuals();
+
+      // Wire the window resize listener to the canonical resize() method
+      // and then snap once so the first frame already matches the laid-out
+      // DOM instead of init3D's default-size fallback.
+      var self = this;
+      this.state._resizeHandler = function () { self.resize(ctx); };
+      window.addEventListener('resize', this.state._resizeHandler);
+      self.resize(ctx);
     },
 
     bindEvents: function(ctx) {
@@ -97,17 +107,28 @@
       var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
       this.state.container.appendChild(renderer.domElement);
 
-      var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      var composer = null;
+      try {
+        composer = new THREE.EffectComposer(renderer);
+        composer.addPass(new THREE.RenderPass(scene, camera));
+        var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), 1.5, 0.4, 0.85);
+        composer.addPass(bloom);
+      } catch(e) {}
+
+      var ambientLight = new THREE.AmbientLight(0x222244, 1.0);
       scene.add(ambientLight);
-      var dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      var dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
       dirLight.position.set(5, 5, 5);
       scene.add(dirLight);
 
       this.state.scene = scene;
       this.state.camera = camera;
       this.state.renderer = renderer;
+      this.state.composer = composer;
 
       // Group for The Medium
       var mediumGroup = new THREE.Group();
@@ -119,7 +140,14 @@
         foamPos[i*3+2] = (Math.random()-0.5)*10;
       }
       foamGeo.setAttribute('position', new THREE.BufferAttribute(foamPos, 3));
-      var foamMat = new THREE.PointsMaterial({ color: 0x8800ff, size: 0.1, transparent: true, opacity: 0.5 });
+      var foamMat = new THREE.PointsMaterial({ 
+        color: 0x8800ff, 
+        size: 0.15, 
+        transparent: true, 
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
       var foam = new THREE.Points(foamGeo, foamMat);
       mediumGroup.add(foam);
       this.state.visuals.medium = mediumGroup;
@@ -128,15 +156,29 @@
       // Group for Causal Velocity
       var velocityGroup = new THREE.Group();
       var coneGeo = new THREE.ConeGeometry(5, 10, 32, 1, true);
-      var coneMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.3, wireframe: true });
-      var topCone = new THREE.Mesh(coneGeo, coneMat);
+      var coneMatTop = new THREE.MeshBasicMaterial({ color: 0x00cfff, transparent: true, opacity: 0.2, wireframe: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false });
+      var coneMatBot = new THREE.MeshBasicMaterial({ color: 0xff00ff, transparent: true, opacity: 0.2, wireframe: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false });
+      
+      var topCone = new THREE.Mesh(coneGeo, coneMatTop);
       topCone.position.y = 5;
-      var botCone = new THREE.Mesh(coneGeo, coneMat);
+      var botCone = new THREE.Mesh(coneGeo, coneMatBot);
       botCone.position.y = -5;
       botCone.rotation.x = Math.PI;
+      
+      var topConeWire = new THREE.Mesh(coneGeo, new THREE.MeshBasicMaterial({ color: 0x00cfff, wireframe: true, transparent: true, opacity: 0.15 }));
+      topCone.add(topConeWire);
+      var botConeWire = new THREE.Mesh(coneGeo, new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: true, transparent: true, opacity: 0.15 }));
+      botCone.add(botConeWire);
+
       velocityGroup.add(topCone);
       velocityGroup.add(botCone);
-      var pointGeo = new THREE.SphereGeometry(0.2, 16, 16);
+      
+      var coreGeo = new THREE.CylinderGeometry(0.05, 0.05, 20, 8);
+      var coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+      var coreBeam = new THREE.Mesh(coreGeo, coreMat);
+      velocityGroup.add(coreBeam);
+
+      var pointGeo = new THREE.SphereGeometry(0.3, 32, 32);
       var pointMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
       var originPoint = new THREE.Mesh(pointGeo, pointMat);
       velocityGroup.add(originPoint);
@@ -145,10 +187,17 @@
 
       // Group for Coherence
       var coherenceGroup = new THREE.Group();
-      var ringCount = 5;
+      var ringCount = 6;
       for (var i=1; i<=ringCount; i++) {
-        var rGeo = new THREE.RingGeometry(i*1.5, i*1.5+0.1, 64);
-        var rMat = new THREE.MeshBasicMaterial({ color: 0x69ff94, transparent: true, opacity: 1 - (i/ringCount)*0.8, side: THREE.DoubleSide });
+        var rGeo = new THREE.TorusGeometry(i*1.5, 0.1, 16, 100);
+        var rMat = new THREE.MeshStandardMaterial({ 
+          color: 0x69ff94, 
+          emissive: 0x228844,
+          transparent: true, 
+          opacity: 1 - (i/ringCount)*0.7, 
+          roughness: 0.2,
+          metalness: 0.8
+        });
         var r = new THREE.Mesh(rGeo, rMat);
         coherenceGroup.add(r);
       }
@@ -157,17 +206,27 @@
 
       // Group for Time
       var timeGroup = new THREE.Group();
-      var spiralGeo = new THREE.BufferGeometry();
-      var spiralPos = new Float32Array(500 * 3);
-      for (let i=0; i<500; i++) {
+      var spiralPoints = [];
+      for (let i=0; i<300; i++) {
         var t = i / 10;
-        spiralPos[i*3] = Math.cos(t) * (t*0.2);
-        spiralPos[i*3+1] = t * 0.3 - 8;
-        spiralPos[i*3+2] = Math.sin(t) * (t*0.2);
+        spiralPoints.push(new THREE.Vector3(
+          Math.cos(t) * (t*0.2),
+          t * 0.3 - 5,
+          Math.sin(t) * (t*0.2)
+        ));
       }
-      spiralGeo.setAttribute('position', new THREE.BufferAttribute(spiralPos, 3));
-      var spiralMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.8 });
-      var spiral = new THREE.Line(spiralGeo, spiralMat);
+      var curve = new THREE.CatmullRomCurve3(spiralPoints);
+      var tubeGeo = new THREE.TubeGeometry(curve, 300, 0.15, 8, false);
+      var tubeMat = new THREE.MeshStandardMaterial({ 
+        color: 0xffaa00, 
+        emissive: 0xff5500,
+        emissiveIntensity: 0.5,
+        transparent: true, 
+        opacity: 0.9,
+        roughness: 0.2,
+        metalness: 0.8
+      });
+      var spiral = new THREE.Mesh(tubeGeo, tubeMat);
       timeGroup.add(spiral);
       this.state.visuals.time = timeGroup;
       scene.add(timeGroup);
@@ -229,11 +288,14 @@
         // At high heat, cone materials go red then transparent (coherence lost)
         cv.children.forEach(function(child) {
           if (child.material) {
-            var tint = heat > 0.5 ? 0xff4455 : 0x00e5ff;
-            child.material.color.setHex(tint);
-            child.material.opacity = Math.max(0.05, 0.3 - heatSq * 0.25);
-            // Wireframe shatters into noise at collapse
-            child.material.wireframe = heat > 0.7;
+            var tint = heat > 0.5 ? 0xff4455 : (child.position.y > 0 ? 0x00cfff : 0xff00ff);
+            if (child.material.color) {
+              child.material.color.setHex(tint);
+            }
+            if (child.material.wireframe !== undefined) {
+              child.material.opacity = Math.max(0.05, 0.3 - heatSq * 0.25);
+              child.material.wireframe = child.material.wireframe || (heat > 0.7);
+            }
           }
         });
         cv.rotation.z = isCollapsed ? Math.random() * Math.PI : 0;
@@ -281,10 +343,17 @@
         }
       }
 
-      this.state.renderer.render(this.state.scene, this.state.camera);
+      if (this.state.composer) {
+        this.state.composer.render();
+      } else {
+        this.state.renderer.render(this.state.scene, this.state.camera);
+      }
     },
 
     unmount: function () {
+      if (this.state && this.state._resizeHandler) {
+          window.removeEventListener('resize', this.state._resizeHandler);
+      }
       if (this.state && this.state.animFrame) {
           cancelAnimationFrame(this.state.animFrame);
       }
@@ -295,9 +364,13 @@
       if (!this.state || !this.state.camera) return;
       var w = this.state.container.clientWidth;
       var h = this.state.container.clientHeight;
+      if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.
       this.state.camera.aspect = w / h;
       this.state.camera.updateProjectionMatrix();
-      this.state.renderer.setSize(w, h);
+      this.state.renderer.setSize(w, h, false);
+      if (this.state.composer) {
+        this.state.composer.setSize(w, h);
+      }
     },
 
     renderDetails: function(ctx) {
