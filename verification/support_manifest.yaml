@@ -1,0 +1,66 @@
+# verification/support_manifest.yaml
+#
+# Read-only support manifest for the Propagation Framework verification
+# harness. This file marks which derivation references already cited in
+# CLAIMS.md qualify as Codex-audit-qualified local support for a claim.
+#
+# GROUND RULES (see .kiro/specs/propagation-framework-verification/requirements.md,
+# Req. 2.8, 4.1, 4.7, 11.4):
+#
+#   * Read-only metadata. This file only annotates references that are
+#     already present in CLAIMS.md. It does NOT introduce new claims
+#     and it does NOT change any CLAIMS.md status or confidence.
+#   * A file appears here only when Codex-audit-qualified support is
+#     explicit. The verification harness uses this manifest to decide
+#     whether a DERIVED claim without a local reproduction script may
+#     emit REGRESSION_OK (vs. SCRIPT_BROKEN/EXTERNAL_ONLY).
+#   * Every `path` must resolve to a file that actually exists on disk.
+#     The loader is required to validate this and BLOCK the run if it
+#     does not (Req. 2.8, 11.4).
+#   * `audit_status` should be one of: DERIVED, AUDIT_PASSED, AUDIT_PENDING.
+#     Only DERIVED and AUDIT_PASSED count as support for REGRESSION_OK.
+#   * `note` is a short human-readable tag describing what the file
+#     actually proves. It is not evaluated by the harness.
+#
+# Seed entries below cover the four claims whose local support is
+# currently stable enough to be pinned. Additional entries should be
+# added as more Codex audits close.
+
+support:
+  koide_q:
+    - path: derivations/koide_geometric_equivalence.md
+      audit_status: DERIVED
+      date: 2026-03-XX
+      note: "Geometric theorem — three equal-strength resonances at 120 degrees force the Foot-radius relation and yield Q = 2/3 exactly."
+
+  gravity_refraction:
+    - path: derivations/gr_fermat_equivalence.md
+      audit_status: DERIVED
+      date: 2026-03-27
+      note: "Exact local theorem: optical-metric equivalence for null geodesics in static spacetimes; Randers/Finsler extension for stationary spacetimes."
+    - path: derivations/forces_as_refraction_audit_2026-03-27.md
+      audit_status: AUDIT_PASSED
+      date: 2026-03-27
+      note: "Hostile audit that fixed the row wording and confirmed the null/stationary scope; scalar n(x) is the weak-field/static limit."
+
+  weinberg_angle:
+    - path: derivations/g3_casimir_weinberg_angle.md
+      audit_status: DERIVED
+      date: 2026-03-XX
+      note: "Casimir polynomial x^2 + C_2 x - C_2 = 0 with Axiom 3b (Minimal Winding) yields R = 0.22310 exactly; matches PDG on-shell value to 0.13 sigma."
+    - path: derivations/coherence_functional_candidate_F_audit.md
+      audit_status: AUDIT_PASSED
+      date: 2026-03-XX
+      note: "Coherence functional audit bearing on the spin-pair (j = 1/2, j = 1) selection used in the Casimir derivation."
+
+# NOTE: `bekenstein_bound` was originally listed in the task 1.3 seed
+# entries, but CLAIMS.md currently has no row for it (grep confirmed,
+# 2026-05-07). The loader correctly BLOCKs on unresolvable claim ids
+# (Req. 2.8, 11.4), so the entry is commented out until a matching row
+# is added to CLAIMS.md or removed from the seed list.
+#
+#  bekenstein_bound:
+#    - path: derivations/bekenstein_from_pf_axioms.md
+#      audit_status: AUDIT_PENDING
+#      date: 2026-03-XX
+#      note: "PF-axioms route for the Bekenstein bound. Promote to AUDIT_PASSED once a dedicated Codex audit file lands."

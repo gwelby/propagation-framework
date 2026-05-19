@@ -1,0 +1,68 @@
+# verification/dependency_overlay.yaml
+#
+# Read-only dependency overlay for the Propagation Framework verification
+# harness. This file adds explicit, machine-readable dependency edges
+# between claims that are already present in CLAIMS.md.
+#
+# GROUND RULES (see .kiro/specs/propagation-framework-verification/requirements.md,
+# Req. 2.1, 2.2, 2.7, 2.8):
+#
+#   * This file is read-only metadata. It is NOT a second scoreboard.
+#   * It does NOT redefine statuses, confidence scores, or any other
+#     CLAIMS.md values. The CLAIMS.md row remains the sole source of
+#     truth for a claim's tier and confidence.
+#   * It does NOT introduce claims that are absent from CLAIMS.md.
+#     Every `upstream` and `downstream` id below must resolve to a
+#     slugified row in CLAIMS.md (slug = lowercase row label with
+#     whitespace and non-word chars collapsed to '_').
+#   * Edges may be appended over time as the team identifies more
+#     explicit structural dependencies. Inferring edges from free
+#     prose in CLAIMS.md evidence text is explicitly out of scope;
+#     edges are only counted when declared here.
+#   * The verification harness uses these edges to build a topological
+#     order and to compute cascade impact. A missing edge just means
+#     "not declared"; it does not mean "no relationship."
+#
+# Each edge has the shape:
+#   - upstream:   <claim_id that must hold for `downstream` to be safe>
+#     downstream: <claim_id that inherits pressure from `upstream`>
+#     reason:     <short human-readable structural reason>
+#     source:     <where this edge was taken from; `manual_overlay` for
+#                  edges curated by the team, or a file path for edges
+#                  that were extracted from an audited derivation>
+
+edges:
+  - upstream: topological_weights
+    downstream: three_generations
+    reason: "T3 assembly theorem requires the (2,1) closure-weight numerator theorem from T1."
+    source: manual_overlay
+
+  - upstream: koide_q
+    downstream: three_generations
+    reason: "Q(N) = 2N / (2N + 3) = 2/3 is what forces N = 3 in the T3 assembly; the Koide Q = 2/3 row is its upstream anchor."
+    source: manual_overlay
+
+  - upstream: three_generations
+    downstream: god_equation
+    reason: "The God Equation's lambda_c row cites N = 3 as an upstream structural input (N appears inside the exponent)."
+    source: manual_overlay
+
+  - upstream: god_equation
+    downstream: qcd_confinement
+    reason: "The confinement radius r_conf = lambda_c * exp(2 pi / (b_0 alpha_s(lambda_c))) uses lambda_c as input."
+    source: manual_overlay
+
+  - upstream: god_equation
+    downstream: top_quark_limit
+    reason: "The coherence ceiling argument for m_t uses lambda_c as the underlying PF coherence scale."
+    source: manual_overlay
+
+  - upstream: propagation_lagrangian
+    downstream: variable_c
+    reason: "c_local = 1 / sqrt(1 + lambda chi) is derived from the conformal rescaling of the Propagation Lagrangian."
+    source: manual_overlay
+
+  - upstream: koide_q
+    downstream: koide_phase
+    reason: "The phase anchor delta_0 is the phase parameter of the Koide formula whose Q = 2/3 amplitude relation lives in the koide_q row."
+    source: manual_overlay
