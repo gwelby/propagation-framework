@@ -1,0 +1,357 @@
+{
+  "bridge": "crystal_bridge v1.0",
+  "crystal_service": "http://localhost:18004",
+  "timestamp": "2026-05-05T20:37:29Z",
+  "specs_validated": 18,
+  "elapsed_seconds": 1.04,
+  "results": [
+    {
+      "path": "/mnt/d/Fundamentals/definitions/causal_velocity.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "CAUSAL_VELOCITY",
+          "canonical_label": "Causal Velocity",
+          "canonical_score": 1.0,
+          "canonical_text": "Causal Velocity\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Audits: derivations/coherence_causal_velocity_audit_2026-04-28.md; derivations/causal_velocity_definition_final_audit_2026-04-29.md*\n\n---\n\nThe Definition\n\n**Causal velocity is the upper bound on controllable causal influence in a specified medium or theory.**\n\nIn relativistic vacuum, this bound is the local Lorentz-invariant constant c. In effective media, lower characteristic spee",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Causal Velocity",
+          "definition": "Causal velocity is the upper bound on controllable causal influence in a specified medium or theory."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/coherence.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "COHERENCE",
+          "canonical_label": "Coherence",
+          "canonical_score": 1.0,
+          "canonical_text": "Coherence\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Audits: derivations/coherence_causal_velocity_audit_2026-04-28.md; derivations/coherence_definition_final_audit_2026-04-29.md*\n\n---\n\nThe Definition\n\n**Coherence is stable relational structure among states under evolution.**\n\nIn wave systems, coherence appears as stable phase relationships. In quantum systems, it appears as basis-dependent off-diagonal density-matrix structure. In dynamic",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Coherence",
+          "definition": "Coherence is stable relational structure among states under evolution."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/consciousness.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 0,
+      "definitions": []
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/coupling.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "COUPLING",
+          "canonical_label": "Coupling",
+          "canonical_score": 1.0,
+          "canonical_text": "Coupling\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*\n*The dynamical relation by which two Medium subsystems can influence each other's evolution. Measurement, decoherence, and force are specialized cases.*\n*Source: load-bearing term audit across canonical definitions; measurement.md; decoherence.md; forces.md; field.md*\n*Audit: derivations/coupling_definition_final_audit_2026-04-30.md*\n*Dependencies: medium.md CANONICAL v1.0; field.md CANONI",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Coupling",
+          "definition": "Coupling is a dynamical dependence between two or more Medium subsystems: the evolution of one subsystem depends on the state, field, or boundary condition of another through a specified interaction s"
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/decoherence.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "DECOHERENCE",
+          "canonical_label": "Decoherence",
+          "canonical_score": 1.0,
+          "canonical_text": "Decoherence\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*\n*How coherent mode structures degrade through interaction with the Medium environment.*\n*Audit: derivations/decoherence_definition_final_audit_2026-04-30.md*\n*Related definitions: coupling.md CANONICAL v1.0; coherence.md; measurement.md; information.md*\n\n---\n\nDefinition\n\n**Decoherence** is the Medium-environment-mediated loss of stable phase relationships between the modes of a coherent",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Decoherence",
+          "definition": "Decoherence"
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/energy.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "ENERGY",
+          "canonical_label": "Energy",
+          "canonical_score": 1.0,
+          "canonical_text": "Energy\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Derived Quantity 2*\n*Audit: derivations/energy_definition_final_audit_2026-04-29.md; prior pre-dispatch packet superseded: derivations/energy_pre_dispatch_audit_2026-04-29.md*\n*Dependencies: mode.md CANONICAL v1.0*\n*Related definitions: matter.md, information.md CANONICAL v1.0*\n\n---\n\nThe Definition\n\n**Energy is the generator of time evolution and, when t",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Energy",
+          "definition": "Energy is the generator of time evolution and, when time-translation symmetry is present, the corresponding conserved Noether quantity."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/field.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "FIELD",
+          "canonical_label": "Field",
+          "canonical_score": 1.0,
+          "canonical_text": "Field\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*\n*Source: load-bearing term audit across canonical definitions; mode.md; matter.md; forces.md; gradient.md; medium.md*\n*Audit: derivations/field_definition_final_audit_2026-04-30.md*\n*Dependencies: medium.md CANONICAL v1.0; state.md CANONICAL v1.0; mode.md CANONICAL v1.0; coherence.md CANONICAL v1.0; energy.md CANONICAL v1.0; forces.md CANONICAL v1.0; gradient.md CANONICAL v1.0; minimum_substr",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Field",
+          "definition": "A field is an assignment of physical degrees of freedom to points, regions, or sites of a domain, together with rules for how those degrees of freedom transform, evolve, and couple."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/forces.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "FORCES",
+          "canonical_label": "Forces",
+          "canonical_score": 1.0,
+          "canonical_text": "Forces\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Derived Quantity 4*\n*Audit: derivations/forces_definition_final_audit_2026-04-29.md; prior audit: forces_as_refraction_audit_2026-03-27.md; prior pre-dispatch packet superseded: derivations/forces_pre_dispatch_audit_2026-04-29.md*\n*Dependencies: field.md CANONICAL v1.0; mode.md CANONICAL v1.0; energy.md CANONICAL v1.0; matter.md CANONICAL v1.0; causal_ve",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Forces",
+          "definition": "A force is an interaction that changes a mode's momentum, trajectory, phase, internal quantum numbers, or field configuration."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/gradient.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "GRADIENT",
+          "canonical_label": "Gradient",
+          "canonical_score": 1.0,
+          "canonical_text": "Gradient\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Force mechanism; medium.md*\n*Audit: derivations/gradient_definition_final_audit_2026-04-29.md*\n*Dependencies: field.md, medium.md, forces.md, propagation.md, coherence.md, mode.md, causal_velocity.md CANONICAL v1.0*\n\n---\n\nThe Definition\n\n**A gradient is the derivative of a field with respect to position or another specified coordinate, identifying how ",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Gradient",
+          "definition": "A gradient is the derivative of a field with respect to position or another specified coordinate, identifying how the field changes across that domain."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/information.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "INFORMATION",
+          "canonical_label": "Information",
+          "canonical_score": 1.0,
+          "canonical_text": "Information\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Derived Quantity 5; deferred from mode.md, energy.md, observer.md*\n*Audit: derivations/information_definition_final_audit_2026-04-29.md*\n*Dependencies: mode.md CANONICAL v1.0; energy.md CANONICAL v1.0; coherence.md CANONICAL v1.0; propagation.md CANONICAL v1.0; observer.md CANONICAL v1.0; medium.md CANONICAL v1.0; causal_velocity.md CANONICAL v1.0*\n",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Information",
+          "definition": "Information is the measure of distinguishability of a state or state change relative to a specified reference or noise background."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/matter.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "MATTER",
+          "canonical_label": "Matter",
+          "canonical_score": 1.0,
+          "canonical_text": "Matter\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Derived Quantity 3*\n*Audit: derivations/matter_definition_final_audit_2026-04-29.md; prior pre-dispatch packet superseded: derivations/matter_pre_dispatch_audit_2026-04-29.md*\n*Dependencies: field.md CANONICAL v1.0; mode.md CANONICAL v1.0; energy.md CANONICAL v1.0*\n*Related definitions: forces.md, information.md CANONICAL v1.0*\n\n---\n\nThe Definition\n\n**Ma",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Matter",
+          "definition": "Matter is stable or quasi-stable excitation structure of matter fields: quarks, leptons, and composite states built from them."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/measurement.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "MEASUREMENT",
+          "canonical_label": "Measurement",
+          "canonical_score": 1.0,
+          "canonical_text": "Measurement\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*\n*What constitutes a measurement in PF terms, and how it relates to the observer taxonomy.*\n*Audit: derivations/measurement_definition_final_audit_2026-04-30.md*\n*Related definitions: coupling.md CANONICAL v1.0; observer.md; information.md; decoherence.md*\n\n---\n\nDefinition\n\n**Measurement** is the process by which a propagation event becomes a record — a physical state change in a measuri",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Measurement",
+          "definition": "Measurement"
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/medium.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "PARTIAL",
+          "confidence": 0.7905,
+          "canonical_match": "MEDIUM",
+          "canonical_label": "Medium",
+          "canonical_score": 0.7905,
+          "canonical_text": "The Medium\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-28*\n*Synthesized: 2026-04-28 by Claude from Cascade + Claude + Lumi inputs + Codex audit*\n*Inputs: derivations/medium_definition_protocol.md, medium_definition_claude_2026-04-28.md, medium_definition_lumi_2026-04-28.md*\n*Audits: derivations/medium_definition_protocol_codex_audit_2026-04-28.md; derivations/medium_definition_final_audit_2026-04-28.md*\n\n---\n\nThe Definition\n\n**The Medium is the ",
+          "crystal_service": "UP",
+          "query_ms": 125.3,
+          "method": "query",
+          "term": "The Medium",
+          "definition": "The Medium is the minimal causal-coherence structure required for physical propagation: a state space with finite-speed causal evolution, stable coherent modes, gradients that alter propagation paths,"
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/mode.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "MODE",
+          "canonical_label": "Mode",
+          "canonical_score": 1.0,
+          "canonical_text": "Mode\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md; used 34× in framework*\n*Audit: derivations/mode_definition_final_audit_2026-04-29.md; prior pre-dispatch packet superseded: derivations/mode_pre_dispatch_audit_2026-04-29.md*\n*Related definitions: field.md, energy.md, forces.md, information.md CANONICAL v1.0; Standard Model spectrum derivation remains OPEN*\n\n---\n\nThe Definition\n\n**A mode is an admissible ",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Mode",
+          "definition": "A mode is an admissible pattern of a field or Medium state under a specified evolution law."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/observer.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "OBSERVER",
+          "canonical_label": "Observer",
+          "canonical_score": 1.0,
+          "canonical_text": "Observer\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md observer usage; time.md; coherence.md; propagation.md; mode.md*\n*Audit: derivations/observer_definition_final_audit_2026-04-29.md*\n*Dependencies: mode.md CANONICAL v1.0; coherence.md CANONICAL v1.0; propagation.md CANONICAL v1.0; time.md CANONICAL v1.0; medium.md CANONICAL v1.0; gradient.md CANONICAL v1.0; coupling.md CANONICAL v1.0*\n*Related definitio",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Observer",
+          "definition": "An observer is a stable mode or bound mode-structure that undergoes a distinguishable state change in response to an incoming propagation, producing a correlation between the observer's internal state"
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/propagation.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "PROPAGATION",
+          "canonical_label": "Propagation",
+          "canonical_score": 1.0,
+          "canonical_text": "Propagation\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Axiom 1*\n*Audit: derivations/propagation_definition_final_audit_2026-04-29.md*\n*Dependencies: medium.md, causal_velocity.md, coherence.md, mode.md, energy.md, time.md CANONICAL v1.0; related downstream terms: matter.md, forces.md CANONICAL v1.0*\n\n---\n\nThe Definition\n\n**Propagation is the finite-speed causal transmission of a distinguishable state ch",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Propagation",
+          "definition": "Propagation is the finite-speed causal transmission of a distinguishable state change through the Medium."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/state.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "STATE",
+          "canonical_label": "State",
+          "canonical_score": 1.0,
+          "canonical_text": "State\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*\n*What a state is in PF terms, and how quantum state and classical pointer state relate to the canonical coherence/decoherence/measurement stack.*\n*Source: load-bearing term audit across canonical definitions; mode.md; measurement.md; decoherence.md; information.md*\n*Audit: derivations/state_definition_final_audit_2026-04-30.md*\n*Dependencies: medium.md CANONICAL v1.0; mode.md CANONICAL v1.0; ",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "State",
+          "definition": "A state is a complete specification of a system's relevant degrees of freedom sufficient to determine its measurement predictions under a specified evolution law and measurement context."
+        }
+      ]
+    },
+    {
+      "path": "/mnt/d/Fundamentals/definitions/time.md",
+      "type": "DEFINITION",
+      "domain": "definitions",
+      "definitions_count": 1,
+      "definitions": [
+        {
+          "verdict": "GROUNDED_EXACT",
+          "confidence": 1.0,
+          "canonical_match": "TIME",
+          "canonical_label": "Time",
+          "canonical_score": 1.0,
+          "canonical_text": "Time\n*Fundamentals canonical definition*\n*Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*\n*Source: the_propagation_framework.md Derived Quantity 1*\n*Dependencies: observer.md CANONICAL v1.0; state.md CANONICAL v1.0; causal_velocity.md CANONICAL v1.0*\n*Audits: derivations/time_definition_audit_2026-04-29.md; derivations/time_pre_dispatch_audit_2026-04-29.md; derivations/time_definition_final_audit_2026-04-29.md*\n\n---\n\nThe Definition\n\n**Time is the ordering and metric of state change",
+          "crystal_service": "UP",
+          "method": "lookup",
+          "term": "Time",
+          "definition": "Time is the ordering and metric of state changes along physical histories."
+        }
+      ]
+    }
+  ]
+}
