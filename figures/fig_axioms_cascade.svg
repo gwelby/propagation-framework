@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#060812"/>
+      <stop offset="100%" stop-color="#0a0f1e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-strong">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.04" stroke="#00cfff" stroke-width="0.5">
+    <line x1="0" y1="130" x2="800" y2="130"/>
+    <line x1="0" y1="260" x2="800" y2="260"/>
+    <line x1="0" y1="390" x2="800" y2="390"/>
+    <line x1="200" y1="0" x2="200" y2="520"/>
+    <line x1="400" y1="0" x2="400" y2="520"/>
+    <line x1="600" y1="0" x2="600" y2="520"/>
+  </g>
+
+  <!-- ── AXIOM 1 box ── -->
+  <rect x="60" y="40" width="680" height="110" rx="8"
+        fill="rgba(0,207,255,0.06)" stroke="#00cfff" stroke-width="1.5" opacity="0.9"/>
+  <rect x="60" y="40" width="6" height="110" rx="3" fill="#00cfff" filter="url(#glow)"/>
+  <!-- Label -->
+  <text x="90" y="78" font-family="Georgia,serif" font-size="11" fill="#00cfff" opacity="0.7"
+        letter-spacing="0.15em">AXIOM 1 · PROPAGATION</text>
+  <text x="90" y="102" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    The most basic thing that exists is propagation —
+  </text>
+  <text x="90" y="124" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    the movement of disturbance through a Medium.
+  </text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="400" y1="150" x2="400" y2="185" stroke="#00cfff" stroke-width="1.5" opacity="0.5"/>
+  <text x="415" y="173" font-family="monospace" font-size="10" fill="#00cfff" opacity="0.6">forces</text>
+  <polygon points="400,190 394,178 406,178" fill="#00cfff" opacity="0.7"/>
+
+  <!-- ── AXIOM 2 box ── -->
+  <rect x="60" y="195" width="680" height="110" rx="8"
+        fill="rgba(0,207,255,0.05)" stroke="#00cfff" stroke-width="1.5" opacity="0.75"/>
+  <rect x="60" y="195" width="6" height="110" rx="3" fill="#00cfff" opacity="0.8" filter="url(#glow)"/>
+  <text x="90" y="233" font-family="Georgia,serif" font-size="11" fill="#00cfff" opacity="0.7"
+        letter-spacing="0.15em">AXIOM 2 · CAUSAL BOUND</text>
+  <text x="90" y="257" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    In any medium there exists a maximum speed at which
+  </text>
+  <text x="90" y="279" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    controllable causal influence can travel.
+  </text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="400" y1="305" x2="400" y2="340" stroke="#44ff88" stroke-width="1.5" opacity="0.5"/>
+  <text x="415" y="328" font-family="monospace" font-size="10" fill="#44ff88" opacity="0.6">selects</text>
+  <polygon points="400,345 394,333 406,333" fill="#44ff88" opacity="0.7"/>
+
+  <!-- ── AXIOM 3 box ── -->
+  <rect x="60" y="350" width="680" height="110" rx="8"
+        fill="rgba(68,255,136,0.05)" stroke="#44ff88" stroke-width="1.5" opacity="0.85"/>
+  <rect x="60" y="350" width="6" height="110" rx="3" fill="#44ff88" filter="url(#glow)"/>
+  <text x="90" y="388" font-family="Georgia,serif" font-size="11" fill="#44ff88" opacity="0.7"
+        letter-spacing="0.15em">AXIOM 3 · COHERENCE</text>
+  <text x="90" y="412" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    Structure arises when propagation becomes coherent:
+  </text>
+  <text x="90" y="434" font-family="Georgia,serif" font-size="16" fill="#ffffff" font-style="italic">
+    stable phase relationships among modes.
+  </text>
+
+  <!-- Bottom: what follows -->
+  <text x="400" y="490" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.3)"
+        text-anchor="middle" letter-spacing="0.1em">
+    → gravity · mass · charge · three generations · Weinberg angle · Koide ratio
+  </text>
+</svg>

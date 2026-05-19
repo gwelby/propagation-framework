@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#060812"/>
+      <stop offset="100%" stop-color="#0a0f1e"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glow2"><feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="plot-area">
+      <rect x="100" y="40" width="620" height="380"/>
+    </clipPath>
+  </defs>
+
+  <rect width="800" height="520" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="28" font-family="Georgia,serif" font-size="14" fill="rgba(255,255,255,0.5)"
+        text-anchor="middle" letter-spacing="0.08em">THE CASIMIR POLYNOMIAL · Weinberg Angle Derivation</text>
+
+  <!-- Plot frame -->
+  <rect x="100" y="40" width="620" height="380" fill="rgba(0,207,255,0.02)"
+        stroke="rgba(0,207,255,0.15)" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <g stroke="rgba(0,207,255,0.08)" stroke-width="0.5" clip-path="url(#plot-area)">
+    <line x1="100" y1="230" x2="720" y2="230"/>  <!-- y=0 -->
+    <line x1="100" y1="130" x2="720" y2="130"/>
+    <line x1="100" y1="330" x2="720" y2="330"/>
+    <line x1="200" y1="40" x2="200" y2="420"/>
+    <line x1="300" y1="40" x2="300" y2="420"/>
+    <line x1="400" y1="40" x2="400" y2="420"/>
+    <line x1="500" y1="40" x2="500" y2="420"/>
+    <line x1="600" y1="40" x2="600" y2="420"/>
+    <line x1="700" y1="40" x2="700" y2="420"/>
+  </g>
+
+  <!-- Axes -->
+  <line x1="100" y1="230" x2="720" y2="230" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <line x1="100" y1="40" x2="100" y2="420" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+
+  <!-- Axis labels -->
+  <text x="720" y="245" font-family="monospace" font-size="12" fill="rgba(255,255,255,0.4)">x</text>
+  <text x="75" y="44" font-family="monospace" font-size="12" fill="rgba(255,255,255,0.4)">f(x)</text>
+
+  <!-- x-axis ticks and labels -->
+  <g font-family="monospace" font-size="10" fill="rgba(255,255,255,0.35)" text-anchor="middle">
+    <line x1="200" y1="228" x2="200" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="200" y="245">0.1</text>
+    <line x1="300" y1="228" x2="300" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="300" y="245">0.2</text>
+    <line x1="400" y1="228" x2="400" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="400" y="245">0.3</text>
+    <line x1="500" y1="228" x2="500" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="500" y="245">0.4</text>
+    <line x1="600" y1="228" x2="600" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="600" y="245">0.5</text>
+    <line x1="700" y1="228" x2="700" y2="232" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="700" y="245">0.6</text>
+  </g>
+
+  <!--
+    f(x) = x² + C₂·x − C₂   where C₂ = j(j+1) = (1/2)(3/2) = 0.75  for j=1/2
+    Root: x = (−C₂ + √(C₂² + 4C₂)) / 2 = sin²θ_W ≈ 0.2231
+    Plot range x: 0 to 0.65   (pixels: 100 to 100+0.65*1000 mapping)
+    Scale: 1000px per unit x, 400px per unit f
+    y_pixel = 230 − f(x)*400
+
+    Precomputed polyline points at x = 0, 0.02, 0.04, ... 0.65
+    f(x) = x² + 0.75x − 0.75
+    At x=0: f=−0.75  → y=230+300=530 (below plot, clip)
+    At x=0.2231: f=0  → y=230
+    At x=0.65: f=0.4225+0.4875−0.75=0.16  → y=230−64=166
+  -->
+  <!-- Polynomial curve: f(x) = x² + 0.75x − 0.75, plotted via polyline -->
+  <polyline clip-path="url(#plot-area)"
+    fill="none" stroke="#00cfff" stroke-width="2.5" filter="url(#glow)"
+    points="
+      100,530
+      120,505  140,481  160,459  180,438  200,419
+      213,407  220,402
+      223,400  226,399  229,398  231,397
+      240,394  260,388  280,382  300,376
+      320,369  340,362  360,355  380,347
+      400,339  420,330  440,321  460,312
+      480,302  500,292  520,281  540,269
+      560,257  580,245  600,231  620,218
+      640,203  660,189  680,173  700,158
+      720,142
+    "
+  />
+
+  <!-- Root marker — sin²θ_W = 0.2231 -->
+  <!-- x_pixel = 100 + 0.2231*1000 = 323 -->
+  <line x1="323" y1="80" x2="323" y2="230" stroke="#44ff88" stroke-width="1"
+        stroke-dasharray="6,4" opacity="0.8"/>
+  <circle cx="323" cy="230" r="7" fill="#44ff88" filter="url(#glow2)"/>
+  <circle cx="323" cy="230" r="4" fill="#44ff88"/>
+
+  <!-- Annotation box -->
+  <rect x="335" y="95" width="230" height="80" rx="4"
+        fill="rgba(68,255,136,0.08)" stroke="rgba(68,255,136,0.3)" stroke-width="1"/>
+  <text x="348" y="118" font-family="Georgia,serif" font-size="13" fill="#44ff88" font-weight="bold">
+    sin²θ_W = 0.2231
+  </text>
+  <text x="348" y="138" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.6)">
+    PF derived root
+  </text>
+  <text x="348" y="156" font-family="monospace" font-size="11" fill="rgba(68,255,136,0.8)">
+    PDG: 0.2229 ± 0.0003
+  </text>
+  <text x="348" y="172" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.4)">
+    0.13σ from experiment
+  </text>
+
+  <!-- Equation label -->
+  <text x="560" y="340" font-family="Georgia,serif" font-size="15" fill="rgba(0,207,255,0.7)"
+        font-style="italic">
+    f(x) = x² + C₂x − C₂
+  </text>
+  <text x="565" y="360" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.35)">
+    C₂ = j(j+1),  j = ½, 1
+  </text>
+
+  <!-- DERIVED badge -->
+  <rect x="102" y="42" width="80" height="22" rx="3"
+        fill="rgba(68,255,136,0.15)" stroke="rgba(68,255,136,0.4)" stroke-width="1"/>
+  <text x="142" y="57" font-family="monospace" font-size="10" fill="#44ff88"
+        text-anchor="middle" letter-spacing="0.1em">DERIVED</text>
+
+  <!-- x-axis label -->
+  <text x="400" y="480" font-family="Georgia,serif" font-size="12"
+        fill="rgba(255,255,255,0.35)" text-anchor="middle" font-style="italic">
+    x = sin²θ_W  (Weinberg angle)
+  </text>
+</svg>

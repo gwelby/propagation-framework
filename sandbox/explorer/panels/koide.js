@@ -237,9 +237,10 @@
             '<section class="canvas-panel" style="position:relative">' +
               '<div class="panel-header">' +
                 '<div>' +
-                  '<p class="eyebrow">Mass Geometry</p>' +
-                  '<h3>The charged lepton triangle stays near one exact target.</h3>' +
-                  '<p>Perturb one PDG mass and watch Q pull away from 2/3 while the amplitude geometry loosens.</p>' +
+                  '<p class="eyebrow"><span style="color:#44ff88; font-family:serif; margin-right:8px;">⟁</span> Mass Geometry</p>' +
+                  '<h3><span style="color:#ffdd55; font-family:serif; margin-right:8px;">Σ</span> The charged lepton triangle stays near one exact target.</h3>' +
+                  '<p>Perturb one PDG mass and watch Q pull away from 2/3 while the amplitude geometry distort. The stability of the 2/3 ratio is a structural signal.</p>' +
+                  '<p class="interaction-cue"><strong>Interaction:</strong> Select a mass and use the slider to perturb its value. Observe the real-time geometric distortion and Q deviation from the 2/3 target.</p>' +
                 '</div>' +
               '</div>' +
               '<canvas class="panel-canvas" id="koideCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>' +

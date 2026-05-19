@@ -25,9 +25,10 @@
             "<section class=\"canvas-panel\">" +
               "<div class=\"panel-header\">" +
                 "<div>" +
-                  "<p class=\"eyebrow\">Refraction Sandbox</p>" +
-                  "<h3>Gravity is the exact theorem; this panel extends it as a sandbox lens story.</h3>" +
+                  "<p class=\"eyebrow\"><span style=\"color:#44ff88; font-family:serif; margin-right:8px;\">⌁</span> Refraction Sandbox</p>" +
+                  "<h3><span style=\"color:#ffdd55; font-family:serif; margin-right:8px;\">∇</span> Gravity as Refraction</h3>" +
                   "<p>Drag sources, add attractors or repellers, and watch eikonal rays plus Newton-style probes bend through the same normalized field toy.</p>" +
+                  "<p class=\"interaction-cue\"><strong>Interaction:</strong> Click empty space to place a source. Drag existing sources to reshape the field. Toggle 'Overlay' to compare with Newton's predictions.</p>" +
                 "</div>" +
               "</div>" +
               "<div class=\"controls-row\" id=\"refractionControls\"></div>" +
@@ -142,7 +143,7 @@
       state.controls.innerHTML =
         "<div class=\"control-group\">" +
           "<label for=\"refMode\">Field</label>" +
-          "<select id=\"refMode\"><option value=\"em\">EM lens</option><option value=\"gravity\">Gravity lens</option></select>" +
+          "<select id=\"refMode\" class=\"premium-select\"><option value=\"em\">EM lens</option><option value=\"gravity\">Gravity lens</option></select>" +
         "</div>" +
         "<div class=\"control-group\">" +
           "<label for=\"refRayCount\">Rays</label>" +
@@ -154,10 +155,12 @@
           "<input id=\"refEnergy\" class=\"premium-slider\" type=\"range\" min=\"0.45\" max=\"1.4\" step=\"0.01\" value=\"" + state.energy + "\">" +
           "<output id=\"refEnergyOut\">" + state.energy.toFixed(2) + "</output>" +
         "</div>" +
-        "<button class=\"chip-button\" id=\"refAddAttract\" type=\"button\">Add attractor</button>" +
-        "<button class=\"chip-button\" id=\"refAddRepel\" type=\"button\">Add repeller</button>" +
-        "<button class=\"chip-button\" id=\"refToggleCompare\" type=\"button\">Overlay on</button>" +
-        "<button class=\"chip-button\" id=\"refReset\" type=\"button\">Reset field</button>";
+        "<div class=\"control-group\" style=\"flex-direction:row; gap:8px;\">" +
+          "<button class=\"btn btn-secondary btn-sm\" id=\"refAddAttract\" type=\"button\">Add attractor</button>" +
+          "<button class=\"btn btn-secondary btn-sm\" id=\"refAddRepel\" type=\"button\">Add repeller</button>" +
+          "<button class=\"btn btn-secondary btn-sm\" id=\"refToggleCompare\" type=\"button\">Overlay on</button>" +
+          "<button class=\"btn btn-secondary btn-sm\" id=\"refReset\" type=\"button\">Reset field</button>" +
+        "</div>";
 
       state.controls.querySelector("#refMode").value = state.mode;
 

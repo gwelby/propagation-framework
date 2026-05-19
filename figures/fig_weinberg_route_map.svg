@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#060812"/>
+      <stop offset="100%" stop-color="#080d1a"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <rect width="900" height="560" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="28" font-family="Georgia,serif" font-size="14"
+        fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="0.08em">
+    EIGHT ROUTES TO THE WEINBERG ANGLE
+  </text>
+  <text x="450" y="46" font-family="monospace" font-size="10"
+        fill="rgba(255,255,255,0.25)" text-anchor="middle">
+    Parallel attack on the Casimir polynomial · Codex-audited
+  </text>
+
+  <!-- Column headers -->
+  <text x="180" y="72" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.35)" text-anchor="middle">ROUTE</text>
+  <text x="510" y="72" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.35)" text-anchor="middle">APPROACH</text>
+  <text x="800" y="72" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.35)" text-anchor="middle">RESULT</text>
+  <line x1="30" y1="78" x2="870" y2="78" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Rows: Route | Label | Status bar | Result -->
+  <!-- Row data: [y, letter, owner, approach, result_color, result_label] -->
+
+  <!-- Route A — LIVE (gap reduction) -->
+  <g transform="translate(0,90)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(0,207,255,0.04)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#00cfff" font-weight="bold">A</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(0,207,255,0.5)">Cascade</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Relativistic standing-wave / de Broglie</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Helical mode resonance → polynomial constraint</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(0,207,255,0.15)" stroke="#00cfff" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#00cfff" text-anchor="middle">GAP REDUCTION</text>
+  </g>
+
+  <!-- Route B — NO-GO -->
+  <g transform="translate(0,140)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(255,68,85,0.03)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#ff4455" font-weight="bold">B</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(255,68,85,0.5)">Claude</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Propagation Lagrangian / variational</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Scalar fluctuation operator — affine in spectral variable</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(255,68,85,0.15)" stroke="#ff4455" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#ff4455" text-anchor="middle">NO-GO</text>
+  </g>
+
+  <!-- Route C — LIVE -->
+  <g transform="translate(0,190)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(0,207,255,0.04)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#00cfff" font-weight="bold">C</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(0,207,255,0.5)">Claude</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Medium-Laplacian eigenvalue</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Polynomial as resonance condition — squaring not fixed</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(0,207,255,0.15)" stroke="#00cfff" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#00cfff" text-anchor="middle">GAP REDUCTION</text>
+  </g>
+
+  <!-- Route D — PARTIAL NO-GO -->
+  <g transform="translate(0,240)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(255,170,51,0.03)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#ffaa33" font-weight="bold">D</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(255,170,51,0.5)">Claude</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Holonomy / monodromy</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Reduces to same relativistic gap as Route A</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(255,170,51,0.12)" stroke="#ffaa33" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#ffaa33" text-anchor="middle">PARTIAL NO-GO</text>
+  </g>
+
+  <!-- Route E — LIVE -->
+  <g transform="translate(0,290)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(0,207,255,0.04)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#00cfff" font-weight="bold">E</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(0,207,255,0.5)">Codex</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Refractive stress / virial balance</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Energy balance at coherent mode boundary</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(0,207,255,0.15)" stroke="#00cfff" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#00cfff" text-anchor="middle">GAP REDUCTION</text>
+  </g>
+
+  <!-- Route F — LIVE STRONG -->
+  <g transform="translate(0,340)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(68,255,136,0.06)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#44ff88" font-weight="bold">F ★</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(68,255,136,0.5)">Claude</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.9)" font-weight="bold">Coherence functional / drift-rotation locking</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(68,255,136,0.5)">Locking condition → polynomial form directly</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(68,255,136,0.2)" stroke="#44ff88" stroke-width="1.5" filter="url(#glow)"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#44ff88" text-anchor="middle">STRONG ★</text>
+  </g>
+
+  <!-- Route G — LIVE -->
+  <g transform="translate(0,390)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(0,207,255,0.04)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#00cfff" font-weight="bold">G</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(0,207,255,0.5)">Claude</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.8)">Two-sector coupling / symmetry-breaking</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.35)">Internal sector split → Casimir selection</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(0,207,255,0.15)" stroke="#00cfff" stroke-width="1"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#00cfff" text-anchor="middle">GAP REDUCTION</text>
+  </g>
+
+  <!-- Route H — LIVE STRONG AUDITED -->
+  <g transform="translate(0,440)">
+    <rect x="30" y="2" width="870" height="42" rx="3" fill="rgba(68,255,136,0.06)"/>
+    <text x="90" y="22" font-family="monospace" font-size="13" fill="#44ff88" font-weight="bold">H ★</text>
+    <text x="90" y="37" font-family="monospace" font-size="8" fill="rgba(68,255,136,0.5)">Cascade</text>
+    <text x="230" y="20" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,0.9)" font-weight="bold">Action-resonance / helical phase-matching</text>
+    <text x="230" y="36" font-family="monospace" font-size="9" fill="rgba(68,255,136,0.5)">Independently audited · strongest geometric candidate</text>
+    <rect x="730" y="8" width="120" height="28" rx="3" fill="rgba(68,255,136,0.2)" stroke="#44ff88" stroke-width="1.5" filter="url(#glow)"/>
+    <text x="790" y="27" font-family="monospace" font-size="10" fill="#44ff88" text-anchor="middle">STRONG ★</text>
+  </g>
+
+  <!-- Footer -->
+  <line x1="30" y1="500" x2="870" y2="500" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="450" y="520" font-family="monospace" font-size="10"
+        fill="rgba(255,255,255,0.25)" text-anchor="middle">
+    ★ Live frontier candidates   · Routes B and D closed   · All results independently verified by Codex
+  </text>
+  <text x="450" y="540" font-family="Georgia,serif" font-size="11"
+        fill="rgba(255,255,255,0.2)" text-anchor="middle" font-style="italic">
+    The claim stands DERIVED (0.90) given the polynomial. Why the polynomial is the open frontier.
+  </text>
+</svg>

@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" width="900" height="580">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#060812"/>
+      <stop offset="100%" stop-color="#080d1a"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glow-sm"><feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <rect width="900" height="580" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="28" font-family="Georgia,serif" font-size="14"
+        fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="0.08em">
+    DERIVATION STATUS MAP · The Propagation Framework
+  </text>
+
+  <!-- Legend -->
+  <g transform="translate(30,50)">
+    <circle cx="8" cy="8" r="7" fill="#00cfff" filter="url(#glow-sm)"/>
+    <text x="22" y="13" font-family="monospace" font-size="10" fill="#00cfff">DERIVED</text>
+    <circle cx="95" cy="8" r="7" fill="#ffaa33" filter="url(#glow-sm)"/>
+    <text x="109" y="13" font-family="monospace" font-size="10" fill="#ffaa33">CONDITIONAL</text>
+    <circle cx="210" cy="8" r="7" fill="#ffdd55" filter="url(#glow-sm)"/>
+    <text x="224" y="13" font-family="monospace" font-size="10" fill="#ffdd55">EMPIRICAL</text>
+    <circle cx="305" cy="8" r="7" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    <text x="319" y="13" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.5)">ARGUED</text>
+    <circle cx="385" cy="8" r="7" fill="#ff4455" filter="url(#glow-sm)"/>
+    <text x="399" y="13" font-family="monospace" font-size="10" fill="#ff4455">NO-GO</text>
+  </g>
+
+  <!-- ── AXIOMS (center, top) ── -->
+  <g transform="translate(450,110)">
+    <circle r="26" fill="rgba(0,207,255,0.15)" stroke="#00cfff" stroke-width="2" filter="url(#glow)"/>
+    <text x="0" y="-5" font-family="monospace" font-size="9" fill="#00cfff" text-anchor="middle">3</text>
+    <text x="0" y="8" font-family="monospace" font-size="9" fill="#00cfff" text-anchor="middle">AXIOMS</text>
+  </g>
+
+  <!-- ── DERIVED nodes ── -->
+  <!-- Gravity-Optical -->
+  <line x1="430" y1="120" x2="160" y2="210" stroke="rgba(0,207,255,0.25)" stroke-width="1"/>
+  <g transform="translate(130,225)">
+    <circle r="22" fill="rgba(0,207,255,0.18)" stroke="#00cfff" stroke-width="1.8" filter="url(#glow-sm)"/>
+    <text x="0" y="-4" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Gravity</text>
+    <text x="0" y="8" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Optical</text>
+    <text x="0" y="20" font-family="monospace" font-size="7" fill="rgba(0,207,255,0.6)" text-anchor="middle">0.95</text>
+  </g>
+
+  <!-- Koide -->
+  <line x1="450" y1="136" x2="295" y2="220" stroke="rgba(0,207,255,0.25)" stroke-width="1"/>
+  <g transform="translate(270,238)">
+    <circle r="22" fill="rgba(0,207,255,0.18)" stroke="#00cfff" stroke-width="1.8" filter="url(#glow-sm)"/>
+    <text x="0" y="-4" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Koide</text>
+    <text x="0" y="8" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Leptons</text>
+    <text x="0" y="20" font-family="monospace" font-size="7" fill="rgba(0,207,255,0.6)" text-anchor="middle">0.95</text>
+  </g>
+
+  <!-- Weinberg -->
+  <line x1="466" y1="134" x2="610" y2="220" stroke="rgba(0,207,255,0.25)" stroke-width="1"/>
+  <g transform="translate(640,232)">
+    <circle r="22" fill="rgba(0,207,255,0.18)" stroke="#00cfff" stroke-width="1.8" filter="url(#glow-sm)"/>
+    <text x="0" y="-4" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Weinberg</text>
+    <text x="0" y="8" font-family="monospace" font-size="8" fill="#00cfff" text-anchor="middle">Angle</text>
+    <text x="0" y="20" font-family="monospace" font-size="7" fill="rgba(0,207,255,0.6)" text-anchor="middle">0.90</text>
+  </g>
+
+  <!-- ── CONDITIONAL nodes ── -->
+  <!-- God Equation -->
+  <line x1="450" y1="136" x2="450" y2="255" stroke="rgba(255,170,51,0.2)" stroke-width="1"/>
+  <g transform="translate(450,278)">
+    <circle r="20" fill="rgba(255,170,51,0.15)" stroke="#ffaa33" stroke-width="1.5" filter="url(#glow-sm)"/>
+    <text x="0" y="-3" font-family="monospace" font-size="8" fill="#ffaa33" text-anchor="middle">God Eq.</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,170,51,0.6)" text-anchor="middle">0.88</text>
+  </g>
+
+  <!-- 3 Generations -->
+  <line x1="440" y1="136" x2="320" y2="300" stroke="rgba(255,170,51,0.2)" stroke-width="1"/>
+  <g transform="translate(300,320)">
+    <circle r="20" fill="rgba(255,170,51,0.15)" stroke="#ffaa33" stroke-width="1.5" filter="url(#glow-sm)"/>
+    <text x="0" y="-3" font-family="monospace" font-size="8" fill="#ffaa33" text-anchor="middle">3 Gen.</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,170,51,0.6)" text-anchor="middle">0.85</text>
+  </g>
+
+  <!-- Bohr -->
+  <line x1="436" y1="136" x2="170" y2="300" stroke="rgba(255,170,51,0.2)" stroke-width="1"/>
+  <g transform="translate(150,318)">
+    <circle r="20" fill="rgba(255,170,51,0.15)" stroke="#ffaa33" stroke-width="1.5" filter="url(#glow-sm)"/>
+    <text x="0" y="-3" font-family="monospace" font-size="8" fill="#ffaa33" text-anchor="middle">Bohr</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,170,51,0.6)" text-anchor="middle">0.82</text>
+  </g>
+
+  <!-- ── EMPIRICAL nodes ── -->
+  <line x1="459" y1="136" x2="575" y2="310" stroke="rgba(255,221,85,0.15)" stroke-width="1"/>
+  <g transform="translate(595,328)">
+    <circle r="18" fill="rgba(255,221,85,0.12)" stroke="#ffdd55" stroke-width="1.5"/>
+    <text x="0" y="-3" font-family="monospace" font-size="7.5" fill="#ffdd55" text-anchor="middle">Koide</text>
+    <text x="0" y="8" font-family="monospace" font-size="7.5" fill="#ffdd55" text-anchor="middle">Phase</text>
+    <text x="0" y="19" font-family="monospace" font-size="7" fill="rgba(255,221,85,0.5)" text-anchor="middle">0.65</text>
+  </g>
+
+  <line x1="464" y1="136" x2="730" y2="290" stroke="rgba(255,221,85,0.15)" stroke-width="1"/>
+  <g transform="translate(752,305)">
+    <circle r="18" fill="rgba(255,221,85,0.12)" stroke="#ffdd55" stroke-width="1.5"/>
+    <text x="0" y="-3" font-family="monospace" font-size="7.5" fill="#ffdd55" text-anchor="middle">Top-Tau</text>
+    <text x="0" y="8" font-family="monospace" font-size="7.5" fill="#ffdd55" text-anchor="middle">Coupling</text>
+    <text x="0" y="19" font-family="monospace" font-size="7" fill="rgba(255,221,85,0.5)" text-anchor="middle">0.90</text>
+  </g>
+
+  <!-- ── ARGUED nodes ── -->
+  <g transform="translate(80,430)">
+    <circle r="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="0" y="-2" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.4)" text-anchor="middle">Var-c</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.25)" text-anchor="middle">0.65</text>
+  </g>
+  <g transform="translate(200,440)">
+    <circle r="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="0" y="-2" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.4)" text-anchor="middle">Fine</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.4)" text-anchor="middle">Struct.</text>
+    <text x="0" y="20" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.25)" text-anchor="middle">0.60</text>
+  </g>
+  <g transform="translate(340,450)">
+    <circle r="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="0" y="-2" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.4)" text-anchor="middle">QCD</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.25)" text-anchor="middle">0.72</text>
+  </g>
+  <g transform="translate(450,445)">
+    <circle r="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <text x="0" y="-2" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.4)" text-anchor="middle">Life</text>
+    <text x="0" y="9" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.25)" text-anchor="middle">Coher.</text>
+    <text x="0" y="20" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.25)" text-anchor="middle">0.72</text>
+  </g>
+
+  <!-- ── NO-GO nodes (right side, scattered) ── -->
+  <g transform="translate(820,200)">
+    <circle r="15" fill="rgba(255,68,85,0.12)" stroke="#ff4455" stroke-width="1.2"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <text x="0" y="26" font-family="monospace" font-size="7" fill="#ff4455" text-anchor="middle">φ-Harm.</text>
+  </g>
+  <g transform="translate(840,290)">
+    <circle r="15" fill="rgba(255,68,85,0.12)" stroke="#ff4455" stroke-width="1.2"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <text x="0" y="26" font-family="monospace" font-size="7" fill="#ff4455" text-anchor="middle">Casimir</text>
+  </g>
+  <g transform="translate(820,375)">
+    <circle r="15" fill="rgba(255,68,85,0.12)" stroke="#ff4455" stroke-width="1.2"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <text x="0" y="26" font-family="monospace" font-size="7" fill="#ff4455" text-anchor="middle">Edge-Flux</text>
+  </g>
+  <g transform="translate(840,450)">
+    <circle r="15" fill="rgba(255,68,85,0.12)" stroke="#ff4455" stroke-width="1.2"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="#ff4455" stroke-width="1.5" opacity="0.7"/>
+    <text x="0" y="26" font-family="monospace" font-size="7" fill="#ff4455" text-anchor="middle">RG-Koide</text>
+  </g>
+
+  <!-- No-go label -->
+  <text x="838" y="170" font-family="monospace" font-size="9" fill="rgba(255,68,85,0.5)"
+        text-anchor="middle" letter-spacing="0.05em">NO-GO</text>
+  <text x="838" y="182" font-family="monospace" font-size="9" fill="rgba(255,68,85,0.5)"
+        text-anchor="middle" letter-spacing="0.05em">MUSEUM</text>
+
+  <!-- Confidence score note -->
+  <text x="450" y="548" font-family="Georgia,serif" font-size="11"
+        fill="rgba(255,255,255,0.25)" text-anchor="middle" font-style="italic">
+    Numbers show confidence scores. DERIVED requires independent Codex audit. NO-GO entries are preserved, not hidden.
+  </text>
+</svg>

@@ -605,6 +605,7 @@
           '<span class="obs-count obs-count--gold"><strong>'+defs.length+'</strong> Definitions</span>',
           '<span class="obs-count obs-count--red"><strong>'+nogos.length+'</strong> No-go</span>',
           '<span class="obs-count"><strong>'+claims.length+'</strong> Audited claims</span>',
+          '<a href="PROPAGATION_FRAMEWORK_v1.pdf" target="_blank" class="obs-count obs-count--book"><strong>PDF</strong> Full Manuscript ↗</a>',
         '</div>',
       '</div>',
 
@@ -743,6 +744,7 @@
       '.obs-count--green strong{color:#44ff88;}',
       '.obs-count--gold strong{color:#ffdd55;}',
       '.obs-count--red strong{color:#ff4455;}',
+      '.obs-count--book{text-decoration:none;transition:opacity .2s;}.obs-count--book:hover{opacity:.8;}.obs-count--book strong{color:#ffdd55;}',
       // Hero field — bigger
       '.obs-field-hero{position:relative;height:clamp(240px,35vw,420px);background:#08080f;overflow:hidden;}',
       '.obs-field-full{position:absolute;inset:0;width:100%;height:100%;}',

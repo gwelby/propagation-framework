@@ -361,9 +361,10 @@
             '<section class="canvas-panel" style="position:relative">' +
               '<div class="panel-header">' +
                 '<div>' +
-                  '<p class="eyebrow">RG Running Analysis</p>' +
-                  '<h3>Close but not connected.</h3>' +
+                  '<p class="eyebrow"><span style="color:#ff4455; font-family:serif; margin-right:8px;">✕</span> RG Running Analysis</p>' +
+                  '<h3><span style="color:#00cfff; font-family:serif; margin-right:8px;">⟁</span> Close but not connected.</h3>' +
                   '<p>The Koide phase δ ≈ 2/9 and Weinberg angle sin²θ_W ≈ 0.223 sit tantalizingly close. T-021 and T-022 investigated whether RG running bridges them — both came back negative.</p>' +
+                  '<p class="interaction-cue"><strong>Interaction:</strong> Review the results of T-021 and T-022 below. Notice how the gap remains distinct even at high energy scales.</p>' +
                 '</div>' +
               '</div>' +
               '<canvas class="panel-canvas" id="bridgeCanvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>' +

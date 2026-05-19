@@ -40,10 +40,11 @@
         "<div class=\"panel-wrap\">" +
           "<section class=\"hero-panel\">" +
             "<div class=\"hero-copy\">" +
-              "<p class=\"eyebrow\">The Audit Wall</p>" +
+              "<p class=\"eyebrow\"><span style=\"color:#ffdd55; font-family:serif; margin-right:8px;\">⚗</span> The Audit Wall</p>" +
               "<p class=\"hero-number\">" + audited.length + "</p>" +
-              "<h3>A single registry for what is derived, what is conditional, and what is still only a signal.</h3>" +
+              "<h3><span style=\"color:#44ff88; font-family:serif; margin-right:8px;\">Σ</span> A single registry for what is derived, what is conditional, and what is still only a signal.</h3>" +
               "<p class=\"story-only\">The explorer does not flatten the framework into one tone. Strong results stay strong, open frontiers stay open, and unsynced material is labeled before it can drift into the audited total.</p>" +
+              "<p class=\"interaction-cue\"><strong>Interaction:</strong> Filter results by status, search by keyword, or toggle to the topological Derivation Graph view.</p>" +
               "<p class=\"audit-only\">CLAIMS.md drives every audited row below. UNDERSTAND.md only extends coverage and copy. One current unsynced item is shown separately at the bottom.</p>" +
             "</div>" +
             "<div class=\"stat-grid\">" +

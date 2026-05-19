@@ -8,9 +8,10 @@
             "<section class=\"canvas-panel\">" +
               "<div class=\"panel-header\">" +
                 "<div>" +
-                  "<p class=\"eyebrow\">Casimir Polynomial</p>" +
-                  "<h3>The positive roots for j = 1/2 and j = 1 generate the mixing angle.</h3>" +
-                  "<p>The same browser panel shows the raw polynomial, the chosen roots, and the ratio used in the repo derivation.</p>" +
+                  "<p class=\"eyebrow\"><span style=\"color:#44ff88; font-family:serif; margin-right:8px;\">θ</span> Casimir Polynomial</p>" +
+                  "<h3><span style=\"color:#00cfff; font-family:serif; margin-right:8px;\">∇</span> Positive roots for j = 1/2 and j = 1 generate the mixing angle.</h3>" +
+                  "<p>The Casimir ratio selects the physical electroweak mixing angle sin²θ_W. The same browser panel shows the raw polynomial, the chosen roots, and the ratio used in the repo derivation.</p>" +
+                  "<p class=\"interaction-cue\"><strong>Interaction:</strong> Follow the roots and the mixing angle derivation. Review the explicit scheme caveat in the Evidence Drawer.</p>" +
                 "</div>" +
               "</div>" +
               "<canvas class=\"panel-canvas\" id=\"weinbergCanvas\"></canvas>" +
