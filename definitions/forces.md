@@ -3,8 +3,8 @@
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md` Derived Quantity 4*
 *Audit: `derivations/forces_definition_final_audit_2026-04-29.md`; prior audit: `forces_as_refraction_audit_2026-03-27.md`; prior pre-dispatch packet superseded: `derivations/forces_pre_dispatch_audit_2026-04-29.md`*
-*Dependencies: `mode.md` CANONICAL v1.0; `energy.md` CANONICAL v1.0; `matter.md` CANONICAL v1.0; `causal_velocity.md` CANONICAL v1.0*
-*Related definitions: `gradient.md`, `information.md` CANONICAL v1.0*
+*Dependencies: `field.md` CANONICAL v1.0; `mode.md` CANONICAL v1.0; `energy.md` CANONICAL v1.0; `matter.md` CANONICAL v1.0; `causal_velocity.md` CANONICAL v1.0*
+*Related definitions: `coupling.md`, `gradient.md`, `information.md` CANONICAL v1.0*
 
 ---
 
@@ -204,6 +204,8 @@ A forces definition fails if:
 | `mode.md` | Forces change mode trajectories, momenta, or internal quantum numbers |
 | `matter.md` | Matter modes are the primary carriers on which forces act |
 | `energy.md` | Force interactions transfer energy (Hamiltonian terms); Noether symmetries connect force-field symmetries to conservation laws |
+| `field.md` | Standard force descriptions use metric structure, gauge fields, and interaction terms; field observability/gauge caveats are controlled there |
+| `coupling.md` | Force-like interactions are specialized coupling/interaction structures when they change a mode's momentum, trajectory, phase, quantum numbers, or field configuration |
 | `medium.md` | Forces are Medium structural properties; gravity = metric structure; gauge forces = gauge field structure |
 | `causal_velocity.md` | Controllable changes in force fields respect causal velocity; on-shell massless mediators propagate at `c`, massive mediators below `c`, and virtual exchange is not a signal |
 | `coherence.md` | Stable bound states (force-bound matter modes) require structural coherence |

@@ -215,3 +215,27 @@ The next honest numerator target is:
 > derive an Axiom-3-native selector plus a non-redundancy lemma strong enough to upgrade `F_C^tot >= F_C^(1)` into a strict coherence-deficit theorem for leaving the weight-2 branch unpopulated.
 
 Until that closes, T1 remains `PARTIAL DERIVATION 0.85`.
+
+---
+
+## 9. 2026-04-28 Audit: Proposed `kappa * winding` Non-Redundancy Route
+
+A new proposed section attempted to close the physical-realization bridge by defining a coherence functional of the form
+
+`C[psi] = integral |psi|^2 dmu + kappa * (topological winding)`.
+
+Codex audit result: **do not add this as a proof**. See `derivations/t1_kappa_non_redundancy_attempt_audit_2026-04-28.md`.
+
+What survives:
+
+- `pi_1(SO(3)) ~= Z_2` still gives two available closure classes.
+- A derived topological-coherence coupling `kappa` would be a plausible future route if its functional form, sign, normalization, and stability consequences were derived from Axioms 1-3.
+
+What fails:
+
+- the proposed `kappa` term is inserted, not derived;
+- `kappa > 0` is assumed, not proved;
+- the claim that both classes are local maxima is asserted without a variational stability proof;
+- the route does not derive `A_NR`.
+
+Therefore this route is a named open proof obligation, not a T1 closure.

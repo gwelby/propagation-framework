@@ -2,6 +2,7 @@
 *Fundamentals canonical definition*
 *Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*
 *Root of the Propagation Framework. All canonical definitions are downstream consequences of these three.*
+*Audit: `derivations/axioms_definition_final_audit_2026-04-30.md`*
 
 ---
 
@@ -111,11 +112,11 @@ Among all possible coherent configurations, the propagation medium selects the s
 | `propagation.md` | Propagation is the primitive (Axiom 1) formalized as distinguishable change through a Medium at ≤ causal velocity |
 | `causal_velocity.md` | Causal velocity is the speed limit (Axiom 2) |
 | `coherence.md` | Coherence is the necessary condition for structure (Axiom 3) — four-layer structure |
-| `mode.md` | Mode selection uses Minimal Winding (Axiom 3b) |
-| `energy.md` | Energy is frequency of propagation mode, derived from Axiom 1 + Axiom 3 |
-| `matter.md` | Matter is stable coherent mode structure, derived from Axiom 1 + Axiom 3 |
-| `forces.md` | Forces are bends in propagation gradients, derived from Axiom 1 + Axiom 3 + Axiom 2 |
-| `observer.md` | Observer types are distinguished by coherence level and causal structure (Axiom 3 + Axiom 2) |
+| `mode.md` | Modes are admissible patterns under an evolution law; Axiom 3b is a candidate selection principle for fundamental PF modes |
+| `energy.md` | Energy is canonically Hamiltonian/Noether structure; PF frequency language is a bounded interpretation for stationary modes |
+| `matter.md` | Matter is stable or quasi-stable excitation structure of matter fields; PF frames this as stable mode structure |
+| `forces.md` | Forces are standard metric/gauge interaction structures; PF interprets them as Medium-property effects where force-specific mappings exist |
+| `observer.md` | Observer types are distinguished by record stability, propagation, coupling, and self-correlation properties |
 
 ---
 

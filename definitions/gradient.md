@@ -3,7 +3,7 @@
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md` Force mechanism; `medium.md`*
 *Audit: `derivations/gradient_definition_final_audit_2026-04-29.md`*
-*Dependencies: `medium.md`, `forces.md`, `propagation.md`, `coherence.md`, `mode.md`, `causal_velocity.md` CANONICAL v1.0*
+*Dependencies: `field.md`, `medium.md`, `forces.md`, `propagation.md`, `coherence.md`, `mode.md`, `causal_velocity.md` CANONICAL v1.0*
 
 ---
 
@@ -148,6 +148,7 @@ A gradient definition fails if:
 
 | Definition | Connection |
 |------------|-----------|
+| `field.md` | Gradients are derivatives, covariant variations, or effective variations of specified field structures |
 | `forces.md` | Standard physics encodes forces as spacetime geometry or gauge field structure; PF interprets these as Medium structural gradients where a force-specific mapping exists |
 | `medium.md` | The Medium provides structural variation that can alter propagation paths; this is the role gradient language formalizes |
 | `causal_velocity.md` | Gradients in effective coordinate propagation conditions do not change local causal velocity; causal velocity still bounds controllable influence |

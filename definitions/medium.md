@@ -1,6 +1,6 @@
-# I dThe Medium
+# The Medium
 *Fundamentals canonical definition*
-*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-28; downstream references may now be updated*
+*Status: CANONICAL v1.0 — passed Codex final audit 2026-04-28*
 *Synthesized: 2026-04-28 by Claude from Cascade + Claude + Lumi inputs + Codex audit*
 *Inputs: `derivations/medium_definition_protocol.md`, `medium_definition_claude_2026-04-28.md`, `medium_definition_lumi_2026-04-28.md`*
 *Audits: `derivations/medium_definition_protocol_codex_audit_2026-04-28.md`; `derivations/medium_definition_final_audit_2026-04-28.md`*
@@ -61,7 +61,7 @@ The smallest distinguishable change that the rules of reality allow to propagate
 | **Old ether** | Implies a preferred rest frame — falsified by Michelson-Morley and all subsequent SR tests |
 | **FTL enabler** | Violates Axiom 2; no controllable superluminal signaling observed |
 | **Building blocks / legos** | Forces pebble ontology; reality is built of constraints and resonance, not bricks |
-| **"Pure energy"** | Energy is frequency (E=hf); saying the Medium is "pure energy" leaves undefined what is oscillating |
+| **"Pure energy"** | Energy is a Hamiltonian/Noether quantity, with bounded frequency language for stationary modes; saying the Medium is "pure energy" leaves undefined the system, state, and dynamics |
 | **Mystical filler** | Any property of the Medium must map to an observable, equation, or falsifiable prediction |
 
 ---
@@ -124,7 +124,7 @@ These claims extend beyond what the definition establishes. They are not part of
 | Claim | Status | What Is Needed |
 |-------|--------|----------------|
 | What the Medium is "made of" | Permanently open — definition terminates in function, not substance | The question regresses; this is not a flaw |
-| ℤ₃ as source of three fermion generations | **PREDICTED** — downstream hypothesis | Full topological derivation from Medium cooling phase transition |
+| ℤ₃ as source of three fermion generations | **OPEN** — downstream hypothesis | Full topological derivation and claim-matrix upgrade outside this definition |
 | "Spacetime emerges from the Medium" | **OPEN** — interesting, not derived | A derivation showing spacetime geometry follows from more primitive Medium structure |
 | Retrocausality as a usable causal channel | **OPEN** — mathematically consistent with extremal principle, not demonstrated | Demonstrated physical backward-time constraint propagation |
 | Quantum gravity structure of the Medium | **OPEN** | A consistent theory unifying QFT and GR at Planck scales |
@@ -140,4 +140,4 @@ These claims extend beyond what the definition establishes. They are not part of
 |---------|------|--------|--------|
 | 1.0 | 2026-04-28 | Claude + Cascade + Lumi | Initial synthesis from three independent drafts + Codex audit |
 
-**Audit status:** Passed Codex final audit 2026-04-28. Downstream references in CLAIMS.md, PROPAGATION_MANUSCRIPT.md, or theory_of_propagation.md may now be updated in a separate, scoped pass.
+**Audit status:** Passed Codex final audit 2026-04-28.

@@ -4,7 +4,8 @@
 *Source: `the_propagation_framework.md` Derived Quantity 5; deferred from `mode.md`, `energy.md`, `observer.md`*
 *Audit: `derivations/information_definition_final_audit_2026-04-29.md`*
 *Dependencies: `mode.md` CANONICAL v1.0; `energy.md` CANONICAL v1.0; `coherence.md` CANONICAL v1.0; `propagation.md` CANONICAL v1.0; `observer.md` CANONICAL v1.0; `medium.md` CANONICAL v1.0; `causal_velocity.md` CANONICAL v1.0*
-*Deferrals: `consciousness.md` (P5 — not ready; consciousness is not derivable from this definition)*
+*Related definitions: `coupling.md` CANONICAL v1.0*
+*Deferrals: `consciousness.md` (P5 — candidate; consciousness is not derivable from this definition)*
 
 ---
 
@@ -147,6 +148,7 @@ A specific information claim fails if:
 | `mode.md` | Information is encoded in distinguishable mode configurations only relative to an alphabet, reference, or correlated record; a mode state alone is not an information measure |
 | `energy.md` | A mode has energy regardless of its information content; energy is a Hamiltonian scalar, information is a relational measure; deferred to this file |
 | `coherence.md` | Quantum coherence supports quantum information capacity; decoherence can create stable classical pointer records; structural coherence is required for records to persist |
+| `coupling.md` | Coupling can create the correlations that make information physically available; correlation alone is not controllable information transfer |
 | `observer.md` | Types 1–3 cover standard physical record/correlation handling; Type 4 covers self-correlating records (memory, learning — OPEN) |
 | `propagation.md` | Information propagates when a correlated signal travels from one observer to another; an uncorrelated propagation carries no information about the specified reference |
 | `medium.md` | The Medium provides the causal structure within which distinguishability is meaningful; information cannot be defined without a causal structure that distinguishes before/after |

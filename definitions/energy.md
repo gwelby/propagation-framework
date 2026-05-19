@@ -202,7 +202,7 @@ Every energy claim must specify:
 | Does PF derive the vacuum energy / cosmological constant magnitude? | OPEN — zero-point frequencies sum to divergent result; measured Λ is 120 orders smaller |
 | Does PF give a derivation of `ℏ` from Medium properties? | OPEN — `ℏ` is currently taken as a given constant, not derived |
 | Is the mode-frequency correspondence exact in the interacting PF Medium, or is it an approximation? | OPEN — holds exactly for free-field modes; PF must specify the full Hamiltonian |
-| Does `ΔEΔt ≥ ℏ/2` follow from mode decomposition in PF? | INTUITION — the time-energy uncertainty relation follows from Fourier conjugacy of time and frequency |
+| Does `ΔEΔt ≥ ℏ/2` follow from mode decomposition in PF? | OPEN — the standard relation follows from Fourier/operator structure; PF-specific derivation remains unwritten |
 
 ---
 

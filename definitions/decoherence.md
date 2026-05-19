@@ -2,6 +2,8 @@
 *Fundamentals canonical definition*
 *Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*
 *How coherent mode structures degrade through interaction with the Medium environment.*
+*Audit: `derivations/decoherence_definition_final_audit_2026-04-30.md`*
+*Related definitions: `coupling.md` CANONICAL v1.0; `coherence.md`; `measurement.md`; `information.md`*
 
 ---
 
@@ -75,6 +77,7 @@ In quantum coherent systems, the observable signature of decoherence in a phase-
 
 | Definition | Connection |
 |------------|-----------|
+| `coupling.md` | Decoherence is the specialized case of coupling to uncontrolled environmental degrees of freedom |
 | `coherence.md` | Decoherence is the degradation pathway from layer 3 → layer 2 → layer 1 coherence |
 | `medium.md` | The Medium provides the environmental degrees of freedom that drive decoherence (role 8: Noise injection) |
 | `mode.md` | Stable modes persist when their coherence lifetime exceeds their decoherence timescale |

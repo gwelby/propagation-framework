@@ -3,7 +3,7 @@
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md`; used 34× in framework*
 *Audit: `derivations/mode_definition_final_audit_2026-04-29.md`; prior pre-dispatch packet superseded: `derivations/mode_pre_dispatch_audit_2026-04-29.md`*
-*Related definitions: `energy.md`, `forces.md`, `information.md` CANONICAL v1.0; Standard Model spectrum derivation remains OPEN*
+*Related definitions: `field.md`, `energy.md`, `forces.md`, `information.md` CANONICAL v1.0; Standard Model spectrum derivation remains OPEN*
 
 ---
 
@@ -141,7 +141,7 @@ When a particle and antiparticle meet, the interaction converts the bound-state 
 - Not necessarily stable. Unstable modes (resonances) are modes; they decay.
 - Not necessarily quantized in the energy-level sense. Quantization depends on boundary conditions and field-theoretic structure, not on being a mode.
 - Not consciousness. A mode may be part of a conscious system, but no mode by itself carries awareness or experience.
-- Not a force. Modes are field configurations; forces are gradient effects on those configurations (deferred to `definitions/forces.md`).
+- Not a force. Modes are field configurations; forces are interactions that change those configurations (see canonical `definitions/forces.md` and `definitions/coupling.md`).
 
 ---
 
@@ -186,6 +186,7 @@ A mode definition fails if:
 | Definition | Connection |
 |------------|-----------|
 | `medium.md` | Modes are admissible patterns of the Medium's field states under its evolution law |
+| `field.md` | A field is the distributed degree of freedom whose admissible patterns are modes |
 | `coherence.md` | Stable modes require stable relational structure under evolution (structural/dynamical coherence) |
 | `causal_velocity.md` | Mode front and signal velocities respect causal velocity; phase and group velocities require the velocity taxonomy in `causal_velocity.md` |
 | `energy.md` | For stationary quantum modes, `energy.md` gives the formal `E = ℏω` relation and its Hamiltonian limits |

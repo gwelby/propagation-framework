@@ -2,6 +2,8 @@
 *Fundamentals canonical definition*
 *Status: CANONICAL v1.0 — passed Codex final audit 2026-04-30*
 *What constitutes a measurement in PF terms, and how it relates to the observer taxonomy.*
+*Audit: `derivations/measurement_definition_final_audit_2026-04-30.md`*
+*Related definitions: `coupling.md` CANONICAL v1.0; `observer.md`; `information.md`; `decoherence.md`*
 
 ---
 
@@ -86,6 +88,7 @@ The record is Type 2. In decoherence accounts, record creation correlates the me
 
 | Definition | Connection |
 |------------|-----------|
+| `coupling.md` | Measurement is coupling plus amplification and stabilization into an accessible record |
 | `observer.md` | Measurement is the process that creates a Type 2 record; Type 3 propagates records; Type 4 self-referential measurement remains PF interpretation |
 | `information.md` | Shannon measurement creates distinguishable records; von Neumann entropy measures quantum mixedness and must not be conflated with mutual information |
 | `coherence.md` | Quantum measurement suppresses coherences relative to a pointer basis in decoherence accounts; stable records require structural coherence over readout timescales |

@@ -24,7 +24,9 @@
 | `information.md` | Information | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-29; distinguishability/correlation relative to reference; entropy measures separated; Type 4/consciousness deferred |
 | `minimum_substrate.md` | Minimum Substrate | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-29; single qubit/qutrit fails as whole Medium; local quantum dynamical net/QCA is minimal constructive representative; Lorentz recovery remains OPEN |
 | `measurement.md` | Measurement | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-30; record creation via coupling/amplification/stabilization; Born rule and outcome selection remain OPEN |
-| `state.md` | State | 🔁 CANDIDATE — AWAITING CODEX | Phase 5 | CANDIDATE: quantum state (density operator) vs classical pointer state (decohered); operational 3-part definition; interpretation OPEN |
+| `state.md` | State | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-30; operational state definition; density operator vs pointer state bounded; purity/coherence and state/information separated |
+| `field.md` | Field | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-30; Medium/field/mode/state hierarchy fixed; gauge observability and continuum/discrete regimes bounded |
+| `coupling.md` | Coupling | ✅ CANONICAL v1.0 | Done | Passed Codex final audit 2026-04-30; coupling as dynamical dependence; measurement/decoherence/force-like interactions bounded as specialized cases |
 | `consciousness_metric_program.md` | Consciousness Metric Program | 🔁 ACTIVE CANDIDATE | P5 | Live experimental protocol; F_self v2 metric; null-class I+II closed; benchmark battery pre-registered; M_obs→M_t bridge OPEN |
 | `consciousness.md` | Consciousness | 🔁 CANDIDATE — INTUITION 0.48 | P5 | PF structural prerequisites of consciousness; hard problem boundary explicitly named; NOT derived from canonical stack |
 
@@ -59,7 +61,9 @@
 
 **Phase 5 — Consciousness (metric program active):**
 `measurement.md` — ✅ CANONICAL (record creation; Shannon vs Von Neumann separated; Born rule OPEN)
-`state.md` — 🔁 CANDIDATE (quantum state vs pointer state; operational 3-part definition; dispatched to Codex)
+`state.md` — ✅ CANONICAL (quantum state vs pointer state; operational 3-part definition; interpretation OPEN)
+`field.md` — ✅ CANONICAL (Medium/field/state/mode hierarchy; gauge and discrete-substrate regimes bounded)
+`coupling.md` — ✅ CANONICAL (dynamical dependence; specialized measurement/decoherence/force-like cases; no universal strength formula)
 `consciousness_metric_program.md` — 🔁 ACTIVE CANDIDATE
 `consciousness.md` — 🔁 CANDIDATE — INTUITION 0.48
 
@@ -69,7 +73,7 @@
 
 **propagation.md** could not be written cleanly until medium.md, coherence.md, and causal_velocity.md existed, because propagation is defined as "movement of distinguishable change through a Medium at rate ≤ causal velocity." Using "Medium" and "causal velocity" before they're defined = circular.
 
-Current state: 16 CANONICAL definitions. Phase 1–4 and the root/measurement/decoherence support layer are complete. Phase 5 active: `state.md` CANDIDATE dispatched to Codex (Codex identified "state" as the final critical undefined term across all 16 files); `consciousness_metric_program.md` is a live experimental protocol; `consciousness.md` is CANDIDATE at INTUITION 0.48 until metric results exist.
+Current state: 19 CANONICAL definitions. Phase 1–4 and the root/measurement/decoherence/state/field/coupling support layer are complete. Phase 5 active: `consciousness_metric_program.md` is a live experimental protocol; `consciousness.md` is CANDIDATE at INTUITION 0.48 until metric results exist.
 
 ---
 
@@ -102,7 +106,10 @@ Current state: 16 CANONICAL definitions. Phase 1–4 and the root/measurement/de
 | `axioms.md` | 2026-04-30 | AX-01 through AX-05 | ✅ CANONICAL |
 | `decoherence.md` | 2026-04-30 | DC-01 through DC-06 | ✅ CANONICAL |
 | `measurement.md` | 2026-04-30 | MR-01 through MR-06 | ✅ CANONICAL |
-| `state.md` | PENDING | ST-01 through ST-XX | 🔁 CANDIDATE — Codex gap-found; pre-audit complete; awaiting hostile audit |
+| `state.md` | 2026-04-30 | ST-01 through ST-06 | ✅ CANONICAL |
+| `field.md` | 2026-04-30 | FLD-01 through FLD-05 | ✅ CANONICAL |
+| `coupling.md` | 2026-04-30 | CPL-01 through CPL-07 | ✅ CANONICAL |
+| Full definitions stack | 2026-04-30 | DFS-01 through DFS-07 | ✅ PASS — 19 canonical; no blocking undefined terms |
 
 ## Pre-Audit Checklist
 

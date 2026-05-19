@@ -3,7 +3,7 @@
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md` observer usage; `time.md`; `coherence.md`; `propagation.md`; `mode.md`*
 *Audit: `derivations/observer_definition_final_audit_2026-04-29.md`*
-*Dependencies: `mode.md` CANONICAL v1.0; `coherence.md` CANONICAL v1.0; `propagation.md` CANONICAL v1.0; `time.md` CANONICAL v1.0; `medium.md` CANONICAL v1.0; `gradient.md` CANONICAL v1.0*
+*Dependencies: `mode.md` CANONICAL v1.0; `coherence.md` CANONICAL v1.0; `propagation.md` CANONICAL v1.0; `time.md` CANONICAL v1.0; `medium.md` CANONICAL v1.0; `gradient.md` CANONICAL v1.0; `coupling.md` CANONICAL v1.0*
 *Related definitions: `information.md` CANONICAL v1.0; `consciousness.md` CANDIDATE — INTUITION 0.48*
 
 ---
@@ -172,6 +172,7 @@ An observer definition fails if:
 | `mode.md` | An observer is a stable mode or bound mode-structure; the observer's state is a mode configuration |
 | `coherence.md` | Stable records require structural coherence over the relevant timescale; this does not imply optical or quantum phase coherence; Type 4 claims require a mechanism for self-correlating dynamics |
 | `propagation.md` | Observation is a mode-mode interaction; propagation carries the signal from source to observer |
+| `coupling.md` | Observation requires coupling between incoming propagation and observer state; observer types differ by what survives the coupling |
 | `time.md` | An observer's "now" is an event on its worldline labeled by accumulated proper time; accumulated state changes up to that event constitute its record; the speculative "local causal frontier" picture from time.md is consistent but not canonical |
 | `medium.md` | The observer is a pattern in the Medium; observation is a Medium-internal pattern interaction |
 | `information.md` | Observation produces a record, which is a form of information; information.md defines information as distinguishability/correlation relative to a reference or record |

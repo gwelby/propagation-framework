@@ -2,7 +2,7 @@
 *Fundamentals canonical definition*
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md` Derived Quantity 1*
-*Deferral: `observer` is used operationally throughout; canonical definition deferred to `definitions/observer.md` (does not yet exist)*
+*Dependencies: `observer.md` CANONICAL v1.0; `state.md` CANONICAL v1.0; `causal_velocity.md` CANONICAL v1.0*
 *Audits: `derivations/time_definition_audit_2026-04-29.md`; `derivations/time_pre_dispatch_audit_2026-04-29.md`; `derivations/time_definition_final_audit_2026-04-29.md`*
 
 ---
@@ -17,7 +17,7 @@ Plain language (not the formal definition):
 
 > Time is what the record of change looks like from along a path.
 
-*Observer* is used operationally in this file to mean a physical clock or record-bearing subsystem following a worldline. A canonical definition is deferred to `definitions/observer.md`.
+*Observer* is used operationally in this file to mean a physical clock or record-bearing subsystem following a worldline. The canonical observer definition is `definitions/observer.md`.
 
 ---
 
@@ -116,8 +116,8 @@ Any extension requires specifying which observer's wavefront, or choosing a foli
 | Can PF derive the thermodynamic arrow from propagation geometry without assuming a low-entropy initial condition? | OPEN |
 | Does the "local causal frontier" concept for a worldline recover standard SR/GR proper time when made precise? | OPEN |
 | Does the PF local-causal-frontier picture extend cleanly to quantum field theory? | OPEN |
-| Is the Big Bang a boundary condition of propagation rather than a "beginning of time"? | INTUITION — needs model |
-| Are there multiple propagation fields with multiple arrows of time? | INTUITION — speculative |
+| Is the Big Bang a boundary condition of propagation rather than a "beginning of time"? | OPEN — speculative; needs model |
+| Are there multiple propagation fields with multiple arrows of time? | OPEN — speculative |
 
 ---
 

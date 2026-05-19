@@ -30,7 +30,7 @@ In vacuum, the limit is *c* — 299,792,458 m/s. In air at sea level, for sound,
 
 These numbers differ by ten orders of magnitude. The principle does not differ at all.
 
-**Every medium that carries a signal has a maximum rate at which causal influence can propagate through it.** This is not a metaphor borrowed from relativity. Relativity discovered one instance of it — the vacuum instance, which happens to be the fastest and simplest. But the principle is broader than relativity. It applies to any substrate in which propagation occurs.
+**Every medium that carries a signal has a maximum rate at which controllable causal influence can propagate through it.** This is not a metaphor borrowed from relativity. Relativity discovered one instance of it — the vacuum instance, which happens to be the fastest and simplest. But the principle is broader than relativity. It applies to any substrate in which propagation occurs.
 
 I will call this the **causal velocity** of a medium. In vacuum, it is *c*. In everything else, it is something slower. But it always exists.
 
@@ -112,7 +112,7 @@ Combining these five principles, the theory states:
 
 **All information-processing systems — physical, biological, computational, cognitive — are propagation media characterized by:**
 
-1. **A causal velocity** — the maximum speed at which influence can spread through the medium
+1. **A causal velocity** — the maximum speed at which controllable causal influence can spread through the medium
 2. **A propagation ratio** — the relationship between actual signal speed and the causal velocity, which determines how the medium shapes, filters, and transforms signals
 3. **Boundary behavior** — reflection, refraction, absorption, and emission at every interface between regions of different propagation ratio
 4. **Coherence** — the degree of phase alignment between coupled components, which determines the system's information capacity

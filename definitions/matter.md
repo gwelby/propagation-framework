@@ -3,7 +3,7 @@
 *Status: CANONICAL v1.0 - passed Codex final audit 2026-04-29*
 *Source: `the_propagation_framework.md` Derived Quantity 3*
 *Audit: `derivations/matter_definition_final_audit_2026-04-29.md`; prior pre-dispatch packet superseded: `derivations/matter_pre_dispatch_audit_2026-04-29.md`*
-*Dependencies: `mode.md` CANONICAL v1.0; `energy.md` CANONICAL v1.0*
+*Dependencies: `field.md` CANONICAL v1.0; `mode.md` CANONICAL v1.0; `energy.md` CANONICAL v1.0*
 *Related definitions: `forces.md`, `information.md` CANONICAL v1.0*
 
 ---
@@ -204,9 +204,10 @@ A matter definition fails if:
 
 | Definition | Connection |
 |------------|-----------|
+| `field.md` | Matter fields are the fermionic field types whose stable/quasi-stable excitations count as matter |
 | `mode.md` | Matter particles are stable or quasi-stable quantum modes of matter fields |
 | `energy.md` | Rest energy of matter is `mc²`; bound-state energy includes interaction/binding terms |
 | `coherence.md` | Stable matter modes require structural coherence under evolution |
 | `causal_velocity.md` | Matter-mode front/signal velocities respect causal velocity; massive particle velocities are strictly below `c`; phase/group velocities require taxonomy |
-| `forces.md` | Forces determine how matter modes interact and bind; deferred pending `forces.md` audit |
+| `forces.md` | Forces determine how matter modes interact and bind; force-specific claims are controlled by canonical `forces.md` |
 | `time.md` | Matter modes have proper time along their worldlines; time dilation applies to all matter |

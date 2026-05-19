@@ -160,7 +160,7 @@ No live P1 value is part of this definition.
 |----------|--------|
 | What exact PF coherence functional selects stable particle modes? | OPEN |
 | Does Axiom 3 imply a non-redundancy principle for both `Z2` closure classes? | OPEN |
-| Does `Z3` symmetry determine a generation coherence/stability threshold? | PREDICTED / not derived |
+| Does `Z3` symmetry determine a generation coherence/stability threshold? | OPEN — downstream hypothesis; not derived in this definition |
 | Can "coherence ceiling" be defined as a precise functional rather than a phrase? | OPEN |
 | What PF-specific metric separates self-referential coherence from synchrony, integration, broadcast, or metacognition? | OPEN - see `CLAIMS.md` consciousness row |
 
