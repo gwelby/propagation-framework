@@ -45,3 +45,19 @@ __pycache__/
 .venv/
 env/
 D:\Fundamentals\sandbox\sandbox_results.md
+
+# 5. Verification harness cache (propagation-framework-verification spec)
+verification/.cache/
+
+# 6. Runtime telemetry / IDE state / auto-generated manifests / build noise
+.vscode/
+AGENT_RESONANCE.jsonl
+AGENT_RESONANCE_DASHBOARD.txt
+index.json
+assemble_log.txt
+archive/AGENT_BLACKBOARD_flooded_*.jsonl
+*.pyc
+.pytest_cache/
+
+# 7. Generated visual-pass screenshots (regenerated each run)
+sandbox/explorer/_visual_pass_screens/
