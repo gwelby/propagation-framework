@@ -1,7 +1,7 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-05-19 (updated after G3-OP-MAP audits)
-**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map.
+**Date**: 2026-05-20 (updated after T3 selector audit)
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map. Additionally, the T3 information-theoretic selector was audited on 2026-05-20 and closed as a target-loaded no-go.
 
 ---
 
@@ -28,7 +28,7 @@ These are scoped negatives, confirming that the linearized Z3 Lagrangian does no
 **Read first**: `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_spectral_contract_audit_2026-05-13.md`, `derivations/g3_op_map_coarse_damping_audit_2026-05-13.md`, `derivations/s2_pf_native_gate_contract_2026-05-10.md`, `derivations/h_prod_joint_model_obligation.md`, `verification/operator_algebra.py`, `/mnt/d/DeepSeek/REPORTS/oscillator_to_closure_boundary.md`, `/mnt/d/DeepSeek/REPORTS/measurement_map_exploration.md`.
 
 ### Attack 2: Axiom 3 Selector / T1-T2 Bridges (on hold until a contract exists)
-T1 and T2 remain partial derivations with named bridges (`A_NR`, `C_mom`, `C_FP`, `C_bridge`). Do not reopen them as broad theory work. Reopen only if a selector contract `S = (D, F, R, V, X)` is written with an actual verification gate.
+T1 and T2 remain partial derivations with named bridges (`A_NR`, `C_mom`, `C_FP`, `C_bridge`). The T3 selector candidates are closed: the **phi-harmonic closure (2026-04-22)** and the **information-theoretic selector (2026-05-20)** were both audited as target-loaded no-gos (the latter used handcoded $(N-3)$ penalties to artificially suppress $N=4$, which otherwise had double the stability margin of $N=3$). Do not reopen these or the broader theorem stack without a genuine selector contract `S = (D, F, R, V, X)` and a target-free verification gate.
 
 ### Attack 3: Koide Phase (frozen)
 Do not reopen Koide phase unless a genuinely new PF-native selector appears. The Casimir, RG, projective, character-normal-form, Chebyshev, and historical-proxy lanes are fenced or negative.
