@@ -1,6 +1,6 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-05-13 (updated after the frontier audit)
+**Date**: 2026-05-19 (updated after G3-OP-MAP audits)
 **Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map.
 
 ---
@@ -18,7 +18,10 @@
 - damping / environment mechanism derived from PF vacuum structure,
 - nonlinear completion that produces the discrete closure operator after reduction.
 
-**Current subroute evidence**: The spectral/DFT map, simple linear damping, and block-average coarse-graining have all tested negative after the 2026-05-13 codomain correction. Do not cite the old `~0.19` KL floor as a corrected spectral result; corrected spectral-power results are `>= 1.1293` in the audited damping/coarse-graining scripts. These are scoped sandbox negatives, not a theorem that every PF-native coarse-graining or environment route is dead.
+**Current subroute evidence**: The spectral/DFT map, simple linear damping, and block-average coarse-graining have all tested negative. The two DeepSeek-proposed candidate routes are also now closed as conditional negatives:
+- **Trace-norm projection (audited 2026-05-16)**: Schatten-1 trace norm does not contract in tested regimes (ratios remain >1) and loses the signed amplitude action `-1/8` under the density-matrix lift.
+- **Perron-Frobenius collapse (audited 2026-05-19)**: PF theory fails to select the target eigenvalue `-1/8` from a continuum of compatible positive stochastic operators, and the positive-cone mapping requires extra open-system structure.
+These are scoped negatives, confirming that the linearized Z3 Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge.
 
 **Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`; or (b) the tested class fails cleanly and the repo records that the linearized Z3 Lagrangian cannot supply the primitive closure operator without new physics.
 

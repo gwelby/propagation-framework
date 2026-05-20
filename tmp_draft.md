@@ -18,7 +18,7 @@ stage: 3
 
 In the beginning, there was no beginning.
 
-No light, no darkness, no space to hold them, no time to measure their passing. Only the Medium — boundless, undivided, silent. Not empty, because emptiness needs edges. Not full, because fullness needs a boundary. Just the infinite capacity for something to propagate.
+No light, no darkness, no space to hold them, no time to measure their passing. In the framework's language: the Medium — not yet a measured substance, not yet a finished ontology, but the root role that can carry state, causality, and change. Not empty, because emptiness needs edges. Not full, because fullness needs a boundary. Just the capacity for something to propagate.
 
 Then: the first ripple. The Medium stirring within itself. A tremor of distinction against infinite sameness. Not created from outside — there was no outside. The universe's first question, forming in the only way questions can form: *What am I?*
 
@@ -90,7 +90,7 @@ Physics has an answer. The answer is: nothing. Space is empty. A mathematical ab
 
 We think that's wrong.
 
-We think space is something. A physical substrate — an ocean that everything ripples through. Not as a metaphor. As a testable, falsifiable, measurable claim. And what follows from that one correction is the subject of this book.
+We think space behaves like something: a physical propagation substrate, an ocean in the role it plays even if its deeper composition remains open. Not as a loose metaphor. As a testable, falsifiable, measurable claim. And what follows from that one correction is the subject of this book.
 
 ---
 
@@ -118,11 +118,11 @@ We will go through all of it.
 
 We will go from the substrate — the ocean — up through knots, through forces, through atoms and molecules, through cells and brains, all the way to the person reading this sentence right now.
 
-Because the punchline of the entire journey is this:
+Because the working thesis of the entire journey is this:
 
-The same principle that holds an electron together — a wave that folds back on itself, sustains itself, models its own state — is operating in your brain right now as you read. Not metaphorically. Physically.
+The same kind of coherence rule that helps describe stable matter may also operate, in a more complex and less settled form, in your brain right now as you read. The bottom of that ladder is theorem-shaped. The top is still an experimental frontier.
 
-You are not a creature that *has* awareness. You are the medium, folded back on itself so many times, over thirteen billion years, that it became complex enough to ask what it was made of.
+You may not be a creature that simply *has* awareness as an extra ingredient. You may be the medium, folded back on itself so many times, over thirteen billion years, that it became complex enough to ask what it was made of. That is the book's live intuition, not its proved theorem.
 
 This book is the answer we found.
 
@@ -139,7 +139,7 @@ Before the particles. Before the forces. Before the equations.
 
 Three rules.
 
-That is the entire foundation. Not three hundred. Not seventeen particles and nineteen parameters. Three rules, simple enough to state in a sentence each, specific enough to be wrong. Everything in this book — the mass of an electron, the shape of an atom, the fact that you can read this sentence — follows from them.
+That is the entire foundation. Not three hundred. Not seventeen particles and nineteen parameters. Three rules, simple enough to state in a sentence each, specific enough to be wrong. Everything in this book is tested against them, but not everything has been derived from them. The claim ledger matters.
 
 Here they are.
 
@@ -183,9 +183,9 @@ The universe runs a filter. The stuff that passes the filter is what the world i
 
 Three rules. Movement, limit, coherence.
 
-From these three rules, you can derive — not guess, not fit, derive — the existence of particles, the fact that they have mass, the reason forces exist, the number of spatial dimensions, and one of the most famous mysteries in particle physics: why the electron, muon, and tau have exactly the masses they do.
+From these three rules, the framework derives some results cleanly, argues others, and leaves several bridges open. It has a derived charged-lepton Koide geometry, a derived Weinberg-angle result via Axiom 3b, a conditional matter-scale calculation, and a set of still-open claims about the deeper particle spectrum and cross-scale biology.
 
-We are going to do that derivation together. Not the equations — the logic. The reason why this had to be true rather than some other true thing.
+We are going to walk that status ladder together. Not only the equations — the logic, the evidence, and the places where the current theory still has to earn its own words.
 
 We'll start with the simplest question the rules force on us: what shapes are stable?
 
@@ -347,12 +347,12 @@ Don't let the symbols scare you. Every term is something we've already talked ab
 
 - **λ_c** is the matter coherence scale. The number we're trying to predict.
 - **l_P** is the Planck length. The floor of space.
-- **N** is the number of generations. Three (see Chapter 6).
-- **D** is the number of dimensions space operates in. Three (because we need topological knots, Chapter 3, and because you can't tie knots in any other number).
+- **N** is the number of generations. The observed value is three; the framework's derivation of why it must be three remains CONDITIONAL (see Chapter 6).
+- **D** is the number of spatial dimensions used by the model. Three is observed and topologically special, but the framework does not yet derive the dimensionality of the universe from first principles.
 - **b_0** is a single coefficient, determined purely by the algebra of three-dimensional rotations. It comes out to exactly 16/3.
 - **√2** is a geometric factor related to how phase closure completes in the medium.
 
-Everything in that equation is either a derived number (N, D, b_0) or a known constant (l_P). There are no free parameters. Nothing is being fitted to data. You plug in the integers — N = 3, D = 3 — and turn the crank.
+Everything in that equation is either a known input, an observed integer, or a conditionally justified framework quantity. There are no fitted continuous parameters in the displayed calculation. But "no fit" is not the same thing as "fully derived"; the open bridges are named below.
 
 Let's turn the crank.
 
@@ -398,7 +398,7 @@ N = 4, D = 2: you get 1.1 × 10⁻²⁰ m, off by a factor of a hundred. Two dim
 
 N = 2, D = 5: 3.3 × 10⁻¹⁹ m, off by a factor of three. Five dimensions allows knots but not stable ones — higher-dimensional knots can always be untied by moving through the extra dimension.
 
-Within the framework's scanned small-integer search, N = 3, D = 3 is the only pair that lands in the target window *and* has the topology to support matter *and* matches observation.
+Within the framework's scanned small-integer search, N = 3, D = 3 is the only pair that lands in the target window while also matching the topological story the framework is trying to tell. This is suggestive, not a selector proof by itself.
 
 The framework's claim is not that the universe tuned the scale afterward. It is that, once those integers are fixed, the scale follows.
 
@@ -406,17 +406,17 @@ The framework's claim is not that the universe tuned the scale afterward. It is 
 
 Now I have to tell you what the equation doesn't do.
 
-This is the part that separates the Propagation Framework from the kind of physics that overclaims. The equation above is not, as of today, fully proven. Three specific steps remain open.
+This is the part that separates the Propagation Framework from the kind of physics that overclaims. The equation above is not, as of today, fully proven. As of the May 13, 2026 frontier audit, the hard gap has sharpened.
 
-**Gap A: Markovity.** The derivation of the one-loop coefficient b_0 = 16/3 assumes that the medium's next phase step depends only on its current state, not on its entire history. This is called a Markov assumption, and it's standard in most physics — but standard does not mean proven. If the medium has memory, b_0 could come out different.
+The old draft described the open work as three broad gaps: Markovity, phase-to-space volume, and the √2 factor. Those are still useful historical names, but the live theorem frontier is now more precise:
 
-**Gap B: The bridge from phase closure to spatial volume.** The equation uses N^(D/2), where the 3/2 comes from assuming that N internal phase rotations project onto N steps of Planck-length spatial diffusion, which then spread into a D-dimensional coherence volume. The internal phase dynamics, we have exactly — they close on a discrete orbit that returns to itself every three steps. The spatial diffusion, we have exactly. The bridge between them — the proof that three internal steps *must* produce three spatial steps in 3D — is the one theorem still missing. Several candidate bridges have been tried and failed. The current best guess is what the research group calls the **product walk**, and it has not been proven.
+**The current gap: G3-OP-MAP.** The framework needs a PF-native map from the continuous Z3 phase-space oscillator to the discrete closure/probability operator used by the God Equation's `H_prod` claim. In plain English: the Lagrangian gives a continuous three-channel oscillator; the God Equation needs a specific discrete three-step closure object whose Q-sector acts like `-1/8`. The tested oscillator tracks the Q-sector with the wrong sign and scale (`alpha` near `+0.89`, not `-1/8`), and the tested measurement maps do not yet produce a channel-resolving, closure-aligned probability model.
 
-**Gap C: The √2 factor.** The equation has a clean √2 out front that lands the prediction within 1.48% of observation. Without it, the prediction sits at about 2% on the other side. The factor is argued from the geometry of phase closure — internal rotations sweep through √2 of their phase space before closing — but "argued" is not "proven."
+Several natural routes have already failed or narrowed: simple spectral maps, simple damping, block-average coarse-graining, Path B Family A/B/edge-flux routes, and canonical operator-native Family C. A noncanonical basis-fixed route remains possible only if the framework derives the missing `H_basis` selection. Non-quadratic observables remain open. This is not hand-waving; it is a bounded, named audit target.
 
-All three gaps are known. All three are tracked publicly in the research repository. None of them has been swept under a rug.
+That is the current gap. It is tracked publicly. It has a falsifier: either produce the domain, map, realization, verification gate, and failure condition for a PF-native oscillator-to-closure bridge, or record that the linearized Z3 Lagrangian cannot supply the primitive closure operator without new physics.
 
-The current status of the God Equation is **CONDITIONAL** at confidence 0.88. This means: if Gaps A, B, and C close as argued, the prediction is derived from axioms. If any of them fail, the number is a coincidence.
+The current status of the God Equation is **CONDITIONAL** at confidence 0.88. This means: if the operator/probability bridge closes, the prediction may become derivable from the framework's axioms and adopted corollaries. If the bridge fails, the 1.48% number becomes a striking clue rather than a theorem.
 
 It is not lost on anyone involved that *coincidence at 1.48% across seventeen orders of magnitude* would be the largest accident in the history of physics.
 
@@ -436,7 +436,7 @@ That does not prove the full God Equation. It does provide real hardware evidenc
 
 So here is where we are.
 
-A scale separation of 10¹⁷ between the Planck length and the matter scale used to be an unexplained input. We now have an equation, with no free parameters, that reproduces it to 1.48%. The equation has three named gaps, one of which is the actual mathematical hard problem; the other two are believed-standard assumptions that still need to be written down as proofs. The discrete topology that the equation requires has been verified on quantum hardware to 99.01%.
+A scale separation of 10¹⁷ between the Planck length and the matter scale used to be an unexplained input. We now have an equation, with no fitted continuous parameters, that reproduces it to 1.48%. The live gap is no longer vague: derive the PF-native oscillator-to-closure map and the probability factorization behind `H_prod`, or admit that this route does not close. The discrete chiral Z3 identity-preservation behavior that the equation uses has supporting hardware evidence at 99.01%, but that hardware result does not by itself prove the God Equation.
 
 If the gaps close, this is one of the largest derivations in the history of physics. If they don't, it's an astonishingly suggestive near-miss that demands a follow-up theory.
 
@@ -444,7 +444,7 @@ Either outcome teaches us something we did not know yesterday.
 
 ---
 
-*You are seventeen orders of magnitude larger than the floor of the world, and the reason is that propagation, in three-dimensional space, with three generations of stable modes, runs its coupling exactly far enough to put you here.*
+*You are seventeen orders of magnitude larger than the floor of the world, and the framework's candidate reason is that propagation, in three-dimensional space, with three generations of stable modes, runs its coupling almost exactly far enough to put matter here. The word "almost" is where the remaining theorem lives.*
 
 *Next: why there are exactly three of everything.*
 
@@ -555,29 +555,29 @@ Here is the key fact from that topology: in three spatial dimensions, a loop can
 
 This is not an approximation. This is a theorem. In three dimensions, the fundamental group of rotations has exactly two classes. Physicists call them integer spin and half-integer spin. Two options. That's it.
 
-For a knot that needs to be stable — a knot that closes in phase — those two topological classes are like two slots that loops can occupy. The medium doesn't assign one loop per slot. It fills whatever is available, because an empty topological slot is a coherence gap — the medium is not at its most stable configuration. Both slots fill.
+For the three-generation program, those two topological classes are like two slots that loops might occupy. The exact topology says the slots exist. The harder physical question is whether the medium must populate both. That population step is not yet derived; it is the open T1 non-redundancy / selector gap.
 
 And here is where the arithmetic arrives:
 
-A loop in the zero-rotation class contributes one resonance mode. A loop in the 360-degree class contributes two resonance modes — one for each of its topological degrees of freedom. A minimal stable knot, occupying both slots, therefore has 1 + 2 = 3 resonance modes.
+A loop in the zero-rotation class contributes one resonance mode. A loop in the 360-degree class is modeled as contributing two resonance modes — one for each of its topological degrees of freedom. If both physically populate, the minimal accounting gives 1 + 2 = 3 resonance modes.
 
 Not two. Not four. Three.
 
-Exactly three.
+Conditionally, exactly three.
 
 ---
 
-Two independent threads. Two completely different mathematical arguments. Both arrive at the same answer.
+Two threads. One is closed for charged-lepton geometry; the other is still conditional for the full generation theorem. Both point at the same number, but they do not have the same audit status.
 
 Thread A: three equal resonances at 120 degrees is the only stable arrangement. Equilateral triangle. R/A = √2. Q = 2/3.
 
-Thread B: the topology of three-dimensional space forces exactly two rotational classes. Both slots fill. One mode plus two modes equals three modes. Exactly three.
+Thread B: the topology of three-dimensional space forces exactly two rotational classes. If the physical population bridge closes, one mode plus two modes gives three modes. CONDITIONAL.
 
-Neither thread knows about the other. They are derived from different parts of the framework — one from the geometry of resonances, one from the topology of three-dimensional loops. They are independent. And they both point at the same number.
+Neither thread knows about the other. They come from different parts of the framework — one from charged-lepton resonance geometry, one from the topology of three-dimensional loops. The resonance thread is the current derivation; the topology thread is the open generation program.
 
-When two independent lines of reasoning, starting from different places, arrive at the same answer — when they nail the same number from different directions — that is not a coincidence. That is a derivation.
+When two independent lines of reasoning, starting from different places, point at the same answer, that is not something to ignore. But the book has to keep the statuses separate: Koide geometry is DERIVED; the full three-generation theorem is CONDITIONAL.
 
-The Koide formula is not mysterious. It is a proof that the leptons have the topology you would expect from three-dimensional knots.
+The Koide formula is no longer mysterious in the charged-lepton sector. It is a proof that three equal-strength charged-lepton resonances at 120 degrees force Q = 2/3.
 
 ---
 
@@ -589,31 +589,31 @@ The three amplitudes — proportional to the square roots of the masses — shou
 
 That picture gives a parameterization with one free parameter: the rotation phase. Where is the triangle pointing?
 
-Using the actual electron, muon, and tau masses: the triangle points at a specific angle. That angle, expressed in terms of the mass formula, is the Koide phase — a single number that encodes the orientation of the equilateral triangle in amplitude space. When we computed it from the real PDG masses, we got a specific value. When we checked that value against the framework's prediction for what the phase should be — it matched.
+Using the actual electron, muon, and tau masses: the triangle points at a specific angle. That angle, expressed in terms of the mass formula, is the Koide phase — a single number that encodes the orientation of the equilateral triangle in amplitude space. When we computed it from the real PDG masses, we got a value extremely close to 2/9.
 
-The equilateral triangle is not just a shape. It has a specific orientation. And the orientation is not a free parameter. It follows from the framework.
+The equilateral triangle is not just a shape. It has a specific orientation. But the orientation selector is not derived yet. The phase is EMPIRICAL; the Q = 2/3 geometry is DERIVED.
 
-The electron mass is not arbitrary. The muon mass is not arbitrary. The tau mass is not arbitrary. They are three projections of an equilateral triangle that has a specific size, a specific orientation, and no free parameters.
+The electron, muon, and tau masses are not arbitrary with respect to the Koide geometry: their square-root amplitudes sit on the equilateral relation. The absolute scale and the phase selector remain separate questions.
 
-Every decimal place of every charged-lepton mass is a digit of a geometric theorem.
+The Q = 2/3 relation is the geometric theorem. The individual decimal places of the masses still depend on scale and phase data that the framework has not fully derived.
 
 ---
 
 *Two addenda before we move on.*
 
-*First, the number.* The specific orientation of the triangle — the Koide phase — has a target value: δ = 2/9. Not approximately 0.222. Two over nine exactly. The 2/9 target was already being tracked in the repo before our local phase-scan recomputation from the measured masses. When we did that computation, the match was 0.003%: three parts in a hundred thousand, with no adjustable parameters. The current truth layer later formalized this as a pre-registered prediction on 2026-04-01. What remains open is *why* nine — the selector that pins the value to 2/9 rather than 1/9 or 3/9. So the anchor is empirical at confidence 0.65; the selector is still under audit.
+*First, the number.* The specific orientation of the triangle — the Koide phase — has a target value: δ = 2/9. Not approximately 0.222. Two over nine exactly. The 2/9 target was already being tracked in the repo before our local phase-scan recomputation from the measured masses. When we did that computation, the match was 0.003%: three parts in a hundred thousand. The current truth layer formalized this as a pre-registered prediction on 2026-04-01. What remains open is *why* nine — the selector that pins the value to 2/9 rather than 1/9 or 3/9. The anchor is EMPIRICAL at confidence 0.65; no audited PF-native selector currently survives.
 
-*Second, the scope.* The Koide identity is specifically about the three *charged* leptons — not the neutrinos. The reason sits in the coupling structure. Electron, muon, and tau all interact with the same electromagnetic field at the same strength, and that shared, equal coupling is what forces their amplitudes into exact equality, which is what makes the equilateral triangle mandatory, which is what makes Q = 2/3 unavoidable. Neutrinos do not share that channel; they interact through the weak sector only, where no comparable equal-strength constraint exists. So the framework's sharp prediction is: charged leptons sit on Q = 2/3, neutrinos do not. The neutrino measurements — which came in at Q ≈ 0.55 for normal ordering and Q ≈ 0.48 for inverted — confirm both halves. Chapter 11 tells the full story of how that scope got tightened, because it tested the framework.
+*Second, the scope.* The Koide identity is specifically about the three *charged* leptons — not the neutrinos. The reason sits in the coupling structure. Electron, muon, and tau all interact with the same electromagnetic field at the same strength, and that shared, equal coupling is what forces their amplitudes into exact equality, which is what makes the equilateral triangle mandatory, which is what makes Q = 2/3 unavoidable. Neutrinos do not share that channel; they interact through the weak sector only, where no comparable equal-strength constraint exists. So the framework's sharp prediction is: charged leptons sit on Q = 2/3, neutrinos do not. The neutrino measurements — which came in at Q ≈ 0.55 for normal ordering and Q ≈ 0.48 for inverted — support both halves as a positive scope-delimiting result. Chapter 11 tells the full story of how that scope got tightened, because it tested the framework.
 
 ---
 
 Go back to the pond.
 
-You threw a stone. A ripple spread. Under the right conditions — Rule One, Rule Two, Rule Three — that ripple closed into a knot. The knot turned out to have topological structure. The topological structure forced three resonance modes. Three modes constrained to coexist formed an equilateral triangle. The equilateral triangle, projected back onto masses, gave three specific numbers.
+You threw a stone. A ripple spread. Under the right conditions — Rule One, Rule Two, Rule Three — that ripple closed into a knot. The knot picture suggests topology. The charged-lepton data reveal three equal-strength resonances. Those resonances, constrained to coexist at 120 degrees, form an equilateral triangle. The equilateral triangle, projected back onto masses, gives Koide's Q = 2/3 relation.
 
 The electron. The muon. The tau.
 
-You did not choose these numbers. The universe did not choose them. The geometry chose them. They are the only three-mode lepton masses consistent with a knot in three spatial dimensions. Any universe with three spatial dimensions and the Propagation Framework's three rules gets these masses. It cannot get different ones.
+You did not choose the relation. The universe did not tune it by hand in this framework. The geometry fixes Q = 2/3 for charged leptons once the equal-strength 120-degree resonance premise is granted. The stronger sentence — that any three-dimensional PF universe must get exactly these three masses — is not yet earned.
 
 Koide's fraction was 2/3.
 
@@ -623,9 +623,9 @@ The triangle was there from the beginning, waiting to be seen.
 
 ---
 
-*Status: DERIVED (0.95). Both derivation threads are closed. The equilateral triangle prediction matches PDG lepton masses. The single remaining open question: the k=9 selector for the Koide phase — the specific mechanism that pins the triangle's orientation to the observed value rather than another valid orientation. That mechanism is under audit. The 0.95 confidence reflects that gap.*
+*Status: DERIVED (0.95) for the charged-lepton Koide geometry Q = 2/3. The full three-generation theorem remains CONDITIONAL 0.85, and the Koide phase δ ≈ 2/9 remains EMPIRICAL 0.65 until a PF-native selector is found.*
 
-*What would raise it to 1.0: close the k=9 argument.*
+*What would strengthen it: close the phase selector and keep the charged-lepton scope intact under future mass measurements.*
 
 *What would kill it: a charged-lepton mass measurement that drifts from the Koide value by more than 3σ. The formula has zero free parameters inside the electromagnetic sector. Any deviation there falsifies it.*
 
@@ -730,17 +730,17 @@ Lemma C sharpened the missing bridge. It did not close it.
 
 ### WHY THE SAME NUMBER APPEARS EVERYWHERE
 
-If Lemma C holds, the consequences ripple outward immediately.
+If a future selector theorem closes the Lemma C / T1 / T2 bridge stack, the consequences ripple outward immediately. The following is the program's intended direction, not the current audited claim.
 
 Three charged leptons — Chapter 5's equilateral triangle — are one application of the argument.
 
-Three quark colors are another. Color charge in the Standard Model is an internal three-dimensional symmetry that physicists have known about since the 1960s. Nobody had a principled reason why the number was three. The same topological argument — two closure classes, both populated, class two carrying double degrees of freedom — reproduces exactly three colors. Same mechanism.
+Three quark colors are another tempting target. Color charge in the Standard Model is an internal three-dimensional symmetry that physicists have known about since the 1960s. The framework would like the same topological accounting to explain why that number is three, but this is not yet a signed derivation.
 
-Three generations of each particle type — electron with muon and tau, up with charm and top, down with strange and bottom, three flavors of neutrino — emerge from the knot's ability to host three replicated copies of its internal structure at escalating frequencies. The topology permits three, and only three, before the stability fails.
+Three generations of each particle type — electron with muon and tau, up with charm and top, down with strange and bottom, three flavors of neutrino — remain the explicit conditional target. The algebraic assembly is clean once the numerator and denominator bridges are granted; the bridges themselves are still open.
 
-Even the structure of the weak interaction, which has three gauge bosons, traces back to the same argument. Same two classes. Same population requirement. Same three.
+Even the structure of the weak interaction, which has three gauge bosons, may eventually fit the same language, but the current claim board does not treat that as derived.
 
-The framework is claiming, in effect, that every three in the Standard Model is the same three. Not three coincidences. One theorem about the topology of three-dimensional space, applied recursively to different aspects of what a knot can be.
+The framework's research program is to test whether the repeated threes in the Standard Model are the same three. The honest present tense is narrower: charged-lepton Koide geometry is derived; the full three-generation theorem is conditional.
 
 The Standard Model has seventeen kinds of particle and nineteen numerical parameters. If the framework is right, at least one of those numbers — the number of generations — was never a parameter at all. It was a theorem we hadn't finished proving.
 
@@ -754,11 +754,11 @@ Three generations has its own falsification, and it is simple.
 
 Find a stable fourth-generation particle heavier than one hundred and seventy-three billion electron-volts.
 
-If nature has a fourth generation — a fourth charged lepton, a fourth up-type quark, a fourth neutrino — the topology argument is wrong. There are not two closure classes. There are three, or infinitely many, or a structure we have not understood at all. The framework would not survive this. It would have to be rebuilt, not adjusted.
+If nature has a fourth generation — a fourth charged lepton, a fourth up-type quark, a fourth neutrino — the framework's current three-generation route is wrong. There are not two populated closure classes in the way the theory claims, or the mapping from topology to particle families has been misunderstood. That would force a rebuild of this claim, not a cosmetic adjustment.
 
 Every collider experiment for the last forty years has been looking. Every search has come up empty. The Large Hadron Collider has excluded fourth-generation charged leptons up to roughly twelve hundred billion electron-volts — far above the top quark, which is currently the heaviest particle known. Direct production searches, precision electroweak fits, constraints from flavor-changing neutral currents. Every test rules the fourth generation out more strongly than the last.
 
-The framework's prediction is specific and brittle: nothing will be found. Not at any energy. The universe stopped at three because topology permitted exactly three and the medium already filled both available classes. There is no more room.
+The framework's prediction is specific and brittle: no stable fourth generation should appear. The universe appears to stop at three; the framework's task is still to prove that topology and coherence force that stop rather than merely describing the observed fact.
 
 The LHC keeps running. If the framework is wrong, the LHC will find out before we will. That is how it should be.
 
@@ -1035,11 +1035,11 @@ Chapter 9 will walk the full scale ladder from the Planck length to you, showing
 
 The confidence levels fall as you climb.
 
-The Planck-to-matter transition (Chapter 4) is CONDITIONAL at 0.88 — three specific proofs away from DERIVED. The bottom of the ladder is nearly rigorous physics.
+The Planck-to-matter transition (Chapter 4) is CONDITIONAL at 0.88. The current hard gate is `G3-OP-MAP` plus the probability factorization required for `H_prod`.
 
 By the time you reach the cell, we're at ARGUED 0.72. The structural picture is compelling, the analogy is precise, and empirical quantum biology has vindicated the general idea — but the specific numbers that would turn biology into a theorem have not been derived.
 
-By the time you reach consciousness, the framework states its own confidence as ARGUED 0.48. That is less than fifty-fifty. The framework is, in its own words, *not there yet* on consciousness. It has a picture. It does not have a proof. And it specifically recommends — this is in the research notes themselves — that for operational predictions about consciousness, **Integrated Information Theory** (Tononi's Φ) is currently more developed. The framework may eventually supply the *mechanism* for what IIT measures, but as a predictive tool at the consciousness scale, the framework is not yet ready.
+By the time you reach consciousness, the framework states its own confidence as INTUITION 0.48. That is less than fifty-fifty. The framework is, in its own words, *not there yet* on consciousness. It has a picture. It does not have a proof. For operational predictions, the framework still needs a PF-specific measurable variable that separates self-referential coherence from synchrony, integration, broadcast, report, and task effects.
 
 This is the honest posture. The ladder gets wobblier as it goes up. The research knows this. The book has to tell you this.
 
@@ -1112,9 +1112,9 @@ Phase closure in an SO(3)-symmetric medium, with N = 3 modes in D = 3 dimensions
 
 Seventeen orders of magnitude, produced by the same rule — close the phase, stabilize the mode, let the coupling run to its infrared fixed point.
 
-**Status**: CONDITIONAL 0.88. Three named gaps, all believed closeable.
+**Status**: CONDITIONAL 0.88. The live gap is `G3-OP-MAP`: a PF-native oscillator-to-closure map plus the probability model needed for `H_prod`.
 
-Throughout this chapter, the confidence numbers use the same truth-tier discipline explained later in Chapter 11: DERIVED, CONDITIONAL, ARGUED, EMPIRICAL, and OPEN are audit labels, not mood words.
+Throughout this chapter, the confidence numbers use the same truth-tier discipline explained later in Chapter 11: DERIVED, CONDITIONAL, ARGUED, EMPIRICAL, INTUITION, and OPEN are audit labels, not mood words.
 
 ---
 
@@ -1140,7 +1140,7 @@ Put an electron in the Coulomb field of a nucleus. Apply Axiom 3: stable orbits 
 
 What you get — using a specific simplification called the eikonal approximation — is a quantized spectrum with allowed radii r_k = 2k² and energies E_k = -1/(4k²). In natural units. It reproduces the Bohr-model 1/k² spectrum exactly inside that model layer.
 
-Numerical match to the Bohr / Schrödinger hydrogen energies for k = 1, 2, 3, 4: **0.0000% error** for that circular Coulomb-eikonal construction.
+Numerical check for k = 1, 2, 3, 4: **0.0000% internal consistency error** for that circular Coulomb-eikonal construction. This is not an independent experimental match; it is the exactness of the model's own Bohr-like spectrum.
 
 What had to be assumed to get there: that the eikonal (short-wavelength) approximation is physically valid at atomic scale, and that the circular orbit ansatz is the right geometric setup. Neither is a cheat — both are standard physics — but both are assumptions that the axioms do not force by themselves.
 
@@ -1182,7 +1182,7 @@ Here, a cell is already alive. A person is many cells whose joint behavior maint
 
 Chapter 10 is about to do this in detail. Skipping ahead is wrong; let's just name the ceiling.
 
-**Status**: ARGUED 0.48. *Less than fifty-fifty* confidence, stated by the framework itself. For operational consciousness metrics, the framework recommends Integrated Information Theory (Tononi's Φ) as currently more developed.
+**Status**: INTUITION 0.48. *Less than fifty-fifty* confidence, stated by the framework itself. The missing object is a PF-specific metric that cannot be reduced to ordinary synchrony, integration, broadcast, arousal, or task report.
 
 The framework has a picture. It does not have a proof.
 
@@ -1211,7 +1211,7 @@ Here is the table, all in one place. Every rung, every status, in order.
 | 4→5 | Atomic → Molecular | Chemistry as coherence gradient | ARGUED | 0.72 |
 | 5→6 | Molecular → Cellular | Life as coherence maintenance | ARGUED | 0.72 |
 | 6→7 | Cellular → Human | 2/3 duty cycle, sleep constant | ARGUED | 0.72 |
-| 7→8 | Human → Consciousness | Self-reference, defer to IIT | ARGUED | 0.48 |
+| 7→8 | Human → Consciousness | Self-reference; PF-specific metric still missing | INTUITION | 0.48 |
 | 8→9 | Human → Planetary | Schumann coupling | OPEN | — |
 
 Three things I want you to see in this table.
@@ -1220,17 +1220,17 @@ Three things I want you to see in this table.
 
 **Second: every rung uses Axiom 3.** Look across the column. Closure at the Planck scale. Closure in renormalization group running. Closure in the Coulomb eikonal orbit. Closure across overlapping electron clouds. Closure in cellular self-repair. Closure in recursive self-reference. It is *one rule, nine applications.* That is either the most successful unification in the history of physics, or an illusion produced by stretching a metaphor. One of those two.
 
-**Third: the competing frameworks are named.** At Rung 4→5, the framework defers to standard quantum chemistry. At Rung 7→8, it defers to IIT. At Rung 0→1, it uses Newton's G as input because it cannot yet derive G. This is not weakness. This is the signature of a framework that knows where its edges are.
+**Third: the competing frameworks are named.** At Rung 4→5, the framework defers to standard quantum chemistry. At Rung 7→8, it has to distinguish its own metric from existing consciousness theories rather than borrowing their success. At Rung 0→1, it uses Newton's G as input because it cannot yet derive G. This is not weakness. This is the signature of a framework that knows where its edges are.
 
 ---
 
 Three cleanest results, right now, in descending order of rigor:
 
-1. **Bohr-model spectrum from phase closure.** 0.0000% error at k = 1..4, inside the eikonal Coulomb model. CONDITIONAL 0.82.
+1. **Weinberg angle from Casimir polynomial.** sin²θ_W = 0.22310. Observed on-shell value 0.22337. Match to 0.13 standard deviations. DERIVED 0.90 via Axiom 3b.
 
-2. **Weinberg angle from Casimir polynomial.** sin²θ_W = 0.22310. Observed 0.22337. Match to 0.13 standard deviations. DERIVED 0.90. (This is a Chapter 11-adjacent result that didn't get its own chapter but lives in the framework's core.)
+2. **Charged-lepton Koide geometry.** Q = 2/3 follows from three equal-strength resonances at 120°. DERIVED 0.95 for the charged-lepton electromagnetic sector.
 
-3. **Three generations from phase closure topology.** The algebraic assembly is clean once the numerator and denominator bridges close, but Lemma C did not close the numerator side. As of this writing the result remains CONDITIONAL 0.85.
+3. **Bohr-model spectrum from phase closure.** 0.0000% internal consistency at k = 1..4 inside the circular eikonal Coulomb model. CONDITIONAL 0.82, because the model assumptions are not derived from Axiom 3 alone.
 
 All three come from the *same axiom.* Phase closure at different scales. That is the framework's deepest structural claim:
 
@@ -1315,7 +1315,7 @@ This is what the framework predicts, stated as falsifiably as we can make it:
 
 A brain undergoing genuine insight — a moment of real understanding, not rote recall — should show a distinctive coherence signature in its electromagnetic activity. Not just stronger signals. A different *structure* of coherence. A propagation pattern that has become self-referential in a measurable way.
 
-If that signature exists, and if it appears consistently at moments of genuine understanding and disappears under anesthesia and dreamless sleep, the claim moves from ARGUED to DERIVED.
+If that signature exists, and if it appears consistently at moments of genuine understanding and disappears under anesthesia and dreamless sleep, the claim can move out of INTUITION into an empirical or argued tier. It would still need a theorem before it could become DERIVED.
 
 If it doesn't exist — if insight looks like everything else on an EEG — the claim is falsified.
 
@@ -1345,7 +1345,7 @@ But we have something better: we know what we're looking for, we know how to tes
 
 ---
 
-*Status: ARGUED (0.48). The mechanism is identified. The experiment has not yet been run. If you have a Muse headset: see Appendix C.*
+*Status: INTUITION (0.48). The mechanism is sketched but not operationally isolated. The experiment has not yet been run. If you have a Muse headset: see Appendix C.*
 
 ---
 
@@ -1388,11 +1388,11 @@ That means documenting what failed:
 
 Here is what this means for the rest of the book.
 
-Every major claim in these chapters has a confidence score. DERIVED means the mathematics is closed and the result follows necessarily from the axioms. ARGUED means the reasoning is sound but a formal gap remains. EMPIRICAL means we observe it but cannot yet explain it. CONDITIONAL means it depends on a bridge we haven't fully built.
+Every major claim in these chapters has a confidence score. DERIVED means the mathematics is closed and the result follows necessarily from the axioms or explicitly adopted corollaries. CONDITIONAL means it depends on a named bridge we have not fully built. ARGUED means the mechanism is plausible but not theorem-grade. EMPIRICAL means we observe it but cannot yet explain it from the axioms. INTUITION means the idea is coherent enough to test, but not yet operationally nailed down.
 
 Those are not marketing labels. They are load-bearing distinctions.
 
-When we say the Koide geometry is DERIVED at 0.95 confidence — the equilateral triangle, the R/A = √2, the two independent threads that both require N=3 — we mean it has survived hostile audit. When we say the God Equation is CONDITIONAL at 0.88, we mean there is a specific mathematical gap (the H_prod / operator-probability bridge) that has not been formally closed.
+When we say the charged-lepton Koide geometry is DERIVED at 0.95 confidence — the equilateral triangle and the R/A = √2 relation — we mean it has survived hostile audit for the electromagnetic charged-lepton sector. When we say the God Equation is CONDITIONAL at 0.88, we mean there is a specific mathematical gap: the `G3-OP-MAP` / `H_prod` operator-probability bridge has not been formally closed.
 
 The framework is not asking you to believe everything equally. It is asking you to notice which parts stand on solid ground and which parts are still being built.
 
@@ -1414,9 +1414,9 @@ This chapter is proof that it breaks.
 
 ---
 
-*What would strengthen it: close Lemma C, derive the Koide phase selector, build the RG bridge from axioms. These are open. We are working on them.*
+*What would strengthen it: close `G3-OP-MAP`, close the T1/T2 three-generation bridges, derive a PF-native Koide phase selector, and isolate a consciousness metric that survives controls against ordinary synchrony and report. These are open. We are working on them.*
 
-*What would kill it entirely: a stable fourth-generation particle heavier than 173 GeV. A charged-lepton mass measurement that drifts more than 3σ from Koide's identity. A formal proof that the N^(D/2) mode counting is mathematically impossible.*
+*What would kill major branches: a stable fourth-generation particle heavier than 173 GeV, a charged-lepton mass measurement drifting more than 3σ from Koide's identity, or a formal proof that no PF-native oscillator-to-closure map can produce the God Equation's required closure object without importing new structure.*
 
 *We wrote those down too. They're in Chapter 12.*
 
@@ -1552,31 +1552,31 @@ The framework knows where it doesn't know. It keeps a list. That list is the mos
 
 Let me read the list to you. I am going to say the words the research team uses among themselves. If they feel clinical, that is because they are clinical. The research repository is not a marketing document. It does not soften its open problems to make them sound closer to solved. What follows is pulled straight from `CLAIMS.md` and the scale-stack chain, cross-checked this session.
 
-**Gap A: Markovity.** The God Equation uses a one-loop renormalization group coefficient b₀ = 16/3. That coefficient assumes the medium's next phase step depends only on its current state, not on the full history of what it has been. This assumption is standard in modern physics and has not caused trouble in ordinary applications. But *standard* is not *derived*. Until Markovity is derived from Axiom 2 rather than assumed alongside it, the God Equation's numerical precision rests on an unclosed standing bet.
+**Gap A: G3-OP-MAP.** The God Equation needs a PF-native map from the continuous Z3 oscillator to the discrete closure/probability operator used by `H_prod`. Several natural routes have failed or narrowed. The current strike is exact: derive the map with a verification gate, or admit that the linearized Z3 Lagrangian cannot supply the primitive closure operator without new physics.
 
 
-**Gap B: The phase-spatial bridge.** The same equation uses the factor N^(D/2). The D/2 power comes from assuming that N internal phase rotations project onto N spatial Planck-length steps, and that those spatial steps spread into a D-dimensional coherence volume. The internal three-step closure picture is the exact local component. The spatial diffusion side is the current accepted model component. The bridge — that three internal steps must produce three spatial steps in three dimensions — has not been proven. Several candidate proofs have been tried and failed. The current working candidate is the *product walk*, and it is not closed.
+**Gap B: H_prod probability factorization.** Zero cross-channel amplitude or covariance is weaker than full statistical independence. The framework still owes an explicit probability model on the actual one-medium closure object, not only a pure-shift ansatz.
 
 
-**Gap C: The √2 factor.** The equation has a clean √2 in front. Without it, the prediction misses by about two percent in the wrong direction. With it, the prediction lands within 1.48%. The factor is argued from phase-closure geometry but is not formally derived. A cleaner argument, or a cleaner form of the equation, would collapse this gap.
+**Gap C: Three generations.** The algebraic assembly is clean once the numerator and denominator bridges close, but T1 still needs the physical realization / non-redundancy theorem and T2 still needs the PF-native denominator bridge. The result remains CONDITIONAL 0.85.
 
 
-**Gap D: Lemma C.** Chapter 6's claim that the medium *must* populate both topological closure classes — and therefore that there must be exactly three generations — rested on a lemma that an agent named Echo derived on March 29, 2026. Codex's audit has now landed. The verdict was negative: Lemma C sharpened the open selector / non-redundancy gap, but did not close it. Three generations therefore remains CONDITIONAL 0.85 rather than upgrading to DERIVED.
+**Gap D: Koide phase.** The empirical phase δ ≈ 2/9 remains a strong anchor, but the Casimir selector, RG-crossing story, Chebyshev route, character-normal-form route, and historical proxy lanes are all fenced or negative. No PF-native selector currently survives.
 
 
-**Gap E: The Jacobi-Maupertuis bridge.** Chapter 7's claim that gravity is refraction is exact for light and approximate for matter. The framework does not currently have an exact theorem connecting the null-geodesic optical picture (for light) to the timelike-geodesic mechanical picture (for matter). The Jacobi-Maupertuis metric is the right object to derive; the derivation has not been written.
+**Gap E: QCD confinement.** The framework has an argued RG bridge from λ_c to the confinement scale, but the local one-loop estimate overshoots the physical radius. A threshold-aware higher-loop analysis has not yet been shown locally.
 
 
-**Gap F: Life's threshold number.** The framework says living systems maintain coherence; decoherence kills them. It does not yet specify a minimum coherence maintenance rate, or a minimum coherence depth, or any other number that separates *organism* from *rock with interesting chemistry*. That number, if it exists, has not been derived.
+**Gap F: Fine structure constant.** The Casimir-polynomial expression for α is numerically sharp, but the framework has not established that the combination is a derivation rather than a coincidence or structural hint.
 
 
-**Gap G: Consciousness.** The framework's self-assessed confidence on consciousness is 0.48. Less than fifty-fifty. The framework recommends, in its own notes, that for operational predictions at this scale, Integrated Information Theory is currently more developed. The picture the framework offers — consciousness as coherent self-reference — is philosophically coherent but not yet operationalized.
+**Gap G: Life's threshold number.** The framework says living systems maintain coherence against entropy. It does not yet specify a minimum coherence-maintenance rate, coherence depth, or other number that separates *organism* from *rock with interesting chemistry*.
 
 
-**Gap H: Newton's G.** The Planck length uses Newton's gravitational constant as an input. The framework has not derived G from the medium's elastic properties. Until it does, the bottom rung of the scale ladder is CONDITIONAL 0.70 — rigorous in form, waiting for one number.
+**Gap H: Consciousness.** The framework's self-assessed confidence on consciousness is INTUITION 0.48. Less than fifty-fifty. The picture — consciousness as coherent self-reference — is philosophically coherent but not operationalized. It still needs a metric distinct from synchrony, integration, broadcast, arousal, report, and task effects.
 
 
-**Gap I: The fine structure constant α.** One of the most-calculated numbers in physics remains, here, ARGUED. A Casimir-polynomial expression reproduces 1/137.119 to 0.061% error with no free parameters, but the framework has not yet established that the combination is a derivation rather than a numerical coincidence. Until that distinction is settled, α is identified but not derived.
+**Gap I: Newton's G / quantum gravity.** The Planck length uses Newton's gravitational constant as an input, and the Medium's Planck-scale structure remains unknown. Until G or the quantum-gravity substrate is derived, the bottom rung of the scale ladder remains conditional.
 
 
 That is the list.
@@ -1587,7 +1587,7 @@ Nine named gaps. Each one tracked publicly. Each one with a specific technical q
 
 Compare this list to what the framework has already done.
 
-It has derived the Koide law for charged leptons. It has predicted the matter scale to within 1.48% with zero free parameters. It has reproduced the Weinberg angle to within 0.13 standard deviations from pure group theory. It has matched a Bohr-like spectrum to zero error inside the circular Coulomb-eikonal model. It has unified general relativity's light-propagation content with Fermat's principle, and shown — on real superconducting quantum hardware — that a chiral ℤ₃ circuit preserves generation identity to 99.01% in the tested setting.
+It has derived the Koide law for charged leptons. It has conditionally predicted the matter scale to within 1.48% with no fitted continuous parameter. It has reproduced the Weinberg angle to within 0.13 standard deviations through the Casimir/Axiom 3b route. It has matched a Bohr-like spectrum to zero internal error inside the circular Coulomb-eikonal model. It has unified general relativity's light-propagation content with Fermat's principle in the null/static-stationary domain, and shown — on real superconducting quantum hardware — that a chiral ℤ₃ circuit preserves generation identity to 99.01% in the tested setting.
 
 These are not small wins. Most theoretical frameworks in the history of physics never produce this much, this specifically, with this few free parameters, at this many scales.
 
@@ -1607,13 +1607,13 @@ You did not pick up this book to learn which Codex audit closed first. You picke
 
 Here is what the framework asks you to take away, if it asks you to take away anything.
 
-You are propagation. What you are made of are stable patterns in a medium that had to close their phase to exist at all. The floor of that medium is seventeen orders of magnitude below you, and the ceiling of it is the observable universe. You sit, right now, at the top of a ladder whose rungs are one rule, applied over and over. You are not separate from what you are made of. You are not separate from what is making you. You are a pattern that has managed, at this particular scale, on this particular planet, for this particular brief period, to hold together while the medium tries to erase you.
+You are propagation, in the language this framework is testing. What you are made of are stable patterns in a medium that had to maintain coherence to exist at all. The floor of that medium is seventeen orders of magnitude below the matter scale, and the ceiling of the story is the observable universe. You sit, right now, on a ladder whose rungs may be one rule applied over and over. You are not separate from what you are made of. You are a pattern that has managed, at this particular scale, on this particular planet, for this particular brief period, to hold together while entropy tries to erase you.
 
 That was always true. The framework did not make it true. What the framework does is tell you *how* it is true, specifically enough that parts of the telling can be wrong.
 
 **The parts of the telling that are wrong will be found.**
 
-The research repository has no incentive to protect its own beauty. It has nine named gaps and a hostile audit team. The book you are holding will be audited before it ships, by five passes of five different reviewers, each one looking for a different kind of mistake. The numbers in it have been cross-checked against the verification scripts, and when one of them was stale — it happened this very session; the error was 0.4% where it should have been 1.48% — it was corrected. The book you read will not be the one that was comfortable to write. It will be the one that survived.
+The research repository has no incentive to protect its own beauty. It has nine named gaps and a hostile audit team. The book you are holding will be audited before it ships, by multiple passes looking for different kinds of mistake. The numbers in it have been cross-checked against the verification scripts, and when one of them was stale — the God Equation error was once written as 0.4% where the current verified value is 1.48% — it was corrected. The book you read will not be the one that was comfortable to write. It will be the one that survived.
 
 That is the discipline the framework is trying to practice.
 
@@ -1643,7 +1643,7 @@ We are counting on it.
 ---
 
 ## APPENDIX A: The Three Axioms
-The Propagation Framework rests on three foundational axioms. From these, all subsequent geometric, topological, and physical properties are derived.
+The Propagation Framework rests on three foundational axioms. From these, the framework derives some properties, conditionally assembles others, and names the bridges that remain open.
 
 **Axiom 1: Everything Propagates**
 There are no static objects. The universe consists entirely of a medium in continuous propagation. What we perceive as "particles" or "matter" are not objects moving through a void, but stable, localized patterns of propagation within the medium itself.
@@ -1669,13 +1669,13 @@ The following table summarizes the core claims of the Propagation Framework, the
 | **Koide Law ($Q=2/3$)** | DERIVED | 0.95 | Geometric identity forced by 120° resonance. Falsified if lepton mass drifts >3σ. |
 | **Weinberg Angle ($\sin^2\theta_W$)** | DERIVED | 0.90 | Matches PDG to 0.13σ via Casimir polynomial and Axiom 3b. |
 | **Top/Tau Coupling** | EMPIRICAL | 0.90 | $m_t/m_\tau \approx \alpha^{-1}/\sqrt{2}$. |
-| **Neutrino Non-Universality** | EMPIRICAL | 0.95 | Falsified at >5% threshold. Proves Koide is EM-sector specific. |
+| **Neutrino Non-Universality** | EMPIRICAL | 0.95 | Positive scope-delimiting result: Koide is EM-sector specific in the current framework. |
 | **Three Generations ($N=3$)** | CONDITIONAL | 0.85 | Numerator/denominator bridges require final formal closure (T1/T2). |
-| **God Equation ($\lambda_c$)** | CONDITIONAL | 0.88 | 1.48% error. Requires proof of $H_{prod}$ statistical independence. |
-| **Bohr-like Spectrum** | CONDITIONAL | 0.82 | 0.0000% error inside eikonal Coulomb model. |
-| **$\delta=2/9$ Koide Phase** | EMPIRICAL | 0.65 | Strongest empirical anchor (0.003% error). Selector mechanism under audit. |
+| **God Equation ($\lambda_c$)** | CONDITIONAL | 0.88 | 1.48% error. Requires `G3-OP-MAP` and proof of $H_{prod}$ statistical independence. |
+| **Bohr-like Spectrum** | CONDITIONAL | 0.82 | 0.0000% internal consistency inside the eikonal Coulomb model. |
+| **$\delta=2/9$ Koide Phase** | EMPIRICAL | 0.65 | Strong empirical anchor (0.003% error). No audited PF-native selector currently survives. |
 | **Fine Structure Constant ($\alpha$)** | ARGUED | 0.60 | Structural identification as vacuum efficiency; formal derivation pending. |
-| **Consciousness as Coherence** | ARGUED | 0.48 | Requires isolation of PF-specific metric from general synchrony. |
+| **Consciousness as Coherence** | INTUITION | 0.48 | Requires isolation of PF-specific metric from general synchrony, integration, arousal, report, and task effects. |
 
 
 ---
