@@ -589,205 +589,298 @@
     var defs   = data.DEFINITIONS || [];
     var nogos  = data.NOGOS || [];
     var derived = claims.filter(function(c){ return c.status && c.status.label==='DERIVED'; });
+    var auditedCount = claims.length;
+
+    var scales = [
+      { id: 'planck', label: 'Planck', value: '10⁻³⁵m' },
+      { id: 'nuclear', label: 'Nuclear', value: '10⁻¹⁵m' },
+      { id: 'atomic', label: 'Atomic', value: '10⁻¹⁰m' },
+      { id: 'cellular', label: 'Cellular', value: '10⁻⁶m' },
+      { id: 'human', label: 'Human', value: '10⁰m' },
+      { id: 'planetary', label: 'Planetary', value: '10⁷m' },
+      { id: 'galactic', label: 'Galactic', value: '10²¹m' },
+      { id: 'cosmic', label: 'Cosmic', value: '10²⁶m' }
+    ];
 
     var html = [
-      // Hero — minimal, visual-first
-      '<div class="obs-hero-compact">',
-        '<div class="obs-hero-sig">',
-          '<span class="obs-sig-glyph">∇λΣ∞</span>',
-          '<div class="obs-sig-text">',
-            '<strong>Propagation Framework</strong>',
-            '<span>Physics from three axioms — every demo is a live experiment</span>',
+      '<div class="obs-instrument-surface">',
+        
+        // --- Pane 1: Scale Rail ---
+        '<div class="obs-rail-pane">',
+          '<div class="obs-rail">',
+            '<div class="obs-wave-front" id="obsWaveFront"></div>',
+            scales.map(function(s, i) {
+              var pos = (i / (scales.length - 1)) * 100;
+              return '<div class="obs-rail-tick" style="top: '+pos+'%;" data-scale="'+s.id+'"></div>' +
+                     '<div class="obs-rail-label" style="top: '+pos+'%;">'+s.label+' '+s.value+'</div>';
+            }).join(''),
           '</div>',
         '</div>',
-        '<div class="obs-hero-counts">',
-          '<span class="obs-count obs-count--green"><strong>'+derived.length+'</strong> Derived</span>',
-          '<span class="obs-count obs-count--gold"><strong>'+defs.length+'</strong> Definitions</span>',
-          '<span class="obs-count obs-count--red"><strong>'+nogos.length+'</strong> No-go</span>',
-          '<span class="obs-count"><strong>'+claims.length+'</strong> Audited claims</span>',
-          '<a href="PROPAGATION_FRAMEWORK_v1.pdf" target="_blank" class="obs-count obs-count--book"><strong>PDF</strong> Full Manuscript ↗</a>',
-        '</div>',
-      '</div>',
 
-      // Big propagation canvas
-      '<div class="obs-field-hero">',
-        '<canvas id="obsFieldCanvas" class="obs-field-full" aria-label="Live propagation field"></canvas>',
-        '<div class="obs-field-caption">',
-          '<span class="obs-field-tag obs-field-tag--1">Axiom 1 · Propagation</span>',
-          '<span class="obs-field-tag obs-field-tag--2">Axiom 2 · Causal Bound</span>',
-          '<span class="obs-field-tag obs-field-tag--3">Axiom 3 · Coherence</span>',
-          '<span class="obs-field-tag obs-field-tag--legend">● Derived &nbsp; ● Conditional &nbsp; ● Empirical</span>',
+        // --- Pane 2: Stat Deck & Featured Proof ---
+        '<div class="obs-center-pane">',
+          '<div class="obs-header">',
+            '<h1>Observatory</h1>',
+            '<p>Live interactive preview of the Propagation Framework. All rendering is driven by three axioms and strict phase geometry.</p>',
+          '</div>',
+          '<div class="obs-stats-deck">',
+            '<div class="obs-stat-card" style="border-top: 2px solid #44ff88;">',
+              '<div class="obs-stat-val">'+derived.length+'</div>',
+              '<div class="obs-stat-lbl">Derived Claims</div>',
+            '</div>',
+            '<div class="obs-stat-card" style="border-top: 2px solid #ffdd55;">',
+              '<div class="obs-stat-val">'+defs.length+'</div>',
+              '<div class="obs-stat-lbl">Definitions</div>',
+            '</div>',
+            '<div class="obs-stat-card" style="border-top: 2px solid #ff4455;">',
+              '<div class="obs-stat-val">'+nogos.length+'</div>',
+              '<div class="obs-stat-lbl">No-gos</div>',
+            '</div>',
+            '<div class="obs-stat-card" style="border-top: 2px solid rgba(255,255,255,0.4);">',
+              '<div class="obs-stat-val">'+auditedCount+'</div>',
+              '<div class="obs-stat-lbl">Audited</div>',
+            '</div>',
+          '</div>',
+          '<div class="obs-featured-proof" id="obsFeaturedKoide" tabindex="0">',
+            '<div class="obs-fp-status">DERIVED · CONFIDENCE 95%</div>',
+            '<h2 class="obs-fp-title">Koide Resonance (Q = 2/3)</h2>',
+            '<p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">',
+              'The electron, muon, and tau masses are locked in an exact geometric phase relationship dictated by Axiom 3.',
+            '</p>',
+            '<div class="obs-fp-bar">',
+              '<div class="obs-fp-fill"></div>',
+            '</div>',
+            '<div class="obs-fp-markers">',
+              '<span>Theoretical: 0.666666</span>',
+              '<span>Measured: 0.666659</span>',
+            '</div>',
+          '</div>',
+          '<div class="obs-manuscript-link" style="margin-top:auto; padding-top: 20px;">',
+             '<a href="PROPAGATION_FRAMEWORK_v1.pdf" target="_blank" style="color:#00cfff; text-decoration:none; font-size:13px; font-weight:600;">READ THE FULL MANUSCRIPT ↗</a>',
+          '</div>',
         '</div>',
-      '</div>',
 
-      // Demo grid
-      '<div class="obs-demo-head">',
-        '<h2>Interactive Experiments</h2>',
-        '<p>Click any card to launch the full interactive demo. Hover to see it animate.</p>',
-      '</div>',
-      '<div class="obs-demo-grid" id="obsDemoGrid">',
-        DEMOS.map(function(d, i) {
-          // href-based cards use a real <a> so popup-blockers can't intercept
-          var inner = '<div class="obs-demo-canvas-wrap"><canvas class="obs-demo-canvas" width="280" height="140"></canvas></div>' +
-            '<div class="obs-demo-info">' +
-              '<div class="obs-demo-status" style="color:'+d.statusColor+'">'+d.status+'</div>' +
-              '<div class="obs-demo-label">'+d.label+'</div>' +
-              '<div class="obs-demo-tagline">'+d.tagline+'</div>' +
-            '</div>';
-          if (d.href) {
-            return '<a class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+' obs-demo-card--link" ' +
-              'href="'+d.href+'" target="_blank" rel="noopener" data-demo-idx="'+i+'" tabindex="0">' +
-              inner + '</a>';
-          }
-          return '<div class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+'" data-demo-idx="'+i+'" tabindex="0">' +
-            inner + '</div>';
-        }).join(''),
-      '</div>',
+        // --- Pane 3: Interactive Grid ---
+        '<div class="obs-right-pane">',
+          '<h3>Interactive Experiments</h3>',
+          '<div class="obs-demo-grid" id="obsDemoGrid">',
+            DEMOS.map(function(d, i) {
+              var inner = '<div class="obs-demo-canvas-wrap"><canvas class="obs-demo-canvas" width="280" height="140"></canvas></div>' +
+                '<div class="obs-demo-info">' +
+                  '<div class="obs-demo-status" style="color:'+d.statusColor+'">'+d.status+'</div>' +
+                  '<div class="obs-demo-label">'+d.label+'</div>' +
+                  '<div class="obs-demo-tagline">'+d.tagline+'</div>' +
+                '</div>';
+              if (d.href) {
+                return '<a class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+' obs-demo-card--link" ' +
+                  'href="'+d.href+'" target="_blank" rel="noopener" data-demo-idx="'+i+'" tabindex="0">' +
+                  inner + '</a>';
+              }
+              return '<div class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+'" data-demo-idx="'+i+'" tabindex="0">' +
+                inner + '</div>';
+            }).join(''),
+          '</div>',
+        '</div>',
+
+      '</div>'
     ].join('');
 
     return html;
   }
-
-  // ── Propagation field (large hero) ───────────────────────────────────────
-  function PropagationField(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.waves = []; this.nodes = [];
-    this.frame = 0; this.running = false; this._raf = null;
-    this.W = 0; this.H = 0;
-  }
-
-  PropagationField.prototype.resize = function () {
-    var dpr = Math.min(window.devicePixelRatio||1,2);
-    var w = this.canvas.offsetWidth; var h = this.canvas.offsetHeight;
-    this.canvas.width = w*dpr; this.canvas.height = h*dpr;
-    this.ctx.scale(dpr,dpr);
-    this.W = w; this.H = h;
-    this.nodes = [
-      {x:w*.50,y:h*.50,c:'#00cfff',p:0},
-      {x:w*.20,y:h*.35,c:'#44ff88',p:60},
-      {x:w*.80,y:h*.35,c:'#44ff88',p:30},
-      {x:w*.65,y:h*.72,c:'#44ff88',p:90},
-      {x:w*.35,y:h*.72,c:'#ffaa33',p:45},
-      {x:w*.10,y:h*.60,c:'#ffdd55',p:75},
-      {x:w*.90,y:h*.60,c:'#ff4455',p:15},
-      {x:w*.50,y:h*.15,c:'#00cfff',p:20},
-    ];
-  };
-
-  PropagationField.prototype.spawnFrom = function (n) {
-    this.waves.push({x:n.x,y:n.y,r:0,maxR:Math.max(this.W,this.H)*.7,c:n.c,s:.8+Math.random()*.4});
-  };
-
-  function hexRgba(hex,a) {
-    var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-    return 'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';
-  }
-
-  PropagationField.prototype.tick = function () {
-    if (!this.running) return;
-    var ctx=this.ctx,W=this.W,H=this.H;
-    ctx.fillStyle='rgba(8,8,20,.15)'; ctx.fillRect(0,0,W,H);
-    // Grid
-    ctx.strokeStyle='rgba(0,207,255,.025)'; ctx.lineWidth=.5;
-    for(var xi=0;xi<W;xi+=48){ctx.beginPath();ctx.moveTo(xi,0);ctx.lineTo(xi,H);ctx.stroke();}
-    for(var yi=0;yi<H;yi+=48){ctx.beginPath();ctx.moveTo(0,yi);ctx.lineTo(W,yi);ctx.stroke();}
-    // Waves
-    this.waves=this.waves.filter(function(w){return w.r<w.maxR;});
-    this.waves.forEach(function(w){
-      w.r+=w.s*2; var alpha=(1-w.r/w.maxR)*(1-w.r/w.maxR)*.6;
-      ctx.beginPath(); ctx.arc(w.x,w.y,w.r,0,Math.PI*2);
-      ctx.strokeStyle=hexRgba(w.c,alpha); ctx.lineWidth=1.2; ctx.stroke();
-    });
-    // Connection lines
-    var nodes=this.nodes;
-    ctx.lineWidth=.4;
-    for(var i=0;i<nodes.length;i++){
-      for(var j=i+1;j<nodes.length;j++){
-        var d=Math.hypot(nodes[j].x-nodes[i].x,nodes[j].y-nodes[i].y);
-        if(d<W*.5){ctx.strokeStyle='rgba(0,207,255,'+((.5-d/(W*.5))*.1)+')';ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}
-      }
-    }
-    // Nodes
-    nodes.forEach(function(n){
-      var phase=(this.frame+n.p)%120/120;
-      var pulse=.5+.5*Math.sin(phase*Math.PI*2);
-      var grd=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,18+pulse*5);
-      grd.addColorStop(0,hexRgba(n.c,.4*pulse)); grd.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(n.x,n.y,18+pulse*5,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle=hexRgba(n.c,.95); ctx.beginPath(); ctx.arc(n.x,n.y,3.5+pulse,0,Math.PI*2); ctx.fill();
-    },this);
-    this.frame++;
-    if(this.waves.length<50){
-      nodes.forEach(function(n,idx){if(this.frame%60===(idx*7)%60)this.spawnFrom(n);},this);
-    }
-    var self=this; this._raf=requestAnimationFrame(function(){self.tick();});
-  };
-
-  PropagationField.prototype.start=function(){this.running=true;this.resize();this.nodes.forEach(function(n,i){var self=this;setTimeout(function(){self.spawnFrom(n);},i*80);},this);this.tick();};
-  PropagationField.prototype.stop=function(){this.running=false;if(this._raf)cancelAnimationFrame(this._raf);};
 
   // ── Injected styles ──────────────────────────────────────────────────────
   function injectStyles() {
     if (document.getElementById('obs2-styles')) return;
     var el = document.createElement('style'); el.id = 'obs2-styles';
     el.textContent = [
-      '.obs-hero-compact{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:16px;border-bottom:1px solid rgba(255,255,255,.05);flex-wrap:wrap;}',
-      '.obs-hero-sig{display:flex;align-items:center;gap:14px;}',
-      '.obs-sig-glyph{font-family:serif;font-size:28px;color:#00cfff;letter-spacing:.05em;}',
-      '.obs-sig-text{display:flex;flex-direction:column;gap:2px;}',
-      '.obs-sig-text strong{font-size:14px;color:#fff;}',
-      '.obs-sig-text span{font-size:11px;color:rgba(255,255,255,.4);}',
-      '.obs-hero-counts{display:flex;gap:16px;flex-wrap:wrap;}',
-      '.obs-count{font-size:12px;color:rgba(255,255,255,.45);}',
-      '.obs-count strong{display:block;font-size:20px;font-weight:700;}',
-      '.obs-count--green strong{color:#44ff88;}',
-      '.obs-count--gold strong{color:#ffdd55;}',
-      '.obs-count--red strong{color:#ff4455;}',
-      '.obs-count--book{text-decoration:none;transition:opacity .2s;}.obs-count--book:hover{opacity:.8;}.obs-count--book strong{color:#ffdd55;}',
-      // Hero field — bigger
-      '.obs-field-hero{position:relative;height:clamp(240px,35vw,420px);background:#08080f;overflow:hidden;}',
-      '.obs-field-full{position:absolute;inset:0;width:100%;height:100%;}',
-      '.obs-field-caption{position:absolute;inset:0;pointer-events:none;display:flex;align-items:flex-end;gap:10px;padding:14px 20px;flex-wrap:wrap;}',
-      '.obs-field-tag{font-size:10px;letter-spacing:.08em;padding:3px 8px;border-radius:3px;}',
-      '.obs-field-tag--1{color:#00cfff;background:rgba(0,207,255,.1);border:1px solid rgba(0,207,255,.2);}',
-      '.obs-field-tag--2{color:#00cfff;background:rgba(0,207,255,.07);border:1px solid rgba(0,207,255,.12);}',
-      '.obs-field-tag--3{color:#44ff88;background:rgba(68,255,136,.07);border:1px solid rgba(68,255,136,.18);}',
-      '.obs-field-tag--legend{color:rgba(255,255,255,.4);margin-left:auto;font-size:9px;}',
-      // Demo grid
-      '.obs-demo-head{padding:28px 32px 8px;}',
-      '.obs-demo-head h2{font-family:Georgia,serif;font-size:20px;font-weight:400;color:#fff;margin:0 0 6px;}',
-      '.obs-demo-head p{font-size:13px;color:rgba(255,255,255,.4);margin:0;}',
-      '.obs-demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:16px 32px 40px;}',
-      '@media(max-width:640px){.obs-demo-grid{grid-template-columns:1fr;padding:12px 16px 32px;}}',
-      '.obs-demo-card{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);cursor:pointer;transition:border-color .2s,transform .18s,box-shadow .2s;}',
-      '.obs-demo-card:hover,.obs-demo-card:focus{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);}',
-      '.obs-demo-card:focus{outline:2px solid #00cfff;}',
-      '.obs-demo-card--derived{border-color:rgba(68,255,136,.15);}',
-      '.obs-demo-card--derived:hover{border-color:rgba(68,255,136,.45);box-shadow:0 8px 30px rgba(68,255,136,.08);}',
-      '.obs-demo-card--conditional{border-color:rgba(255,170,51,.12);}',
-      '.obs-demo-card--conditional:hover{border-color:rgba(255,170,51,.4);}',
-      '.obs-demo-card--axioms{border-color:rgba(0,207,255,.15);}',
-      '.obs-demo-card--axioms:hover{border-color:rgba(0,207,255,.45);}',
-      '.obs-demo-card--intuition{border-color:rgba(160,80,255,.1);}',
-      '.obs-demo-card--intuition:hover{border-color:rgba(160,80,255,.35);}',
-      '.obs-demo-card--demo,.obs-demo-card--interactive,.obs-demo-card--journey,.obs-demo-card--narrative{border-color:rgba(255,221,85,.1);}',
-      '.obs-demo-card--demo:hover,.obs-demo-card--interactive:hover,.obs-demo-card--journey:hover,.obs-demo-card--narrative:hover{border-color:rgba(255,221,85,.4);}',
-      '.obs-demo-canvas-wrap{width:100%;height:140px;background:#070712;overflow:hidden;}',
-      '.obs-demo-canvas{width:100%;height:140px;display:block;}',
-      '.obs-demo-info{padding:12px 14px;}',
-      '.obs-demo-status{font-size:9px;font-weight:700;letter-spacing:.12em;font-family:monospace;margin-bottom:4px;text-transform:uppercase;}',
-      '.obs-demo-label{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px;}',
-      '.obs-demo-tagline{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.45;}',
-      // Link cards (href-based) look identical — just remove default <a> styling
-      '.obs-demo-card--link{text-decoration:none;color:inherit;display:block;}',
+      '/* Observatory Dashboard World-Class Theme */',
+      '.obs-instrument-surface {',
+      '  display: grid;',
+      '  grid-template-columns: 240px 1fr 340px;',
+      '  height: 100%;',
+      '  background: #070712;',
+      '  color: #fff;',
+      '  font-family: "DM Sans", -apple-system, sans-serif;',
+      '  overflow: hidden;',
+      '}',
+      '/* Scale Rail Pane */',
+      '.obs-rail-pane {',
+      '  border-right: 1px solid rgba(255,255,255,0.08);',
+      '  position: relative;',
+      '  padding: 40px 20px;',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '  background: rgba(255,255,255,0.01);',
+      '}',
+      '.obs-rail {',
+      '  flex: 1;',
+      '  border-left: 1px solid rgba(255,255,255,0.12);',
+      '  margin-left: 30px;',
+      '  position: relative;',
+      '}',
+      '.obs-rail-tick {',
+      '  position: absolute;',
+      '  left: -4px;',
+      '  width: 7px; height: 7px; border-radius: 50%;',
+      '  background: rgba(255,255,255,0.3);',
+      '  transition: background 0.3s;',
+      '}',
+      '.obs-rail-label {',
+      '  position: absolute;',
+      '  left: 15px;',
+      '  font-family: "JetBrains Mono", monospace;',
+      '  font-size: 11px;',
+      '  color: rgba(255,255,255,0.5);',
+      '  transform: translateY(-4px);',
+      '  white-space: nowrap;',
+      '  transition: color 0.3s;',
+      '}',
+      '.obs-wave-front {',
+      '  position: absolute;',
+      '  left: -10px;',
+      '  width: 19px;',
+      '  height: 4px;',
+      '  background: #00cfff;',
+      '  box-shadow: 0 0 10px #00cfff, 0 0 20px #00cfff;',
+      '  animation: scanRail 12s infinite linear alternate;',
+      '}',
+      '@keyframes scanRail {',
+      '  0% { top: 0%; }',
+      '  100% { top: 100%; }',
+      '}',
+      '/* Center Pane */',
+      '.obs-center-pane {',
+      '  padding: 40px;',
+      '  overflow-y: auto;',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '  gap: 30px;',
+      '  background: radial-gradient(circle at center, rgba(0,207,255,0.03) 0%, transparent 60%);',
+      '}',
+      '.obs-header h1 {',
+      '  font-family: "Spectral", serif;',
+      '  font-size: 42px;',
+      '  font-weight: 300;',
+      '  margin: 0 0 10px;',
+      '  letter-spacing: -0.5px;',
+      '}',
+      '.obs-header p {',
+      '  color: rgba(255,255,255,0.6);',
+      '  font-size: 15px;',
+      '  max-width: 540px;',
+      '  line-height: 1.6;',
+      '  margin: 0;',
+      '}',
+      '.obs-stats-deck {',
+      '  display: flex;',
+      '  gap: 20px;',
+      '  flex-wrap: wrap;',
+      '}',
+      '.obs-stat-card {',
+      '  flex: 1;',
+      '  min-width: 100px;',
+      '  background: rgba(255,255,255,0.03);',
+      '  border: 1px solid rgba(255,255,255,0.08);',
+      '  border-radius: 12px;',
+      '  padding: 20px;',
+      '  backdrop-filter: blur(16px);',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '}',
+      '.obs-stat-val { font-size: 32px; font-weight: 700; margin-bottom: 4px; }',
+      '.obs-stat-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }',
+      '/* Featured Proof */',
+      '.obs-featured-proof {',
+      '  background: rgba(255,255,255,0.03);',
+      '  border: 1px solid rgba(68,255,136,0.2);',
+      '  border-radius: 16px;',
+      '  padding: 30px;',
+      '  backdrop-filter: blur(16px);',
+      '  box-shadow: 0 10px 40px rgba(0,0,0,0.5);',
+      '  cursor: pointer;',
+      '  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s, box-shadow 0.2s;',
+      '}',
+      '.obs-featured-proof:hover, .obs-featured-proof:focus {',
+      '  transform: translateY(-4px) scale(1.01);',
+      '  border-color: rgba(68,255,136,0.6);',
+      '  box-shadow: 0 15px 50px rgba(68,255,136,0.15);',
+      '  outline: none;',
+      '}',
+      '.obs-fp-status { color: #44ff88; font-family: "JetBrains Mono", monospace; font-size: 12px; margin-bottom: 10px; letter-spacing: 0.1em; }',
+      '.obs-fp-title { font-family: "Spectral", serif; font-size: 28px; margin: 0 0 15px; font-weight: 400; }',
+      '.obs-fp-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; position: relative; margin: 25px 0 15px; }',
+      '.obs-fp-fill { position: absolute; left: 0; top: 0; height: 100%; background: #44ff88; border-radius: 3px; width: 99.998%; box-shadow: 0 0 10px #44ff88; }',
+      '.obs-fp-markers { display: flex; justify-content: space-between; font-family: "JetBrains Mono", monospace; font-size: 10px; color: rgba(255,255,255,0.5); }',
+      '/* Right Pane */',
+      '.obs-right-pane {',
+      '  border-left: 1px solid rgba(255,255,255,0.08);',
+      '  padding: 30px 20px;',
+      '  overflow-y: auto;',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '  gap: 16px;',
+      '  background: rgba(255,255,255,0.01);',
+      '}',
+      '.obs-right-pane h3 {',
+      '  font-size: 12px;',
+      '  text-transform: uppercase;',
+      '  letter-spacing: 0.15em;',
+      '  color: rgba(255,255,255,0.4);',
+      '  margin: 0 0 10px 10px;',
+      '}',
+      '.obs-demo-grid {',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '  gap: 16px;',
+      '  padding: 0 10px 40px;',
+      '}',
+      '.obs-demo-card {',
+      '  border-radius: 12px;',
+      '  overflow: hidden;',
+      '  border: 1px solid rgba(255,255,255,0.08);',
+      '  background: rgba(255,255,255,0.02);',
+      '  cursor: pointer;',
+      '  transition: border-color .2s, transform .2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow .2s;',
+      '}',
+      '.obs-demo-card:hover, .obs-demo-card:focus {',
+      '  transform: translateX(-4px) scale(1.02);',
+      '  box-shadow: -8px 8px 30px rgba(0,0,0,.5);',
+      '  outline: none;',
+      '}',
+      '.obs-demo-card--derived { border-color: rgba(68,255,136,.15); }',
+      '.obs-demo-card--derived:hover { border-color: rgba(68,255,136,.45); box-shadow: -8px 8px 30px rgba(68,255,136,.08); }',
+      '.obs-demo-card--conditional { border-color: rgba(255,170,51,.12); }',
+      '.obs-demo-card--conditional:hover { border-color: rgba(255,170,51,.4); }',
+      '.obs-demo-card--axioms { border-color: rgba(0,207,255,.15); }',
+      '.obs-demo-card--axioms:hover { border-color: rgba(0,207,255,.45); }',
+      '.obs-demo-card--intuition { border-color: rgba(160,80,255,.1); }',
+      '.obs-demo-card--intuition:hover { border-color: rgba(160,80,255,.35); }',
+      '.obs-demo-card--demo, .obs-demo-card--interactive, .obs-demo-card--journey, .obs-demo-card--narrative { border-color: rgba(255,221,85,.1); }',
+      '.obs-demo-card--demo:hover, .obs-demo-card--interactive:hover, .obs-demo-card--journey:hover, .obs-demo-card--narrative:hover { border-color: rgba(255,221,85,.4); }',
+      '.obs-demo-canvas-wrap { width: 100%; height: 100px; background: #070712; overflow: hidden; }',
+      '.obs-demo-canvas { width: 100%; height: 140px; display: block; transform: translateY(-20px); }',
+      '.obs-demo-info { padding: 12px 14px; background: rgba(0,0,0,0.2); }',
+      '.obs-demo-status { font-size: 9px; font-weight: 700; letter-spacing: .12em; font-family: "JetBrains Mono", monospace; margin-bottom: 4px; text-transform: uppercase; }',
+      '.obs-demo-label { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; }',
+      '.obs-demo-tagline { font-size: 11.5px; color: rgba(255,255,255,.45); line-height: 1.45; }',
+      '.obs-demo-card--link { text-decoration: none; color: inherit; display: block; }',
+      '/* Responsive */',
+      '@media(max-width:1024px) {',
+      '  .obs-instrument-surface { grid-template-columns: 80px 1fr 280px; }',
+      '  .obs-rail-label { display: none; }',
+      '}',
+      '@media(max-width:768px) {',
+      '  .obs-instrument-surface { grid-template-columns: 1fr; overflow-y: auto; display: block; }',
+      '  .obs-rail-pane { display: none; }',
+      '}'
     ].join('\n');
     document.head.appendChild(el);
   }
 
   // ── Panel registration ───────────────────────────────────────────────────
-  var _field = null;
   var _anims = [];
+  var _waveObserver = null;
+  var _waveInterval = null;
 
   PFExplorer.registerPanel({
     id: 'observatory',
@@ -796,26 +889,75 @@
     mount: function (ctx) {
       injectStyles();
       ctx.stage.innerHTML = buildObservatory();
-      ctx.stage.style.cssText = 'overflow-y:auto;padding:0;';
+      // Remove any padding applied by framework so we go full screen
+      ctx.stage.style.cssText = 'padding:0; height:100%;';
 
-      // Start big field
-      var canvas = ctx.stage.querySelector('#obsFieldCanvas');
-      if (canvas) { _field = new PropagationField(canvas); _field.start(); }
-
-      // Wire click → navigate for panel-route cards (href cards are real <a> links, no handler needed)
+      // Wire click → navigate for panel-route cards
       ctx.stage.querySelectorAll('.obs-demo-card:not(.obs-demo-card--link)').forEach(function (card) {
         var idx  = parseInt(card.getAttribute('data-demo-idx'), 10);
         var demo = DEMOS[idx];
         if (!demo || !demo.id) return;
-        function launch() { PFExplorer.navigate(demo.id); }
+        function launch() { 
+          if (window.AudioEngine) window.AudioEngine.playInteraction('click');
+          PFExplorer.navigate(demo.id); 
+        }
         card.addEventListener('click', launch);
         card.addEventListener('keydown', function (e) {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); launch(); }
         });
+        // Add hover sound effect
+        card.addEventListener('mouseenter', function() {
+          if (window.AudioEngine) window.AudioEngine.playInteraction('pop');
+        });
       });
 
-      // Defer canvas animations by one rAF so grid layout is committed before
-      // setupCanvas reads offsetWidth (avoids all cards getting 0-width buffers)
+      // Koide panel click
+      var koideFp = ctx.stage.querySelector('#obsFeaturedKoide');
+      if (koideFp) {
+        koideFp.addEventListener('click', function() {
+          if (window.AudioEngine) window.AudioEngine.playInteraction('explore');
+          PFExplorer.navigate('koide');
+        });
+        koideFp.addEventListener('mouseenter', function() {
+          if (window.AudioEngine) window.AudioEngine.playInteraction('whoosh');
+        });
+      }
+
+      // Track wave pulse for audio interactions
+      var wave = ctx.stage.querySelector('#obsWaveFront');
+      var ticks = ctx.stage.querySelectorAll('.obs-rail-tick');
+      if (wave && ticks.length > 0 && window.AudioEngine) {
+        // Simple polling to see if the wave passes a tick (since it's a CSS animation)
+        var activeTickIndex = -1;
+        _waveInterval = setInterval(function() {
+          var waveRect = wave.getBoundingClientRect();
+          var waveCenterY = waveRect.top + waveRect.height / 2;
+          
+          ticks.forEach(function(tick, idx) {
+            var tickRect = tick.getBoundingClientRect();
+            var tickCenterY = tickRect.top + tickRect.height / 2;
+            
+            // If wave is crossing tick
+            if (Math.abs(waveCenterY - tickCenterY) < 10) {
+              if (activeTickIndex !== idx) {
+                activeTickIndex = idx;
+                // Highlight tick
+                tick.style.background = '#00cfff';
+                tick.style.boxShadow = '0 0 10px #00cfff';
+                setTimeout(function(){ 
+                   tick.style.background = 'rgba(255,255,255,0.3)';
+                   tick.style.boxShadow = 'none';
+                }, 300);
+                
+                // Play sound
+                if (window.AudioEngine) window.AudioEngine.playInteraction('pop');
+              }
+            }
+          });
+        }, 100);
+      }
+
+      // Defer canvas animations by one rAF
       requestAnimationFrame(function () {
         ctx.stage.querySelectorAll('.obs-demo-card').forEach(function (card) {
           var idx  = parseInt(card.getAttribute('data-demo-idx'), 10);
@@ -834,13 +976,13 @@
     },
 
     resize: function (ctx) {
-      if (_field) _field.resize();
+      // Nothing needs manual resizing, pure CSS grid
     },
 
     unmount: function (ctx) {
-      if (_field) { _field.stop(); _field = null; }
       _anims.forEach(function (a) { if (a && a.stop) a.stop(); });
       _anims = [];
+      if (_waveInterval) { clearInterval(_waveInterval); _waveInterval = null; }
       ctx.stage.style.cssText = '';
     },
   });
