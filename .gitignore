@@ -61,3 +61,6 @@ archive/AGENT_BLACKBOARD_flooded_*.jsonl
 
 # 7. Generated visual-pass screenshots (regenerated each run)
 sandbox/explorer/_visual_pass_screens/
+
+# 8. Generated daily reports and inbox artifacts
+/inbox/
