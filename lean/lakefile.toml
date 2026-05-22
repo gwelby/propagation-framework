@@ -1,0 +1,16 @@
+name = "pf_lean"
+version = "0.2.0"
+defaultTargets = ["pf_lean"]
+
+[[lean_lib]]
+name = "PfLean"
+
+[[lean_exe]]
+name = "pf_lean"
+root = "Main"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.29.1"
