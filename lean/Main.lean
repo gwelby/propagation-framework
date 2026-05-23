@@ -12,6 +12,7 @@ def main : IO Unit := do
   IO.println "  * PfLean.WeinbergAngle    -- Casimir derivation of sin²θ_W (0.13σ match)"
   IO.println "  * PfLean.GravityOptics    -- Weak-field refractive index from static metric"
   IO.println "  * PfLean.ThreeGenerations -- Algebraic lock: Q(N)=2/3 ↔ N=3 (conditional)"
+  IO.println "  * PfLean.CasimirPolynomial -- Unique positive root of x²+C₂x-C₂=0"
   IO.println ""
   IO.println "Build: lake build"
   IO.println "See PfLean/ directory for theorem statements and proofs."

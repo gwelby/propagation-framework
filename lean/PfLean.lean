@@ -11,3 +11,4 @@ import PfLean.KoideGeometry
 import PfLean.WeinbergAngle
 import PfLean.GravityOptics
 import PfLean.ThreeGenerations
+import PfLean.CasimirPolynomial
