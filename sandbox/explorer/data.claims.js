@@ -244,7 +244,7 @@
       audit: {
         claim: "Null geodesics in static spacetimes follow paths of the optical metric. In stationary spacetimes, the Randers/Finsler extension is exact. In the weak-field static limit, the scalar refractive index n(x) reproduces gravitational deflection, perihelion precession, and Shapiro delay.",
         standardBoundary: "General Relativity. The Fermat/optical-metric equivalence is a classical GR theorem, not a new claim.",
-        derivedPart: "The optical metric derivation for null geodesics in static/stationary spacetimes. Verified against three GR benchmarks: light deflection, perihelion precession, Shapiro delay. The weak-field refractive index n(Φ) = √[(1-2Φ)/(1+2Φ)] is machine-verified in Lean 4 (PfLean.GravityOptics)."
+        derivedPart: "The optical metric derivation for null geodesics in static/stationary spacetimes. Verified against three GR benchmarks: light deflection, perihelion precession, Shapiro delay. The weak-field refractive index n(Φ) = √[(1-2Φ)/(1+2Φ)] is machine-verified in Lean 4 (PfLean.GravityOptics).",
         openBridge: "Scalar n(x) is the weak-field only. Full dynamic/non-static spacetimes: not yet covered. 'All forces as refraction' beyond gravity: aspirational.",
         falsifier: "Proof that the optical/Randers mapping fails for null propagation in static/stationary gravity, or that gravity requires non-optical medium structure in those domains.",
       },
@@ -300,7 +300,7 @@
       audit: {
         claim: "Casimir polynomial x² + C₂x − C₂ = 0 for spin pair (j=1/2, j=1) yields ratio R = 1 − x₊(1/2)/x₊(1) = 0.22310. PDG on-shell value: 0.22337. Discrepancy: 0.13σ.",
         standardBoundary: "Electroweak theory. sin²θ_W is measured at the Z-pole (on-shell scheme).",
-        derivedPart: "The Casimir algebraic derivation is exact within its premises. Spin pair (j=1/2, j=1) selected by Axiom 3b (Minimal Winding Principle). Match to PDG on-shell value within 0.13σ. Formalization is machine-verified in Lean 4 (PfLean.WeinbergAngle).",
+        derivedPart: "The Casimir algebraic derivation is exact within its premises. The unique positive root of x²+C₂x-C₂=0 is machine-verified in Lean 4 (PfLean.CasimirPolynomial sub-certificate). Spin pair (j=1/2, j=1) selected by Axiom 3b (Minimal Winding Principle). Match to PDG on-shell value within 0.13σ. Formalization is machine-verified in Lean 4 (PfLean.WeinbergAngle).",
         openBridge: "Scheme selection (on-shell vs MS-bar) not yet derived. Why those spin values? Axiom 3b selects k=1 but the full derivation of the spin pair from axioms alone is not complete.",
         falsifier: "Derivation of the coupling ratio g'/g from medium geometry contradicting this result, or a precision measurement moving sin²θ_W outside the 0.22310 prediction.",
       },
@@ -311,7 +311,7 @@
         reality: "The Casimir polynomial for spin pair (j=½, j=1) has a root ratio that gives sin²θ_W = 0.22310. This matches the PDG on-shell value to 0.13σ with zero fitted parameters. The angle is derivable from Medium geometry.",
         detail: "The spin pair (j=½, j=1) is selected by Axiom 3b (Minimal Winding Principle): the smallest physically distinct spin pair. This selection is the only free step.",
       },
-      sources: ["derivations/g3_casimir_weinberg_angle.md", "derivations/casimir_verification.py", "lean/PfLean/WeinbergAngle.lean"],
+      sources: ["derivations/g3_casimir_weinberg_angle.md", "derivations/casimir_verification.py", "lean/PfLean/WeinbergAngle.lean", "lean/PfLean/CasimirPolynomial.lean"],
       citations: [
         { title: "Charged Lepton Masses and Electroweak Mixing Angle", author: "A. Rivero", journal: "arXiv:hep-ph/0512065", year: 2005, link: "https://arxiv.org/abs/hep-ph/0512065" },
         { title: "Electroweak mixing and lepton mass relations", author: "A. Rivero", journal: "arXiv:hep-ph/0603179", year: 2006, link: "https://arxiv.org/abs/hep-ph/0603179" },

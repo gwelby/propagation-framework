@@ -630,6 +630,7 @@
                 '<li>Gravity as refraction (static/Randers) <span class="obs-badge-lean">Lean 4 Verified</span></li>',
                 '<li>Charged-lepton Koide geometry (Q = 2/3) <span class="obs-badge-lean">Lean 4 Verified</span></li>',
                 '<li>Weinberg mixing angle (sin²θ_W ≈ 0.22310) <span class="obs-badge-lean">Lean 4 Verified</span></li>',
+                '<li>Casimir polynomial unique positive root <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Sub-Certificate</span></li>',
                 '<li>Three Generations algebraic lock (N = 3) <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Premises Conditional</span></li>',
               '</ul>',
             '</div>',
