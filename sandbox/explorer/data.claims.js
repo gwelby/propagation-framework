@@ -387,13 +387,13 @@
       audit: {
         claim: "If (2,1) topological weight (T1) and denominator M=3 (T2) are both granted, then Q(N)=2N/(2N+3)=2/3 → N=3. Three generations of matter is the unique solution.",
         standardBoundary: "The Standard Model has three generations of fermions. Why three is experimentally established but theoretically unexplained.",
-        derivedPart: "The algebraic step from the granted premises to N=3 is exact. The assembly is clean with no hidden algebraic gap.",
+        derivedPart: "The algebraic step from the granted premises to N=3 is exact and machine-verified in Lean 4 (PfLean.ThreeGenerations). The assembly is clean with no hidden algebraic gap.",
         openBridge: "T1 (physical realization of the weight-2 branch) still needs a non-redundancy theorem not yet derived from Axioms 1-3. T2 (denominator theorem M=3) still only proves a conditional local lemma inside a 2×2 Fermi-point Hamiltonian ansatz — the full PF→local 2×2 structure bridge is the live gap. T3 phi-harmonic route: audited as target-loaded, closed as NO-GO.",
         falsifier: "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to N≠3.",
       },
       story: "Why are there exactly three families of matter? The electron, muon, and tau are the same particle at three different energy scales. The framework proposes that three generations is the unique solution to the topological selection rule Q(N)=2/3. The algebra is clean; the research continues on deriving the numerator and denominator counts from first principles.",
       math: "Q(N) = 2N/(2N+3) = 2/3 → N = 3. Requires T1 (numerator) + T2 (denominator) grants.",
-      sources: ["three_generations_closed_proof.md", "t2_denominator_theorem_audit_2026-03-31.md"],
+      sources: ["three_generations_closed_proof.md", "t2_denominator_theorem_audit_2026-03-31.md", "lean/PfLean/ThreeGenerations.lean"],
     },
     {
       id: "propagation-lagrangian",
