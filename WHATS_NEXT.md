@@ -1,7 +1,7 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-05-20 (updated after T3 selector audit)
-**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map. Additionally, the T3 information-theoretic selector was audited on 2026-05-20 and closed as a target-loaded no-go.
+**Date**: 2026-05-23 (updated after G3 κ / three-field upstream strike audit)
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map. Additionally, the T3 information-theoretic selector was audited on 2026-05-20 and closed as a target-loaded no-go. The 2026-05-23 κ / three-field upstream strike retires the candidate Z3 three-field oscillator as the primitive bridge, without changing the G3 score.
 
 ---
 
@@ -18,12 +18,13 @@
 - damping / environment mechanism derived from PF vacuum structure,
 - nonlinear completion that produces the discrete closure operator after reduction.
 
-**Current subroute evidence**: The spectral/DFT map, simple linear damping, and block-average coarse-graining have all tested negative. The two DeepSeek-proposed candidate routes are also now closed as conditional negatives:
+**Current subroute evidence**: The spectral/DFT map, simple linear damping, and block-average coarse-graining have all tested negative. The DeepSeek/frontier candidate routes are also now closed as conditional negatives:
 - **Trace-norm projection (audited 2026-05-16)**: Schatten-1 trace norm does not contract in tested regimes (ratios remain >1) and loses the signed amplitude action `-1/8` under the density-matrix lift.
 - **Perron-Frobenius collapse (audited 2026-05-19)**: PF theory fails to select the target eigenvalue `-1/8` from a continuum of compatible positive stochastic operators, and the positive-cone mapping requires extra open-system structure.
-These are scoped negatives, confirming that the linearized Z3 Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge.
+- **κ / three-field upstream strike (Codex audit 2026-05-23)**: C3 algebra forces only `K(a,b)=aI+bM`, leaving `κ=b` free; Axiom 1 does not force one real scalar per Z3 coset; combined with the six bridge negatives, the candidate Z3 three-field oscillator is retired as the primitive bridge.
+These are scoped negatives, confirming that the linearized Z3 candidate Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge or different representation.
 
-**Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`; or (b) the tested class fails cleanly and the repo records that the linearized Z3 Lagrangian cannot supply the primitive closure operator without new physics.
+**Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`; or (b) the tested class fails cleanly and the repo records that the linearized Z3 candidate Lagrangian cannot supply the primitive closure operator without new physics. The retired three-field oscillator should not be reopened unless a new derivation fixes both field-content provenance and `κ`.
 
 **Read first**: `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_spectral_contract_audit_2026-05-13.md`, `derivations/g3_op_map_coarse_damping_audit_2026-05-13.md`, `derivations/s2_pf_native_gate_contract_2026-05-10.md`, `derivations/h_prod_joint_model_obligation.md`, `verification/operator_algebra.py`, `/mnt/d/DeepSeek/REPORTS/oscillator_to_closure_boundary.md`, `/mnt/d/DeepSeek/REPORTS/measurement_map_exploration.md`.
 

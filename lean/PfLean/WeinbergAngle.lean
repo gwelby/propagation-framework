@@ -1,5 +1,6 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import PfLean.CasimirPolynomial
 
 /-
   Weinberg Angle from Poincare Casimir Eigenvalues
@@ -24,19 +25,7 @@ namespace PfLean
 open Real
 
 -- ---------------------------------------------------------------------------
--- 1. Casimir polynomial and its positive root
--- ---------------------------------------------------------------------------
-
-/-- The quadratic Casimir of SU(2) at spin s: C₂ = s(s+1). -/
-noncomputable def CasimirC2 (s : ℝ) : ℝ := s * (s + 1)
-
-/-- Positive root of x² + C₂·x - C₂ = 0. -/
-noncomputable def CasimirRoot (s : ℝ) : ℝ :=
-  let c2 := CasimirC2 s
-  (-c2 + Real.sqrt (c2 ^ 2 + 4 * c2)) / 2
-
--- ---------------------------------------------------------------------------
--- 2. Explicit root values for the physical spin pair (1/2, 1)
+-- 1. Explicit root values for the physical spin pair (1/2, 1)
 -- ---------------------------------------------------------------------------
 
 lemma sqrt_12_eq : Real.sqrt (12 : ℝ) = 2 * Real.sqrt 3 := by
@@ -131,21 +120,6 @@ theorem weinberg_ratio_bounds :
 -- ---------------------------------------------------------------------------
 -- 5. Structural properties
 -- ---------------------------------------------------------------------------
-
-/-- The Casimir polynomial x² + C₂·x - C₂ = 0 is recovered by plugging
-    the root back into the equation. -/
-theorem casimir_root_satisfies_eq {s : ℝ} (hs : s ≥ 0) :
-  (CasimirRoot s) ^ 2 + CasimirC2 s * (CasimirRoot s) - CasimirC2 s = 0 := by
-  unfold CasimirRoot CasimirC2
-  have h_pos : (s * (s + 1)) ^ 2 + 4 * (s * (s + 1)) ≥ 0 := by
-    nlinarith [sq_nonneg (s * (s + 1) + 2)]
-  set D := Real.sqrt ((s * (s + 1)) ^ 2 + 4 * (s * (s + 1)))
-  have h_D : D ^ 2 = (s * (s + 1)) ^ 2 + 4 * (s * (s + 1)) := Real.sq_sqrt h_pos
-  have h_eq : ((- (s * (s + 1)) + D) / 2) ^ 2 + (s * (s + 1)) * ((- (s * (s + 1)) + D) / 2) - (s * (s + 1))
-      = (- (s * (s + 1)) ^ 2 + D ^ 2 - 4 * (s * (s + 1))) / 4 := by
-    ring_nf
-  rw [h_eq, h_D]
-  ring_nf
 
 /-- The spin-1/2 Casimir: C₂ = 3/4. -/
 theorem casimir_half : CasimirC2 (1 / 2) = 3 / 4 := by

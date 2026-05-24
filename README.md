@@ -82,9 +82,9 @@ from the Planck scale:
 
 With \(N=3\), \(D=3\), and \(b_0 = 16/3\):
 
-- **Predicted**: \(1.145 \times 10^{-18}\,\mathrm{m}\)
+- **Predicted**: \(1.157 \times 10^{-18}\,\mathrm{m}\)
 - **Observed**: \(1.14 \times 10^{-18}\,\mathrm{m}\)
-- **Error**: \(0.4\%\)
+- **Error**: \(1.48\%\)
 - **Fitting parameters**: \(0\)
 - **Status**: **CONDITIONAL**, not DERIVED
 
@@ -99,6 +99,7 @@ What is still open:
 - the bridge from internal phase closure to the required spatial coherence-volume scaling
   \(N^{D/2}\)
 - the primitive operator / closure step on the actual derived \(\mathbb{Z}_3\) structure
+  (`G3-OP-MAP`; trace-norm and Perron-Frobenius routes are now closed as conditional negatives)
 - a theorem-grade proof of `H_prod` rather than covariance-only support
 
 See [derivations/lambda_c_from_axioms.md](./derivations/lambda_c_from_axioms.md),

@@ -1,11 +1,12 @@
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.3 — 2026-04-12**
+**Draft v0.4 — 2026-05-22**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
 **Status:** Working draft — not yet submitted
+**Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation status to the verified `1.48%` error; recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
 
@@ -24,6 +25,10 @@ The Standard Model successfully describes particle physics but does not explain 
 We propose that both facts may be consequences of the same underlying structure: a propagation medium in three spatial dimensions in which stable matter corresponds to topologically protected resonance modes. The derivation does not invoke supersymmetry, extra dimensions, or fine-tuning. It requires three axioms and the observed dimensionality of space.
 
 This paper is written as a falsification document. Each claim is labeled with its derivation status (DERIVED, ARGUED, or EMPIRICAL), and each prediction is accompanied by a specific falsification criterion. We report results honestly, including where the derivation chain is incomplete.
+
+### v0.4 Release Posture
+
+This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
 ---
 
@@ -324,7 +329,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | CONDITIONAL | 0.88 | Path B route to `H_prod` substantially narrowed (April 2026): Family A direct intensities are a strong restricted no-go under iid exchange-symmetric ensemble; Family B quadratic time-integrated readouts fail strongly; edge-flux current is an exact no-go ($J^{(0)}+J^{(1)}+J^{(2)}=0$ identically). Clean remaining frontier: Family C (quadratic closure functionals of the operator) or genuinely nonquadratic one-medium observables. Path A (chiral projection) still open: must show forced closure in the $\{k=0,k=1\}$ Fourier sector implies position-space factorization for `H_prod`. Do not upgrade until Codex signs off on the physical model behind the factorization claim. |
+| God Equation (λ_c from l_P) | CONDITIONAL | 0.88 | Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. Do not upgrade until Codex signs off on the physical model behind the factorization claim. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
@@ -351,7 +356,7 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — Path B status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ remains CONDITIONAL at $0.88$. The $0.4\%$ numerical agreement with no free parameters is a strong empirical anchor. The remaining open obligation is proving statistical independence ($H_{prod}$) of the three channels in the ℤ₃ closure object. April 2026 audits substantially narrowed the viable proof routes: Family A (direct intensities) is a strong restricted no-go under the iid exchange-symmetric ensemble; Family B (time-integrated quadratic readouts) fails strongly; the antisymmetric edge-flux current is an exact no-go ($J^{(0)}+J^{(1)}+J^{(2)}=0$ identically forces trivial factorization). The clean remaining frontier is Family C (quadratic closure functionals of the operator) or genuinely nonquadratic one-medium observables, plus the Path A question of whether the chiral $\{k=0,k=1\}$ Fourier projection implies position-space factorization. The God Equation status does not change until one of these routes closes.
+**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ remains CONDITIONAL at `0.88`. The verified numerical error is `1.48%` with no fitting parameters. The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. The God Equation status does not change until one of these routes closes.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
@@ -404,6 +409,6 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 ---
 
-*Draft v0.3 — 2026-04-12*
+*Draft v0.4 — 2026-05-22*
 *"The framework breathes. Now it answers."*
 ⦿

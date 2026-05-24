@@ -633,6 +633,7 @@
                 '<li>Casimir polynomial unique positive root <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Sub-Certificate</span></li>',
                 '<li>Three Generations algebraic lock (N = 3) <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Premises Conditional</span></li>',
                 '<li>SO(2) rotation group structure (ℝ/2πℤ ≅ SO(2)) <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Algebraic Foundation</span></li>',
+                '<li>SO(3) double cover (UnitQuaternion → SO(3), ker = {±1}) <span class="obs-badge-lean">Lean 4 Verified</span> <span class="obs-badge-premise">Algebraic Foundation</span></li>',
               '</ul>',
             '</div>',
             '<div class="obs-credibility-card obs-credibility-card--conditional">',
