@@ -49,9 +49,35 @@ theorem factorization_identity (a r N : ℕ)
     (h_mod : a ^ r ≡ 1 [MOD N]) :
     let half_r := r / 2
     (a ^ half_r - 1) * (a ^ half_r + 1) ≡ 0 [MOD N] := by
-  sorry -- Proof path: a^r - 1 = (a^(r/2)-1)(a^(r/2)+1) by difference of squares.
-  -- Since a^r ≡ 1 [MOD N], we have a^r - 1 ≡ 0 [MOD N].
-  -- Thus (a^(r/2)-1)(a^(r/2)+1) ≡ 0 [MOD N].
+  intro half_r
+  have h1 : r = 2 * half_r := by
+    rcases hr with ⟨k, hk⟩
+    have : half_r = k := by
+      rw [hk]
+      omega
+    rw [this]
+    linarith
+  have h2 : a ^ r = (a ^ half_r) ^ 2 := by
+    rw [h1]
+    rw [pow_mul]
+    simp [pow_two]
+  have h3 : a ^ r - 1 = (a ^ half_r - 1) * (a ^ half_r + 1) := by
+    rw [h2]
+    have h4 : (a ^ half_r) ^ 2 - 1 = (a ^ half_r + 1) * (a ^ half_r - 1) := by
+      rw [← Nat.pow_two_sub_pow_two (a ^ half_r) 1]
+      simp
+    rw [h4]
+    rw [mul_comm]
+  have h4 : a ^ r ≥ 1 := Nat.one_le_pow r a ha
+  have h5 : a ^ r - 1 ≡ 0 [MOD N] := by
+    have h6 : a ^ r ≡ 1 [MOD N] := h_mod
+    have h7 : a ^ r ≥ 1 := h4
+    have h8 : a ^ r - 1 ≡ 1 - 1 [MOD N] := Nat.ModEq.sub h7 (by decide) h6 Nat.ModEq.rfl
+    have h9 : (1 : ℕ) - 1 = 0 := Nat.sub_self 1
+    rw [h9] at h8
+    exact h8
+  rw [h3] at h5
+  exact h5
 
 /-- **Core Lemma:** If a has even order r modulo N, and a^(r/2) ≢ -1 (mod N),
     then gcd(a^(r/2) ± 1, N) yields a nontrivial factor.
@@ -95,7 +121,13 @@ theorem exists_good_base (N : ℕ)
     (hN_not_even : ¬Even N)
     (hN_not_pp : ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k) :
     ∃ a : ℕ, a > 0 ∧ a < N ∧ Nat.gcd a N = 1 := by
-  sorry -- Follows from Euler's totient theorem: at least one element
+  use 1
+  constructor
+  · exact Nat.succ_pos 0
+  constructor
+  · exact hN
+  · exact Nat.gcd_one_left N
+  -- Follows from Euler's totient theorem: at least one element
   -- is coprime to N (in fact, φ(N) of them).
 
 /- =====================================================================
