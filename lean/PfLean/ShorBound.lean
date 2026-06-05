@@ -28,6 +28,7 @@
 
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.ModEq
+import Mathlib.Analysis.SpecialFunctions.Log.Base
 import Mathlib.Tactic
 
 namespace PfLean.ShorBound
@@ -164,18 +165,33 @@ theorem ecdsa_secp256k1_quantum_vulnerable :
     expected_ops < (2 ^ key_bits : ℝ) := by
   norm_num
 
-/-- **PROVEN:** RSA-2048 is similarly vulnerable. -/
+/-- **PROVEN:** RSA-2048 is similarly vulnerable.
+    Proof: 2048 = 2^11, so expected_ops = 100·(2^11)^7 = 100·2^77 < 2^7·2^77 = 2^84 < 2^2048. -/
 theorem rsa_2048_quantum_vulnerable :
     let key_bits := 2048
     let expected_ops := 100 * (key_bits ^ 7 : ℝ)
     expected_ops < (2 ^ key_bits : ℝ) := by
-  norm_num
+  have h1 : (100 : ℝ) * (2048 : ℝ) ^ 7 < (2 : ℝ) ^ 2048 := by
+    have h2 : (2048 : ℝ) = (2 : ℝ) ^ (11 : ℕ) := by norm_num
+    rw [h2]
+    have h3 : (100 : ℝ) * ((2 : ℝ) ^ 11) ^ 7 = (100 : ℝ) * (2 : ℝ) ^ 77 := by ring
+    rw [h3]
+    have h4 : (100 : ℝ) * (2 : ℝ) ^ 77 < (2 : ℝ) ^ 84 := by
+      have h5 : (100 : ℝ) < (2 : ℝ) ^ 7 := by norm_num
+      have h6 : (2 : ℝ) ^ 77 > 0 := by positivity
+      nlinarith
+    have h7 : (2 : ℝ) ^ 84 < (2 : ℝ) ^ 2048 := by
+      apply pow_lt_pow_right
+      all_goals norm_num
+    linarith
+  exact h1
 
 /- =====================================================================
    SECTION 5: PF Connection — ProcessOntology
    ===================================================================== -/
 
 /-- The PF coherence of Shor's algorithm on input N. -/
+open Classical in
 noncomputable def shor_coherence (N : ℕ) : ℝ :=
   if hN : N > 1 ∧ ¬Nat.Prime N ∧ ¬Even N ∧ ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k then
     shorKappa / (Real.logb 2 N ^ 4)
