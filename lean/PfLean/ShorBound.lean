@@ -181,9 +181,8 @@ theorem rsa_2048_quantum_vulnerable :
       have h6 : (2 : ℝ) ^ 77 > 0 := by positivity
       nlinarith
     have h7 : (2 : ℝ) ^ 84 < (2 : ℝ) ^ 2048 := by
-      apply pow_lt_pow_right
-      all_goals norm_num
-    linarith
+      exact_mod_cast (Nat.pow_lt_pow_right (by norm_num) (by norm_num))
+    exact (lt_trans h4 h7)
   exact h1
 
 /- =====================================================================
