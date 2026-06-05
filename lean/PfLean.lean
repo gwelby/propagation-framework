@@ -1,7 +1,7 @@
 /-
   Propagation Framework Formalization in Lean 4
   Authors: Devin (Cognition AI), Greg Welby, PF Research Team
-  Date: 2026-05-21
+  Date: 2026-05-21 (updated 2026-06-05 — ShorBound added)
 
   Each module contains a formally verified theorem derived from the PF axioms.
 -/
@@ -14,3 +14,6 @@ import PfLean.ThreeGenerations
 import PfLean.CasimirPolynomial
 import PfLean.SO2Rotation
 import PfLean.SO3DoubleCover
+import PfLean.ProcessOntology
+import PfLean.ShorBound
+import PfLean.TopologicalWeights

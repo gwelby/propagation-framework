@@ -137,7 +137,7 @@ Space, time, energy, matter, forces — these aren't fundamentals in PF. They're
 | Koide Q = 2/3 (charged leptons) | DERIVED | 0.95 | Exact geometric identity |
 | Weinberg angle sin²θ_W | DERIVED | 0.90 | 0.22310 vs PDG 0.22337 (0.13σ) |
 | Three generations | CONDITIONAL | 0.85 | Q(N) = 2N/(2N+3) = 2/3 → N = 3 |
-| God Equation λ_c from l_P | CONDITIONAL | 0.88 | 1.48% error, no free parameters |
+| God Equation λ_c from l_P | DERIVED (with Postulate D) | 0.90 | 1.48% error, no free parameters |
 | Top/Tau coupling | EMPIRICAL | 0.90 | m_t/m_τ ≈ α⁻¹/√2 |
 | Koide phase δ ≈ 2/9 | EMPIRICAL | 0.55 | 0.0033% from 2/9 |
 

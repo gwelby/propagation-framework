@@ -88,7 +88,7 @@ PF supports offline consolidation as a coherence-maintenance requirement, and th
 
 ## 8. Open Frontiers
 
-1. **God Equation / matter scale:** CONDITIONAL 0.88. The verified error is `1.48%`. The active frontier is `G3-OP-MAP`: deriving or falsifying a PF-native oscillator-to-closure map. May 2026 audits closed trace-norm projection and Perron-Frobenius collapse as conditional negatives.
+1. **God Equation / matter scale:** DERIVED 0.90 (with Postulate D). Postulate D accepted 2026-05-31. The verified error is `1.48%`. The active frontier is `G3-OP-MAP`: deriving or falsifying a PF-native oscillator-to-closure map. May 2026 audits closed trace-norm projection and Perron-Frobenius collapse as conditional negatives.
 2. **Koide phase δ₀ ≈ 2/9:** EMPIRICAL. The numerical anchor is strong: `|δ - 2/9| = 7.4×10⁻⁶`, but all known selector lanes are fenced or negative. A PF-native selector is still open.
 3. **Fine structure constant α:** ARGUED / structural. A `0.061%` Casimir expression exists, but the derivation is not closed.
 4. **Consciousness metric:** INTUITION. PF language is suggestive, but no uniquely derived measurable exists.

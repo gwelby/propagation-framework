@@ -16,7 +16,7 @@ The launch rule: amplify only what survives truth tracking. Anything CONDITIONAL
     - Topological Weights: DERIVED 0.98 → PARTIAL DERIVATION 0.85
     - Three Generations: DERIVED 0.98 → CONDITIONAL 0.85
     - 8h Sleep: DERIVED 0.92 → ARGUED 0.72
-    - God Equation: 0.4% → 1.48%, status CONDITIONAL
+    - God Equation: 0.4% → 1.48%, status DERIVED (with Postulate D)
     - Add neutrino Koide non-universality and Koide phase audit wall
 - Run a public-claim audit after edits. Any mismatch against CLAIMS.md blocks release.
 

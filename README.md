@@ -64,7 +64,7 @@ data.
 | 8-hour sleep constant from (2,1) ratio | ARGUED | 0.72 |
 | Weinberg angle: \(\sin^2\theta_W \approx 0.22310\) via Axiom 3b | DERIVED | 0.90 |
 | QCD confinement from λ_c via RG running | ARGUED | 0.72 |
-| Matter scale from Planck scale (God Equation) | CONDITIONAL | 0.88 |
+| Matter scale from Planck scale (God Equation) | DERIVED (with Postulate D) | 0.90 |
 | Top/tau mass ratio \(\approx \alpha^{-1}/\sqrt{2}\) | EMPIRICAL | 0.90 |
 
 The exact status definitions and falsification pathways are in [CLAIMS.md](./CLAIMS.md).
@@ -73,8 +73,9 @@ The exact status definitions and falsification pathways are in [CLAIMS.md](./CLA
 
 ## The God Equation
 
-The framework's strongest open mathematical problem is the derivation of the matter coherence scale
-from the Planck scale:
+The derivation of the matter coherence scale from the Planck scale was upgraded to **DERIVED**
+on 2026-05-31 with the acceptance of Postulate D (primitive Z₃ no-self-loop selector). The
+underlying formula is:
 
 \[
 \lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0^{SO(3)}}\right).
