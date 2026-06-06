@@ -72,10 +72,16 @@ theorem factorization_identity (a r N : ℕ)
   have h5 : a ^ r - 1 ≡ 0 [MOD N] := by
     have h6 : a ^ r ≡ 1 [MOD N] := h_mod
     have h7 : a ^ r ≥ 1 := h4
-    have h8 : a ^ r - 1 ≡ 1 - 1 [MOD N] := Nat.ModEq.sub h7 (by decide) h6 Nat.ModEq.rfl
-    have h9 : (1 : ℕ) - 1 = 0 := Nat.sub_self 1
-    rw [h9] at h8
-    exact h8
+    have h8 : (1 : ℕ) ≤ a ^ r := h7
+    have h9 : a ^ r - 1 ≡ 1 - 1 [MOD N] := by
+      apply Nat.ModEq.sub
+      · exact h6
+      · exact Nat.ModEq.rfl
+      · exact h8
+      · norm_num
+    have h10 : (1 : ℕ) - 1 = 0 := Nat.sub_self 1
+    rw [h10] at h9
+    exact h9
   rw [h3] at h5
   exact h5
 
@@ -91,31 +97,21 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
     let d1 := Nat.gcd N (a ^ (r / 2) - 1)
     let d2 := Nat.gcd N (a ^ (r / 2) + 1)
     IsNontrivialFactor N d1 ∨ IsNontrivialFactor N d2 := by
-  sorry -- Proof path:
-  -- 1. N | (a^r - 1) = (a^(r/2)-1)(a^(r/2)+1) [factorization_identity]
-  -- 2. a^(r/2) ≢ 1 (mod N) [from h_order_min: r is minimal]
-  -- 3. a^(r/2) ≢ -1 (mod N) [from h_not_minus_one]
-  -- 4. Thus both gcds are < N and at least one is > 1.
+  -- The proof strategy:
+  -- 1. N divides (a^(r/2) - 1)(a^(r/2) + 1) [factorization_identity]
+  -- 2. a^(r/2) ≢ 1 (mod N), so d1 = gcd(N, a^(r/2)-1) < N
+  -- 3. a^(r/2) ≢ -1 (mod N), so d2 = gcd(N, a^(r/2)+1) < N
+  -- 4. If both d1 = 1 and d2 = 1, then N divides a product of two numbers
+  --    each coprime to N — impossible for N > 1.
+  -- 5. Therefore at least one of d1, d2 is a nontrivial factor.
+  sorry -- TODO: Formalize step 4 (gcd product property) in Lean.
+  -- This requires: if gcd(N,x)=1 and gcd(N,y)=1 then gcd(N,x·y)=1.
+  -- Mathlib has this as Nat.Coprime.mul or similar.
 
-/-- **Lemma (number theory):** For N = p·q (product of two distinct odd primes),
-    at least half of the elements in (ℤ/Nℤ)* have even multiplicative order,
-    and at least half of those satisfy a^(r/2) ≢ -1 (mod N).
-    Therefore P(good base) ≥ 1/4 for semiprimes, and ≥ 1/2 when
-    N has exactly two distinct prime factors.
-
-    This uses the structure theorem: (ℤ/Nℤ)* ≅ (ℤ/pℤ)* × (ℤ/qℤ)*.
-    Each (ℤ/pℤ)* is cyclic of even order p-1. -/
-theorem good_base_exists_probability (N : ℕ)
-    (hN : N > 1) (hN_comp : ¬Nat.Prime N)
-    (hN_not_even : ¬Even N)
-    (hN_not_pp : ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k) :
-    ∃ a : ℕ, a > 0 ∧ a < N ∧ Nat.gcd a N = 1 := by
-  sorry -- Standard result: φ(N) ≥ 1 for N > 1, so a coprime base exists.
-  -- The full "good base" (even order + non-(-1)) probability
-  -- requires multiplicative group structure theorem.
-
-/-- Existence of at least one good base.
-    Since P(good) > 0, a good base exists. -/
+/-- **Lemma:** Existence of at least one coprime base.
+    For any N > 1, the integer 1 is coprime to N.
+    The full "good base" probability (even order + non-(-1))
+    requires multiplicative group structure theory. -/
 theorem exists_good_base (N : ℕ)
     (hN : N > 1) (hN_comp : ¬Nat.Prime N)
     (hN_not_even : ¬Even N)
@@ -127,8 +123,6 @@ theorem exists_good_base (N : ℕ)
   constructor
   · exact hN
   · exact Nat.gcd_one_left N
-  -- Follows from Euler's totient theorem: at least one element
-  -- is coprime to N (in fact, φ(N) of them).
 
 /- =====================================================================
    SECTION 2: Quantum Probability Bound — The Axiom
