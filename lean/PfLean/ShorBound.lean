@@ -18,13 +18,11 @@
 
   Status of proofs (2026-06-05):
     - PROVEN: kappa_pos, ecdsa_secp256k1_quantum_vulnerable, rsa_2048_quantum_vulnerable
-    - PROVEN: factorization_identity (difference of squares mod N)
     - PROVEN: exists_good_base (a = 1, gcd(1,N) = 1)
-    - PROVEN: nontrivial_factor_from_order (core lemma of Shor's reduction)
-    - PROVEN: shor_expected_complexity (existence of positive bound)
-    - PROVEN: shor_cumulative_coherence (exponential bound, 100× hypothesis)
+    - STATED with sorry: factorization_identity, nontrivial_factor_from_order,
+      shor_expected_complexity, shor_cumulative_coherence
+      (proof strategies documented; formalization requires advanced Mathlib)
     - AXIOM: qft_success_probability (references Coq/SQIR)
-    - ALL SORRY THEOREMS CLOSED
 
   Date: 2026-06-05
   Author: Devin ∇λΣ∞ (Crypto Workspace)
@@ -48,51 +46,32 @@ def IsNontrivialFactor (N d : ℕ) : Prop :=
 
 /-- Lemma: If a^r ≡ 1 (mod N) and r is even, then
     N divides (a^(r/2) - 1)(a^(r/2) + 1).
-    Proof: a^r - 1 = (a^(r/2) - 1)(a^(r/2) + 1). -/
+    Proof: a^r - 1 = (a^(r/2) - 1)(a^(r/2) + 1).
+
+    Proof strategy: r = 2k for some k, so a^r = (a^k)^2.
+    Then a^r - 1 = (a^k)^2 - 1 = (a^k - 1)(a^k + 1) by difference of squares.
+    Since a^r ≡ 1 (mod N), we have N | a^r - 1 = (a^k - 1)(a^k + 1).
+    TODO: Formalize in Lean (requires Nat.ModEq subtraction lemmas). -/
 theorem factorization_identity (a r N : ℕ)
     (ha : a > 0) (hr : Even r) (hr_pos : r > 0)
     (h_mod : a ^ r ≡ 1 [MOD N]) :
     let half_r := r / 2
     (a ^ half_r - 1) * (a ^ half_r + 1) ≡ 0 [MOD N] := by
-  intro half_r
-  have h1 : r = 2 * half_r := by
-    rcases hr with ⟨k, hk⟩
-    have : half_r = k := by
-      rw [hk]
-      omega
-    rw [this]
-    linarith
-  have h2 : a ^ r = (a ^ half_r) ^ 2 := by
-    rw [h1]
-    rw [pow_mul]
-    simp [pow_two]
-  have h3 : a ^ r - 1 = (a ^ half_r - 1) * (a ^ half_r + 1) := by
-    rw [h2]
-    have h4 : (a ^ half_r) ^ 2 - 1 = (a ^ half_r + 1) * (a ^ half_r - 1) := by
-      rw [← Nat.pow_two_sub_pow_two (a ^ half_r) 1]
-      simp
-    rw [h4]
-    rw [mul_comm]
-  have h4 : a ^ r ≥ 1 := Nat.one_le_pow r a ha
-  have h5 : a ^ r - 1 ≡ 0 [MOD N] := by
-    have h6 : a ^ r ≡ 1 [MOD N] := h_mod
-    have h7 : a ^ r ≥ 1 := h4
-    have h8 : (1 : ℕ) ≤ a ^ r := h7
-    have h9 : a ^ r - 1 ≡ 1 - 1 [MOD N] := by
-      apply Nat.ModEq.sub
-      · exact h6
-      · exact Nat.ModEq.rfl
-      · exact h8
-      · norm_num
-    have h10 : (1 : ℕ) - 1 = 0 := Nat.sub_self 1
-    rw [h10] at h9
-    exact h9
-  rw [h3] at h5
-  exact h5
+  sorry
 
 /-- **Core Lemma:** If a has even order r modulo N, and a^(r/2) ≢ -1 (mod N),
     then gcd(a^(r/2) ± 1, N) yields a nontrivial factor.
-    This is the classical heart of Shor's algorithm. -/
+    This is the classical heart of Shor's algorithm.
+
+    Proof strategy:
+    1. N | (a^(r/2) - 1)(a^(r/2) + 1) [factorization_identity]
+    2. a^(r/2) ≢ 1 (mod N) [from h_order_min: r is minimal]
+    3. a^(r/2) ≢ -1 (mod N) [from h_not_minus_one]
+    4. If gcd(N, a^(r/2)-1) = 1 and gcd(N, a^(r/2)+1) = 1,
+       then N is coprime to both factors, so N is coprime to their product.
+       But N divides their product, so gcd(N, product) = N > 1 — contradiction.
+    5. Therefore at least one gcd > 1, giving a nontrivial factor.
+    TODO: Formalize step 4 (requires Nat.Coprime.mul or similar). -/
 theorem nontrivial_factor_from_order (a r N : ℕ)
     (ha : a > 0) (hN : N > 1)
     (hr : Even r) (hr_pos : r > 0)
@@ -102,180 +81,7 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
     let d1 := Nat.gcd N (a ^ (r / 2) - 1)
     let d2 := Nat.gcd N (a ^ (r / 2) + 1)
     IsNontrivialFactor N d1 ∨ IsNontrivialFactor N d2 := by
-  -- Proof of Shor's classical reduction core.
-  -- From factorization_identity: N | (a^(r/2) - 1)(a^(r/2) + 1)
-  let half_r := r / 2
-  have h_div : (a ^ half_r - 1) * (a ^ half_r + 1) ≡ 0 [MOD N] := by
-    apply factorization_identity a r N ha hr hr_pos h_order
-  -- Unfold the definition of nontrivial factor
-  intro d1 d2
-  -- We prove that d1 is a nontrivial factor (the d2 case is symmetric).
-  -- First: d1 < N because a^(r/2) ≢ 1 (mod N) and r is minimal.
-  have h_d1_lt_N : d1 < N := by
-    by_contra h
-    push_neg at h
-    have h_d1_eq_N : d1 = N := by
-      have h1 : d1 ≤ N := Nat.gcd_le_left (a ^ half_r - 1) N
-      linarith
-    have h_N_div : N ∣ a ^ half_r - 1 := by
-      rw [show d1 = Nat.gcd N (a ^ half_r - 1) by rfl] at h_d1_eq_N
-      have h2 : Nat.gcd N (a ^ half_r - 1) = N := h_d1_eq_N
-      have h3 : N ∣ a ^ half_r - 1 := by
-        rw [← h2]
-        exact Nat.gcd_dvd_right N (a ^ half_r - 1)
-      exact h3
-    have h_mod_1 : a ^ half_r ≡ 1 [MOD N] := by
-      have h1 : N ∣ a ^ half_r - 1 := h_N_div
-      have h2 : a ^ half_r ≥ 1 := Nat.one_le_pow half_r a ha
-      have h3 : a ^ half_r - 1 ≡ 0 [MOD N] := by
-        have h4 : N ∣ a ^ half_r - 1 := h1
-        exact Nat.dvd_iff_mod_eq_zero.mp h4
-      have h4 : a ^ half_r ≡ 1 [MOD N] := by
-        have h5 : a ^ half_r - 1 ≡ 0 [MOD N] := h3
-        have h6 : a ^ half_r ≥ 1 := h2
-        have h7 : a ^ half_r ≡ (a ^ half_r - 1) + 1 [MOD N] := by
-          have h8 : (a ^ half_r - 1) + 1 = a ^ half_r := by
-            rw [Nat.sub_add_cancel h6]
-          rw [h8]
-          exact Nat.ModEq.rfl
-        rw [h7]
-        have h8 : (a ^ half_r - 1) + 1 ≡ 0 + 1 [MOD N] := by
-          apply Nat.ModEq.add h5 Nat.ModEq.rfl
-        have h9 : (0 : ℕ) + 1 = 1 := by norm_num
-        rw [h9] at h8
-        exact h8
-      exact h4
-    have h_half_r_pos : half_r > 0 := by
-      have h1 : r = 2 * half_r := by
-        rcases hr with ⟨k, hk⟩
-        have : half_r = k := by
-          rw [hk]
-          omega
-        rw [this]
-        linarith
-      omega
-    have h_half_r_lt_r : half_r < r := by
-      have h1 : r = 2 * half_r := by
-        rcases hr with ⟨k, hk⟩
-        have : half_r = k := by
-          rw [hk]
-          omega
-        rw [this]
-        linarith
-      omega
-    exact h_order_min half_r h_half_r_lt_r h_half_r_pos h_mod_1
-  -- d2 < N (symmetric to d1 < N proof).
-  have h_d2_lt_N : d2 < N := by
-    by_contra h
-    push_neg at h
-    have h_d2_eq_N : d2 = N := by
-      have h1 : d2 ≤ N := Nat.gcd_le_left (a ^ half_r + 1) N
-      linarith
-    have h_N_div : N ∣ a ^ half_r + 1 := by
-      rw [show d2 = Nat.gcd N (a ^ half_r + 1) by rfl] at h_d2_eq_N
-      have h2 : Nat.gcd N (a ^ half_r + 1) = N := h_d2_eq_N
-      have h3 : N ∣ a ^ half_r + 1 := by
-        rw [← h2]
-        exact Nat.gcd_dvd_right N (a ^ half_r + 1)
-      exact h3
-    have h_mod_minus_one : a ^ half_r ≡ N - 1 [MOD N] := by
-      have h1 : N ∣ a ^ half_r + 1 := h_N_div
-      have h2 : a ^ half_r + 1 ≡ 0 [MOD N] := by
-        exact Nat.dvd_iff_mod_eq_zero.mp h1
-      have h3 : a ^ half_r ≡ (a ^ half_r + 1) - 1 [MOD N] := by
-        have h4 : (a ^ half_r + 1) - 1 = a ^ half_r := by
-          omega
-        rw [h4]
-        exact Nat.ModEq.rfl
-      rw [h3]
-      have h4 : (a ^ half_r + 1) - 1 ≡ 0 - 1 [MOD N] := by
-        apply Nat.ModEq.sub
-        · exact h2
-        · exact Nat.ModEq.rfl
-        · omega
-        · norm_num
-      have h5 : (0 : ℕ) - 1 = 0 := by omega
-      have h6 : (N - 1 : ℕ) ≡ 0 [MOD N] := by
-        have h7 : N > 1 := hN
-        have h8 : N - 1 < N := by omega
-        have h9 : (N - 1 : ℕ) % N = N - 1 := by
-          rw [Nat.mod_eq_of_lt h8]
-        rw [Nat.ModEq]
-        omega
-      have h7 : (0 : ℕ) - 1 ≡ N - 1 [MOD N] := by
-        have h8 : (0 : ℕ) - 1 = 0 := by omega
-        rw [h8]
-        exact h6
-      exact h7
-    exact h_not_minus_one h_mod_minus_one
-  -- Core argument: N divides the product, but if both gcds equal 1,
-  -- then N is coprime to the product — contradiction for N > 1.
-  have h_N_dvd_product : N ∣ (a ^ half_r - 1) * (a ^ half_r + 1) := by
-    exact Nat.dvd_iff_mod_eq_zero.mp h_div
-  have h_d1_dvd_N : d1 ∣ N := by
-    rw [show d1 = Nat.gcd N (a ^ half_r - 1) by rfl]
-    exact Nat.gcd_dvd_left N (a ^ half_r - 1)
-  have h_d2_dvd_N : d2 ∣ N := by
-    rw [show d2 = Nat.gcd N (a ^ half_r + 1) by rfl]
-    exact Nat.gcd_dvd_left N (a ^ half_r + 1)
-  -- If both d1 = 1 and d2 = 1, contradiction.
-  by_cases h_d1_gt_1 : d1 > 1
-  · -- d1 > 1 and d1 < N and d1 divides N → nontrivial factor
-    left
-    constructor
-    · exact Nat.dvd_iff_mod_eq_zero.mp h_d1_dvd_N
-    constructor
-    · exact h_d1_gt_1
-    · exact h_d1_lt_N
-  · -- d1 = 1, so we need d2 > 1
-    have h_d1_eq_1 : d1 = 1 := by
-      have h1 : d1 ≥ 1 := by
-        apply Nat.gcd_pos_of_pos_left
-        omega
-      have h2 : d1 ≤ 1 := by
-        omega
-      linarith
-    by_cases h_d2_gt_1 : d2 > 1
-    · -- d2 > 1 and d2 < N and d2 divides N → nontrivial factor
-      right
-      constructor
-      · exact Nat.dvd_iff_mod_eq_zero.mp h_d2_dvd_N
-      constructor
-      · exact h_d2_gt_1
-      · exact h_d2_lt_N
-    · -- Both d1 = 1 and d2 = 1 — contradiction
-      have h_d2_eq_1 : d2 = 1 := by
-        have h1 : d2 ≥ 1 := by
-          apply Nat.gcd_pos_of_pos_left
-          omega
-        have h2 : d2 ≤ 1 := by
-          omega
-        linarith
-      -- If gcd(N, x) = 1 and gcd(N, y) = 1, then gcd(N, xy) = 1.
-      have h_coprime1 : Nat.Coprime N (a ^ half_r - 1) := by
-        rw [Nat.coprime_iff_gcd_eq_one]
-        rw [show Nat.gcd N (a ^ half_r - 1) = d1 by rfl]
-        rw [h_d1_eq_1]
-      have h_coprime2 : Nat.Coprime N (a ^ half_r + 1) := by
-        rw [Nat.coprime_iff_gcd_eq_one]
-        rw [show Nat.gcd N (a ^ half_r + 1) = d2 by rfl]
-        rw [h_d2_eq_1]
-      have h_coprime_product : Nat.Coprime N ((a ^ half_r - 1) * (a ^ half_r + 1)) := by
-        exact Nat.Coprime.mul h_coprime1 h_coprime2
-      -- But N divides the product, so gcd(N, product) = N > 1.
-      have h_gcd_eq_N : Nat.gcd N ((a ^ half_r - 1) * (a ^ half_r + 1)) = N := by
-        have h1 : N ∣ (a ^ half_r - 1) * (a ^ half_r + 1) := h_N_dvd_product
-        have h2 : N ∣ N := by exact Nat.dvd_refl N
-        have h3 : Nat.gcd N ((a ^ half_r - 1) * (a ^ half_r + 1)) = N := by
-          apply Nat.gcd_eq_left
-          exact h1
-        exact h3
-      -- Contradiction: gcd = 1 (from coprime) but gcd = N > 1.
-      rw [Nat.coprime_iff_gcd_eq_one] at h_coprime_product
-      rw [h_gcd_eq_N] at h_coprime_product
-      have h_N_eq_1 : N = 1 := by linarith
-      have h_N_gt_1 : N > 1 := hN
-      linarith
+  sorry
 
 /-- **Lemma:** Existence of at least one coprime base.
     For any N > 1, the integer 1 is coprime to N.
@@ -329,45 +135,16 @@ axiom qft_success_probability (N : ℕ)
     1. Each iteration: O((log N)³) quantum ops (modular exponentiation + QFT)
     2. Success probability per iteration: ≥ κ/(log₂ N)⁴ (axiom)
     3. Expected iterations: O((log N)⁴) (geometric distribution)
-    4. Total: O((log N)³) · O((log N)⁴) = O((log N)⁷) -/
+    4. Total: O((log N)³) · O((log N)⁴) = O((log N)⁷)
+
+    TODO: Formalize geometric distribution expectation bound in Lean. -/
 theorem shor_expected_complexity (N : ℕ)
     (hN : N > 1) (hN_comp : ¬Nat.Prime N)
     (hN_not_even : ¬Even N)
     (hN_not_pp : ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k) :
     let n := Nat.ceil (Real.logb 2 N)
     ∃ (T : ℝ), T > 0 ∧ T ≤ 100 * (n ^ 7 : ℝ) := by
-  -- Existence proof: T = 100·n⁷ is positive and satisfies the bound.
-  -- n = ceil(log₂N) ≥ 1 because N > 1 implies log₂N > 0.
-  -- Therefore n⁷ ≥ 1 and 100·n⁷ ≥ 100 > 0.
-  --
-  -- NOTE: The "expected" semantics (E[T] = O((log N)⁷)) requires formalizing
-  -- the geometric distribution on ℕ in Lean's probability framework.
-  -- This theorem captures the existence of a positive bound;
-  -- the expectation bound is the active frontier for unconditional formalization.
-  intro n
-  use 100 * (n ^ 7 : ℝ)
-  constructor
-  · -- T > 0
-    have h1 : (n : ℝ) ≥ 1 := by
-      have h2 : n ≥ 1 := by
-        have h3 : Real.logb 2 N > 0 := by
-          apply Real.logb_pos
-          all_goals linarith
-        have h4 : Nat.ceil (Real.logb 2 N) ≥ 1 := by
-          apply Nat.ceil_pos.mpr
-          linarith
-        exact h4
-      exact_mod_cast h2
-    have h2 : (n ^ 7 : ℝ) ≥ 1 := by
-      have h3 : (n : ℝ) ≥ 1 := h1
-      have h4 : (n ^ 7 : ℝ) ≥ (1 : ℝ) ^ 7 := by
-        apply pow_le_pow_left
-        all_goals linarith
-      norm_num at h4
-      linarith
-    nlinarith
-  · -- T ≤ 100·n⁷ (tautology: T = 100·n⁷)
-    exact le_refl _
+  sorry
 
 /-- **Corollary: Factoring is in BQP.** -/
 theorem factoring_in_BQP (N : ℕ)
@@ -426,10 +203,14 @@ noncomputable def shor_coherence (N : ℕ) : ℝ :=
 /-- Cumulative coherence after t iterations (Bernoulli trial bound).
     After O((log N)⁴) iterations, success probability approaches 1.
 
-    NOTE: The original hypothesis t ≥ ceil((log₂N)⁴/κ) was insufficient.
-    With t = ceil((log₂N)⁴/κ), expected successes = 1, and P(success) ≈ 1-e⁻¹ ≈ 0.63.
-    To achieve P(success) ≥ 0.99, we need t ≥ 100·ceil((log₂N)⁴/κ).
-    This gives P(failure) ≤ e⁻¹⁰⁰ < 1/101 < 0.01, so P(success) > 0.99. -/
+    Proof strategy (exponential bound):
+    P = κ/(log₂N)⁴. For t ≥ 100·ceil((log₂N)⁴/κ), we have t·P ≥ 100.
+    Using ln(1-P) ≤ -P (Real.log_le_sub_one_of_pos):
+      (1-P)^t = exp(t·ln(1-P)) ≤ exp(-t·P) ≤ exp(-100).
+    Using exp(100) ≥ 101 (Real.add_one_le_exp):
+      exp(-100) = 1/exp(100) ≤ 1/101 < 0.01.
+    Therefore 1 - (1-P)^t > 0.99.
+    TODO: Formalize exponential bound (1-x)^t ≤ e^(-xt) in Lean's real analysis. -/
 theorem shor_cumulative_coherence (N t : ℕ)
     (hN : N > 1) (hN_comp : ¬Nat.Prime N)
     (hN_not_even : ¬Even N)
@@ -437,118 +218,6 @@ theorem shor_cumulative_coherence (N t : ℕ)
     (ht : t ≥ 100 * Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa)) :
     let P := shor_coherence N
     1 - (1 - P) ^ t ≥ 0.99 := by
-  -- Full proof using the exponential bound (1-x)^t ≤ e^(-xt).
-  -- Strategy:
-  -- 1. P = κ/(log₂N)⁴, so 0 < P < 1.
-  -- 2. Hypothesis gives t·P ≥ 100.
-  -- 3. ln(1-P) ≤ -P (from Real.log_le_sub_one_of_pos).
-  -- 4. (1-P)^t = exp(t·ln(1-P)) ≤ exp(-t·P) ≤ exp(-100).
-  -- 5. exp(100) ≥ 101 (from Real.add_one_le_exp), so exp(-100) < 1/101 < 0.01.
-  -- 6. Therefore 1 - (1-P)^t > 0.99.
-  intro P
-  -- Step 1: P = κ/(log₂N)⁴
-  have hP_def : P = shorKappa / (Real.logb 2 N ^ 4) := by
-    simp [shor_coherence, hN, hN_comp, hN_not_even, hN_not_pp]
-  -- Step 2: P > 0
-  have hP_pos : P > 0 := by
-    rw [hP_def]
-    have h1 : Real.logb 2 N > 0 := by
-      apply Real.logb_pos
-      all_goals linarith
-    have h2 : Real.logb 2 N ^ 4 > 0 := by positivity
-    have h3 : shorKappa > 0 := kappa_pos
-    positivity
-  -- Step 3: P < 1
-  have hP_lt_1 : P < 1 := by
-    rw [hP_def]
-    have h1 : Real.logb 2 N > 0 := by
-      apply Real.logb_pos
-      all_goals linarith
-    have h2 : Real.logb 2 N ^ 4 > 0 := by positivity
-    have h3 : shorKappa < Real.logb 2 N ^ 4 := by
-      have h4 : Real.logb 2 N ≥ 1 := by
-        have h5 : Real.logb 2 2 = 1 := Real.logb_self_eq_one (by linarith)
-        have h6 : Real.logb 2 N ≥ Real.logb 2 2 := by
-          apply Real.logb_le_logb_of_le
-          all_goals linarith
-        linarith
-      have h5 : Real.logb 2 N ^ 4 ≥ (1 : ℝ) ^ 4 := by
-        apply pow_le_pow_left
-        all_goals linarith
-      norm_num at h5
-      nlinarith [show shorKappa < 1 by unfold shorKappa; norm_num]
-    have h4 : shorKappa / (Real.logb 2 N ^ 4) < 1 := by
-      apply (div_lt_iff₀ h2).mpr
-      linarith
-    exact h4
-  -- Step 4: 0 < 1 - P
-  have h1_minus_P_pos : (1 - P : ℝ) > 0 := by linarith
-  -- Step 5: t·P ≥ 100
-  have h_tP_ge_100 : (t : ℝ) * P ≥ 100 := by
-    rw [hP_def]
-    have h1 : (t : ℝ) ≥ (100 * Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) := by
-      exact_mod_cast ht
-    have h2 : (Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) ≥ (Real.logb 2 N) ^ 4 / shorKappa := by
-      apply Nat.le_ceil
-    have h3 : (t : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) ≥ (100 * Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) := by
-      apply mul_le_mul_of_nonneg_right
-      · exact h1
-      · positivity
-    have h4 : (100 * Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) ≥ 100 := by
-      have h5 : (Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) ≥ (Real.logb 2 N) ^ 4 / shorKappa := h2
-      have h6 : (100 * Nat.ceil ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) ≥ (100 * ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) := by
-        apply mul_le_mul_of_nonneg_right
-        · nlinarith
-        · positivity
-      have h7 : (100 * ((Real.logb 2 N) ^ 4 / shorKappa) : ℝ) * (shorKappa / (Real.logb 2 N ^ 4)) = 100 := by
-        field_simp [show shorKappa ≠ 0 by positivity, show Real.logb 2 N ^ 4 ≠ 0 by positivity]
-        <;> ring
-      linarith
-    linarith
-  -- Step 6: ln(1-P) ≤ -P
-  have h_log_bound : Real.log (1 - P) ≤ -P := by
-    have h1 : Real.log (1 - P) ≤ (1 - P) - 1 := by
-      apply Real.log_le_sub_one_of_pos
-      exact h1_minus_P_pos
-    have h2 : (1 - P : ℝ) - 1 = -P := by ring
-    linarith
-  -- Step 7: t·ln(1-P) ≤ -t·P
-  have h_tlog_bound : (t : ℝ) * Real.log (1 - P) ≤ -(t : ℝ) * P := by
-    nlinarith [h_log_bound]
-  -- Step 8: exp(t·ln(1-P)) ≤ exp(-t·P)
-  have h_exp_bound1 : Real.exp ((t : ℝ) * Real.log (1 - P)) ≤ Real.exp (-(t : ℝ) * P) := by
-    apply Real.exp_le_exp.mpr
-    linarith
-  -- Step 9: exp(-t·P) ≤ exp(-100)
-  have h_exp_bound2 : Real.exp (-(t : ℝ) * P) ≤ Real.exp (-100 : ℝ) := by
-    apply Real.exp_le_exp.mpr
-    nlinarith [h_tP_ge_100]
-  -- Step 10: (1-P)^t = exp(t·ln(1-P))
-  have h_rpow_eq : (1 - P : ℝ) ^ t = Real.exp ((t : ℝ) * Real.log (1 - P)) := by
-    rw [show (1 - P : ℝ) ^ t = (1 - P : ℝ) ^ ((t : ℝ)) by simp]
-    rw [Real.rpow_def_of_pos h1_minus_P_pos]
-  -- Step 11: exp(-100) < 0.01
-  have h_exp_neg_100 : Real.exp (-100 : ℝ) < (0.01 : ℝ) := by
-    have h1 : Real.exp (100 : ℝ) ≥ (101 : ℝ) := by
-      have h2 : (100 : ℝ) + 1 ≤ Real.exp (100 : ℝ) := Real.add_one_le_exp 100
-      linarith
-    have h2 : Real.exp (-100 : ℝ) = (Real.exp (100 : ℝ))⁻¹ := by
-      rw [← Real.exp_neg]
-      norm_num
-    have h3 : (Real.exp (100 : ℝ))⁻¹ ≤ (101 : ℝ)⁻¹ := by
-      apply inv_le_inv_of_le
-      · positivity
-      · linarith
-    have h4 : (101 : ℝ)⁻¹ < (0.01 : ℝ) := by norm_num
-    rw [h2]
-    linarith
-  -- Step 12: (1-P)^t < 0.01
-  have h_final_bound : (1 - P : ℝ) ^ t < (0.01 : ℝ) := by
-    rw [h_rpow_eq]
-    linarith [h_exp_bound1, h_exp_bound2, h_exp_neg_100]
-  -- Step 13: 1 - (1-P)^t ≥ 0.99
-  have h_result : 1 - (1 - P : ℝ) ^ t ≥ (0.99 : ℝ) := by
-    linarith [h_final_bound]
-  exact_mod_cast h_result
+  sorry
 
 end PfLean.ShorBound
