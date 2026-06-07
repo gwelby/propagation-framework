@@ -164,13 +164,118 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
         linarith
       omega
     exact h_order_min half_r h_half_r_lt_r h_half_r_pos h_mod_1
-  -- At least one of d1, d2 divides N (from the product divisibility).
-  -- The full proof requires showing that if both gcds equal 1, then
-  -- N divides a product of two numbers coprime to N — contradiction.
-  -- Mathlib has Nat.Coprime.mul for this.
-  sorry -- TODO: Complete using Nat.Coprime.mul and gcd properties.
-  -- If d1 = 1 and d2 = 1, then N is coprime to both factors,
-  -- so N is coprime to their product, but N divides their product — contradiction.
+  -- d2 < N (symmetric to d1 < N proof).
+  have h_d2_lt_N : d2 < N := by
+    by_contra h
+    push_neg at h
+    have h_d2_eq_N : d2 = N := by
+      have h1 : d2 ≤ N := Nat.gcd_le_left (a ^ half_r + 1) N
+      linarith
+    have h_N_div : N ∣ a ^ half_r + 1 := by
+      rw [show d2 = Nat.gcd N (a ^ half_r + 1) by rfl] at h_d2_eq_N
+      have h2 : Nat.gcd N (a ^ half_r + 1) = N := h_d2_eq_N
+      have h3 : N ∣ a ^ half_r + 1 := by
+        rw [← h2]
+        exact Nat.gcd_dvd_right N (a ^ half_r + 1)
+      exact h3
+    have h_mod_minus_one : a ^ half_r ≡ N - 1 [MOD N] := by
+      have h1 : N ∣ a ^ half_r + 1 := h_N_div
+      have h2 : a ^ half_r + 1 ≡ 0 [MOD N] := by
+        exact Nat.dvd_iff_mod_eq_zero.mp h1
+      have h3 : a ^ half_r ≡ (a ^ half_r + 1) - 1 [MOD N] := by
+        have h4 : (a ^ half_r + 1) - 1 = a ^ half_r := by
+          omega
+        rw [h4]
+        exact Nat.ModEq.rfl
+      rw [h3]
+      have h4 : (a ^ half_r + 1) - 1 ≡ 0 - 1 [MOD N] := by
+        apply Nat.ModEq.sub
+        · exact h2
+        · exact Nat.ModEq.rfl
+        · omega
+        · norm_num
+      have h5 : (0 : ℕ) - 1 = 0 := by omega
+      have h6 : (N - 1 : ℕ) ≡ 0 [MOD N] := by
+        have h7 : N > 1 := hN
+        have h8 : N - 1 < N := by omega
+        have h9 : (N - 1 : ℕ) % N = N - 1 := by
+          rw [Nat.mod_eq_of_lt h8]
+        rw [Nat.ModEq]
+        omega
+      have h7 : (0 : ℕ) - 1 ≡ N - 1 [MOD N] := by
+        have h8 : (0 : ℕ) - 1 = 0 := by omega
+        rw [h8]
+        exact h6
+      exact h7
+    exact h_not_minus_one h_mod_minus_one
+  -- Core argument: N divides the product, but if both gcds equal 1,
+  -- then N is coprime to the product — contradiction for N > 1.
+  have h_N_dvd_product : N ∣ (a ^ half_r - 1) * (a ^ half_r + 1) := by
+    exact Nat.dvd_iff_mod_eq_zero.mp h_div
+  have h_d1_dvd_N : d1 ∣ N := by
+    rw [show d1 = Nat.gcd N (a ^ half_r - 1) by rfl]
+    exact Nat.gcd_dvd_left N (a ^ half_r - 1)
+  have h_d2_dvd_N : d2 ∣ N := by
+    rw [show d2 = Nat.gcd N (a ^ half_r + 1) by rfl]
+    exact Nat.gcd_dvd_left N (a ^ half_r + 1)
+  -- If both d1 = 1 and d2 = 1, contradiction.
+  by_cases h_d1_gt_1 : d1 > 1
+  · -- d1 > 1 and d1 < N and d1 divides N → nontrivial factor
+    left
+    constructor
+    · exact Nat.dvd_iff_mod_eq_zero.mp h_d1_dvd_N
+    constructor
+    · exact h_d1_gt_1
+    · exact h_d1_lt_N
+  · -- d1 = 1, so we need d2 > 1
+    have h_d1_eq_1 : d1 = 1 := by
+      have h1 : d1 ≥ 1 := by
+        apply Nat.gcd_pos_of_pos_left
+        omega
+      have h2 : d1 ≤ 1 := by
+        omega
+      linarith
+    by_cases h_d2_gt_1 : d2 > 1
+    · -- d2 > 1 and d2 < N and d2 divides N → nontrivial factor
+      right
+      constructor
+      · exact Nat.dvd_iff_mod_eq_zero.mp h_d2_dvd_N
+      constructor
+      · exact h_d2_gt_1
+      · exact h_d2_lt_N
+    · -- Both d1 = 1 and d2 = 1 — contradiction
+      have h_d2_eq_1 : d2 = 1 := by
+        have h1 : d2 ≥ 1 := by
+          apply Nat.gcd_pos_of_pos_left
+          omega
+        have h2 : d2 ≤ 1 := by
+          omega
+        linarith
+      -- If gcd(N, x) = 1 and gcd(N, y) = 1, then gcd(N, xy) = 1.
+      have h_coprime1 : Nat.Coprime N (a ^ half_r - 1) := by
+        rw [Nat.coprime_iff_gcd_eq_one]
+        rw [show Nat.gcd N (a ^ half_r - 1) = d1 by rfl]
+        rw [h_d1_eq_1]
+      have h_coprime2 : Nat.Coprime N (a ^ half_r + 1) := by
+        rw [Nat.coprime_iff_gcd_eq_one]
+        rw [show Nat.gcd N (a ^ half_r + 1) = d2 by rfl]
+        rw [h_d2_eq_1]
+      have h_coprime_product : Nat.Coprime N ((a ^ half_r - 1) * (a ^ half_r + 1)) := by
+        exact Nat.Coprime.mul h_coprime1 h_coprime2
+      -- But N divides the product, so gcd(N, product) = N > 1.
+      have h_gcd_eq_N : Nat.gcd N ((a ^ half_r - 1) * (a ^ half_r + 1)) = N := by
+        have h1 : N ∣ (a ^ half_r - 1) * (a ^ half_r + 1) := h_N_dvd_product
+        have h2 : N ∣ N := by exact Nat.dvd_refl N
+        have h3 : Nat.gcd N ((a ^ half_r - 1) * (a ^ half_r + 1)) = N := by
+          apply Nat.gcd_eq_left
+          exact h1
+        exact h3
+      -- Contradiction: gcd = 1 (from coprime) but gcd = N > 1.
+      rw [Nat.coprime_iff_gcd_eq_one] at h_coprime_product
+      rw [h_gcd_eq_N] at h_coprime_product
+      have h_N_eq_1 : N = 1 := by linarith
+      have h_N_gt_1 : N > 1 := hN
+      linarith
 
 /-- **Lemma:** Existence of at least one coprime base.
     For any N > 1, the integer 1 is coprime to N.
