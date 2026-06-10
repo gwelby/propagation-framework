@@ -174,6 +174,7 @@ theorem rsa_2048_quantum_vulnerable :
     let key_bits := 2048
     let expected_ops := 100 * (key_bits ^ 7 : ℝ)
     expected_ops < (2 ^ key_bits : ℝ) := by
+  simp
   have h1 : (100 : ℝ) * (2048 : ℝ) ^ 7 < (2 : ℝ) ^ 2048 := by
     have h2 : (2048 : ℝ) = (2 : ℝ) ^ (11 : ℕ) := by norm_num
     rw [h2]
@@ -192,8 +193,9 @@ theorem rsa_2048_quantum_vulnerable :
    SECTION 5: PF Connection — ProcessOntology
    ===================================================================== -/
 
+open Classical
+
 /-- The PF coherence of Shor's algorithm on input N. -/
-open Classical in
 noncomputable def shor_coherence (N : ℕ) : ℝ :=
   if hN : N > 1 ∧ ¬Nat.Prime N ∧ ¬Even N ∧ ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k then
     shorKappa / (Real.logb 2 N ^ 4)
