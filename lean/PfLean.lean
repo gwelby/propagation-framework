@@ -17,3 +17,5 @@ import PfLean.SO3DoubleCover
 import PfLean.ProcessOntology
 import PfLean.ShorBound
 import PfLean.TopologicalWeights
+import PfLean.PFCore
+import PfLean.U3Decomposition

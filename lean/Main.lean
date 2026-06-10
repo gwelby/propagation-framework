@@ -15,6 +15,7 @@ def main : IO Unit := do
   IO.println "  * PfLean.CasimirPolynomial -- Unique positive root of x²+C₂x-C₂=0"
   IO.println "  * PfLean.SO2Rotation       -- SO(2) angle parametrization, kernel 2πℤ"
   IO.println "  * PfLean.SO3DoubleCover    -- Quaternion double cover of SO(3), kernel {±1}"
+  IO.println "  * PfLean.PFCore            -- Z₃ circulant decomposition, P₀/Q orthogonality, linear eigenvalues"
   IO.println ""
   IO.println "Build: lake build"
   IO.println "See PfLean/ directory for theorem statements and proofs."
