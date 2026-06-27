@@ -22,7 +22,13 @@ Three hidden steps were identified:
 
 ---
 
-## The Candidate Argument (Echo's Lemma C — pending Codex audit)
+## The Candidate Argument (Echo's Lemma C — Codex audited: NO SIGN-OFF)
+
+**Codex update, 2026-06-09:** this thread is not lost. The hostile audit exists at
+`derivations/lemma_c_audit_2026-04-14.md` and returns **NO SIGN-OFF / no T1 upgrade**. T1 remains
+`PARTIAL DERIVATION 0.85`. Lemma C still needs two unclosed inputs: a derived selector/extremal
+principle and a branch-faithfulness / non-redundancy theorem strong enough to turn
+`F_C^tot >= F_C^(1)` into a strict deficit.
 
 From file:derivations/topological_weights_t1_audit_2026-03-28.md (Post-Audit Addendum, 2026-03-29):
 
@@ -52,8 +58,9 @@ Write a formal derivation file `derivations/t1_physical_realization_theorem.md` 
 - [ ] The extremal principle is stated as a mathematical condition, not an English intuition
 - [ ] The "coherence deficit" claim is proved, not asserted — the functional is named and the deficit is computed
 - [ ] The `SU(2)` lift step is explicit and does not import spinor behavior from QFT
-- [ ] Codex audits the file and either signs off or names the remaining hidden step
+- [x] Codex audits the file and either signs off or names the remaining hidden step
 - [ ] If signed off: `CLAIMS.md` updates T1 from `PARTIAL DERIVATION 0.85` → `DERIVED 0.93`
+  - **Current result:** not signed off; no `CLAIMS.md` update.
 
 **Assigned to**: Claude (draft) → Codex (audit)  
 **Do not promote** without Codex sign-off.

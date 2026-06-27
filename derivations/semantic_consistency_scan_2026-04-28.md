@@ -112,7 +112,7 @@ The canonical Medium, coherence, and causal-velocity definitions improve vocabul
 | Propagation Lagrangian | 54 | propagation medium | **UNCHANGED** | Uses Medium as scalar-tensor EFT substrate. Canonical Medium definition is compatible but does not force the scalar branch. |
 | Variable c Prediction | 55 | causal velocity / local propagation speed | **RECONSIDER** | This now needs the causal-velocity split: local Lorentz `c`, effective propagation speed, coordinate speed, and scalar-medium rescaling must be distinguished. |
 | QCD Confinement | 56 | coherence scale / `lambda_c` | **UNCHANGED** | Current row is already cautious. Definitions do not close RG/matching chain. |
-| God Equation | 57 | H_prod, one-medium closure, coherence/identity preservation | **UNCHANGED** | Canonical Medium does not close H_prod, Path A/B, or factorization. Status remains CONDITIONAL 0.88. |
+| God Equation | 57 | H_prod, one-medium closure, coherence/return-probability calibration | **UNCHANGED** | Canonical Medium does not close H_prod, Path A/B, or factorization. Status remains CONDITIONAL 0.88. |
 | Life = maintained coherence against entropy | 65 | biological coherence | **UNCHANGED** | Claim already states ARGUED and requires measurable coherence-maintenance / nonequilibrium organization. Needs domain metric, but no status change. |
 | Consciousness = coherent self-referential propagation | 66 | self-referential coherence | **UNCHANGED** | Medium audit explicitly keeps consciousness outside the Medium definition. CLAIMS row already has low INTUITION 0.48 and names missing metric. No upgrade; no additional downgrade required. |
 

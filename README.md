@@ -62,9 +62,9 @@ data.
 | Koide geometry: \(Q = 2/3 \iff R/A = \sqrt{2}\) | DERIVED | 0.95 |
 | Gravity as optical geometry / refraction (null/static-stationary) | DERIVED | 0.95 |
 | 8-hour sleep constant from (2,1) ratio | ARGUED | 0.72 |
-| Weinberg angle: \(\sin^2\theta_W \approx 0.22310\) via Axiom 3b | DERIVED | 0.90 |
+| Weinberg angle: \(\sin^2\theta_W \approx 0.22310\) via Axiom 3b | ARGUED | 0.65 |
 | QCD confinement from λ_c via RG running | ARGUED | 0.72 |
-| Matter scale from Planck scale (God Equation) | DERIVED (with Postulate D) | 0.90 |
+| Matter scale from Planck scale (God Equation) | CONDITIONAL 0.88 / ARGUED 0.60 | see CLAIMS.md |
 | Top/tau mass ratio \(\approx \alpha^{-1}/\sqrt{2}\) | EMPIRICAL | 0.90 |
 
 The exact status definitions and falsification pathways are in [CLAIMS.md](./CLAIMS.md).

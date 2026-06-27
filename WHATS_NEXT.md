@@ -1,16 +1,18 @@
 # What's Next: Rigor-First Closure Order
 
-**Date**: 2026-05-23 (updated after G3 κ / three-field upstream strike audit)
-**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation Path B Families A/B/edge-flux are closed no-gos. T-022 (Casimir selector) and T-021 (RG audit) both came back as honest negatives on the Koide/Weinberg bridge question. The 2026-05-13 frontier audit supersedes the April 13 ordering for theorem work: the next bounded strike is `G3-OP-MAP`, the oscillator-to-closure map. Additionally, the T3 information-theoretic selector was audited on 2026-05-20 and closed as a target-loaded no-go. The 2026-05-23 κ / three-field upstream strike retires the candidate Z3 three-field oscillator as the primitive bridge, without changing the G3 score.
+> **STRATEGIC DIRECTION (2026-06-18):** see [`UNDENIABLE_ROADMAP.md`](./UNDENIABLE_ROADMAP.md) — the additive path (make ONE falsifiable forward prediction conditional on Postulate D) that complements the subtractive demotion work below. The honest closure order continues here; the roadmap is *where it's headed*.
+
+**Date**: 2026-06-16 *(Codex demotion audit applied; statuses corrected)*
+**Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation corrected 2026-06-16: Postulate-D Z₃ operator algebra **CONDITIONAL 0.88** / λ_c scale formula **ARGUED 0.60** — "DERIVED (with Postulate D) 0.90" is withdrawn. Weinberg angle corrected to **ARGUED 0.65** — "DERIVED" is withdrawn. God Equation Path B Families A/B/edge-flux remain historical no-gos for the stronger unconditional target. T-022/T-021 came back as honest negatives. The unconditional research strike remains: derive Postulate D / `H_prod` from Axioms 1-3 rather than adopt it as premise. T3 information-theoretic selector closed as target-loaded no-go 2026-05-20.
 
 ---
 
 ## 2026-05-13 — FRONTIER AUDIT PRIORITY
 
-### Attack 1: G3-OP-MAP — Oscillator-to-Closure Map (Codex + DeepSeek)
-**The question**: Can Axioms 1-3 plus the Z3-extended Lagrangian derive a PF-native map from continuous phase-space trajectories `(chi, v)` to the discrete closure probability operator `T_sym^3` used by `H_prod`?
+### Attack 1: G3-OP-MAP — Unconditional Postulate-D / H_prod Bridge (Codex + DeepSeek)
+**The question**: Can Axioms 1-3 plus the Z3-extended Lagrangian derive Postulate D / a PF-native map from continuous phase-space trajectories `(chi, v)` to the discrete closure probability operator `T_sym^3` used by `H_prod`, instead of treating Postulate D as an explicit premise?
 
-**Why it matters**: The S2 gate exposed that the state-sufficiency question is premature. The Q-sector tracker shows the linearized oscillator does not behave like `T_sym^3` over tested horizons (`alpha ~= +0.89`, not `-1/8`). The measurement-map explorer found no tested map that is simultaneously PF-native, channel-resolving, and closure-aligned. Until this map exists, Obligation 2 blocks Obligation 1 and makes Obligation 3 unreachable.
+**Why it matters**: The S2 gate exposed that the state-sufficiency question is premature for the stronger Axioms-1-3-only route. The Q-sector tracker shows the linearized oscillator does not behave like `T_sym^3` over tested horizons (`alpha ~= +0.89`, not `-1/8`). The measurement-map explorer found no tested map that is simultaneously PF-native, channel-resolving, and closure-aligned. Until this map exists, the unconditional route remains open; the corrected accepted status is **CONDITIONAL 0.88** (Postulate-D operator algebra) per Codex demotion audit 2026-06-16.
 
 **Allowed candidate classes**:
 - spectral measurement map using the DFT basis that diagonalizes `M`,
@@ -24,7 +26,7 @@
 - **κ / three-field upstream strike (Codex audit 2026-05-23)**: C3 algebra forces only `K(a,b)=aI+bM`, leaving `κ=b` free; Axiom 1 does not force one real scalar per Z3 coset; combined with the six bridge negatives, the candidate Z3 three-field oscillator is retired as the primitive bridge.
 These are scoped negatives, confirming that the linearized Z3 candidate Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge or different representation.
 
-**Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`; or (b) the tested class fails cleanly and the repo records that the linearized Z3 candidate Lagrangian cannot supply the primitive closure operator without new physics. The retired three-field oscillator should not be reopened unless a new derivation fixes both field-content provenance and `κ`.
+**Done when**: either (a) a PF-native map is written with domain, codomain, verification gate, and falsifier, and it reduces or analytically explains the KL gap to `T_sym^3`, thereby replacing Postulate D with an unconditional theorem; or (b) the tested class fails cleanly and the repo records that the linearized Z3 candidate Lagrangian cannot supply the primitive closure operator without an explicit premise or new physics. The retired three-field oscillator should not be reopened unless a new derivation fixes both field-content provenance and `κ`.
 
 **Read first**: `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_spectral_contract_audit_2026-05-13.md`, `derivations/g3_op_map_coarse_damping_audit_2026-05-13.md`, `derivations/s2_pf_native_gate_contract_2026-05-10.md`, `derivations/h_prod_joint_model_obligation.md`, `verification/operator_algebra.py`, `/mnt/d/DeepSeek/REPORTS/oscillator_to_closure_boundary.md`, `/mnt/d/DeepSeek/REPORTS/measurement_map_exploration.md`.
 
@@ -149,10 +151,11 @@ Done condition:
 - either the Fermi-point route becomes PF-native and audit-ready
 - or it is ruled out and replaced with a cleaner PF-native denominator route
 
-### 5. Reopen G3 only on the exact remaining bridge
+### 5. Reopen G3 only on the exact unconditional bridge
 
 No more broad God Equation storytelling.
 No more treating a good number as closure.
+The corrected status is CONDITIONAL 0.88 (operator algebra) / ARGUED 0.60 (scale formula). This section is about the stronger target of deriving Postulate D / `H_prod` from Axioms 1-3 unconditionally.
 
 **Path A status (reframed 2026-04-01, ticket updated)**:
 - Old target: derive `b=0` from chiral ℤ₃ coupling — DEAD

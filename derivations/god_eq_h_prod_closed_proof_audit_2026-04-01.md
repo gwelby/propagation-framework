@@ -18,7 +18,7 @@ This is not a derivation from the `Z_3` Lagrangian.
 It is a selection principle asserted from:
 
 - entropy behavior in a sandbox model
-- IBM hardware evidence for identity preservation
+- IBM hardware evidence for return-probability calibration (demoted from 'identity preservation' 2026-06-17)
 - the physical desire that generations remain distinguishable
 
 None of those establishes the theorem

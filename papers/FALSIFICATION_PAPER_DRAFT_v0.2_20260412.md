@@ -325,7 +325,7 @@ The Standard Model is a description. This framework is an explanation. Where bot
 | G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | DERIVED | 0.90 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |

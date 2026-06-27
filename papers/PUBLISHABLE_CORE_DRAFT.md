@@ -1,13 +1,13 @@
 # The Propagation Framework: Audited Results and Open Frontiers
-**Draft Status:** Publishable Core v3 — credibility-first release candidate  
-**Date:** 2026-05-22  
+**Draft Status:** Publishable Core v4 — credibility-first release candidate  
+**Date:** 2026-06-26  
 **Authority:** Public claims in this draft defer to `CLAIMS.md`.
 
 ## Abstract
 
 The Propagation Framework (PF) is a first-principles research program built from three commitments: propagation is fundamental, causal influence has a finite velocity, and stable structure requires coherence. The framework is not presented as complete. Its claims are tracked by explicit status: `DERIVED`, `PARTIAL DERIVATION`, `CONDITIONAL`, `ARGUED`, `EMPIRICAL`, or `INTUITION`.
 
-The current strongest results are: charged-lepton Koide geometry as a derived geometric identity; null/static-stationary gravity as optical/Randers geometry; and the Weinberg angle from the Casimir polynomial plus Axiom 3b. The framework also records important positive constraints: neutrino masses do not satisfy charged-lepton Koide, which supports the interpretation that Koide is electromagnetic-sector specific. The major open frontiers remain the God Equation bridge, the Three Generations theorem stack, the Koide phase selector, and alpha.
+The current strongest results are: charged-lepton Koide geometry as a derived geometric identity; null/static-stationary gravity as optical/Randers geometry; and the Weinberg angle (now demoted to argued). The framework also records important positive constraints: neutrino masses do not satisfy charged-lepton Koide, which supports the interpretation that Koide is electromagnetic-sector specific. The God Equation is conditional/argued under Postulate D. The major open frontiers remain the unconditional God Equation derivation, the Three Generations theorem stack, the Koide phase selector, and alpha.
 
 ## 1. The Three Axioms
 
@@ -23,7 +23,7 @@ The canonical statements are maintained in `the_propagation_framework.md` and th
 
 In three dimensions, `π₁(SO(3)) ≅ Z₂` gives a clean two-class closure-order structure. The surviving exact mathematical content is that lifted closure orders naturally produce `(2,1)` as closure integers.
 
-What is not closed: the physical-realization bridge. The current T1 audit says the `SU(2)` lift step survives as a conditional covering-space result, but strict physical population of the weight-2 branch still depends on the non-redundancy hypothesis `A_NR`, which has not been derived from Axioms 1-3.
+What is not closed: the physical-realization bridge. The current T1 audit says the `SU(2)` lift step survives as a conditional covering-space result, but strict physical population of the weight-2 branch still depends on the non-redundancy hypothesis `A_NR`, which has not been derived from Axioms 1-3. Note that the kernel-only topological weights theorem is Lean 4 certified (derived 0.95, with 0 sorrys), while the physical realization remains conditional at 0.85.
 
 ## 3. The Number of Generations
 **Status:** CONDITIONAL  
@@ -67,8 +67,8 @@ This is a positive scope-delimiting result. PF currently treats charged-lepton K
 The exact theorem is domain-restricted: null propagation in static gravity is optical geometry, and the stationary extension is Randers/Finsler geometry. The familiar scalar refractive-index model is the weak-field/static limit. This result should not be broadened into “all forces are refraction” without force-specific derivations.
 
 ## 6. Weinberg Angle
-**Status:** DERIVED  
-**Confidence:** 0.90
+**Status:** ARGUED  
+**Confidence:** 0.65
 
 The Casimir polynomial
 
@@ -78,7 +78,7 @@ together with Axiom 3b (Minimal Winding Principle) yields:
 
 $$\sin^2\theta_W \approx 0.22310.$$
 
-This matches the PDG on-shell value to about `0.13σ`. The remaining open question is scheme/running: PF does not yet derive the observed effective running convention internally.
+This matches the PDG on-shell value to about `0.13σ`. Note that following the June 16 Codex audit, this claim is demoted to ARGUED (0.65) because scheme selection remains open and the look-elsewhere effect yields a trial-corrected significance of $P \approx 0.46$. The remaining open question is scheme/running: PF does not yet derive the observed effective running convention internally, though Devin's Casimir Lemma 2 exploration provides a partial torque resolution.
 
 ## 7. Biological Coherence and the 8h Sleep Constant
 **Status:** ARGUED  
@@ -88,10 +88,11 @@ PF supports offline consolidation as a coherence-maintenance requirement, and th
 
 ## 8. Open Frontiers
 
-1. **God Equation / matter scale:** DERIVED 0.90 (with Postulate D). Postulate D accepted 2026-05-31. The verified error is `1.48%`. The active frontier is `G3-OP-MAP`: deriving or falsifying a PF-native oscillator-to-closure map. May 2026 audits closed trace-norm projection and Perron-Frobenius collapse as conditional negatives.
+1. **God Equation / matter scale:** CONDITIONAL 0.88 (operator algebra) / ARGUED 0.60 (scale formula) under Postulate D. Postulate D (accepted May 31) defines a primitive $Z_3$ no-self-loop selector yielding exact eigenvalues $\{1, -1/8, -1/8\}$, with Codex reconciliation sign-off on June 6. However, the claims of "seven approaches converged" and "52.7× decisive" evidence have been withdrawn, as probes 4, 5, and 6 do not discriminate $a=0$ and the $-1/8$ match is target-loaded. The $G_3$ kappa upstream strike was retired on May 23, meaning the $Z_3$ three-field oscillator is retired as a primitive bridge. May 2026 audits closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The active boundary line remains the unconditional derivation of Postulate D from Axioms 1-3.
 2. **Koide phase δ₀ ≈ 2/9:** EMPIRICAL. The numerical anchor is strong: `|δ - 2/9| = 7.4×10⁻⁶`, but all known selector lanes are fenced or negative. A PF-native selector is still open.
-3. **Fine structure constant α:** ARGUED / structural. A `0.061%` Casimir expression exists, but the derivation is not closed.
+3. **Fine structure constant α:** OPEN. The Casimir scan hit has been withdrawn as confidence-bearing evidence per the June 16 audit. The structural identification ($Z_0 / 2R_K$) remains ARGUED 0.60.
 4. **Consciousness metric:** INTUITION. PF language is suggestive, but no uniquely derived measurable exists.
+5. **Coulomb Eikonal / Kepler degeneracy:** DERIVED 0.90. The Kepler degeneracy proof (June 5) strengthens the eikonal claim, showing that the $1/k^2$ spectrum is exact for all eccentricities, not just the circular ansatz.
 
 ## 9. Release Rule
 

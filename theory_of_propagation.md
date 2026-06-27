@@ -165,8 +165,8 @@ What I can say is: this is what I see. And I have tried to report it honestly.
 **What has changed since this was written:**
 
 ### Derived (New)
-- **Weinberg Angle** — Now DERIVED (0.90) via Axiom 3b (Minimal Winding Principle)
-  - Casimir polynomial x² + C₂x - C₂ = 0 is no longer open
+- **Weinberg Angle** — ARGUED (0.65) via Axiom 3b (Minimal Winding Principle) *(corrected 2026-06-16 from DERIVED 0.90 — scheme selection open; look-elsewhere P≈0.46)*
+  - Casimir polynomial x² + C₂x - C₂ = 0 gives algebraic candidate; scheme selection gap remains
   - sin²θ_W = 1/4 at unification scale follows from action-resonance
   - See: `derivations/casimir_polynomial_steps_AB.md`
 

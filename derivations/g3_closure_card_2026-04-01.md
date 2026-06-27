@@ -32,7 +32,7 @@ The theorem is not closed.
 - the `Z_3`-extended Lagrangian gives a genuine three-channel internal sector
 - the circulant coupling structure is real
 - the symmetric nearest-neighbor closure shortcut has now been cleanly falsified rather than left vague
-- the chiral-vs-symmetric hardware result is meaningful evidence for identity preservation
+- the chiral-vs-symmetric hardware result is meaningful evidence for return-probability calibration (demoted from 'identity preservation' 2026-06-17)
 
 These are real supports.
 None of them, by themselves, prove `H_prod`.

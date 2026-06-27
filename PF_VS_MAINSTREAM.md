@@ -130,14 +130,15 @@ Space, time, energy, matter, forces — these aren't fundamentals in PF. They're
 
 | Mainstream | Propagation Framework | Why It Matters |
 |------------|----------------------|----------------|
-| The Standard Model has ~26 free parameters. Particle masses are inputs measured from experiment. Why the top quark is ~184× the tau mass? Why three generations? No explanation. | The PF **derives** the Koide relation (Q = 2/3) for charged leptons from ℤ₃ geometry. The Weinberg angle (sin²θ_W = 0.22310) from Casimir eigenvalues — matching PDG to 0.13σ. The three-generation count follows from the (2,1) topological weights and M=3 denominator. The God Equation (λ_c from l_P) produces 1.48% error with no free parameters. | **The pattern is structural, not random.** The PF shows that specific mass ratios, mixing angles, and generation counts follow from medium geometry — not arbitrary inputs. |
+| The Standard Model has ~26 free parameters. Particle masses are inputs measured from experiment. Why the top quark is ~184× the tau mass? Why three generations? No explanation. | The PF derives the Koide geometric identity (Q = 2/3) for charged leptons from ℤ₃ geometry (EXACT IDENTITY 0.95; physical vacuum selection OPEN). The Weinberg angle (sin²θ_W = 0.22310) from Casimir eigenvalues matches PDG to 0.13σ — a real algebraic candidate (ARGUED 0.65; scheme selection open). The three-generation count is a conditional algebraic result (CONDITIONAL 0.85; T1/T2 premises). The God Equation λ_c scale formula produces 1.48% error (ARGUED 0.60; N^(D/2) fit-selected). | **The pattern is structural, not random.** The PF shows specific mass ratios, mixing angles, and generation counts are candidates from medium geometry — with honest confidence tiers for each. |
 
 | PF Claim | Status | Confidence | Key Number |
 |----------|--------|------------|------------|
 | Koide Q = 2/3 (charged leptons) | DERIVED | 0.95 | Exact geometric identity |
-| Weinberg angle sin²θ_W | DERIVED | 0.90 | 0.22310 vs PDG 0.22337 (0.13σ) |
+| Weinberg angle sin²θ_W | ARGUED | 0.65 | 0.22310 vs PDG 0.22337; scheme selection open; corrected 2026-06-16 |
 | Three generations | CONDITIONAL | 0.85 | Q(N) = 2N/(2N+3) = 2/3 → N = 3 |
-| God Equation λ_c from l_P | DERIVED (with Postulate D) | 0.90 | 1.48% error, no free parameters |
+| God Equation — Postulate-D algebra | CONDITIONAL | 0.88 | Eigenvalues exact given Postulate D (explicit premise); corrected 2026-06-16 |
+| God Equation — λ_c scale formula | ARGUED | 0.60 | 1.48% error; N^(D/2) fit-selected; corrected 2026-06-16 |
 | Top/Tau coupling | EMPIRICAL | 0.90 | m_t/m_τ ≈ α⁻¹/√2 |
 | Koide phase δ ≈ 2/9 | EMPIRICAL | 0.55 | 0.0033% from 2/9 |
 

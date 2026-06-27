@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 import io
 
-BASE_DIR = Path("D:/Fundamentals")
+BASE_DIR = Path(__file__).parent.resolve()
 OUTPUT_FILE = BASE_DIR / "PROPAGATION_MANUSCRIPT_PROD.md"
 AGENTS_FULL_PATH = BASE_DIR / "AGENTS_FULL.md"
 

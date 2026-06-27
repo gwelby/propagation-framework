@@ -21,7 +21,7 @@ These are the specific mathematical problems where the framework needs help. Eac
 **What would close it**: Independent derivation of λ_c (from G3) and m_e (from topological defect ground state).
 
 ### Weinberg Angle — RG Running (Priority 3)
-**Status**: Weinberg angle is DERIVED (0.90) at the unification scale. RG running is OPEN.
+**Status**: Weinberg angle is ARGUED (0.65) *(corrected 2026-06-16 — scheme selection open)*. RG running is OPEN.
 **File**: `derivations/weinberg_angle_pf.md`
 **The problem**: The Weinberg angle sin²θ_W ≈ 0.22310 is now derived via Axiom 3b (Minimal Winding Principle), matching the PDG on-shell value to 0.13σ. However, the UV value is 1/4 and the observed IR value at M_Z is 0.231. Connecting these requires either deriving the RG running mechanism within the PF, or importing standard QFT running.
 **What would close it**: A derivation of the renormalization group flow from the unification scale to the electroweak scale within the propagation medium, or a proof that standard RG is the unique running consistent with PF axioms.

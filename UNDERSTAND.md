@@ -480,9 +480,9 @@ $$\sin^2\theta_W = 1 - \frac{x_+(1/2)}{x_+(1)} = 0.22310\ldots$$
 
 ### 🔬 Master
 
-**Status: DERIVED.** Confidence: **0.90**.
+**Status: ARGUED 0.65** *(corrected 2026-06-16 from DERIVED 0.90 — scheme selection open; look-elsewhere P≈0.46)*.
 
-**Key qualification**: This matches the PDG **on-shell** value (0.22337), not the MS-bar value (0.23122). The framework naturally operates at the unification scale — this is the meta-finding recorded in CLAIMS.md. The remaining question is scheme selection: why on-shell and not MS-bar? This is not a gap in the derivation; it's a separate question about which renormalization scheme the framework's "natural" output corresponds to.
+**Key qualification**: This matches the PDG **on-shell** value (0.22337) to 0.13σ. The Casimir algebraic result is real. The remaining open gap is scheme selection (why on-shell and not MS-bar) — this is now classified as a gap in the argument, not a separate question, because it materially lowers the confidence tier. See CLAIMS.md and Codex demotion audit 2026-06-16.
 
 **What would falsify it**: A derivation showing the Casimir polynomial with constraints 1-3 admits a different unique solution, or a precision measurement of sin²θ_W moving outside the prediction band.
 
@@ -837,7 +837,7 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **Gravity as Optical Geometry / Refraction** | **DERIVED** | 0.95 | Theorem (null/stationary domain) |
 | **Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum** | **CONDITIONAL** | 0.82 | Model theorem; stronger axiom-only claim failed audit |
 | **8h Sleep Constant** | **ARGUED** | 0.72 | T-010 model + empirical support; not a closed theorem |
-| **Weinberg Angle** | **DERIVED** | 0.90 | Theorem (via Axiom 3b) |
+| **Weinberg Angle** | **ARGUED** | 0.65 | Casimir algebraic candidate; scheme selection open (corrected 2026-06-16) |
 | **QCD Confinement** | **ARGUED** | 0.72 | RG bridge; theorem-grade closure not yet earned |
 | **Bekenstein Bound** | **DERIVED** | — | Theorem |
 | **Propagation Lagrangian** | **CONDITIONAL** | 0.72 | Minimal scalar-tensor EFT ansatz; not uniquely forced |
