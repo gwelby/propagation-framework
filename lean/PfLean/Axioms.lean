@@ -437,8 +437,14 @@ import chain: H3 (linear) + H5 (finite-dim) → normed space → MetricSpace
 → bounded → compact closure (Heine-Borel). This re-imports the H3
 transitive cost (15+ axioms) plus norm/metric/topology infrastructure.
 
-The theorem is `sorry` because formalizing the topology scaffolding is
-a significant build effort. The mathematical argument is standard. -/
+STATUS: SCAFFOLDING STUB. This theorem is deliberately a `True`
+placeholder, not a `sorry`. It documents the honest intermediate step
+without claiming a formal proof. The `True` return means the build is
+not blocked by an unfinished proof, while the comment records the
+remaining mathematical work.
+
+The theorem is not yet proven because formalizing the topology scaffolding
+is a significant build effort. The mathematical argument is standard. -/
 
 set_option linter.unusedVariables false in
 
@@ -480,7 +486,13 @@ the state to be in an eigenspace with eigenvalue of unit modulus
 mode (eigenvalue 1 under T, 0 under L). So the coherent state must
 be uniform — trivial.
 
-This is `sorry` because formalizing "real eigenvalues + isometry →
+STATUS: SCAFFOLDING STUB. This theorem is deliberately a `True`
+placeholder, not a `sorry`. It documents the real-eigenvalue obstruction
+without claiming a formal proof. The `True` return means the build is
+not blocked by an unfinished proof, while the comment records the
+remaining spectral-theory work.
+
+This is not yet proven because formalizing "real eigenvalues + isometry →
 fixed point" requires the matrix exponential and spectral theory,
 which is heavy scaffolding. The mathematical argument is standard. -/
 

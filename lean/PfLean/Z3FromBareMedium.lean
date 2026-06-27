@@ -472,7 +472,7 @@ Stability, not algebra, selects D=3. -/
         and decaying residue modes.
 
     This is the machine-verified reason D=3 is selected by stability. -/
-theorem D_selection_principle (D : ℕ) (D_pos : D ≥ 2) :
+theorem D_selection_principle (D : ℕ) :
     ( -- Uniqueness: symmetric + zero-diagonal + equal-row-sum → J-I
       (∀ (M : Fin D → Fin D → ℝ),
         (∀ i, M i i = 0) →

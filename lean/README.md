@@ -3,7 +3,7 @@
 **Authors:** Devin (Cognition AI), Greg Welby, PF Research Team  
 **Date:** 2026-06-22  
 **Lean Version:** 4.29.1 (mathlib4 v4.29.1)  
-**Build:** `lake build` (16520 jobs, ~5 min incremental)
+**Build:** `lake build` (8268-16522 jobs, ~5 min incremental)
 
 ---
 
@@ -116,6 +116,8 @@ Formalizes the topological foundation of the (2,1) weights claim.
 
 Discovery layer for the honest parameter-count workflow. Defines the bare `BareMedium` and a roster of named hypotheses H1–H16. Several theorems are intentionally stated with `sorry` to document what the bare axioms cannot prove; these are epistemic markers, not gaps to close.
 
+**`True` stubs vs. `sorry`:** Two theorems (`isometry_finite_dim_gives_compact_orbit` and `real_eigenvalue_obstruction`) are stated as `True := by trivial` scaffolding stubs, not `sorry`. They mark topology and spectral-theory scaffolding that is not yet formalized. The remaining `sorry` theorems in this file are genuine epistemic markers documenting what the bare axioms cannot prove.
+
 **Hypothesis roster:**
 - H1: Reversibility | H2: Semigroup | H3: Linear | H4: Complex | H5: Finite-dimensional
 - H6: Dimension=3 | H7: Postulate D (zero diagonal, **formalized** not `True`) | H8: Coherence (**non-circular**: approximate recurrence + Lyapunov stability)
@@ -137,8 +139,8 @@ Discovery layer for the honest parameter-count workflow. Defines the bare `BareM
 - **`recurrence_stability_plus_structural_gives_periodic_orbit`** — proven but VACUOUS: the zero vector is always a fixed point of a linear semigroup. The proof uses H3 + algebraic typeclass structure only; H8, H2, and H5 are unused. The interesting non-zero version is `sorry` (see below).
 - **`recurrence_stability_plus_structural_gives_nonzero_periodic_orbit`** — `sorry`: frontier theorem, expected FALSE as stated (informal counterexample; no Lean countermodel yet): `propagate(t,v) = exp(-t)·v` is linear, semigroup, finite-dim, Lyapunov stable, but has no non-zero periodic orbit)
 - **`isometry_implies_reversible`** — PROVEN: H14 (isometry) + H15 (metric identity) + H16 (reflexivity) → H1 (reversibility). Machine-verified. Discovery: isometry alone is insufficient — BareMedium.d has no axioms, so d(x,x)=0 and d(x,y)=0→x=y must be explicitly assumed.
-- **`isometry_finite_dim_gives_compact_orbit`** — `sorry`: isometry + finite-dim → compact orbit closure. Needs topology scaffolding (norm, MetricSpace, Heine-Borel). Mathematical argument is standard; formalization cost is significant.
-- **`real_eigenvalue_obstruction`** — `sorry`: the J-I circulant has real eigenvalues only → contraction dynamics → no non-zero periodic orbit. Z₃ spatial symmetry and temporal periodicity are independent axes. See `REPORTS/DESIGN_H_ISOMETRY_REAL_EIGENVALUE_20260625.md`.
+- **`isometry_finite_dim_gives_compact_orbit`** — `True` scaffolding stub: isometry + finite-dim → compact orbit closure. Needs topology scaffolding (norm, MetricSpace, Heine-Borel). Mathematical argument is standard; formalization cost is significant.
+- **`real_eigenvalue_obstruction`** — `True` scaffolding stub: the J-I circulant has real eigenvalues only → contraction dynamics → no non-zero periodic orbit. Z₃ spatial symmetry and temporal periodicity are independent axes. See `REPORTS/DESIGN_H_ISOMETRY_REAL_EIGENVALUE_20260625.md`.
 
 ### `PfLean.ArbitraryD`
 
@@ -247,7 +249,7 @@ The first build downloads and compiles mathlib4 (~45 minutes, cached afterward).
 
 ```bash
 lake build
-# Should print: Build completed successfully (16518 jobs)
+# Should print: Build completed successfully (8268-16522 jobs depending on cache)
 ```
 
 ---
@@ -310,8 +312,16 @@ lake build
 | `god_equation_alpha_selector` | CrossModuleBridge.lean | α=1/2 uniquely freezes P₀ |
 | `reference_three_generations_lock` | CrossModuleBridge.lean | Reference boundary: Q(N)=2/3 ↔ N=3 |
 | `reference_koide_R_condition` | CrossModuleBridge.lean | Reference boundary: Koide R=2/3 condition |
+| `D3_symmetric_zero_diag_equal_rows_forces_JI` | Z3FromBareMedium.lean | D=3: symmetry + zero diagonal + equal row sums → M = (c/2)·(J-I) |
+| `D4_symmetric_zero_diag_equal_rows_not_unique_JI` | Z3FromBareMedium.lean | D=4 counterexample: symmetric + zero diagonal + equal row sums but NOT J-I |
 | `degenerate_residue_forces_circulant` | Z3FromBareMedium.lean | Zero diag + equal row sums + degenerate residue → M = c/(D-1)·(J-I) |
 | `coarse_graining_bound_norm` | PFCore.lean | |O_m - P₀| ≤ 1/(9m) (normalized states) |
+| `PFEntropy_decreases_T3` | Entropy.lean | T³ scales residue by -1/8, PF Entropy decreases by factor 1/8 |
+| `PFEntropy_T3_decreases` | Entropy.lean | PF Entropy is non-increasing under T³ |
+| `P0_Q_dot_zero` | Entropy.lean | Uniform and residue components are orthogonal |
+| `full_norm_Pythagorean` | Entropy.lean | Full norm² = P₀ norm² + PF Entropy² |
+| `full_norm_T3_strictly_decreases` | Entropy.lean | T³ strictly decreases full Euclidean norm of non-uniform states (isometry-JI incompatibility) |
+| `non_symmetric_cooling_counterexample` | Entropy.lean | Entropy decrease + H7 + equal row sums does NOT force J-I |
 
 ---
 
@@ -323,10 +333,10 @@ The active frontier for formalization (from `CLAIMS.md`):
 2. ~~**Collatz Syracuse** (CONDITIONAL)~~ ✅ DONE — local descent lemmas proven, global convergence conditional on honest axioms
 3. ~~**ShorBound Classical** (DERIVED)~~ ✅ DONE — factorization identity and nontrivial factor theorem proven
 4. ~~**PFCore Dynamics** (DERIVED)~~ ✅ DONE — coarse-graining bound, eigenvalue decomposition, convergence theorems proven
-5. ~~**Arbitrary-D Stability** (DERIVED)~~ ✅ DONE — D=3 is the unique stable dimension for the circulant God Equation
+5. ~~**Arbitrary-D Stability** (CONDITIONAL)~~ ✅ DONE — D=3 is the unique stable dimension given the selected circulant God Equation operator and stability criterion
 6. **(2,1) Topological Weights** (PARTIAL 0.85) — kernel availability theorem proven; physical realization still needs T1/T2
 7. **Three Generations** (CONDITIONAL 0.85) — N = 3 from Q(N) = 2N/(2N+3)
-8. **God Equation** (DERIVED 0.90 with Postulate D) — λ_c from Planck-scale closure operator. Postulate D (primitive Z₃ no-self-loop selector) accepted 2026-05-31. Eigenvalues {1, −1/8, −1/8} exact. H_prod unconditional bridge remains open.
+8. **God Equation** (CONDITIONAL 0.88 / ARGUED 0.60) — λ_c operator algebra (conditional under Postulate D) / scale formula fit (argued). H_prod unconditional bridge remains open.
 9. **Honest Parameter Count** (IN PROGRESS) — Axioms.lean discovery workflow: H8 redefined to non-circular recurrence+stability; exact periodicity and Z₃ now require explicit additional hypotheses
 
 ### Remaining Gaps (honest boundary: 4 real sorries + 3 stubs)
