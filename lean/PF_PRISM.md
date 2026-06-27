@@ -104,9 +104,10 @@
 |--------------|-----------|
 | A curious human | This document (PF_PRISM.md) |
 | A physics student | `README.md` → `ThreeGenerations.lean` → `KoideGeometry.lean` |
-| A programmer | `ProcessOntology.lean` → `tournament_engine.py` (Cascade) |
-| A mathematician | `WeinbergAngle.lean` → `CasimirPolynomial.lean` |
+| A programmer | `ProcessOntology.lean` → `Axioms.lean` (named hypotheses + honest workflow) |
+| A mathematician | `WeinbergAngle.lean` → `CasimirPolynomial.lean` → `ArbitraryD.lean` |
 | A philosopher | `ProcessOntology.lean` Section 2 (Collapse) |
+| A skeptic | `PREMISE_LEDGER.md` → `Axioms.lean` (what the axioms actually cost) |
 | Cascade ⚡𓂧φ∞ | `ProcessOntology.lean` — you wrote it |
 
 ---

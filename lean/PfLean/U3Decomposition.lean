@@ -2,6 +2,10 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.Tactic
+import PfLean.KoideGeometry
+
+set_option linter.unusedVariables false
+set_option maxHeartbeats 600000
 
 /-
   U(3) → SU(3) × U(1) Decomposition — PF Formalization in Lean 4
@@ -92,7 +96,6 @@ theorem decomp_identity (v : FlavorSpace) :
   v = proj_su3 v + proj_uniform v := by
   funext i
   simp [proj_su3, proj_uniform]
-  ring
 
 /-- The SU(3) part is orthogonal to the uniform direction (traceless condition).
     This is the key property: su(3) ⊥ u(1). -/
@@ -183,11 +186,11 @@ theorem rivero_equal_norm_Q {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0)
   · -- Forward: equal-norm → Q = 2/3 condition
     intro h
     nlinarith [sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a),
-      mul_pos ha hb, mul_pos hb hc, mul_pos ha hc]
+      mul_pos ha hb, mul_pos hb hc, mul_pos ha hc, ha, hb, hc]
   · -- Backward: Q = 2/3 condition → equal-norm
     intro h
     nlinarith [sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a),
-      mul_pos ha hb, mul_pos hb hc, mul_pos ha hc]
+      mul_pos ha hb, mul_pos hb hc, mul_pos ha hc, ha, hb, hc]
 
 /-- Corollary: Equal-norm condition is equivalent to Q = 2/3
     using the KoideQ definition from KoideGeometry.lean. -/
@@ -199,8 +202,7 @@ theorem rivero_equal_norm_koideQ {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c
     | _ => 0
   equal_norm_condition v ↔ KoideQ a b c = 2 / 3 := by
   intro v
-  rw [rivero_equal_norm_Q ha hb hc]
-  rw [koide_Q_two_thirds_iff ha hb hc]
+  exact (rivero_equal_norm_Q ha hb hc).trans (koide_Q_two_thirds_iff ha hb hc).symm
 
 /-- Corollary: Equal-norm condition is equivalent to R = 1/2
     (Convention A), using the bridge from KoideGeometry.lean. -/
@@ -212,8 +214,7 @@ theorem rivero_equal_norm_koideR {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c
     | _ => 0
   equal_norm_condition v ↔ KoideR a b c = 1 / 2 := by
   intro v
-  rw [rivero_equal_norm_koideQ ha hb hc]
-  rw [koide_bridge ha hb hc]
+  exact (rivero_equal_norm_koideQ ha hb hc).trans (koide_bridge ha hb hc)
 
 -- ---------------------------------------------------------------------------
 -- 5. GEOMETRIC INTERPRETATION: Charge Vector Angle
@@ -259,32 +260,73 @@ theorem equal_norm_iff_45_degree {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c
     | _ => 0
   equal_norm_condition v ↔ cos_angle_uniform v = 1 / Real.sqrt 2 := by
   intro v
-  simp [equal_norm_condition, normsq, inner, cos_angle_uniform, proj_su3, proj_uniform]
+  have hv0 : v 0 = a := rfl
+  have hv1 : v 1 = b := rfl
+  have hv2 : v 2 = c := rfl
+  have hu0 : uniform 0 = 1 := rfl
+  have hu1 : uniform 1 = 1 := rfl
+  have hu2 : uniform 2 = 1 := rfl
+  simp [equal_norm_condition, normsq, inner, cos_angle_uniform, proj_su3, proj_uniform, hv0, hv1, hv2, hu0, hu1, hu2]
   constructor
   · -- Forward: equal-norm → cos(θ) = 1/√2
     intro h
     have h1 : a^2 + b^2 + c^2 > 0 := by nlinarith [mul_pos ha ha, mul_pos hb hb, mul_pos hc hc]
     have h2 : (a + b + c)^2 > 0 := by nlinarith [mul_pos ha hb, mul_pos hb hc, mul_pos ha hc]
-    -- From equal-norm: a²+b²+c² = 2(a+b+c)²/3
-    -- So ||v||² = 2(a+b+c)²/3 and ||uniform||² = 3
-    -- cos(θ) = (a+b+c) / √(2(a+b+c)²/3 · 3)
-    --         = (a+b+c) / √(2(a+b+c)²)
-    --         = (a+b+c) / (√2 · (a+b+c))
-    --         = 1/√2
+    have h_pos : Real.sqrt (3 * (a^2 + b^2 + c^2)) > 0 := by apply Real.sqrt_pos.2; nlinarith
+    have h_pos2 : Real.sqrt 2 > 0 := by apply Real.sqrt_pos.2; norm_num
+    -- Derive the key polynomial relation from h
+    have h_sq : (a + b + c)^2 * 2 = (a^2 + b^2 + c^2) * 3 := by
+      nlinarith [h, sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a)]
+    -- Derive cross-multiplied form from h_sq
+    have h_cross : (a + b + c) * Real.sqrt 2 = Real.sqrt (3 * (a^2 + b^2 + c^2)) := by
+      have h_sq2 : ((a + b + c) * Real.sqrt 2)^2 = (Real.sqrt (3 * (a^2 + b^2 + c^2)))^2 := by
+        calc
+          ((a + b + c) * Real.sqrt 2)^2 = (a + b + c)^2 * 2 := by
+            have : ((a + b + c) * Real.sqrt 2)^2 = (a + b + c)^2 * (Real.sqrt 2)^2 := by ring
+            rw [this, Real.sq_sqrt (by norm_num)]
+          _ = (a^2 + b^2 + c^2) * 3 := by rw [h_sq]
+          _ = (Real.sqrt (3 * (a^2 + b^2 + c^2)))^2 := by
+            rw [Real.sq_sqrt (by nlinarith)]
+            nlinarith
+      have h_pos3 : (a + b + c) * Real.sqrt 2 ≥ 0 := by apply mul_nonneg; nlinarith [ha, hb, hc]; apply Real.sqrt_nonneg
+      have h_pos4 : Real.sqrt (3 * (a^2 + b^2 + c^2)) ≥ 0 := by apply Real.sqrt_nonneg
+      nlinarith [h_sq2, h_pos3, h_pos4]
+    -- Now prove the original fraction equality from h_cross
+    have h_zero : Real.sqrt (3 * (a^2 + b^2 + c^2)) ≠ 0 := by positivity
+    have h_zero2 : Real.sqrt 2 ≠ 0 := by positivity
     field_simp
-    nlinarith [Real.sqrt_nonneg (a^2 + b^2 + c^2), Real.sqrt_nonneg ((a + b + c)^2),
-      Real.sq_sqrt (show (0 : ℝ) ≤ a^2 + b^2 + c^2 by nlinarith),
-      Real.sq_sqrt (show (0 : ℝ) ≤ (a + b + c)^2 by nlinarith),
-      sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a)]
+    have h3 : (a^2 + b^2 + c^2) * (1 + 1 + 1) = 3 * (a^2 + b^2 + c^2) := by ring
+    have h_cross' : (a + b + c) * √2 = √((a^2 + b^2 + c^2) * (1 + 1 + 1)) := by
+      rw [h3]
+      exact h_cross
+    exact h_cross'
   · -- Backward: cos(θ) = 1/√2 → equal-norm
     intro h
-    have h1 : a^2 + b^2 + c^2 > 0 := by nlinarith [mul_pos ha ha, mul_pos hb hb, mul_pos hc hc]
-    have h2 : (a + b + c)^2 > 0 := by nlinarith [mul_pos ha hb, mul_pos hb hc, mul_pos ha hc]
-    field_simp at h
-    nlinarith [Real.sqrt_nonneg (a^2 + b^2 + c^2), Real.sqrt_nonneg ((a + b + c)^2),
-      Real.sq_sqrt (show (0 : ℝ) ≤ a^2 + b^2 + c^2 by nlinarith),
-      Real.sq_sqrt (show (0 : ℝ) ≤ (a + b + c)^2 by nlinarith),
-      sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a)]
+    have h_pos : Real.sqrt (3 * (a^2 + b^2 + c^2)) > 0 := by apply Real.sqrt_pos.2; nlinarith
+    have h_pos2 : Real.sqrt 2 > 0 := by apply Real.sqrt_pos.2; norm_num
+    -- Cross multiply: (a+b+c)*√2 = √(3*(a²+b²+c²))
+    have h_cross : (a + b + c) * Real.sqrt 2 = Real.sqrt (3 * (a^2 + b^2 + c^2)) := by
+      have h_zero : Real.sqrt (3 * (a^2 + b^2 + c^2)) ≠ 0 := by positivity
+      have h_zero2 : Real.sqrt 2 ≠ 0 := by positivity
+      field_simp at h
+      have h4 : √((a^2 + b^2 + c^2) * (1 + 1 + 1)) = √(3 * (a^2 + b^2 + c^2)) := by
+        have : (a^2 + b^2 + c^2) * (1 + 1 + 1) = 3 * (a^2 + b^2 + c^2) := by ring
+        rw [this]
+      rw [h4] at h
+      exact h
+    -- Square both sides: (a+b+c)² * 2 = (a²+b²+c²) * 3
+    have h_sq : (a + b + c)^2 * 2 = (a^2 + b^2 + c^2) * 3 := by
+      calc
+        (a + b + c)^2 * 2 = ((a + b + c) * Real.sqrt 2)^2 := by
+          have : ((a + b + c) * Real.sqrt 2)^2 = (a + b + c)^2 * (Real.sqrt 2)^2 := by ring
+          rw [this, Real.sq_sqrt (by norm_num)]
+        _ = (Real.sqrt (3 * (a^2 + b^2 + c^2)))^2 := by rw [h_cross]
+        _ = (a^2 + b^2 + c^2) * 3 := by
+          have h : (Real.sqrt (3 * (a^2 + b^2 + c^2)))^2 = 3 * (a^2 + b^2 + c^2) := Real.sq_sqrt (by nlinarith)
+          rw [h]
+          nlinarith
+    -- Prove the equal-norm goal directly from h_sq
+    nlinarith [h_sq]
 
 -- ---------------------------------------------------------------------------
 -- 6. HONEST BOUNDARY AND CITATIONS

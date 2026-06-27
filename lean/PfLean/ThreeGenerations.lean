@@ -74,4 +74,45 @@ theorem generation_formula_three :
   unfold generationFormula
   norm_num
 
+/-- Monotonicity: Q(N) is strictly increasing for N > 0.
+    Proof: Q(N₂) - Q(N₁) = 6(N₂ - N₁) / [(2N₂+3)(2N₁+3)] > 0 when N₂ > N₁. -/
+theorem generation_formula_strictMono :
+  StrictMonoOn generationFormula (Set.Ioi 0) := by
+  intro N₁ h₁ N₂ h₂ h_lt
+  rw [Set.mem_Ioi] at h₁ h₂
+  unfold generationFormula
+  have h_num : (2 * N₂) * (2 * N₁ + 3) - (2 * N₁) * (2 * N₂ + 3) = 6 * (N₂ - N₁) := by ring
+  have h_pos1 : 2 * N₁ + 3 > 0 := by linarith
+  have h_pos2 : 2 * N₂ + 3 > 0 := by linarith
+  have h_diff_pos : (2 * N₂) / (2 * N₂ + 3) - (2 * N₁) / (2 * N₁ + 3) > 0 := by
+    have : (2 * N₂) / (2 * N₂ + 3) - (2 * N₁) / (2 * N₁ + 3) =
+           (6 * (N₂ - N₁)) / ((2 * N₂ + 3) * (2 * N₁ + 3)) := by
+      field_simp
+      linarith [h_num]
+    rw [this]
+    have h_num_pos : 6 * (N₂ - N₁) > 0 := by nlinarith
+    have h_denom_pos : (2 * N₂ + 3) * (2 * N₁ + 3) > 0 := by positivity
+    positivity
+  linarith
+
+/-- Injectivity: If Q(N₁) = Q(N₂) for N₁, N₂ > 0, then N₁ = N₂.
+    Immediate from strict monotonicity. -/
+theorem generation_formula_injective {N₁ N₂ : ℝ} (h₁ : N₁ > 0) (h₂ : N₂ > 0)
+    (h_eq : generationFormula N₁ = generationFormula N₂) : N₁ = N₂ := by
+  have h_inj : Set.InjOn generationFormula (Set.Ioi 0) :=
+    StrictMonoOn.injOn generation_formula_strictMono
+  exact h_inj h₁ h₂ h_eq
+
+-- Theorem: Q(N) < 1 for all N > 0.
+-- Proof: 2N/(2N+3) < 1 because 2N < 2N+3.
+theorem generation_formula_lt_one {N : ℝ} (hN : N > 0) : generationFormula N < 1 := by
+  unfold generationFormula
+  have h1 : 2 * N + 3 > 0 := by linarith
+  have h2 : 2 * N < 2 * N + 3 := by linarith
+  apply (div_lt_iff₀ h1).mpr
+  linarith
+
+-- Note: Q(N) → 1 as N → ∞ follows from standard analysis (3/(2N+3) → 0).
+-- Formal Tendsto proof omitted to avoid long-running filter/squeeze imports.
+
 end PfLean

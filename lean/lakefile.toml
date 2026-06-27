@@ -4,6 +4,7 @@ defaultTargets = ["pf_lean"]
 
 [[lean_lib]]
 name = "PfLean"
+precompileModules = false
 
 [[lean_exe]]
 name = "pf_lean"

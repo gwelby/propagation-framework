@@ -34,6 +34,7 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.ModEq
 import Mathlib.Analysis.SpecialFunctions.Log.Base
+import Mathlib.Analysis.Real.Pi.Bounds
 import Mathlib.Tactic
 
 namespace PfLean.ShorBound
@@ -60,48 +61,65 @@ theorem factorization_identity (a r N : ℕ)
     let half_r := r / 2
     (a ^ half_r - 1) * (a ^ half_r + 1) ≡ 0 [MOD N] := by
   obtain ⟨k, hk⟩ := hr
-  have hr2 : r = 2 * k := hk
+  have hr2 : r = 2 * k := by omega
   have h2 : a ^ r = (a ^ k) ^ 2 := by
-    rw [hr2, Nat.pow_mul, Nat.pow_two]
+    rw [hr2]
+    rw [show 2 * k = k * 2 by ring]
+    rw [pow_mul]
   have h_mod' := h_mod
   simp [Nat.ModEq] at h_mod'
   have h_sub : a ^ r - 1 = (a ^ k - 1) * (a ^ k + 1) := by
     rw [h2]
-    have h_pos : a ^ k ≥ 1 := Nat.one_le_pow _ (Nat.pos_of_ne_zero (Nat.ne_zero_of_lt ha))
-    cases a ^ k with
-    | zero => linarith
+    have h_pos : a ^ k ≥ 1 := by apply Nat.one_le_pow k a ha
+    cases h_ak : a ^ k with
+    | zero =>
+      exfalso
+      omega
     | succ n =>
-      simp [Nat.pow_two, Nat.mul_add, Nat.add_mul, Nat.mul_assoc]
-      ring
+      simp [pow_two, Nat.mul_add, Nat.add_mul]
+      <;> ring_nf <;> omega
   have h_dvd : N ∣ (a ^ k - 1) * (a ^ k + 1) := by
     rw [← h_sub]
-    by_cases hN : N = 0
-    · rw [hN] at h_mod'
-      simp at h_mod'
-      have : a ^ r = 1 := by linarith
-      rw [this]
-      simp
-    · have hN_pos : N > 0 := by omega
-      have h_mod'' : a ^ r % N = 1 := by
-        simp [hN_pos] at h_mod'
+    have h_mod_eq : a ^ r ≡ 1 [MOD N] := by
+      simp [Nat.ModEq, h_mod']
+    have h_mod_zero : a ^ r - 1 ≡ 0 [MOD N] := by
+      have h_eq : a ^ r - 1 + 1 = a ^ r := by
+        have h2 : a ^ r ≥ 1 := by apply Nat.one_le_pow r a ha
         omega
-      have : N ∣ a ^ r - 1 := by
-        apply Nat.dvd_of_mod_eq_zero
-        omega
-      exact this
-  simp [Nat.ModEq]
+      have h_add : a ^ r - 1 + 1 ≡ 0 + 1 [MOD N] := by
+        rw [h_eq]
+        exact h_mod_eq
+      apply Nat.ModEq.add_right_cancel' 1 h_add
+    have h_dvd : N ∣ a ^ r - 1 := by
+      rw [← Nat.modEq_zero_iff_dvd]
+      exact h_mod_zero
+    exact h_dvd
+  have h_half : r / 2 = k := by omega
   by_cases hN : N = 0
-  · rw [hN] at h_mod' ⊢
-    simp at h_mod' ⊢
-    have : a ^ r = 1 := by linarith
-    rw [this] at h_sub
-    simp at h_sub
-    linarith
-  · have hN_pos : N > 0 := by omega
+  · -- N = 0: prove directly using a = 1
+    rw [hN] at h_mod'
+    simp [Nat.ModEq] at h_mod'
+    have h_a1 : a = 1 := by
+      by_contra h
+      push Not at h
+      have h_a2 : a ≥ 2 := by omega
+      have h_ar : a ^ r ≥ 2 := by
+        have h2 : a ^ r ≥ 2 ^ r := by
+          apply Nat.pow_le_pow_left h_a2
+        have h3 : 2 ^ r ≥ 2 := by apply Nat.one_lt_pow; omega; omega
+        linarith
+      have h1 : a ^ r = 1 := by omega
+      linarith
+    rw [h_a1, h_half, hN]
+    simp [Nat.ModEq]
+  · -- N > 0
+    have hN_pos : N > 0 := by omega
+    simp [Nat.ModEq, hN_pos]
     have : (a ^ k - 1) * (a ^ k + 1) % N = 0 := by
-      apply Nat.dvd_iff_mod_eq_zero.mpr
+      apply Nat.dvd_iff_mod_eq_zero.mp
       exact h_dvd
-    omega
+    rw [h_half]
+    exact this
 
 /-- **Core Lemma:** If a has even order r modulo N, and a^(r/2) ≢ -1 (mod N),
     then gcd(a^(r/2) ± 1, N) yields a nontrivial factor.
@@ -137,7 +155,12 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
   have h_div : N ∣ (a ^ (r / 2) - 1) * (a ^ (r / 2) + 1) := by
     have h_mod := factorization_identity a r N ha hr hr_pos h_order
     simp [Nat.ModEq] at h_mod
-    exact h_mod
+    have hN_pos : N > 0 := by omega
+    have : (a ^ (r / 2) - 1) * (a ^ (r / 2) + 1) % N = 0 := by
+      have h0 : 0 % N = 0 := by simp [hN_pos]
+      omega
+    apply Nat.dvd_iff_mod_eq_zero.mpr
+    exact this
   -- Step 3: a^(r/2) ≢ 1 (mod N) because r/2 < r and r is minimal
   have h_not_one : ¬(a ^ (r / 2) ≡ 1 [MOD N]) := by
     apply h_order_min (r / 2) h_half_lt h_half_pos
@@ -145,18 +168,36 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
   have h_not_div_one : ¬(N ∣ a ^ (r / 2) - 1) := by
     intro h
     have : a ^ (r / 2) ≡ 1 [MOD N] := by
-      simp [Nat.ModEq, h]
+      have h_mod : a ^ (r / 2) - 1 ≡ 0 [MOD N] := by
+        rw [Nat.modEq_zero_iff_dvd]
+        exact h
+      have h_mod2 : a ^ (r / 2) ≡ 1 [MOD N] := by
+        have h_add : a ^ (r / 2) - 1 + 1 ≡ 0 + 1 [MOD N] := by
+          apply Nat.ModEq.add h_mod (Nat.ModEq.rfl)
+        have h2 : a ^ (r / 2) ≥ 1 := by apply Nat.one_le_pow (r / 2) a ha
+        have h_eq : a ^ (r / 2) - 1 + 1 = a ^ (r / 2) := by omega
+        rw [h_eq] at h_add
+        simp [Nat.ModEq] at h_add
+        exact h_add
+      exact h_mod2
     contradiction
   -- Step 4: a^(r/2) ≢ -1 (mod N) from hypothesis
   have h_not_neg_one : ¬(a ^ (r / 2) ≡ N - 1 [MOD N]) := h_not_minus_one
   -- Convert to "N does not divide (a^(r/2) + 1)"
   have h_not_div_neg_one : ¬(N ∣ a ^ (r / 2) + 1) := by
     intro h
-    have : a ^ (r / 2) ≡ N - 1 [MOD N] := by
+    have h_add_one_mod : a ^ (r / 2) + 1 ≡ 0 [MOD N] := by
+      rw [Nat.modEq_zero_iff_dvd]
+      exact h
+    have h_N_mod : (N - 1) + 1 ≡ 0 [MOD N] := by
+      have : (N - 1) + 1 = N := by omega
+      rw [this]
       simp [Nat.ModEq]
-      obtain ⟨k, hk⟩ := h
-      use k - 1
-      omega
+    have h_mod : a ^ (r / 2) + 1 ≡ (N - 1) + 1 [MOD N] := by
+      apply Nat.ModEq.trans h_add_one_mod
+      apply Nat.ModEq.symm h_N_mod
+    have : a ^ (r / 2) ≡ N - 1 [MOD N] := by
+      apply Nat.ModEq.add_right_cancel' 1 h_mod
     contradiction
   -- Step 5: Show d1 = gcd(N, a^(r/2) - 1) is a nontrivial factor
   -- d1 > 1: if d1 = 1, then by Euclid's lemma, N | (a^(r/2) + 1), contradiction
@@ -178,7 +219,7 @@ theorem nontrivial_factor_from_order (a r N : ℕ)
     by_contra h
     push_neg at h
     have h_d1_eq_N : d1 = N := by
-      have : d1 ≤ N := by apply Nat.gcd_le_left
+      have : d1 ≤ N := by apply Nat.gcd_le_left; omega
       omega
     have hN_div_one : N ∣ a ^ (r / 2) - 1 := by
       have : d1 = N := h_d1_eq_N
@@ -272,12 +313,11 @@ theorem shor_expected_complexity (N : ℕ)
   -- Therefore n⁷ ≥ 1 and 100·n⁷ ≥ 100 > 0
   have h_bound_pos : 100 * (n ^ 7 : ℝ) > 0 := by
     have h_n7_pos : (n ^ 7 : ℝ) ≥ 1 := by
-      have : (n : ℝ) ≥ 1 := by exact_mod_cast h_n_pos
-      nlinarith [pow_nonneg (show (0 : ℝ) ≤ 1 by norm_num) 7]
+      have h_n_ge : (n : ℝ) ≥ 1 := by exact_mod_cast h_n_pos
+      exact one_le_pow₀ h_n_ge
     nlinarith
   -- The witness T = 100·n⁷ satisfies both conditions
-  use 100 * (n ^ 7 : ℝ)
-  constructor
+  refine ⟨100 * (n ^ 7 : ℝ), ?_, ?_⟩
   · exact h_bound_pos
   · exact le_refl _
 
@@ -358,8 +398,15 @@ theorem shor_cumulative_coherence (N t : ℕ)
   intro P
   -- Since N satisfies all conditions, P = κ / (log₂ N)⁴
   have hP_def : P = shorKappa / (Real.logb 2 N ^ 4) := by
+    have hP_eq : P = shor_coherence N := by rfl
+    rw [hP_eq]
     unfold shor_coherence
-    simp [hN, hN_comp, hN_not_even, hN_not_pp]
+    split_ifs with h
+    · rfl
+    · exfalso
+      have h_cond : N > 1 ∧ ¬Nat.Prime N ∧ ¬Even N ∧ ¬∃ p k, p.Prime ∧ k > 0 ∧ N = p^k :=
+        ⟨hN, hN_comp, hN_not_even, hN_not_pp⟩
+      exact h h_cond
   -- Step 1: P > 0 (from kappa_pos)
   have hP_pos : P > 0 := by
     rw [hP_def]
@@ -374,29 +421,29 @@ theorem shor_cumulative_coherence (N t : ℕ)
   have hP_lt_one : P < 1 := by
     rw [hP_def]
     have h_kappa_lt : shorKappa < 1 := by
-      unfold shorKappa
+      simp only [shorKappa]
       have h1 : Real.exp (-2 : ℝ) < 1 := by
-        have : Real.exp (-2 : ℝ) < Real.exp (0 : ℝ) := by
+        have h : Real.exp (-2 : ℝ) < Real.exp (0 : ℝ) := by
           apply Real.exp_strictMono
           norm_num
-        simp at this
-        linarith
+        have h0 : Real.exp (0 : ℝ) = 1 := Real.exp_zero
+        linarith [h, h0]
       have h2 : (4 : ℝ) / (Real.pi ^ 2) < 1 := by
         have hpi : Real.pi > 3 := Real.pi_gt_three
         have hpi2 : Real.pi ^ 2 > 9 := by nlinarith
         have h4 : (4 : ℝ) < (9 : ℝ) := by norm_num
         have h3 : (4 : ℝ) / (Real.pi ^ 2) < (9 : ℝ) / (Real.pi ^ 2) := by
-          apply (div_lt_div_right (by positivity)).mpr
+          apply (div_lt_div_iff_of_pos_right (by positivity)).mpr
           norm_num
         have h4' : (9 : ℝ) / (Real.pi ^ 2) < 1 := by
           have : Real.pi ^ 2 > 0 := by positivity
-          apply (div_lt_iff (by positivity)).mpr
+          apply (div_lt_iff₀ (by positivity)).mpr
           nlinarith
         linarith [h3, h4']
       have h_pos : Real.exp (-2 : ℝ) > 0 := by positivity
       have h_pos2 : Real.pi ^ 2 > 0 := by positivity
       have : (4 * Real.exp (-2 : ℝ)) / (Real.pi ^ 2) < (4 * (1 : ℝ)) / (Real.pi ^ 2) := by
-        apply (div_lt_div_right (by positivity)).mpr
+        apply (div_lt_div_iff_of_pos_right (by positivity)).mpr
         nlinarith
       nlinarith [this, h2]
     have h_log_pos : Real.logb 2 N ≥ 1 := by
@@ -411,10 +458,11 @@ theorem shor_cumulative_coherence (N t : ℕ)
         all_goals exact_mod_cast hN
       nlinarith
     have h_log4_pos : Real.logb 2 N ^ 4 ≥ 1 := by
-      nlinarith [h_log_pos, pow_nonneg (show (0 : ℝ) ≤ 1 by norm_num) 4]
+      apply one_le_pow₀
+      exact h_log_pos
     have : shorKappa / (Real.logb 2 N ^ 4) ≤ shorKappa / 1 := by
-      apply (div_le_div_iff (by positivity) (by positivity)).mpr
-      nlinarith
+      apply (div_le_div_iff₀ (by positivity) (by positivity)).mpr
+      nlinarith [show shorKappa > 0 by exact kappa_pos]
     nlinarith [this, h_kappa_lt]
   -- Step 3: t * P ≥ 100 (from the hypothesis on t)
   have h_tP : (t : ℝ) * P ≥ 100 := by
@@ -442,7 +490,7 @@ theorem shor_cumulative_coherence (N t : ℕ)
     have : (t : ℝ) * (1 / L) = (t : ℝ) / L := by field_simp
     rw [this]
     have : (t : ℝ) / L ≥ (100 * L) / L := by
-      apply (div_le_div_right (by positivity)).mpr
+      apply (div_le_div_iff_of_pos_right (by positivity)).mpr
       nlinarith
     have : (100 * L) / L = (100 : ℝ) := by
       field_simp [show L ≠ 0 by linarith]
@@ -458,21 +506,12 @@ theorem shor_cumulative_coherence (N t : ℕ)
   have h_exp : (1 - P) ^ t ≤ Real.exp (-(t : ℝ) * P) := by
     have h1 : (1 - P) ^ t = Real.exp ((t : ℝ) * Real.log (1 - P)) := by
       have h_pos : (1 - P : ℝ) > 0 := by linarith
-      have h_pow : ∀ (n : ℕ), (1 - P) ^ n = Real.exp ((n : ℝ) * Real.log (1 - P)) := by
-        intro n
-        induction n with
-        | zero =>
-          simp
-        | succ n ih =>
-          rw [pow_succ, ih]
-          have : Real.exp ((n + 1 : ℝ) * Real.log (1 - P)) =
-                 Real.exp ((n : ℝ) * Real.log (1 - P)) * Real.exp (Real.log (1 - P)) := by
-            rw [show ((n + 1 : ℝ) * Real.log (1 - P)) = (n : ℝ) * Real.log (1 - P) + Real.log (1 - P) by ring]
-            rw [Real.exp_add]
-          rw [this]
-          rw [Real.exp_log]
-          all_goals linarith
-      exact h_pow t
+      have h2 : (1 - P : ℝ) ^ t = (Real.exp (Real.log (1 - P))) ^ t := by
+        rw [Real.exp_log]
+        all_goals linarith
+      rw [h2]
+      rw [← Real.exp_nat_mul (Real.log (1 - P)) t]
+      all_goals norm_num
     rw [h1]
     have h2 : (t : ℝ) * Real.log (1 - P) ≤ -(t : ℝ) * P := by
       nlinarith [h_ln]
@@ -485,25 +524,25 @@ theorem shor_cumulative_coherence (N t : ℕ)
   -- Step 7: exp(-100) < 0.01 (numerical fact)
   have h_exp100 : Real.exp (-100 : ℝ) < (0.01 : ℝ) := by
     have h1 : Real.exp (100 : ℝ) > (101 : ℝ) := by
-      have h2 : Real.exp (1 : ℝ) ≥ (2 : ℝ) := Real.add_one_le_exp (1 : ℝ)
+      have h2 : 1 + 1 ≤ Real.exp (1 : ℝ) := Real.add_one_le_exp 1
       have h3 : Real.exp (100 : ℝ) = (Real.exp (1 : ℝ)) ^ 100 := by
-        rw [show (100 : ℝ) = (1 : ℝ) * (100 : ℕ) by norm_num]
+        rw [show (100 : ℝ) = (1 : ℝ) * (100 : ℝ) by norm_num]
         rw [Real.exp_mul]
-        rw [show (Real.exp (1 : ℝ)) ^ 100 = (Real.exp (1 : ℝ)) ^ (100 : ℕ) by simp]
+        rw [show (Real.exp (1 : ℝ)) ^ (100 : ℝ) = (Real.exp (1 : ℝ)) ^ (100 : ℕ) by simp]
+        all_goals norm_num
       rw [h3]
       have h4 : Real.exp (1 : ℝ) ≥ 2 := by linarith [h2]
-      have h5 : (Real.exp (1 : ℝ)) ^ 100 ≥ (2 : ℝ) ^ 100 := by
-        apply pow_le_pow_of_le_left
-        · linarith
-        · linarith
+      have h5 : (2 : ℝ) ^ 100 ≤ (Real.exp (1 : ℝ)) ^ 100 := by
+        apply (pow_le_pow_left₀ (by linarith) h4 100)
       have h6 : (2 : ℝ) ^ 100 > (101 : ℝ) := by norm_num
       linarith [h5, h6]
     have h2 : Real.exp (-100 : ℝ) = 1 / Real.exp (100 : ℝ) := by
       rw [show (-100 : ℝ) = -(100 : ℝ) by norm_num]
       rw [Real.exp_neg]
+      rw [inv_eq_one_div]
     rw [h2]
     have h3 : 1 / Real.exp (100 : ℝ) < 1 / (101 : ℝ) := by
-      apply (div_lt_div_iff (by positivity) (by positivity)).mpr
+      apply (div_lt_div_iff₀ (by positivity) (by positivity)).mpr
       nlinarith
     have h4 : 1 / (101 : ℝ) < (0.01 : ℝ) := by norm_num
     linarith

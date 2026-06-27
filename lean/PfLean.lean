@@ -18,4 +18,10 @@ import PfLean.ProcessOntology
 import PfLean.ShorBound
 import PfLean.TopologicalWeights
 import PfLean.PFCore
+import PfLean.CrossModuleBridge
 import PfLean.U3Decomposition
+import PfLean.CollatzSyracuse
+import PfLean.Axioms
+import PfLean.ArbitraryD
+import PfLean.Z3FromBareMedium
+import PfLean.Entropy
