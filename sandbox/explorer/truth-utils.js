@@ -183,14 +183,20 @@
   window.PFTruth = api;
   window.PFExplorerTruth = api;
 
-  // Auto-sync if data is present
-  if (window.PFDataGraph) {
+  // Auto-sync if data is present, but respect existing PFClaimsData from data.claims.js
+  if (window.PFClaimsData && window.PFClaimsData.CLAIMS && window.PFClaimsData.CLAIMS.length > 0) {
+    // data.claims.js already loaded — do not overwrite with legacy graph data
+  } else if (window.PFDataGraph) {
     syncLegacyData();
   } else {
     // Polling fallback
     var attempts = 0;
     var poller = setInterval(function() {
       attempts++;
+      if (window.PFClaimsData && window.PFClaimsData.CLAIMS && window.PFClaimsData.CLAIMS.length > 0) {
+        clearInterval(poller);  // data.claims.js loaded — respect it
+        return;
+      }
       if (window.PFDataGraph) {
         syncLegacyData();
         clearInterval(poller);

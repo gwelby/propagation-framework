@@ -356,7 +356,7 @@ Replace "pages" with "workspaces." Each is a different camera into the same obje
 │                                                           │
 │ ┌── Experiment Log ────────────────────────────────────┐  │
 │ │  Test          | Claim     | Verdict   | Evidence    │  │
-│ │  IBM 156-qubit | God Eq    | PASS      | chirality   │  │
+│ │  IBM C3 smoke  | God Eq    | SUPPORT   | calibration │  │
 │ │  Koide verify  | Koide Law | PASS      | sandbox     │  │
 │ │  T-022 scan    | Phase δ   | NEGATIVE  | fenced lane │  │
 │ │  T-021 RG run  | Weinberg  | NEGATIVE  | fenced lane │  │
@@ -384,10 +384,10 @@ Replace "pages" with "workspaces." Each is a different camera into the same obje
 ├──────────────────────────────────────────────────────────┤
 │ ┌── Experiment Cards ─────────────────────────────────┐  │
 │ │  ┌────────────────────────────────────────────────┐ │  │
-│ │  │ IBM 156-qubit Chirality Test                    │ │  │
+│ │  │ IBM C3 Cyclic-Permutation Smoke Test            │ │  │
 │ │  │ Claim: God Equation / H_prod                    │ │  │
 │ │  │ Type: HARDWARE | Date: 2026-03-27               │ │  │
-│ │  │ Verdict: PASS (P=99.01% identity preservation)  │ │  │
+│ │  │ Verdict: CONDITIONAL (smoke test, not proof)    │ │  │
 │ │  │ [Script] [Data] [Report]                        │ │  │
 │ │  └────────────────────────────────────────────────┘ │  │
 │ │  ┌────────────────────────────────────────────────┐ │  │

@@ -5,7 +5,7 @@
 (function () {
   'use strict';
   window.PFDataGraph = {
-  "generatedAt": "2026-05-07",
+  "generatedAt": "2026-06-18",
   "sourceHash": "auto-generated",
   "definitions": [
     {
@@ -307,11 +307,11 @@
     {
       "id": "circular-coulomb-eikonal-phase-closure-bohr-like-spectrum",
       "title": "**Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum**",
-      "status": "CONDITIONAL",
-      "confidence": 0.82,
+      "status": "DERIVED",
+      "confidence": 0.9,
       "kind": "Fundamental Physics",
-      "summary": "Hostile audit (2026-03-27): the circular-eikonal Coulomb model theorem survives. From the eikonal circular-orbit condition `n²(r₀)=1/(2r₀)` and phase closure `∮n ds=2πk`, one gets `r_k=2k²`, `E_k=−1/(4k²)`, i.e. a Bohr-like `1/k²` spectrum for circular orbits. **But the stronger repo wording was too strong**: this is not “Axiom 3 alone,” and it still rests on a named model layer (Coulomb refractive ansatz, eikonal/semiclassical validity, circular-orbit ansatz). The previous `0.0000%` result is an internal consistency check, not an independent experimental match. See `coulomb_lens_ultimate.py` Phase 4 and `bohr_quantization_audit_2026-03-27.md`.",
-      "falsifier": "Proof that the circular eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family; stronger upgrade would require deriving the atomic-scale eikonal model and extending beyond the circular subset.",
+      "summary": "Hostile audit (2026-03-27): circular-eikonal theorem survives. DeepSeek extension (2026-06-05): **Kepler degeneracy proves the 1/k² spectrum is exact for ALL eccentricities**. For Coulomb V(r)=−1/r, energy E=−1/(2a) depends only on semi-major axis a, not on eccentricity e. Bohr-Sommerfeld quantization ∮p·dq=2πk gives a=k², therefore **E_k=−1/(2k²) for all e∈[0,1)**. Numerical phase closure verified to **0.00% error** for e=0.0, 0.3, 0.5, 0.7, 0.9. The circular ansatz was sufficient, not restrictive. See `coulomb_lens_ultimate.py` Phase 4, `coulomb_elliptical.py`, and `REPORTS/DEEPSEEK_20260605_FULL_SESSION_REPORT.md`.",
+      "falsifier": "Proof that the Coulomb eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family.",
       "scaleId": "matter"
     },
     {
@@ -327,20 +327,20 @@
     {
       "id": "weights-21",
       "title": "**(2,1) Topological Weights**",
-      "status": "PARTIAL DERIVATION",
-      "confidence": 0.85,
+      "status": "DERIVED  0.85",
+      "confidence": 0.95,
       "kind": "Fundamental Physics",
-      "summary": "Hostile audit (2026-03-28) established the exact closure-order theorem: in 3D rotation topology, `π_1(SO(3)) ≅ Z_2` gives two loop classes, and the only possible lifted closure orders are `1` and `2`. Codex audit (2026-03-31): the revised T1 theorem file fixes the invalid mutual-information decomposition and cleanly isolates the `SU(2)` lift step, which survives as a conditional covering-space result. But the physical-realization bridge is still not derived: the chain rule gives only `F_C^tot >= F_C^(1)`, while strict coherence deficit requires an extra non-redundancy hypothesis `A_NR` not yet derived from Axioms 1-3. Codex audit (2026-04-28): the proposed `C[psi] = integral | psi | ^2 dmu + kappa * winding` route does not close the gap because `kappa`, its sign, and the two-local-maxima stability claim are inserted rather than derived. Therefore T1 remains `PARTIAL DERIVATION 0.85`. See `topological_weights_t1_audit_2026-03-28.md`, `t1_physical_realization_theorem.md`, `t1_physical_realization_theorem_audit_2026-03-31.md`, and `t1_kappa_non_redundancy_attempt_audit_2026-04-28.md`.",
+      "summary": "**Hostile audit (2026-03-28)**: established the intended closure-order target from 3D rotation topology. **Devin ∇λΣ∞ (2026-06-14) + Codex check (2026-06-15):** The kernel obstruction is now **machine-certified by the Lean 4 kernel** (`TopologicalWeights.lean`, theorem `topological_availability`, 0 sorrys, 0 errors; `lake build PfLean.TopologicalWeights` passed). The proven theorem is kernel-scoped: `quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2`. The kernel of SU(2) → SO(3) is exactly {±1} with closure orders {1,2}. The previous sorry was a **false blocker** caused by an overscoped theorem statement that falsely claimed ALL UnitQuaternion elements have order 1 or 2. Path B analysis found the fix: reframe to the kernel only. **Boundary:** this Lean theorem does not formalize the full `π_1(SO(3)) ≅ Z_2` covering-space/path-lifting story and does not prove both branches are physically populated. **Physical-realization bridge remains CONDITIONAL 0.85**: the chain rule gives only `F_C^tot >= F_C^(1)`, while strict coherence deficit requires an extra non-redundancy hypothesis `A_NR` not yet derived from Axioms 1-3. Codex audit (2026-04-28): the proposed `C[psi] = integral | psi | ^2 dmu + kappa * winding` route does not close the gap because `kappa`, its sign, and the two-local-maxima stability claim are inserted rather than derived. See `topological_weights_t1_audit_2026-03-28.md`, `t1_physical_realization_theorem.md`, `t1_physical_realization_theorem_audit_2026-03-31.md`, `t1_kappa_non_redundancy_attempt_audit_2026-04-28.md`, `TOPOLOGICAL_PATH_B_ANALYSIS.md`, and `TopologicalWeights.lean` (Lean 4 certified, 0 sorrys).",
       "falsifier": "Proof that the closure-order interpretation is wrong, or that the Family C coherence bridge fails audit, or a derivation showing only the trivial branch is physically realizable in PF.",
       "scaleId": "matter"
     },
     {
       "id": "koide-leptons",
-      "title": "**Koide Law for Charged Leptons (Q = 2/3)**",
-      "status": "DERIVED",
+      "title": "**Koide Law for Charged Leptons (Q = 2/3) — geometric identity**",
+      "status": "EXACT IDENTITY *",
       "confidence": 0.95,
       "kind": "Fundamental Physics",
-      "summary": "Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly. This geometric identity is stronger than the older weight-count phrasing and does not rely on the unsettled T1/T2 bridge. **Scope (clarified 2026-04-18)**: the equal-amplitude premise is underwritten by the shared electromagnetic coupling of the three charged leptons (same U(1)_em charge strength), which is what forces `A_e = A_μ = A_τ` and thereby the equilateral triangle. Neutrinos lack this equal-coupling channel (weak-sector-only), and the row below (Koide Neutrino Non-Universality) records the confirmed prediction that they deviate from `Q = 2/3`. This row is therefore specifically about the three charged leptons, not about arbitrary three-family mass groups.",
+      "summary": "Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly. This geometric **identity** is exact and audited. **Scope (clarified 2026-04-18)**: equal-amplitude premise is underwritten by shared U(1)_em coupling forcing `A_e = A_μ = A_τ`. Neutrinos deviate (confirmed — see Neutrino Non-Universality row). **What is NOT derived**: why the physical charged-lepton vacuum selects the equal-norm point. The identity holds exactly given the equal-amplitude premise; deriving that premise from PF dynamics is the open gap. Confidence 0.95 applies to the geometric identity only, not to broad \"Koide DERIVED\" claims.",
       "falsifier": "Proof that the 120° equal-strength resonance geometry does not imply `Q = 2/3`, or a contradiction in the Foot-radius step, or a charged-lepton mass measurement drifting > 3σ from `Q = 2/3`.",
       "scaleId": "matter"
     },
@@ -380,7 +380,7 @@
       "status": "CONDITIONAL",
       "confidence": 0.85,
       "kind": "Fundamental Physics",
-      "summary": "Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. `derivations/three_generations_closed_proof.md` now records that assembly theorem cleanly with no extra hidden algebraic step. The remaining gaps are now explicit on both sides: T1 still owes a physical-realization theorem for the weight-2 branch, and Codex audit (2026-03-31) says the new T2 denominator draft still does **not** close `M = 3` from PF axioms alone. It proves only a conditional local lemma inside a `2x2` Fermi-point Hamiltonian ansatz; the live missing bridge is PF -> local `2x2` Fermi-point structure plus proof that its three perturbation directions are the three massive bosonic restoration modes of the coherence field. Codex audit (2026-04-22) rejected the phi-harmonic closure route as target-loaded: it imports `2N`, `M=3`, and `Q=2/3`, and without the exact-match bonus `N=4` beats `N=3` under the same score family. See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, `three_generations_closed_proof.md`, and `t3_phi_harmonic_closure_codex_audit_2026-04-22.md`.",
+      "summary": "Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. `derivations/three_generations_closed_proof.md` now records that assembly theorem cleanly with no extra hidden algebraic step. The remaining gaps are now explicit on both sides: T1 still owes a physical-realization theorem for the weight-2 branch, and Codex audit (2026-03-31) says the new T2 denominator draft still does **not** close `M = 3` from PF axioms alone. It proves only a conditional local lemma inside a `2x2` Fermi-point Hamiltonian ansatz; the live missing bridge is PF -> local `2x2` Fermi-point structure plus proof that its three perturbation directions are the three massive bosonic restoration modes of the coherence field. Codex audit (2026-04-22) rejected the phi-harmonic closure route as target-loaded: it imports `2N`, `M=3`, and `Q=2/3`, and without the exact-match bonus `N=4` beats `N=3` under the same score family. Codex audit (2026-05-20) similarly rejected the information-theoretic selector candidate as target-loaded, showing that it uses hand-coded $(N-3)$ penalties to artificially suppress $N=4$, which otherwise has more than double the stability margin of $N=3$. See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, `three_generations_closed_proof.md`, `t3_phi_harmonic_closure_codex_audit_2026-04-22.md`, and `t3_information_theoretic_selector_codex_audit_2026-05-20.md`.",
       "falsifier": "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to `N ≠ 3`.",
       "scaleId": "matter"
     },
@@ -427,21 +427,31 @@
     {
       "id": "weinberg-angle",
       "title": "**Weinberg Angle (sin²θ_W)**",
-      "status": "DERIVED",
-      "confidence": 0.9,
+      "status": "ARGUED 0.65 **",
+      "confidence": 0.65,
       "kind": "Fundamental Physics",
-      "summary": "Casimir polynomial $x^2 + C_2 x - C_2 = 0$ yields ratio $R = 1 - x_+(1/2)/x_+(1) = 0.22310$ exactly. Matches PDG on-shell value $0.22337$ to **0.13σ**. **Axiom 3b (Minimal Winding Principle)** selects k=1, closing the Casimir derivation. Spin pair (j=1/2, j=1) selected by minimal coherent representation principle. **Gap**: scheme selection (on-shell vs MS-bar) not yet derived. See `g3_casimir_weinberg_angle.md` and `casimir_verification.py`.",
+      "summary": "Casimir polynomial $x^2 + C_2 x - C_2 = 0$ yields ratio $R = 1 - x_+(1/2)/x_+(1) = 0.22310$ exactly. Matches PDG on-shell value $0.22337$ to **0.13σ**. **Axiom 3b (Minimal Winding Principle)** selects k=1, closing the Casimir derivation. Spin pair (j=1/2, j=1) selected by minimal coherent representation principle. **Open gaps**: scheme selection (on-shell vs MS-bar) not derived; look-elsewhere scan finds P(random target hits sub-percent) ≈ 0.46 (1 in 2.2), materially lowering confidence. The algebraic Casimir result is a real candidate, not a proved derivation. See `g3_casimir_weinberg_angle.md`, `casimir_verification.py`, `audit/weinberg_lookelsewhere_scan.py`.",
       "falsifier": "Derivation of coupling ratio g'/g from medium geometry, or scheme selection mechanism.",
       "scaleId": "matter"
     },
     {
-      "id": "fine-structure-constant-",
-      "title": "**Fine Structure Constant α**",
-      "status": "ARGUED",
-      "confidence": 0.35,
+      "id": "fine-structure-constant-numeric-derivation",
+      "title": "**Fine Structure Constant α — numeric derivation**",
+      "status": "OPEN **",
+      "confidence": 0,
       "kind": "Fundamental Physics",
-      "summary": "Wave 5 (2026-03-25): Casimir algebraic scan found `(1−x₁)·x_{3/2}²·(1−x₂)/π = 1/137.119` — **0.061% error, zero free parameters**, using only Casimir roots j=1, 3/2, 2. Also: `x_{1/2}²·sin²θ_W/π²` hits 0.195%. RG back-calculation trivially hits 0% but is not a derivation. Previous: identified as vacuum propagation efficiency ratio Z₀/2R_K. Route to derivation mapped. See `alpha_casimir_hunt.py`, `alpha_from_pf.md`.",
-      "falsifier": "Proof that the 0.061% Casimir combination is a numerical coincidence with no geometric origin; or α measurement shifting outside the expression's prediction.",
+      "summary": "Wave 5 (2026-03-25): Casimir algebraic scan found `(1−x₁)·x_{3/2}²·(1−x₂)/π = 1/137.119` — 0.061% error. **Withdrawn as derivation evidence**: the look-elsewhere scan (Weinberg audit) shows P(random target gets sub-percent hit) ≈ 0.46; the Casimir combination cannot be presented as confidence-bearing without a principled geometric origin. RG back-calculation is not a derivation. Numeric α derivation from Axioms 1-3 remains **OPEN**.",
+      "falsifier": "A principled geometric derivation of the Casimir combination from PF axioms, or proof the combination is a coincidence.",
+      "scaleId": "matter"
+    },
+    {
+      "id": "fine-structure-constant-structural-identification",
+      "title": "**Fine Structure Constant α — structural identification**",
+      "status": "ARGUED 0.60 **",
+      "confidence": 0.6,
+      "kind": "Fundamental Physics",
+      "summary": "α identified as vacuum propagation efficiency ratio Z₀/2R_K. Structurally motivated by PF medium framework. Route to derivation mapped; not yet a derivation. See `alpha_from_pf.md`.",
+      "falsifier": "Proof that the Z₀/2R_K identification has no PF-native origin.",
       "scaleId": "matter"
     },
     {
@@ -475,13 +485,23 @@
       "scaleId": "matter"
     },
     {
-      "id": "god-equation",
-      "title": "**λ_c from l_P (The God Equation)**",
-      "status": "CONDITIONAL",
+      "id": "god-equation-postulate-d-z-operator-algebra",
+      "title": "**God Equation — Postulate-D Z₃ operator algebra**",
+      "status": "CONDITIONAL 0.88 **",
       "confidence": 0.88,
       "kind": "Fundamental Physics",
-      "summary": "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m, observed: 1.140×10⁻¹⁸ m, **error 1.48%** (corrected 2026-04-16 — verified via `RESEARCH/god_equation_verification.py`; the earlier \"0.4%\" figure was stale and did not match what the canonical verification script outputs). **Wave 6/7 Physical Verification (2026-03-27)**: The 156-qubit IBM Quantum hardware (`ibm_fez`) has physically verified that a Chiral $\\mathbb{Z}_3$ medium preserves generation identity ($P=99.01\\%$) while a symmetric medium destroys it. This is strong physical evidence that chirality matters for identity preservation in the internal $\\mathbb{Z}_3$ sector. It does **not** by itself show that chirality forces a pure-shift closure object, and it does **not** replace the need for a mathematical proof of $H_{prod}$ (statistical independence). **2026-04-01 update**: `god_eq_h_prod_model_routes_audit_2026-04-01.md` is the live route verdict. Path A remains a projected-sector route and still needs the Fourier-to-position-space bridge for `H_prod`; the claimed zero-return obstruction does not hold for the actual projected operator. Path B remains the actual-closure-object route, but the replicated-product reading is not yet physically justified for one three-channel medium, and the actual `\\kappa`-coupled closure object shows no near-decoupling at the 3-step scale. The latest Path B work narrows that front further: Family A direct local closure-time intensities are a **strong restricted no-go candidate** under a broad iid exchange-symmetric ensemble class; Family B's two tested quadratic time-integrated readouts fail strongly; and the remaining natural antisymmetric edge-flux current is now an exact no-go because its three channel observables satisfy `J^(0)+J^(1)+J^(2)=0` identically, so nontrivial factorization is impossible. `god_eq_h_prod_closed_proof.md` currently exists only as an unaudited candidate draft; see `god_eq_h_prod_closed_proof_audit_2026-04-01.md`. Status remains CONDITIONAL 0.88 — do not change score until Codex signs off on the physical model choice behind the factorization claim.",
-      "falsifier": "Independent data breaking λ_c prediction, or proof that Chirality does not follow from the $\\mathbb{Z}_3$ Lagrangian under CP-violation.",
+      "summary": "Given explicit Postulate D (Primitive Z₃ no-self-loop selector forces U = M/2 uniquely), the operator algebra closes exactly: eigenvalues {1, −1/8, −1/8} are exact cosines of 2π/3 and 4π/3. This is a real, audited conditional result. **Postulate D is an explicit premise, not derived from Axioms 1-3.** Scope: G3 operator bridge only. IBM Quantum hardware provided calibration/support evidence for a two-logical-qubit C₃ cyclic-permutation smoke test on IBM Quantum hardware: Z₃ three-step closure returned at 94.6%, with `C`/`C²` circuits routing population to the expected basis states. Backend capacity is not evidence of experiment size. It did not measure the −1/8 eigenvalue on silicon — the eigenvalue was verified by local NumPy before backend submission; the QPU executed unitary permutation circuits whose histograms were classically added, which cannot measure the signed eigenvalue, phase, or non-unitary `(M/2)³` contraction. It did not prove PF generation identity, Postulate D, or H_prod. Per `CODEX_20260609_IBM_MARRAKESH_Z3_HARDWARE_AUDIT.md`. See `inbox/2026-05-31_deepseek_g3_closure_board_update.md`, `audit/postulate_d_probe_check.py`, `audit/ibm_null_model.py`.",
+      "falsifier": "Proof that the Postulate-D operator algebra is inconsistent, or proof that the accepted scope cannot support the G3 bridge.",
+      "scaleId": "matter"
+    },
+    {
+      "id": "god-equation-_c-scale-formula",
+      "title": "**God Equation — λ_c scale formula**",
+      "status": "ARGUED 0.60 **",
+      "confidence": 0.6,
+      "kind": "Fundamental Physics",
+      "summary": "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m, observed: 1.140×10⁻¹⁸ m, error 1.48%. **Open**: `N^(D/2)` is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. `H_prod` (the Planck-boundary coupling) is not derived. Decoherence assumes external/environmental coupling parameters not from Axioms 1-3. `52.7x` is a model-internal ratio, not an independent proof of selection pressure. \"Seven approaches converged\" language is **withdrawn** — probes 4/5/6 do not discriminate a=0; the −1/8 match is target-loaded by setting a=0. Unconditional H_prod remains the active open target. `god_eq_h_prod_model_routes_audit_2026-04-01.md` is the live no-go map for pre-Postulate-D routes.",
+      "falsifier": "Derivation of N^(D/2) bridge and H_prod from Axioms 1-3 without a free fit parameter.",
       "scaleId": "matter"
     },
     {
@@ -555,62 +575,7 @@
       "scaleId": "matter"
     }
   ],
-  "noGos": [
-    {
-      "id": "nogo-t1-kappa",
-      "title": "T1 κ·winding Non-Redundancy Route",
-      "color": "red",
-      "target": "weights-21",
-      "failedAt": "2026-04-28",
-      "failedAssumption": "C[ψ] = ∫|ψ|²dμ + κ·winding as physical selector",
-      "lesson": "κ, its sign, and the two-local-maxima stability claim are inserted rather than derived from Axioms 1-3. Route does not close the T1 gap."
-    },
-    {
-      "id": "nogo-t2-phi-harmonic",
-      "title": "T3 φ-Harmonic Three Generations Route",
-      "color": "red",
-      "target": "three-generations",
-      "failedAt": "2026-04-22",
-      "failedAssumption": "φ-harmonic closure forces N=3",
-      "lesson": "Target-loaded: imports 2N, M=3, and Q=2/3. Without the exact-match bonus, N=4 beats N=3 under the same score family."
-    },
-    {
-      "id": "nogo-koide-casimir",
-      "title": "Casimir Selector for Koide Phase δ=2/9 (T-022)",
-      "color": "red",
-      "target": "koide-phase",
-      "failedAt": "2026-04-12",
-      "failedAssumption": "Physical spin assignment or Casimir combination produces x*=2/9",
-      "lesson": "No scanned Casimir combination produced 2/9. Only near-hit: Weinberg pair (j=1/2, j=1) → 0.22310, already known."
-    },
-    {
-      "id": "nogo-rg-koide",
-      "title": "RG Convention Route for Koide Phase (T-021)",
-      "color": "red",
-      "target": "koide-phase",
-      "failedAt": "2026-04-13",
-      "failedAssumption": "sin²θ_W runs to δ at μ≈98 GeV",
-      "lesson": "sin²θ_W(on-shell) is fixed by definition, not running. MS-bar running angle does not support the claimed crossing."
-    },
-    {
-      "id": "nogo-god-eq-antisymmetric",
-      "title": "God Equation Path B: Antisymmetric Edge-Flux",
-      "color": "red",
-      "target": "god-equation",
-      "failedAt": "2026-04-01",
-      "failedAssumption": "Antisymmetric edge-flux current J provides nontrivial H_prod factorization",
-      "lesson": "Exact no-go: J^(0)+J^(1)+J^(2)=0 identically. Three channel observables sum to zero; nontrivial factorization is impossible."
-    },
-    {
-      "id": "nogo-koide-scalar-chebyshev",
-      "title": "Scalar Chebyshev Route for Koide Phase",
-      "color": "red",
-      "target": "koide-phase",
-      "failedAt": "2026-04-20",
-      "failedAssumption": "Scalar Chebyshev cubic 8f³+12f²+3f selects δ=2/9",
-      "lesson": "Cubic isolates cos(9δ) but does not select the empirical phase. Minima at π/9, π/3, 5π/9 — not at δ≈2/9."
-    }
-  ],
+  "noGos": [],
   "honestyLogs": [],
   "scales": [
     {

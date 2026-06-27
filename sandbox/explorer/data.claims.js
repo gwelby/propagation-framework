@@ -346,7 +346,7 @@
       audit: {
         claim: "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m. Observed: 1.140×10⁻¹⁸ m. Error: 1.48%.",
         standardBoundary: "QCD. λ_c is the coherence/confinement scale. l_P is the Planck length. b₀ = 16/3 is the one-loop QCD beta function coefficient for 3 colors.",
-        derivedPart: "IBM Quantum hardware (ibm_fez, 156 qubits) verified that a chiral ℤ₃ medium preserves generation identity (P=99.01%) while a symmetric medium destroys it. This strengthens the chiral-sector model but does not prove H_prod, statistical independence, or the full λ_c derivation.",
+        derivedPart: "IBM Quantum hardware provided calibration/support evidence for a two-logical-qubit C3 cyclic-permutation smoke test. It did not independently measure the −1/8 eigenvalue on silicon, did not prove PF generation identity, and did not prove Postulate D or H_prod. The conditional operator-algebra result (eigenvalues exact given Postulate D) is a real audited result; the λ_c scale formula remains ARGUED (N^(D/2) fit-selected).",
         openBridge: "H_prod statistical independence not yet derived. The active frontier is G3-OP-MAP: derive or falsify a PF-native oscillator-to-closure map. Trace-norm and Perron-Frobenius routes are closed as conditional negatives; open-system decoherence, environment coupling, nonlinear completion, and stronger RG/coarse-graining remain live classes.",
         falsifier: "Independent data breaking the λ_c prediction, or proof that chirality does not follow from the ℤ₃ Lagrangian under CP-violation.",
       },

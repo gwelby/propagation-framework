@@ -627,7 +627,7 @@
         category: "fundamental",
         wrongIntuition: {
           intuition: "Particle masses are arbitrary constants measured from experiment",
-          reality: "Particle masses are coherence eigenvalues — the top quark Compton wavelength is predicted by λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with zero free parameters",
+          reality: "Particle masses are modeled as coherence eigenvalues; the λ_c scale formula is an argued bridge, not a zero-free-parameter derivation.",
           evidencePanel: "#god-equation"
         },
         blocker: "Three gaps remain: (A) Markovity — locality does not automatically give first-order Markov coarse walk; (B) Operator closure — symmetric nearest-neighbor circulant does not close T³ without ab=0; (C) H_prod — zero covariance ≠ joint-law factorization.",
