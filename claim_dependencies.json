@@ -1,0 +1,63 @@
+{
+  "claims": {
+    "God Equation \u2014 Postulate-D Z\u2083 operator algebra": {
+      "depends_on": [
+        "Postulate D (Primitive Z\u2083 no-self-loop selector)"
+      ],
+      "lean_module": null,
+      "max_confidence": 0.88
+    },
+    "Weinberg Angle (sin\u00b2\u03b8_W)": {
+      "depends_on": [
+        "Axiom 3b (Minimal Winding Principle)",
+        "Casimir polynomial derivation"
+      ],
+      "lean_module": "PfLean.WeinbergAngle",
+      "max_confidence": 0.65
+    },
+    "(2,1) Topological Weights": {
+      "depends_on": [
+        "SU(2) double cover homomorphism"
+      ],
+      "lean_module": "PfLean.TopologicalWeights",
+      "max_confidence": 0.95
+    },
+    "Koide Law for Charged Leptons (Q = 2/3)": {
+      "depends_on": [
+        "Equal-amplitude premise (U(1)_em coupling)"
+      ],
+      "lean_module": "PfLean.KoideGeometry",
+      "max_confidence": 0.95
+    },
+    "Gravity as Optical Geometry / Refraction": {
+      "depends_on": [
+        "Null geodesics in static/stationary spacetimes"
+      ],
+      "lean_module": "PfLean.GravityOptics",
+      "max_confidence": 0.95
+    },
+    "Three Generations": {
+      "depends_on": [
+        "(2,1) Topological Weights physical realization",
+        "M = 3 denominator theorem"
+      ],
+      "lean_module": "PfLean.ThreeGenerations",
+      "max_confidence": 0.85
+    },
+    "SO(2) Rotation Group Structure": {
+      "depends_on": [],
+      "lean_module": "PfLean.SO2Rotation",
+      "max_confidence": 1.0
+    },
+    "SO(3) Double Cover": {
+      "depends_on": [],
+      "lean_module": "PfLean.SO3DoubleCover",
+      "max_confidence": 1.0
+    }
+  },
+  "_meta": {
+    "description": "Dependency metadata for Fundamentals claims floor-rule guard.",
+    "rule": "A claim's effective confidence cannot exceed the minimum confidence of its unresolved dependencies.",
+    "created": "2026-06-17"
+  }
+}
