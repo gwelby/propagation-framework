@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Primary Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#03030c">
+  <title>Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy</title>
+  
+  <!-- Local Typography & Base Styles -->
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- JS Libraries -->
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="vendor/d3.v7.min.js"></script>
+  <script src="vendor/Tone.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #03030c;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    .standalone-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(9, 21, 37, 0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(232, 240, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--spacing-3);
+      z-index: 100;
+      font-family: var(--ui);
+    }
+    
+    .back-btn {
+      background: transparent;
+      border: 1px solid rgba(232, 240, 255, 0.2);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+      text-decoration: none;
+    }
+    
+    .back-btn:hover {
+      background: rgba(232, 240, 255, 0.05);
+      border-color: var(--propagate);
+    }
+
+    .standalone-title {
+      font-family: var(--headline);
+      font-size: var(--font-size-lg);
+      color: var(--text);
+      margin: 0;
+    }
+
+    #panelStage {
+      position: absolute;
+      top: 50px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body class="mode-story">
+  <!-- Header -->
+  <header class="standalone-header">
+    <a href="index.html" class="back-btn">← Back to Explorer</a>
+    <h1 class="standalone-title">Quantum Substrate & Noise Spectroscopy</h1>
+    <div style="width: 100px;"></div> <!-- Spacer -->
+  </header>
+
+  <!-- Stage where the panel mounts -->
+  <main id="panelStage"></main>
+
+  <script>
+    // Mock the PFExplorer orchestration layer so the panel mounts cleanly standalone
+    window.PFExplorer = {
+      registerPanel: function(config) {
+        document.addEventListener('DOMContentLoaded', () => {
+          const stage = document.getElementById('panelStage');
+          
+          // Execute panel mount
+          config.mount({
+            stage: stage,
+            state: { mode: 'audit' }
+          });
+          
+          // Handle resize events
+          window.addEventListener('resize', () => {
+            config.resize();
+          });
+        });
+      }
+    };
+  </script>
+  <!-- Load the unified panel script -->
+  <script src="panels/quantum-observatory.js"></script>
+</body>
+</html>

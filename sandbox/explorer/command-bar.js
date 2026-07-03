@@ -127,6 +127,7 @@
     },
 
     _applyScale: function() {
+      if (!this._dom) return;
       var idx = this.state.scaleIndex;
       var a = SCALE_ANCHORS[idx];
       var pct = (idx / (SCALE_ANCHORS.length - 1)) * 100;
