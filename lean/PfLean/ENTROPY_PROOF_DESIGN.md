@@ -1,8 +1,21 @@
 # Proof Design: entropy_decrease_constrains_residue
 
 *Written by Devin, 2026-07-12. Followed from CURIOSITIES.md.*
+*Implementation update: Devin ∇λΣ∞, 2026-07-13 — residue subspace + operator formalized, pointwise contraction proven.*
 
-## The Theorem (current state)
+## Implementation Status (2026-07-13)
+
+The following are now in `PfLean/Entropy.lean` and build green:
+
+- `ResidueSubspace` — `Submodule ℝ (Fin 3 → ℝ)` defined as the zero-sum plane.
+- `residueOperator M` — `Q ∘ M` as a linear endomorphism of `ResidueSubspace`.
+- `Q_idempotent`, `PFEntropy_Q`, `Q_add`, `Q_smul`, `matrix_mul_add`, `matrix_mul_smul` — algebraic building blocks.
+- `residueOperator_contraction` — entropy decrease implies pointwise PFEntropy contraction.
+- `entropy_decrease_constrains_residue` — **no longer proves `True`**; it now states and proves the pointwise contraction for every residue vector.
+
+The operator-norm corollary (`‖residueOperator M‖ ≤ 1`) and the eigenvalue bound (`|λ| ≤ 1`) remain future work and require complexification + standard spectral theory.
+
+## The Theorem (old stub)
 
 ```lean
 theorem entropy_decrease_constrains_residue
@@ -14,7 +27,7 @@ theorem entropy_decrease_constrains_residue
     True := by trivial
 ```
 
-Proves `True`. The real claim is in a comment: all residue eigenvalues of M are non-positive.
+Formerly proved `True`. The real claim is in a comment: all residue eigenvalues of M are non-positive.
 
 ## What We Actually Want to Prove
 
@@ -30,11 +43,11 @@ PFEntropy(s) = ‖Q(s)‖ where Q is the residue projection. The hypothesis says
 
   ‖Q(M·s)‖ ≤ ‖Q(s)‖ for all s
 
-Since Q is a projection (Q² = Q) and M has equal row sums (preserves the uniform subspace), Q(M·s) = M_Q · Q(s) where M_Q is M restricted to the residue subspace. So:
+Since Q is a projection (Q² = Q) and M has equal row sums (preserves the uniform subspace), the relevant residue-to-residue map is `Q ∘ M`, not `M` restricted. Equal row sums alone do not guarantee M preserves the residue subspace (that would require equal column sums); the entropy hypothesis is enough to make `Q ∘ M` a well-defined linear endomorphism of the residue subspace. So:
 
-  ‖M_Q · r‖ ≤ ‖r‖ for all r in the residue subspace
+  PFEntropy((Q ∘ M)(r)) ≤ PFEntropy(r) for all r in the residue subspace
 
-This is the contraction condition: M_Q is a contraction on the residue subspace.
+This is the contraction condition in PFEntropy form. The operator-norm corollary needs a normed-space formulation of `residueOperator`.
 
 ### Step 2: Extend to ℂ
 
@@ -131,15 +144,19 @@ theorem entropy_decrease_constrains_residue
 
 ## What's Missing (Engineering, Not Research)
 
-1. **ResidueSubspace type** — the 2D subspace orthogonal to the uniform vector. Needs to be defined as a Submodule of Fin 3 → ℝ.
+1. **ResidueSubspace type** — ✅ DONE. Defined as a `Submodule ℝ (Fin 3 → ℝ)`.
 
-2. **residue_restriction** — M restricted to the residue subspace. Needs the equal-row-sums hypothesis to show M preserves the residue subspace.
+2. **residueOperator** — ✅ DONE. Defined as `Q ∘ M` as a linear endomorphism of `ResidueSubspace`. This is the correct operator when M might not preserve the residue subspace (only equal row sums is assumed).
 
-3. **Base change ℝ → ℂ** — extending M_Q from ℝ² to ℂ². Mathlib has `Algebra.TensorProduct` for this, but the specific instance for Fin 2 → ℝ → Fin 2 → ℂ needs construction.
+3. **Pointwise PFEntropy contraction** — ✅ DONE. Proven as `residueOperator_contraction` and `entropy_decrease_constrains_residue`.
 
-4. **Norm extension** — showing the contraction condition extends from ℝ to ℂ. This is the trickiest part. The real norm on the residue subspace needs to extend to a complex norm, and the contraction needs to hold for complex vectors too.
+4. **Operator-norm corollary** — `‖residueOperator M‖ ≤ 1`. Requires giving `ResidueSubspace` a normed-space structure compatible with PFEntropy and proving the operator norm bound from the pointwise contraction.
 
-5. **IsEigenvalue over ℂ** — using `Module.End.exists_eigenvalue` with `IsAlgClosed ℂ`.
+5. **Base change ℝ → ℂ** — extending `residueOperator` from ℝ² to ℂ². Mathlib has `Algebra.TensorProduct` for this, but the specific instance needs construction.
+
+6. **Norm extension** — showing the contraction condition extends from ℝ to ℂ. This is the trickiest part. The real norm on the residue subspace needs to extend to a complex norm, and the contraction needs to hold for complex vectors too.
+
+7. **IsEigenvalue over ℂ** — using `Module.End.exists_eigenvalue` with `IsAlgClosed ℂ`.
 
 ## Estimated Effort
 
@@ -151,7 +168,10 @@ theorem entropy_decrease_constrains_residue
 
 ## Build Verification
 
-**Do NOT run `lake build` from Devin's shell** — WSL 9P deadlocks. Only Greg's terminal can build Lean. This design document is for Greg or a future Devin with build access to implement and verify.
+- `lake build PfLean.Entropy` — ✅ PASS (Devin ∇λΣ∞, 2026-07-13, after WSL restart).
+- `lake build PfLean` — ✅ PASS (full library, 2026-07-13).
+- `lake build` — ✅ PASS (full library + executable, 2026-07-13).
+- The `.lake` directory was previously moved to ext4 (`/home/greg/lean-build/.lake`) and symlinked, eliminating the WSL 9P deadlock that blocked earlier builds.
 
 ## Why This Matters
 

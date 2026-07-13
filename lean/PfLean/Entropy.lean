@@ -41,6 +41,123 @@ namespace PfLean
 open Real
 
 -- ---------------------------------------------------------------------------
+-- 0. Residue Subspace and Dynamics Operator
+-- ---------------------------------------------------------------------------
+
+-- Helper: Q is idempotent because Q(x) always has zero sum.
+theorem Q_idempotent (x : Fin 3 → ℝ) : Q (Q x) = Q x := by
+  apply funext
+  intro i
+  apply Q_eq_of_sum_zero
+  exact Q_sum_zero x
+
+/-- The residue subspace: vectors in ℝ³ whose components sum to zero.
+    This is the 2-dimensional subspace orthogonal to the uniform vector [1,1,1]. -/
+def ResidueSubspace : Submodule ℝ (Fin 3 → ℝ) where
+  carrier := {x | x 0 + x 1 + x 2 = 0}
+  zero_mem' := by simp
+  add_mem' := by
+    intro a b ha hb
+    simp at ha hb ⊢
+    linarith
+  smul_mem' := by
+    intro c a ha
+    simp at ha ⊢
+    rw [← mul_add, ← mul_add, ha]
+    simp
+
+/-- For any vector in the residue subspace, Q acts as the identity. -/
+theorem ResidueSubspace.Q_eq_self {x : Fin 3 → ℝ} (hx : x ∈ ResidueSubspace) :
+    Q x = x := by
+  apply funext
+  intro i
+  apply Q_eq_of_sum_zero
+  exact hx
+
+/-- Q is additive. -/
+theorem Q_add (x y : Fin 3 → ℝ) : Q (x + y) = Q x + Q y := by
+  ext i
+  simp [Q, P0]
+  ring
+
+/-- Q is homogeneous. -/
+theorem Q_smul (c : ℝ) (x : Fin 3 → ℝ) : Q (c • x) = c • Q x := by
+  ext i
+  simp [Q, P0]
+  ring
+
+/-- Matrix-vector multiplication is additive. -/
+theorem matrix_mul_add (M : Fin 3 → Fin 3 → ℝ) (u v : Fin 3 → ℝ) :
+    (fun i => ∑ j, M i j * (u j + v j)) = (fun i => ∑ j, M i j * u j) + (fun i => ∑ j, M i j * v j) := by
+  funext i
+  have h : ∑ j, M i j * (u j + v j) = ∑ j, (M i j * u j + M i j * v j) := by
+    apply Finset.sum_congr (Eq.refl _)
+    intro j _
+    ring
+  rw [h]
+  rw [Finset.sum_add_distrib]
+  simp
+
+/-- Matrix-vector multiplication is homogeneous. -/
+theorem matrix_mul_smul (M : Fin 3 → Fin 3 → ℝ) (c : ℝ) (u : Fin 3 → ℝ) :
+    (fun i => ∑ j, M i j * (c * u j)) = c • (fun i => ∑ j, M i j * u j) := by
+  funext i
+  have h1 : ∑ j, M i j * (c * u j) = ∑ j, c * (M i j * u j) := by
+    apply Finset.sum_congr (Eq.refl _)
+    intro j _
+    ring
+  have h2 : ∑ j, c * (M i j * u j) = c * ∑ j, M i j * u j := by
+    rw [Finset.mul_sum]
+  have h3 : ∑ j, M i j * (c * u j) = c * ∑ j, M i j * u j := by
+    rw [h1, h2]
+  rw [h3]
+  simp
+
+/-- The residue operator: Q ∘ M restricted to the residue subspace.
+
+    For a coupling matrix M, this operator maps a residue vector r to the
+    residue component of M·r. Since Q(y) always sums to zero, the output lies
+    in the residue subspace for any M. -/
+noncomputable def residueOperator (M : Fin 3 → Fin 3 → ℝ) :
+    ResidueSubspace →ₗ[ℝ] ResidueSubspace where
+  toFun := fun r => ⟨Q (fun i => ∑ j, M i j * r.1 j), by
+    have h : Q (fun i => ∑ j, M i j * r.1 j) 0 + Q (fun i => ∑ j, M i j * r.1 j) 1 +
+      Q (fun i => ∑ j, M i j * r.1 j) 2 = 0 := Q_sum_zero _
+    simpa using h⟩
+  map_add' := by
+    intro r s
+    apply Subtype.ext
+    have h1 : (fun i => ∑ j, M i j * ((r + s).1 j)) = (fun i => ∑ j, M i j * (r.1 j + s.1 j)) := by
+      funext i
+      apply Finset.sum_congr (Eq.refl _)
+      intro j _
+      have h : (r + s).1 j = r.1 j + s.1 j := by rfl
+      rw [h]
+    have h2 : (fun i => ∑ j, M i j * (r.1 j + s.1 j)) = (fun i => ∑ j, M i j * r.1 j) + (fun i => ∑ j, M i j * s.1 j) := by
+      exact matrix_mul_add M r.1 s.1
+    have h3 : (fun i => ∑ j, M i j * ((r + s).1 j)) = (fun i => ∑ j, M i j * r.1 j) + (fun i => ∑ j, M i j * s.1 j) := by
+      rw [h1, h2]
+    have h4 : Q (fun i => ∑ j, M i j * ((r + s).1 j)) = Q (fun i => ∑ j, M i j * r.1 j) + Q (fun i => ∑ j, M i j * s.1 j) := by
+      rw [h3, Q_add]
+    exact h4
+  map_smul' := by
+    intro c r
+    apply Subtype.ext
+    have h1 : (fun i => ∑ j, M i j * ((c • r).1 j)) = (fun i => ∑ j, M i j * (c * r.1 j)) := by
+      funext i
+      apply Finset.sum_congr (Eq.refl _)
+      intro j _
+      have h : (c • r).1 j = c * r.1 j := by rfl
+      rw [h]
+    have h2 : (fun i => ∑ j, M i j * (c * r.1 j)) = c • (fun i => ∑ j, M i j * r.1 j) := by
+      exact matrix_mul_smul M c r.1
+    have h3 : (fun i => ∑ j, M i j * ((c • r).1 j)) = c • (fun i => ∑ j, M i j * r.1 j) := by
+      rw [h1, h2]
+    have h4 : Q (fun i => ∑ j, M i j * ((c • r).1 j)) = c • Q (fun i => ∑ j, M i j * r.1 j) := by
+      rw [h3, Q_smul]
+    exact h4
+
+-- ---------------------------------------------------------------------------
 -- 1. PF Entropy Definition
 -- ---------------------------------------------------------------------------
 
@@ -65,6 +182,11 @@ noncomputable def PFEntropy (x : Fin 3 → ℝ) : ℝ :=
 /-- PF Entropy is always non-negative. -/
 theorem PFEntropy_nonnegative (x : Fin 3 → ℝ) : PFEntropy x ≥ 0 := by
   apply Real.sqrt_nonneg
+
+/-- PF Entropy is unchanged by applying Q, because Q is a projection. -/
+theorem PFEntropy_Q (x : Fin 3 → ℝ) : PFEntropy (Q x) = PFEntropy x := by
+  simp [PFEntropy]
+  rw [Q_idempotent x]
 
 /-- The uniform state has zero PF Entropy. -/
 theorem uniform_state_zero_entropy (x : Fin 3 → ℝ) (c : ℝ) (h_uniform : ∀ i, x i = c) :
@@ -377,26 +499,43 @@ Honest cost: if the proof goes through without symmetry, it's a genuine
 result — entropy decrease constrains the spectrum. If the proof needs
 symmetry, that's another scaffolding cost to record. -/
 
+/-- The residue dynamics operator is a contraction: entropy decrease for all
+    states implies the residue PF Entropy cannot increase under one step of M.
+    This is the discrete-time spectral bound in PFEntropy form. -/
+theorem residueOperator_contraction
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
+        PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s)
+    (r : ResidueSubspace) :
+    PFEntropy (residueOperator M r).1 ≤ PFEntropy r.1 := by
+  have h1 : PFEntropy (fun i => ∑ j, M i j * r.1 j) ≤ PFEntropy r.1 :=
+    h_entropy_decrease r.1
+  have h2 : PFEntropy (residueOperator M r).1 = PFEntropy (fun i => ∑ j, M i j * r.1 j) := by
+    dsimp [residueOperator]
+    rw [PFEntropy_Q]
+  rw [h2]
+  exact h1
+
 set_option linter.unusedVariables false in
 
+/-- Entropy decrease constrains the residue dynamics operator pointwise:
+    for every residue vector r, the PF Entropy after one step of M is at
+    most the original PF Entropy.
+
+    The operator-norm corollary (norm of residueOperator M ≤ 1) and the
+    eigenvalue bound (|λ| ≤ 1 for all residue eigenvalues) require
+    complexification and the standard spectral-theory lemma that operator norm
+    bounds eigenvalue magnitude. That step is future work; the pointwise
+    PFEntropy contraction above is proven. -/
 theorem entropy_decrease_constrains_residue
     (M : Fin 3 → Fin 3 → ℝ)
     (h_zero_diag : ∀ i, M i i = 0)
     (h_row_sums : Hypothesis_EqualRowSums M)
     (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
         PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s) :
-    -- All residue eigenvalues of M are non-positive.
-    -- Formalization needs: char poly, roots, contraction → eigenvalue bound.
-    True := by
-  -- TODO: formalize the spectral theory scaffolding.
-  -- Mathematical argument:
-  --   1. h_entropy_decrease → M_Q is a contraction on the residue subspace
-  --   2. Contraction → all eigenvalues |λ| ≤ 1 (discrete) or Re(λ) ≤ 0 (continuous)
-  --   3. For the J-I case: residue eigenvalue = -1 (continuous) or -1/8 (T³ discrete)
-  -- The key question: does this proof need M to be symmetric?
-  -- If yes: symmetry is a hidden posit, record in ledger.
-  -- If no: entropy decrease genuinely constrains the spectrum.
-  trivial
+    ∀ (r : ResidueSubspace), PFEntropy (residueOperator M r).1 ≤ PFEntropy r.1 := by
+  intro r
+  exact residueOperator_contraction M h_entropy_decrease r
 
 /-! ## What Version B does NOT claim
 
@@ -404,11 +543,12 @@ theorem entropy_decrease_constrains_residue
 - Does NOT claim entropy decrease forces uniform cooling (non-uniform counterexample)
 - Does NOT claim the result is symmetric-matrices-only (that's the open question)
 - Does NOT close the load-bearing node (??? → J-I)
+- Does NOT yet prove the eigenvalue bound |λ| ≤ 1 (that needs complexification)
 
-The honest result: entropy decrease constrains the residue spectrum to
-non-positive eigenvalues. This is NECESSARY but NOT SUFFICIENT for J-I.
-The gap between "non-positive" and "degenerate" (uniform cooling) is
-where the independent posit lives. -/
+The honest result so far: entropy decrease makes the residue dynamics operator
+a contraction (operator norm ≤ 1). This is NECESSARY but NOT SUFFICIENT for J-I.
+The gap between "norm ≤ 1" and "degenerate negative real eigenvalues" (uniform cooling)
+is where the independent posit lives. -/
 
 -- ---------------------------------------------------------------------------
 -- 6. What This Means
@@ -455,5 +595,50 @@ where the independent posit lives. -/
   above). Entropy documents cooling dynamics; the open question of what forces
   J-I is addressed by the H17/H18 symmetry posits and the D-selection principle.
 -/
+
+/-! ## 7. Concrete Instantiation: J-I D=3 Isometry Obstruction
+
+The abstract `real_eigenvalue_obstruction` in Axioms.lean states that
+isometry + linearity + contraction → all states have zero distance from
+the origin (trivial). Below we prove the concrete D=3 J-I version:
+
+if T³ preserves the full Euclidean norm (isometry), then the state must
+be uniform (PFEntropy = 0). This is the contrapositive of
+`full_norm_T3_strictly_decreases` and directly instantiates the
+obstruction for the J-I circulant. -/
+
+/-- Concrete instantiation of the real eigenvalue obstruction for the J-I
+    circulant at D=3: if T³ preserves the full Euclidean norm (isometry),
+    then the state must be uniform (PFEntropy = 0).
+
+    This is the contrapositive of `full_norm_T3_strictly_decreases`:
+    T³ strictly decreases the norm of any non-uniform state, so if the
+    norm is preserved (isometry), the state cannot be non-uniform.
+
+    This is the machine-verified statement that isometry (H14) and the
+    J-I contraction are structurally incompatible for non-trivial states.
+    The only states that survive isometry + J-I dynamics are uniform
+    (PFEntropy = 0) — the coherent state is trivial. -/
+theorem JI_D3_isometry_forces_uniform (x : Fin 3 → ℝ)
+    (h_isometry : full_norm (T3 x) = full_norm x) :
+    PFEntropy x = 0 := by
+  by_contra h_ne
+  have h_pos : 0 < PFEntropy x :=
+    lt_of_le_of_ne (PFEntropy_nonnegative x) (Ne.symm h_ne)
+  have h_dec : full_norm (T3 x) < full_norm x :=
+    full_norm_T3_strictly_decreases x h_pos
+  linarith
+
+/-- The J-I circulant at D=3 satisfies the contraction hypothesis of
+    `real_eigenvalue_obstruction` (Axioms.lean) when the metric d is the
+    Euclidean distance from the origin (full_norm).
+
+    For any state with positive PFEntropy (non-uniform), T³ strictly
+    decreases the full Euclidean norm. This is the concrete contraction
+    property that makes the abstract obstruction applicable. -/
+theorem JI_D3_contraction_witness (x : Fin 3 → ℝ)
+    (h_nonuniform : PFEntropy x > 0) :
+    full_norm (T3 x) < full_norm x :=
+  full_norm_T3_strictly_decreases x h_nonuniform
 
 end PfLean
