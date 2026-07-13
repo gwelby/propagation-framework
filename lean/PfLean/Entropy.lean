@@ -537,6 +537,89 @@ theorem entropy_decrease_constrains_residue
   intro r
   exact residueOperator_contraction M h_entropy_decrease r
 
+/-- A concrete nonzero residue vector, used to show the residue subspace is
+    nontrivial. -/
+def ResidueSubspace.example_nonzero : ResidueSubspace :=
+  ⟨fun i =>
+    match i with
+    | 0 => 1
+    | 1 => -1
+    | 2 => 0
+    | _ => 0, by
+      simp [ResidueSubspace]⟩
+
+/-- The example residue vector is nonzero. -/
+theorem ResidueSubspace.example_nonzero_ne_zero :
+    ResidueSubspace.example_nonzero ≠ 0 := by
+  intro h0
+  have h1 : (ResidueSubspace.example_nonzero : Fin 3 → ℝ) 0 = 1 := by
+    simp [example_nonzero]
+  have h2 : (ResidueSubspace.example_nonzero : Fin 3 → ℝ) 0 = 0 := by
+    rw [h0]
+    simp
+  rw [h1] at h2
+  norm_num at h2
+
+/-- Any nonzero residue vector has positive PF Entropy. -/
+theorem ResidueSubspace.PFEntropy_pos_of_ne_zero {r : ResidueSubspace} (hr : r ≠ 0) :
+    0 < PFEntropy r.1 := by
+  have h1 : PFEntropy r.1 ≥ 0 := PFEntropy_nonnegative r.1
+  by_contra h
+  have h_eq : PFEntropy r.1 = 0 := by linarith
+  have h_uniform : ∃ c, ∀ i, r.1 i = c := uniform_state_unique_min_entropy r.1 h_eq
+  rcases h_uniform with ⟨c, hc⟩
+  have h_sum : c + c + c = 0 := by
+    have h : r.1 0 + r.1 1 + r.1 2 = 0 := r.2
+    rw [hc 0, hc 1, hc 2] at h
+    exact h
+  have hc0 : c = 0 := by linarith
+  have hr0 : r.1 = 0 := by
+    funext i
+    rw [hc i, hc0]
+    simp
+  have hr_zero : r = 0 := by
+    apply Subtype.ext
+    exact hr0
+  exact hr hr_zero
+
+/-- The residue operator norm, measured in PFEntropy units: the supremum of the
+    output/input PFEntropy ratio over all nonzero residue vectors. -/
+noncomputable def residueOperatorOpNorm (M : Fin 3 → Fin 3 → ℝ) : ℝ :=
+  sSup { x : ℝ | ∃ (r : ResidueSubspace) (_hr : r ≠ 0), x = PFEntropy (residueOperator M r).1 / PFEntropy r.1 }
+
+set_option linter.unusedVariables false in
+
+/-- Entropy decrease makes the residue dynamics operator a contraction in
+    PFEntropy norm: the supremum of output/input PFEntropy ratios is at most 1.
+
+    This is the discrete-time operator-norm bound. The eigenvalue bound |λ| ≤ 1
+    still requires complexification and the spectral-theory link between
+    operator norm and eigenvalue magnitude. -/
+theorem entropy_decrease_constrains_residue_opnorm
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_zero_diag : ∀ i, M i i = 0)
+    (h_row_sums : Hypothesis_EqualRowSums M)
+    (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
+        PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s) :
+    residueOperatorOpNorm M ≤ 1 := by
+  unfold residueOperatorOpNorm
+  apply csSup_le
+  · -- Show the set is nonempty.
+    use PFEntropy (residueOperator M ResidueSubspace.example_nonzero).1 /
+      PFEntropy ResidueSubspace.example_nonzero.1,
+      ResidueSubspace.example_nonzero,
+      ResidueSubspace.example_nonzero_ne_zero
+  · -- Show every element of the set is ≤ 1.
+    intro x hx
+    rcases hx with ⟨r, hr, rfl⟩
+    have h_pos : 0 < PFEntropy r.1 := ResidueSubspace.PFEntropy_pos_of_ne_zero hr
+    have h_contr : PFEntropy (residueOperator M r).1 ≤ PFEntropy r.1 :=
+      residueOperator_contraction M h_entropy_decrease r
+    have h_ratio : PFEntropy (residueOperator M r).1 / PFEntropy r.1 ≤ 1 := by
+      apply (div_le_iff₀ h_pos).mpr
+      linarith
+    exact h_ratio
+
 /-! ## What Version B does NOT claim
 
 - Does NOT claim entropy decrease + zero diagonal + equal row sums forces J-I (non-symmetric counterexample above)
@@ -546,7 +629,7 @@ theorem entropy_decrease_constrains_residue
 - Does NOT yet prove the eigenvalue bound |λ| ≤ 1 (that needs complexification)
 
 The honest result so far: entropy decrease makes the residue dynamics operator
-a contraction (operator norm ≤ 1). This is NECESSARY but NOT SUFFICIENT for J-I.
+a contraction (operator norm ≤ 1 in PFEntropy units). This is NECESSARY but NOT SUFFICIENT for J-I.
 The gap between "norm ≤ 1" and "degenerate negative real eigenvalues" (uniform cooling)
 is where the independent posit lives. -/
 

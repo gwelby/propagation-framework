@@ -12,8 +12,10 @@ The following are now in `PfLean/Entropy.lean` and build green:
 - `Q_idempotent`, `PFEntropy_Q`, `Q_add`, `Q_smul`, `matrix_mul_add`, `matrix_mul_smul` — algebraic building blocks.
 - `residueOperator_contraction` — entropy decrease implies pointwise PFEntropy contraction.
 - `entropy_decrease_constrains_residue` — **no longer proves `True`**; it now states and proves the pointwise contraction for every residue vector.
+- `residueOperatorOpNorm` — defined as the PFEntropy-unit operator norm (supremum of output/input ratios over nonzero residue vectors).
+- `entropy_decrease_constrains_residue_opnorm` — the operator-norm corollary is now proven: `residueOperatorOpNorm M ≤ 1`.
 
-The operator-norm corollary (`‖residueOperator M‖ ≤ 1`) and the eigenvalue bound (`|λ| ≤ 1`) remain future work and require complexification + standard spectral theory.
+The eigenvalue bound (`|λ| ≤ 1`) remains future work and requires complexification + standard spectral theory.
 
 ## The Theorem (old stub)
 
@@ -150,7 +152,7 @@ theorem entropy_decrease_constrains_residue
 
 3. **Pointwise PFEntropy contraction** — ✅ DONE. Proven as `residueOperator_contraction` and `entropy_decrease_constrains_residue`.
 
-4. **Operator-norm corollary** — `‖residueOperator M‖ ≤ 1`. Requires giving `ResidueSubspace` a normed-space structure compatible with PFEntropy and proving the operator norm bound from the pointwise contraction.
+4. **Operator-norm corollary** — ✅ DONE. `residueOperatorOpNorm M` defined as the PFEntropy-unit supremum and proven ≤ 1 via `entropy_decrease_constrains_residue_opnorm`. (A Mathlib `NormedAddCommGroup` formulation is still future work but not required for the mathematical bound.)
 
 5. **Base change ℝ → ℂ** — extending `residueOperator` from ℝ² to ℂ². Mathlib has `Algebra.TensorProduct` for this, but the specific instance needs construction.
 
