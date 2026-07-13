@@ -2,8 +2,9 @@
 
 *Written by Devin, 2026-07-12. Followed from CURIOSITIES.md.*
 *Implementation update: Devin ∇λΣ∞, 2026-07-13 — residue subspace + operator formalized, pointwise contraction proven.*
+*Implementation update: Devin ∇λΣ∞, 2026-07-14 — complexification completed; eigenvalue bound `|λ| ≤ 1` proven.*
 
-## Implementation Status (2026-07-13)
+## Implementation Status (2026-07-14)
 
 The following are now in `PfLean/Entropy.lean` and build green:
 
@@ -14,8 +15,14 @@ The following are now in `PfLean/Entropy.lean` and build green:
 - `entropy_decrease_constrains_residue` — **no longer proves `True`**; it now states and proves the pointwise contraction for every residue vector.
 - `residueOperatorOpNorm` — defined as the PFEntropy-unit operator norm (supremum of output/input ratios over nonzero residue vectors).
 - `entropy_decrease_constrains_residue_opnorm` — the operator-norm corollary is now proven: `residueOperatorOpNorm M ≤ 1`.
+- `Q_ℂ`, `ComplexResidueSubspace` — complex residue projection and subspace.
+- `complexResidueOperator` — `Q_ℂ ∘ M` as a `ℂ`-linear endomorphism of `ComplexResidueSubspace`.
+- `PFEntropy_C` — complex PFEntropy norm; `PFEntropy_C_sq_decompose` proves `PFEntropy_C(z)² = PFEntropy(Re z)² + PFEntropy(Im z)²`.
+- `complexResidueOperator_contraction` — the real entropy decrease hypothesis extends to a complex contraction.
+- `ComplexResidueSubspace.PFEntropy_C_pos_of_ne_zero` — nonzero complex residue vectors have positive complex PFEntropy.
+- `entropy_decrease_constrains_residue_eigenvalue` — **all complex residue eigenvalues μ satisfy `Complex.normSq μ ≤ 1`**, i.e. `|μ| ≤ 1`.
 
-The eigenvalue bound (`|λ| ≤ 1`) remains future work and requires complexification + standard spectral theory.
+The eigenvalue bound (`|λ| ≤ 1`) is now fully proven. What remains is tying it to the real spectrum of the original real residue operator if desired (e.g. via `Module.End.det` / characteristic polynomial base change), but the spectral constraint itself is closed.
 
 ## The Theorem (old stub)
 
@@ -152,13 +159,29 @@ theorem entropy_decrease_constrains_residue
 
 3. **Pointwise PFEntropy contraction** — ✅ DONE. Proven as `residueOperator_contraction` and `entropy_decrease_constrains_residue`.
 
-4. **Operator-norm corollary** — ✅ DONE. `residueOperatorOpNorm M` defined as the PFEntropy-unit supremum and proven ≤ 1 via `entropy_decrease_constrains_residue_opnorm`. (A Mathlib `NormedAddCommGroup` formulation is still future work but not required for the mathematical bound.)
+4. **Operator-norm corollary** — ✅ DONE. `residueOperatorOpNorm M` defined as the PFEntropy-unit supremum and proven ≤ 1 via `entropy_decrease_constrains_residue_opnorm`.
 
-5. **Base change ℝ → ℂ** — extending `residueOperator` from ℝ² to ℂ². Mathlib has `Algebra.TensorProduct` for this, but the specific instance needs construction.
+5. **Base change ℝ → ℂ** — ✅ DONE. Worked concretely with `Fin 3 → ℂ` and `Submodule ℂ (Fin 3 → ℂ)`; no abstract tensor product needed.
 
-6. **Norm extension** — showing the contraction condition extends from ℝ to ℂ. This is the trickiest part. The real norm on the residue subspace needs to extend to a complex norm, and the contraction needs to hold for complex vectors too.
+6. **Norm extension** — ✅ DONE. `PFEntropy_C` extends `PFEntropy` to complex vectors and `PFEntropy_C_sq_decompose` proves the real/imaginary decomposition; `complexResidueOperator_contraction` proves the complex contraction.
 
-7. **IsEigenvalue over ℂ** — using `Module.End.exists_eigenvalue` with `IsAlgClosed ℂ`.
+7. **IsEigenvalue over ℂ** — ✅ DONE. `entropy_decrease_constrains_residue_eigenvalue` uses `Module.End.HasEigenvalue` and `HasEigenvector` to extract a nonzero eigenvector and bound `|μ|`.
+
+8. **Real spectrum link** — OPEN. The theorem bounds complex eigenvalues of the complexified operator. For the original real `residueOperator`, the real eigenvalues are a subset of the complex eigenvalues (with the same characteristic polynomial), so the bound applies to them directly. A formal statement linking the two spectra via base change is future polish.
+
+## Complexification Design (2026-07-14 — completed)
+
+Instead of abstract tensor products, we work concretely with `Fin 3 → ℂ`:
+
+1. **Complex residue projection** `Q_ℂ` — same formula as `Q`, but with complex arithmetic. ✅
+2. **Complex residue subspace** — `{z : Fin 3 → ℂ | z 0 + z 1 + z 2 = 0}` as a `Submodule ℂ (Fin 3 → ℂ)`. ✅
+3. **Complex residue operator** — `Q_ℂ ∘ M` as a `ℂ`-linear endomorphism of the complex residue subspace. Since `M` is real, ℂ-linearity follows from real-linearity plus the fact that multiplication by a real matrix commutes with `i`. ✅
+4. **Complex PFEntropy norm** — `PFEntropy_C(z) = sqrt(∑ i |Q_ℂ z i|²)`, using `Complex.normSq`. ✅
+5. **Norm decomposition** — for `z = x + i y` with `x, y : Fin 3 → ℝ`, we have `PFEntropy_C(z)² = PFEntropy(x)² + PFEntropy(y)²`. ✅
+6. **Complexified contraction** — from the real contraction `PFEntropy(M x) ≤ PFEntropy(x)` and `PFEntropy(M y) ≤ PFEntropy(y)`, we get `PFEntropy_C(Q_ℂ(M z)) ≤ PFEntropy_C(z)` for all complex `z`. ✅
+7. **Eigenvalue bound** — for `μ` a complex eigenvalue with eigenvector `v`, `|μ| PFEntropy_C(v) = PFEntropy_C(Q_ℂ(M v)) ≤ PFEntropy_C(v)`. Since `v ≠ 0`, `PFEntropy_C(v) > 0`, so `|μ| ≤ 1`. ✅
+
+This bypasses the heavy `NormedAddCommGroup` machinery and proves the spectral bound directly. All seven steps are now machine-verified in `PfLean/Entropy.lean`.
 
 ## Estimated Effort
 
@@ -170,9 +193,9 @@ theorem entropy_decrease_constrains_residue
 
 ## Build Verification
 
-- `lake build PfLean.Entropy` — ✅ PASS (Devin ∇λΣ∞, 2026-07-13, after WSL restart).
-- `lake build PfLean` — ✅ PASS (full library, 2026-07-13).
-- `lake build` — ✅ PASS (full library + executable, 2026-07-13).
+- `lake build PfLean.Entropy` — ✅ PASS (Devin ∇λΣ∞, 2026-07-14).
+- `lake build PfLean` — ✅ PASS (full library, 2026-07-14).
+- `lake build` — ✅ PASS (full library + executable, 2026-07-14, 16,524 jobs).
 - The `.lake` directory was previously moved to ext4 (`/home/greg/lean-build/.lake`) and symlinked, eliminating the WSL 9P deadlock that blocked earlier builds.
 
 ## Why This Matters

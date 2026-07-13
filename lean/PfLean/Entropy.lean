@@ -31,7 +31,9 @@
 -/
 
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Complex.Basic
 import Mathlib.Tactic
+import Mathlib.LinearAlgebra.Eigenspace.Basic
 import PfLean.PFCore
 import PfLean.ArbitraryD
 import PfLean.Axioms
@@ -619,6 +621,361 @@ theorem entropy_decrease_constrains_residue_opnorm
       apply (div_le_iff₀ h_pos).mpr
       linarith
     exact h_ratio
+
+-- ---------------------------------------------------------------------------
+-- 5.5 Complexification and Eigenvalue Bound
+-- ---------------------------------------------------------------------------
+
+open Complex
+
+/-- Complex extension of the residue projection Q. -/
+noncomputable def Q_ℂ (z : Fin 3 → ℂ) : Fin 3 → ℂ :=
+  fun i => z i - (z 0 + z 1 + z 2) / 3
+
+/-- If a complex vector has zero sum, Q_ℂ acts as the identity on each component. -/
+theorem Q_ℂ_eq_of_sum_zero {z : Fin 3 → ℂ} (h : z 0 + z 1 + z 2 = 0) :
+    ∀ i, Q_ℂ z i = z i := by
+  intro i
+  simp [Q_ℂ]
+  rw [h]
+
+/-- The sum of Q_ℂ(z) is always zero. -/
+theorem Q_ℂ_sum_zero (z : Fin 3 → ℂ) : Q_ℂ z 0 + Q_ℂ z 1 + Q_ℂ z 2 = 0 := by
+  simp [Q_ℂ]
+  ring
+
+/-- Q_ℂ is idempotent. -/
+theorem Q_ℂ_idempotent (z : Fin 3 → ℂ) : Q_ℂ (Q_ℂ z) = Q_ℂ z := by
+  funext i
+  exact Q_ℂ_eq_of_sum_zero (Q_ℂ_sum_zero z) i
+
+/-- The complex residue subspace: vectors in ℂ³ whose components sum to zero.
+    This is the complexification of the real residue subspace. -/
+def ComplexResidueSubspace : Submodule ℂ (Fin 3 → ℂ) where
+  carrier := {z | z 0 + z 1 + z 2 = 0}
+  zero_mem' := by simp
+  add_mem' := by
+    intro a b ha hb
+    simp at ha hb ⊢
+    have h : a 0 + b 0 + (a 1 + b 1) + (a 2 + b 2) = (a 0 + a 1 + a 2) + (b 0 + b 1 + b 2) := by ring
+    rw [h, ha, hb]
+    simp
+  smul_mem' := by
+    intro c a ha
+    simp at ha ⊢
+    have h : c * a 0 + c * a 1 + c * a 2 = c * (a 0 + a 1 + a 2) := by ring
+    rw [h, ha]
+    simp
+
+/-- For any vector in the complex residue subspace, Q_ℂ acts as the identity. -/
+theorem ComplexResidueSubspace.Q_ℂ_eq_self {z : Fin 3 → ℂ} (hz : z ∈ ComplexResidueSubspace) :
+    Q_ℂ z = z := by
+  funext i
+  exact Q_ℂ_eq_of_sum_zero hz i
+
+/-- Q_ℂ is additive. -/
+theorem Q_ℂ_add (x y : Fin 3 → ℂ) : Q_ℂ (x + y) = Q_ℂ x + Q_ℂ y := by
+  ext i
+  simp [Q_ℂ]
+  ring
+
+/-- Q_ℂ is homogeneous over ℂ. -/
+theorem Q_ℂ_smul (c : ℂ) (x : Fin 3 → ℂ) : Q_ℂ (c • x) = c • Q_ℂ x := by
+  ext i
+  simp [Q_ℂ]
+  ring
+
+/-- Matrix-vector multiplication is additive for complex vectors. -/
+theorem matrix_mul_add_ℂ (M : Fin 3 → Fin 3 → ℝ) (u v : Fin 3 → ℂ) :
+    (fun i => ∑ j, M i j * (u j + v j)) = (fun i => ∑ j, M i j * u j) + (fun i => ∑ j, M i j * v j) := by
+  funext i
+  have h : ∑ j, M i j * (u j + v j) = ∑ j, (M i j * u j + M i j * v j) := by
+    apply Finset.sum_congr (Eq.refl _)
+    intro j _
+    ring
+  rw [h]
+  rw [Finset.sum_add_distrib]
+  simp
+
+/-- Matrix-vector multiplication is homogeneous for complex vectors. -/
+theorem matrix_mul_smul_ℂ (M : Fin 3 → Fin 3 → ℝ) (c : ℂ) (u : Fin 3 → ℂ) :
+    (fun i => ∑ j, M i j * (c * u j)) = c • (fun i => ∑ j, M i j * u j) := by
+  funext i
+  have h1 : ∑ j, M i j * (c * u j) = ∑ j, c * (M i j * u j) := by
+    apply Finset.sum_congr (Eq.refl _)
+    intro j _
+    ring
+  have h2 : ∑ j, c * (M i j * u j) = c * ∑ j, M i j * u j := by
+    rw [Finset.mul_sum]
+  have h3 : ∑ j, M i j * (c * u j) = c * ∑ j, M i j * u j := by
+    rw [h1, h2]
+  rw [h3]
+  simp
+
+/-- The complex residue dynamics operator: Q_ℂ ∘ M as a ℂ-linear endomorphism of
+    the complex residue subspace. -/
+noncomputable def complexResidueOperator (M : Fin 3 → Fin 3 → ℝ) :
+    ComplexResidueSubspace →ₗ[ℂ] ComplexResidueSubspace where
+  toFun := fun z => ⟨Q_ℂ (fun i => ∑ j, M i j * z.1 j), by
+    have h : Q_ℂ (fun i => ∑ j, M i j * z.1 j) 0 + Q_ℂ (fun i => ∑ j, M i j * z.1 j) 1 +
+      Q_ℂ (fun i => ∑ j, M i j * z.1 j) 2 = 0 := Q_ℂ_sum_zero _
+    simpa using h⟩
+  map_add' := by
+    intro z w
+    apply Subtype.ext
+    have h1 : (fun i => ∑ j, M i j * ((z + w).1 j)) = (fun i => ∑ j, M i j * (z.1 j + w.1 j)) := by
+      funext i
+      apply Finset.sum_congr (Eq.refl _)
+      intro j _
+      have h : (z + w).1 j = z.1 j + w.1 j := by rfl
+      rw [h]
+    have h2 : (fun i => ∑ j, M i j * (z.1 j + w.1 j)) = (fun i => ∑ j, M i j * z.1 j) + (fun i => ∑ j, M i j * w.1 j) := by
+      exact matrix_mul_add_ℂ M z.1 w.1
+    have h3 : (fun i => ∑ j, M i j * ((z + w).1 j)) = (fun i => ∑ j, M i j * z.1 j) + (fun i => ∑ j, M i j * w.1 j) := by
+      rw [h1, h2]
+    have h4 : Q_ℂ (fun i => ∑ j, M i j * ((z + w).1 j)) = Q_ℂ (fun i => ∑ j, M i j * z.1 j) + Q_ℂ (fun i => ∑ j, M i j * w.1 j) := by
+      rw [h3, Q_ℂ_add]
+    exact h4
+  map_smul' := by
+    intro c z
+    apply Subtype.ext
+    have h1 : (fun i => ∑ j, M i j * ((c • z).1 j)) = (fun i => ∑ j, M i j * (c * z.1 j)) := by
+      funext i
+      apply Finset.sum_congr (Eq.refl _)
+      intro j _
+      have h : (c • z).1 j = c * z.1 j := by rfl
+      rw [h]
+    have h2 : (fun i => ∑ j, M i j * (c * z.1 j)) = c • (fun i => ∑ j, M i j * z.1 j) := by
+      exact matrix_mul_smul_ℂ M c z.1
+    have h3 : (fun i => ∑ j, M i j * ((c • z).1 j)) = c • (fun i => ∑ j, M i j * z.1 j) := by
+      rw [h1, h2]
+    have h4 : Q_ℂ (fun i => ∑ j, M i j * ((c • z).1 j)) = c • Q_ℂ (fun i => ∑ j, M i j * z.1 j) := by
+      rw [h3, Q_ℂ_smul]
+    exact h4
+
+noncomputable def PFEntropy_C (z : Fin 3 → ℂ) : ℝ :=
+  Real.sqrt (∑ i, Complex.normSq (Q_ℂ z i))
+
+/-- Real and imaginary parts of a complex vector. -/
+def realPart (z : Fin 3 → ℂ) : Fin 3 → ℝ := fun i => (z i).re
+
+def imagPart (z : Fin 3 → ℂ) : Fin 3 → ℝ := fun i => (z i).im
+
+/-- The real part of Q_ℂ z equals Q of the real part. -/
+theorem realPart_Q_ℂ (z : Fin 3 → ℂ) : realPart (Q_ℂ z) = Q (realPart z) := by
+  funext i
+  simp [Q_ℂ, Q, P0, realPart]
+
+/-- The imaginary part of Q_ℂ z equals Q of the imaginary part. -/
+theorem imagPart_Q_ℂ (z : Fin 3 → ℂ) : imagPart (Q_ℂ z) = Q (imagPart z) := by
+  funext i
+  simp [Q_ℂ, Q, P0, imagPart]
+
+/-- Q_ℂ splits into real and imaginary Q components. -/
+theorem Q_ℂ_decompose (z : Fin 3 → ℂ) (i : Fin 3) :
+    Q_ℂ z i = ↑(Q (realPart z) i) + Complex.I * ↑(Q (imagPart z) i) := by
+  have h1 : (Q_ℂ z i).re = Q (realPart z) i := by
+    have h := congr_fun (realPart_Q_ℂ z) i
+    simpa [realPart] using h
+  have h2 : (Q_ℂ z i).im = Q (imagPart z) i := by
+    have h := congr_fun (imagPart_Q_ℂ z) i
+    simpa [imagPart] using h
+  rw [Complex.ext_iff]
+  simp [h1, h2]
+
+/-- The squared complex PFEntropy norm splits into real and imaginary PFEntropy norms. -/
+theorem PFEntropy_C_sq_decompose (z : Fin 3 → ℂ) :
+    PFEntropy_C z ^ 2 = PFEntropy (realPart z) ^ 2 + PFEntropy (imagPart z) ^ 2 := by
+  have h_nonneg1 : ∑ i, Complex.normSq (Q_ℂ z i) ≥ 0 := by
+    apply Finset.sum_nonneg
+    intro i _
+    exact Complex.normSq_nonneg _
+  have h1 : PFEntropy_C z ^ 2 = ∑ i, Complex.normSq (Q_ℂ z i) := by
+    simp [PFEntropy_C]
+    rw [Real.sq_sqrt h_nonneg1]
+  have h2 : ∑ i, Complex.normSq (Q_ℂ z i) = ∑ i, (Q (realPart z) i) ^ 2 + ∑ i, (Q (imagPart z) i) ^ 2 := by
+    have h3 : ∀ i, Complex.normSq (Q_ℂ z i) = (Q (realPart z) i) ^ 2 + (Q (imagPart z) i) ^ 2 := by
+      intro i
+      rw [Q_ℂ_decompose z i]
+      simp [Complex.normSq]
+      ring
+    simp_rw [h3]
+    rw [Finset.sum_add_distrib]
+  have h3 : ∑ i, (Q (realPart z) i) ^ 2 = PFEntropy (realPart z) ^ 2 := by
+    simp [PFEntropy]
+    rw [Fin.sum_univ_three]
+    rw [Real.sq_sqrt (by positivity)]
+  have h4 : ∑ i, (Q (imagPart z) i) ^ 2 = PFEntropy (imagPart z) ^ 2 := by
+    simp [PFEntropy]
+    rw [Fin.sum_univ_three]
+    rw [Real.sq_sqrt (by positivity)]
+  rw [h1, h2, h3, h4]
+
+/-- Complex PFEntropy is nonnegative. -/
+theorem PFEntropy_C_nonneg (z : Fin 3 → ℂ) : PFEntropy_C z ≥ 0 := by
+  apply Real.sqrt_nonneg
+
+/-- Matrix multiplication preserves real and imaginary parts for a real matrix. -/
+theorem realPart_M_eq_M_realPart (M : Fin 3 → Fin 3 → ℝ) (z : Fin 3 → ℂ) :
+    realPart (fun i => ∑ j, M i j * z j) = fun i => ∑ j, M i j * (realPart z j) := by
+  funext i
+  simp [realPart]
+
+theorem imagPart_M_eq_M_imagPart (M : Fin 3 → Fin 3 → ℝ) (z : Fin 3 → ℂ) :
+    imagPart (fun i => ∑ j, M i j * z j) = fun i => ∑ j, M i j * (imagPart z j) := by
+  funext i
+  simp [imagPart]
+
+/-- Complex PFEntropy is homogeneous: scaling by a complex scalar multiplies the
+    norm by the square root of the scalar's norm squared. -/
+theorem PFEntropy_C_smul (c : ℂ) (z : Fin 3 → ℂ) :
+    PFEntropy_C (c • z) = Real.sqrt (Complex.normSq c) * PFEntropy_C z := by
+  have h_nonneg1 : ∑ i, Complex.normSq (Q_ℂ (c • z) i) ≥ 0 := by
+    apply Finset.sum_nonneg
+    intro i _
+    exact Complex.normSq_nonneg _
+  have h_nonneg2 : ∑ i, Complex.normSq (Q_ℂ z i) ≥ 0 := by
+    apply Finset.sum_nonneg
+    intro i _
+    exact Complex.normSq_nonneg _
+  have h1 : PFEntropy_C (c • z) ^ 2 = Complex.normSq c * PFEntropy_C z ^ 2 := by
+    simp [PFEntropy_C]
+    have h : ∑ i, Complex.normSq (Q_ℂ (c • z) i) = Complex.normSq c * ∑ i, Complex.normSq (Q_ℂ z i) := by
+      have h1 : ∀ i, Complex.normSq (Q_ℂ (c • z) i) = Complex.normSq c * Complex.normSq (Q_ℂ z i) := by
+        intro i
+        have h2 : Q_ℂ (c • z) i = c * Q_ℂ z i := by
+          have h := congr_fun (Q_ℂ_smul c z) i
+          simpa using h
+        rw [h2]
+        rw [Complex.normSq_mul]
+      simp_rw [h1]
+      rw [Finset.mul_sum]
+    rw [h]
+    have h_nonneg3 : Complex.normSq c * ∑ i, Complex.normSq (Q_ℂ z i) ≥ 0 := by
+      apply mul_nonneg
+      · exact Complex.normSq_nonneg c
+      · exact h_nonneg2
+    rw [Real.sq_sqrt h_nonneg3]
+    rw [Real.sq_sqrt h_nonneg2]
+  have h2 : PFEntropy_C (c • z) ≥ 0 := PFEntropy_C_nonneg _
+  have h3 : Real.sqrt (Complex.normSq c) * PFEntropy_C z ≥ 0 := by
+    apply mul_nonneg
+    · apply Real.sqrt_nonneg
+    · apply PFEntropy_C_nonneg
+  have h4 : (Real.sqrt (Complex.normSq c) * PFEntropy_C z) ^ 2 = Complex.normSq c * PFEntropy_C z ^ 2 := by
+    rw [mul_pow]
+    rw [Real.sq_sqrt (Complex.normSq_nonneg c)]
+  nlinarith
+
+/-- Complexified PFEntropy contraction: entropy decrease for real states implies
+    the complex residue norm cannot increase under one step of M. -/
+theorem complexResidueOperator_contraction
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
+        PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s)
+    (z : Fin 3 → ℂ) :
+    PFEntropy_C (Q_ℂ (fun i => ∑ j, M i j * z j)) ≤ PFEntropy_C z := by
+  have h1 : PFEntropy_C (Q_ℂ (fun i => ∑ j, M i j * z j)) ^ 2 ≤ PFEntropy_C z ^ 2 := by
+    rw [PFEntropy_C_sq_decompose (Q_ℂ (fun i => ∑ j, M i j * z j))]
+    rw [PFEntropy_C_sq_decompose z]
+    have h_real : PFEntropy (realPart (Q_ℂ (fun i => ∑ j, M i j * z j))) ≤ PFEntropy (realPart z) := by
+      rw [realPart_Q_ℂ]
+      rw [realPart_M_eq_M_realPart M z]
+      have h4 : PFEntropy (Q (fun i => ∑ j, M i j * (realPart z j))) = PFEntropy (fun i => ∑ j, M i j * (realPart z j)) := by
+        rw [PFEntropy_Q]
+      rw [h4]
+      exact h_entropy_decrease (realPart z)
+    have h_imag : PFEntropy (imagPart (Q_ℂ (fun i => ∑ j, M i j * z j))) ≤ PFEntropy (imagPart z) := by
+      rw [imagPart_Q_ℂ]
+      rw [imagPart_M_eq_M_imagPart M z]
+      have h4 : PFEntropy (Q (fun i => ∑ j, M i j * (imagPart z j))) = PFEntropy (fun i => ∑ j, M i j * (imagPart z j)) := by
+        rw [PFEntropy_Q]
+      rw [h4]
+      exact h_entropy_decrease (imagPart z)
+    nlinarith [PFEntropy_nonnegative (realPart z), PFEntropy_nonnegative (imagPart z),
+               PFEntropy_nonnegative (realPart (Q_ℂ (fun i => ∑ j, M i j * z j))),
+               PFEntropy_nonnegative (imagPart (Q_ℂ (fun i => ∑ j, M i j * z j)))]
+  have h_nonneg1 : PFEntropy_C (Q_ℂ (fun i => ∑ j, M i j * z j)) ≥ 0 := PFEntropy_C_nonneg _
+  have h_nonneg2 : PFEntropy_C z ≥ 0 := PFEntropy_C_nonneg _
+  nlinarith
+
+/-- Any nonzero complex residue vector has positive complex PFEntropy. -/
+theorem ComplexResidueSubspace.PFEntropy_C_pos_of_ne_zero {z : ComplexResidueSubspace} (hz : z ≠ 0) :
+    0 < PFEntropy_C z.1 := by
+  have h1 : Q_ℂ z.1 = z.1 := ComplexResidueSubspace.Q_ℂ_eq_self z.2
+  have h2 : z.1 ≠ 0 := by
+    intro h
+    have hz0 : z = 0 := by
+      apply Subtype.ext
+      exact h
+    contradiction
+  have h3 : ∃ i, z.1 i ≠ 0 := by
+    by_contra h
+    push Not at h
+    have h0 : z.1 = 0 := by
+      funext i
+      exact h i
+    contradiction
+  rcases h3 with ⟨i, hi⟩
+  have h_sum_pos : ∑ j, Complex.normSq (z.1 j) > 0 := by
+    rw [Fin.sum_univ_three]
+    fin_cases i
+    · -- i = 0
+      have h_pos : 0 < Complex.normSq (z.1 0) := by
+        apply (Complex.normSq_pos).mpr
+        simpa using hi
+      nlinarith [Complex.normSq_nonneg (z.1 0), Complex.normSq_nonneg (z.1 1), Complex.normSq_nonneg (z.1 2), h_pos]
+    · -- i = 1
+      have h_pos : 0 < Complex.normSq (z.1 1) := by
+        apply (Complex.normSq_pos).mpr
+        simpa using hi
+      nlinarith [Complex.normSq_nonneg (z.1 0), Complex.normSq_nonneg (z.1 1), Complex.normSq_nonneg (z.1 2), h_pos]
+    · -- i = 2
+      have h_pos : 0 < Complex.normSq (z.1 2) := by
+        apply (Complex.normSq_pos).mpr
+        simpa using hi
+      nlinarith [Complex.normSq_nonneg (z.1 0), Complex.normSq_nonneg (z.1 1), Complex.normSq_nonneg (z.1 2), h_pos]
+  have h_eq : PFEntropy_C z.1 = Real.sqrt (∑ j, Complex.normSq (z.1 j)) := by
+    simp [PFEntropy_C, h1]
+  rw [h_eq]
+  apply Real.sqrt_pos.2
+  exact h_sum_pos
+
+set_option linter.unusedVariables false in
+
+/-- Entropy decrease constrains all complex residue eigenvalues of M to have
+    squared magnitude at most 1. Equivalently, |μ| ≤ 1 for every residue eigenvalue. -/
+theorem entropy_decrease_constrains_residue_eigenvalue
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_zero_diag : ∀ i, M i i = 0)
+    (h_row_sums : Hypothesis_EqualRowSums M)
+    (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
+        PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s)
+    (μ : ℂ)
+    (h_eigen : Module.End.HasEigenvalue (complexResidueOperator M) μ) :
+    Complex.normSq μ ≤ 1 := by
+  rcases h_eigen.exists_hasEigenvector with ⟨v, hv⟩
+  have hv_ne : v ≠ 0 := hv.2
+  have h_eq : (complexResidueOperator M v).1 = μ • v.1 := by
+    have h := Module.End.HasEigenvector.apply_eq_smul hv
+    rw [h]
+    simp
+  have h_norm_eq : PFEntropy_C ((complexResidueOperator M v).1) = Real.sqrt (Complex.normSq μ) * PFEntropy_C v.1 := by
+    rw [h_eq]
+    rw [PFEntropy_C_smul]
+  have h_contr : PFEntropy_C ((complexResidueOperator M v).1) ≤ PFEntropy_C v.1 := by
+    have h : PFEntropy_C ((complexResidueOperator M v).1) = PFEntropy_C (Q_ℂ (fun i => ∑ j, M i j * v.1 j)) := by
+      simp [complexResidueOperator]
+    rw [h]
+    apply complexResidueOperator_contraction M h_entropy_decrease v.1
+  have h_pos : 0 < PFEntropy_C v.1 := ComplexResidueSubspace.PFEntropy_C_pos_of_ne_zero hv_ne
+  have h_bound : Real.sqrt (Complex.normSq μ) ≤ 1 := by
+    nlinarith [h_norm_eq, h_contr, h_pos, Real.sqrt_nonneg (Complex.normSq μ), PFEntropy_C_nonneg v.1]
+  have h_bound2 : Complex.normSq μ ≤ 1 := by
+    have h : Complex.normSq μ = (Real.sqrt (Complex.normSq μ)) ^ 2 := by
+      rw [Real.sq_sqrt (Complex.normSq_nonneg μ)]
+    nlinarith [h_bound, Real.sqrt_nonneg (Complex.normSq μ)]
+  exact h_bound2
 
 /-! ## What Version B does NOT claim
 
