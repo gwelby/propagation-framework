@@ -522,13 +522,7 @@ set_option linter.unusedVariables false in
 
 /-- Entropy decrease constrains the residue dynamics operator pointwise:
     for every residue vector r, the PF Entropy after one step of M is at
-    most the original PF Entropy.
-
-    The operator-norm corollary (norm of residueOperator M ≤ 1) and the
-    eigenvalue bound (|λ| ≤ 1 for all residue eigenvalues) require
-    complexification and the standard spectral-theory lemma that operator norm
-    bounds eigenvalue magnitude. That step is future work; the pointwise
-    PFEntropy contraction above is proven. -/
+    most the original PF Entropy. -/
 theorem entropy_decrease_constrains_residue
     (M : Fin 3 → Fin 3 → ℝ)
     (h_zero_diag : ∀ i, M i i = 0)
@@ -977,13 +971,117 @@ theorem entropy_decrease_constrains_residue_eigenvalue
     nlinarith [h_bound, Real.sqrt_nonneg (Complex.normSq μ)]
   exact h_bound2
 
+/-- Embed a real residue vector into the complex residue subspace. -/
+def realToComplexResidue (v : ResidueSubspace) : ComplexResidueSubspace :=
+  ⟨fun i => (v.1 i : ℂ), by
+    have h : v.1 0 + v.1 1 + v.1 2 = 0 := v.2
+    simp [ComplexResidueSubspace]
+    exact_mod_cast h⟩
+
+/-- A real residue vector is nonzero iff its complex embedding is nonzero. -/
+theorem realToComplexResidue_ne_zero {v : ResidueSubspace} :
+    realToComplexResidue v ≠ 0 ↔ v ≠ 0 := by
+  have h1 : realToComplexResidue v = 0 ↔ v = 0 := by
+    constructor
+    · -- realToComplexResidue v = 0 → v = 0
+      intro h
+      have h0 : (realToComplexResidue v).1 = 0 := by
+        rw [h]
+        rfl
+      have h0' : v.1 = 0 := by
+        funext i
+        have h1 : (realToComplexResidue v).1 i = 0 := by
+          rw [h0]
+          rfl
+        simp [realToComplexResidue] at h1
+        exact h1
+      apply Subtype.ext
+      exact h0'
+    · -- v = 0 → realToComplexResidue v = 0
+      intro h
+      have h0 : v.1 = 0 := by
+        rw [h]
+        rfl
+      apply Subtype.ext
+      funext i
+      simp [realToComplexResidue, h0]
+  exact not_congr h1
+
+/-- The complex residue operator agrees with the real residue operator on
+    real vectors embedded into the complex subspace. -/
+theorem complexResidueOperator_realToComplexResidue
+    (M : Fin 3 → Fin 3 → ℝ) (v : ResidueSubspace) :
+    (complexResidueOperator M (realToComplexResidue v)).1 =
+      fun i => ((residueOperator M v).1 i : ℂ) := by
+  have h1 : (complexResidueOperator M (realToComplexResidue v)).1 =
+      Q_ℂ (fun i => ∑ j, M i j * (realToComplexResidue v).1 j) := by
+    simp [complexResidueOperator]
+  have h2 : (residueOperator M v).1 = Q (fun i => ∑ j, M i j * v.1 j) := by
+    simp [residueOperator]
+  rw [h1, h2]
+  funext i
+  simp [Q_ℂ, Q, P0, realToComplexResidue]
+
+/-- A real eigenvalue of the real residue operator is also a complex eigenvalue
+    of the complexified residue operator. -/
+theorem realEigenvalue_is_complexEigenvalue
+    (M : Fin 3 → Fin 3 → ℝ) (μ : ℝ)
+    (h_eigen : Module.End.HasEigenvalue (residueOperator M) μ) :
+    Module.End.HasEigenvalue (complexResidueOperator M) (μ : ℂ) := by
+  rcases h_eigen.exists_hasEigenvector with ⟨v, hv⟩
+  have hv_ne : v ≠ 0 := hv.2
+  have h_eq : (residueOperator M v).1 = μ • v.1 := by
+    have h := Module.End.HasEigenvector.apply_eq_smul hv
+    rw [h]
+    simp
+  have h_smul : complexResidueOperator M (realToComplexResidue v) = (μ : ℂ) • realToComplexResidue v := by
+    apply Subtype.ext
+    rw [complexResidueOperator_realToComplexResidue M v]
+    have h3 : (fun i => ((residueOperator M v).1 i : ℂ)) = (μ : ℂ) • (realToComplexResidue v).1 := by
+      rw [h_eq]
+      funext i
+      simp [realToComplexResidue, Complex.ofReal_mul, Pi.smul_apply]
+    exact h3
+  have h_ne : realToComplexResidue v ≠ 0 := (realToComplexResidue_ne_zero).mpr hv_ne
+  have h_in_eigenspace : realToComplexResidue v ∈ Module.End.eigenspace (complexResidueOperator M) (μ : ℂ) := by
+    rw [Module.End.mem_eigenspace_iff]
+    exact h_smul
+  have h_eigenspace_nontrivial : Module.End.eigenspace (complexResidueOperator M) (μ : ℂ) ≠ ⊥ := by
+    intro h_eq
+    rw [h_eq] at h_in_eigenspace
+    have h_zero : realToComplexResidue v = 0 := by
+      simpa using h_in_eigenspace
+    contradiction
+  exact h_eigenspace_nontrivial
+
+/-- Entropy decrease constrains all real residue eigenvalues of M to lie in
+    [-1, 1]. In particular, every real residue eigenvalue μ satisfies μ ≤ 1. -/
+theorem entropy_decrease_constrains_real_residue_eigenvalue
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_zero_diag : ∀ i, M i i = 0)
+    (h_row_sums : Hypothesis_EqualRowSums M)
+    (h_entropy_decrease : ∀ (s : Fin 3 → ℝ),
+        PFEntropy (fun i => ∑ j, M i j * s j) ≤ PFEntropy s)
+    (μ : ℝ)
+    (h_eigen : Module.End.HasEigenvalue (residueOperator M) μ) :
+    μ ^ 2 ≤ 1 := by
+  have h_c_eigen : Module.End.HasEigenvalue (complexResidueOperator M) (μ : ℂ) :=
+    realEigenvalue_is_complexEigenvalue M μ h_eigen
+  have h_bound : Complex.normSq (μ : ℂ) ≤ 1 :=
+    entropy_decrease_constrains_residue_eigenvalue M h_zero_diag h_row_sums h_entropy_decrease (μ : ℂ) h_c_eigen
+  have h_eq : Complex.normSq (μ : ℂ) = μ ^ 2 := by
+    simp [Complex.normSq]
+    ring
+  rw [h_eq] at h_bound
+  exact h_bound
+
 /-! ## What Version B does NOT claim
 
 - Does NOT claim entropy decrease + zero diagonal + equal row sums forces J-I (non-symmetric counterexample above)
 - Does NOT claim entropy decrease forces uniform cooling (non-uniform counterexample)
 - Does NOT claim the result is symmetric-matrices-only (that's the open question)
 - Does NOT close the load-bearing node (??? → J-I)
-- Does NOT yet prove the eigenvalue bound |λ| ≤ 1 (that needs complexification)
+- Does NOT claim the stronger bound Re(λ) ≤ 0 (that would need strict contraction or zero-diagonal structure)
 
 The honest result so far: entropy decrease makes the residue dynamics operator
 a contraction (operator norm ≤ 1 in PFEntropy units). This is NECESSARY but NOT SUFFICIENT for J-I.

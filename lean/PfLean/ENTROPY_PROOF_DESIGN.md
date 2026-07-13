@@ -21,8 +21,10 @@ The following are now in `PfLean/Entropy.lean` and build green:
 - `complexResidueOperator_contraction` — the real entropy decrease hypothesis extends to a complex contraction.
 - `ComplexResidueSubspace.PFEntropy_C_pos_of_ne_zero` — nonzero complex residue vectors have positive complex PFEntropy.
 - `entropy_decrease_constrains_residue_eigenvalue` — **all complex residue eigenvalues μ satisfy `Complex.normSq μ ≤ 1`**, i.e. `|μ| ≤ 1`.
+- `realToComplexResidue`, `complexResidueOperator_realToComplexResidue`, `realEigenvalue_is_complexEigenvalue` — the real↔complex spectrum link.
+- `entropy_decrease_constrains_real_residue_eigenvalue` — **all real residue eigenvalues μ of the original real residue operator satisfy `μ² ≤ 1`**, i.e. `-1 ≤ μ ≤ 1`.
 
-The eigenvalue bound (`|λ| ≤ 1`) is now fully proven. What remains is tying it to the real spectrum of the original real residue operator if desired (e.g. via `Module.End.det` / characteristic polynomial base change), but the spectral constraint itself is closed.
+The eigenvalue bound (`|λ| ≤ 1`) is now fully proven, including the formal link between the real residue operator and its complexification. The remaining open frontier is the stronger statement `Re(λ) ≤ 0` (which would require strict contraction or additional zero-diagonal structure).
 
 ## The Theorem (old stub)
 
@@ -167,7 +169,7 @@ theorem entropy_decrease_constrains_residue
 
 7. **IsEigenvalue over ℂ** — ✅ DONE. `entropy_decrease_constrains_residue_eigenvalue` uses `Module.End.HasEigenvalue` and `HasEigenvector` to extract a nonzero eigenvector and bound `|μ|`.
 
-8. **Real spectrum link** — OPEN. The theorem bounds complex eigenvalues of the complexified operator. For the original real `residueOperator`, the real eigenvalues are a subset of the complex eigenvalues (with the same characteristic polynomial), so the bound applies to them directly. A formal statement linking the two spectra via base change is future polish.
+8. **Real spectrum link** — ✅ DONE. `realToComplexResidue` embeds the real residue subspace into the complex one; `complexResidueOperator_realToComplexResidue` shows the complexified operator agrees with the real one on embedded vectors; `realEigenvalue_is_complexEigenvalue` proves every real eigenvalue of the real operator is also a complex eigenvalue of the complexified operator. Therefore `entropy_decrease_constrains_real_residue_eigenvalue` gives the bound `μ² ≤ 1` (i.e. `-1 ≤ μ ≤ 1`) directly for the original real operator.
 
 ## Complexification Design (2026-07-14 — completed)
 
@@ -193,10 +195,10 @@ This bypasses the heavy `NormedAddCommGroup` machinery and proves the spectral b
 
 ## Build Verification
 
-- `lake build PfLean.Entropy` — ✅ PASS (Devin ∇λΣ∞, 2026-07-14).
+- `lake build PfLean.Entropy` — ✅ PASS (Devin ∇λΣ∞, 2026-07-14; real↔complex spectrum link included).
 - `lake build PfLean` — ✅ PASS (full library, 2026-07-14).
 - `lake build` — ✅ PASS (full library + executable, 2026-07-14, 16,524 jobs).
-- The `.lake` directory was previously moved to ext4 (`/home/greg/lean-build/.lake`) and symlinked, eliminating the WSL 9P deadlock that blocked earlier builds.
+- The `.lake` directory was previously moved to ext4 (`/home/greg/lean-build/.lake`) and symlinked, eliminating the WSL 9P deadlock that blocked earlier builds. The full project was also verified by building in an ext4 copy of the source tree.
 
 ## Why This Matters
 
