@@ -219,16 +219,61 @@ def assemble():
         content = resolve_source(entry)
         full_content += f"\n<!-- SECTION: {entry['title']} -->\n"
         full_content += content
-        full_content += "\n\n---\n"
+        full_content += "\n\n<hr />\n"
     
     # Standardize horizontal rules to avoid Pandoc YAML confusion
-    # Use *** instead of --- for internal separators
-    full_content = re.sub(r'^\s*---\s*$', '***', full_content, flags=re.MULTILINE)
+    # Use <hr /> instead of --- or *** to close lists and prevent header leakage
+    full_content = re.sub(r'^\s*(?:---|\*\*\*)\s*$', '\n<hr />\n', full_content, flags=re.MULTILINE)
     
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(full_content)
+
+def validate_and_write_manifest():
+    import datetime
+    html_path = BASE_DIR / "book.html"
+    print_html_path = BASE_DIR / "book.print.html"
+    manifest_path = BASE_DIR / "BUILD_MANIFEST.md"
+    
+    leaks_found = False
+    details = []
+    
+    for path in [html_path, print_html_path]:
+        if path.exists():
+            text = path.read_text(encoding="utf-8", errors="replace")
+            # Look for literal "*** ##"
+            matches = [m.start() for m in re.finditer(r"\*\*\*\s*##", text)]
+            if matches:
+                leaks_found = True
+                details.append(f"- {path.name}: ❌ FAILED ({len(matches)} literal leaks found)")
+            else:
+                details.append(f"- {path.name}: ✅ PASS (zero literal leaks)")
+        else:
+            details.append(f"- {path.name}: ⚠️ WARNING (file not found)")
+            
+    assertion_status = "❌ FAIL" if leaks_found else "✅ PASS"
+    
+    timestamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    
+    manifest_content = f"""# Fundamentals — Build Manifest
+
+**Built:** {timestamp}
+**Status:** BUILD RECORD ONLY - release truth lives in RELEASE_MANIFEST.md
+**Source:** {OUTPUT_FILE}
+**PDF:** {BASE_DIR}/BOOK_PROPAGATION_FRAMEWORK.pdf
+**HTML:** {html_path}
+**HTML Print:** {print_html_path}
+
+## Build Assertions
+- HTML Leak Check: {assertion_status}
+{chr(10).join(details)}
+"""
+    manifest_path.write_text(manifest_content, encoding="utf-8")
+    print("BUILD_MANIFEST.md updated with build assertions.")
+    if leaks_found:
+        print("WARNING: Literal Markdown-heading leaks detected in HTML output files.")
 
 if __name__ == "__main__":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     assemble()
     print(f"Manuscript assembled at {OUTPUT_FILE}")
+    validate_and_write_manifest()
