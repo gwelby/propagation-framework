@@ -24,7 +24,7 @@ The following are now in `PfLean/Entropy.lean` and build green:
 - `realToComplexResidue`, `complexResidueOperator_realToComplexResidue`, `realEigenvalue_is_complexEigenvalue` — the real↔complex spectrum link.
 - `entropy_decrease_constrains_real_residue_eigenvalue` — **all real residue eigenvalues μ of the original real residue operator satisfy `μ² ≤ 1`**, i.e. `-1 ≤ μ ≤ 1`.
 
-The eigenvalue bound (`|λ| ≤ 1`) is now fully proven, including the formal link between the real residue operator and its complexification. The remaining open frontier is the stronger statement `Re(λ) ≤ 0` (which would require strict contraction or additional zero-diagonal structure).
+The eigenvalue bound (`|λ| ≤ 1`) is now fully proven, including the formal link between the real residue operator and its complexification. The stronger statement `Re(λ) ≤ 0` has been **disproven** by a formal Lean counterexample: `counterexampleM` = [[0, 1/2, -1/2], [1/2, 0, -1/2], [0, 0, 0]] has zero diagonal, equal row sums, satisfies entropy decrease (||T||₂ = 1/2 ≤ 1), but has a positive residue eigenvalue +1/2. The bound μ² ≤ 1 is tight.
 
 ## The Theorem (old stub)
 

@@ -1081,12 +1081,172 @@ theorem entropy_decrease_constrains_real_residue_eigenvalue
 - Does NOT claim entropy decrease forces uniform cooling (non-uniform counterexample)
 - Does NOT claim the result is symmetric-matrices-only (that's the open question)
 - Does NOT close the load-bearing node (??? → J-I)
-- Does NOT claim the stronger bound Re(λ) ≤ 0 (that would need strict contraction or zero-diagonal structure)
+- Does NOT claim the stronger bound Re(λ) ≤ 0 — this is **false** in general.
+  See `counterexample_positive_eigenvalue` below for a concrete matrix M with
+  zero diagonal, equal row sums, entropy decrease, and a positive residue eigenvalue.
 
 The honest result so far: entropy decrease makes the residue dynamics operator
 a contraction (operator norm ≤ 1 in PFEntropy units). This is NECESSARY but NOT SUFFICIENT for J-I.
 The gap between "norm ≤ 1" and "degenerate negative real eigenvalues" (uniform cooling)
 is where the independent posit lives. -/
+
+/-! ## Counterexample: Re(λ) ≤ 0 is not a consequence of entropy decrease
+
+The matrix M = [[0, 1/2, -1/2], [1/2, 0, -1/2], [0, 0, 0]] has:
+- Zero diagonal (H7 / Postulate D).
+- Equal row sums (all 0).
+- The residue operator T = Q∘M on the zero-sum subspace is diag(-1/2, +1/2),
+  which has operator norm 1/2 ≤ 1 (entropy decrease holds).
+- But T has a positive eigenvalue +1/2.
+
+This shows that the bound μ² ≤ 1 (proven above) is **tight**, and that the
+stronger bound Re(λ) ≤ 0 requires an additional independent posit beyond
+entropy decrease + zero diagonal + equal row sums. -/
+
+/-- Counterexample matrix: zero diagonal, equal row sums (all 0), entropy-decreasing,
+    but with a positive residue eigenvalue +1/2. -/
+noncomputable def counterexampleM : Fin 3 → Fin 3 → ℝ :=
+  fun i j =>
+    match i, j with
+    | 0, 0 => 0
+    | 0, 1 => 1/2
+    | 0, 2 => -(1/2)
+    | 1, 0 => 1/2
+    | 1, 1 => 0
+    | 1, 2 => -(1/2)
+    | 2, 0 => 0
+    | 2, 1 => 0
+    | 2, 2 => 0
+
+/-- The counterexample matrix has zero diagonal. -/
+theorem counterexampleM_zero_diag : ∀ i, counterexampleM i i = 0 := by
+  intro i
+  fin_cases i <;> rfl
+
+/-- The counterexample matrix has equal row sums (all 0). -/
+theorem counterexampleM_equal_row_sums : Hypothesis_EqualRowSums counterexampleM := by
+  refine ⟨0, ?_⟩
+  intro i
+  fin_cases i <;> simp [counterexampleM, Fin.sum_univ_three]
+
+/-- The counterexample matrix satisfies the entropy decrease hypothesis:
+    PFEntropy(Ms) ≤ PFEntropy(s) for all s. This holds because Q(Ms) is a
+    permutation of (1/2)·Q(s), so ||Q(Ms)||² = (1/4)·||Q(s)||². -/
+theorem counterexampleM_entropy_decrease :
+    ∀ (s : Fin 3 → ℝ),
+      PFEntropy (fun i => ∑ j, counterexampleM i j * s j) ≤ PFEntropy s := by
+  intro s
+  -- Strategy: compute Q(Ms)(i) and Q(s)(i) for each i, then show the sum-of-squares identity.
+  -- Ms(0) = (s1-s2)/2, Ms(1) = (s0-s2)/2, Ms(2) = 0
+  -- Q(Ms)(0) = (-s0+2s1-s2)/6, Q(Ms)(1) = (2s0-s1-s2)/6, Q(Ms)(2) = (-s0-s1+2s2)/6
+  -- Q(s)(0) = (2s0-s1-s2)/3, Q(s)(1) = (-s0+2s1-s2)/3, Q(s)(2) = (-s0-s1+2s2)/3
+  -- Key: Q(Ms)(0) = Q(s)(1)/2, Q(Ms)(1) = Q(s)(0)/2, Q(Ms)(2) = Q(s)(2)/2
+  -- So ∑ Q(Ms)(i)² = (1/4) ∑ Q(s)(i)²
+  let Ms := fun i => ∑ j, counterexampleM i j * s j
+  -- Compute Ms components
+  have hMs0 : Ms 0 = (s 1 - s 2) / 2 := by
+    show (∑ j, counterexampleM 0 j * s j) = (s 1 - s 2) / 2
+    simp [counterexampleM, Fin.sum_univ_three]; ring
+  have hMs1 : Ms 1 = (s 0 - s 2) / 2 := by
+    show (∑ j, counterexampleM 1 j * s j) = (s 0 - s 2) / 2
+    simp [counterexampleM, Fin.sum_univ_three]; ring
+  have hMs2 : Ms 2 = 0 := by
+    show (∑ j, counterexampleM 2 j * s j) = 0
+    simp [counterexampleM, Fin.sum_univ_three]
+  -- Compute Q(Ms) components: Q(x)(i) = x(i) - (x(0)+x(1)+x(2))/3
+  have hQMs0 : Q Ms 0 = (-s 0 + 2*s 1 - s 2) / 6 := by
+    show Ms 0 - (Ms 0 + Ms 1 + Ms 2) / 3 = (-s 0 + 2*s 1 - s 2) / 6
+    rw [hMs0, hMs1, hMs2]; ring
+  have hQMs1 : Q Ms 1 = (2*s 0 - s 1 - s 2) / 6 := by
+    show Ms 1 - (Ms 0 + Ms 1 + Ms 2) / 3 = (2*s 0 - s 1 - s 2) / 6
+    rw [hMs0, hMs1, hMs2]; ring
+  have hQMs2 : Q Ms 2 = (-s 0 - s 1 + 2*s 2) / 6 := by
+    show Ms 2 - (Ms 0 + Ms 1 + Ms 2) / 3 = (-s 0 - s 1 + 2*s 2) / 6
+    rw [hMs0, hMs1, hMs2]; ring
+  -- Compute Q(s) components
+  have hQs0 : Q s 0 = (2*s 0 - s 1 - s 2) / 3 := by
+    show s 0 - (s 0 + s 1 + s 2) / 3 = (2*s 0 - s 1 - s 2) / 3
+    ring
+  have hQs1 : Q s 1 = (-s 0 + 2*s 1 - s 2) / 3 := by
+    show s 1 - (s 0 + s 1 + s 2) / 3 = (-s 0 + 2*s 1 - s 2) / 3
+    ring
+  have hQs2 : Q s 2 = (-s 0 - s 1 + 2*s 2) / 3 := by
+    show s 2 - (s 0 + s 1 + s 2) / 3 = (-s 0 - s 1 + 2*s 2) / 3
+    ring
+  -- Now show PFEntropy(Ms)² = (1/4) * PFEntropy(s)²
+  have h_nonneg_Ms : (Q Ms 0) ^ 2 + (Q Ms 1) ^ 2 + (Q Ms 2) ^ 2 ≥ 0 := by positivity
+  have h_nonneg_s : (Q s 0) ^ 2 + (Q s 1) ^ 2 + (Q s 2) ^ 2 ≥ 0 := by positivity
+  have h_sq : PFEntropy Ms ^ 2 = (1/4) * PFEntropy s ^ 2 := by
+    show Real.sqrt ((Q Ms 0) ^ 2 + (Q Ms 1) ^ 2 + (Q Ms 2) ^ 2) ^ 2 =
+         (1/4) * Real.sqrt ((Q s 0) ^ 2 + (Q s 1) ^ 2 + (Q s 2) ^ 2) ^ 2
+    rw [Real.sq_sqrt h_nonneg_Ms, Real.sq_sqrt h_nonneg_s]
+    rw [hQMs0, hQMs1, hQMs2, hQs0, hQs1, hQs2]
+    ring
+  -- Conclude
+  have h_nonneg_PE_s : PFEntropy s ≥ 0 := PFEntropy_nonnegative s
+  have h_nonneg_PE_Ms : PFEntropy Ms ≥ 0 := PFEntropy_nonnegative _
+  nlinarith [h_sq, h_nonneg_PE_s, h_nonneg_PE_Ms]
+
+/-- The eigenvector (1, 1, -2) as an element of ResidueSubspace. -/
+def counterexampleEigenvector : ResidueSubspace :=
+  ⟨fun i => if i = 0 then 1 else if i = 1 then 1 else (-2:ℝ), by
+    rw [ResidueSubspace]
+    simp [Fin.sum_univ_three]
+    ring⟩
+
+/-- The eigenvector is nonzero. -/
+theorem counterexampleEigenvector_ne_zero : counterexampleEigenvector ≠ 0 := by
+  intro h
+  have h0 : counterexampleEigenvector.1 = 0 := by
+    rw [h]
+    rfl
+  have : counterexampleEigenvector.1 0 = 0 := by rw [h0]; rfl
+  simp [counterexampleEigenvector] at this
+
+/-- The eigenvector components. -/
+theorem counterexampleEigenvector_val (i : Fin 3) :
+    counterexampleEigenvector.1 i = match i with
+      | 0 => (1:ℝ) | 1 => (1:ℝ) | 2 => (-2:ℝ) := by
+  rcases i with ⟨val, h⟩
+  simp [counterexampleEigenvector]
+  interval_cases val <;> rfl
+
+/-- The counterexample matrix has a positive residue eigenvalue +1/2.
+    The residue operator T = Q∘M on the zero-sum subspace has eigenvalues -1/2 and +1/2.
+    The vector v = (1, 1, -2) (a zero-sum vector) is an eigenvector with eigenvalue +1/2. -/
+theorem counterexample_positive_eigenvalue :
+    Module.End.HasEigenvalue (residueOperator counterexampleM) (1/2 : ℝ) := by
+  -- Show that the eigenspace for 1/2 is nontrivial by exhibiting an eigenvector.
+  -- v = (1, 1, -2), Mv = (3/2, 3/2, 0), Q(Mv) = (1/2, 1/2, -1) = (1/2)*v
+  have h_ev : (residueOperator counterexampleM counterexampleEigenvector).1 =
+              (1/2 : ℝ) • counterexampleEigenvector.1 := by
+    have h_res : (residueOperator counterexampleM counterexampleEigenvector).1 =
+        Q (fun i => ∑ j, counterexampleM i j * counterexampleEigenvector.1 j) := by
+      simp [residueOperator]
+    rw [h_res]
+    funext i
+    have hvi := counterexampleEigenvector_val i
+    simp only [Q, P0]
+    -- Compute Mv(i) = sum_j M(i,j) * v(j)
+    fin_cases i
+    all_goals simp [counterexampleM, Fin.sum_univ_three, counterexampleEigenvector]; ring
+  -- Show the eigenspace is nontrivial.
+  have h_ev' : residueOperator counterexampleM counterexampleEigenvector =
+               (1/2 : ℝ) • counterexampleEigenvector := by
+    apply Subtype.ext
+    exact h_ev
+  have h_in_eigenspace : counterexampleEigenvector ∈
+      Module.End.eigenspace (residueOperator counterexampleM) (1/2 : ℝ) := by
+    rw [Module.End.mem_eigenspace_iff]
+    exact h_ev'
+  have h_eigenspace_nontrivial : Module.End.eigenspace (residueOperator counterexampleM) (1/2 : ℝ) ≠ ⊥ := by
+    intro h_eq
+    rw [h_eq] at h_in_eigenspace
+    have h_zero : counterexampleEigenvector = 0 := by
+      simpa using h_in_eigenspace
+    exact counterexampleEigenvector_ne_zero h_zero
+  exact h_eigenspace_nontrivial
+
 
 -- ---------------------------------------------------------------------------
 -- 6. What This Means
