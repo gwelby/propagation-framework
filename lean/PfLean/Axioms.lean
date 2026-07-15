@@ -537,7 +537,7 @@ machinery.
   H3 + H2 + H14 + H5 + H21 + H22 (with continuity)    | YES (needs spectral)  | YES                   | Stone's theorem + spectral theorem for skew-symmetric A; 2D case proven, general case needs Mathlib assembly
   H8 + H3 + H2 + H4 + H5 (non-zero, with complex)     | OPEN                  | YES                   | Even with complex eigenvalues, one approximate return + stability does not force non-zero periodic orbit
   H3 + H2 + H14 + H5 (2D rotation, concrete)           | YES (non-zero, PROVEN)| N/A                   | rotation_semigroup_nonzero_periodic_orbit: 2D rotation with ω≠0 has period 2π/|ω|
-  H3 + H2 + H14 + H5 + H21 (general, D-dim)            | OPEN (sorry, 90% done)| N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: needs spectral theorem for skew-symmetric A|
+  H3 + H2 + H14 + H5 + H21 + H22 + IP (general, D-dim)  | OPEN (sorry)          | N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: needs spectral theorem for skew-adjoint A; hBdd removed (derivable from isometry); InnerProductSpace added (Route 1)|
 
 ## Honest parameter count for recurrence:
 
@@ -980,28 +980,46 @@ theorem isometry_linear_semigroup_odd_dim_periodic_orbit
     rw [mul_one] at ih
     exact ih
 /-- GENERAL THEOREM (WITH CONTINUITY — still needs spectral theorem for full proof):
-    H3 (linearity) + H2 (semigroup) + H14 (isometry) + H5 (finite-dim) + H21 (d = norm)
-    + H22 (continuity) → nonzero periodic orbit exists.
 
-    This is the theorem that would close the H8 frontier. The contraction counterexample
-    (Experiment 5b) shows H8 + H3 + H2 + H5 is NOT enough. Adding H14 (isometry) + H22
-    (continuity) is sufficient, as demonstrated by the 2D rotation case.
+    PROOF-DESIGN CHOICE (2026-07-15, per Codex intake HOLD 2026-07-14):
+    Route 1 chosen: explicit `InnerProductSpace ℝ M.State` hypothesis.
+    This matches the already-proven odd-dimension theorem
+    (`isometry_linear_semigroup_odd_dim_periodic_orbit`) which requires
+    `InnerProductSpace` for the adjoint/orthogonal-matrix machinery.
+    Route 2 (deriving an invariant inner product from a finite-dimensional
+    normed isometry) is NOT taken; it would require a separate bridge lemma
+    (compact-isometry-group → invariant inner product) that is not formalized.
 
-    DISCOVERY (2026-07-14): H22 (continuity) is REQUIRED. Without it, a discontinuous
-    group homomorphism from ℝ to SO(2) gives a counterexample (see doc comment above).
+    hBdd REMOVED: `Hypothesis_BoundedOrbit` is derivable from hIso + hDNorm
+    alone (isometry preserves norms → ‖U(t)s‖ = ‖s‖ → d(s, U(t)s) ≤ 2‖s‖).
+    See `isometry_implies_bounded_orbit` below. The odd-dim theorem does not
+    use hBdd either. Listing hBdd as a separate premise was misleading.
 
-    The proof with H22 requires the finite-dimensional spectral theorem for skew-symmetric
-    matrices (Stone's theorem + eigenvalue decomposition). The 2D case is proven as
-    `rotation_semigroup_nonzero_periodic_orbit`. The general case remains open. -/
+    H22 (continuity) RETAINED: the discontinuous SO(2) counterexample
+    (lines 653–686) shows H22 is necessary. Without it, a Hamel-basis
+    homomorphism ℝ → SO(2) satisfies H3+H2+H14+H5+H21 but has no nonzero
+    periodic orbit.
+
+    HYPOTHESES: H3 (linearity) + H2 (semigroup) + H14 (isometry) + H5 (finite-dim)
+    + H21 (d = norm) + H22 (continuity) + InnerProductSpace → nonzero periodic orbit.
+
+    STATUS: OPEN. The proof requires the finite-dimensional spectral theorem
+    for skew-symmetric matrices (Stone's theorem → A skew-adjoint → eigenvalue
+    decomposition). The 2D case is proven (`rotation_semigroup_nonzero_periodic_orbit`).
+    The odd-dim case is proven (`isometry_linear_semigroup_odd_dim_periodic_orbit`).
+    The general (all-dim) case remains `sorry` until Mathlib's spectral theorem
+    is assembled in a directly usable form.
+
+    This theorem is NOT a formal H8 closure. Do not describe it as 90% proved
+    or nearly complete. The dependency closure contains `sorryAx`. -/
 theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
-    (M : BareMedium) [NormedAddCommGroup M.State] [NormedSpace ℝ M.State]
+    (M : BareMedium) [NormedAddCommGroup M.State] [InnerProductSpace ℝ M.State]
     [FiniteDimensional ℝ M.State]
     (hLin : Hypothesis_Linear M)
     (hSemi : Hypothesis_Semigroup M)
     (hIso : Hypothesis_Isometry M)
     (hDNorm : Hypothesis_DIsNorm M)
     (hCont : Hypothesis_Continuity M)
-    (hBdd : ∃ (s : M.State), Hypothesis_BoundedOrbit M s)
     (hNontrivial : ∃ (s : M.State), s ≠ 0) :
     ∃ (s : M.State) (T : ℝ), s ≠ 0 ∧ T > 0 ∧
       ∀ (n : ℕ), M.propagate (↑n * T) s = s := by
@@ -1010,17 +1028,58 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
   -- 2. hIso + hLin + hDNorm → propagate(t, ·) is a linear isometry (norm-preserving)
   -- 3. hSemi → one-parameter group: U(s+t) = U(s)·U(t), U(0) = id
   -- 4. hCont → t ↦ U(t) is continuous
-  -- 5. Stone's theorem (finite-dim): U(t) = exp(tA) for skew-symmetric A
+  -- 5. Stone's theorem (finite-dim): U(t) = exp(tA) for skew-adjoint A
   -- 6. Spectral theorem: A has eigenvalues 0 or ±iωⱼ
-  -- 7. If all ωⱼ = 0: A = 0, U = id → trivial_periodic_orbit
+  -- 7. If all ωⱼ = 0: A = 0, U = id → any nonzero s is periodic (T = 1)
   -- 8. If some ωⱼ ≠ 0: eigenvector v ≠ 0, T = 2π/|ωⱼ| gives U(T)v = v
   --
-  -- The 2D case is proven (rotation_semigroup_nonzero_periodic_orbit).
-  -- The general case needs Mathlib's spectral theorem for skew-symmetric matrices.
+  -- PROVEN CASES:
+  --   Odd dim: isometry_linear_semigroup_odd_dim_periodic_orbit (det trick, no spectral)
+  --   2D rotation: rotation_semigroup_nonzero_periodic_orbit (concrete)
   --
   -- GAP: Step 5 (Stone's theorem) and Step 6 (spectral theorem) are not yet
   -- available in Mathlib in a directly usable form for this proof.
+  -- The odd-dim proof bypasses the spectral theorem using a determinant trick
+  -- that only works when (-1)^n = -1 (odd n). Even dimensions need the
+  -- spectral theorem or a different algebraic approach.
   sorry
+
+/-- Lemma: Isometry + d=norm implies bounded orbit (hBdd is derivable, not a
+    separate premise).
+
+    This is the negative-evidence justification for removing `hBdd` from the
+    general periodic-orbit theorem. If U(t) preserves norms, then every orbit
+    is bounded by 2‖s‖ regardless of any other hypothesis. -/
+lemma isometry_implies_bounded_orbit
+    (M : BareMedium) [NormedAddCommGroup M.State] [Module ℝ M.State]
+    (hLin : Hypothesis_Linear M)
+    (hIso : Hypothesis_Isometry M)
+    (hDNorm : Hypothesis_DIsNorm M)
+    (s : M.State) :
+    Hypothesis_BoundedOrbit M s := by
+  -- U(t) preserves norms: ‖propagate(t, s)‖ = ‖s‖
+  have h_Pt0 (t : ℝ) : M.propagate t (0 : M.State) = 0 := by
+    have h := hLin t (0 : M.State) (0 : M.State) 0 0
+    simp at h
+    exact h
+  have h_norm_pres (t : ℝ) : ‖M.propagate t s‖ = ‖s‖ := by
+    have h_dist := hIso t s (0 : M.State)
+    rw [h_Pt0 t] at h_dist
+    have h_d1 : M.d s (0 : M.State) = ‖s - (0 : M.State)‖ := hDNorm s 0
+    have h_d2 : M.d (M.propagate t s) (0 : M.State) = ‖M.propagate t s - (0 : M.State)‖ :=
+      hDNorm (M.propagate t s) 0
+    rw [h_d1, h_d2] at h_dist
+    simp [sub_zero] at h_dist
+    exact h_dist.symm
+  -- d(s, U(t)s) = ‖s - U(t)s‖ ≤ ‖s‖ + ‖U(t)s‖ = 2‖s‖
+  refine ⟨2 * ‖s‖ + 1, fun t ht => ?_⟩
+  have h_d : M.d s (M.propagate t s) = ‖s - M.propagate t s‖ := hDNorm s (M.propagate t s)
+  rw [h_d]
+  calc ‖s - M.propagate t s‖
+      ≤ ‖s‖ + ‖M.propagate t s‖ := norm_sub_le _ _
+    _ = ‖s‖ + ‖s‖ := by rw [h_norm_pres t]
+    _ = 2 * ‖s‖ := by ring
+    _ < 2 * ‖s‖ + 1 := by linarith
 
 /-! ## Experiment 6: Isometry + metric identity → reversibility
 
@@ -1468,6 +1527,100 @@ theorem isometry_compact_orbit_gives_discrete_recurrence
   -- T = ((m - n : ℕ) : ℝ) which is defeq to the goal's (m - n : ℝ) from refine
   exact h_close'
 
+/-! ## Edge 28b: Infinite Discrete Sampled Recurrence (Devin 2026-07-15)
+
+Strengthening of Edge 28: the return times are not just nonzero but ARBITRARILY
+LARGE. For every ε > 0 and every N ∈ ℕ, there exists n ≥ N with
+d(s, propagate(n, s)) < ε.
+
+Proof: the existing Edge 28 proof finds two indices k < m near a cluster point
+and returns T = m - k. Here we fix k (one orbit point near the cluster point a)
+and let m go to infinity (another orbit point near a, with m ≥ k + N + 1).
+Then T = m - k ≥ N, and the same isometry + semigroup argument gives
+d(s, propagate(T, s)) < ε.
+
+This answers WHAT'S NEEDED NEXT item 6: "Can recurrence be strengthened to
+'infinitely many return times' without additional hypotheses?" — YES.
+
+This is NOT exact periodicity. The irrational torus rotation satisfies this
+(approximate returns at arbitrarily large times) but has no exact period.
+The return times have positive density (by Weyl equidistribution in the
+concrete rotation case) but we do not prove density here. -/
+set_option linter.unusedVariables false in
+theorem isometry_compact_orbit_gives_infinite_discrete_recurrence
+    (M : BareMedium) [NormedAddCommGroup M.State] [NormedSpace ℝ M.State]
+    [FiniteDimensional ℝ M.State]
+    (s : M.State)
+    (hSemi : Hypothesis_Semigroup M)
+    (hIso : Hypothesis_Isometry M)
+    (hBdd : Hypothesis_BoundedOrbit M s)
+    (hDNorm : Hypothesis_DIsNorm M) :
+    ∀ (ε : ℝ), ε > 0 → ∀ (N : ℕ), ∃ (n : ℕ), N ≤ n ∧ M.d s (M.propagate (n : ℝ) s) < ε := by
+  -- Step 1: Orbit closure K is compact (Edge 18).
+  let O := Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)
+  have hK : IsCompact (closure O) :=
+    isometry_finite_dim_gives_compact_orbit M s hIso hBdd hDNorm
+  have hd : ∀ (x y : M.State), M.d x y = dist x y := by
+    intro x y; rw [hDNorm x y, dist_eq_norm_sub]
+  intro ε hε N
+  -- Step 2: Define sequence u n = propagate(n, s), all in K.
+  let u := fun (n : ℕ) => M.propagate (n : ℝ) s
+  have h_in_K : ∀ n, u n ∈ closure O := by
+    intro n
+    apply subset_closure
+    exact ⟨⟨(n : ℝ), Nat.cast_nonneg n⟩, rfl⟩
+  -- Step 3: Get cluster point a ∈ K with MapClusterPt a atTop u.
+  have h_freq_in_K : ∃ᶠ n in Filter.atTop, u n ∈ closure O :=
+    Filter.Frequently.of_forall h_in_K
+  obtain ⟨a, ha, h_cluster⟩ := hK.exists_mapClusterPt_of_frequently h_freq_in_K
+  -- Step 4: From MapClusterPt, get ∃ᶠ n in atTop, dist(u n, a) < δ.
+  set δ := ε / 2
+  have hδ : δ > 0 := by show ε / 2 > 0; linarith
+  have h_cluster_freq : ∀ s ∈ nhds a, ∃ᶠ y in Filter.map u Filter.atTop, y ∈ s :=
+    clusterPt_iff_frequently.mp h_cluster
+  have h_ball_mem : Metric.ball a δ ∈ nhds a := Metric.ball_mem_nhds a hδ
+  have h_freq_ball : ∃ᶠ y in Filter.map u Filter.atTop, y ∈ Metric.ball a δ :=
+    h_cluster_freq _ h_ball_mem
+  rw [Filter.frequently_map] at h_freq_ball
+  simp only [Metric.mem_ball, dist_comm] at h_freq_ball
+  -- Step 5: Fix one index k ≥ 1 with u(k) near a.
+  obtain ⟨k, hk, h_k⟩ := Filter.Frequently.forall_exists_of_atTop h_freq_ball 1
+  have h_k' : dist (u k) a < δ := by rw [dist_comm]; exact h_k
+  -- Step 6: Get another index m ≥ k + N + 1 with u(m) near a.
+  -- Then T = m - k ≥ N, ensuring the return time is arbitrarily large.
+  obtain ⟨m, hm, h_m⟩ := Filter.Frequently.forall_exists_of_atTop h_freq_ball (k + N + 1)
+  have h_m' : dist (u m) a < δ := by rw [dist_comm]; exact h_m
+  have h_km : k < m := by omega
+  -- Step 7: Triangle inequality — dist(u k, u m) < 2δ = ε.
+  have h_close : dist (u k) (u m) < ε := by
+    calc dist (u k) (u m)
+        ≤ dist (u k) a + dist a (u m) := dist_triangle _ _ _
+      _ = dist (u k) a + dist (u m) a := by rw [dist_comm a (u m)]
+      _ < δ + δ := by linarith [h_k', h_m']
+      _ = ε := by show ε / 2 + (ε / 2) = ε; ring
+  -- Step 8: T = m - k ≥ N (the discrete return time, arbitrarily large).
+  have h_T_ge_N : N ≤ m - k := by omega
+  have h_sub_pos : 0 < m - k := by omega
+  set T := ((m - k : ℕ) : ℝ)
+  have hT_pos : T > 0 := Nat.cast_pos.mpr h_sub_pos
+  -- Step 9: Semigroup (H2) — propagate(m, s) = propagate(k, propagate(T, s)).
+  have h_km_real : (m : ℝ) = (k : ℝ) + T := by
+    show (m : ℝ) = (k : ℝ) + ((m - k : ℕ) : ℝ)
+    rw [Nat.cast_sub h_km.le]; push_cast; ring
+  have h_semi : M.propagate (m : ℝ) s = M.propagate (k : ℝ) (M.propagate T s) := by
+    rw [h_km_real]; exact hSemi _ _ _
+  -- Step 10: Isometry (H14) — d(propagate(k, s), propagate(k, propagate(T, s))) = d(s, propagate(T, s)).
+  have h_iso : M.d (M.propagate (k : ℝ) s) (M.propagate (k : ℝ) (M.propagate T s)) =
+               M.d s (M.propagate T s) :=
+    (hIso (k : ℝ) s (M.propagate T s)).symm
+  -- Step 11: Combine — d(s, propagate(T, s)) < ε with T = m - k ≥ N.
+  have h_close' : M.d (M.propagate (k : ℝ) s) (M.propagate (m : ℝ) s) < ε := by
+    rw [hd]; exact h_close
+  rw [h_semi] at h_close'
+  refine ⟨m - k, h_T_ge_N, ?_⟩
+  rw [← h_iso]
+  exact h_close'
+
 /-- Corollary: the Real-time version of discrete sampled recurrence.
 
     This is the weaker statement that for every ε > 0, there exists a
@@ -1538,10 +1691,13 @@ See DESIGN_H_ISOMETRY_REAL_EIGENVALUE_20260625.md for the full analysis. -/
      (s=0 is a fixed point of any linear semigroup; the non-trivial version is the
      real open question, already captured by recurrence_stability_plus_structural_gives_nonzero_periodic_orbit).
   5. NEXT: Greg builds Axioms.lean, then DeepSeek hostile review, then Codex truth-lock.
-  6. OPEN: Can recurrence be strengthened to "infinitely many return times" without
-     additional hypotheses? (The proof gives one return per ε; a stronger version
-     would give infinitely many returns for each ε.) This would require a
-     quantified lower-bound target such as `∀ N, ∃ n ≥ N, ...`.
+  6. ✅ DONE: Recurrence strengthened to "infinitely many return times" —
+     `isometry_compact_orbit_gives_infinite_discrete_recurrence` (Devin 2026-07-15).
+     For every ε > 0 and every N ∈ ℕ, ∃ n ≥ N with d(s, propagate(n, s)) < ε.
+     The return times are unbounded. Proof: fix one orbit point near a cluster
+     point, let the other go to infinity. Same hypotheses as Edge 28, no new
+     assumptions needed. This is NOT exact periodicity — the irrational torus
+     rotation satisfies it but never exactly returns.
   7. OPEN: Does the recurrence theorem connect to the Z₃ / circulant structure?
      The two-axis diagnosis says spatial symmetry and temporal recurrence are
      independent. This theorem formalizes the temporal recurrence axis.
