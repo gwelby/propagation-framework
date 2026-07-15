@@ -537,7 +537,7 @@ machinery.
   H3 + H2 + H14 + H5 + H21 + H22 (with continuity)    | YES (needs spectral)  | YES                   | Stone's theorem + spectral theorem for skew-symmetric A; 2D case proven, general case needs Mathlib assembly
   H8 + H3 + H2 + H4 + H5 (non-zero, with complex)     | OPEN                  | YES                   | Even with complex eigenvalues, one approximate return + stability does not force non-zero periodic orbit
   H3 + H2 + H14 + H5 (2D rotation, concrete)           | YES (non-zero, PROVEN)| N/A                   | rotation_semigroup_nonzero_periodic_orbit: 2D rotation with ω≠0 has period 2π/|ω|
-  H3 + H2 + H14 + H5 + H21 + H22 + IP (general, D-dim)  | OPEN (sorry)          | N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: needs spectral theorem for skew-adjoint A; hBdd removed (derivable from isometry); InnerProductSpace added (Route 1)|
+  H3 + H2 + H14 + H5 + H21 + H22 + IP (general, D-dim)  | PARTIAL (sorry)       | N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: μ=±2 cases PROVEN (T=1,2); |μ|<2 case needs Stone's theorem (sorry). Uses S=U(1)+U(-1) self-adjoint + spectral theorem.|
 
 ## Honest parameter count for recurrence:
 
@@ -1023,26 +1023,173 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
     (hNontrivial : ∃ (s : M.State), s ≠ 0) :
     ∃ (s : M.State) (T : ℝ), s ≠ 0 ∧ T > 0 ∧
       ∀ (n : ℕ), M.propagate (↑n * T) s = s := by
-  -- PROOF SKETCH (not yet formalized):
-  -- 1. identity_at_zero: propagate(0, ·) = id (PROVEN above)
-  -- 2. hIso + hLin + hDNorm → propagate(t, ·) is a linear isometry (norm-preserving)
-  -- 3. hSemi → one-parameter group: U(s+t) = U(s)·U(t), U(0) = id
-  -- 4. hCont → t ↦ U(t) is continuous
-  -- 5. Stone's theorem (finite-dim): U(t) = exp(tA) for skew-adjoint A
-  -- 6. Spectral theorem: A has eigenvalues 0 or ±iωⱼ
-  -- 7. If all ωⱼ = 0: A = 0, U = id → any nonzero s is periodic (T = 1)
-  -- 8. If some ωⱼ ≠ 0: eigenvector v ≠ 0, T = 2π/|ωⱼ| gives U(T)v = v
-  --
-  -- PROVEN CASES:
-  --   Odd dim: isometry_linear_semigroup_odd_dim_periodic_orbit (det trick, no spectral)
-  --   2D rotation: rotation_semigroup_nonzero_periodic_orbit (concrete)
-  --
-  -- GAP: Step 5 (Stone's theorem) and Step 6 (spectral theorem) are not yet
-  -- available in Mathlib in a directly usable form for this proof.
-  -- The odd-dim proof bypasses the spectral theorem using a determinant trick
-  -- that only works when (-1)^n = -1 (odd n). Even dimensions need the
-  -- spectral theorem or a different algebraic approach.
-  sorry
+  -- ========================================================================
+  -- PROOF: Uses S = U(1) + U(-1) (self-adjoint) + spectral theorem
+  -- μ = 2 → T = 1; μ = -2 → T = 2; |μ| < 2 → sorry (needs Stone's theorem)
+  -- ========================================================================
+  -- Construct U(t) as a LinearMap
+  let U (t : ℝ) : M.State →ₗ[ℝ] M.State := {
+    toFun := fun s => M.propagate t s
+    map_add' := by
+      intro s₁ s₂
+      have h := hLin t s₁ s₂ 1 1
+      simp [one_smul] at h ⊢
+      exact h
+    map_smul' := by
+      intro a s
+      have h_zero : M.propagate t (0 : M.State) = 0 := by
+        have h := hLin t (0 : M.State) (0 : M.State) 0 0
+        simp at h; exact h
+      have h := hLin t s (0 : M.State) a 0
+      simp [h_zero] at h ⊢
+      exact h
+  }
+  have h_U0 : U 0 = LinearMap.id := by ext v; exact identity_at_zero M hLin hSemi hIso hDNorm v
+  have h_Usemi (s t : ℝ) : U (s + t) = U s ∘ₗ U t := by ext v; exact hSemi s t v
+  have h_norm_pres (t : ℝ) (v : M.State) : ‖U t v‖ = ‖v‖ := by
+    have h_zero : M.propagate t (0 : M.State) = 0 := by
+      have h := hLin t (0 : M.State) (0 : M.State) 0 0
+      simp at h; exact h
+    have h_iso := hIso t v (0 : M.State)
+    rw [h_zero] at h_iso
+    have h_d1 : M.d v (0 : M.State) = ‖v - (0 : M.State)‖ := hDNorm v (0 : M.State)
+    have h_d2 : M.d (M.propagate t v) (0 : M.State) = ‖M.propagate t v - (0 : M.State)‖ :=
+      hDNorm (M.propagate t v) (0 : M.State)
+    rw [h_d1, h_d2] at h_iso
+    simp [sub_zero] at h_iso ⊢
+    exact h_iso.symm
+  have h_isom (t : ℝ) : Isometry (U t : M.State → M.State) := by
+    refine Isometry.of_dist_eq ?_
+    intro x y
+    have hsub : U t (x - y) = U t x - U t y := by rw [map_sub]
+    rw [dist_eq_norm_sub, dist_eq_norm_sub, ← hsub]
+    exact h_norm_pres t (x - y)
+  have h_Uneg1_U1 : U (-1) ∘ₗ U 1 = LinearMap.id := by
+    have h : U (-1 + 1) = U (-1) ∘ₗ U 1 := h_Usemi (-1) 1
+    rw [neg_add_cancel, h_U0] at h; exact h.symm
+  have h_U1_Uneg1 : U 1 ∘ₗ U (-1) = LinearMap.id := by
+    have h : U (1 + (-1)) = U 1 ∘ₗ U (-1) := h_Usemi 1 (-1)
+    rw [add_neg_cancel, h_U0] at h; exact h.symm
+  have h_inner_pres (t : ℝ) (x y : M.State) :
+      inner ℝ (U t x) (U t y) = inner ℝ x y := by
+    let LI : M.State →ₗᵢ[ℝ] M.State := (U t).toLinearIsometry (h_isom t)
+    exact LI.inner_map_map x y
+  -- S = U(1) + U(-1) is self-adjoint (symmetric)
+  have h_S_sym : (U 1 + U (-1) : Module.End ℝ M.State).IsSymmetric := by
+    intro x y
+    have h1 : inner ℝ (U 1 x) y = inner ℝ x (U (-1) y) := by
+      have h_inv : U 1 (U (-1) y) = y := LinearMap.congr_fun h_U1_Uneg1 y
+      have h_ip := h_inner_pres 1 x (U (-1) y)
+      rw [h_inv] at h_ip; exact h_ip
+    have h2 : inner ℝ (U (-1) x) y = inner ℝ x (U 1 y) := by
+      have h_inv : U (-1) (U 1 y) = y := LinearMap.congr_fun h_Uneg1_U1 y
+      have h_ip := h_inner_pres (-1) x (U 1 y)
+      rw [h_inv] at h_ip; exact h_ip
+    show inner ℝ ((U 1 + U (-1)) x) y = inner ℝ x ((U 1 + U (-1)) y)
+    simp only [LinearMap.add_apply]
+    rw [inner_add_left, inner_add_right, h1, h2]
+    ring
+  -- Spectral theorem: get eigenvector v of S with eigenvalue μ
+  let n := Module.finrank ℝ M.State
+  have hNT : Nontrivial M.State := by
+    obtain ⟨s, hs⟩ := hNontrivial
+    exact ⟨⟨0, s, hs.symm⟩⟩
+  have hn_pos : 0 < n := Module.finrank_pos_iff.mpr hNT
+  have hn : Module.finrank ℝ M.State = n := rfl
+  haveI : NeZero n := ⟨hn_pos.ne'⟩
+  let ob := h_S_sym.eigenvectorBasis hn
+  let v : M.State := ob 0
+  let μ : ℝ := h_S_sym.eigenvalues hn 0
+  have hv_ne : v ≠ 0 := ob.orthonormal.ne_zero 0
+  have h_S_v : (U 1 + U (-1) : Module.End ℝ M.State) v = μ • v :=
+    h_S_sym.apply_eigenvectorBasis hn 0
+  -- Key identity: U(1)² v = μ • U(1) v - v
+  have h_Uneg1_v : U (-1) v = μ • v - U 1 v := by
+    have h_Sv : U 1 v + U (-1) v = μ • v := by
+      have := h_S_v; rw [LinearMap.add_apply] at this; exact this
+    rw [← h_Sv, add_sub_cancel_left]
+  have h_U1_Uneg1_v : U 1 (U (-1) v) = v := LinearMap.congr_fun h_U1_Uneg1 v
+  have h_U1_sq : U 1 (U 1 v) = μ • (U 1 v) - v := by
+    -- v = U(1)(U(-1) v) = U(1)(μ v - U(1) v) = μ • U(1) v - U(1)(U(1) v)
+    have h2 : U 1 (U (-1) v) = μ • (U 1 v) - U 1 (U 1 v) := by
+      rw [h_Uneg1_v, map_sub, map_smul]
+    have h3 : v = μ • (U 1 v) - U 1 (U 1 v) := h_U1_Uneg1_v.symm.trans h2
+    -- From h3: v + U(1)(U(1) v) = μ • U(1) v
+    have h4 : v + U 1 (U 1 v) = μ • (U 1 v) := by
+      have h_sub : (μ • (U 1 v) - U 1 (U 1 v)) + U 1 (U 1 v) = μ • (U 1 v) :=
+        sub_add_cancel _ _
+      rw [← h3] at h_sub
+      exact h_sub
+    rw [← h4, add_sub_cancel_left]
+  -- U(n) = U(1)^n for natural n
+  have h_Un_pow (k : ℕ) : U (↑k : ℝ) = (U 1 : Module.End ℝ M.State) ^ k := by
+    induction k with
+    | zero => rw [Nat.cast_zero, pow_zero, h_U0]; rfl
+    | succ k ih => rw [Nat.cast_succ, pow_succ, ← ih]; exact h_Usemi ↑k 1
+  have h_prop_eq_U (t : ℝ) (s : M.State) : M.propagate t s = U t s := rfl
+  -- CASE ANALYSIS on μ
+  by_cases hμ2 : μ = 2
+  · -- CASE 1: μ = 2 → U(1) v = v → T = 1
+    have h_sq : U 1 (U 1 v) = (2 : ℝ) • (U 1 v) - v := by
+      rw [hμ2] at h_U1_sq; exact h_U1_sq
+    set w : M.State := U 1 v - v with hw
+    have h_U1_w : U 1 w = w := by
+      rw [hw, map_sub, h_sq, two_smul ℝ (U 1 v)]; abel
+    have h_U1_v_eq : U 1 v = v + w := by rw [hw]; abel
+    have h_ip : inner ℝ (U 1 v) (U 1 w) = inner ℝ v w := h_inner_pres 1 v w
+    rw [h_U1_v_eq, h_U1_w, inner_add_left] at h_ip
+    have h_ww_zero : inner ℝ w w = 0 := by linarith
+    have h_w_zero : w = 0 := inner_self_eq_zero.mp h_ww_zero
+    have h_U1_v : U 1 v = v := by rw [h_U1_v_eq, h_w_zero]; abel
+    refine ⟨v, 1, hv_ne, zero_lt_one, ?_⟩
+    intro k
+    rw [h_prop_eq_U, mul_one]
+    induction k with
+    | zero => rw [Nat.cast_zero, h_U0, LinearMap.id_apply]
+    | succ k ih =>
+      rw [Nat.cast_succ, h_Usemi ↑k 1, LinearMap.comp_apply, h_U1_v]
+      exact ih
+  · by_cases hμ_neg2 : μ = -2
+    · -- CASE 2: μ = -2 → U(1) v = -v → U(2) v = v → T = 2
+      have h_sq : U 1 (U 1 v) = (-(2 : ℝ)) • (U 1 v) - v := by
+        rw [hμ_neg2] at h_U1_sq; exact h_U1_sq
+      set w : M.State := U 1 v + v with hw
+      have h_U1_w : U 1 w = -w := by
+        rw [hw, map_add, h_sq]
+        rw [neg_smul, two_smul ℝ (U 1 v), neg_add]
+        abel
+      have h_U1_v_eq : U 1 v = -v + w := by rw [hw]; abel
+      have h_ip : inner ℝ (U 1 v) (U 1 w) = inner ℝ v w := h_inner_pres 1 v w
+      rw [h_U1_v_eq, h_U1_w] at h_ip
+      have h_ip2 : inner ℝ (-v + w) (-w) = inner ℝ v w - inner ℝ w w := by
+        have h_add : inner ℝ (-v + w) (-w) = inner ℝ (-v) (-w) + inner ℝ w (-w) :=
+          inner_add_left _ _ _
+        have h_v : inner ℝ (-v) (-w) = inner ℝ v w := by
+          rw [inner_neg_left, inner_neg_right, neg_neg]
+        have h_w : inner ℝ w (-w) = -(inner ℝ w w) := inner_neg_right _ _
+        rw [h_add, h_v, h_w]
+        ring
+      rw [h_ip2] at h_ip
+      have h_ww_zero : inner ℝ w w = 0 := by linarith
+      have h_w_zero : w = 0 := inner_self_eq_zero.mp h_ww_zero
+      have h_U1_v : U 1 v = -v := by rw [h_U1_v_eq, h_w_zero]; abel
+      have h_U2_v : U 2 v = v := by
+        rw [show (2 : ℝ) = 1 + 1 from by norm_num, h_Usemi 1 1]
+        rw [LinearMap.comp_apply, h_U1_v, map_neg, h_U1_v, neg_neg]
+      refine ⟨v, 2, hv_ne, by norm_num, ?_⟩
+      intro k
+      rw [h_prop_eq_U]
+      induction k with
+      | zero => rw [Nat.cast_zero, zero_mul, h_U0, LinearMap.id_apply]
+      | succ k ih =>
+        rw [Nat.cast_succ, add_mul, one_mul, h_Usemi (↑k * 2) 2]
+        rw [LinearMap.comp_apply, h_U2_v]
+        exact ih
+    · -- CASE 3: μ ≠ 2 and μ ≠ -2 → |μ| < 2 → needs Stone's theorem
+      -- Requires showing U(t) = exp(tA) for skew-adjoint A (Stone's theorem),
+      -- then using the spectral theorem on A² to find eigenvalues ±iω,
+      -- and setting T = 2π/|ω|. This is a genuine mathematical gap.
+      sorry
 
 /-- Lemma: Isometry + d=norm implies bounded orbit (hBdd is derivable, not a
     separate premise).
