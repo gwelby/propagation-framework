@@ -1646,6 +1646,60 @@ theorem isometry_compact_orbit_gives_recurrence
   obtain ⟨n, hn, h⟩ := isometry_compact_orbit_gives_discrete_recurrence M s hSemi hIso hBdd hDNorm ε hε
   exact ⟨(n : ℝ), Nat.cast_pos.mpr hn, h⟩
 
+/-! ## Edge 28c: Orbit is Dense-in-Itself (Devin 2026-07-15)
+
+No orbit point is isolated. For every orbit point U(t₀)s and every ε > 0,
+there exists a DIFFERENT time t ≠ t₀ with d(U(t)s, U(t₀)s) < ε.
+
+This uses Edge 28b (infinite recurrence) essentially: the one-return version
+(Edge 28) only gives one return time n > 0, which might collide with t₀.
+The infinite version gives returns at arbitrarily large n, so we can always
+find n large enough that t = t₀ + n ≠ t₀.
+
+Isometry is essential: a contraction F_t(x) = exp(-t)x has an orbit converging
+to 0, and 0 is isolated from the rest of the orbit (once t > -ln(ε), no orbit
+point is within ε of 0 except 0 itself... actually 0 is the limit point, so
+the orbit points get closer to 0 but 0 is not an orbit point unless s = 0).
+The correct contrast: for a contraction, the orbit points themselves become
+sparse near the limit — each orbit point IS isolated from the others because
+the map is contracting, not isometric. Isometry preserves distances, so
+closeness to s transfers to closeness at every orbit point. -/
+set_option linter.unusedVariables false in
+theorem isometry_compact_orbit_dense_in_itself
+    (M : BareMedium) [NormedAddCommGroup M.State] [NormedSpace ℝ M.State]
+    [FiniteDimensional ℝ M.State]
+    (s : M.State)
+    (hSemi : Hypothesis_Semigroup M)
+    (hIso : Hypothesis_Isometry M)
+    (hBdd : Hypothesis_BoundedOrbit M s)
+    (hDNorm : Hypothesis_DIsNorm M) :
+    ∀ (t₀ : ℝ) (h_t₀ : t₀ ≥ 0) (ε : ℝ) (hε : ε > 0),
+      ∃ (n : ℕ), 0 < n ∧
+        M.d (M.propagate (t₀ + (n : ℝ)) s) (M.propagate t₀ s) < ε := by
+  intro t₀ h_t₀ ε hε
+  -- Convert M.d to dist (which is symmetric) via H21.
+  have hd : ∀ (x y : M.State), M.d x y = dist x y := by
+    intro x y; rw [hDNorm x y, dist_eq_norm_sub]
+  -- Use infinite recurrence: for every ε > 0 and every N, ∃ n ≥ N with d(s, U(n)s) < ε.
+  -- Take N = 1 to ensure n > 0, hence t = t₀ + n ≠ t₀.
+  obtain ⟨n, hn, h_rec⟩ :=
+    isometry_compact_orbit_gives_infinite_discrete_recurrence M s hSemi hIso hBdd hDNorm ε hε 1
+  -- n ≥ 1, so n > 0.
+  have hn_pos : 0 < n := by omega
+  -- Semigroup: U(t₀ + n, s) = U(t₀, U(n, s)).
+  have h_semi : M.propagate (t₀ + (n : ℝ)) s = M.propagate t₀ (M.propagate (n : ℝ) s) := by
+    exact hSemi t₀ (n : ℝ) s
+  -- Isometry: d(U(t₀, U(n, s)), U(t₀, s)) = d(U(n, s), s)
+  have h_iso : M.d (M.propagate t₀ (M.propagate (n : ℝ) s)) (M.propagate t₀ s) =
+               M.d (M.propagate (n : ℝ) s) s :=
+    (hIso t₀ (M.propagate (n : ℝ) s) s).symm
+  -- Combine: d(U(t₀+n, s), U(t₀, s)) → [semigroup] → d(U(t₀)(U(n)s), U(t₀)s)
+  --         → [isometry] → d(U(n)s, s) → [hd] → dist(U(n)s, s)
+  --         → [dist_comm] → dist(s, U(n)s) → [← hd] → d(s, U(n)s) < ε
+  refine ⟨n, hn_pos, ?_⟩
+  rw [h_semi, h_iso, hd, dist_comm, ← hd s (M.propagate (n : ℝ) s)]
+  exact h_rec
+
 /-! ## TWO-AXIS DIAGNOSIS (Devin 2026-06-25)
 
 Z₃ spatial symmetry and temporal periodicity are INDEPENDENT axes:
