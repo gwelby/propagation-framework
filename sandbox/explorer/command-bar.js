@@ -235,7 +235,7 @@
       } else {
         flyout.innerHTML = results.map(function(r){
           var it = r.item;
-          var sl = it.status ? it.status.label : 'CANONICAL';
+          var sl = it.status ? it.status.label : 'UNAVAILABLE';
           var sc = it.status ? it.status.color : 'white';
           return '<button class="cb-result" data-id="'+it.id+'" data-type="'+r.type+'" type="button">'+
             '<span class="cb-res-title">'+it.title+'</span>'+

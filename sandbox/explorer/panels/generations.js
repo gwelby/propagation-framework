@@ -249,7 +249,12 @@
             "<h3>Q(N) = 2N / (2N + 3)</h3>" +
             "<p>Topological numerator (2N) vs SO(3) denominator (3).</p>" +
           "</div>" +
-          "<span class=\"status-pill status-conditional\">CONDITIONAL</span>" +
+          (function() {
+            var claim = window.PFTruth && window.PFTruth.getClaim ? window.PFTruth.getClaim('three-generations') : null;
+            var badge = claim ? (claim.badge || claim.status) : 'UNAVAILABLE';
+            var cls = claim ? (claim.statusClass || 'status-unavailable') : 'status-unavailable';
+            return '<span class="status-pill ' + cls + '">' + badge + '</span>';
+          })() +
         "</div>" +
         ctx.app.renderWrongIntuition(ctx.app.getResult('three-generations')) +
         "<div class=\"control-group\">" +

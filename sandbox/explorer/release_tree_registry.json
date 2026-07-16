@@ -1,0 +1,115 @@
+{
+  "version": "V4",
+  "generated_at": "2026-07-16",
+  "servedRoutes": [
+    {
+      "path": "belt-trick.html",
+      "type": "standalone-non-claim",
+      "hasStatusContent": false
+    },
+    {
+      "path": "comparison.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "derivation.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "index.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "journey.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "journey_live.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "nogos.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "playground.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    },
+    {
+      "path": "quantum-observatory.html",
+      "type": "standalone-non-claim",
+      "hasStatusContent": false
+    },
+    {
+      "path": "scale-ladder.html",
+      "type": "claim-route",
+      "hasStatusContent": true
+    }
+  ],
+  "quarantinedRoutes": [],
+  "html_entry_points": [
+    "belt-trick.html",
+    "comparison.html",
+    "derivation.html",
+    "index.html",
+    "journey.html",
+    "journey_live.html",
+    "nogos.html",
+    "playground.html",
+    "quantum-observatory.html",
+    "scale-ladder.html"
+  ],
+  "claim_routes": [
+    "comparison.html",
+    "derivation.html",
+    "index.html",
+    "journey.html",
+    "journey_live.html",
+    "nogos.html",
+    "playground.html",
+    "scale-ladder.html"
+  ],
+  "standalone_non_claim_routes": [
+    "belt-trick.html",
+    "quantum-observatory.html"
+  ],
+  "worker_scripts": [
+    "path-worker.js",
+    "physics-worker.js"
+  ],
+  "panel_scripts": [
+    "bohr.js",
+    "consciousness.js",
+    "dashboard.js",
+    "definition-lattice.js",
+    "experiment-bench.js",
+    "foundations.js",
+    "generations.js",
+    "god-equation.js",
+    "hub.js",
+    "koide-weinberg-bridge.js",
+    "koide.js",
+    "no-go-museum.js",
+    "observatory.js",
+    "proof-atlas.js",
+    "quantum-observatory.js",
+    "refraction.js",
+    "weinberg.js"
+  ],
+  "excluded_paths": [
+    "dev/",
+    "vendor/"
+  ],
+  "notes": {
+    "dev/": "Quarantined \u2014 not served by serve.py, not in release tree",
+    "vendor/": "Third-party libraries (d3, three.js) \u2014 not scanned for badges",
+    "standalone_non_claim_routes": "3D visualization pages that do not load claim data \u2014 verified by runtime proof"
+  }
+}

@@ -54,7 +54,7 @@
             "<h3>sin^2(theta_W) = " + prediction.toFixed(5) + "</h3>" +
             "<p>Minimal winding selects the primitive branch. The panel keeps the scheme caveat visible instead of pretending the derivation is more complete than the repo says.</p>" +
           "</div>" +
-          "<span class=\"status-pill " + (weinbergResult.statusClass || 'status-derived') + "\">" + (weinbergResult.badge || (weinbergResult.status && weinbergResult.status.label ? weinbergResult.status.label : 'DERIVED')) + "</span>" +
+          "<span class=\"status-pill " + (weinbergResult.statusClass || 'status-unavailable') + "\">" + (weinbergResult.badge || (weinbergResult.status && weinbergResult.status.label ? weinbergResult.status.label : 'UNAVAILABLE')) + "</span>" +
         "</div>" +
         ctx.app.renderWrongIntuition(ctx.app.getResult('weinberg-angle')) +
         "<div class=\"formula\">x^2 + C2 x - C2 = 0, then 1 - x_+(1/2) / x_+(1)</div>" +

@@ -12,7 +12,9 @@
   };
 
   var counting = false;
-  var truth = window.PFExplorerTruth || window.PFTruth;
+  function getTruth() {
+    return window.PFExplorerTruth || window.PFTruth;
+  }
   var pfFalsifierIds = [
     "koide-law",
     "weinberg-angle",
@@ -88,27 +90,32 @@
   }
 
   function populatePFTruth() {
-    if (!truth) {
+    if (!getTruth()) {
       return;
     }
 
-    var counts = truth.getCountsByStatus();
-    var audited = truth.getAuditedResults();
+    var counts = getTruth().getCountsByStatus();
+    var audited = getTruth().getAuditedResults();
     var falsifiableCount = audited.filter(function (result) {
       return result.falsifier;
     }).length;
     var derivedCount = counts.DERIVED || 0;
-    var variableC = truth.getResult("variable-c");
-    var koidePhase = truth.getResult("koide-phase");
+    var variableC = getTruth().getResult("variable-c");
+    var koidePhase = getTruth().getResult("koide-phase");
 
     setText("pf-parameter-detail", "3 axioms • " + counts.total + " audited claims • " + derivedCount + " derived");
     setText("pf-free-cell", "3 axioms");
     setText("pf-derived-cell", counts.total + " audited claims • " + derivedCount + " derived");
     setText("pf-falsifiable-cell", "Yes (" + falsifiableCount + " audited falsifiers)");
-    setText("pf-generations-cell", "Conditional");
-    setText("pf-atomic-cell", "Conditional (circular-eikonal)");
-    setText("pf-weinberg-cell", "Derived (0.22310, scheme caveat)");
-    setText("pf-scale-cell", "Planck → Human (argued)");
+    // V4: Pull status from authority, not hardcoded
+    var threeGen = getTruth().getResult("three-generations");
+    var bohr = getTruth().getResult("bohr-spectrum");
+    var weinberg = getTruth().getResult("weinberg-angle");
+    var godScale = getTruth().getResult("god-equation-scale");
+    setText("pf-generations-cell", threeGen ? threeGen.badge : "UNAVAILABLE");
+    setText("pf-atomic-cell", bohr ? bohr.badge : "UNAVAILABLE");
+    setText("pf-weinberg-cell", weinberg ? weinberg.badge : "UNAVAILABLE");
+    setText("pf-scale-cell", godScale ? godScale.badge : "UNAVAILABLE");
     setText(
       "pf-testable-cell",
       buildTestablePredictionLine(variableC, koidePhase)
@@ -136,7 +143,7 @@
   }
 
   function populatePFFalsifierCard(falsifiableCount) {
-    if (!truth) {
+    if (!getTruth()) {
       return;
     }
 
@@ -150,7 +157,7 @@
     setText("pf-falsify-status", "✅ PF card sourced from audited claim text");
 
     pfFalsifierIds.forEach(function (id) {
-      var result = truth.getResult(id);
+      var result = getTruth().getResult(id);
       if (!result) {
         return;
       }

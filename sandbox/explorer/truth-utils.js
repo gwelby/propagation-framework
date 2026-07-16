@@ -145,7 +145,7 @@
 
     // Build legacy CLAIMS array
     var legacyClaims = claims.map(function (c) {
-      var statusStr = c.status || "OPEN";
+      var statusStr = c.status || "UNAVAILABLE";
       var legacyStatus = STATUS[statusStr] || STATUS.OPEN;
       if (c.isSplit && c.badge) {
         legacyStatus = { label: c.badge, color: "amber", ring: true };
@@ -216,6 +216,49 @@
     // PFExplorerData stays as generated (data.js), but its statuses are synced above
   }
 
+  // V4: Add getCountsByStatus and getAuditedResults to the PFTruth API
+  function getCountsByStatus() {
+    var claims = getClaims();
+    var counts = {};
+    claims.forEach(function (c) {
+      var s = c.status || c.primary_status || 'UNKNOWN';
+      counts[s] = (counts[s] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function getAuditedResults() {
+    var data = getData();
+    if (data && data.results) {
+      return data.results;
+    }
+    // Fallback: derive from claims
+    var claims = getClaims();
+    return claims.map(function (c) {
+      return {
+        id: c.id,
+        title: c.title,
+        status: c.status || c.primary_status,
+        confidence: c.confidence,
+        section: c.section
+      };
+    });
+  }
+
+  function getResult(id) {
+    var results = getAuditedResults();
+    return results.find(function (r) { return r.id === id; }) || null;
+  }
+
+  function sortResultsForNarrative(results) {
+    // Sort results by confidence descending for narrative display
+    return results.slice().sort(function (a, b) {
+      var ca = a.confidence || 0;
+      var cb = b.confidence || 0;
+      return cb - ca;
+    });
+  }
+
   var api = {
     getData: getData,
     getDefinitions: getDefinitions,
@@ -226,7 +269,11 @@
     statusToClass: statusToClass,
     getColor: getColor,
     syncLegacyData: syncLegacyData,
-    STATUS: STATUS
+    STATUS: STATUS,
+    getCountsByStatus: getCountsByStatus,
+    getAuditedResults: getAuditedResults,
+    getResult: getResult,
+    sortResultsForNarrative: sortResultsForNarrative
   };
 
   window.PFTruth = api;

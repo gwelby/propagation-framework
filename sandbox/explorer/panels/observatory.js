@@ -55,7 +55,7 @@
     {
       id: 'refraction',
       label: 'Gravity = Refraction',
-      _fallbackStatus: 'DERIVED',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#44ff88',
       tagline: 'Light bends because space has a refractive index. Not a metaphor — a theorem.',
       preview: previewRefraction,
@@ -63,7 +63,7 @@
     {
       id: 'koide',
       label: 'Koide Resonance',
-      _fallbackStatus: 'DERIVED',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#44ff88',
       tagline: 'Three charged leptons locked at 120°. Q = 2/3 exactly. Zero free parameters.',
       preview: previewKoide,
@@ -71,7 +71,7 @@
     {
       id: 'weinberg',
       label: 'Weinberg Angle',
-      _fallbackStatus: 'ARGUED',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#ff9955',
       tagline: 'sin²θ_W from a Casimir polynomial. Matches experiment to 0.13σ.',
       preview: previewWeinberg,
@@ -79,7 +79,7 @@
     {
       id: 'bohr',
       label: 'Bohr Spectrum',
-      _fallbackStatus: 'DERIVED',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#44ff88',
       tagline: 'Phase closure in the Coulomb field selects the hydrogen energy levels.',
       preview: previewBohr,
@@ -87,7 +87,7 @@
     {
       id: 'generations',
       label: 'Three Generations',
-      _fallbackStatus: 'CONDITIONAL',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#ffaa33',
       tagline: 'Why exactly three families of matter? Q(N)=2/3 has one solution: N=3.',
       preview: previewGenerations,
@@ -95,7 +95,7 @@
     {
       id: 'god-equation',
       label: 'God Equation',
-      _fallbackStatus: 'CONDITIONAL',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: '#ffaa33',
       tagline: 'λ_c from the Planck length. 1.48% error. The open bridge: H_prod.',
       preview: previewGodEquation,
@@ -111,7 +111,7 @@
     {
       id: 'consciousness',
       label: 'Consciousness',
-      _fallbackStatus: 'INTUITION',
+      _fallbackStatus: 'UNAVAILABLE',
       _fallbackColor: 'rgba(255,255,255,.3)',
       tagline: 'Self-referential coherence as a hypothesis. Metric under development.',
       preview: previewConsciousness,

@@ -475,7 +475,7 @@
         var claimId = btn.getAttribute('data-claim-id');
         var claim = window.PFTruth.getClaim(claimId);
         if (!claim) return;
-        var status = claim.status || 'OPEN';
+        var status = claim.status || 'UNAVAILABLE';
         var badge = claim.badge || status;
         var desc = note.getAttribute('data-status-note') || note.textContent || '';
         note.textContent = badge + ' · ' + desc;

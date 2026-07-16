@@ -731,7 +731,7 @@
           '</div>' +
           (function() {
             var claim = window.PFTruth && window.PFTruth.getClaim ? window.PFTruth.getClaim('bohr-spectrum') : null;
-            var badge = claim ? (claim.badge || claim.status) : 'DERIVED';
+            var badge = claim ? (claim.badge || claim.status) : 'UNAVAILABLE';
             var cls = claim ? (claim.statusClass || 'status-derived') : 'status-derived';
             return '<span class="status-pill ' + cls + '">' + badge + '</span>';
           })() +

@@ -537,8 +537,8 @@
       // V3: Pull status from generated authority data, not hard-coded
       var truth = window.PFExplorerTruth || window.PFTruth;
       var godOp = truth && truth.getClaim ? truth.getClaim("god-equation-operator") : null;
-      var opStatus = godOp ? (godOp.badge || (godOp.status && godOp.status.label ? godOp.status.label : godOp.status) || "CONDITIONAL") : "CONDITIONAL";
-      var opConf = godOp ? (godOp.confidence || 0.88) : 0.88;
+      var opStatus = godOp ? (godOp.badge || (godOp.status && godOp.status.label ? godOp.status.label : godOp.status) || "UNAVAILABLE") : "UNAVAILABLE";
+      var opConf = godOp ? (godOp.confidence || 0) : 0;
       if (N === 3 && D === 3) {
         geError.textContent = "Status: " + opStatus + " " + opConf + " • numerical anchor error " + error.toFixed(1) + "%";
         geError.style.color = "#44ff88";
@@ -581,6 +581,11 @@
     setText("journey-pf-free", "3 axioms");
     setText("journey-pf-derived", counts.total + " audited claims • " + (counts.DERIVED || 0) + " derived");
     setText("journey-pf-falsifiable", "Yes (" + falsifiableCount + " audited falsifiers)");
+    // V4: Pull status from authority, not hardcoded
+    var threeGen = api.getResult("three-generations");
+    var bohr = api.getResult("bohr-spectrum");
+    setText("journey-pf-generations", threeGen ? threeGen.badge : "UNAVAILABLE");
+    setText("journey-pf-atomic", bohr ? bohr.badge : "UNAVAILABLE");
   }
 
   function populateResults() {

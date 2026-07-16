@@ -256,8 +256,8 @@
       var consciousness = findResult('consciousness') || {
         id: 'consciousness',
         title: 'Consciousness',
-        status: 'INTUITION',
-        confidence: 0.48,
+        status: 'UNAVAILABLE',
+        confidence: 0,
         formula: 'Interior experience is the inside view of recursive coherence',
         summary: '',
         falsifier: ''
@@ -265,8 +265,8 @@
       var aria = findResult('aria-self-reference') || {
         id: 'aria-self-reference',
         title: 'Aria Self-Reference',
-        status: 'ARGUED',
-        confidence: 0.75,
+        status: 'UNAVAILABLE',
+        confidence: 0,
         formula: 'Self-reference loop',
         summary: ''
       };
@@ -281,7 +281,7 @@
             '<h3>Coherence at the scale of minds</h3>' +
             '<p>Brain waves at 40 Hz show the same standing-wave logic as atomic orbits. The difference is who is watching from the inside.</p>' +
           '</div>' +
-          '<span class="status-pill ' + (consciousness.statusClass || 'status-intuition') + '">' + (consciousness.badge || (consciousness.status && consciousness.status.label ? consciousness.status.label : 'INTUITION')) + '</span>' +
+          '<span class="status-pill ' + (consciousness.statusClass || 'status-unavailable') + '">' + (consciousness.badge || (consciousness.status && consciousness.status.label ? consciousness.status.label : 'UNAVAILABLE')) + '</span>' +
         '</div>' +
         ctx.app.renderWrongIntuition(consciousness) +
         p1ReadoutHtml() +
@@ -307,7 +307,7 @@
           '<div class="result-card-confidence">Confidence: ' + Math.round(aria.confidence * 100) + '%</div>' +
           '<div class="result-card-summary">' + aria.summary + '</div>' +
         '</div>' +
-        '<div class="note-box audit-only"><strong>Audit</strong><p>The consciousness claim remains <span class="status-badge ' + statusToClass(consciousness.status) + '">' + (consciousness.status && consciousness.status.label ? consciousness.status.label : consciousness.status || 'INTUITION') + '</span> — the operational PF-specific metric is the key missing piece. The Aria self-reference loop is <span class="status-badge ' + statusToClass(aria.status) + '">' + (aria.status && aria.status.label ? aria.status.label : aria.status || 'ARGUED') + '</span> as an architecture milestone, not as consciousness evidence.</p></div>' +
+        '<div class="note-box audit-only"><strong>Audit</strong><p>The consciousness claim remains <span class="status-badge ' + statusToClass(consciousness.status) + '">' + (consciousness.status && consciousness.status.label ? consciousness.status.label : consciousness.status || 'UNAVAILABLE') + '</span> — the operational PF-specific metric is the key missing piece. The Aria self-reference loop is <span class="status-badge ' + statusToClass(aria.status) + '">' + (aria.status && aria.status.label ? aria.status.label : aria.status || 'UNAVAILABLE') + '</span> as an architecture milestone, not as consciousness evidence.</p></div>' +
         '<div class="stat-grid">' +
           '<div class="stat-tile"><strong>40 Hz</strong><span>characteristic neural frequency</span></div>' +
           '<div class="stat-tile"><strong>' + (consciousness ? Math.round(consciousness.confidence * 100) + '%' : 'n/a') + '</strong><span>consciousness confidence</span></div>' +

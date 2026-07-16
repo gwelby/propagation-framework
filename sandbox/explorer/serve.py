@@ -34,8 +34,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if path.startswith(prefix) or path == prefix.rstrip('/'):
                 rel = path.lstrip('/')
                 return os.path.join(FUNDAMENTALS_DIR, rel)
-        # Everything else from the explorer directory
+        # V4: Block dev/ directory from being served
         rel = path.lstrip('/')
+        if rel.startswith('dev/'):
+            return os.path.join(EXPLORER_DIR, '_blocked.html')
+        # Everything else from the explorer directory
         return os.path.join(EXPLORER_DIR, rel)
 
     def log_message(self, format, *args):  # noqa: A002
@@ -45,15 +48,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f'  404  {msg}')
 
 try:
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
     with socketserver.ThreadingTCPServer(('', PORT), Handler) as httpd:
-        httpd.allow_reuse_address = True
         print(f'PF Explorer  ->  http://localhost:{PORT}/')
         print(f'Explorer dir :  {EXPLORER_DIR}')
         print(f'Sources root :  {FUNDAMENTALS_DIR}')
         print(f'Ctrl-C to stop.')
         httpd.serve_forever()
 except OSError as e:
-    if e.errno == 10048: # Address already in use
+    if e.errno in (10048, 98): # Address already in use
         print(f"ERROR: Port {PORT} is already in use.")
     else:
         raise e

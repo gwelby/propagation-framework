@@ -1,0 +1,144 @@
+{
+  "belt-trick.html": {
+    "status": "PASS",
+    "route_type": "standalone-non-claim",
+    "dom_evidence": {
+      "PFClaimsData_loaded": false,
+      "PFExplorerData_loaded": false,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Dirac Belt Trick \u2014 720\u00b0 Rotation Lock",
+      "non_claim_route": true
+    }
+  },
+  "comparison.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Propagation Framework \u2014 Framework Comparison",
+      "claim_route": true
+    }
+  },
+  "derivation.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Derivation Chains \u2014 Propagation Framework Explorer",
+      "claim_route": true
+    }
+  },
+  "index.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 1,
+      "js_errors": [],
+      "title": "Propagation Framework Explorer | Interactive Physics Visualization",
+      "claim_route": true
+    }
+  },
+  "journey.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "ge_error_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
+      "js_errors": [],
+      "title": "Propagation Framework \u2014 The Journey",
+      "claim_route": true
+    }
+  },
+  "journey_live.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "ge_error_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
+      "js_errors": [],
+      "title": "Propagation Framework \u2014 The Live Journey | PhiFlow Driven",
+      "claim_route": true
+    }
+  },
+  "nogos.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "No-Go Museum \u2014 Propagation Framework Explorer",
+      "claim_route": true
+    }
+  },
+  "playground.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Propagation Playground \u2014 Propagation Framework Explorer",
+      "claim_route": true
+    }
+  },
+  "quantum-observatory.html": {
+    "status": "PASS",
+    "route_type": "standalone-non-claim",
+    "dom_evidence": {
+      "PFClaimsData_loaded": false,
+      "PFExplorerData_loaded": false,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy",
+      "non_claim_route": true
+    }
+  },
+  "scale-ladder.html": {
+    "status": "PASS",
+    "route_type": "claim-route",
+    "dom_evidence": {
+      "PFClaimsData_loaded": true,
+      "PFExplorerData_loaded": true,
+      "status_pills": [],
+      "loading_placeholders_remaining": [],
+      "unavailable_count": 0,
+      "js_errors": [],
+      "title": "Scale Ladder \u2014 Planck to Cosmic | Propagation Framework",
+      "claim_route": true
+    }
+  }
+}

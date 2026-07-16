@@ -32,12 +32,15 @@ CLAIMS_MD = Path("/mnt/d/fundamentals/CLAIMS.md")
 
 
 def setup_temp_explorer() -> tuple[Path, Path]:
-    """Create a temp directory with a copy of the explorer tree."""
-    tmpdir = Path(tempfile.mkdtemp(prefix="explorer_v3_fixture_"))
+    """Create a temp directory with a copy of the explorer tree.
+
+    Uses /tmp (native ext4) for fast I/O — /mnt/d is very slow on WSL.
+    """
+    tmpdir = Path(tempfile.mkdtemp(prefix="explorer_v3_fixture_", dir="/tmp"))
     tmp_explorer = tmpdir / "explorer"
     # Copy the explorer directory (excluding heavy vendor files)
     shutil.copytree(EXPLORER_DIR, tmp_explorer,
-                    ignore=shutil.ignore_patterns("vendor", "__pycache__", "*.pyc", "node_modules"))
+                    ignore=shutil.ignore_patterns("vendor", "__pycache__", "*.pyc", "node_modules", ".git", "_visual_pass_screens", "PROPAGATION_FRAMEWORK_v1.*"))
     # Create a minimal vendor dir so HTML doesn't break
     (tmp_explorer / "vendor").mkdir(exist_ok=True)
     return tmpdir, tmp_explorer

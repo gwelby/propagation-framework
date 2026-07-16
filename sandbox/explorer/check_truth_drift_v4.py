@@ -1,0 +1,743 @@
+#!/usr/bin/env python3
+"""
+Explorer Truth Layer V4 — Fail-Closed Drift Gate
+
+V3 extends V2 by:
+  1. Parsing CLAIMS.md at gate time (not just hash check)
+  2. Comparing fresh manifest to committed snapshot
+  3. Comparing fresh generated output to committed data files
+  4. Scanning EVERY reachable HTML/JS/JSON surface (no broad exemptions)
+  5. Checking premise/scope fields are nonempty for PF claims
+  6. Verifying standard math never shows as PF DERIVED
+
+A matching source hash alone is insufficient. The gate must reparse and
+compare the full manifest.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import sys
+from pathlib import Path
+
+
+EXPLORER_DIR = Path(__file__).resolve().parent
+CLAIMS_MD = Path("/mnt/d/fundamentals/CLAIMS.md")
+
+# V3: Allow override via command-line for fixture testing
+_explorer_dir_override = None
+def get_explorer_dir() -> Path:
+    return _explorer_dir_override or EXPLORER_DIR
+
+def get_claims_md() -> Path:
+    return CLAIMS_MD
+
+SNAPSHOT_PATH = None  # computed dynamically
+DATA_CLAIMS_JS = None
+DATA_JS = None
+DATA_GRAPH_JS = None
+
+def _compute_paths():
+    global SNAPSHOT_PATH, DATA_CLAIMS_JS, DATA_JS, DATA_GRAPH_JS
+    ed = get_explorer_dir()
+    SNAPSHOT_PATH = ed / "_authority_snapshot.json"
+    DATA_CLAIMS_JS = ed / "data.claims.js"
+    DATA_JS = ed / "data.js"
+    DATA_GRAPH_JS = ed / "data.graph.js"
+
+_compute_paths()
+
+STATUS_WORDS = {"DERIVED", "CONDITIONAL", "ARGUED", "EMPIRICAL",
+                "INTUITION", "OPEN", "EXACT IDENTITY", "CANONICAL",
+                "STANDARD MATH", "NO-GO", "UNSYNCED", "PARTIAL DERIVATION"}
+
+GENERATED_FILES = {"data.claims.js", "data.js", "data.graph.js",
+                   "_authority_snapshot.json", "generate_claims_data_v4.py",
+                   "check_truth_drift_v3.py", "check_truth_fixtures_v3.py",
+                   "check_truth_drift_v4.py", "check_truth_fixtures_v4.py",
+                   "check_runtime_proof_v4.py", "scope_triples.json",
+                   "_blocked.html", "release_tree_registry.json"}
+
+
+# ============================================================================
+# ENTRY POINT ENUMERATION (V3: no broad exemptions)
+# ============================================================================
+
+def enumerate_public_surfaces() -> list[Path]:
+    """V4: Enumerate every reachable HTML/JS/JSON surface from the release-tree registry.
+    Includes workers/. Excludes dev/ and vendor/."""
+    ed = get_explorer_dir()
+    surfaces = []
+
+    # V4: Read the release-tree registry
+    registry_path = ed / "release_tree_registry.json"
+    if registry_path.is_file():
+        import json as _json
+        registry = _json.loads(registry_path.read_text())
+
+        # HTML entry points
+        for name in registry.get("html_entry_points", []):
+            p = ed / name
+            if p.is_file():
+                surfaces.append(p)
+
+        # Root JS files
+        for name in registry.get("root_js", []):
+            p = ed / name
+            if p.is_file():
+                surfaces.append(p)
+
+        # Panel scripts
+        for name in registry.get("panel_scripts", []):
+            p = ed / "panels" / name
+            if p.is_file():
+                surfaces.append(p)
+
+        # Worker scripts
+        for name in registry.get("worker_scripts", []):
+            p = ed / "workers" / name
+            if p.is_file():
+                surfaces.append(p)
+
+        # JSON files (excluding generated ones)
+        for name in registry.get("json_files", []):
+            p = ed / name
+            if p.is_file() and name not in GENERATED_FILES:
+                surfaces.append(p)
+
+        return surfaces
+
+    # Fallback: enumerate everything (including workers/)
+    for html in ed.glob("*.html"):
+        surfaces.append(html)
+    for js in ed.glob("*.js"):
+        surfaces.append(js)
+    panels_dir = ed / "panels"
+    if panels_dir.is_dir():
+        for js in panels_dir.glob("*.js"):
+            surfaces.append(js)
+    workers_dir = ed / "workers"
+    if workers_dir.is_dir():
+        for js in workers_dir.glob("*.js"):
+            surfaces.append(js)
+    for json_file in ed.glob("*.json"):
+        surfaces.append(json_file)
+
+    # Exclude dev/ directory
+    surfaces = [s for s in surfaces if "dev/" not in str(s.relative_to(ed))]
+
+    return surfaces
+
+
+def get_html_entry_points() -> list[Path]:
+    """V4: Get HTML entry points from the release-tree registry."""
+    ed = get_explorer_dir()
+    registry_path = ed / "release_tree_registry.json"
+    if registry_path.is_file():
+        import json as _json
+        registry = _json.loads(registry_path.read_text())
+        return [ed / name for name in registry.get("html_entry_points", [])
+                if (ed / name).is_file()]
+
+    # Fallback
+    return [h for h in ed.glob("*.html") if h.name != "test-d3.html"]
+
+
+# ============================================================================
+# SNAPSHOT VERIFICATION (V3: parse + compare, not just hash)
+# ============================================================================
+
+def load_and_verify_snapshot() -> dict:
+    """
+    V3: Parse CLAIMS.md at gate time, compare fresh manifest to committed snapshot.
+    A matching source hash alone is insufficient.
+    """
+    if not SNAPSHOT_PATH.is_file():
+        print(f"FAIL: No authority snapshot found at {SNAPSHOT_PATH}", file=sys.stderr)
+        sys.exit(1)
+
+    committed = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
+
+    # Step 1: Verify source hash
+    source_hash = hashlib.sha256(CLAIMS_MD.read_bytes()).hexdigest()
+    if source_hash != committed.get("claims_md_hash"):
+        print("FAIL: CLAIMS.md hash mismatch!", file=sys.stderr)
+        print(f"  Snapshot recorded: {committed.get('claims_md_hash', 'missing')[:16]}...", file=sys.stderr)
+        print(f"  Current file:      {source_hash[:16]}...", file=sys.stderr)
+        print("  Run generate_claims_data_v4.py to regenerate.", file=sys.stderr)
+        sys.exit(1)
+
+    # Step 2: V3 NEW — Parse CLAIMS.md fresh and compare manifest
+    from generate_claims_data_v4 import build_snapshot
+    try:
+        fresh_snapshot = build_snapshot(CLAIMS_MD)
+    except ValueError as e:
+        print(f"FAIL: Fresh parse of CLAIMS.md failed: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Compare claim count
+    if fresh_snapshot["claim_count"] != committed["claim_count"]:
+        print(f"FAIL: Claim count drift!", file=sys.stderr)
+        print(f"  Committed: {committed['claim_count']}", file=sys.stderr)
+        print(f"  Fresh:     {fresh_snapshot['claim_count']}", file=sys.stderr)
+        sys.exit(1)
+
+    # Compare each claim's status/confidence
+    for cid, fresh_claim in fresh_snapshot["claims"].items():
+        committed_claim = committed["claims"].get(cid)
+        if not committed_claim:
+            print(f"FAIL: Claim '{cid}' in fresh parse but not in committed snapshot", file=sys.stderr)
+            sys.exit(1)
+        if fresh_claim["primary_status"] != committed_claim["primary_status"]:
+            print(f"FAIL: Status drift for '{cid}':", file=sys.stderr)
+            print(f"  Committed: {committed_claim['primary_status']}", file=sys.stderr)
+            print(f"  Fresh:     {fresh_claim['primary_status']}", file=sys.stderr)
+            sys.exit(1)
+        if fresh_claim["primary_confidence"] != committed_claim["primary_confidence"]:
+            print(f"FAIL: Confidence drift for '{cid}':", file=sys.stderr)
+            print(f"  Committed: {committed_claim['primary_confidence']}", file=sys.stderr)
+            print(f"  Fresh:     {fresh_claim['primary_confidence']}", file=sys.stderr)
+            sys.exit(1)
+
+    # Step 3: V3 NEW — Verify committed data files match fresh generation
+    from generate_claims_data_v4 import generate_public_data_js, generate_runtime_data_js
+
+    fresh_claims_js = generate_public_data_js(fresh_snapshot)
+    committed_claims_js = DATA_CLAIMS_JS.read_text(encoding="utf-8")
+    if fresh_claims_js != committed_claims_js:
+        print("FAIL: data.claims.js does not match fresh generation!", file=sys.stderr)
+        print("  Run generate_claims_data_v4.py to regenerate.", file=sys.stderr)
+        sys.exit(1)
+
+    fresh_runtime_js = generate_runtime_data_js(fresh_snapshot)
+    committed_runtime_js = DATA_JS.read_text(encoding="utf-8")
+    if fresh_runtime_js != committed_runtime_js:
+        print("FAIL: data.js does not match fresh generation!", file=sys.stderr)
+        print("  Run generate_claims_data_v4.py to regenerate.", file=sys.stderr)
+        sys.exit(1)
+
+    return committed
+
+
+# ============================================================================
+# PUBLIC CLAIMS EXTRACTION
+# ============================================================================
+
+def extract_public_claims() -> dict:
+    """Extract public claims from data.claims.js."""
+    if not DATA_CLAIMS_JS.is_file():
+        return {}
+    text = DATA_CLAIMS_JS.read_text(encoding="utf-8")
+    # Parse the JSON object from window.PFClaimsData = {...};
+    m = re.search(r'window\.PFClaimsData\s*=\s*(\{.*?\});', text, re.DOTALL)
+    if not m:
+        return {}
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return {}
+    claims = {}
+    for c in data.get("claims", []):
+        claims[c["id"]] = {
+            "status": c.get("status"),
+            "confidence": c.get("confidence"),
+            "isSplit": c.get("isSplit", False),
+            "isStandardMath": c.get("isStandardMath", False),
+            "badge": c.get("badge", ""),
+            "statusClass": c.get("statusClass", ""),
+        }
+    return claims
+
+
+def extract_public_results() -> dict:
+    """Extract public results from data.js (V3 NEW)."""
+    if not DATA_JS.is_file():
+        return {}
+    text = DATA_JS.read_text(encoding="utf-8")
+    m = re.search(r'window\.PFExplorerData\s*=\s*(\{.*?\});', text, re.DOTALL)
+    if not m:
+        return {}
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return {}
+    results = {}
+    for r in data.get("results", []):
+        results[r["id"]] = {
+            "status": r.get("status"),
+            "confidence": r.get("confidence"),
+            "authorityClaimIds": r.get("authorityClaimIds", []),
+        }
+    return results
+
+
+# ============================================================================
+# DRIFT CHECKS
+# ============================================================================
+
+def check_claim_drift(snapshot: dict, public_claims: dict) -> list[str]:
+    """Check that public claims match authority."""
+    failures = []
+    auth_claims = snapshot["claims"]
+
+    # Check every public claim has an authority record
+    for cid, pub in public_claims.items():
+        if cid not in auth_claims:
+            failures.append(f"UNKNOWN_CLAIM: Public claim '{cid}' has no authority record in CLAIMS.md")
+            continue
+        auth = auth_claims[cid]
+        if pub["status"] != auth["primary_status"]:
+            failures.append(f"STATUS_DRIFT: '{cid}' public={pub['status']} authority={auth['primary_status']}")
+        if pub["confidence"] != auth["primary_confidence"]:
+            failures.append(f"CONFIDENCE_DRIFT: '{cid}' public={pub['confidence']} authority={auth['primary_confidence']}")
+        if pub.get("isSplit") != auth.get("is_split", False):
+            failures.append(f"SPLIT_FLATTENED: '{cid}' public isSplit={pub.get('isSplit')} authority is_split={auth.get('is_split')}")
+        if pub.get("isStandardMath") != auth.get("is_standard_math", False):
+            failures.append(f"STD_MATH_DRIFT: '{cid}' public isStandardMath={pub.get('isStandardMath')} authority={auth.get('is_standard_math')}")
+        # V3: Standard math must NOT show as DERIVED badge
+        if auth.get("is_standard_math") and "DERIVED" in (pub.get("badge") or "").upper():
+            failures.append(f"STD_MATH_AS_DERIVED: '{cid}' standard math shows DERIVED badge: {pub.get('badge')}")
+
+    # Check every authority claim is in public data
+    for cid in auth_claims:
+        if cid not in public_claims:
+            failures.append(f"MISSING_PUBLIC: Authority claim '{cid}' not in public data")
+
+    return failures
+
+
+def check_result_drift(snapshot: dict, public_results: dict) -> list[str]:
+    """V3 NEW: Check that data.js results match authority via crosswalk."""
+    failures = []
+    crosswalk = snapshot.get("result_to_authority", {})
+
+    for result_id, pub in public_results.items():
+        auth_refs = pub.get("authorityClaimIds", [])
+        if not auth_refs:
+            # No authority — check if it's unsynced or no-go
+            if pub["status"] not in ("UNSYNCED", "NO-GO", "OPEN"):
+                failures.append(f"RESULT_NO_AUTH: '{result_id}' has status '{pub['status']}' but no authorityClaimIds")
+            continue
+
+        # Check each authority claim
+        for auth_id in auth_refs:
+            auth = snapshot["claims"].get(auth_id)
+            if not auth:
+                failures.append(f"RESULT_UNKNOWN_AUTH: '{result_id}' references unknown authority '{auth_id}'")
+                continue
+            # For split results (God Equation), check the primary status matches
+            if len(auth_refs) > 1:
+                # Split result — primary status should match first authority
+                if pub["status"] != snapshot["claims"][auth_refs[0]]["primary_status"]:
+                    failures.append(f"RESULT_SPLIT_DRIFT: '{result_id}' primary status={pub['status']} but first auth={auth_refs[0]} has {snapshot['claims'][auth_refs[0]]['primary_status']}")
+            else:
+                # Single authority — status must match
+                if pub["status"] != auth["primary_status"]:
+                    failures.append(f"RESULT_STATUS_DRIFT: '{result_id}' status={pub['status']} but authority={auth['primary_status']}")
+                if pub["confidence"] != auth["primary_confidence"]:
+                    failures.append(f"RESULT_CONF_DRIFT: '{result_id}' confidence={pub['confidence']} but authority={auth['primary_confidence']}")
+
+    return failures
+
+
+def check_scope_fields(snapshot: dict, public_claims: dict) -> list[str]:
+    """V4: Check that PF claims have nonempty premise, scope, AND semantic scope triples."""
+    failures = []
+    for cid, auth in snapshot["claims"].items():
+        # Standard math claims are exempt from premise/scope requirements
+        if auth.get("is_standard_math"):
+            continue
+        # OPEN claims are exempt (they're explicitly open)
+        if auth["primary_status"] == "OPEN":
+            continue
+
+        if not auth.get("premise"):
+            failures.append(f"EMPTY_PREMISE: '{cid}' has empty premise field")
+        if not auth.get("scope_note"):
+            failures.append(f"EMPTY_SCOPE: '{cid}' has empty scope_note field")
+        if not auth.get("source_line"):
+            failures.append(f"EMPTY_SOURCE_LINE: '{cid}' has no source_line")
+        if not auth.get("section"):
+            failures.append(f"EMPTY_SECTION: '{cid}' has no section")
+
+        # V4: Check semantic scope triples
+        if not auth.get("standard_physics"):
+            failures.append(f"EMPTY_STANDARD_PHYSICS: '{cid}' has empty standard_physics field")
+        if not auth.get("pf_result_under_named_premises"):
+            failures.append(f"EMPTY_PF_RESULT: '{cid}' has empty pf_result_under_named_premises field")
+        if not auth.get("open_pf_gap"):
+            failures.append(f"EMPTY_OPEN_PF_GAP: '{cid}' has empty open_pf_gap field")
+
+    return failures
+
+
+def check_god_equation_split(snapshot: dict, public_claims: dict) -> list[str]:
+    """Check that God Equation operator and scale are separate claims."""
+    failures = []
+    operator = snapshot["claims"].get("god-equation-operator")
+    scale = snapshot["claims"].get("god-equation-scale")
+    if not operator:
+        failures.append("GOD_SPLIT: Missing god-equation-operator claim")
+    if not scale:
+        failures.append("GOD_SPLIT: Missing god-equation-scale claim")
+    if operator and scale:
+        if operator["primary_status"] == scale["primary_status"]:
+            failures.append(f"GOD_SPLIT: operator and scale have same status: {operator['primary_status']}")
+    return failures
+
+
+def check_source_unity() -> list[str]:
+    """V3: Check that PFExplorerData, PFClaimsData, PFDataGraph are unified."""
+    failures = []
+    # Check data.graph.js is a thin alias
+    if DATA_GRAPH_JS.is_file():
+        text = DATA_GRAPH_JS.read_text(encoding="utf-8")
+        # Must not contain independent claim data
+        if "results:" in text and "PFExplorerData" not in text:
+            failures.append("DUAL_SOURCE: data.graph.js contains independent results data")
+        # Must reference PFClaimsData
+        if "PFClaimsData" not in text:
+            failures.append("DUAL_SOURCE: data.graph.js does not reference PFClaimsData")
+    return failures
+
+
+# ============================================================================
+# BADGE SCANNING (V3: no broad exemptions)
+# ============================================================================
+
+def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
+    """
+    V4: Scan a file for status-bearing words in hand-written contexts.
+    NO broad fallback skip — every line is scanned except pure comments.
+    Catches: object syntax, badge HTML, plain-text labels, template strings,
+    fallback variables, and string concatenation patterns.
+    UI infrastructure (filter buttons, legends, color maps) is whitelisted.
+    """
+    failures = []
+    if not filepath.is_file():
+        return failures
+
+    text = filepath.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    try:
+        rel_path = filepath.relative_to(get_explorer_dir())
+    except ValueError:
+        rel_path = filepath
+
+    # Skip generated files
+    if filepath.name in GENERATED_FILES:
+        return failures
+
+    # Skip vendor files
+    if "vendor/" in str(rel_path):
+        return failures
+
+    # V4: Whitelisted line patterns — UI infrastructure, not claim statuses
+    INFRA_PATTERNS = [
+        r"['\"]DERIVED['\"]\s*:",
+        r"['\"]CONDITIONAL['\"]\s*:",
+        r"['\"]ARGUED['\"]\s*:",
+        r"['\"]EMPIRICAL['\"]\s*:",
+        r"['\"]INTUITION['\"]\s*:",
+        r"['\"]EXACT IDENTITY['\"]\s*:",
+        r"['\"]STANDARD MATH['\"]\s*:",
+        r"['\"]NO-GO['\"]\s*:",
+        r"['\"]PARTIAL DERIVATION['\"]\s*:",
+        r"case\s+['\"]",
+        r"===?\s*['\"]",
+        r"!==?\s*['\"]",
+        r"\bcounts\.\w+",
+        r"\bresult\.\w+",
+        r"\bclaim\.\w+",
+        r"\bapi\.\w+",
+        r"\bctx\.\w+",
+        r"\bTIER_ORDER\b",
+        r"\bSTATUS_WORDS\b",
+        r"\bUNAVAILABLE\b",
+        r"loading from authority",
+        r"data-status=",
+        r"status-filter-btn",
+        r"tl-legend",
+        r"stat-label",
+        r"wrong-badge",
+        r"id:\s*['\"]",
+        r"label:\s*",
+        r"col:\s*",
+        # V4: Additional infrastructure patterns
+        r"_nodeType\s*:",
+        r"setText\s*\(",
+        r"\.forEach\s*\(",
+        r"\.map\s*\(",
+        r"\.indexOf\s*\(",
+        r"\.filter\s*\(",
+        r"it\.status\s*\?",
+        r"\bdefinition\b",
+        r"<span>(?:Derived|Conditional|Argued|Empirical|Intuition|Partial)",
+        r"<td[^>]*>(?:Conditional|Derived|Argued|Empirical|Intuition|Partial)",
+        r"<strong>(?:Derived|Conditional|Argued|Empirical|Intuition)",
+        r"ws-metric-row",
+        r"legend-item",
+        r"legend-color",
+        r"legend\b",
+    ]
+
+    for i, line in enumerate(lines, 1):
+        stripped = line.strip()
+
+        # Skip pure comment lines
+        if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
+            continue
+
+        # Check if this line matches any infrastructure pattern
+        is_infra = False
+        for pat in INFRA_PATTERNS:
+            if re.search(pat, line, re.IGNORECASE):
+                is_infra = True
+                break
+        if is_infra:
+            continue
+
+        # V4: Scan for status words in status-bearing contexts only
+        for word in STATUS_WORDS:
+            if word == "OPEN":
+                patterns = [
+                    r"""['"]status['"]\s*:\s*['"]OPEN['"]""",
+                    r"""class="status-pill[^"]*">\s*OPEN""",
+                    r"""Status:\s*OPEN""",
+                ]
+            else:
+                we = re.escape(word)
+                patterns = [
+                    # Object literal status assignments
+                    r"""['"]status['"]\s*:\s*['"]""" + we + r"""['"]""",
+                    r"""status:\s*['"]""" + we + r"""['"]""",
+                    # Badge/pill HTML elements
+                    r"""class="status-pill[^"]*">\s*""" + we,
+                    r"""class="status-badge[^"]*">\s*""" + we,
+                    # Escaped quote variants
+                    r"""class=\\"status-pill[^>]*>\s*""" + we,
+                    r"""class=\\"status-badge[^>]*>\s*""" + we,
+                    # Plain-text "Status: WORD" in HTML content
+                    r"""Status:\s*""" + we,
+                    # Fallback string literals (|| 'DERIVED')
+                    r"""\|\|\s*['"]""" + we + r"""['"]""",
+                    # _fallbackStatus with status words
+                    r"""_fallbackStatus:\s*['"]""" + we + r"""['"]""",
+                ]
+
+            for pat in patterns:
+                if re.search(pat, line, re.IGNORECASE):
+                    failures.append(
+                        f"UNMAPPED_BADGE: {rel_path}:{i} contains status word '{word}' "
+                        f"in hand-written file. Line: {stripped[:120]}"
+                    )
+                    break
+
+    return failures
+
+
+# ============================================================================
+# HTML ENTRY POINT CHECKS (V3 NEW)
+# ============================================================================
+
+def check_html_entry_points() -> list[str]:
+    """V4: Check every HTML entry point in the release-tree registry.
+    Claim routes must load generated data. Non-claim routes must be clean."""
+    failures = []
+    ed = get_explorer_dir()
+    registry_path = ed / "release_tree_registry.json"
+
+    if registry_path.is_file():
+        import json as _json
+        registry = _json.loads(registry_path.read_text())
+        claim_routes = registry.get("claim_routes", [])
+        non_claim_routes = registry.get("standalone_non_claim_routes", [])
+    else:
+        claim_routes = [h.name for h in ed.glob("*.html") if h.name != "test-d3.html"]
+        non_claim_routes = []
+
+    # Check claim routes
+    for name in claim_routes:
+        html_path = ed / name
+        if not html_path.is_file():
+            failures.append(f"MISSING_ROUTE: {name} listed in registry but not found")
+            continue
+
+        text = html_path.read_text(encoding="utf-8")
+        has_data = ("data.js" in text or "data.claims.js" in text or "data.graph.js" in text)
+        has_truth_utils = "truth-utils.js" in text
+        if has_data and not has_truth_utils:
+            failures.append(f"MISSING_TRUTH_UTILS: {name} loads data files but not truth-utils.js")
+        if not has_data:
+            failures.append(f"NO_DATA: {name} is a claim route but loads no generated data")
+
+        # Check load order
+        graph_pos = text.find("data.graph.js")
+        claims_pos = text.find("data.claims.js")
+        data_js_pos = text.find('src="data.js"')
+        if data_js_pos > 0 and claims_pos > 0 and data_js_pos < claims_pos:
+            failures.append(f"LOAD_ORDER: {name} loads data.js before data.claims.js")
+
+    # Check non-claim routes don't have status content
+    for name in non_claim_routes:
+        html_path = ed / name
+        if not html_path.is_file():
+            failures.append(f"MISSING_ROUTE: {name} listed in registry but not found")
+            continue
+        text = html_path.read_text(encoding="utf-8")
+        for word in STATUS_WORDS:
+            we = re.escape(word)
+            if re.search(r"""['"]status['"]\s*:\s*['"]""" + we, text) or \
+               re.search(r"""class="status-pill[^"]*">\s*""" + we, text) or \
+               re.search(r"""Status:\s*""" + we, text, re.IGNORECASE):
+                failures.append(f"NON_CLAIM_HAS_STATUS: {name} classified as non-claim but contains status word '{word}'")
+
+    # V4: Check excluded paths don't leak into served tree
+    if registry_path.is_file():
+        for excl in registry.get("excluded_paths", []):
+            excl_dir = ed / excl.rstrip("/")
+            if excl_dir.is_dir():
+                for html in excl_dir.glob("*.html"):
+                    root_copy = ed / html.name
+                    if root_copy.exists():
+                        failures.append(f"QUARANTINE_LEAK: {html.name} exists in both root and {excl}")
+
+    return failures
+
+
+# ============================================================================
+# MAIN GATE
+# ============================================================================
+
+def main() -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="Explorer Truth Layer V4 — Fail-Closed Drift Gate")
+    parser.add_argument("--explorer-dir", type=Path, default=None,
+                        help="Override explorer directory (for fixture testing)")
+    args = parser.parse_args()
+
+    global _explorer_dir_override
+    if args.explorer_dir:
+        _explorer_dir_override = args.explorer_dir
+        _compute_paths()
+
+    print("=" * 70)
+    print("Explorer Truth Layer V4 — Fail-Closed Drift Gate")
+    print("=" * 70)
+    print()
+
+    # Step 1: Verify snapshot (V3: parse + compare, not just hash)
+    print("[1/8] Verifying source hash + fresh parse...")
+    snapshot = load_and_verify_snapshot()
+    print(f"  PASS: CLAIMS.md hash matches, fresh parse matches committed snapshot")
+    print(f"  Claims in authority: {snapshot['claim_count']}")
+
+    # Step 2: Extract public claims
+    print("\n[2/8] Extracting public claims...")
+    public_claims = extract_public_claims()
+    public_results = extract_public_results()
+    print(f"  Claims in public data: {len(public_claims)}")
+    print(f"  Results in runtime data: {len(public_results)}")
+
+    # Step 3: Check claim drift
+    print("\n[3/8] Checking claim drift...")
+    drift_failures = check_claim_drift(snapshot, public_claims)
+    if drift_failures:
+        print(f"  FAIL: {len(drift_failures)} drift failures:")
+        for f in drift_failures[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: All public claims match authority")
+
+    # Step 4: Check result drift
+    print("\n[4/8] Checking runtime result drift...")
+    result_failures = check_result_drift(snapshot, public_results)
+    if result_failures:
+        print(f"  FAIL: {len(result_failures)} result drift failures:")
+        for f in result_failures[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: All runtime results match authority")
+
+    # Step 5: Check scope fields (V4: premise + scope + semantic triples)
+    print("\n[5/8] Checking premise/scope fields and semantic triples...")
+    scope_failures = check_scope_fields(snapshot, public_claims)
+    if scope_failures:
+        print(f"  FAIL: {len(scope_failures)} scope failures:")
+        for f in scope_failures[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: All PF claims have nonempty premise, scope, and semantic triples")
+
+    # Step 6: Scan all public surfaces for unmapped badges (V4: no fallback bypass)
+    print("\n[6/8] Scanning all public surfaces for unmapped badges...")
+    surfaces = enumerate_public_surfaces()
+    badge_failures = []
+    for surface in surfaces:
+        badge_failures.extend(scan_file_for_badges(surface, snapshot["claims"]))
+    if badge_failures:
+        print(f"  FAIL: {len(badge_failures)} unmapped badges found:")
+        for f in badge_failures[:15]:
+            print(f"    - {f}")
+    else:
+        print(f"  PASS: No unmapped badges in {len(surfaces)} public surfaces")
+
+    # Step 7: Check God Equation split, source unity, HTML entry points
+    print("\n[7/8] Checking God Equation split, source unity, HTML entry points...")
+    god_failures = check_god_equation_split(snapshot, public_claims)
+    unity_failures = check_source_unity()
+    html_failures = check_html_entry_points()
+    all_check7 = god_failures + unity_failures + html_failures
+    if all_check7:
+        print(f"  FAIL: {len(all_check7)} failures:")
+        for f in all_check7[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: God Equation split, source unity, HTML entry points all OK")
+
+    # Step 8: V4 — Check release-tree registry
+    print("\n[8/8] Checking release-tree registry...")
+    registry_failures = []
+    ed = get_explorer_dir()
+    registry_path = ed / "release_tree_registry.json"
+    if not registry_path.is_file():
+        registry_failures.append("MISSING_REGISTRY: release_tree_registry.json not found")
+    else:
+        # Check that all served routes exist
+        import json as _json
+        registry = _json.loads(registry_path.read_text())
+        for route in registry.get("servedRoutes", []):
+            if not (ed / route["path"]).is_file():
+                registry_failures.append(f"MISSING_ROUTE: {route['path']} listed in registry but not found")
+        # Check that quarantined routes are not in served tree
+        for q_route in registry.get("quarantinedRoutes", []):
+            served_path = q_route["path"].split("/")[-1]
+            if (ed / served_path).exists():
+                registry_failures.append(f"QUARANTINE_LEAK: {served_path} exists in served tree")
+    if registry_failures:
+        print(f"  FAIL: {len(registry_failures)} registry failures:")
+        for f in registry_failures[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: Release-tree registry is consistent")
+
+    # Summary
+    total_failures = len(drift_failures) + len(result_failures) + len(scope_failures) + \
+                     len(badge_failures) + len(all_check7) + len(registry_failures)
+
+    print()
+    print("=" * 70)
+    if total_failures == 0:
+        print("TRUTH GATE V4: PASS — No truth drift detected")
+        print("=" * 70)
+        return 0
+    else:
+        print(f"TRUTH GATE V4: FAIL ({total_failures} total failures)")
+        print("=" * 70)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

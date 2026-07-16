@@ -227,7 +227,7 @@
         html += [
           '<div class="scale-result-item" data-result="' + r.id + '">',
           '<div class="result-title">' + (r.shortTitle || r.title) + '</div>',
-          '<span class="result-status ' + statusClass + '">' + (r.status || 'OPEN') + '</span>',
+          '<span class="result-status ' + statusClass + '">' + (r.status || 'UNAVAILABLE') + '</span>',
           '</div>'
         ].join('');
       });

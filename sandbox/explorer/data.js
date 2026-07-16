@@ -6,7 +6,7 @@
 
 (function () {
   window.PFExplorerData = {
-  "generatedAt": "2026-07-15",
+  "generatedAt": "2026-07-16",
   "sourceHash": "aa634eabc78ff1bc",
   "generatorVersion": "V3",
   "truthPolicy": {
@@ -1344,7 +1344,10 @@
         "confidence": null,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The fine structure constant α ≈ 1/137.036 is a dimensionless measured constant. No first-principles derivation exists in standard physics.",
+    "pfResultUnderNamedPremises": "Casimir scan found (1-x₁)·x_{3/2}²·(1-x₂)/π = 1/137.119 (0.061% error). Withdrawn as derivation evidence due to look-elsewhere effect (P≈0.46).",
+    "openPfGap": "Numeric α derivation from Axioms 1-3 remains OPEN. The Casimir combination cannot be presented as confidence-bearing without a principled geometric origin."
   },
   {
     "id": "alpha-structural",
@@ -1366,7 +1369,10 @@
         "confidence": 0.6,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "α is identified as the coupling constant of QED. Its structural origin in gauge theory is well-understood, but its numeric value is a free parameter.",
+    "pfResultUnderNamedPremises": "α identified as vacuum propagation efficiency ratio Z₀/2R_K. Structurally motivated by PF medium framework. Route to derivation mapped.",
+    "openPfGap": "The Z₀/2R_K identification has no proof of PF-native origin. The route is mapped but not completed. Not yet a derivation."
   },
   {
     "id": "aria-self-reference",
@@ -1388,7 +1394,10 @@
         "confidence": 0.75,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Self-reference is studied in logic (Gödel), biology (autopoiesis), and cognitive science. No physics-based self-reference theory exists.",
+    "pfResultUnderNamedPremises": "PF proposes that self-referential propagation is the structural basis of consciousness. The ARIA (Awareness, Resonance, Integration, Agency) framework maps PF concepts to cognitive functions.",
+    "openPfGap": "The mapping from PF propagation dynamics to cognitive functions is argued, not derived. No quantitative prediction or falsifiable test has been pre-registered."
   },
   {
     "id": "beauty-impedance",
@@ -1410,7 +1419,10 @@
         "confidence": 0.55,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Aesthetics is studied in psychology and neuroscience. Beauty is linked to symmetry, proportion, and novelty. No physics-based theory of beauty exists.",
+    "pfResultUnderNamedPremises": "Greg's insight: beauty as impedance matching fits Axiom 3 (resonance preference). Low-impedance states are aesthetically pleasing.",
+    "openPfGap": "This is an intuition-level claim. No quantitative prediction or falsifiable test has been developed. The connection between impedance and aesthetic experience is not formalized."
   },
   {
     "id": "bohr-spectrum",
@@ -1432,7 +1444,10 @@
         "confidence": 0.9,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Standard QM derives E_n = -1/(2n^2) from the Schrödinger equation with Coulomb potential. Bohr-Sommerfeld quantization gives the same spectrum for circular orbits.",
+    "pfResultUnderNamedPremises": "Circular Coulomb eikonal + phase closure selects the Bohr-like spectrum. Kepler degeneracy proves E_k = -1/(2k^2) is exact for ALL eccentricities, not just circular. Phase closure verified to 0.00% error for e=0.0 to 0.9.",
+    "openPfGap": "Deriving the Coulomb potential itself from PF medium geometry (Axioms 1-3) rather than assuming it as an external field."
   },
   {
     "id": "coherence-ceiling",
@@ -1454,7 +1469,10 @@
         "confidence": 0.8,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No direct standard physics analog. The concept of a maximum frequency set by coherence length is related to Planck-scale physics but not identical.",
+    "pfResultUnderNamedPremises": "Max frequency where wavelength < coherence length follows from Axiom 3. This sets an upper bound on stable particle masses.",
+    "openPfGap": "The precise relationship between coherence length and the Planck scale is not derived. The quantitative prediction of the ceiling value is open."
   },
   {
     "id": "consciousness-claim",
@@ -1476,7 +1494,10 @@
         "confidence": 0.48,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Consciousness is not explained by standard physics. The hard problem of consciousness (Chalmers) is unresolved. Integrated Information Theory (IIT) and Global Workspace Theory are leading candidates.",
+    "pfResultUnderNamedPremises": "PF proposes consciousness = coherent self-referential propagation. Ontology is coherent and literature-compatible.",
+    "openPfGap": "PF lacks a uniquely measured variable separating self-referential coherence from synchrony, integration, broadcast, or metacognition. No pre-registered dissociation test has been run."
   },
   {
     "id": "d3-symmetric-ji",
@@ -1498,7 +1519,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. Pure linear algebra result about 3×3 matrices.",
+    "pfResultUnderNamedPremises": "Lean 4 machine-verified (0 sorrys): At D=3, symmetry (H17) + zero diagonal (H7) + equal row sums (H18) uniquely determine the J-I circulant form.",
+    "openPfGap": "The three premises H7, H17, H18 are not independently derived from Axioms 1-3. Each is a structural assumption about the medium matrix."
   },
   {
     "id": "d3-unique-stable",
@@ -1520,7 +1544,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. Dimension selection is not a standard physics question.",
+    "pfResultUnderNamedPremises": "Lean 4 machine-verified: D=3 is the only dimension D≥2 where symmetric + zero-diagonal + equal-row-sum matrices collapse to unique J-I form AND J-I is stable. Premises: H7, H11, H17, H18.",
+    "openPfGap": "The premises H7, H11, H17, H18 are not all derived from Axioms 1-3. H11 (stability) in particular is a physical assumption. The derivation of these premises from PF axioms is open."
   },
   {
     "id": "d4-gap-not-ji",
@@ -1542,7 +1569,10 @@
         "confidence": 0.85,
         "qualifier": "negative"
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. Pure linear algebra result about 4×4 matrices.",
+    "pfResultUnderNamedPremises": "Lean 4 proven: explicit 4×4 counterexample [[0,2,0,1],[2,0,1,0],[0,1,0,2],[1,0,2,0]] is symmetric, zero-diagonal, equal-row-sum, and NOT J-I. D=3 uniqueness is dimension-dependent.",
+    "openPfGap": "This is a negative result that bounds the D=3 theorem. No open PF gap — it strengthens the D=3 selection argument."
   },
   {
     "id": "degenerate-residue-circulant",
@@ -1564,7 +1594,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. This is a pure linear algebra result.",
+    "pfResultUnderNamedPremises": "Lean 4 proven: for D≥2, zero diagonal (H7) + equal row sums (H18) + degenerate residue eigenvalue → M = c/(D-1)·(J-I). Clean mathematical theorem.",
+    "openPfGap": "The degenerate residue eigenvalue condition is not derived from PF axioms. It is a mathematical premise whose physical motivation is argued but not proven."
   },
   {
     "id": "electron-up-phi",
@@ -1586,7 +1619,10 @@
         "confidence": 0.65,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The electron/up-quark mass ratio m_e/m_u ≈ 0.000487 is an empirical observation. No standard physics explanation exists.",
+    "pfResultUnderNamedPremises": "m_e/m_u ≈ 1/φ³ (0.214% error with PDG 2024 central value). Monte Carlo gives p = 0.006776. Real signal connecting lepton/quark mass ratio to the golden ratio.",
+    "openPfGap": "The signal is a posteriori and uncertainty-limited. No PF derivation of why this ratio should be 1/φ³ exists. The trials-factor analysis may push it back to noise."
   },
   {
     "id": "god-equation-operator",
@@ -1608,7 +1644,10 @@
         "confidence": 0.88,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. Z₃ cyclic operator algebras appear in flavor physics but not as a primitive operator structure.",
+    "pfResultUnderNamedPremises": "Given explicit Postulate D (Z₃ no-self-loop selector forces U = M/2), eigenvalues {1, -1/8, -1/8} are exact cosines of 2π/3 and 4π/3. IBM Quantum smoke test returned 94.6% for C₃ permutation.",
+    "openPfGap": "Postulate D is an explicit premise, NOT derived from Axioms 1-3. The IBM hardware did not measure the -1/8 eigenvalue on silicon. H_prod (Planck-boundary coupling) not derived."
   },
   {
     "id": "god-equation-scale",
@@ -1630,7 +1669,10 @@
         "confidence": 0.6,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics prediction for a minimum length scale beyond the Planck length l_P. The Planck length is a dimensional combination of G, ℏ, c.",
+    "pfResultUnderNamedPremises": "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m, observed: 1.140×10⁻¹⁸ m, 1.48% error.",
+    "openPfGap": "N^(D/2) is fit-selected (N=3, D=3 chosen to match), not derived. H_prod not derived. Decoherence assumes external coupling parameters not from Axioms 1-3."
   },
   {
     "id": "gravity-optical",
@@ -1652,7 +1694,10 @@
         "confidence": 0.95,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "GR describes gravity as spacetime curvature. Light deflection, perihelion precession, and Shapiro delay are standard GR predictions verified experimentally.",
+    "pfResultUnderNamedPremises": "Null geodesics in static spacetimes map exactly to optical metric refraction. Stationary spacetimes extend via Randers/Finsler metric. Weak-field scalar n(x) reproduces light deflection, perihelion precession, and Shapiro delay.",
+    "openPfGap": "The broader 'all forces as refraction' claim is not proven. Only null/stationary gravity is mapped; the extension to non-stationary or strong-field regimes is open."
   },
   {
     "id": "isometry-ji-incompatibility",
@@ -1674,7 +1719,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. The incompatibility between isometry and contraction is a mathematical observation.",
+    "pfResultUnderNamedPremises": "Lean 4 proven: T³ strictly decreases full Euclidean norm for any non-uniform state. J-I dynamics cannot be isometric (isometry requires ‖λ‖=1; J-I has real eigenvalues → contraction).",
+    "openPfGap": "Conditional on J-I coupling (Postulate D / H7+H17+H18). The physical implications for PF medium dynamics are not fully explored."
   },
   {
     "id": "isometry-reversibility",
@@ -1696,7 +1744,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "In standard physics, isometric transformations are reversible by definition. This is a standard mathematical fact.",
+    "pfResultUnderNamedPremises": "Lean 4 machine-verified: if medium is isometric (H14), obeys metric identity (H15), and metric reflexivity (H16), then propagation is reversible.",
+    "openPfGap": "The premises H14, H15, H16 are explicit assumptions about the medium. Their derivation from Axioms 1-3 is not addressed in this theorem."
   },
   {
     "id": "koide-entropy",
@@ -1718,7 +1769,10 @@
         "confidence": 0.72,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. Shannon entropy applied to mass matrices is not a standard particle physics technique.",
+    "pfResultUnderNamedPremises": "For diagonal amplitude matrix X, binary sector weight p = ||u(1)-part||²/||X||² satisfies p = 1/(3Q), and Shannon entropy S(p) is uniquely maximized at p=1/2, implying Q=2/3.",
+    "openPfGap": "That Axiom 3 or PF vacuum dynamics must maximize this particular entropy in this particular split is not shown. The selector principle is not PF-derived."
   },
   {
     "id": "koide-leptons",
@@ -1745,7 +1799,10 @@
         "confidence": null,
         "qualifier": "physical vacuum selection"
       }
-    ]
+    ],
+    "standardPhysics": "Koide's formula Q = 2/3 is an empirical relation among charged lepton masses, discovered by Yoshio Koide in 1981. No standard physics derivation exists.",
+    "pfResultUnderNamedPremises": "Three equal-strength resonances at 120° force the Foot-radius relation and yield Q = 2/3 exactly as a geometric identity. Equal-amplitude premise underwritten by shared U(1)_em coupling.",
+    "openPfGap": "Why the physical charged-lepton vacuum selects the equal-norm point is OPEN. The identity is exact given the premise; deriving the premise from PF dynamics is the open gap."
   },
   {
     "id": "koide-phase",
@@ -1767,7 +1824,10 @@
         "confidence": 0.65,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The Koide phase δ ≈ 0.22223 rad is an empirical parameter of the charged lepton mass matrix. No standard physics prediction exists.",
+    "pfResultUnderNamedPremises": "PF predicts δ = 2/9 exactly. Algebraic check confirms δ_Koide = 2/9 is measurement-consistent (0.029σ). Pre-registered prediction: any selector derivation must output δ = 2/9 uniquely.",
+    "openPfGap": "No PF-native selector currently exists. T-022 (Casimir selector) and T-021 (RG audit) both returned honest negatives. The 2/9 value remains empirical, not derived."
   },
   {
     "id": "koide-u3-maximization",
@@ -1789,7 +1849,10 @@
         "confidence": 0.75,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. U(3) entropy maximization over mass matrices is PF-specific.",
+    "pfResultUnderNamedPremises": "The ratio p = ||U(1)||²/||X||² is mathematically maximized at p=1/2, matching the Q=2/3 mass distribution. Clean algebraic result over the scalar/traceless u(3) split.",
+    "openPfGap": "PF does not yet derive why this entropy should be maximized. The physical selector mechanism remains unidentified."
   },
   {
     "id": "life-coherence",
@@ -1811,7 +1874,10 @@
         "confidence": 0.72,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Biology studies life as a thermodynamic phenomenon. Schrödinger's 'What is Life?' introduced negative entropy. Modern biology studies nonequilibrium systems.",
+    "pfResultUnderNamedPremises": "PF supports life as active coherence maintenance in an open nonequilibrium system. Compatible with photosynthetic coherence and enzyme tunneling.",
+    "openPfGap": "Does not derive a universal Fröhlich mechanism or a numeric life threshold. The specific PF variable distinguishing life from non-life is not identified."
   },
   {
     "id": "n3-cp-violation",
@@ -1833,7 +1899,10 @@
         "confidence": 0.7,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The CKM matrix for 3 generations contains exactly one complex phase, enabling CP violation. For 2 generations, no CP violation is possible. This is standard CKM physics.",
+    "pfResultUnderNamedPremises": "PF derives N=3 as the unique stable generation count (CONDITIONAL 0.88). Therefore PF predicts CP violation in quark mixing is structurally possible — 3 is the minimum for a complex CKM phase.",
+    "openPfGap": "This does NOT derive the phase magnitude (δ ≈ 1.2 rad). Only the existence/possibility of CP violation is addressed, not its measured value."
   },
   {
     "id": "neutrino-koide",
@@ -1855,7 +1924,10 @@
         "confidence": 0.95,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Neutrino masses are not precisely measured. Standard physics does not predict Koide-type relations for neutrinos.",
+    "pfResultUnderNamedPremises": "Q_NO = 0.549622 (17.5% from 2/3), Q_IO = 0.479016 (28.2% from 2/3). Universality falsified at >5% threshold. Positive scope-delimiting result: Koide is EM-sector specific.",
+    "openPfGap": "The mechanism for why weak-sector neutrinos lack the EM locking is argued but not formally derived. Precision neutrino mass measurements could shift Q_ν."
   },
   {
     "id": "pfentropy-decreases",
@@ -1877,7 +1949,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. PF entropy is a PF-specific quantity.",
+    "pfResultUnderNamedPremises": "Lean 4 proven: one three-step J-I cycle scales residue norm by 1/8, so PF entropy strictly decreases for any non-uniform state. Premises: J-I coupling (Postulate D / H7+H17+H18), T³ operator.",
+    "openPfGap": "The result is conditional on Postulate D / H7+H17+H18, which are not derived from Axioms 1-3. The physical interpretation of PF entropy decrease is argued but not fully connected to thermodynamic entropy."
   },
   {
     "id": "propagation-lagrangian",
@@ -1899,7 +1974,10 @@
         "confidence": 0.72,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Scalar-tensor theories (Brans-Dicke, etc.) are well-known extensions of GR. The minimal scalar ansatz L = ½(∂χ)² - V(χ) + λχT is standard EFT.",
+    "pfResultUnderNamedPremises": "Axioms 1-3 strongly motivate a scalar-tensor EFT class. L_prop = ½(∂χ)² - V(χ) + λχT is the minimal scalar ansatz with correct Euler-Lagrange equations and sound Brans-Dicke mapping.",
+    "openPfGap": "The scalar-field branch, exact λχT coupling, and V(χ) form are not uniquely forced by the axioms. Multiple EFT candidates fit within the same axiomatic constraints."
   },
   {
     "id": "pythagorean-decomposition",
@@ -1921,7 +1999,10 @@
         "confidence": 0.95,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The Pythagorean theorem for orthogonal projections is standard linear algebra. ‖x‖² = ‖P₀x‖² + ‖Qx‖² for orthogonal projections P₀, Q.",
+    "pfResultUnderNamedPremises": "Lean 4 proven: full norm Pythagorean decomposition with no physics premises. Pure linear algebra — orthogonal projection in finite-dimensional inner product space.",
+    "openPfGap": "No open PF gap — this is a pure mathematical result. Its physical application to PF states is downstream."
   },
   {
     "id": "qcd-confinement",
@@ -1943,7 +2024,10 @@
         "confidence": 0.72,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "QCD confinement is well-established phenomenologically but not analytically proven from first principles. Lattice QCD confirms confinement numerically.",
+    "pfResultUnderNamedPremises": "PF identifies a plausible RG mechanism: r_conf = λ_c × exp(2π/b₀α_s(λ_c)). Supports interpretation of confinement as dynamically generated, not a third fundamental coherence ceiling.",
+    "openPfGap": "The current chain uses calibrated λ_c, empirical α_s(λ_c), and a 1-loop estimate that overshoots (2.2 fm vs ~0.9 fm). Higher-loop corrections not yet shown to fix the discrepancy."
   },
   {
     "id": "sleep-constant",
@@ -1965,7 +2049,10 @@
         "confidence": 0.72,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Sleep is studied in neuroscience. The 8-hour human sleep need is empirical, not derived from first principles. Sleep serves memory consolidation and metabolic cleanup.",
+    "pfResultUnderNamedPremises": "PF supports the need for offline consolidation. T-010 model gives a plausible ~2/3 active fraction for (2,1)-weighted encode/recover systems.",
+    "openPfGap": "The exact 8-hour constant is not derived from Axioms 1-3. The chain mixes unresolved T2/T3 structure, an analogical wake/sleep mapping, and a sandbox model with built-in recovery asymmetry."
   },
   {
     "id": "three-generations",
@@ -1987,7 +2074,10 @@
         "confidence": 0.88,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The Standard Model has 3 generations of fermions. No standard physics explanation for why exactly 3 exists.",
+    "pfResultUnderNamedPremises": "Given the (2,1) closure-weight branch (numerator) and M=3 (denominator), Q(N) = 2N/(2N+3) = 2/3 → N = 3 exactly. Assembly theorem is clean with no hidden algebraic step.",
+    "openPfGap": "T1: physical realization of weight-2 branch not proven. T2: M=3 not derived from PF axioms alone. Both sides have explicit open gaps despite the clean conditional assembly."
   },
   {
     "id": "top-quark-limit",
@@ -2009,7 +2099,10 @@
         "confidence": 0.85,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The top quark mass ~172.5 GeV is measured. The top is the heaviest known quark with a very short lifetime (~5×10⁻²⁵ s). No standard physics explanation for why it's the heaviest.",
+    "pfResultUnderNamedPremises": "m_t lifetime matches the coherence ceiling threshold. The top quark sits at the maximum frequency where wavelength exceeds coherence length (Axiom 3).",
+    "openPfGap": "The precise mass value 172.5 GeV is not derived from PF. The coherence ceiling gives a qualitative argument, not a quantitative prediction."
   },
   {
     "id": "top-tau-coupling",
@@ -2031,7 +2124,10 @@
         "confidence": 0.9,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The top/tau mass ratio m_t/m_τ ≈ 3247 is an empirical observation. No standard physics explanation exists.",
+    "pfResultUnderNamedPremises": "m_t/m_τ ≈ α⁻¹/√2 (50.13% robustness in T-008). The coupling ratio connects the heaviest quark to the heaviest lepton through the fine structure constant.",
+    "openPfGap": "The derivation path from PF axioms to this specific ratio is not complete. The 50.13% robustness indicates a real but not decisive signal."
   },
   {
     "id": "topological-weights",
@@ -2058,7 +2154,10 @@
         "confidence": 0.85,
         "qualifier": "physical realization"
       }
-    ]
+    ],
+    "standardPhysics": "SU(2) → SO(3) is a 2:1 covering map with kernel {±1}. The fundamental group π_1(SO(3)) ≅ Z_2 is standard algebraic topology.",
+    "pfResultUnderNamedPremises": "Lean 4 kernel certifies: quatToSO3 g = 1 → order g ∈ {1,2}. The kernel obstruction is machine-verified with 0 sorrys. Physical realization of both branches remains CONDITIONAL 0.85.",
+    "openPfGap": "Full covering-space/path-lifting formalization is not in Lean. Physical realization bridge (non-redundancy hypothesis A_NR) not derived from Axioms 1-3."
   },
   {
     "id": "two-thirds-efficiency",
@@ -2080,7 +2179,10 @@
         "confidence": 0.5,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "No standard physics analog. The 2/3 efficiency ratio is PF-specific.",
+    "pfResultUnderNamedPremises": "The (2,1) topological weight structure suggests a 2/3 encode/recover duty cycle. Connected to the sleep constant claim.",
+    "openPfGap": "This is an intuition-level claim. The 2/3 ratio is not derived from Axioms 1-3. The connection to sleep architecture is analogical."
   },
   {
     "id": "variable-c",
@@ -2102,7 +2204,10 @@
         "confidence": 0.65,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "Variable speed of light theories exist (VSL cosmology) but are not standard. GR predicts c is locally constant; varying c would violate Lorentz invariance.",
+    "pfResultUnderNamedPremises": "c_local = 1/√(1+λχ) from conformal rescaling of the Propagation Lagrangian. Constrained by Cassini Shapiro delay to λ ≲ 10⁻²/M_Pl. Testable with SKA/LISA.",
+    "openPfGap": "The bound λ ≲ 10⁻²/M_Pl is consistent with all data but not yet tested at the predicted sensitivity. The exact value of λ is not derived from PF."
   },
   {
     "id": "weinberg-angle",
@@ -2124,7 +2229,10 @@
         "confidence": 0.65,
         "qualifier": ""
       }
-    ]
+    ],
+    "standardPhysics": "The Weinberg angle sin²θ_W ≈ 0.22337 (on-shell) is a measured parameter of the electroweak sector. It relates the W and Z boson masses. No first-principles derivation exists in the Standard Model.",
+    "pfResultUnderNamedPremises": "Casimir polynomial x² + C₂x - C₂ = 0 yields R = 1 - x_+(1/2)/x_+(1) = 0.22310. Axiom 3b (Minimal Winding) selects k=1. Matches PDG on-shell to 0.13σ.",
+    "openPfGap": "Scheme selection (on-shell vs MS-bar) not derived. Look-elsewhere scan finds P(random hit) ≈ 0.46, materially lowering confidence. The Casimir result is a candidate, not a proved derivation."
   }
 ],
       definitions: [

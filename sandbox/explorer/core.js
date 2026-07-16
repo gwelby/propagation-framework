@@ -297,7 +297,7 @@
         html = [
           '<div class="drawer-item">',
             '<header class="drawer-header">',
-              '<span class="status-pill" style="--cc:var(--col-white)">' + (d.auditLine || d.status || 'CANONICAL') + '</span>',
+              '<span class="status-pill" style="--cc:var(--col-white)">' + (d.auditLine || d.status || 'UNAVAILABLE') + '</span>',
               '<h2>' + d.title + '</h2>',
             '</header>',
             '<div class="drawer-body">',
@@ -436,7 +436,7 @@
         card.textContent = '—';
         return card;
       }
-      var statusStr = (result.status && result.status.label) ? result.status.label : (result.status || 'OPEN');
+      var statusStr = (result.status && result.status.label) ? result.status.label : (result.status || 'UNAVAILABLE');
       var statusClass = PF.statusToClass(statusStr);
       card.className = 'result-card ' + statusClass;
       if (result.id) card.setAttribute('data-result-id', result.id);

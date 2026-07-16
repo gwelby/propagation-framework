@@ -467,7 +467,7 @@
             '<h3>' + (prediction ? ctx.utils.formatScientific(prediction, 3) + ' m' : 'no asymptotic branch') + '</h3>' +
             '<p>The formula and numerical target are anchored. The operator and probability bridge remain explicitly open.</p>' +
           '</div>' +
-          '<span class="status-pill ' + (godResult.statusClass || 'status-conditional') + '">' + (godResult.badge || (godResult.status && godResult.status.label ? godResult.status.label : 'CONDITIONAL')) + '</span>' +
+          '<span class="status-pill ' + (godResult.statusClass || 'status-unavailable') + '">' + (godResult.badge || (godResult.status && godResult.status.label ? godResult.status.label : 'UNAVAILABLE')) + '</span>' +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('god-equation')) +
         '<div class="control-group">' +
