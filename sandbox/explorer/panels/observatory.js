@@ -4,62 +4,99 @@
  * This is the entry point. It shows LIVE ANIMATED PREVIEWS of every demo,
  * not walls of text. Click any card to launch the full interactive experience.
  *
- * Codex gates (unchanged):
- * - Only 3 DERIVED results: gravity-optical, koide-leptons, weinberg-angle
- * - Consciousness is INTUITION
- * - Status colors are data, not decoration
+ * V2: Status badges are pulled from generated data (data.claims.js), not
+ * hardcoded. Demo IDs map to authority claim IDs. No hand-written badge
+ * may outrank its authority record.
  */
 (function () {
   'use strict';
 
+  // Map demo IDs to authority claim IDs for status lookup
+  var DEMO_TO_CLAIM_ID = {
+    'refraction': 'gravity-optical',
+    'koide': 'koide-leptons',
+    'weinberg': 'weinberg-angle',
+    'bohr': 'bohr-spectrum',
+    'generations': 'three-generations',
+    'god-equation': 'god-equation-operator',
+    'consciousness': 'consciousness-claim',
+  };
+
+  // Lookup status from generated data; fallback to UI-only label
+  function lookupStatus(demoId, fallbackStatus, fallbackColor) {
+    var claimId = DEMO_TO_CLAIM_ID[demoId];
+    if (claimId && window.PFTruth && typeof window.PFTruth.getClaim === 'function') {
+      var claim = window.PFTruth.getClaim(claimId);
+      if (claim) {
+        var status = claim.status || claim.badge || fallbackStatus;
+        var statusClass = claim.statusClass || '';
+        // Map status to color
+        var colorMap = {
+          'DERIVED': '#44ff88', 'EXACT IDENTITY': '#44ff88',
+          'CONDITIONAL': '#ffaa33', 'ARGUED': '#ff9955',
+          'EMPIRICAL': '#ffdd55', 'INTUITION': '#888888',
+          'OPEN': '#666666', 'STANDARD MATH': '#6699ff'
+        };
+        return {
+          status: status,
+          statusColor: colorMap[claim.status] || fallbackColor,
+          isSplit: claim.isSplit || false,
+          badge: claim.badge || status
+        };
+      }
+    }
+    return { status: fallbackStatus, statusColor: fallbackColor, isSplit: false, badge: fallbackStatus };
+  }
+
   // ── Demo catalogue ──────────────────────────────────────────────────────
   // Each entry drives a card. preview: function that draws onto a canvas.
+  // Status fields are resolved at render time from generated data.
   var DEMOS = [
     {
       id: 'refraction',
       label: 'Gravity = Refraction',
-      status: 'DERIVED',
-      statusColor: '#44ff88',
+      _fallbackStatus: 'DERIVED',
+      _fallbackColor: '#44ff88',
       tagline: 'Light bends because space has a refractive index. Not a metaphor — a theorem.',
       preview: previewRefraction,
     },
     {
       id: 'koide',
       label: 'Koide Resonance',
-      status: 'DERIVED',
-      statusColor: '#44ff88',
+      _fallbackStatus: 'DERIVED',
+      _fallbackColor: '#44ff88',
       tagline: 'Three charged leptons locked at 120°. Q = 2/3 exactly. Zero free parameters.',
       preview: previewKoide,
     },
     {
       id: 'weinberg',
       label: 'Weinberg Angle',
-      status: 'DERIVED',
-      statusColor: '#44ff88',
+      _fallbackStatus: 'ARGUED',
+      _fallbackColor: '#ff9955',
       tagline: 'sin²θ_W from a Casimir polynomial. Matches experiment to 0.13σ.',
       preview: previewWeinberg,
     },
     {
       id: 'bohr',
       label: 'Bohr Spectrum',
-      status: 'CONDITIONAL',
-      statusColor: '#ffaa33',
+      _fallbackStatus: 'DERIVED',
+      _fallbackColor: '#44ff88',
       tagline: 'Phase closure in the Coulomb field selects the hydrogen energy levels.',
       preview: previewBohr,
     },
     {
       id: 'generations',
       label: 'Three Generations',
-      status: 'CONDITIONAL',
-      statusColor: '#ffaa33',
+      _fallbackStatus: 'CONDITIONAL',
+      _fallbackColor: '#ffaa33',
       tagline: 'Why exactly three families of matter? Q(N)=2/3 has one solution: N=3.',
       preview: previewGenerations,
     },
     {
       id: 'god-equation',
       label: 'God Equation',
-      status: 'CONDITIONAL',
-      statusColor: '#ffaa33',
+      _fallbackStatus: 'CONDITIONAL',
+      _fallbackColor: '#ffaa33',
       tagline: 'λ_c from the Planck length. 1.48% error. The open bridge: H_prod.',
       preview: previewGodEquation,
     },
@@ -74,8 +111,8 @@
     {
       id: 'consciousness',
       label: 'Consciousness',
-      status: 'INTUITION',
-      statusColor: 'rgba(255,255,255,.3)',
+      _fallbackStatus: 'INTUITION',
+      _fallbackColor: 'rgba(255,255,255,.3)',
       tagline: 'Self-referential coherence as a hypothesis. Metric under development.',
       preview: previewConsciousness,
     },
@@ -604,7 +641,7 @@
 
     var html = [
       '<div class="obs-instrument-surface">',
-        
+
         // --- Pane 1: Scale Rail ---
         '<div class="obs-rail-pane">',
           '<div class="obs-rail">',
@@ -621,7 +658,7 @@
         '<div class="obs-center-pane">',
           '<div class="obs-header">',
             '<h1>Observatory</h1>',
-            '<p>Live interactive preview of the Propagation Framework. All rendering is driven by three axioms and strict phase geometry.</p>',
+            '<p>Live interactive preview of the Propagation Framework. Explore claims, derivations, and open questions through propagation-based reasoning.</p>',
           '</div>',
           '<div class="obs-credibility-deck">',
             '<div class="obs-credibility-card obs-credibility-card--derived">',
@@ -703,18 +740,28 @@
           '<h3>Interactive Experiments</h3>',
           '<div class="obs-demo-grid" id="obsDemoGrid">',
             DEMOS.map(function(d, i) {
+              // Resolve status from generated data for claim-backed demos
+              var statusInfo;
+              if (d._fallbackStatus) {
+                statusInfo = lookupStatus(d.id, d._fallbackStatus, d._fallbackColor);
+              } else {
+                statusInfo = { status: d.status, statusColor: d.statusColor, badge: d.status };
+              }
+              var statusText = statusInfo.badge || statusInfo.status;
+              var statusColor = statusInfo.statusColor;
+              var statusClass = (statusInfo.status || 'unknown').toLowerCase().replace(/[^a-z0-9]+/g, '-');
               var inner = '<div class="obs-demo-canvas-wrap"><canvas class="obs-demo-canvas" width="280" height="140"></canvas></div>' +
                 '<div class="obs-demo-info">' +
-                  '<div class="obs-demo-status" style="color:'+d.statusColor+'">'+d.status+'</div>' +
+                  '<div class="obs-demo-status" style="color:'+statusColor+'">'+statusText+'</div>' +
                   '<div class="obs-demo-label">'+d.label+'</div>' +
                   '<div class="obs-demo-tagline">'+d.tagline+'</div>' +
                 '</div>';
               if (d.href) {
-                return '<a class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+' obs-demo-card--link" ' +
+                return '<a class="obs-demo-card obs-demo-card--'+statusClass+' obs-demo-card--link" ' +
                   'href="'+d.href+'" target="_blank" rel="noopener" data-demo-idx="'+i+'" tabindex="0">' +
                   inner + '</a>';
               }
-              return '<div class="obs-demo-card obs-demo-card--'+d.status.toLowerCase().replace(' ','-')+'" data-demo-idx="'+i+'" tabindex="0">' +
+              return '<div class="obs-demo-card obs-demo-card--'+statusClass+'" data-demo-idx="'+i+'" tabindex="0">' +
                 inner + '</div>';
             }).join(''),
           '</div>',
@@ -1026,9 +1073,9 @@
         var idx  = parseInt(card.getAttribute('data-demo-idx'), 10);
         var demo = DEMOS[idx];
         if (!demo || !demo.id) return;
-        function launch() { 
+        function launch() {
           if (window.AudioEngine) window.AudioEngine.playInteraction('click');
-          PFExplorer.navigate(demo.id); 
+          PFExplorer.navigate(demo.id);
         }
         card.addEventListener('click', launch);
         card.addEventListener('keydown', function (e) {
@@ -1061,11 +1108,11 @@
         _waveInterval = setInterval(function() {
           var waveRect = wave.getBoundingClientRect();
           var waveCenterY = waveRect.top + waveRect.height / 2;
-          
+
           ticks.forEach(function(tick, idx) {
             var tickRect = tick.getBoundingClientRect();
             var tickCenterY = tickRect.top + tickRect.height / 2;
-            
+
             // If wave is crossing tick
             if (Math.abs(waveCenterY - tickCenterY) < 10) {
               if (activeTickIndex !== idx) {
@@ -1073,11 +1120,11 @@
                 // Highlight tick
                 tick.style.background = '#00cfff';
                 tick.style.boxShadow = '0 0 10px #00cfff';
-                setTimeout(function(){ 
+                setTimeout(function(){
                    tick.style.background = 'rgba(255,255,255,0.3)';
                    tick.style.boxShadow = 'none';
                 }, 300);
-                
+
                 // Play sound
                 if (window.AudioEngine) window.AudioEngine.playInteraction('pop');
               }

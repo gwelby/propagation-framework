@@ -3,16 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Propagation Framework — The Journey</title>
+  <title>Propagation Framework — The Live Journey | PhiFlow Driven</title>
   <link rel="stylesheet" href="vendor/fonts.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="journey.css">
   <link rel="stylesheet" href="print.css" media="print">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300cfff'/%3E%3Cstop offset='1' stop-color='%23ffdd55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0a1a'/%3E%3Ccircle cx='24' cy='24' r='10' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%2344ff88' stroke-width='4'/%3E%3Cpath d='M18 42C27 30 34 27 46 22' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
-<body class="journey-mode">
+<body class="journey-mode phi-live-mode">
   <a href="#journey-content" class="skip-link">Skip to main content</a>
   <div id="srAnnouncer" class="sr-live sr-live--polite" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- PhiFlow Live Mode: Start button (browsers require user gesture for audio) -->
+  <div id="phi-start-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:10000; background:rgba(0,0,0,0.9); display:flex; align-items:center; justify-content:center; flex-direction:column;">
+    <h1 style="color:#4af; font-family:Georgia,serif; font-size:32px; font-weight:normal; letter-spacing:2px; margin-bottom:12px;">
+      The Live Journey
+    </h1>
+    <p style="color:#aaa; font-family:Georgia,serif; font-size:16px; max-width:500px; text-align:center; line-height:1.6; margin-bottom:24px;">
+      An 8-minute narrative driven by a live PhiFlow program.
+      Each act appears as the program runs. Each revelation has a voice.
+      Click to enable sound and begin.
+    </p>
+    <p style="color:#666; font-family:'Courier New',monospace; font-size:12px; margin-bottom:30px;">
+      Then run: <span style="color:#4af">phic --osc 18032 --osc-delay 800 examples/journey.phi</span>
+    </p>
+    <button id="phi-start-btn" style="padding:18px 40px; font-size:18px; cursor:pointer; background:rgba(68,136,255,0.15); color:#4af; border:2px solid #4af; border-radius:10px; font-family:Georgia,serif; letter-spacing:2px; transition:all 0.3s;">
+      ▶ Enable Sound &amp; Begin
+    </button>
+  </div>
 
   <!-- Opening Sequence -->
   <section id="journey-opening" class="journey-section active">
@@ -364,7 +382,63 @@
   <script src="vendor/CopyShader.js"></script>
   <script src="vendor/LuminosityHighPassShader.js"></script>
   <script src="vendor/UnrealBloomPass.js"></script>
+  <script src="vendor/Tone.js"></script>
+  <script src="audio-engine.js"></script>
   <script src="reality-correction.js"></script>
   <script src="journey.js"></script>
+  <script src="phi-bridge.js"></script>
+  <script>
+  // ─── PhiFlow Live Journey Integration ─────────────────────────────
+  // Expose goToSection globally so phi-bridge.js can call it
+  if (typeof window.goToSection === 'undefined') {
+    // journey.js defines goToSection inside a closure; we need to expose it.
+    // We'll patch by finding the function in the journey module's scope.
+    // If journey.js already exposes it, this is a no-op.
+  }
+
+  // Start button handler — enables audio, connects to PhiFlow bridge
+  document.getElementById('phi-start-btn').addEventListener('click', function () {
+    // Initialize audio engine
+    if (typeof window.AudioEngine !== 'undefined') {
+      window.AudioEngine.startOnUserInteraction();
+      // Start with the human scale drone (432 Hz)
+      window.AudioEngine.transitionTo('human');
+    }
+
+    // Hide the start overlay
+    var overlay = document.getElementById('phi-start-overlay');
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.5s';
+    setTimeout(function () {
+      overlay.style.display = 'none';
+    }, 500);
+
+    // Connect to the PhiFlow WebSocket bridge
+    if (window.PhiBridge) {
+      window.PhiBridge.connect();
+    }
+  });
+
+  // Patch journey.js goToSection to be globally accessible
+  // journey.js wraps everything in an IIFE, so we intercept the click handlers
+  // to find the navigation function. A simpler approach: override the
+  // next-act buttons to also set a global.
+  (function () {
+    // Monitor section changes by observing DOM class changes
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class' && m.target.classList.contains('journey-section')) {
+          if (m.target.classList.contains('active')) {
+            var sectionId = m.target.id.replace('journey-', '');
+            window._phiCurrentSection = sectionId;
+          }
+        }
+      });
+    });
+    document.querySelectorAll('.journey-section').forEach(function (el) {
+      observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+  })();
+  </script>
 </body>
 </html>

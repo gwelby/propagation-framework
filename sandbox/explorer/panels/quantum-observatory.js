@@ -329,7 +329,7 @@
     .zone-critical { color: var(--red); text-shadow: 0 0 8px rgba(255, 71, 87, 0.4); }
     
     /* Responsive overrides for 4K / Widescreen */
-    @media (max-width: 1200px) {
+    @media (max-width: 1450px) {
       .q-obs-container {
         grid-template-columns: 1fr;
         overflow-y: auto;
@@ -835,7 +835,25 @@
     const container = panelState.webglContainer;
     
     // Create Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch (e) {
+      console.warn("WebGL not supported, running in fallback mode:", e);
+      container.innerHTML = '';
+      const fallbackDiv = document.createElement('div');
+      fallbackDiv.className = 'webgl-fallback';
+      fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+      fallbackDiv.innerHTML = `
+        <h4 style="margin: 0 0 8px 0; color: #00cfff; font-family: var(--headline);">WebGL Not Supported</h4>
+        <p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">
+          Coherence surface dephasing boundaries are calculated and monitored below in the QFT phase simulator and telemetry cards.
+        </p>
+      `;
+      container.appendChild(fallbackDiv);
+      panelState._3d = null;
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
@@ -952,27 +970,27 @@
       panelState._animationFrame = requestAnimationFrame(loop);
 
       const r = panelState._3d;
-      if (!r) return;
+      if (r) {
+        if (r.controls) {
+          r.controls.update();
+        }
 
-      if (r.controls) {
-        r.controls.update();
+        // Rotate boundary mesh slightly over time for dynamic view
+        if (r.boundaryMesh) {
+          // Slow rotation pulse
+          const s = 1 + Math.sin(time / 2000) * 0.05;
+          r.boundaryMesh.scale.set(s, s, 1);
+        }
+
+        // Pulse probe points glow
+        if (r.spheres) {
+          r.spheres.forEach(mesh => {
+            mesh.material.emissiveIntensity = 0.6 + Math.sin(time / 300) * 0.4;
+          });
+        }
+
+        r.renderer.render(r.scene, r.camera);
       }
-
-      // Rotate boundary mesh slightly over time for dynamic view
-      if (r.boundaryMesh) {
-        // Slow rotation pulse
-        const s = 1 + Math.sin(time / 2000) * 0.05;
-        r.boundaryMesh.scale.set(s, s, 1);
-      }
-
-      // Pulse probe points glow
-      if (r.spheres) {
-        r.spheres.forEach(mesh => {
-          mesh.material.emissiveIntensity = 0.6 + Math.sin(time / 300) * 0.4;
-        });
-      }
-
-      r.renderer.render(r.scene, r.camera);
 
       // Render the 2D QFT phase circles
       drawQFTCanvas(panelState, time);

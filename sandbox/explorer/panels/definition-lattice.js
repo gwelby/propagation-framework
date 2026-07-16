@@ -58,7 +58,7 @@
             '<div class="dl-def-num">' + String(idx + 1).padStart(2, '0') + '</div>',
             '<div class="dl-def-meta">',
               '<h4 class="dl-def-title">' + def.title + '</h4>',
-              '<span class="dl-def-status">CANONICAL v1.0</span>',
+              '<span class="dl-def-status">' + (def.auditLine || 'CANONICAL v1.0') + '</span>',
             '</div>',
           '</div>',
           '<p class="dl-def-oneliner">' + def.oneLiner + '</p>',

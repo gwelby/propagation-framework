@@ -14,13 +14,57 @@
   var STATUS_CONFIG = {
     axiom: { color: '#9b59b6', label: 'AXIOM', bg: 'rgba(155, 89, 182, 0.15)' },
     DERIVED: { color: '#44ff88', label: 'DERIVED', bg: 'rgba(68, 255, 136, 0.15)' },
+    'EXACT IDENTITY': { color: '#44ff88', label: 'EXACT IDENTITY', bg: 'rgba(68, 255, 136, 0.15)' },
+    'STANDARD MATH': { color: '#00e0d0', label: 'STD MATH', bg: 'rgba(0, 224, 208, 0.15)' },
     CONDITIONAL: { color: '#ffaa00', label: 'CONDITIONAL', bg: 'rgba(255, 170, 0, 0.15)' },
     'PARTIAL DERIVATION': { color: '#00cfff', label: 'PARTIAL', bg: 'rgba(0, 207, 255, 0.15)' },
     ARGUED: { color: '#ff6b6b', label: 'ARGUED', bg: 'rgba(255, 107, 107, 0.15)' },
     EMPIRICAL: { color: '#ffdd55', label: 'EMPIRICAL', bg: 'rgba(255, 221, 85, 0.15)' },
     INTUITION: { color: '#ff92d2', label: 'INTUITION', bg: 'rgba(255, 146, 210, 0.15)' },
+    OPEN: { color: '#888', label: 'OPEN', bg: 'rgba(136, 136, 136, 0.15)' },
     UNSYNCED: { color: '#d9a2ff', label: 'UNSYNCED', bg: 'rgba(217, 162, 255, 0.15)' }
   };
+
+  // ── V3: Authority status resolver ─────────────────────────────────────────────
+  // Maps timeline node IDs to authority claim IDs for runtime status resolution.
+  // Hardcoded status fields below are REPLACED at render time by authority lookup.
+  var NODE_TO_AUTHORITY = {
+    'weinberg-angle': 'weinberg-angle',
+    'three-resonances': 'koide-leptons',
+    '120-geometry': 'koide-leptons',
+    'foot-radius': 'koide-leptons',
+    'koide-q': 'koide-leptons',
+    'weights-21': 'topological-weights',
+    'three-generations': 'three-generations',
+    'z3-extension': 'god-equation-operator',
+    'circulant-coupling': 'god-equation-operator',
+    'lambda-c': 'god-equation-scale',
+    'forces-refraction': 'gravity-optical',
+    'bohr-quantization': 'bohr-spectrum',
+    'fine-structure-alpha': 'alpha-numeric',
+    'top-quark-limit': 'top-quark-limit',
+    'koide-phase': 'koide-phase'
+  };
+
+  function resolveNodeStatus(node) {
+    // Axioms stay as axioms
+    if (node.type === 'axiom' || node._fallbackStatus === 'axiom') return 'axiom';
+    // Look up authority
+    var authId = NODE_TO_AUTHORITY[node.id];
+    if (authId && window.PFClaimsData) {
+      var claims = window.PFClaimsData.claims || [];
+      for (var i = 0; i < claims.length; i++) {
+        if (claims[i].id === authId) {
+          var s = claims[i].status;
+          // Map EXACT IDENTITY → DERIVED for timeline display
+          if (s === 'EXACT IDENTITY') return 'DERIVED';
+          return s;
+        }
+      }
+    }
+    // Fallback: use the node's _fallbackStatus (intermediate steps only, not authority-bearing)
+    return node._fallbackStatus || 'OPEN';
+  }
 
   // ── Timeline node data ────────────────────────────────────────────────────────
   // Ordered by derivation chain: axioms first, then dependencies
@@ -92,7 +136,7 @@
       shortLabel: 'C₂(x)',
       title: 'Casimir Eigenvalue Polynomial',
       formula: 'x_±(j) = [1 ± √(1 + 8j(j+1))]/4',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.85, 0.90],
       type: 'result',
       date: 'March 2026',
@@ -107,7 +151,7 @@
       shortLabel: 'Wθ',
       title: 'Weinberg Angle',
       formula: 'sin²θ_W = x_+(1/2)/x_+(1) = 0.22310',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.85, 0.90],
       type: 'result',
       date: 'March 2026',
@@ -124,7 +168,7 @@
       shortLabel: 'N=3',
       title: 'Three Resonance Condition',
       formula: 'N = 3 required for stability',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.78, 0.85],
       type: 'result',
       date: 'March 2026',
@@ -139,7 +183,7 @@
       shortLabel: '120°',
       title: 'Phase Geometry',
       formula: 'φ = 2π/3 = 120°',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.90, 0.95],
       type: 'result',
       date: 'March 2026',
@@ -154,7 +198,7 @@
       shortLabel: 'r_f',
       title: 'Koide Foot Radius',
       formula: 'r_f = (m₁ + m₂ + m₃) / (√m₁ + √m₂ + √m₃)²',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.88, 0.93],
       type: 'result',
       date: 'March 2026',
@@ -169,7 +213,7 @@
       shortLabel: 'Koide',
       title: 'Koide Mass Relation',
       formula: 'Q = (Σm_i)² / (3Σm_i²) = 2/3',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.90, 0.95],
       type: 'result',
       date: 'March 2026',
@@ -186,7 +230,7 @@
       shortLabel: '(2,1)',
       title: 'Topological Closure Orders',
       formula: 'w = (2,1) → SU(2) × U(1)',
-      status: 'PARTIAL DERIVATION',
+      _fallbackStatus: 'PARTIAL DERIVATION',
       confidence: [0.80, 0.85],
       type: 'result',
       date: 'March 2026',
@@ -201,7 +245,7 @@
       shortLabel: 'Q(N)',
       title: 'Generation Count Formula',
       formula: 'Q(N) = 2N/(2N+3)',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.85, 0.90],
       type: 'result',
       date: 'March 2026',
@@ -216,7 +260,7 @@
       shortLabel: 'Gen',
       title: 'Three Generations Required',
       formula: 'Q(3) = 6/9 = 2/3 ✓',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.78, 0.85],
       type: 'result',
       date: 'March 2026',
@@ -233,7 +277,7 @@
       shortLabel: 'ℤ₃',
       title: 'ℤ₃ Circulant Extension',
       formula: 'S³ = 1, [S, S†] = circulant',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.82, 0.88],
       type: 'result',
       date: 'March 2026',
@@ -248,7 +292,7 @@
       shortLabel: 'H_circ',
       title: 'Circulant Coupling Operator',
       formula: 'H_prod = aS† + bS†² + h.c.',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.80, 0.85],
       type: 'result',
       date: 'March 2026',
@@ -263,7 +307,7 @@
       shortLabel: 'λc',
       title: 'God Equation (Planck → Matter)',
       formula: 'λ_c = √(ℏG/c³) · f(ℤ₃)',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.82, 0.88],
       type: 'result',
       date: 'March 2026',
@@ -280,7 +324,7 @@
       shortLabel: 'Grav.',
       title: 'Gravity as Refraction',
       formula: 'F_g = −∇n_eff(r)',
-      status: 'DERIVED',
+      _fallbackStatus: 'DERIVED',
       confidence: [0.92, 0.95],
       type: 'result',
       date: 'March 2026',
@@ -295,7 +339,7 @@
       shortLabel: 'Bohr',
       title: 'Bohr-like Phase Closure',
       formula: '∮p·dq = nℏ',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.72, 0.78],
       type: 'result',
       date: 'March 2026',
@@ -310,7 +354,7 @@
       shortLabel: 'α',
       title: 'Fine Structure Constant',
       formula: 'α = e²/(4πε₀ℏc) ≈ 1/137',
-      status: 'ARGUED',
+      _fallbackStatus: 'ARGUED',
       confidence: [0.55, 0.60],
       type: 'result',
       date: 'Open Frontier',
@@ -325,7 +369,7 @@
       shortLabel: 'm_t',
       title: 'Top Quark Mass Bound',
       formula: 'm_t < λ_c · threshold',
-      status: 'CONDITIONAL',
+      _fallbackStatus: 'CONDITIONAL',
       confidence: [0.70, 0.75],
       type: 'result',
       date: 'March 2026',
@@ -340,7 +384,7 @@
       shortLabel: 'δ',
       title: 'Koide Phase Selector',
       formula: 'δ = 2/9 (T-021/T-022 NEGATIVE)',
-      status: 'ARGUED',
+      _fallbackStatus: 'ARGUED',
       confidence: [0.45, 0.50],
       type: 'result',
       date: 'TOP PRIORITY',
@@ -538,12 +582,13 @@
         var depY = padding.y + dep._y * (nodeHeight + axiomGap) + nodeHeight / 2;
 
         var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        var color = STATUS_CONFIG[node.status] ? STATUS_CONFIG[node.status].color : '#666';
-        var mtype = node.status === 'DERIVED' ? 'derived'
-          : node.status === 'CONDITIONAL' ? 'conditional'
-          : node.status === 'PARTIAL DERIVATION' ? 'partial'
-          : node.status === 'ARGUED' ? 'argued'
-          : node.status === 'axiom' ? 'axiom'
+        var rStatus = resolveNodeStatus(node);
+        var color = STATUS_CONFIG[rStatus] ? STATUS_CONFIG[rStatus].color : '#666';
+        var mtype = rStatus === 'DERIVED' ? 'derived'
+          : rStatus === 'CONDITIONAL' ? 'conditional'
+          : rStatus === 'PARTIAL DERIVATION' ? 'partial'
+          : rStatus === 'ARGUED' ? 'argued'
+          : rStatus === 'axiom' ? 'axiom'
           : 'empirical';
         var d = 'M' + (nodeX + 50) + ',' + nodeY
           + ' C' + (nodeX + 130) + ',' + nodeY
@@ -568,7 +613,8 @@
     nodes.forEach(function (node) {
       var x = padding.x + node._x * 280;
       var y = padding.y + node._y * (nodeHeight + axiomGap);
-      var config = STATUS_CONFIG[node.status] || { color: '#666', bg: 'rgba(100,100,100,0.1)' };
+      var rStatus = resolveNodeStatus(node);
+      var config = STATUS_CONFIG[rStatus] || { color: '#666', bg: 'rgba(100,100,100,0.1)' };
       var isAxiom = node.type === 'axiom';
       var isSelected = selectedNodeId === node.id;
 
@@ -585,7 +631,7 @@
       rect.setAttribute('width', '280');
       rect.setAttribute('height', String(nodeHeight));
       rect.setAttribute('rx', '16');
-      rect.setAttribute('fill', 'url(#grad-' + node.status.replace(/\s+/g, '-') + ')');
+      rect.setAttribute('fill', 'url(#grad-' + rStatus.replace(/\s+/g, '-') + ')');
       rect.setAttribute('stroke', config.color);
       rect.setAttribute('stroke-width', isSelected ? '3' : (isAxiom ? '2' : '1.5'));
       rect.setAttribute('stroke-opacity', isSelected ? '1' : (isAxiom ? '0.9' : '0.7'));
@@ -722,7 +768,8 @@
     var panel = document.getElementById('nodeDetailPanel');
     if (!panel) return;
 
-    var config = STATUS_CONFIG[node.status] || { color: '#666', label: 'UNKNOWN' };
+    var rStatus = resolveNodeStatus(node);
+    var config = STATUS_CONFIG[rStatus] || { color: '#666', label: 'UNKNOWN' };
     var delta = node.confidence[1] - node.confidence[0];
     var deltaStr = delta !== 0
       ? '<span class="confidence-delta" style="color:' + (delta > 0 ? '#69ff94' : '#ff6b6b') + '">' + (delta > 0 ? '+' : '') + delta.toFixed(2) + '</span>'

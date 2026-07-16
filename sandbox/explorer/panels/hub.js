@@ -14,7 +14,7 @@
     human: "Human scale turns topology into daily structure, aesthetics, and the compressed 2/3 intuition.",
     planetary: "Planetary scale keeps the same lens law alive: refractive gravity and large-scale propagation remain part of one atlas.",
     stellar: "Stars as immense coherence engines in the refractive medium.",
-    galactic: "Spiral arms as standing density waves. Dark matter explained entirely via refractive geometry.",
+    galactic: "Spiral arms as standing density waves. Galactic rotation in the refractive medium framework — dark matter interpretation remains open.",
     cosmic: "The observable universe. The cosmic web as a frozen wave pattern."
   };
 
@@ -106,7 +106,20 @@
       var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
       camera.position.set(0, 0, 30);
 
-      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      var renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      } catch (e) {
+        console.warn("WebGL not supported, running in fallback mode:", e);
+        this.state.container.innerHTML = '';
+        var fallbackDiv = document.createElement('div');
+        fallbackDiv.className = 'webgl-fallback';
+        fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+        fallbackDiv.innerHTML = '<h4 style="margin: 0 0 8px 0; color: #00cfff;">WebGL Not Supported</h4><p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">Scale relationships and coherence boundaries are computed and listed below in the details panel.</p>';
+        this.state.container.appendChild(fallbackDiv);
+        this.state._isFallback = true;
+        return;
+      }
       renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -221,7 +234,7 @@
     },
 
     animate: function() {
-        if (!this.state || !this.state.scene) return;
+        if (!this.state || !this.state.scene || this.state._isFallback) return;
         this.state.animFrame = requestAnimationFrame(this.animate.bind(this));
 
         var time = Date.now() * 0.001;
@@ -292,7 +305,7 @@
     },
 
     resize: function () {
-      if (!this.state || !this.state.camera) return;
+      if (!this.state || !this.state.camera || this.state._isFallback) return;
       var w = this.state.container.clientWidth;
       var h = this.state.container.clientHeight;
       if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.

@@ -77,7 +77,7 @@ from urllib.error import URLError
 from urllib.request import urlopen
 
 
-# The 17 panel ids currently registered in `sandbox/explorer/panels/*.js`.
+# The 18 panel ids currently registered in the Explorer.
 # This list mirrors the sidebar (index.html) plus the overview routes
 # ("observatory", "hub", "dashboard") that PFExplorer.registerPanel
 # installs programmatically.
@@ -99,6 +99,7 @@ PANEL_IDS: tuple[str, ...] = (
     "no-go-museum",
     "definition-lattice",
     "scale-ladder-panel",
+    "quantum-observatory",
 )
 
 # Used when the body background resolves to 'rgba(0,0,0,0)' / transparent.
@@ -426,7 +427,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         metavar="ID,ID,...",
         help=(
             "Comma-separated list of panel ids to audit. "
-            "Default: all 17 registered panels."
+            "Default: all 18 registered panels."
         ),
     )
     return p

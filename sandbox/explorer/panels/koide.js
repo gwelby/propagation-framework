@@ -53,7 +53,26 @@
     container.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
     canvas.parentElement.appendChild(container);
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch (e) {
+      console.warn("WebGL not supported, running in fallback mode:", e);
+      container.innerHTML = '';
+      var fallbackDiv = document.createElement('div');
+      fallbackDiv.className = 'webgl-fallback';
+      fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+      fallbackDiv.innerHTML = '<h4 style="margin: 0 0 8px 0; color: #00cfff;">WebGL Not Supported</h4><p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">Koide relations and charged lepton resonance geometries are computed and plotted below in the parameter grid.</p>';
+      container.appendChild(fallbackDiv);
+      return {
+        container: container,
+        renderer: null,
+        scene: null,
+        camera: null,
+        composer: null,
+        _isFallback: true
+      };
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -87,6 +106,7 @@
   function buildKoide3D(panelState, ctx) {
     var r = createRenderer(ctx.stage, panelState.canvas);
     panelState._3d = r;
+    if (r._isFallback) return;
 
     // Triangle line (edges between mass vertices)
     var lineGeo = new THREE.BufferGeometry();
@@ -175,7 +195,7 @@
   }
 
   function updateKoide3D(panelState, time) {
-    if (!panelState._3d) return;
+    if (!panelState._3d || panelState._3d._isFallback) return;
     var r = panelState._3d;
     var current = buildMassSet(panelState.selectedMass, panelState.deltaPct);
     var masses = valuesFromSet(current);
@@ -214,6 +234,11 @@
   function disposeKoide3D(panelState) {
     if (!panelState || !panelState._3d) return;
     var r = panelState._3d;
+    if (r._isFallback) {
+      if (r.container) r.container.remove();
+      panelState._3d = null;
+      return;
+    }
     if (r.meshes) {
       r.meshes.forEach(function (m) {
         m.geometry.dispose();
@@ -267,7 +292,7 @@
 
     resize: function (ctx) {
       var ps = this.panelState;
-      if (!ps || !ps._3d) return;
+      if (!ps || !ps._3d || ps._3d._isFallback) return;
       var r = ps._3d;
       var w = ps.canvas.clientWidth;
       var h = ps.canvas.clientHeight;
@@ -294,7 +319,12 @@
             '<h3>Q = ' + qValue.toFixed(7) + ' <span style="font-size:0.7em;color:var(--' + (isLocked ? 'cohere' : 'resonate') + ')">(' + (isLocked ? 'LOCKED' : deviationPct.toFixed(3) + '% off') + ')</span></h3>' +
             '<p>The baseline triangle is unnervingly tight. Even a small perturbation bends both Q and R/A away from the target.</p>' +
           '</div>' +
-          '<span class="status-pill status-derived">DERIVED</span>' +
+          (function() {
+            var claim = window.PFTruth && window.PFTruth.getClaim ? window.PFTruth.getClaim('koide-leptons') : null;
+            var badge = claim ? (claim.badge || claim.status) : 'EXACT IDENTITY / OPEN';
+            var cls = claim ? (claim.statusClass || 'status-derived') : 'status-derived';
+            return '<span class="status-pill ' + cls + '">' + badge + '</span>';
+          })() +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('koide-law')) +
         '<div class="control-group">' +

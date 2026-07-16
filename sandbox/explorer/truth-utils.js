@@ -1,78 +1,100 @@
 /**
- * truth-utils.js
- * 
+ * truth-utils.js — V2
+ *
  * Shared helper for narrative pages and the explorer shell.
- * Provides a unified API to the PF Data Graph.
- * 
- * Acts as a bridge between the raw data.graph.js manifest and the UI panels.
+ * Provides a unified API to the generated claims data.
+ *
+ * V2: The dual-source split (PFDataGraph vs PFClaimsData) has been eliminated.
+ * data.claims.js is the single generated source. data.graph.js is a thin alias.
+ * This file adapts the generated format to what panels expect.
  */
 
 (function () {
   "use strict";
 
   // Status mapping for CSS classes and ordering
-  const STATUS_ORDER = {
+  var STATUS_ORDER = {
     "DERIVED": 0,
+    "EXACT IDENTITY": 0,
     "CONDITIONAL": 1,
-    "PARTIAL DERIVATION": 2,
     "ARGUED": 3,
     "EMPIRICAL": 4,
     "INTUITION": 5,
     "OPEN": 6,
+    "CANONICAL": 0,
+    "STANDARD MATH": 0,
     "UNSYNCED": 7
   };
 
-  const STATUS_CLASS_MAP = {
+  var STATUS_CLASS_MAP = {
     "DERIVED": "status-derived",
+    "EXACT IDENTITY": "status-derived",
     "CONDITIONAL": "status-conditional",
-    "PARTIAL DERIVATION": "status-partial",
     "ARGUED": "status-argued",
     "EMPIRICAL": "status-empirical",
     "INTUITION": "status-intuition",
     "OPEN": "status-open",
-    "UNSYNCED": "status-unsynced",
-    "CANONICAL v1.0": "status-canonical"
+    "CANONICAL": "status-canonical",
+    "STANDARD MATH": "status-standard-math",
+    "UNSYNCED": "status-unsynced"
+  };
+
+  // Status objects for legacy panel compatibility
+  var STATUS = {
+    DERIVED: { label: "DERIVED", color: "green", ring: true },
+    "EXACT IDENTITY": { label: "EXACT IDENTITY", color: "green", ring: true },
+    CONDITIONAL: { label: "CONDITIONAL", color: "amber", ring: true },
+    ARGUED: { label: "ARGUED", color: "amber", ring: false },
+    EMPIRICAL: { label: "EMPIRICAL", color: "gold", ring: false },
+    INTUITION: { label: "INTUITION", color: "gray", ring: false },
+    CANONICAL: { label: "CANONICAL", color: "white", ring: true },
+    "STANDARD MATH": { label: "STANDARD MATH", color: "blue", ring: true },
+    NOGO: { label: "NO-GO", color: "red", ring: false },
+    OPEN: { label: "OPEN", color: "gray", ring: false },
+    UNSYNCED: { label: "UNSYNCED", color: "gray", ring: false }
   };
 
   /**
-   * Core Accessors
+   * Core Accessors — read from the generated PFClaimsData
    */
-
   function getData() {
-    return window.PFDataGraph || {
-      generatedAt: "legacy-fallback",
-      definitions: [],
+    return window.PFClaimsData || window.PFDataGraph || {
+      generatedAt: "missing",
       claims: [],
-      noGos: [],
-      scales: [],
-      experiments: []
+      definitions: []
     };
   }
 
   function getDefinitions() {
-    return getData().definitions || [];
+    var data = getData();
+    // V2 format: data.definitions (array of objects with id, title, status, file)
+    // Legacy format: data.DEFINITIONS
+    return data.definitions || data.DEFINITIONS || [];
   }
 
   function getClaims() {
-    return getData().claims || [];
+    var data = getData();
+    // V2 format: data.claims (array of objects with id, title, status, confidence)
+    // Legacy format: data.CLAIMS
+    return data.claims || data.CLAIMS || [];
   }
 
   function getNoGos() {
-    return getData().noGos || [];
+    var data = getData();
+    return data.noGos || data.NOGOS || [];
   }
 
   function getDefinition(id) {
-    return getDefinitions().find(d => d.id === id);
+    return getDefinitions().find(function (d) { return d.id === id; });
   }
 
   function getClaim(id) {
-    return getClaims().find(c => c.id === id);
+    return getClaims().find(function (c) { return c.id === id; });
   }
 
   /**
    * Formatting & Styling
    */
-
   function statusToClass(status) {
     return STATUS_CLASS_MAP[status] || "status-open";
   }
@@ -81,13 +103,13 @@
     if (typeof window !== 'undefined' && window.getComputedStyle) {
       var rgbStr = window.getComputedStyle(document.documentElement).getPropertyValue('--' + tokenName + '-rgb');
       if (rgbStr) {
-        var parts = rgbStr.split(',').map(function(s) { return parseInt(s.trim(), 10); });
+        var parts = rgbStr.split(',').map(function (s) { return parseInt(s.trim(), 10); });
         if (parts.length >= 3 && !isNaN(parts[0])) {
           return (parts[0] << 16) | (parts[1] << 8) | parts[2];
         }
       }
     }
-    const fallbacks = {
+    var fallbacks = {
       'propagate': 0x00cfff, 'planck': 0xffdd55, 'cohere': 0x44ff88,
       'refract': 0xff9955, 'axiom': 0xc8a8ff, 'cosmic': 0x7c5cbf,
       'uncertain': 0xff4757, 'resonate': 0xff6b9d, 'surface': 0x091525,
@@ -97,75 +119,101 @@
   }
 
   /**
-  /**
-   * Compatibility Layer for Legacy Panels (window.PFClaimsData)
+   * V3 Legacy Compatibility Layer
+   * Adapts generated format to what panels expect (DEFINITIONS, CLAIMS, STATUS)
+   * Also syncs PFExplorerData results to use authority statuses from PFClaimsData.
+   * PFExplorerData, PFClaimsData, and PFDataGraph are all views of one authority.
    */
   function syncLegacyData() {
     var data = getData();
-    var STATUS = {
-      DERIVED: { label: "DERIVED", color: "green", ring: true },
-      CONDITIONAL: { label: "CONDITIONAL", color: "amber", ring: true },
-      ARGUED: { label: "ARGUED", color: "amber", ring: false },
-      EMPIRICAL: { label: "EMPIRICAL", color: "gold", ring: false },
-      INTUITION: { label: "INTUITION", color: "gray", ring: false },
-      CANONICAL: { label: "CANONICAL", color: "white", ring: true },
-      NOGO: { label: "NO-GO", color: "red", ring: false },
-      OPEN: { label: "OPEN", color: "gray", ring: false },
-      UNSYNCED: { label: "UNSYNCED", color: "gray", ring: false }
-    };
+    var claims = getClaims();
+    var defs = getDefinitions();
 
-    window.PFClaimsData = {
-      STATUS: STATUS,
-      DEFINITIONS: (data.definitions || []).map(function (d) {
-        return {
-          id: d.id,
-          title: d.title,
-          file: d.file,
-          oneLiner: d.oneLiner || d.summary || "",
-          storyLine: d.storyLine || d.summary || "",
-          auditLine: d.status || "CANONICAL v1.0",
-          notThis: "See " + (d.file || d.id),
-          dependencies: d.dependencies || []
-        };
-      }),
-      CLAIMS: (data.claims || []).map(function (c) {
-        var legacyStatus = STATUS[c.status] || STATUS.OPEN;
-        return {
-          id: c.id,
-          title: c.title,
-          status: legacyStatus,
-          confidence: c.confidence,
-          falsifier: c.falsifier,
-          evidence: c.evidence,
-          audit: {
-            claim: c.title,
-            falsifier: c.falsifier
-          },
-          story: c.summary,
-          math: c.formula,
-          scaleId: c.scaleId
-        };
-      }),
-      NOGOS: (data.noGos || []).map(function (n) {
-        // Map frontier labels to stable claim IDs
-        var targetId = n.target || n.targetFrontier;
-        if (targetId === 'koide') targetId = 'koide-leptons';
-        if (targetId === 'weinberg') targetId = 'weinberg-angle';
-        if (targetId === 'generations') targetId = 'three-generations';
+    // Build legacy DEFINITIONS array
+    var legacyDefs = defs.map(function (d) {
+      return {
+        id: d.id,
+        title: d.title,
+        file: d.file || "",
+        oneLiner: d.oneLiner || d.summary || "",
+        storyLine: d.storyLine || d.summary || "",
+        auditLine: d.status || d.auditLine || "CANONICAL v1.0",
+        notThis: d.notThis || ("See " + (d.file || d.id)),
+        dependencies: d.dependencies || []
+      };
+    });
 
-        return {
-          id: n.id,
-          title: n.title,
-          target: targetId || "koide-leptons",
-          failedAt: n.date || n.failedAt || "—",
-          failedAssumption: n.failureMode || n.failedAssumption || "—",
-          lesson: n.lesson || "—",
-          whyFailed: n.whyFailed || [],
-          statusType: n.statusType || "FAILED"
-        };
-      }),
-      SCALE_ANCHORS: data.scales || []
-    };
+    // Build legacy CLAIMS array
+    var legacyClaims = claims.map(function (c) {
+      var statusStr = c.status || "OPEN";
+      var legacyStatus = STATUS[statusStr] || STATUS.OPEN;
+      if (c.isSplit && c.badge) {
+        legacyStatus = { label: c.badge, color: "amber", ring: true };
+      }
+      if (c.isStandardMath) {
+        legacyStatus = STATUS["STANDARD MATH"];
+      }
+      return {
+        id: c.id,
+        title: c.title,
+        status: legacyStatus,
+        confidence: c.confidence,
+        isSplit: c.isSplit || false,
+        isStandardMath: c.isStandardMath || false,
+        badge: c.badge || statusStr,
+        statusClass: c.statusClass || statusToClass(statusStr),
+        falsifier: c.falsifier || "",
+        premise: c.premise || "",
+        scopeNote: c.scopeNote || "",
+        sourceLine: c.sourceLine || 0,
+        audit: {
+          claim: c.title,
+          falsifier: c.falsifier || "",
+          standardBoundary: c.premise || "",
+          openBridge: c.scopeNote || ""
+        },
+        story: c.story || c.summary || c.evidence || "",
+        math: c.math || c.formula || "",
+        sources: c.sources || [],
+        citations: c.citations || []
+      };
+    });
+
+    // Set the legacy format on PFClaimsData for panels that read it
+    window.PFClaimsData = window.PFClaimsData || {};
+    window.PFClaimsData.STATUS = STATUS;
+    window.PFClaimsData.DEFINITIONS = legacyDefs;
+    window.PFClaimsData.CLAIMS = legacyClaims;
+    window.PFClaimsData.NOGOS = getNoGos();
+    window.PFClaimsData.SCALE_ANCHORS = data.scales || data.SCALE_ANCHORS || [];
+
+    // V3: Sync PFExplorerData results to use authority statuses
+    // PFExplorerData is generated by data.js (V3) with statuses from authority.
+    // If PFExplorerData exists, verify its results match authority.
+    if (window.PFExplorerData && window.PFExplorerData.results) {
+      var authClaims = {};
+      claims.forEach(function (c) { authClaims[c.id] = c; });
+      // Crosswalk: result ID → authority claim ID
+      var crosswalk = data.result_to_authority || {};
+      window.PFExplorerData.results.forEach(function (r) {
+        var authIds = r.authorityClaimIds || [];
+        if (authIds.length > 0) {
+          var primaryAuth = authClaims[authIds[0]];
+          if (primaryAuth) {
+            r.status = primaryAuth.status;
+            r.confidence = primaryAuth.confidence;
+            r.badge = primaryAuth.badge || primaryAuth.status;
+            r.statusClass = primaryAuth.statusClass || statusToClass(primaryAuth.status);
+            r.isSplit = primaryAuth.isSplit || false;
+            r.isStandardMath = primaryAuth.isStandardMath || false;
+          }
+        }
+      });
+    }
+
+    // All three names point to deterministic views of the same authority
+    window.PFDataGraph = window.PFClaimsData;
+    // PFExplorerData stays as generated (data.js), but its statuses are synced above
   }
 
   var api = {
@@ -177,35 +225,34 @@
     getClaim: getClaim,
     statusToClass: statusToClass,
     getColor: getColor,
-    syncLegacyData: syncLegacyData
+    syncLegacyData: syncLegacyData,
+    STATUS: STATUS
   };
 
   window.PFTruth = api;
   window.PFExplorerTruth = api;
 
-  // Auto-sync if data is present, but respect existing PFClaimsData from data.claims.js
-  if (window.PFClaimsData && window.PFClaimsData.CLAIMS && window.PFClaimsData.CLAIMS.length > 0) {
-    // data.claims.js already loaded — do not overwrite with legacy graph data
-  } else if (window.PFDataGraph) {
-    syncLegacyData();
-  } else {
-    // Polling fallback
+  // Auto-sync: adapt generated data to legacy panel format
+  // This runs after data.graph.js (stub) but before data.claims.js (generated)
+  // We poll for data.claims.js to load, then sync
+  function trySync() {
+    if (window.PFClaimsData && window.PFClaimsData.claims && window.PFClaimsData.claims.length > 0) {
+      syncLegacyData();
+      if (window.PFExplorer && typeof window.PFExplorer.renderSidebarMetrics === 'function') {
+        window.PFExplorer.renderSidebarMetrics();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  if (!trySync()) {
     var attempts = 0;
-    var poller = setInterval(function() {
+    var poller = setInterval(function () {
       attempts++;
-      if (window.PFClaimsData && window.PFClaimsData.CLAIMS && window.PFClaimsData.CLAIMS.length > 0) {
-        clearInterval(poller);  // data.claims.js loaded — respect it
-        return;
-      }
-      if (window.PFDataGraph) {
-        syncLegacyData();
+      if (trySync() || attempts > 20) {
         clearInterval(poller);
-        if (window.PFExplorer && typeof window.PFExplorer.renderSidebarMetrics === 'function') {
-          window.PFExplorer.renderSidebarMetrics();
-        }
       }
-      if (attempts > 20) clearInterval(poller);
-    }, 100);
+    }, 50);
   }
 })();
-

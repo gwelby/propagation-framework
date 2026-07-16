@@ -155,7 +155,7 @@
           "<input id=\"refEnergy\" class=\"premium-slider\" type=\"range\" min=\"0.45\" max=\"1.4\" step=\"0.01\" value=\"" + state.energy + "\">" +
           "<output id=\"refEnergyOut\">" + state.energy.toFixed(2) + "</output>" +
         "</div>" +
-        "<div class=\"control-group\" style=\"flex-direction:row; gap:8px;\">" +
+        "<div class=\"refraction-btn-row\">" +
           "<button class=\"btn btn-secondary btn-sm\" id=\"refAddAttract\" type=\"button\">Add attractor</button>" +
           "<button class=\"btn btn-secondary btn-sm\" id=\"refAddRepel\" type=\"button\">Add repeller</button>" +
           "<button class=\"btn btn-secondary btn-sm\" id=\"refToggleCompare\" type=\"button\">Overlay on</button>" +

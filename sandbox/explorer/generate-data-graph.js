@@ -207,7 +207,7 @@ async function run() {
     return {
       id,
       title,
-      status: (c.status || 'OPEN').replace(/\*\*/g, '').replace(/\(.*\)/, '').replace(/—.*/, '').trim(),
+      status: (c.status || 'OPEN').replace(/\(.*\)/g, '').replace(/\*/g, '').replace(/—.*/, '').trim(),
       confidence: parseFloat(c.confidence) || 0,
       kind: physClaims.includes(c) ? "Fundamental Physics" : "Biological & Cognitive",
       summary: c.evidence || '',

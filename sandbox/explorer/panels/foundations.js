@@ -104,7 +104,20 @@
       var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
       camera.position.set(0, 0, 20);
 
-      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      var renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      } catch (e) {
+        console.warn("WebGL not supported, running in fallback mode:", e);
+        this.state.container.innerHTML = '';
+        var fallbackDiv = document.createElement('div');
+        fallbackDiv.className = 'webgl-fallback';
+        fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+        fallbackDiv.innerHTML = '<h4 style="margin: 0 0 8px 0; color: #00cfff;">WebGL Not Supported</h4><p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">Foundational Axioms and mathematical structures are calculated and plotted below in the definitions panel.</p>';
+        this.state.container.appendChild(fallbackDiv);
+        this.state._isFallback = true;
+        return;
+      }
       renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -243,7 +256,7 @@
     },
 
     animate: function() {
-      if (!this.state || !this.state.scene) return;
+      if (!this.state || !this.state.scene || this.state._isFallback) return;
       this.state.animFrame = requestAnimationFrame(this.animate.bind(this));
       var time = Date.now() * 0.001;
       var heat = this.state.heat || 0;
@@ -361,7 +374,7 @@
     },
 
     resize: function () {
-      if (!this.state || !this.state.camera) return;
+      if (!this.state || !this.state.camera || this.state._isFallback) return;
       var w = this.state.container.clientWidth;
       var h = this.state.container.clientHeight;
       if (w < 2 || h < 2) return;  // DOM not laid out yet; skip cleanly.
@@ -417,7 +430,7 @@
             '<h3>' + def.title + '</h3>',
             '<p class="drawer-quote">\u201c' + (def.oneLiner || '') + '\u201d</p>',
           '</div>',
-          '<span class="status-pill status-derived">CANONICAL</span>',
+          '<span class="status-pill status-derived">' + (def.auditLine || 'CANONICAL') + '</span>',
         '</div>',
         '<div style="padding:0 var(--spacing-4)">',
           '<p>' + (def.storyLine || '') + '</p>',

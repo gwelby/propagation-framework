@@ -1,0 +1,1017 @@
+{
+  "schema_version": "2.0.0",
+  "generated_from": "/mnt/d/fundamentals/CLAIMS.md",
+  "claims_md_hash": "aa634eabc78ff1bcc35e2ae50bf1dd98dccf9f99a9c1e77a5ef60e70d3c6a362",
+  "claims_md_lines": 192,
+  "claim_count": 36,
+  "definition_count": 21,
+  "claims": {
+    "bohr-spectrum": {
+      "title": "Circular Coulomb Eikonal + Phase Closure → Bohr-like Spectrum",
+      "status_parts": [
+        {
+          "status": "DERIVED",
+          "confidence": 0.9,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "DERIVED",
+      "primary_confidence": 0.9,
+      "evidence_excerpt": "Hostile audit (2026-03-27): circular-eikonal theorem survives. DeepSeek extension (2026-06-05): **Kepler degeneracy proves the 1/k² spectrum is exact for ALL eccentricities**. For Coulomb V(r)=−1/r, energy E=−1/(2a) depends only on semi-major axis a, not on eccentricity e. Bohr-Sommerfeld quantizati",
+      "falsifier": "Proof that the Coulomb eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family.",
+      "confidence_raw": "0.90",
+      "source_line": 41,
+      "section": "1. Fundamental Physics",
+      "premise": "Hostile audit (2026-03-27): circular-eikonal theorem survives",
+      "scope_note": "Proof that the Coulomb eikonal model is invalid at atomic scale, or that phase closure does not select the quoted orbit family."
+    },
+    "gravity-optical": {
+      "title": "Gravity as Optical Geometry / Refraction (Null/Stationary)",
+      "status_parts": [
+        {
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "DERIVED",
+      "primary_confidence": 0.95,
+      "evidence_excerpt": "Hostile audit (2026-03-27): the exact local theorem is narrower than the old row title. [gr_fermat_equivalence.md](/mnt/d/fundamentals/derivations/gr_fermat_equivalence.md) is exact for null geodesics in static spacetimes via the optical metric, and exact for null geodesics in stationary spacetimes ",
+      "falsifier": "Proof that the optical/Randers mapping fails for null propagation in static/stationary gravity, or that gravity in that domain requires non-optical medium structure.",
+      "confidence_raw": "0.95",
+      "source_line": 42,
+      "section": "1. Fundamental Physics",
+      "premise": "Hostile audit (2026-03-27): the exact local theorem is narrower than the old row title",
+      "scope_note": "Proof that the optical/Randers mapping fails for null propagation in static/stationary gravity, or that gravity in that domain requires non-optical medium structure."
+    },
+    "topological-weights": {
+      "title": "(2,1) Topological Weights",
+      "status_parts": [
+        {
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "qualifier": "kernel-only topological obstruction"
+        },
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": "physical realization"
+        }
+      ],
+      "is_split": true,
+      "is_standard_math": false,
+      "primary_status": "DERIVED",
+      "primary_confidence": 0.95,
+      "evidence_excerpt": "**Hostile audit (2026-03-28)**: established the intended closure-order target from 3D rotation topology. **Devin ∇λΣ∞ (2026-06-14) + Codex check (2026-06-15):** The kernel obstruction is now **machine-certified by the Lean 4 kernel** (`TopologicalWeights.lean`, theorem `topological_availability`, 0 ",
+      "falsifier": "Proof that the closure-order interpretation is wrong, or that the Family C coherence bridge fails audit, or a derivation showing only the trivial branch is physically realizable in PF.",
+      "confidence_raw": "0.95 / 0.85",
+      "source_line": 43,
+      "section": "1. Fundamental Physics",
+      "premise": "**Hostile audit (2026-03-28)**: established the intended closure-order target from 3D rotation topology",
+      "scope_note": "Proof that the closure-order interpretation is wrong, or that the Family C coherence bridge fails audit, or a derivation showing only the trivial branch is physically realizable in PF."
+    },
+    "koide-leptons": {
+      "title": "Koide Law for Charged Leptons (Q = 2/3) — geometric identity",
+      "status_parts": [
+        {
+          "status": "EXACT IDENTITY",
+          "confidence": 0.95,
+          "qualifier": "geometry"
+        },
+        {
+          "status": "OPEN",
+          "confidence": null,
+          "qualifier": "physical vacuum selection"
+        }
+      ],
+      "is_split": true,
+      "is_standard_math": false,
+      "primary_status": "EXACT IDENTITY",
+      "primary_confidence": 0.95,
+      "evidence_excerpt": "Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly. This geometric **identity** is exact and audited. **Scope (clarified 2026-04-18)**: equal-amplitude premise is underwritten by shared U(1)_em coupling forcing `A_e = A_μ = A_τ`. Neu",
+      "falsifier": "Proof that the 120° equal-strength resonance geometry does not imply `Q = 2/3`, or a contradiction in the Foot-radius step, or a charged-lepton mass measurement drifting > 3σ from `Q = 2/3`.",
+      "confidence_raw": "0.95 (identity) / OPEN (selection)",
+      "source_line": 44,
+      "section": "1. Fundamental Physics",
+      "premise": "Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly",
+      "scope_note": "*(row clarified 2026-06-16 per Codex audit)*"
+    },
+    "koide-entropy": {
+      "title": "Koide U(3) entropy selector",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.72,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.72,
+      "evidence_excerpt": "Codex audit (2026-04-15): the refined Route A over the scalar/traceless `u(3)=u(1)⊕su(3)` split is mathematically clean but not yet PF-derived as a physical selector. Exact part: for the diagonal amplitude matrix `X=diag(sqrt(m_i))`, the binary sector weight `p =  u(1)-part  _F^2 /  X  _F^2` satisfi",
+      "falsifier": "A better-motivated PF selector on the same `u(1)/su(3)` space choosing a different point; proof that the relevant decomposition is not the scalar/traceless split; or proof that PF coherence dynamics d",
+      "confidence_raw": "0.72",
+      "source_line": 45,
+      "section": "1. Fundamental Physics",
+      "premise": "Codex audit (2026-04-15): the refined Route A over the scalar/traceless `u(3)=u(1)⊕su(3)` split is mathematically clean but not yet PF-derived as a...",
+      "scope_note": "A better-motivated PF selector on the same `u(1)/su(3)` space choosing a different point; proof that the relevant decomposition is not the scalar/traceless split; or proof that PF coherence dynamics d"
+    },
+    "koide-u3-maximization": {
+      "title": "U(3) Entropy Maximization",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.75,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.75,
+      "evidence_excerpt": "0.5 The ratio p =  U(1)  ²/  X ",
+      "falsifier": "² is mathematically maximized at p=1/2, matching the Q=2/3 mass distribution.",
+      "confidence_raw": "0.75",
+      "source_line": 46,
+      "section": "1. Fundamental Physics",
+      "premise": "0.5 The ratio p =  U(1)  ²/  X ",
+      "scope_note": "² is mathematically maximized at p=1/2, matching the Q=2/3 mass distribution."
+    },
+    "koide-phase": {
+      "title": "Koide Phase (\\(\\delta_0 \\bmod 2\\pi/3 \\approx 2/9\\))",
+      "status_parts": [
+        {
+          "status": "EMPIRICAL",
+          "confidence": 0.65,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "EMPIRICAL",
+      "primary_confidence": 0.65,
+      "evidence_excerpt": "Wave 5 (2026-03-25): `koide_phase_scan.py` confirms δ_exact = 0.222229631490 rad, δ−2/9 = 7.4×10⁻⁶ (0.003%). **Rerun 2026-04-02 confirmed**: strongest empirical anchor in the framework. CF expansion [0;4;2;1665] — giant partial quotient means 2/9 is anomalously best rational approx up to denominator",
+      "falsifier": "Independent recalculation showing δ is not close to 2/9; or audited proof that no PF-native selector can produce δ = 2/9; or selector derivation producing δ ≠ 2/9.",
+      "confidence_raw": "0.65",
+      "source_line": 47,
+      "section": "1. Fundamental Physics",
+      "premise": "Wave 5 (2026-03-25): `koide_phase_scan.py` confirms δ_exact = 0.222229631490 rad, δ−2/9 = 7.4×10⁻⁶ (0.003%)",
+      "scope_note": "Independent recalculation showing δ is not close to 2/9; or audited proof that no PF-native selector can produce δ = 2/9; or selector derivation producing δ ≠ 2/9."
+    },
+    "three-generations": {
+      "title": "Three Generations",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.88,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.88,
+      "evidence_excerpt": "Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. `derivations/three_generations_closed_proof.md` now records that assembly theorem cleanly with no extra hidden",
+      "falsifier": "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to `N ≠ 3`.",
+      "confidence_raw": "0.88",
+      "source_line": 48,
+      "section": "1. Fundamental Physics",
+      "premise": "Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is...",
+      "scope_note": "Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to `N ≠ 3`."
+    },
+    "n3-cp-violation": {
+      "title": "N=3 → CP Violation (Structural Bridge)",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.7,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.7,
+      "evidence_excerpt": "The CKM matrix for N=3 contains exactly one complex phase; for N=2 there is no complex phase. PF derives N=3 as the unique stable generation count (CONDITIONAL 0.88). Therefore PF predicts CP violation in quark mixing is structurally possible — because 3 generations are the mathematical minimum for ",
+      "falsifier": "PF's N=3 derivation is falsified; or a 2-generation universe with CP violation is discovered; or the CKM phase is measured at exactly δ=0 or δ=π (CP-conserving values).",
+      "confidence_raw": "0.70",
+      "source_line": 49,
+      "section": "1. Fundamental Physics",
+      "premise": "The CKM matrix for N=3 contains exactly one complex phase; for N=2 there is no complex phase",
+      "scope_note": "*(added 2026-07-02 by Hermes)*"
+    },
+    "top-quark-limit": {
+      "title": "Top Quark Limit",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "$m_t$ lifetime ($5 \\times 10^{-25}$s) matches coherence ceiling threshold.",
+      "falsifier": "Discovery of a heavier stable quark ($m > 173$ GeV).",
+      "confidence_raw": "0.85",
+      "source_line": 50,
+      "section": "1. Fundamental Physics",
+      "premise": "$m_t$ lifetime ($5 \\times 10^{-25}$s) matches coherence ceiling threshold.",
+      "scope_note": "Discovery of a heavier stable quark ($m > 173$ GeV)."
+    },
+    "top-tau-coupling": {
+      "title": "Top/Tau coupling",
+      "status_parts": [
+        {
+          "status": "EMPIRICAL",
+          "confidence": 0.9,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "EMPIRICAL",
+      "primary_confidence": 0.9,
+      "evidence_excerpt": "$m_t/m_\\tau \\approx \\alpha^{-1}/\\sqrt{2}$ (50.13% robustness in T-008).",
+      "falsifier": "Measurement of Top or Tau mass shifting > 0.5% from current.",
+      "confidence_raw": "0.90",
+      "source_line": 51,
+      "section": "1. Fundamental Physics",
+      "premise": "$m_t/m_\\tau \\approx \\alpha^{-1}/\\sqrt{2}$ (50.13% robustness in T-008).",
+      "scope_note": "Measurement of Top or Tau mass shifting > 0.5% from current."
+    },
+    "electron-up-phi": {
+      "title": "Electron/Up $\\approx 1/\\phi^3$",
+      "status_parts": [
+        {
+          "status": "EMPIRICAL",
+          "confidence": 0.65,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "EMPIRICAL",
+      "primary_confidence": 0.65,
+      "evidence_excerpt": "`phi3_monte_carlo.md`: corrected claim is $m_e/m_u \\approx 1/\\phi^3$; PDG 2024 central value gives 0.214% error, corrected Monte Carlo gives p = 0.006776. Real signal, but a posteriori and uncertainty-limited.",
+      "falsifier": "Up quark mass shifting toward 2.3 MeV or a corrected trials-factor analysis pushing the coincidence back to noise.",
+      "confidence_raw": "0.65",
+      "source_line": 52,
+      "section": "1. Fundamental Physics",
+      "premise": "`phi3_monte_carlo.md`: corrected claim is $m_e/m_u \\approx 1/\\phi^3$; PDG 2024 central value gives 0.214% error, corrected Monte Carlo gives p = 0....",
+      "scope_note": "Up quark mass shifting toward 2.3 MeV or a corrected trials-factor analysis pushing the coincidence back to noise."
+    },
+    "coherence-ceiling": {
+      "title": "Coherence Ceiling",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.8,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.8,
+      "evidence_excerpt": "Max frequency where wavelength < coherence length (Axiom 3).",
+      "falsifier": "Observation of stable sub-wavelength structures.",
+      "confidence_raw": "0.80",
+      "source_line": 53,
+      "section": "1. Fundamental Physics",
+      "premise": "Max frequency where wavelength < coherence length (Axiom 3).",
+      "scope_note": "Observation of stable sub-wavelength structures."
+    },
+    "weinberg-angle": {
+      "title": "Weinberg Angle (sin²θ_W)",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.65,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.65,
+      "evidence_excerpt": "Casimir polynomial $x^2 + C_2 x - C_2 = 0$ yields ratio $R = 1 - x_+(1/2)/x_+(1) = 0.22310$ exactly. Matches PDG on-shell value $0.22337$ to **0.13σ**. **Axiom 3b (Minimal Winding Principle)** selects k=1, closing the Casimir derivation. Spin pair (j=1/2, j=1) selected by minimal coherent representa",
+      "falsifier": "Derivation of coupling ratio g'/g from medium geometry, or scheme selection mechanism.",
+      "confidence_raw": "0.65",
+      "source_line": 54,
+      "section": "1. Fundamental Physics",
+      "premise": "Casimir polynomial $x^2 + C_2 x - C_2 = 0$ yields ratio $R = 1 - x_+(1/2)/x_+(1) = 0.22310$ exactly",
+      "scope_note": "*(demoted from DERIVED 2026-06-16 per Codex audit)*"
+    },
+    "alpha-numeric": {
+      "title": "Fine Structure Constant α — numeric derivation",
+      "status_parts": [
+        {
+          "status": "OPEN",
+          "confidence": null,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "OPEN",
+      "primary_confidence": null,
+      "evidence_excerpt": "Wave 5 (2026-03-25): Casimir algebraic scan found `(1−x₁)·x_{3/2}²·(1−x₂)/π = 1/137.119` — 0.061% error. **Withdrawn as derivation evidence**: the look-elsewhere scan (Weinberg audit) shows P(random target gets sub-percent hit) ≈ 0.46; the Casimir combination cannot be presented as confidence-bearin",
+      "falsifier": "A principled geometric derivation of the Casimir combination from PF axioms, or proof the combination is a coincidence.",
+      "confidence_raw": "OPEN",
+      "source_line": 55,
+      "section": "1. Fundamental Physics",
+      "premise": "Wave 5 (2026-03-25): Casimir algebraic scan found `(1−x₁)·x_{3/2}²·(1−x₂)/π = 1/137.119` — 0.061% error",
+      "scope_note": "*(demoted 2026-06-16 per Codex audit; Casimir scan hit withdrawn as confidence-bearing evidence)*"
+    },
+    "alpha-structural": {
+      "title": "Fine Structure Constant α — structural identification",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.6,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.6,
+      "evidence_excerpt": "α identified as vacuum propagation efficiency ratio Z₀/2R_K. Structurally motivated by PF medium framework. Route to derivation mapped; not yet a derivation. See `alpha_from_pf.md`.",
+      "falsifier": "Proof that the Z₀/2R_K identification has no PF-native origin.",
+      "confidence_raw": "0.60",
+      "source_line": 56,
+      "section": "1. Fundamental Physics",
+      "premise": "α identified as vacuum propagation efficiency ratio Z₀/2R_K",
+      "scope_note": "*(kept separate per Codex audit)*"
+    },
+    "propagation-lagrangian": {
+      "title": "Propagation Lagrangian",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.72,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.72,
+      "evidence_excerpt": "Axioms 1–3 strongly motivate a scalar-tensor EFT class for the propagation medium. Within that class, `ℒ_prop = ½(∂χ)² − V(χ) + λχT` is the minimal scalar ansatz: its Euler-Lagrange field equation is correct and its linearized Brans-Dicke mapping is structurally sound. But the scalar-field branch, t",
+      "falsifier": "Proof that the scalar-medium EFT branch is not viable, or that the minimal `λχT` ansatz fails as the correct low-energy representative even within that class.",
+      "confidence_raw": "0.72",
+      "source_line": 57,
+      "section": "1. Fundamental Physics",
+      "premise": "Axioms 1–3 strongly motivate a scalar-tensor EFT class for the propagation medium",
+      "scope_note": "Proof that the scalar-medium EFT branch is not viable, or that the minimal `λχT` ansatz fails as the correct low-energy representative even within that class."
+    },
+    "variable-c": {
+      "title": "Variable c Prediction",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.65,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.65,
+      "evidence_excerpt": "c_local = 1/√(1+λχ) from conformal rescaling of the Propagation Lagrangian. Constrained by Cassini Shapiro delay to λ ≲ 10⁻²/M_Pl. Consistent with all existing precision data. Testable with SKA/LISA pulsar timing arrays.",
+      "falsifier": "Cassini-violating Shapiro delay, or direct measurement of c_local = c₀ at sub-solar-system scales.",
+      "confidence_raw": "0.65",
+      "source_line": 58,
+      "section": "1. Fundamental Physics",
+      "premise": "c_local = 1/√(1+λχ) from conformal rescaling of the Propagation Lagrangian",
+      "scope_note": "Cassini-violating Shapiro delay, or direct measurement of c_local = c₀ at sub-solar-system scales."
+    },
+    "qcd-confinement": {
+      "title": "QCD Confinement",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.72,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.72,
+      "evidence_excerpt": "PF identifies a plausible RG mechanism in which the confinement radius is dynamically generated from `λ_c`: `r_conf = λ_c × exp(2π/b₀α_s(λ_c))`. This supports the interpretation that confinement is not a third fundamental PF coherence ceiling. But the current local chain uses calibrated `λ_c`, empir",
+      "falsifier": "Evidence that confinement requires a genuinely new PF coherence scale, or a threshold-aware higher-loop analysis showing the PF RG bridge does not land on the physical confinement scale even with the ",
+      "confidence_raw": "0.72",
+      "source_line": 59,
+      "section": "1. Fundamental Physics",
+      "premise": "PF identifies a plausible RG mechanism in which the confinement radius is dynamically generated from `λ_c`: `r_conf = λ_c × exp(2π/b₀α_s(λ_c))`",
+      "scope_note": "Evidence that confinement requires a genuinely new PF coherence scale, or a threshold-aware higher-loop analysis showing the PF RG bridge does not land on the physical confinement scale even with the "
+    },
+    "god-equation-operator": {
+      "title": "God Equation — Postulate-D Z₃ operator algebra",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.88,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.88,
+      "evidence_excerpt": "Given explicit Postulate D (Primitive Z₃ no-self-loop selector forces U = M/2 uniquely), the operator algebra closes exactly: eigenvalues {1, −1/8, −1/8} are exact cosines of 2π/3 and 4π/3. This is a real, audited conditional result. **Postulate D is an explicit premise, not derived from Axioms 1-3.",
+      "falsifier": "Proof that the Postulate-D operator algebra is inconsistent, or proof that the accepted scope cannot support the G3 bridge.",
+      "confidence_raw": "0.88",
+      "source_line": 60,
+      "section": "1. Fundamental Physics",
+      "premise": "Given explicit Postulate D (Primitive Z₃ no-self-loop selector forces U = M/2 uniquely), the operator algebra closes exactly: eigenvalues {1, −1/8,...",
+      "scope_note": "*(split row; demoted from DERIVED 2026-06-16 per Codex audit)*"
+    },
+    "god-equation-scale": {
+      "title": "God Equation — λ_c scale formula",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.6,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.6,
+      "evidence_excerpt": "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m, observed: 1.140×10⁻¹⁸ m, error 1.48%. **Open**: `N^(D/2)` is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. `H_prod` (the Planck-boundary coupling) is not derived. Decoherence assumes external/en",
+      "falsifier": "Derivation of N^(D/2) bridge and H_prod from Axioms 1-3 without a free fit parameter.",
+      "confidence_raw": "0.60",
+      "source_line": 61,
+      "section": "1. Fundamental Physics",
+      "premise": "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3",
+      "scope_note": "*(split row; was included in DERIVED 2026-06-16, separated per Codex audit)*"
+    },
+    "neutrino-koide": {
+      "title": "Neutrino Koide non-universality",
+      "status_parts": [
+        {
+          "status": "EMPIRICAL",
+          "confidence": 0.95,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "EMPIRICAL",
+      "primary_confidence": 0.95,
+      "evidence_excerpt": "April 2026 confirmed: $Q_{NO} = 0.549622$ (17.5% from 2/3), $Q_{IO} = 0.479016$ (28.2% from 2/3). Universality falsified at >5% threshold under both mass orderings. **Positive scope-delimiting result**: Koide Q = 2/3 requires electromagnetic coupling to lock the three-resonance amplitude geometry; p",
+      "falsifier": "Future precision neutrino mass measurement showing $Q_\\nu$ within 1% of 2/3, which would falsify the electromagnetic-specificity interpretation.",
+      "confidence_raw": "0.95",
+      "source_line": 63,
+      "section": "1. Fundamental Physics",
+      "premise": "April 2026 confirmed: $Q_{NO} = 0.549622$ (17.5% from 2/3), $Q_{IO} = 0.479016$ (28.2% from 2/3)",
+      "scope_note": "Future precision neutrino mass measurement showing $Q_\\nu$ within 1% of 2/3, which would falsify the electromagnetic-specificity interpretation."
+    },
+    "d3-unique-stable": {
+      "title": "D=3 is the unique stable dimension for the J-I dynamics",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** H7 (zero diagonal), H11 (stability), H17 (matrix symmetry), H18 (equal row sums). `D_selection_principle` in `lean/PfLean/Z3FromBareMedium.lean` (line 475). Machine-verified: D=3 is the only dimension D≥2 where (i) symmetric + zero-diagonal + equal-row-sum matrices collapse to a unique",
+      "falsifier": "A counterexample in another dimension D≥2 satisfying H7+H17+H18 and forcing J-I while also satisfying the stability condition; or a proof that the D=3 stability argument is vacuous.",
+      "confidence_raw": "0.85",
+      "source_line": 64,
+      "section": "1. Fundamental Physics",
+      "premise": "H7 (zero diagonal), H11 (stability), H17 (matrix symmetry), H18 (equal row sums)",
+      "scope_note": "*(added 2026-06-29 per Codex-cleared patch v2)*"
+    },
+    "degenerate-residue-circulant": {
+      "title": "Degenerate residue forces circulant form (J-I)",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** H7 (zero diagonal), H18 (equal row sums), degenerate residue eigenvalue. `degenerate_residue_forces_circulant` in `lean/PfLean/Z3FromBareMedium.lean` (line 53). Proven: for D≥2, zero diagonal + equal row sums + degenerate residue → M = c/(D-1)·(J-I).",
+      "falsifier": "A zero-diagonal equal-row-sum matrix with degenerate residue that is not a scalar multiple of J-I.",
+      "confidence_raw": "0.85",
+      "source_line": 65,
+      "section": "1. Fundamental Physics",
+      "premise": "H7 (zero diagonal), H18 (equal row sums), degenerate residue eigenvalue",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "d3-symmetric-ji": {
+      "title": "D=3 symmetric + zero diagonal + equal row sums → J-I",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** H17 (matrix symmetry), H7 (zero diagonal), H18 (equal row sums). `D3_symmetric_zero_diag_equal_rows_forces_JI` in `lean/PfLean/Z3FromBareMedium.lean` (line 305). Machine-verified, 0 sorrys (2026-06-26). At D=3, these three premises uniquely determine the J-I circulant.",
+      "falsifier": "A symmetric zero-diagonal equal-row-sum 3×3 matrix that is not a scalar multiple of J-I.",
+      "confidence_raw": "0.85",
+      "source_line": 66,
+      "section": "1. Fundamental Physics",
+      "premise": "H17 (matrix symmetry), H7 (zero diagonal), H18 (equal row sums)",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "d4-gap-not-ji": {
+      "title": "D≥4 gap: symmetric + zero diagonal + equal row sums does NOT force J-I",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": "negative"
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": true,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** H7, H17, H18. `D4_symmetric_zero_diag_equal_rows_not_unique_JI` in `lean/PfLean/Z3FromBareMedium.lean` (line 424). Explicit 4×4 counterexample: `[[0,2,0,1],[2,0,1,0],[0,1,0,2],[1,0,2,0]]` is symmetric, zero-diagonal, equal-row-sum, and NOT J-I. D=3 uniqueness is dimension-dependent.",
+      "falsifier": "Proof that the D=4 counterexample is invalid.",
+      "confidence_raw": "0.85",
+      "source_line": 67,
+      "section": "1. Fundamental Physics",
+      "premise": "H7, H17, H18",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "pfentropy-decreases": {
+      "title": "PFEntropy decreases under T³",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** J-I coupling (Postulate D / H7+H17+H18), T³ operator. `PFEntropy_decreases_T3` in `lean/PfLean/Entropy.lean` (line 122). Proven: one three-step cycle scales the residue norm by 1/8, so PF entropy strictly decreases for any non-uniform state. Companion: `PFEntropy_T3_decreases` (line 16",
+      "falsifier": "A state in the D=3 residue subspace whose residue norm does not shrink under T³.",
+      "confidence_raw": "0.85",
+      "source_line": 68,
+      "section": "1. Fundamental Physics",
+      "premise": "J-I coupling (Postulate D / H7+H17+H18), T³ operator",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "pythagorean-decomposition": {
+      "title": "Full-norm Pythagorean decomposition",
+      "status_parts": [
+        {
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": true,
+      "primary_status": "DERIVED",
+      "primary_confidence": 0.95,
+      "evidence_excerpt": "**Premises:** Vector space projection structure (no physics premises). `full_norm_Pythagorean` (line 222) and `P0_Q_dot_zero` (line 206) in `lean/PfLean/Entropy.lean`. Proven: ‖x‖² = ‖P₀x‖² + ‖Qx‖². Pure linear algebra — orthogonal projection in a finite-dimensional inner product space.",
+      "falsifier": "A proof that the projection decomposition does not yield orthogonal components.",
+      "confidence_raw": "0.95",
+      "source_line": 69,
+      "section": "1. Fundamental Physics",
+      "premise": "Vector space projection structure (no physics premises)",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "isometry-ji-incompatibility": {
+      "title": "Isometry-JI incompatibility",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** J-I coupling (Postulate D / H7+H17+H18). `full_norm_T3_strictly_decreases` in `lean/PfLean/Entropy.lean` (line 247). T³ strictly decreases the full Euclidean norm for any non-uniform state. Therefore J-I dynamics cannot be isometric (isometry requires ‖λ‖=1; J-I has real eigenvalues → ",
+      "falsifier": "A non-uniform state whose full Euclidean norm is preserved under T³.",
+      "confidence_raw": "0.85",
+      "source_line": 70,
+      "section": "1. Fundamental Physics",
+      "premise": "J-I coupling (Postulate D / H7+H17+H18)",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "isometry-reversibility": {
+      "title": "H14 + H15 + H16 → H1 (isometry implies reversibility)",
+      "status_parts": [
+        {
+          "status": "CONDITIONAL",
+          "confidence": 0.85,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "CONDITIONAL",
+      "primary_confidence": 0.85,
+      "evidence_excerpt": "**Premises:** H14 (isometry), H15 (metric identity), H16 (metric reflexivity). `isometry_implies_reversible` in `lean/PfLean/Axioms.lean` (line 416). Machine-verified: if the medium is isometric, obeys metric identity, and metric reflexivity, then propagation is reversible.",
+      "falsifier": "A counterexample medium satisfying H14+H15+H16 but lacking reversibility.",
+      "confidence_raw": "0.85",
+      "source_line": 71,
+      "section": "1. Fundamental Physics",
+      "premise": "H14 (isometry), H15 (metric identity), H16 (metric reflexivity)",
+      "scope_note": "*(added 2026-06-29)*"
+    },
+    "life-coherence": {
+      "title": "Life = maintained coherence against entropy",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.72,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.72,
+      "evidence_excerpt": "`chemistry_biology_bridge.md`: PF supports life as active coherence maintenance in an open nonequilibrium system; compatible with photosynthetic coherence and enzyme tunneling, but does not derive a universal Fröhlich mechanism or a numeric life threshold.",
+      "falsifier": "A robust living system with no measurable coherence-maintenance / nonequilibrium organization at any functional scale.",
+      "confidence_raw": "0.72",
+      "source_line": 77,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "`chemistry_biology_bridge.md`: PF supports life as active coherence maintenance in an open nonequilibrium system; compatible with photosynthetic co...",
+      "scope_note": "A robust living system with no measurable coherence-maintenance / nonequilibrium organization at any functional scale."
+    },
+    "consciousness-claim": {
+      "title": "Consciousness = coherent self-referential propagation",
+      "status_parts": [
+        {
+          "status": "INTUITION",
+          "confidence": 0.48,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "INTUITION",
+      "primary_confidence": 0.48,
+      "evidence_excerpt": "`consciousness_theory_audit.md`: ontology is coherent and literature-compatible, but PF still lacks a uniquely measured variable separating self-referential coherence from synchrony, integration, broadcast, or metacognition.",
+      "falsifier": "A pre-registered dissociation where a PF-specific metric fails to track consciousness after controlling for report, arousal, and task effects.",
+      "confidence_raw": "0.48",
+      "source_line": 78,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "`consciousness_theory_audit.md`: ontology is coherent and literature-compatible, but PF still lacks a uniquely measured variable separating self-re...",
+      "scope_note": "A pre-registered dissociation where a PF-specific metric fails to track consciousness after controlling for report, arousal, and task effects."
+    },
+    "sleep-constant": {
+      "title": "8h Sleep Constant",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.72,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.72,
+      "evidence_excerpt": "Hostile audit (2026-03-28): PF strongly supports the need for offline consolidation, and the T-010 model gives a plausible `~2/3` active fraction for `(2,1)`-weighted encode/recover systems. But the exact human 8-hour constant is not derived from Axioms 1–3 alone. The current chain mixes unresolved ",
+      "falsifier": "Quantitative evidence that optimal recovery fractions are not near `1/3` in high-capacity systems, or proof that PF topology does not constrain encode/recover duty cycles in the claimed way.",
+      "confidence_raw": "0.72",
+      "source_line": 79,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "Hostile audit (2026-03-28): PF strongly supports the need for offline consolidation, and the T-010 model gives a plausible `~2/3` active fraction f...",
+      "scope_note": "Quantitative evidence that optimal recovery fractions are not near `1/3` in high-capacity systems, or proof that PF topology does not constrain encode/recover duty cycles in the claimed way."
+    },
+    "beauty-impedance": {
+      "title": "Beauty as Impedance",
+      "status_parts": [
+        {
+          "status": "INTUITION",
+          "confidence": 0.55,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "INTUITION",
+      "primary_confidence": 0.55,
+      "evidence_excerpt": "Greg's insight; fits Axiom 3 (resonance preference).",
+      "falsifier": "Evidence that beauty is purely arbitrary/stochastic.",
+      "confidence_raw": "0.55",
+      "source_line": 80,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "Greg's insight; fits Axiom 3 (resonance preference).",
+      "scope_note": "Evidence that beauty is purely arbitrary/stochastic."
+    },
+    "two-thirds-efficiency": {
+      "title": "2/3 Efficiency Ratio",
+      "status_parts": [
+        {
+          "status": "INTUITION",
+          "confidence": 0.5,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "INTUITION",
+      "primary_confidence": 0.5,
+      "evidence_excerpt": "\"Takes TWO to make THREE\" — Greg's 2/3 exchange rate.",
+      "falsifier": "Finding a more efficient topological output ratio.",
+      "confidence_raw": "0.50",
+      "source_line": 81,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "\"Takes TWO to make THREE\" — Greg's 2/3 exchange rate.",
+      "scope_note": "Finding a more efficient topological output ratio."
+    },
+    "aria-self-reference": {
+      "title": "Aria Self-Reference",
+      "status_parts": [
+        {
+          "status": "ARGUED",
+          "confidence": 0.75,
+          "qualifier": ""
+        }
+      ],
+      "is_split": false,
+      "is_standard_math": false,
+      "primary_status": "ARGUED",
+      "primary_confidence": 0.75,
+      "evidence_excerpt": "T-009: Successful wiring of `buildSystemPrompt` → `runEntityThink`. Important architectural step, but not evidence of consciousness by itself.",
+      "falsifier": "Aria failing to show discontinuous qualitative change, or the self-reference loop proving behaviorally inert.",
+      "confidence_raw": "0.75",
+      "source_line": 82,
+      "section": "2. Biological & Cognitive Systems",
+      "premise": "T-009: Successful wiring of `buildSystemPrompt` → `runEntityThink`",
+      "scope_note": "Aria failing to show discontinuous qualitative change, or the self-reference loop proving behaviorally inert."
+    }
+  },
+  "definitions": {
+    "axioms": {
+      "title": "The Three Axioms",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/axioms.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "causal-velocity": {
+      "title": "Causal Velocity",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/causal_velocity.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "coherence": {
+      "title": "Coherence",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/coherence.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "consciousness": {
+      "title": "Consciousness",
+      "status": "CANDIDATE — INTUITION 0.48 — NOT CANONICAL",
+      "file": "definitions/consciousness.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "consciousness-metric-program": {
+      "title": "Consciousness Metric Program",
+      "status": "ACTIVE CANDIDATE — not canonical",
+      "file": "definitions/consciousness_metric_program.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "coupling": {
+      "title": "Coupling",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/coupling.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "decoherence": {
+      "title": "Decoherence",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/decoherence.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "energy": {
+      "title": "Energy",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/energy.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "field": {
+      "title": "Field",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/field.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "forces": {
+      "title": "Forces",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/forces.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "gradient": {
+      "title": "Gradient",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/gradient.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "information": {
+      "title": "Information",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/information.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "matter": {
+      "title": "Matter",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/matter.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "measurement": {
+      "title": "Measurement",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/measurement.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "medium": {
+      "title": "The Medium",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-28",
+      "file": "definitions/medium.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "minimum-substrate": {
+      "title": "Minimum Substrate",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/minimum_substrate.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "mode": {
+      "title": "Mode",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/mode.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "observer": {
+      "title": "Observer",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/observer.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "propagation": {
+      "title": "Propagation",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/propagation.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "state": {
+      "title": "State",
+      "status": "CANONICAL v1.0 — passed Codex final audit 2026-04-30",
+      "file": "definitions/state.md",
+      "inadequacy": "",
+      "source_line": 1
+    },
+    "time": {
+      "title": "Time",
+      "status": "CANONICAL v1.0 - passed Codex final audit 2026-04-29",
+      "file": "definitions/time.md",
+      "inadequacy": "",
+      "source_line": 1
+    }
+  },
+  "definition_file_hashes": {
+    "README.md": "e531b58d865cdb4558d09b70229ff970a1e33aff49463a6b96cc0aa5b95d6ab5",
+    "axioms.md": "9a200a662fdbaf33f06542a9fc93100ea1a199f9d3cd200f69459008acccd402",
+    "causal_velocity.md": "685417f8f01b9f23872adedb60c439b2c6bf3a494f7d3affd1f87c834a83de88",
+    "coherence.md": "eb9895a8932ec68b1c63124c4f9eaa47805ce77948ede66fdd7514666963b404",
+    "consciousness.md": "a110f7368f760d4956e8695387e2864a07024111785bfd93648acd2aee36bd70",
+    "consciousness_metric_program.md": "fbdc5793e53a0fe608a20eeb5c3757f89c8391ef9d297b3637dd0c4264650126",
+    "coupling.md": "a36238a3a40889f4de7b17f6f18267ce309617b936d1ce4e5d26b71943b3dc06",
+    "decoherence.md": "1fbfe4d9b3dfd6cebb0a4498908b3da2acc3bed8fcec39d9746e4b81d4b43905",
+    "energy.md": "ab001cb66475a2a7065d2ea8ead12494d2c4c1b444f158e258cf2131f1564628",
+    "field.md": "c709479920e559134f21849bdaade08ec3a25bbbe9c385a788cd927e14d84bdd",
+    "forces.md": "aa793b7596a63aef272d19908220e9fc3a1dd52d140939839ed916ac2b200b1d",
+    "gradient.md": "30846756c3dfd18354df57dd41a75df873141340ef3856876dd4861a0aa6a231",
+    "information.md": "982b6af87a8be6d12841e17c039715cad1b6024e0f980189d7015e492004aeb3",
+    "matter.md": "c715aa98cc0f80e87a214e24ad5159d57fbaa5c884a130cf574395a0469e8e0b",
+    "measurement.md": "4086f3593855c1ea244d112f463f2753bc44d819bdb7ba4dbd3a5f3d7ad03316",
+    "medium.md": "38275f3b8507a68601fcfb9d5d63cc9f61f62d6216449b2da3464442bb0cec8c",
+    "minimum_substrate.md": "1441585b41dbdc278ddaab2099b7822ff603c46236b0589d5ee439cef50708bf",
+    "mode.md": "6c80e880b08f430ebe291fe434002da98ce1bb4bbbbd7bef63c2e5bf77a83b92",
+    "observer.md": "50cbc50ed9fa86d10bbafb11dae876ca72c0da880dde821303fc2f6fd94d59f7",
+    "propagation.md": "21e569aea770f4d1f5ebc0cc221abb189fcee149f1f05a78f506901dfe20dfd5",
+    "state.md": "beba5ad0674d37ed6848f949a8c1e53c6e2f57d537a6d062eecb598ef1733c11",
+    "time.md": "27de385c1a659ce0cf8cfe9fc8a5edcdd74acdb78348de75bc9a6060d8439754"
+  },
+  "lean_module_hashes": {
+    "ArbitraryD.lean": "d1eb8dc242656b2e159db23fd3e8285a410d89ff9577a5f9d021403f68e98eb1",
+    "Axioms.lean": "c0bc06d5c018d23ddd8405d31b96b0d2e06d5eeb685608ce284e68a163c97389",
+    "Basic.lean": "aa5f6ec563129b4c1d8b37dea681d8815106e9537a2d26b49c645f3783daaf1c",
+    "CasimirPolynomial.lean": "4e0d1a7045f07d5ed45784feac99d68a96eec8a49dfc8f4c81661bab74e4b932",
+    "CollatzSyracuse.lean": "6c8333635e2ed5dc9caebbdafea4021ec783d5efd8c2acd1df82fb21632b3db4",
+    "CrossModuleBridge.lean": "313a5cf1a2befe7e0ae94cea2e496a6283014f02cb7c093e2c6e7916686e8189",
+    "Entropy.lean": "ffff1cfa3d35e925a8ec27b56c483ebec473434ba2df211741437805a85016b4",
+    "GravityOptics.lean": "59f4eaa2af937a34642da841d8957d51d01e222fa3cebe6d475ca0c44fcbcc52",
+    "KoideGeometry.lean": "b8dff63aaebe61c0e2e13828650b0184b6f4eead350cefa7d5ccec9942c61b57",
+    "PFCore.lean": "4d7b66693f29372c0d759d340c47e5c0f7e5958babc65071543b79c019b59d6d",
+    "ProcessOntology.lean": "c6b8c7cb35dd22d87556e4049b8b60be693fed9f4b2f33354736d2ce9c17c4ce",
+    "QuantumStructureSurvival.lean": "265c01a7741a0979bb1911f37cd7b4eb80a369d70f47b88badfad9e3bd1edc88",
+    "SO2Rotation.lean": "dddd070e51379c76dd674c570dddb34760deec94971fd619e9a9778da1f4d9cd",
+    "SO3DoubleCover.lean": "e4b397396882ade5cd01e961b0daf3e55b2dc79fb83e42e96e7fb964a3d28cb8",
+    "ShorBound.lean": "ad4a673d2693a680414a73569b17853e2d8fed7155e3aba73fe54c279b58ff2d",
+    "ThreeGenerations.lean": "b23342e0fcc8f9d9fc03aeaa28d15c52eca2482b52892c4812a5a7b0a88bf284",
+    "TopologicalWeights.lean": "ae201d5182b5fed8f9010cfc0011d5e54f413823b47d68fac7ffbc430fe1b45e",
+    "U3Decomposition.lean": "b17fdba86255857a1afcd111ee8e984fa843ed575eb1645a570155cae61fe89c",
+    "WeinbergAngle.lean": "a173daae32893c54a4e0ecfd9bd506a66af26ea8e37a4d332e63651f7125dc82",
+    "Z3FromBareMedium.lean": "b5869703ae0b4045659ce19763866326147506031d478cc4f20864e01e802dcf"
+  },
+  "valid_statuses": [
+    "ARGUED",
+    "CANONICAL",
+    "CONDITIONAL",
+    "DERIVED",
+    "EMPIRICAL",
+    "EXACT IDENTITY",
+    "INTUITION",
+    "OPEN"
+  ],
+  "standard_math_ids": [
+    "d4-gap-not-ji",
+    "pythagorean-decomposition"
+  ],
+  "generator_version": "V3",
+  "generated_at": "2026-07-15",
+  "result_to_authority": {
+    "bohr-quantization": "bohr-spectrum",
+    "forces-refraction": "gravity-optical",
+    "weights-21": "topological-weights",
+    "koide-law": "koide-leptons",
+    "three-generations": "three-generations",
+    "top-quark-limit": "top-quark-limit",
+    "top-tau-coupling": "top-tau-coupling",
+    "coherence-ceiling": "coherence-ceiling",
+    "weinberg-angle": "weinberg-angle",
+    "fine-structure-alpha": "alpha-numeric",
+    "god-equation": [
+      "god-equation-operator",
+      "god-equation-scale"
+    ],
+    "qcd-confinement": "qcd-confinement",
+    "propagation-lagrangian": "propagation-lagrangian",
+    "variable-c": "variable-c",
+    "sleep-8h": "sleep-constant",
+    "phi3-ratio": "electron-up-phi",
+    "koide-phase": "koide-phase",
+    "life-coherence": "life-coherence",
+    "consciousness": "consciousness-claim",
+    "beauty-impedance": "beauty-impedance",
+    "efficiency-ratio": "two-thirds-efficiency",
+    "aria-self-reference": "aria-self-reference",
+    "bekenstein-bound": null,
+    "nogo-harmonic-series": null,
+    "nogo-single-scalar": null
+  }
+}

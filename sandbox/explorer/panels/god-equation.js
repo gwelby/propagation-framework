@@ -102,7 +102,26 @@
     container.style.cssText = 'position:absolute;inset:0;';
     stage.appendChild(container);
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch (e) {
+      console.warn("WebGL not supported, running in fallback mode:", e);
+      container.innerHTML = '';
+      var fallbackDiv = document.createElement('div');
+      fallbackDiv.className = 'webgl-fallback';
+      fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+      fallbackDiv.innerHTML = '<h4 style="margin: 0 0 8px 0; color: #00cfff;">WebGL Not Supported</h4><p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">Planck-scale coherence constraints are computed and displayed below in the interactive parameter panel.</p>';
+      stage.appendChild(fallbackDiv);
+      return {
+        container: container,
+        renderer: null,
+        scene: null,
+        camera: null,
+        composer: null,
+        _isFallback: true
+      };
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     // Give the renderer a real initial size so it is not stuck at Three.js's
     // 300x150 default. We use the stage's current client dimensions and fall
@@ -362,6 +381,10 @@
   function disposeGod3D(r) {
     if (!r) return;
     window.removeEventListener('resize', r._resizeHandler);
+    if (r._isFallback) {
+      r.container.remove();
+      return;
+    }
     r.surface.geometry.dispose();
     r.surface.material.dispose();
     r.wireSurface.material.dispose();
@@ -416,7 +439,7 @@
 
     resize: function (ctx) {
       var state = this.state;
-      if (state._3d) {
+      if (state._3d && !state._3d._isFallback) {
         var w = state.canvas.clientWidth;
         var h = state.canvas.clientHeight;
         state._3d.camera.aspect = w / h;
@@ -435,6 +458,7 @@
         || (window.PFExplorerData && window.PFExplorerData.godEquationAudit)
         || { dependencyChain: [], gaps: [] };
       var isClaimPoint = (state.nValue === 3 && state.dValue === 3);
+      var godResult = ctx.app.getResult('god-equation') || {};
 
       state.info.innerHTML =
         '<div class="panel-header">' +
@@ -443,7 +467,7 @@
             '<h3>' + (prediction ? ctx.utils.formatScientific(prediction, 3) + ' m' : 'no asymptotic branch') + '</h3>' +
             '<p>The formula and numerical target are anchored. The operator and probability bridge remain explicitly open.</p>' +
           '</div>' +
-          '<span class="status-pill status-conditional">CONDITIONAL</span>' +
+          '<span class="status-pill ' + (godResult.statusClass || 'status-conditional') + '">' + (godResult.badge || (godResult.status && godResult.status.label ? godResult.status.label : 'CONDITIONAL')) + '</span>' +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('god-equation')) +
         '<div class="control-group">' +
@@ -464,7 +488,7 @@
           '<div class="stat-tile"><strong>' + (isClaimPoint ? '✓ CLAIM (3,3)' : 'other point') + '</strong><span>formula position</span></div>' +
         '</div>' +
         '<div class="note-box story-only"><strong>Story</strong><p>N = 3 and D = 3 are the intended landing site. Moving either shifts the exponential enough that the matter window becomes visibly special.</p></div>' +
-        '<div class="note-box audit-only"><strong>Why CONDITIONAL stays CONDITIONAL</strong><p>The (3,3) point is anchored at 1.145e-18 m and 0.4% error. What stays open is the bridge from the exact internal model to operator closure and H_prod factorization.</p></div>' +
+        '<div class="note-box audit-only"><strong>Why the scale formula stays <span class="status-badge ' + (ctx.utils.statusToClass ? ctx.utils.statusToClass('ARGUED') : 'status-argued') + '">' + (godResult.splitStatuses && godResult.splitStatuses[1] ? godResult.splitStatuses[1].status : 'ARGUED') + '</span></strong><p>The (3,3) point is anchored at 1.157e-18 m and 1.48% error. N^(D/2) is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. The operator algebra and the scale formula are separate claims — see their authority records for current status. What stays open is the bridge from the exact internal model to operator closure and H_prod factorization.</p></div>' +
         '<section class="audit-stack audit-only">' +
           '<div class="audit-section">' +
             '<span class="eyebrow">Dependency chain</span>' +
@@ -497,7 +521,7 @@
     },
 
     update: function (ctx, dt, time) {
-      if (!this.state._3d) return;
+      if (!this.state._3d || this.state._3d._isFallback) return;
       updateGod3D(this.state._3d, this.state, time);
     }
   });

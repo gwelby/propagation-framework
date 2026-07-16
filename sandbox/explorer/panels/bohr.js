@@ -79,7 +79,26 @@
     container.style.cssText = 'position:absolute;inset:0;';
     state.canvas.parentElement.appendChild(container);
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch (e) {
+      console.warn("WebGL not supported, running in fallback mode:", e);
+      container.innerHTML = '';
+      var fallbackDiv = document.createElement('div');
+      fallbackDiv.className = 'webgl-fallback';
+      fallbackDiv.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; min-height: 250px; border: 1px dashed rgba(232, 240, 255, 0.2); border-radius: 8px; background: rgba(9, 21, 37, 0.2); color: rgba(232, 240, 255, 0.8); text-align: center; padding: 20px; box-sizing: border-box;';
+      fallbackDiv.innerHTML = '<h4 style="margin: 0 0 8px 0; color: #00cfff;">WebGL Not Supported</h4><p style="margin: 0; font-size: 12px; color: var(--muted); max-width: 280px; line-height: 1.4;">Standing wave phase-closure modes are calculated and plotted below in the spectral diagrams.</p>';
+      container.appendChild(fallbackDiv);
+      return {
+        container: container,
+        renderer: null,
+        scene: null,
+        camera: null,
+        composer: null,
+        _isFallback: true
+      };
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     var w = state.canvas.parentElement.clientWidth || 640;
     var h = state.canvas.parentElement.clientHeight || 400;
@@ -287,6 +306,10 @@
   function disposeBohr3D(r) {
     if (!r) return;
     window.removeEventListener('resize', r._resizeHandler);
+    if (r._isFallback) {
+      r.container.remove();
+      return;
+    }
     // Dispose every geometry/material reachable from the scene graph. This
     // covers the named meshes (nucleus, orbit ring, wave ring, node group)
     // AND the reference orbit rings added in the [1,2,3,4].forEach loop,
@@ -663,7 +686,7 @@
 
     resize: function (ctx) {
       var state = this.state;
-      if (!state || !state._3d) return;
+      if (!state || !state._3d || state._3d._isFallback) return;
       var r = state._3d;
       var w = state.canvas.parentElement.clientWidth;
       var h = state.canvas.parentElement.clientHeight;
@@ -706,7 +729,12 @@
             '<h3 style="color:' + statusColor + '">k = ' + state.kLike.toFixed(2) + (stable ? ' — LOCKED' : '') + '</h3>' +
             '<p>The panel uses exact repo formulas so integer k reproduces zero closure error rather than approximating it numerically.</p>' +
           '</div>' +
-          '<span class="status-pill status-conditional">CONDITIONAL</span>' +
+          (function() {
+            var claim = window.PFTruth && window.PFTruth.getClaim ? window.PFTruth.getClaim('bohr-spectrum') : null;
+            var badge = claim ? (claim.badge || claim.status) : 'DERIVED';
+            var cls = claim ? (claim.statusClass || 'status-derived') : 'status-derived';
+            return '<span class="status-pill ' + cls + '">' + badge + '</span>';
+          })() +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('bohr-quantization')) +
         '<div class="control-group">' +
@@ -787,7 +815,7 @@
     },
 
     update: function (ctx, dt, time) {
-      if (!this.state._3d) return;
+      if (!this.state._3d || this.state._3d._isFallback) return;
       updateBohr3D(this.state._3d, this.state, time);
     }
   });

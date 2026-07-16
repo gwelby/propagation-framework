@@ -3,7 +3,7 @@
      PROPAGATION FRAMEWORK EXPLORER — WORLD-CLASS DESIGN SYSTEM
      "Observatory at night meets physics manuscript"
      ═══════════════════════════════════════════════════════════════ */
-  
+
   /* === CORE PALETTE — The Propagation Colors === */
   --void-rgb:    2, 4, 8;
   --void:        rgb(var(--void-rgb));     /* Deepest background — the empty medium */
@@ -15,7 +15,7 @@
   --text:        rgb(var(--text-rgb));     /* Primary text — cool white */
   --muted-rgb:   139, 163, 189;
   --muted:       rgb(var(--muted-rgb));    /* Secondary text */
-  
+
   /* === CONCEPT COLORS — What Each Concept Feels Like === */
   --axiom-rgb:      200, 168, 255;
   --axiom:          rgb(var(--axiom-rgb));     /* Axiom purple — the propagation color */
@@ -33,7 +33,7 @@
   --cosmic:         rgb(var(--cosmic-rgb));    /* Violet — cosmic scale */
   --planck-rgb:     255, 215, 0;
   --planck:         rgb(var(--planck-rgb));    /* Gold — Planck scale */
-  
+
   /* === LEGACY COMPATIBILITY === */
   --bg:         var(--deep);
   --bg-deep:    var(--void);
@@ -56,13 +56,13 @@
   --red:        var(--uncertain);
   --blue:       #5ca4ff;
   --shadow:     0 20px 80px rgba(0, 0, 0, 0.28);
-  
+
   /* === TYPOGRAPHY — Gravitas + Readability === */
   --headline:   "Spectral", "Palatino Linotype", "Book Antiqua", serif;
   --body:       "Source Serif 4", "Georgia", serif;
   --ui:         "Geist", "DM Sans", "Segoe UI", sans-serif;
   --formula:    "JetBrains Mono", "Fira Code", monospace;
-  
+
   /* Spacing - 8px grid */
   --spacing-0: 0px;
   --spacing-1: 8px;
@@ -72,7 +72,7 @@
   --spacing-5: 40px;
   --spacing-6: 48px;
   --spacing-8: 64px;
-  
+
   /* Font sizes - unified scale */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -81,22 +81,22 @@
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
-  
+
   /* === MOTION SYSTEM — Physics-Inspired Animations === */
   --transition-fast: 0.15s ease-out;
   --transition-base: 0.25s ease-out;
   --transition-slow: 0.3s ease-out;
-  
+
   /* Spring animations — bouncy reveals */
   --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --spring-fast: 0.4s var(--spring);
   --spring-base: 0.6s var(--spring);
   --spring-slow: 0.8s var(--spring);
-  
+
   /* Smooth physics transitions */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-smooth: cubic-bezier(0.45, 0, 0.55, 1);
-  
+
   /* === CONCEPT GRADIENTS — What Each Concept Looks Like === */
   --gradient-axiom: linear-gradient(135deg, rgba(var(--axiom-rgb), 0.25), rgba(var(--axiom-rgb), 0));
   --gradient-axiom-strong: linear-gradient(135deg, var(--axiom), rgba(var(--axiom-rgb), 0.6));
@@ -114,7 +114,7 @@
   --gradient-cosmic-strong: linear-gradient(135deg, var(--cosmic), rgba(var(--cosmic-rgb), 0.6));
   --gradient-planck: linear-gradient(135deg, rgba(var(--planck-rgb), 0.25), rgba(var(--planck-rgb), 0));
   --gradient-planck-strong: linear-gradient(135deg, var(--planck), rgba(var(--planck-rgb), 0.6));
-  
+
   /* === LEGACY GRADIENTS — Backward Compatibility === */
   --gradient-cyan: var(--gradient-propagate);
   --gradient-cyan-strong: var(--gradient-propagate-strong);
@@ -124,13 +124,13 @@
   --gradient-orange-strong: var(--gradient-refract-strong);
   --gradient-lime: var(--gradient-cohere);
   --gradient-lime-strong: var(--gradient-cohere-strong);
-  
+
   /* Border radius */
   --radius-sm: 4px;
   --radius-base: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  
+
   /* === SHADOWS — Depth + Concept Glows === */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-base: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -145,7 +145,7 @@
   --shadow-glow-uncertain: 0 0 24px rgba(var(--uncertain-rgb), 0.4);
   --shadow-glow-cosmic: 0 0 24px rgba(var(--cosmic-rgb), 0.4);
   --shadow-glow-planck: 0 0 24px rgba(var(--planck-rgb), 0.4);
-  
+
   /* Z-index */
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -1571,12 +1571,20 @@ input[type="range"]:focus-visible {
 .panel-wrap {
   display: grid;
   gap: 18px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .panel-atlas {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
   gap: 18px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .canvas-panel,
@@ -1601,6 +1609,10 @@ input[type="range"]:focus-visible {
   display: flex;
   flex-direction: column;
   min-height: 420px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .panel-canvas {
@@ -1666,6 +1678,10 @@ input[type="range"]:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 /* ── Reality Correction Panel ────────────────────────────────────── */
@@ -1962,6 +1978,20 @@ input[type="range"]:focus-visible {
 
 .controls-row {
   padding: 0 20px 18px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.refraction-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.refraction-btn-row .btn {
+  flex: 1 1 auto;
 }
 
 .metric-pill,
@@ -2872,7 +2902,7 @@ body.drawer-collapsed .app-drawer {
     flex-direction: column;
     gap: var(--spacing-2);
   }
-  
+
   .route-button {
     padding: 16px;
     border-radius: var(--radius-xl);
@@ -3961,6 +3991,10 @@ input[type="range"].premium-slider::-moz-range-thumb:hover {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .error-metrics-header h4 {
@@ -4211,13 +4245,13 @@ input[type="range"].premium-slider::-moz-range-thumb:hover {
   --col-gray:        var(--muted);
   --col-white:       var(--text);
   --col-red:         var(--uncertain);
-  
+
   /* Sidebar/Shell dimensions */
   --sidebar-w: 280px;
   --sidebar-w-collapsed: 68px;
   --header-h: 60px;
   --drawer-w: 420px;
-  
+
   /* Layering */
   --z-header: 1000;
   --z-sidebar: 900;
@@ -4242,6 +4276,7 @@ body {
   flex: 1;
   overflow: hidden;
   position: relative;
+  min-width: 0;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -4598,6 +4633,7 @@ body {
   background: var(--void);
   overflow: hidden;
   position: relative;
+  min-width: 0;
 }
 
 .panel-stage {
@@ -4611,8 +4647,8 @@ body {
 
 /* Evidence Drawer */
 .app-drawer {
-  position: fixed;
-  top: var(--header-h); right: 0; bottom: 0;
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
   width: var(--drawer-w);
   background: var(--surface);
   border-left: 1px solid var(--line-strong);
@@ -4623,7 +4659,8 @@ body {
   flex-direction: column;
   box-shadow: -20px 0 60px rgba(0,0,0,0.5);
 }
-.app-drawer[aria-hidden="false"] { transform: translateX(0); }
+.app-drawer[aria-hidden="true"] { display: none !important; }
+.app-drawer[aria-hidden="false"] { display: flex !important; transform: translateX(0); }
 
 .drawer-head {
   padding: var(--spacing-3);
@@ -4708,7 +4745,7 @@ body {
 /* ══════════════════════════════════════════════════════════
    WORKSPACE COMPONENTS: DEFINITION LATTICE
    ══════════════════════════════════════════════════════════ */
-.dl-shell { display: grid; grid-template-columns: 400px 1fr; height: 100%; gap: 1px; background: var(--line); margin: -var(--spacing-4); }
+.dl-shell { display: grid; grid-template-columns: 400px 1fr; height: 100%; gap: 1px; background: var(--line); margin: calc(-1 * var(--spacing-4)); }
 .dl-sidebar { background: var(--deep); overflow-y: auto; display: flex; flex-direction: column; }
 .dl-sidebar-head { padding: 32px; border-bottom: 1px solid var(--line); }
 .dl-def-list { display: flex; flex-direction: column; }
@@ -4953,4 +4990,151 @@ body {
   background: #fff;
   border: 2px solid #ff4455;
   box-shadow: 0 0 8px rgba(255,68,85,.6);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE OVERRIDES & SHELL FIXES
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1440px) {
+  /* Prevent horizontal layout overflow on desktop in the header */
+  .cb-controls {
+    gap: 12px !important;
+  }
+  .cb-divider {
+    display: none !important;
+  }
+  .cb-scale-seg {
+    max-width: 200px !important;
+  }
+  .cb-search {
+    width: 140px !important;
+  }
+  .cb-search:focus {
+    width: 180px !important;
+  }
+  .cb-scale-val {
+    min-width: auto !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-w: var(--sidebar-w-collapsed, 68px);
+  }
+
+  .sidebar-collapsed .workspace-sidebar {
+    width: 0px;
+    border-right: none;
+  }
+
+  /* Hide heavy controls in header to prevent horizontal expansion */
+  .cb-divider,
+  .cb-mode-group,
+  .cb-chips,
+  .cb-search-seg {
+    display: none !important;
+  }
+
+  .cb-scale-seg {
+    max-width: 180px;
+  }
+
+  .cb-scale-val {
+    min-width: auto;
+    font-size: 0.75rem;
+  }
+
+  .cb-controls {
+    gap: var(--spacing-2);
+    padding-left: var(--spacing-2);
+  }
+
+  /* Stack grid layouts to 1 column so they don't force minimum widths */
+  .eb-grid,
+  .ng-grid,
+  .verification-grid,
+  .stat-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .eb-search-input {
+    min-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .eb-stats {
+    grid-template-columns: 1fr !important;
+    min-width: 100% !important;
+  }
+
+  .eb-hero {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dl-shell {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    margin: -12px !important; /* Match mobile padding of panel-stage */
+  }
+
+  .dl-sidebar {
+    max-height: 320px;
+  }
+
+  .dl-graph-canvas-wrap {
+    height: 360px;
+  }
+
+  .atlas-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .atlas-reset-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .atlas-graph-container {
+    min-height: 400px;
+  }
+
+  .panel-stage {
+    padding: var(--spacing-2);
+  }
+
+  .panel-wrap {
+    gap: 12px;
+  }
+
+  /* Refraction & sandbox adjustments on mobile */
+  .controls-row {
+    padding: 0 8px 12px !important;
+    gap: 8px !important;
+  }
+
+  .control-group {
+    min-width: 100px !important;
+    flex: 1 1 100px !important;
+  }
+
+  .error-metrics-section {
+    padding: 12px !important;
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ng-card {
+    padding: 16px !important;
+  }
+  .ng-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
 }

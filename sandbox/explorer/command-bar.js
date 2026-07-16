@@ -149,6 +149,7 @@
     },
 
     _setMode: function(mode) {
+      if (!this._dom) return;
       this.state.mode = mode;
       Array.prototype.forEach.call(this._dom.modeGrp.querySelectorAll('[data-mode]'), function(b) {
         var on = b.getAttribute('data-mode') === mode;

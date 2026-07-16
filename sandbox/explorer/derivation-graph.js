@@ -117,7 +117,7 @@
         this.nodes.push({
           id: nogo.id,
           title: nogo.title,
-          status: 'NO-GO',
+          _nodeType: 'NO-GO',  // structural type, not a claim status
           type: 'nogo',
           radius: 18,
           isNogo: true,

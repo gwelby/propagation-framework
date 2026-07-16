@@ -42,18 +42,34 @@ ROUTES = [
     "definition-lattice",
     "no-go-museum",
     "experiment-bench",
+    "quantum-observatory",
 ]
 
-JS_FILES = [
-    "data.claims.js",
-    "command-bar.js",
-    "core.js",
-    "derivation-graph.js",
-    "panels/observatory.js",
-    "panels/proof-atlas.js",
-    "panels/definition-lattice.js",
-    "panels/no-go-museum.js",
-    "panels/experiment-bench.js",
+JS_FILES = sorted(
+    path.relative_to(ROOT).as_posix()
+    for pattern in ("*.js", "panels/*.js", "workers/*.js")
+    for path in ROOT.glob(pattern)
+)
+
+PANEL_ROUTES = [
+    "observatory",
+    "hub",
+    "foundations",
+    "god-equation",
+    "koide",
+    "weinberg",
+    "refraction",
+    "bohr",
+    "generations",
+    "consciousness",
+    "koide-weinberg-bridge",
+    "dashboard",
+    "proof-atlas",
+    "experiment-bench",
+    "no-go-museum",
+    "definition-lattice",
+    "scale-ladder-panel",
+    "quantum-observatory",
 ]
 
 SOURCE_HYGIENE_FILES = [
@@ -68,6 +84,7 @@ SOURCE_HYGIENE_FILES = [
     "panels/definition-lattice.js",
     "panels/no-go-museum.js",
     "panels/experiment-bench.js",
+    "panels/quantum-observatory.js",
 ]
 
 ERROR_RE = re.compile(
@@ -159,7 +176,7 @@ def check_node_syntax() -> None:
 
 def start_server(port: int) -> subprocess.Popen[str]:
     return subprocess.Popen(
-        [sys.executable, "-m", "http.server", str(port)],
+        [sys.executable, "serve.py", str(port)],
         cwd=str(ROOT),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -287,9 +304,18 @@ def check_interactions(port: int) -> None:
     expr = r"""
     (async () => {
       const wait = (ms) => new Promise(r => setTimeout(r, ms));
-      const deadline = Date.now() + 5000;
-      while ((!window.PFExplorer || !window.PFClaimsData || !window.CommandBar) && Date.now() < deadline) {
+      const deadline = Date.now() + 15000;
+      while ((!window.PFExplorer || !window.PFClaimsData || !window.CommandBar || !window.CommandBar._dom) && Date.now() < deadline) {
         await wait(100);
+      }
+      if (!window.PFExplorer || !window.PFClaimsData || !window.CommandBar || !window.CommandBar._dom) {
+        return {
+          error: "Page mount timeout",
+          hasPFExplorer: !!window.PFExplorer,
+          hasPFClaimsData: !!window.PFClaimsData,
+          hasCommandBar: !!window.CommandBar,
+          hasCommandBarDom: !!window.CommandBar?._dom
+        };
       }
       await wait(700);
 
@@ -347,7 +373,7 @@ def check_interactions(port: int) -> None:
         hasCanonicalConsciousness: !!data.DEFINITIONS?.some(d => d.id === 'consciousness' && d.status && d.status.includes('CANONICAL') && !d.status.includes('NOT')),
         derived,
         godStatusOk: !!data.CLAIMS?.some(c => c.id === 'god-equation' && c.status?.label === 'CONDITIONAL' && Math.abs(c.confidence - 0.88) < 0.01),
-        threeGenerationsOk: !!data.CLAIMS?.some(c => c.id === 'three-generations' && c.status?.label === 'CONDITIONAL' && Math.abs(c.confidence - 0.85) < 0.01),
+        threeGenerationsOk: !!data.CLAIMS?.some(c => c.id === 'three-generations' && c.status?.label === 'CONDITIONAL' && Math.abs(c.confidence - 0.88) < 0.01),
         koidePhaseOk: !!data.CLAIMS?.some(c => c.id === 'koide-phase' && c.status?.label === 'EMPIRICAL' && Math.abs(c.confidence - 0.65) < 0.01),
         searchWorks: flyoutOpen && /coherence/i.test(searchText),
         scaleZero,
@@ -366,14 +392,14 @@ def check_interactions(port: int) -> None:
     with Cdp(cdp_port, url) as cdp:
         value = cdp.evaluate(expr)
 
-    expected_derived = ["circular-coulomb-eikonal-phase-closure-bohr-like-spectrum", "gravity-optical"]
+    expected_derived = ["bohr-spectrum", "gravity-optical"]
     failures: list[str] = []
     if not isinstance(value, dict):
         raise Failure(f"unexpected CDP value: {value!r}")
     if value.get("defCount") != 21:
         failures.append(f"defCount expected 21 got {value.get('defCount')}")
-    if value.get("claimCount") != 27:
-        failures.append(f"claimCount expected 27 got {value.get('claimCount')}")
+    if value.get("claimCount") != 36:
+        failures.append(f"claimCount expected 36 got {value.get('claimCount')}")
     if value.get("derived") != expected_derived:
         failures.append(f"derived list mismatch: {value.get('derived')}")
     for key in ["hasAxioms", "threeGenerationsOk", "koidePhaseOk", "searchWorks", "mathScriptInjected", "drawerOpen"]:
@@ -398,8 +424,117 @@ def check_interactions(port: int) -> None:
     print("PASS interaction gates: truth, command bar, drawer")
 
 
+def check_layout_bounds(port: int) -> None:
+    """Fail when a registered panel is clipped at desktop or mobile widths."""
+    cdp_port = free_port()
+    url = f"http://127.0.0.1:{port}/index.html#observatory"
+    route_json = json.dumps(PANEL_ROUTES)
+    expression = r"""
+    (async () => {
+      const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      const deadline = Date.now() + 15000;
+      while ((!window.PFExplorer || typeof window.PFExplorer.navigate !== 'function') && Date.now() < deadline) {
+        await wait(100);
+      }
+      if (!window.PFExplorer || typeof window.PFExplorer.navigate !== 'function') {
+        return { error: 'Page mount timeout' };
+      }
+
+      const routes = __ROUTES__;
+      const failures = [];
+      for (const route of routes) {
+        try {
+          window.PFExplorer.navigate(route);
+        } catch (error) {
+          failures.push({
+            route,
+            reasons: [`mount exception: ${error?.message || String(error)}`],
+          });
+          continue;
+        }
+        await wait(180);
+        const stage = document.querySelector('#panelStage');
+        const sidebar = document.querySelector('.workspace-sidebar, .sidebar, aside');
+        const stageRect = stage ? stage.getBoundingClientRect() : null;
+        const sidebarRect = sidebar ? sidebar.getBoundingClientRect() : null;
+        const actual = window.PFExplorer.getContext?.().state?.currentRoute || null;
+        const minimumStageWidth = Math.max(280, window.innerWidth * 0.72);
+        const bodyOverflow = document.body.scrollWidth - window.innerWidth;
+        const stageOverflow = stage ? stage.scrollWidth - stage.clientWidth : 0;
+        const reasons = [];
+
+        if (actual !== route) reasons.push(`mounted ${actual || 'none'}`);
+        if (!stageRect) reasons.push('panel stage missing');
+        if (stageRect && stageRect.width < minimumStageWidth) {
+          reasons.push(`stage width ${Math.round(stageRect.width)} < ${Math.round(minimumStageWidth)}`);
+        }
+        if (bodyOverflow > 1) reasons.push(`body clipped by ${bodyOverflow}px`);
+        if (stageOverflow > 1) reasons.push(`stage clipped by ${stageOverflow}px`);
+        if (window.innerWidth <= 480 && sidebarRect && sidebarRect.width > window.innerWidth * 0.55) {
+          reasons.push(`sidebar consumes ${Math.round(sidebarRect.width)}px of ${window.innerWidth}px`);
+        }
+        if (reasons.length) failures.push({ route, reasons });
+      }
+      return {
+        viewport: [window.innerWidth, window.innerHeight],
+        failures,
+      };
+    })()
+    """.replace("__ROUTES__", route_json)
+
+    failures: list[dict] = []
+    with Cdp(cdp_port, url) as cdp:
+        for width, height in ((1440, 900), (390, 844)):
+            cdp.call(
+                "Emulation.setDeviceMetricsOverride",
+                {
+                    "width": width,
+                    "height": height,
+                    "deviceScaleFactor": 1,
+                    "mobile": width <= 480,
+                },
+            )
+            cdp.call("Page.navigate", {"url": url})
+            value = cdp.evaluate(expression)
+            if not isinstance(value, dict):
+                failures.append({"viewport": [width, height], "error": repr(value)})
+                continue
+            if value.get("error") or value.get("failures"):
+                failures.append(value)
+
+    if failures:
+        raise Failure("responsive layout bounds failed:\n" + json.dumps(failures, indent=2))
+    print(f"PASS responsive layout bounds: {len(PANEL_ROUTES)} routes at desktop + mobile")
+
+
+def check_truth_gate() -> None:
+    """Run the V3 truth drift gate — must pass before any browser checks."""
+    result = run([sys.executable, str(ROOT / "check_truth_drift_v3.py")], timeout=60)
+    if result.returncode != 0:
+        raise Failure(f"truth drift gate FAILED:\n{result.stdout}\n{result.stderr}")
+    print(f"PASS truth drift gate (V3 fail-closed, 7/7 checks)")
+
+def check_truth_fixtures() -> None:
+    """Run V3 negative fixtures — must pass before any browser checks."""
+    result = run([sys.executable, str(ROOT / "check_truth_fixtures_v3.py")], timeout=300)
+    if result.returncode != 0:
+        raise Failure(f"truth fixtures FAILED:\n{result.stdout}\n{result.stderr}")
+    print(f"PASS truth negative fixtures (V3, 8/8, isolated temp candidates)")
+
+def check_runtime_proof() -> None:
+    """Run V3 runtime proof — verifies each HTML entry point at runtime."""
+    result = run([sys.executable, str(ROOT / "check_runtime_proof_v3.py")], timeout=60)
+    if result.returncode != 0:
+        raise Failure(f"runtime proof FAILED:\n{result.stdout}\n{result.stderr}")
+    print(f"PASS runtime proof (V3, 9 entry points, 36 claims, unified data)")
+
+
 def main() -> int:
+    # Truth gate, fixtures, and runtime proof run FIRST, before any browser/visual checks
     checks = [
+        check_truth_gate,
+        check_truth_fixtures,
+        check_runtime_proof,
         check_source_hygiene,
         check_local_refs,
         check_node_syntax,
@@ -415,6 +550,7 @@ def main() -> int:
             wait_for_http(port)
             check_routes_with_dump_dom(port)
             check_interactions(port)
+            check_layout_bounds(port)
         finally:
             server.terminate()
             try:

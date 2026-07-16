@@ -1,7 +1,7 @@
 {
   "name": "Propagation Framework Explorer",
   "short_name": "PF Explorer",
-  "description": "Interactive exploration of how reality derives from three axioms. Explore quantum mechanics, gravity, and particle physics through propagation-based physics.",
+  "description": "Interactive exploration of the Propagation Framework — three axioms, quantum mechanics, gravity, and particle physics through propagation-based physics.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -534,11 +534,16 @@
     if (geResult) geResult.textContent = "Predicted: " + lambdaC.toExponential(3) + " m";
     if (geObserved) geObserved.textContent = "Observed: " + observed.toExponential(3) + " m";
     if (geError) {
+      // V3: Pull status from generated authority data, not hard-coded
+      var truth = window.PFExplorerTruth || window.PFTruth;
+      var godOp = truth && truth.getClaim ? truth.getClaim("god-equation-operator") : null;
+      var opStatus = godOp ? (godOp.badge || (godOp.status && godOp.status.label ? godOp.status.label : godOp.status) || "CONDITIONAL") : "CONDITIONAL";
+      var opConf = godOp ? (godOp.confidence || 0.88) : 0.88;
       if (N === 3 && D === 3) {
-        geError.textContent = "Status: CONDITIONAL 0.88 • numerical anchor error " + error.toFixed(1) + "%";
+        geError.textContent = "Status: " + opStatus + " " + opConf + " • numerical anchor error " + error.toFixed(1) + "%";
         geError.style.color = "#44ff88";
       } else {
-        geError.textContent = "Status: CONDITIONAL • off the physical point";
+        geError.textContent = "Status: " + opStatus + " • off the physical point";
         geError.style.color = "#ffdd55";
       }
     }

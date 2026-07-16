@@ -10,11 +10,16 @@ Usage:
     # then open http://localhost:8080/
 """
 
-import http.server, os, socketserver
+import http.server, os, socketserver, sys
 
 EXPLORER_DIR    = os.path.dirname(os.path.abspath(__file__))
 FUNDAMENTALS_DIR = os.path.abspath(os.path.join(EXPLORER_DIR, '..', '..'))
 PORT = 8080
+if len(sys.argv) > 1:
+    try:
+        PORT = int(sys.argv[1])
+    except ValueError:
+        pass
 
 # Directories in Fundamentals root that source-viewer may fetch
 SOURCE_PREFIXES = (
@@ -40,7 +45,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f'  404  {msg}')
 
 try:
-    with socketserver.TCPServer(('', PORT), Handler) as httpd:
+    with socketserver.ThreadingTCPServer(('', PORT), Handler) as httpd:
         httpd.allow_reuse_address = True
         print(f'PF Explorer  ->  http://localhost:{PORT}/')
         print(f'Explorer dir :  {EXPLORER_DIR}')

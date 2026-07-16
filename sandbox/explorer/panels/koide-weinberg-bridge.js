@@ -398,6 +398,7 @@
       var state = this.state;
       var gap = WEINBERG_ON_SHELL - KOIDE_PHASE;
       var gapFrom2_9 = KOIDE_PHASE - TWO_NINTHS;
+      var phaseResult = ctx.app.getResult('koide-phase') || {};
 
       state.info.innerHTML =
         '<div class="panel-header">' +
@@ -406,7 +407,7 @@
             '<h3>The proximity is striking, but RG running doesn\'t bridge them.</h3>' +
             '<p>Both investigations returned negative. The gap remains: δ_Koide = 0.22223, sin²θ_W = 0.22337. Close enough to notice, far enough to matter.</p>' +
           '</div>' +
-          '<span class="status-pill status-empirical">EMPIRICAL</span>' +
+          '<span class="status-pill ' + (phaseResult.statusClass || 'status-empirical') + '">' + (phaseResult.badge || (phaseResult.status && phaseResult.status.label ? phaseResult.status.label : 'EMPIRICAL')) + '</span>' +
         '</div>' +
         '<div class="formula" style="font-size:13px;margin-bottom:16px;">' +
           'δ_Koide = ' + KOIDE_PHASE.toFixed(9) + '<br>' +

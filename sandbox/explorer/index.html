@@ -10,7 +10,7 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="The Propagation Framework Explorer - Interactive visualization of how reality derives from three axioms. Explore quantum mechanics, gravity, and particle physics through propagation-based physics.">
+  <meta name="description" content="The Propagation Framework Explorer - Interactive visualization of the Propagation Framework. Explore claims, derivations, and open questions in physics through propagation-based reasoning.">
   <meta name="keywords" content="physics, quantum mechanics, propagation framework, axioms, science visualization, interactive physics, theoretical physics">
   <meta name="author" content="Propagation Framework Team">
   <meta name="robots" content="index, follow">
@@ -23,7 +23,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fundamentals.physics/explorer/">
   <meta property="og:title" content="Propagation Framework Explorer - Interactive Physics">
-  <meta property="og:description" content="Explore how reality derives from three simple axioms. Interactive visualizations of quantum mechanics, gravity, and particle physics.">
+  <meta property="og:description" content="Explore the Propagation Framework — interactive visualizations of claims, derivations, and open questions in physics.">
   <meta property="og:image" content="assets/og-image.svg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://fundamentals.physics/explorer/">
   <meta property="twitter:title" content="Propagation Framework Explorer">
-  <meta property="twitter:description" content="Interactive exploration of how reality derives from three axioms">
+  <meta property="twitter:description" content="Interactive exploration of the Propagation Framework — claims, derivations, and open questions">
   <meta property="twitter:image" content="assets/twitter-image.svg">
   
   <!-- Additional Meta -->
@@ -65,7 +65,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Propagation Framework Explorer",
-    "description": "Interactive visualization of how reality derives from three axioms",
+    "description": "Interactive visualization of the Propagation Framework — claims, derivations, and open questions",
     "url": "https://fundamentals.physics/explorer/",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "Any",
@@ -137,40 +137,40 @@
           </button>
 
           <div class="ws-nav-group-label">Live Demos</div>
-          <button class="ws-btn" data-route="refraction" type="button" role="tab" aria-selected="false" title="Gravity as Refraction">
+          <button class="ws-btn" data-route="refraction" data-claim-id="gravity-optical" type="button" role="tab" aria-selected="false" title="Gravity as Refraction">
             <span class="ws-btn-icon ws-icon--green" aria-hidden="true">⌁</span>
             <span class="ws-btn-label">Gravity = Refraction</span>
-            <span class="ws-btn-note">DERIVED · light bending</span>
+            <span class="ws-btn-note" data-status-note>light bending</span>
           </button>
-          <button class="ws-btn" data-route="koide" type="button" role="tab" aria-selected="false" title="Koide Resonance">
+          <button class="ws-btn" data-route="koide" data-claim-id="koide-leptons" type="button" role="tab" aria-selected="false" title="Koide Resonance">
             <span class="ws-btn-icon ws-icon--green" aria-hidden="true">⟁</span>
             <span class="ws-btn-label">Koide Resonance</span>
-            <span class="ws-btn-note">DERIVED · 3 leptons</span>
+            <span class="ws-btn-note" data-status-note>3 leptons</span>
           </button>
-          <button class="ws-btn" data-route="weinberg" type="button" role="tab" aria-selected="false" title="Weinberg Angle">
+          <button class="ws-btn" data-route="weinberg" data-claim-id="weinberg-angle" type="button" role="tab" aria-selected="false" title="Weinberg Angle">
             <span class="ws-btn-icon ws-icon--green" aria-hidden="true">θ</span>
             <span class="ws-btn-label">Weinberg Angle</span>
-            <span class="ws-btn-note">DERIVED · sin²θ_W</span>
+            <span class="ws-btn-note" data-status-note>sin²θ_W</span>
           </button>
-          <button class="ws-btn" data-route="bohr" type="button" role="tab" aria-selected="false" title="Bohr Spectrum">
+          <button class="ws-btn" data-route="bohr" data-claim-id="bohr-spectrum" type="button" role="tab" aria-selected="false" title="Bohr Spectrum">
             <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">ψ</span>
             <span class="ws-btn-label">Bohr Spectrum</span>
-            <span class="ws-btn-note">CONDITIONAL · phase closure</span>
+            <span class="ws-btn-note" data-status-note>phase closure</span>
           </button>
-          <button class="ws-btn" data-route="generations" type="button" role="tab" aria-selected="false" title="Three Generations">
+          <button class="ws-btn" data-route="generations" data-claim-id="three-generations" type="button" role="tab" aria-selected="false" title="Three Generations">
             <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">N³</span>
             <span class="ws-btn-label">3 Generations</span>
-            <span class="ws-btn-note">CONDITIONAL · why 3?</span>
+            <span class="ws-btn-note" data-status-note>why 3?</span>
           </button>
-          <button class="ws-btn" data-route="god-equation" type="button" role="tab" aria-selected="false" title="God Equation">
+          <button class="ws-btn" data-route="god-equation" data-claim-id="god-equation-operator" type="button" role="tab" aria-selected="false" title="God Equation">
             <span class="ws-btn-icon ws-icon--amber" aria-hidden="true">Λ</span>
             <span class="ws-btn-label">God Equation</span>
-            <span class="ws-btn-note">CONDITIONAL · λ_c</span>
+            <span class="ws-btn-note" data-status-note>λ_c</span>
           </button>
-          <button class="ws-btn" data-route="consciousness" type="button" role="tab" aria-selected="false" title="Consciousness">
+          <button class="ws-btn" data-route="consciousness" data-claim-id="consciousness-claim" type="button" role="tab" aria-selected="false" title="Consciousness">
             <span class="ws-btn-icon ws-icon--gray" aria-hidden="true">∞</span>
             <span class="ws-btn-label">Consciousness</span>
-            <span class="ws-btn-note">INTUITION · hypothesis</span>
+            <span class="ws-btn-note" data-status-note>hypothesis</span>
           </button>
           <button class="ws-btn" data-route="foundations" type="button" role="tab" aria-selected="false" title="Foundations">
             <span class="ws-btn-icon ws-icon--cyan" aria-hidden="true">∇</span>
@@ -267,7 +267,7 @@
         <!-- Truth policy compact -->
         <div class="ws-truth">
           <span class="ws-truth-lbl">Truth source</span>
-          <p class="ws-truth-copy">CLAIMS.md -> data.claims.js -> UI. Codex audit passed. Status badges are data.</p>
+          <p class="ws-truth-copy">CLAIMS.md -> data.claims.js -> UI. Status badges are data-driven from the authority claim matrix. Public release HOLD pending Codex re-audit.</p>
           <button class="ws-truth-drawer" id="drawerToggle" type="button" aria-expanded="false" aria-controls="appDrawer">Evidence drawer</button>
         </div>
 
@@ -313,9 +313,9 @@
 
   <!-- Codex-audited data layer - exposes window.PFDataGraph -->
   <script src="data.graph.js"></script>
-  <script src="truth-utils.js"></script>
   <script src="data.claims.js"></script>
   <script src="data.js"></script>
+  <script src="truth-utils.js"></script>
 
   <!-- Visualization Engines -->
   <script src="vendor/d3.v7.min.js"></script>
@@ -463,6 +463,54 @@
         navigator.serviceWorker.register('service-worker.js').catch(function(){});
       });
     }
+
+    // V2: Populate sidebar status badges from generated data
+    // Replaces hardcoded "DERIVED · light bending" etc. with data-driven badges
+    function populateSidebarBadges() {
+      if (!window.PFTruth || typeof window.PFTruth.getClaim !== 'function') return;
+      var notes = document.querySelectorAll('[data-status-note]');
+      notes.forEach(function(note) {
+        var btn = note.closest('[data-claim-id]');
+        if (!btn) return;
+        var claimId = btn.getAttribute('data-claim-id');
+        var claim = window.PFTruth.getClaim(claimId);
+        if (!claim) return;
+        var status = claim.status || 'OPEN';
+        var badge = claim.badge || status;
+        var desc = note.getAttribute('data-status-note') || note.textContent || '';
+        note.textContent = badge + ' · ' + desc;
+        // Update icon color based on status
+        var icon = btn.querySelector('.ws-btn-icon');
+        if (icon) {
+          icon.className = icon.className.replace(/ws-icon--\w+/g, '');
+          var statusColorMap = {
+            'DERIVED': 'ws-icon--green', 'EXACT IDENTITY': 'ws-icon--green',
+            'CONDITIONAL': 'ws-icon--amber', 'ARGUED': 'ws-icon--amber',
+            'EMPIRICAL': 'ws-icon--gold', 'INTUITION': 'ws-icon--gray',
+            'OPEN': 'ws-icon--gray', 'STANDARD MATH': 'ws-icon--blue'
+          };
+          icon.classList.add(statusColorMap[status] || 'ws-icon--gray');
+        }
+      });
+    }
+
+    // Run after data loads
+    if (window.PFTruth && window.PFClaimsData && window.PFClaimsData.claims) {
+      populateSidebarBadges();
+    } else {
+      // Poll for data
+      var badgeAttempts = 0;
+      var badgePoller = setInterval(function() {
+        badgeAttempts++;
+        if (window.PFTruth && window.PFClaimsData && window.PFClaimsData.claims) {
+          populateSidebarBadges();
+          clearInterval(badgePoller);
+        } else if (badgeAttempts > 30) {
+          clearInterval(badgePoller);
+        }
+      }, 100);
+    }
+
 </script>
 </body>
 </html>
