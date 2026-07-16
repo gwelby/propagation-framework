@@ -1185,12 +1185,371 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
         rw [Nat.cast_succ, add_mul, one_mul, h_Usemi (↑k * 2) 2]
         rw [LinearMap.comp_apply, h_U2_v]
         exact ih
-    · -- CASE 3: μ ≠ 2 and μ ≠ -2 → |μ| < 2 → needs Stone's theorem
-      -- Requires showing U(t) = exp(tA) for skew-adjoint A (Stone's theorem),
-      -- then using the spectral theorem on A² to find eigenvalues ±iω,
-      -- and setting T = 2π/|ω|. This is a genuine mathematical gap.
+    · -- CASE 3: μ ≠ 2 and μ ≠ -2 → |μ| < 2
+      -- The helper lemma `exists_period_of_continuous_circle_hom` is proven.
+      -- Integration requires constructing z: ℝ → Circle from the 2D invariant
+      -- subspace span{v, U(1)v}, showing z is a continuous group homomorphism
+      -- with z(1) ≠ 1, and deriving U(T) v = v from z(T) = 1.
+      -- This construction is the remaining integration step.
       sorry
 
+/-- Helper: A continuous group homomorphism z: ℝ → Circle with z(0) = 1
+    and z(1) ≠ 1 has a positive period T with z(T) = 1.
+
+    This is the key lemma for the |μ| < 2 case of the periodic orbit theorem.
+    It replaces Stone's theorem in finite dimensions by using:
+    1. Complex.arg to locally lift z to ℝ (near z(0) = 1)
+    2. Local additivity of the lift (from exp_eq_exp + bounds)
+    3. Local linearity (continuous + locally additive → linear, via Rat density)
+    4. Global extension via the group property -/
+lemma exists_period_of_continuous_circle_hom
+    (z : ℝ → Circle) (hz_cont : Continuous z) (hz_zero : z 0 = 1)
+    (hz_add : ∀ s t, z (s + t) = z s * z t) (hz_one_ne : z 1 ≠ 1) :
+    ∃ T > 0, z T = 1 := by
+  -- Step 1: ∃ δ > 0 with (z t : ℂ) ∈ ball 1 1 for |t| < δ
+  have h_coe_cont : ContinuousAt (fun t : ℝ => (z t : ℂ)) 0 :=
+    continuousAt_subtype_val.comp hz_cont.continuousAt
+  obtain ⟨δ, δ_pos, hδ_ball⟩ : ∃ δ > 0, ∀ t, |t| < δ → (z t : ℂ) ∈ Metric.ball (1 : ℂ) 1 := by
+    have h_mem : (z 0 : ℂ) ∈ Metric.ball (1 : ℂ) 1 := by
+      rw [hz_zero, Circle.coe_one, Metric.mem_ball, dist_self]; exact zero_lt_one
+    have h_ball : ∀ᶠ t in nhds 0, (z t : ℂ) ∈ Metric.ball (1 : ℂ) 1 :=
+      h_coe_cont.tendsto.eventually (Metric.isOpen_ball.mem_nhds h_mem)
+    obtain ⟨ε, ε_pos, hε⟩ := Metric.eventually_nhds_iff_ball.mp h_ball
+    exact ⟨ε, ε_pos, fun t ht => hε _ (by simpa using ht)⟩
+  have hδ : ∀ t, |t| < δ → (z t : ℂ) ∈ Complex.slitPlane := fun t ht =>
+    Complex.ball_one_subset_slitPlane (hδ_ball t ht)
+  -- |arg(z t)| ≤ π/2 for |t| < δ (since z t ∈ ball 1 1 → re > 0)
+  have harg_bound : ∀ t, |t| < δ → |Complex.arg ((z t : ℂ))| ≤ Real.pi / 2 := by
+    intro t ht
+    have hball : (z t : ℂ) ∈ Metric.ball (1 : ℂ) 1 := hδ_ball t ht
+    have hre : 0 < (z t : ℂ).re := by
+      have hnorm : ‖(z t : ℂ) - 1‖ < 1 := by
+        rw [← Complex.dist_eq]; exact hball
+      have hre_sub : |((z t : ℂ) - 1).re| ≤ ‖(z t : ℂ) - 1‖ :=
+        Complex.abs_re_le_norm _
+      rw [Complex.sub_re] at hre_sub
+      have h_le : -‖(z t : ℂ) - 1‖ ≤ (z t : ℂ).re - 1 := (abs_le.mp hre_sub).1
+      linarith [h_le, hnorm]
+    exact Complex.abs_arg_le_pi_div_two_iff.mpr (le_of_lt hre)
+  -- Step 2: g(t) = Complex.arg((z t : ℂ)) is continuous for |t| < δ
+  let g (t : ℝ) : ℝ := Complex.arg ((z t : ℂ))
+  have hg_cont : ∀ t, |t| < δ → ContinuousAt g t := by
+    intro t ht
+    have hzt : (z t : ℂ) ∈ Complex.slitPlane := hδ t ht
+    have h1 : ContinuousAt ((↑) : Circle → ℂ) (z t) := continuousAt_subtype_val
+    have h2 : ContinuousAt (fun x : ℝ => (z x : ℂ)) t := h1.comp hz_cont.continuousAt
+    have h3 : ContinuousAt Complex.arg ((z t : ℂ)) := Complex.continuousAt_arg hzt
+    show ContinuousAt (fun x => Complex.arg ((z x : ℂ))) t
+    exact @ContinuousAt.comp ℝ ℂ ℝ _ _ _ (fun x => (z x : ℂ)) t Complex.arg h3 h2
+  have hg_zero : g 0 = 0 := by
+    show Complex.arg ((z 0 : ℂ)) = 0
+    rw [hz_zero, Circle.coe_one, Complex.arg_one]
+  have hg_exp : ∀ t, |t| < δ → Circle.exp (g t) = z t := fun t _ =>
+    Circle.exp_arg (z t)
+  -- Step 3: g is locally additive for |s|, |t|, |s+t| < δ/2
+  have hg_add : ∀ s t, |s| < δ/2 → |t| < δ/2 → |s + t| < δ/2 →
+      g (s + t) = g s + g t := by
+    intro s t hs ht hst
+    have hs' : |s| < δ := by linarith
+    have ht' : |t| < δ := by linarith
+    have hst' : |s + t| < δ := by
+      have : |s + t| ≤ |s| + |t| := abs_add_le _ _
+      linarith
+    have h1 : Circle.exp (g (s + t)) = Circle.exp (g s + g t) := by
+      rw [show g (s + t) = Complex.arg ((z (s + t) : ℂ)) from rfl,
+          show g s = Complex.arg ((z s : ℂ)) from rfl,
+          show g t = Complex.arg ((z t : ℂ)) from rfl]
+      rw [hg_exp _ hst', hz_add, Circle.exp_add, hg_exp _ hs', hg_exp _ ht']
+    have hgs : |g s| ≤ Real.pi / 2 := harg_bound s hs'
+    have hgt : |g t| ≤ Real.pi / 2 := harg_bound t ht'
+    have hgst : |g (s + t)| ≤ Real.pi / 2 := harg_bound (s + t) hst'
+    have h_bound : |g (s + t) - (g s + g t)| < 2 * Real.pi := by
+      have h_sum : |g s + g t| ≤ Real.pi := by
+        calc |g s + g t| ≤ |g s| + |g t| := abs_add_le _ _
+          _ ≤ Real.pi / 2 + Real.pi / 2 := add_le_add hgs hgt
+          _ = Real.pi := by ring
+      have h_tri : |g (s + t) - (g s + g t)| ≤ |g (s + t)| + |g s + g t| := by
+        have := abs_add_le (g (s + t)) (-(g s + g t))
+        rwa [abs_neg, ← sub_eq_add_neg] at this
+      linarith [h_tri, hgst, h_sum, Real.pi_pos]
+    obtain ⟨m, hm⟩ := Circle.exp_eq_exp.mp h1
+    have hm_zero : m = 0 := by
+      by_contra hne
+      have h_abs_m : 1 ≤ |(m : ℝ)| := by exact_mod_cast Int.one_le_abs hne
+      have h_abs_prod : 2 * Real.pi ≤ |(m : ℝ) * (2 * Real.pi)| := by
+        have hpi_pos : 0 < 2 * Real.pi := by linarith [Real.pi_pos]
+        rw [abs_mul, abs_of_pos hpi_pos]
+        nlinarith [h_abs_m, Real.pi_pos, abs_nonneg (m : ℝ)]
+      have h_diff : |g (s + t) - (g s + g t)| = |(m : ℝ) * (2 * Real.pi)| := by
+        rw [hm]; ring_nf
+      have h_ge : 2 * Real.pi ≤ |g (s + t) - (g s + g t)| := by
+        rw [h_diff]; exact h_abs_prod
+      linarith [h_ge, h_bound]
+    rw [hm_zero, Int.cast_zero, zero_mul, add_zero] at hm
+    exact hm
+  -- Step 4: g(n * x) = n * g(x) for n ∈ ℕ, |x| < δ/4, |n * x| < δ/4
+  have hg_nsmul : ∀ n : ℕ, ∀ x, |x| < δ / 4 → |(n : ℝ) * x| < δ / 4 →
+      g ((n : ℝ) * x) = (n : ℝ) * g x := by
+    intro n
+    induction n with
+    | zero =>
+      intro x hx hkx
+      simp only [Nat.cast_zero, zero_mul]
+      exact hg_zero
+    | succ k ih =>
+      intro x hx hkx
+      have hkx' : |(k : ℝ) * x| < δ / 4 := by
+        have hk_nn : (0 : ℝ) ≤ (k : ℝ) := by exact_mod_cast (Nat.zero_le k)
+        have hk1_nn : (0 : ℝ) ≤ ((k + 1 : ℕ) : ℝ) := by exact_mod_cast (Nat.zero_le (k + 1))
+        have hk_le : (k : ℝ) ≤ ((k + 1 : ℕ) : ℝ) := by exact_mod_cast (by omega)
+        calc |(k : ℝ) * x|
+            = (k : ℝ) * |x| := by rw [abs_mul, abs_of_nonneg hk_nn]
+          _ ≤ ((k + 1 : ℕ) : ℝ) * |x| := mul_le_mul_of_nonneg_right hk_le (abs_nonneg x)
+          _ = |((k + 1 : ℕ) : ℝ) * x| := by
+            rw [abs_mul, abs_of_nonneg hk1_nn]
+          _ < δ / 4 := hkx
+      have h_kx : |(k : ℝ) * x| < δ / 2 := by linarith
+      have h_x : |x| < δ / 2 := by linarith
+      have h_sum : |(k : ℝ) * x + x| < δ / 2 := by
+        have h_eq : (k : ℝ) * x + x = ((k + 1 : ℕ) : ℝ) * x := by
+          rw [Nat.cast_add_one]; ring
+        rw [h_eq]; linarith
+      have h_gkx : g ((k : ℝ) * x) = (k : ℝ) * g x := ih x hx hkx'
+      rw [Nat.cast_add_one, show (↑k + 1) * x = ↑k * x + x from by ring]
+      rw [hg_add _ _ h_kx h_x h_sum, h_gkx]
+      ring
+  -- g(-x) = -g(x) for |x| < δ/4
+  have hg_neg : ∀ x, |x| < δ / 4 → g (-x) = -g x := by
+    intro x hx
+    have hx' : |x| < δ / 2 := by linarith
+    have hneg' : |-x| < δ / 2 := by rw [abs_neg]; linarith
+    have hsum : |x + (-x)| < δ / 2 := by rw [add_neg_cancel, abs_zero]; linarith
+    have h1 : g (x + (-x)) = g x + g (-x) := hg_add _ _ hx' hneg' hsum
+    rw [add_neg_cancel, hg_zero] at h1
+    linarith [h1]
+  -- Step 5: g(r * τ) = r * g(τ) for r ∈ ℚ, |r * τ| < δ/4
+  set τ : ℝ := δ / 8 with hτ_def
+  have τ_pos : 0 < τ := by rw [hτ_def]; positivity
+  have hτ_small : |τ| < δ / 4 := by
+    rw [hτ_def, abs_of_pos (by positivity)]; linarith [δ_pos]
+  have hg_rat : ∀ r : ℚ, |(r : ℝ) * τ| < δ / 4 →
+      g ((r : ℝ) * τ) = (r : ℝ) * g τ := by
+    intro r hr
+    by_cases hr_zero : r = 0
+    · simp [hr_zero, zero_mul, hg_zero]
+    -- r ≠ 0: use r.num and r.den
+    have rden_pos : (0 : ℝ) < (r.den : ℝ) := by
+      have hne : r.den ≠ 0 := Rat.den_ne_zero r
+      have : (0 : ℕ) < r.den := by
+        by_contra h
+        push_neg at h
+        exact hne (le_antisymm h (Nat.zero_le _))
+      exact_mod_cast this
+    have rden_ne : (r.den : ℝ) ≠ 0 := ne_of_gt rden_pos
+    have h_cast : (r : ℝ) = (r.num : ℝ) / (r.den : ℝ) := Rat.cast_def r
+    set x : ℝ := τ / (r.den : ℝ) with hx_def
+    have h_rτ : (r : ℝ) * τ = (r.num : ℝ) * x := by
+      rw [h_cast, hx_def, div_mul_eq_mul_div, mul_div_assoc]
+    have hx_abs : |x| < δ / 4 := by
+      rw [hx_def, abs_div, abs_of_pos rden_pos, div_lt_iff₀ rden_pos]
+      have h_den_ge : (1 : ℝ) ≤ (r.den : ℝ) := by
+        have : (0 : ℕ) < r.den := by
+          by_contra h
+          push_neg at h
+          exact (Rat.den_ne_zero r) (le_antisymm h (Nat.zero_le _))
+        exact_mod_cast (by omega : (1 : ℕ) ≤ r.den)
+      nlinarith [hτ_small, h_den_ge, δ_pos]
+    have hnx : |(r.num : ℝ) * x| < δ / 4 := by rw [← h_rτ]; exact hr
+    have h_qτ : (r.den : ℝ) * x = τ := by
+      rw [hx_def, mul_div_cancel₀ τ rden_ne]
+    have h1 : g τ = (r.den : ℝ) * g x := by
+      rw [← h_qτ]
+      exact hg_nsmul r.den x hx_abs (by rw [h_qτ]; exact hτ_small)
+    have h3 : g x = g τ / (r.den : ℝ) := by
+      have hne : (r.den : ℝ) ≠ 0 := rden_ne
+      field_simp
+      linarith [h1]
+    -- g(r.num * x) = r.num * g(x): handle ℤ sign
+    have hg_intsmul : ∀ z : ℤ, ∀ y, |y| < δ / 4 → |(z : ℝ) * y| < δ / 4 →
+        g ((z : ℝ) * y) = (z : ℝ) * g y := by
+      intro z y hy hzy
+      by_cases hz : 0 ≤ z
+      · have hn : (z.toNat : ℝ) = (z : ℝ) := by exact_mod_cast Int.toNat_of_nonneg hz
+        rw [← hn]
+        have hny : |(z.toNat : ℝ) * y| < δ / 4 := by rw [hn]; exact hzy
+        rw [hg_nsmul z.toNat y hy hny, hn]
+      · have hzneg : z < 0 := by omega
+        have hneg_nn : 0 ≤ -z := by omega
+        have hn : ((-z).toNat : ℝ) = -(z : ℝ) := by
+          exact_mod_cast Int.toNat_of_nonneg hneg_nn
+        have h_cast : (z : ℝ) = -((-z).toNat : ℝ) := by linarith
+        rw [h_cast, neg_mul, neg_mul]
+        have habs : |((-z).toNat : ℝ) * y| < δ / 4 := by
+          have h_eq : |((-z).toNat : ℝ) * y| = |(z : ℝ) * y| := by
+            have h2 : (z : ℝ) * y = -((-z).toNat : ℝ) * y := by rw [h_cast]
+            rw [h2]
+            rw [show |-((-z).toNat : ℝ) * y| = |((-z).toNat : ℝ) * y| from by
+              rw [neg_mul, abs_neg]]
+          rw [h_eq]; exact hzy
+        rw [hg_neg _ habs]
+        rw [hg_nsmul (-z).toNat y hy habs]
+    have h_num : g ((r.num : ℝ) * x) = (r.num : ℝ) * g x :=
+      hg_intsmul r.num x hx_abs hnx
+    rw [h_rτ, h_num, h3, h_cast]
+    field_simp
+  -- Step 5b: g(t) = α * t for |t| < δ/4 (continuity + density of ℚ)
+  set α : ℝ := g τ / τ with hα_def
+  have hg_linear : ∀ t, |t| < δ / 4 → g t = α * t := by
+    intro t ht
+    by_cases ht_zero : t = 0
+    · rw [ht_zero, mul_zero]; exact hg_zero
+    · set s : ℝ := t / τ with hs_def
+      have hs_abs : |s| < 2 := by
+        rw [hs_def, abs_div, abs_of_pos τ_pos, div_lt_iff₀ τ_pos]
+        calc |t| < δ / 4 := ht
+          _ = 2 * (δ / 8) := by ring
+          _ = 2 * τ := by rw [hτ_def]
+      have hsτ : s * τ = t := by rw [hs_def, div_mul_cancel₀]; exact ne_of_gt τ_pos
+      have h_F_cont : ContinuousAt (fun u : ℝ => g (u * τ) - u * g τ) s := by
+        have h_st : |s * τ| < δ := by rw [hsτ]; linarith
+        have h_mul : ContinuousAt (fun u : ℝ => u * τ) s :=
+          continuousAt_id.mul continuousAt_const
+        have h_g : ContinuousAt g (s * τ) := hg_cont _ h_st
+        have h_g_cont : ContinuousAt (fun u : ℝ => g (u * τ)) s :=
+          @ContinuousAt.comp ℝ ℝ ℝ _ _ _ (fun u => u * τ) s g h_g h_mul
+        have h_lin_cont : ContinuousAt (fun u : ℝ => u * g τ) s :=
+          continuousAt_id.mul continuousAt_const
+        exact h_g_cont.sub h_lin_cont
+      have h_F_rat : ∀ r : ℚ, |(r : ℝ)| < 2 →
+          g ((r : ℝ) * τ) - (r : ℝ) * g τ = 0 := by
+        intro r hr
+        rw [sub_eq_zero]
+        apply hg_rat
+        rw [abs_mul, abs_of_pos τ_pos]
+        have h2τ : 2 * τ = δ / 4 := by rw [hτ_def]; ring
+        have h_bound : |(r : ℝ)| * τ < δ / 4 := by
+          have : |(r : ℝ)| * τ < 2 * τ := mul_lt_mul_of_pos_right hr τ_pos
+          exact lt_of_lt_of_le this h2τ.le
+        exact h_bound
+      have h_Fs : g (s * τ) - s * g τ = 0 := by
+        by_contra h_ne
+        set ε : ℝ := |g (s * τ) - s * g τ| / 2
+        have ε_pos : 0 < ε := by
+          show 0 < |g (s * τ) - s * g τ| / 2
+          exact half_pos (abs_pos.mpr h_ne)
+        obtain ⟨δ', δ'_pos, hδ'⟩ : ∃ δ' > 0, ∀ u, |u - s| < δ' →
+            |(g (u * τ) - u * g τ) - (g (s * τ) - s * g τ)| < ε := by
+          have key := (Metric.continuousAt_iff.mp h_F_cont) ε ε_pos
+          simp only [Real.dist_eq] at key
+          simpa using key
+        set η : ℝ := min δ' (2 - |s|)
+        have η_pos : 0 < η := lt_min_iff.mpr ⟨δ'_pos, by linarith⟩
+        obtain ⟨q, hq⟩ : ∃ q : ℚ, |(q : ℝ) - s| < η := by
+          obtain ⟨q, hq⟩ := exists_rat_near s η_pos
+          exact ⟨q, by rw [abs_sub_comm]; exact hq⟩
+        have hq_close : |(q : ℝ) - s| < δ' :=
+          lt_of_lt_of_le hq (min_le_left _ _)
+        have hq_small : |(q : ℝ)| < 2 := by
+          have h_η2 : |(q : ℝ) - s| < 2 - |s| :=
+            lt_of_lt_of_le hq (min_le_right _ _)
+          have h_le : |(q : ℝ)| ≤ |s| + |(q : ℝ) - s| := by
+            have := abs_add_le s ((q : ℝ) - s)
+            simpa [show s + ((q : ℝ) - s) = (q : ℝ) from by ring] using this
+          linarith
+        have h_Fq : g ((q : ℝ) * τ) - (q : ℝ) * g τ = 0 := h_F_rat q hq_small
+        have h_bound : |g (s * τ) - s * g τ| < ε := by
+          have h_diff : |(g (s * τ) - s * g τ) - (g ((q : ℝ) * τ) - (q : ℝ) * g τ)| < ε := by
+            have := hδ' _ hq_close
+            rw [abs_sub_comm] at this
+            exact this
+          rw [h_Fq, sub_zero] at h_diff
+          exact h_diff
+        have h_half : |g (s * τ) - s * g τ| / 2 < |g (s * τ) - s * g τ| :=
+          half_lt_self (abs_pos.mpr h_ne)
+        have h_self : |g (s * τ) - s * g τ| < |g (s * τ) - s * g τ| :=
+          calc |g (s * τ) - s * g τ| < ε := h_bound
+            _ = |g (s * τ) - s * g τ| / 2 := rfl
+            _ < |g (s * τ) - s * g τ| := h_half
+        exact absurd h_self (lt_irrefl _)
+      have h_gst : g (s * τ) = s * g τ := by linarith
+      rw [← hsτ, h_gst, hα_def, hs_def, div_mul_cancel₀]
+      · ring
+      · exact ne_of_gt τ_pos
+  -- Step 6: z(t) = Circle.exp(αt) for all t (global extension via group property)
+  have h_zpow : ∀ m : ℕ, ∀ x : ℝ, z ((m : ℝ) * x) = z x ^ m := by
+    intro m
+    induction m with
+    | zero => intro x; simp [zero_mul, pow_zero, hz_zero]
+    | succ k ih =>
+      intro x
+      rw [show ((k + 1 : ℕ) : ℝ) * x = (k : ℝ) * x + x from by
+        rw [Nat.cast_succ]; ring]
+      rw [hz_add, ih x, pow_succ]
+  have hz_exp : ∀ t : ℝ, z t = Circle.exp (α * t) := by
+    intro t
+    obtain ⟨n, hn_ge, hn_small⟩ : ∃ n : ℕ, n ≥ 1 ∧ |t| / (n : ℝ) < δ / 4 := by
+      by_cases ht : t = 0
+      · exact ⟨1, by norm_num, by rw [ht, abs_zero, zero_div]; positivity⟩
+      · obtain ⟨n, hn⟩ : ∃ n : ℕ, (4 * |t| / δ : ℝ) < n :=
+          exists_nat_gt (4 * |t| / δ)
+        refine ⟨n + 1, by omega, ?_⟩
+        have hn1_pos : (0 : ℝ) < ((n + 1 : ℕ) : ℝ) := by exact_mod_cast (Nat.succ_pos n)
+        rw [div_lt_iff₀ hn1_pos]
+        have hn' : (4 * |t| / δ : ℝ) < ((n + 1 : ℕ) : ℝ) := by
+          have h1 : (4 * |t| / δ : ℝ) < ((n : ℕ) : ℝ) := by exact_mod_cast hn
+          have h2 : ((n : ℕ) : ℝ) ≤ ((n + 1 : ℕ) : ℝ) := by
+            have : n ≤ n + 1 := by omega
+            exact_mod_cast this
+          linarith
+        have h4t : 4 * |t| / δ * (δ / 4) = |t| := by
+          have hδ : δ ≠ 0 := ne_of_gt δ_pos
+          have h4 : (4 : ℝ) ≠ 0 := by norm_num
+          field_simp
+        have h_d4 : 0 < δ / 4 := by positivity
+        have h_prod : (4 * |t| / δ) * (δ / 4) < δ / 4 * ((n + 1 : ℕ) : ℝ) := by
+          rw [mul_comm (δ / 4) ((n + 1 : ℕ) : ℝ)]
+          exact mul_lt_mul_of_pos_right hn' h_d4
+        rw [show |t| = (4 * |t| / δ) * (δ / 4) from h4t.symm]
+        exact h_prod
+    have hn_pos : (0 : ℝ) < n := by
+      have h1 : (1 : ℝ) ≤ n := by exact_mod_cast hn_ge
+      linarith
+    have h_tn : |t / (n : ℝ)| < δ / 4 := by
+      rw [abs_div, abs_of_pos hn_pos]; exact hn_small
+    have h_tn' : |t / (n : ℝ)| < δ := by linarith
+    have h_zn : z (t / (n : ℝ)) = Circle.exp (α * (t / (n : ℝ))) := by
+      rw [show z (t / (n : ℝ)) = Circle.exp (g (t / (n : ℝ))) from (hg_exp _ h_tn').symm]
+      rw [hg_linear _ h_tn]
+    have h_t_eq : (n : ℝ) * (t / (n : ℝ)) = t := mul_div_cancel₀ t (ne_of_gt hn_pos)
+    have h_zn_pow : z ((n : ℝ) * (t / (n : ℝ))) = z (t / (n : ℝ)) ^ n :=
+      h_zpow n (t / (n : ℝ))
+    rw [← h_t_eq, h_zn_pow, h_zn]
+    rw [← Circle.exp_nsmul, nsmul_eq_mul]
+    congr 1
+    have hn : (n : ℝ) ≠ 0 := ne_of_gt hn_pos
+    field_simp
+  -- Step 7: α ≠ 0 (since z(1) ≠ 1)
+  have hα_ne : α ≠ 0 := by
+    intro hα_zero
+    rw [hα_zero] at hz_exp
+    simp only [zero_mul, Circle.exp_zero] at hz_exp
+    exact hz_one_ne (hz_exp 1)
+  -- Step 8: T = 2π/|α| gives z(T) = 1
+  refine ⟨2 * Real.pi / |α|, by positivity, ?_⟩
+  rw [hz_exp, ← Circle.exp_zero, Circle.exp_eq_exp]
+  by_cases hα_pos : α > 0
+  · refine ⟨1, ?_⟩
+    rw [abs_of_pos hα_pos]
+    rw [show α * (2 * Real.pi / α) = 2 * Real.pi from
+      mul_div_cancel₀ _ (ne_of_gt hα_pos)]
+    ring
+  · have hα_neg : α < 0 := lt_of_le_of_ne (not_lt.mp hα_pos) hα_ne
+    refine ⟨-1, ?_⟩
+    rw [abs_of_neg hα_neg]
+    rw [show α * (2 * Real.pi / (-α)) = -(2 * Real.pi) from by
+      have hneg : (-α) ≠ 0 := ne_of_gt (by linarith [hα_neg])
+      field_simp]
+    ring
 /-- Lemma: Isometry + d=norm implies bounded orbit (hBdd is derivable, not a
     separate premise).
 
