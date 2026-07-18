@@ -1647,7 +1647,14 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
         -- Algebra: σ⁻¹ • ((μ/2)•((μ/2)•v + σ•e₂) - v) = -σ•v + (μ/2)•e₂
         -- using σ² = 1 - μ²/4. Pure module algebra.
         have hσsq : σ ^ 2 = 1 - μ ^ 2 / 4 := hσ_sq
-        sorry
+        match_scalars
+        · -- coefficient equation: needs hσsq
+          field_simp
+          linarith [hσsq]
+        · -- algebraic identity: σ⁻¹ * μ/2 = μ/2 * σ⁻¹ (after canceling σ*σ⁻¹=1)
+          have hss : σ * (σ⁻¹ * 1) = 1 := by
+            rw [← mul_assoc, mul_inv_cancel₀ hσ_ne, one_mul]
+          rw [hss, mul_one, mul_one, mul_comm]
       have h_ip_e2_U1v : inner ℝ e₂ (U 1 v) = σ := by
         rw [h_U1_v, inner_add_right, real_inner_smul_right,
             show inner ℝ e₂ v = 0 from (real_inner_comm v e₂).trans he₂_orth,
