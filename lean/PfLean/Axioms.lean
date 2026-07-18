@@ -1665,10 +1665,69 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
           (U 1 : Module.End ℝ M.State) ∘ₗ U t := by
         intro t
         rw [← h_Usemi t 1, ← h_Usemi 1 t, add_comm]
-      -- Step 7: W-invariance — the key mathematical step
+      -- Step 6b: U(t) commutes with U(-1) (from semigroup)
+      have h_comm_neg : ∀ t, U t ∘ₗ (U (-1) : Module.End ℝ M.State) =
+          (U (-1) : Module.End ℝ M.State) ∘ₗ U t := by
+        intro t
+        rw [← h_Usemi t (-1), ← h_Usemi (-1) t, add_comm]
+      -- Step 6c: U(t) commutes with S = U(1) + U(-1)
+      have h_comm_S : ∀ t, ∀ x, (U 1 + U (-1) : Module.End ℝ M.State) (U t x) =
+          U t ((U 1 + U (-1) : Module.End ℝ M.State) x) := by
+        intro t x
+        simp only [LinearMap.add_apply]
+        -- h_comm t : U t ∘ₗ U 1 = U 1 ∘ₗ U t
+        -- So: U t (U 1 x) = (U t ∘ₗ U 1) x = (U 1 ∘ₗ U t) x = U 1 (U t x)
+        -- i.e., U 1 (U t x) = U t (U 1 x)
+        have h1 : U 1 (U t x) = U t (U 1 x) := by
+          have := LinearMap.congr_fun (h_comm t) x
+          simp only [LinearMap.comp_apply] at this
+          exact this.symm
+        have h2 : U (-1) (U t x) = U t (U (-1) x) := by
+          have := LinearMap.congr_fun (h_comm_neg t) x
+          simp only [LinearMap.comp_apply] at this
+          exact this.symm
+        rw [h1, h2, map_add]
+      -- Step 6d: E_μ (eigenspace of S for eigenvalue μ) is U(t)-invariant
+      -- If Sx = μx, then S(U(t)x) = U(t)(Sx) = μ·U(t)x, so U(t)x ∈ E_μ
+      -- This is DeepSeek's key insight (step 2), and it IS correct.
+      set E_μ : Submodule ℝ M.State :=
+        (LinearMap.ker ((U 1 + U (-1) : Module.End ℝ M.State) - μ • LinearMap.id)) with hE_def
+      have h_v_in_E : v ∈ E_μ := by
+        rw [hE_def, LinearMap.mem_ker]
+        simp only [Submodule.coe_eq_zero, LinearMap.sub_apply, LinearMap.id_apply,
+                   LinearMap.smul_apply, LinearMap.add_apply, sub_eq_zero]
+        exact h_S_v
+      have h_E_invariant : ∀ t, ∀ x ∈ E_μ, U t x ∈ E_μ := by
+        intro t x hx
+        rw [hE_def, LinearMap.mem_ker]
+        -- Goal: ((U 1 + U (-1)) - μ • LinearMap.id) (U t x) = 0
+        simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply,
+                   sub_eq_zero]
+        -- Goal: (U 1 + U (-1)) (U t x) = μ • U t x
+        have h_Sx : (U 1 + U (-1) : Module.End ℝ M.State) x = μ • x := by
+          have hmem : x ∈ (LinearMap.ker ((U 1 + U (-1) : Module.End ℝ M.State) - μ • LinearMap.id)) := by
+            rw [← hE_def]; exact hx
+          have hx' := LinearMap.mem_ker.mp hmem
+          simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply,
+                     sub_eq_zero] at hx'
+          exact hx'
+        have h_SUtx : (U 1 + U (-1) : Module.End ℝ M.State) (U t x) =
+            U t ((U 1 + U (-1) : Module.End ℝ M.State) x) := h_comm_S t x
+        rw [h_SUtx, h_Sx, map_smul]
+      -- Step 6e: e₂ ∈ E_μ (from the rotation matrix form)
+      -- U(1)e₂ = -σv + (μ/2)e₂, U(-1)e₂ = σv + (μ/2)e₂
+      -- So (U(1) + U(-1))e₂ = μe₂, meaning e₂ ∈ E_μ
+      -- This follows from the quadratic relation U(1)² = μU(1) - I on E_μ
+      -- and U(-1) = U(1)⁻¹ = μI - U(1) on E_μ.
+      -- The proof requires: (1) U(1)²e₂ = μ·U(1)e₂ - e₂ (module algebra with σ²=1-μ²/4),
+      -- (2) U(1) injective (isometry), (3) U(1)(μe₂ - U(1)e₂) = e₂, (4) U(-1)e₂ = μe₂ - U(1)e₂.
+      have h_e2_in_E : e₂ ∈ E_μ := by
+        sorry
+      -- Step 7: W-invariance
       -- W = span{v, e₂} is invariant under U(t) for all t.
-      -- This follows from the projection argument using the complex structure
-      -- J = (U(1) - μ/2)/σ on E_μ, and the fact that U(t) commutes with U(1).
+      -- KEY ISSUE: This requires more than E_μ-invariance when dim(E_μ) > 2.
+      -- When dim(E_μ) = 2, W = E_μ and invariance follows from h_E_invariant.
+      -- When dim(E_μ) > 2, we need Stone's theorem or the iterative spectral theorem.
       have h_W_invariant : ∀ t, U t v ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
         sorry
       have h_W_invariant_e2 : ∀ t, U t e₂ ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
