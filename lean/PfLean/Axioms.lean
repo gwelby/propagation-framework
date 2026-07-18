@@ -1699,9 +1699,14 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
       refine ⟨v, T, hv_ne, hT_pos, ?_⟩
       intro k
       rw [h_prop_eq_U]
-      -- U(k*T) v = v for all natural k
-      -- This follows from U(T) v = v and the semigroup property
-      sorry
+      -- U(k*T) v = v for all natural k, by induction using U(T)v = v
+      induction k with
+      | zero => simp [h_U0]
+      | succ k ih =>
+        rw [show (↑(k + 1) : ℝ) * T = ↑k * T + T from by
+          rw [Nat.cast_succ]; ring]
+        rw [h_Usemi (↑k * T) T, LinearMap.comp_apply, h_UT_v]
+        exact ih
 
 /-- Lemma: Isometry + d=norm implies bounded orbit (hBdd is derivable, not a
     separate premise).
