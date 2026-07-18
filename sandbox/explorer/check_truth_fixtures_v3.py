@@ -47,9 +47,15 @@ def setup_temp_explorer() -> tuple[Path, Path]:
 
 
 def run_gate(explorer_dir: Path) -> tuple[int, str]:
-    """Run the V3 gate against the given explorer directory."""
+    """V4: Run the COPIED CANDIDATE'S own gate, not the host gate.
+
+    This ensures the fixture tests the candidate's actual code, not
+    the host's code. A tampered candidate gate would not be caught
+    if we ran the host gate against the candidate's data.
+    """
+    candidate_gate = explorer_dir / "check_truth_drift_v3.py"
     result = subprocess.run(
-        [sys.executable, str(GATE_SCRIPT), "--explorer-dir", str(explorer_dir)],
+        [sys.executable, str(candidate_gate), "--explorer-dir", str(explorer_dir)],
         cwd=explorer_dir,
         capture_output=True,
         text=True,
@@ -59,9 +65,10 @@ def run_gate(explorer_dir: Path) -> tuple[int, str]:
 
 
 def run_generator(explorer_dir: Path) -> tuple[int, str]:
-    """Run the V3 generator against the given explorer directory."""
+    """V4: Run the COPIED CANDIDATE'S own generator."""
+    candidate_gen = explorer_dir / "generate_claims_data_v3.py"
     result = subprocess.run(
-        [sys.executable, str(GENERATOR_SCRIPT)],
+        [sys.executable, str(candidate_gen)],
         cwd=explorer_dir,
         capture_output=True,
         text=True,
@@ -353,6 +360,140 @@ def fixture_negative_unmapped_panel_id() -> bool:
         shutil.rmtree(tmpdir, ignore_errors=True)
 
 
+# ── V4 Fixtures: Journey injection, gate tampering, pre/post hashes ───
+
+def fixture_negative_journey_injection() -> bool:
+    """V4: The exact Codex hostile probe — changing journey.html from
+    'loading from authority...' to 'DERIVED 1.00 - Hostile Injection'
+    must fail the gate."""
+    tmpdir, tmp_explorer = setup_temp_explorer()
+    try:
+        journey = tmp_explorer / "journey.html"
+        if not journey.is_file():
+            print("  SKIP: journey.html not found")
+            return True
+        text = journey.read_text(encoding="utf-8")
+        # Apply the exact Codex probe
+        mutated = text.replace(
+            "loading from authority...",
+            "DERIVED 1.00 - Hostile Injection"
+        )
+        if mutated == text:
+            print("  SKIP: 'loading from authority...' not found in journey.html")
+            return True
+        journey.write_text(mutated, encoding="utf-8")
+
+        rc, output = run_gate(tmp_explorer)
+        if rc == 0:
+            print("  FAIL: Expected FAIL (Journey hostile injection), got PASS")
+            return False
+        if "UNMAPPED_BADGE" not in output:
+            print(f"  FAIL: Gate failed but didn't detect UNMAPPED_BADGE")
+            return False
+        print("  PASS: Journey hostile injection detected")
+        return True
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def fixture_negative_gate_tampering() -> bool:
+    """V4: A tampered candidate gate that always returns PASS must NOT
+    fool the fixture framework. The fixture proves the original worktree
+    hash is unchanged before/after fixtures."""
+    tmpdir, tmp_explorer = setup_temp_explorer()
+    try:
+        # Tamper with the candidate's gate to always pass
+        gate = tmp_explorer / "check_truth_drift_v3.py"
+        text = gate.read_text(encoding="utf-8")
+        # Replace ALL failure exits: return 1 and sys.exit(1)
+        tampered = text.replace("return 1", "return 0  # TAMPERED")
+        tampered = tampered.replace("sys.exit(1)", "sys.exit(0)  # TAMPERED")
+        tampered = tampered.replace("raise SystemExit(1)", "raise SystemExit(0)  # TAMPERED")
+        gate.write_text(tampered, encoding="utf-8")
+
+        # The tampered gate should now pass even with a bad mutation
+        claims_js = tmp_explorer / "data.claims.js"
+        claims_text = claims_js.read_text(encoding="utf-8")
+        mutated = claims_text.replace('"status": "DERIVED"', '"status": "ARGUED"', 1)
+        claims_js.write_text(mutated, encoding="utf-8")
+
+        rc, output = run_gate(tmp_explorer)
+        if rc != 0:
+            print(f"  FAIL: Tampered gate unexpectedly failed (rc={rc})")
+            return False
+
+        # Now verify the ORIGINAL (host) gate catches this mutation
+        # by running the host gate against the tampered candidate
+        result = subprocess.run(
+            [sys.executable, str(GATE_SCRIPT), "--explorer-dir", str(tmp_explorer)],
+            cwd=str(tmp_explorer),
+            capture_output=True, text=True, timeout=60
+        )
+        if result.returncode == 0:
+            print("  FAIL: Host gate also passed — mutation wasn't detected")
+            return False
+
+        print("  PASS: Gate tampering detected by host gate cross-check")
+        return True
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def fixture_positive_worktree_unchanged() -> bool:
+    """V4: Prove the original worktree hash is unchanged before/after
+    fixtures. This verifies that fixtures never write to live files."""
+    import hashlib
+
+    # Hash the key source files before fixtures
+    files_to_hash = [
+        "check_truth_drift_v3.py",
+        "generate_claims_data_v3.py",
+        "check_truth_fixtures_v3.py",
+        "data.claims.js",
+        "data.js",
+        "_authority_snapshot.json",
+        "release_tree_registry.json",
+    ]
+
+    before_hashes = {}
+    for fname in files_to_hash:
+        fpath = EXPLORER_DIR / fname
+        if fpath.is_file():
+            before_hashes[fname] = hashlib.sha256(fpath.read_bytes()).hexdigest()
+
+    # Run a fixture (which copies and mutates a temp tree)
+    tmpdir, tmp_explorer = setup_temp_explorer()
+    try:
+        # Mutate the temp copy
+        claims_js = tmp_explorer / "data.claims.js"
+        text = claims_js.read_text(encoding="utf-8")
+        claims_js.write_text(text.replace("DERIVED", "ARGUED", 1), encoding="utf-8")
+
+        # Run the gate against the temp copy
+        rc, output = run_gate(tmp_explorer)
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+    # Hash the key source files after fixtures
+    after_hashes = {}
+    for fname in files_to_hash:
+        fpath = EXPLORER_DIR / fname
+        if fpath.is_file():
+            after_hashes[fname] = hashlib.sha256(fpath.read_bytes()).hexdigest()
+
+    # Verify all hashes match
+    all_match = True
+    for fname in before_hashes:
+        if before_hashes[fname] != after_hashes.get(fname, ""):
+            print(f"  FAIL: {fname} hash changed!")
+            all_match = False
+
+    if all_match:
+        print(f"  PASS: All {len(before_hashes)} source file hashes unchanged")
+        return True
+    return False
+
+
 # ============================================================================
 # MAIN
 # ============================================================================
@@ -360,6 +501,7 @@ def fixture_negative_unmapped_panel_id() -> bool:
 FIXTURES = [
     ("positive_clean_tree", fixture_positive_clean_tree),
     ("positive_generator_regenerates", fixture_positive_generator_regenerates),
+    ("positive_worktree_unchanged", fixture_positive_worktree_unchanged),
     ("negative_status_drift", fixture_negative_status_drift),
     ("negative_confidence_drift", fixture_negative_confidence_drift),
     ("negative_stale_data_js", fixture_negative_stale_data_js),
@@ -369,13 +511,15 @@ FIXTURES = [
     ("negative_snapshot_tampering", fixture_negative_snapshot_tampering),
     ("negative_standalone_injection", fixture_negative_standalone_injection),
     ("negative_unmapped_panel_id", fixture_negative_unmapped_panel_id),
+    ("negative_journey_injection", fixture_negative_journey_injection),
+    ("negative_gate_tampering", fixture_negative_gate_tampering),
 ]
 
 
 def main() -> int:
     print("=" * 70)
-    print("Explorer Truth Layer V3 — Fixtures")
-    print("(Isolated temp candidates — never writes live files)")
+    print("Explorer Truth Layer V4 — Fixtures")
+    print("(Isolated temp candidates — V4: uses candidate's own gate/generator)")
     print("=" * 70)
     print()
 

@@ -1,144 +1,149 @@
 {
   "belt-trick.html": {
-    "status": "PASS",
-    "route_type": "standalone-non-claim",
+    "status": "FAIL",
+    "reason": "JS errors: ['THREE is not defined']",
+    "route_type": "non-claim",
     "dom_evidence": {
       "PFClaimsData_loaded": false,
       "PFExplorerData_loaded": false,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
-      "js_errors": [],
+      "js_errors": [
+        "THREE is not defined"
+      ],
       "title": "Dirac Belt Trick \u2014 720\u00b0 Rotation Lock",
       "non_claim_route": true
     }
   },
   "comparison.html": {
     "status": "PASS",
-    "route_type": "claim-route",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
       "js_errors": [],
       "title": "Propagation Framework \u2014 Framework Comparison",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "derivation.html": {
-    "status": "PASS",
-    "route_type": "claim-route",
+    "status": "FAIL",
+    "reason": "JS errors: ['d3 is not defined']",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
-      "js_errors": [],
+      "js_errors": [
+        "d3 is not defined"
+      ],
       "title": "Derivation Chains \u2014 Propagation Framework Explorer",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "index.html": {
-    "status": "PASS",
-    "route_type": "claim-route",
+    "status": "FAIL",
+    "reason": "JS errors: ['THREE is not defined']",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 1,
-      "js_errors": [],
+      "js_errors": [
+        "THREE is not defined"
+      ],
       "title": "Propagation Framework Explorer | Interactive Physics Visualization",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "journey.html": {
-    "status": "PASS",
-    "route_type": "claim-route",
+    "status": "FAIL",
+    "reason": "JS errors: ['THREE is not defined']",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
-      "ge_error_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
-      "js_errors": [],
+      "js_errors": [
+        "THREE is not defined"
+      ],
       "title": "Propagation Framework \u2014 The Journey",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "journey_live.html": {
-    "status": "PASS",
-    "route_type": "claim-route",
+    "status": "FAIL",
+    "reason": "JS errors: ['THREE is not defined']",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
-      "ge_error_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
-      "js_errors": [],
+      "js_errors": [
+        "THREE is not defined"
+      ],
       "title": "Propagation Framework \u2014 The Live Journey | PhiFlow Driven",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "nogos.html": {
     "status": "PASS",
-    "route_type": "claim-route",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
       "js_errors": [],
       "title": "No-Go Museum \u2014 Propagation Framework Explorer",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "playground.html": {
     "status": "PASS",
-    "route_type": "claim-route",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
       "js_errors": [],
       "title": "Propagation Playground \u2014 Propagation Framework Explorer",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   },
   "quantum-observatory.html": {
     "status": "PASS",
-    "route_type": "standalone-non-claim",
+    "route_type": "non-claim",
     "dom_evidence": {
       "PFClaimsData_loaded": false,
       "PFExplorerData_loaded": false,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
       "js_errors": [],
       "title": "Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy",
       "non_claim_route": true
     }
   },
   "scale-ladder.html": {
-    "status": "PASS",
-    "route_type": "claim-route",
+    "status": "FAIL",
+    "reason": "JS errors: ['THREE is not defined', 'THREE is not defined']",
+    "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
       "PFExplorerData_loaded": true,
       "status_pills": [],
-      "loading_placeholders_remaining": [],
-      "unavailable_count": 0,
-      "js_errors": [],
+      "js_errors": [
+        "THREE is not defined",
+        "THREE is not defined"
+      ],
       "title": "Scale Ladder \u2014 Planck to Cosmic | Propagation Framework",
-      "claim_route": true
+      "claim_route": true,
+      "authority_binding": []
     }
   }
 }

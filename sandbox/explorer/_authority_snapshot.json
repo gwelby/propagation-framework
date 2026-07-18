@@ -1056,7 +1056,7 @@
   },
   "lean_module_hashes": {
     "ArbitraryD.lean": "d1eb8dc242656b2e159db23fd3e8285a410d89ff9577a5f9d021403f68e98eb1",
-    "Axioms.lean": "d9ec30d600fa0307698c9f57b04a215b5034a067be1402c4f1141fbf5705497d",
+    "Axioms.lean": "e934e8abffd07c3d0fa55dacb5fec6715c8ea1acc5993a5293553d5fedd1b7d5",
     "Basic.lean": "aa5f6ec563129b4c1d8b37dea681d8815106e9537a2d26b49c645f3783daaf1c",
     "CasimirPolynomial.lean": "4e0d1a7045f07d5ed45784feac99d68a96eec8a49dfc8f4c81661bab74e4b932",
     "CollatzSyracuse.lean": "6c8333635e2ed5dc9caebbdafea4021ec783d5efd8c2acd1df82fb21632b3db4",

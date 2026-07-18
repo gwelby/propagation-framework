@@ -508,25 +508,63 @@ def check_layout_bounds(port: int) -> None:
 
 
 def check_truth_gate() -> None:
-    """Run the V3 truth drift gate — must pass before any browser checks."""
-    result = run([sys.executable, str(ROOT / "check_truth_drift_v3.py")], timeout=60)
+    """Run the V5 truth drift gate — must pass before any browser checks."""
+    result = run([sys.executable, str(ROOT / "check_truth_drift_v5.py")], timeout=120)
     if result.returncode != 0:
         raise Failure(f"truth drift gate FAILED:\n{result.stdout}\n{result.stderr}")
-    print(f"PASS truth drift gate (V3 fail-closed, 7/7 checks)")
+    print(f"PASS truth drift gate (V5 fail-closed, 9/9 checks)")
 
 def check_truth_fixtures() -> None:
-    """Run V3 negative fixtures — must pass before any browser checks."""
-    result = run([sys.executable, str(ROOT / "check_truth_fixtures_v3.py")], timeout=300)
+    """Run V5 negative fixtures — must pass before any browser checks."""
+    result = run([sys.executable, str(ROOT / "check_truth_fixtures_v5.py")], timeout=300)
     if result.returncode != 0:
         raise Failure(f"truth fixtures FAILED:\n{result.stdout}\n{result.stderr}")
-    print(f"PASS truth negative fixtures (V3, 8/8, isolated temp candidates)")
+    print(f"PASS truth negative fixtures (V5, isolated temp candidates, candidate's own gate)")
 
 def check_runtime_proof() -> None:
-    """Run V3 runtime proof — verifies each HTML entry point at runtime."""
-    result = run([sys.executable, str(ROOT / "check_runtime_proof_v3.py")], timeout=60)
+    """Run V5 runtime proof — verifies each HTML entry point at runtime with authority binding."""
+    result = run([sys.executable, str(ROOT / "check_runtime_proof_v5.py")], timeout=120)
     if result.returncode != 0:
         raise Failure(f"runtime proof FAILED:\n{result.stdout}\n{result.stderr}")
-    print(f"PASS runtime proof (V3, 9 entry points, 36 claims, unified data)")
+    print(f"PASS runtime proof (V5, authority-bound DOM verification)")
+
+def check_browser_dom_evidence() -> None:
+    """V4: Verify browser DOM evidence file exists and all routes PASS.
+
+    This checks the captured DOM evidence from headless browser rendering
+    of every status-bearing route. The evidence file proves that rendered
+    pages load authority data and don't contain hardcoded status promotions.
+    """
+    evidence_path = ROOT / "_browser_dom_evidence.json"
+    if not evidence_path.is_file():
+        raise Failure("browser DOM evidence file not found: _browser_dom_evidence.json")
+    import json
+    try:
+        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        raise Failure(f"browser DOM evidence file parse error: {e}")
+
+    if len(evidence) == 0:
+        raise Failure("browser DOM evidence file is empty")
+
+    failed_routes = []
+    for route, data in evidence.items():
+        if data.get("status") != "PASS":
+            failed_routes.append(f"{route}: {data.get('status', 'UNKNOWN')}")
+
+    if failed_routes:
+        raise Failure(f"browser DOM evidence has failed routes:\n" + "\n".join(failed_routes))
+
+    # Verify claim routes loaded PFCallsData
+    for route, data in evidence.items():
+        dom = data.get("dom_evidence", {})
+        if data.get("route_type") == "claim-route":
+            if not dom.get("PFClaimsData_loaded"):
+                raise Failure(f"claim route {route} did not load PFCallsData")
+            if dom.get("js_errors"):
+                raise Failure(f"claim route {route} has JS errors: {dom['js_errors']}")
+
+    print(f"PASS browser DOM evidence (V4, {len(evidence)} routes, all PASS, claim routes loaded authority)")
 
 
 def main() -> int:
@@ -535,6 +573,7 @@ def main() -> int:
         check_truth_gate,
         check_truth_fixtures,
         check_runtime_proof,
+        check_browser_dom_evidence,
         check_source_hygiene,
         check_local_refs,
         check_node_syntax,

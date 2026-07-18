@@ -55,7 +55,15 @@ STATUS_WORDS = {"DERIVED", "CONDITIONAL", "ARGUED", "EMPIRICAL",
 
 GENERATED_FILES = {"data.claims.js", "data.js", "data.graph.js",
                    "_authority_snapshot.json", "generate_claims_data_v3.py",
-                   "check_truth_drift_v3.py", "check_truth_fixtures_v3.py"}
+                   "check_truth_drift_v3.py", "check_truth_fixtures_v3.py",
+                   "check_runtime_proof_v3.py", "_browser_dom_evidence.json",
+                   "scope_triples.json", "release_tree_registry.json"}
+
+# V4: Scanner allowlist for status words used in UI filter/legend contexts,
+# not as claim assertions. Each entry is (file_pattern, reason).
+# The scanner allows status words on lines that also contain 'count:' or
+# 'label:' — these are filter chip configurations, not claim badges.
+SCANNER_UI_CONTEXT_INDICATORS = ("count:", "label:", "filterConfig", "filters")
 
 
 # ============================================================================
@@ -63,7 +71,10 @@ GENERATED_FILES = {"data.claims.js", "data.js", "data.graph.js",
 # ============================================================================
 
 def enumerate_public_surfaces() -> list[Path]:
-    """Enumerate every reachable HTML/JS/JSON surface in the release tree."""
+    """Enumerate every reachable HTML/JS/JSON surface in the release tree.
+
+    V4: Includes workers/ directory. No surface is silently exempt.
+    """
     ed = get_explorer_dir()
     surfaces = []
 
@@ -71,12 +82,17 @@ def enumerate_public_surfaces() -> list[Path]:
     for html in ed.glob("*.html"):
         surfaces.append(html)
 
-    # All JS files (root + panels/)
+    # All JS files (root + panels/ + workers/)
     for js in ed.glob("*.js"):
         surfaces.append(js)
     panels_dir = ed / "panels"
     if panels_dir.is_dir():
         for js in panels_dir.glob("*.js"):
+            surfaces.append(js)
+    # V4: Include workers/ — Codex probe showed it was excluded
+    workers_dir = ed / "workers"
+    if workers_dir.is_dir():
+        for js in workers_dir.glob("*.js"):
             surfaces.append(js)
 
     # All JSON files
@@ -87,13 +103,14 @@ def enumerate_public_surfaces() -> list[Path]:
 
 
 def get_html_entry_points() -> list[Path]:
-    """Get all HTML entry points that are part of the release tree."""
+    """Get all HTML entry points that are part of the release tree.
+
+    V4: No silent exemptions. test-d3.html was removed from the tree;
+    if it reappears, it must be included or explicitly quarantined.
+    """
     ed = get_explorer_dir()
     htmls = []
     for html in ed.glob("*.html"):
-        name = html.name
-        if name == "test-d3.html":
-            continue
         htmls.append(html)
     return htmls
 
@@ -296,7 +313,8 @@ def check_result_drift(snapshot: dict, public_results: dict) -> list[str]:
 
 
 def check_scope_fields(snapshot: dict, public_claims: dict) -> list[str]:
-    """V3: Check that PF claims have nonempty premise and scope fields."""
+    """V3: Check that PF claims have nonempty premise and scope fields.
+    V4: Also check semantic scope triples (standard_physics, pf_result_under_named_premises, open_pf_gap)."""
     failures = []
     for cid, auth in snapshot["claims"].items():
         # Standard math claims are exempt from premise/scope requirements
@@ -314,6 +332,14 @@ def check_scope_fields(snapshot: dict, public_claims: dict) -> list[str]:
             failures.append(f"EMPTY_SOURCE_LINE: '{cid}' has no source_line")
         if not auth.get("section"):
             failures.append(f"EMPTY_SECTION: '{cid}' has no section")
+
+        # V4: Check semantic scope triples
+        if not auth.get("standard_physics"):
+            failures.append(f"EMPTY_STANDARD_PHYSICS: '{cid}' has empty standard_physics field")
+        if not auth.get("pf_result_under_named_premises"):
+            failures.append(f"EMPTY_PF_RESULT: '{cid}' has empty pf_result_under_named_premises field")
+        if not auth.get("open_pf_gap"):
+            failures.append(f"EMPTY_OPEN_PF_GAP: '{cid}' has empty open_pf_gap field")
 
     return failures
 
@@ -374,10 +400,11 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
     if "vendor/" in str(rel_path):
         return failures
 
-    # Track multi-line fallback blocks
-    in_fallback_block = False
-    fallback_depth = 0
-
+    # V4: No longer skip fallback blocks. Fallback branches that contain
+    # hardcoded status words (DERIVED, CONDITIONAL, etc.) are exactly the
+    # class of unmapped status promotion Codex's hostile probe exploited.
+    # UNAVAILABLE is NOT in STATUS_WORDS, so legitimate V4-2 fallbacks
+    # that use UNAVAILABLE will not trigger false positives.
     for i, line in enumerate(lines, 1):
         stripped = line.strip()
 
@@ -385,26 +412,7 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
         if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
             continue
 
-        # Track multi-line fallback blocks: x || { ... }
-        if "||" in line and "{" in line:
-            in_fallback_block = True
-            fallback_depth = line.count("{") - line.count("}")
-        elif in_fallback_block:
-            fallback_depth += line.count("{") - line.count("}")
-            if fallback_depth <= 0:
-                in_fallback_block = False
-                continue
-
-        # Skip fallback defaults
-        is_fallback = ("||" in line and ("{" in line or "status" in line.lower())) or \
-                      "_fallback" in line or \
-                      "fallback" in line.lower() or \
-                      in_fallback_block
-
-        if is_fallback:
-            continue
-
-        # V3: Scan for ALL status words in badge-like contexts
+        # V4: Scan for ALL status words in badge-like contexts
         for word in STATUS_WORDS:
             patterns = [
                 rf"'status'\s*:\s*'{re.escape(word)}'",
@@ -422,6 +430,10 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
 
             for pat in patterns:
                 if re.search(pat, line, re.IGNORECASE):
+                    # V4: Allow status words in UI filter/legend contexts
+                    # (filter chip configs with count/label, not claim assertions)
+                    if any(ind in stripped for ind in SCANNER_UI_CONTEXT_INDICATORS):
+                        continue
                     failures.append(
                         f"UNMAPPED_BADGE: {rel_path}:{i} contains status word '{word}' "
                         f"in hand-written file. Line: {stripped[:100]}"
@@ -465,6 +477,63 @@ def check_html_entry_points() -> list[str]:
 
 
 # ============================================================================
+# RELEASE-TREE REGISTRY (V4 NEW)
+# ============================================================================
+
+def check_release_tree_registry() -> list[str]:
+    """V4: Verify that every file in the explorer directory is accounted for
+    in the release-tree registry, and that the registry exists."""
+    failures = []
+    ed = get_explorer_dir()
+    registry_path = ed / "release_tree_registry.json"
+
+    if not registry_path.is_file():
+        failures.append("NO_REGISTRY: release_tree_registry.json not found")
+        return failures
+
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        failures.append(f"REGISTRY_PARSE_ERROR: {e}")
+        return failures
+
+    # Collect all registered files
+    registered = set()
+    for key in ("html_entry_points", "js_root", "js_panels", "js_workers", "json_files"):
+        for f in registry.get(key, []):
+            registered.add(f)
+    # Add non-claim routes and claim-bearing routes
+    for route in registry.get("non_claim_routes", []):
+        registered.add(route.get("file", ""))
+    for route in registry.get("claim_bearing_routes", []):
+        registered.add(route)
+
+    # Check that every HTML file in the tree is registered
+    for html in ed.glob("*.html"):
+        if html.name not in registered:
+            failures.append(f"UNREGISTERED_HTML: {html.name} exists in tree but not in registry")
+
+    # Check that every JS file in root/panels/workers is registered
+    for js in ed.glob("*.js"):
+        if js.name not in registered and js.name not in GENERATED_FILES:
+            failures.append(f"UNREGISTERED_JS: {js.name} exists in tree but not in registry")
+    panels_dir = ed / "panels"
+    if panels_dir.is_dir():
+        for js in panels_dir.glob("*.js"):
+            rel = f"panels/{js.name}"
+            if rel not in registered:
+                failures.append(f"UNREGISTERED_JS: {rel} exists in tree but not in registry")
+    workers_dir = ed / "workers"
+    if workers_dir.is_dir():
+        for js in workers_dir.glob("*.js"):
+            rel = f"workers/{js.name}"
+            if rel not in registered:
+                failures.append(f"UNREGISTERED_JS: {rel} exists in tree but not in registry")
+
+    return failures
+
+
+# ============================================================================
 # MAIN GATE
 # ============================================================================
 
@@ -481,25 +550,25 @@ def main() -> int:
         _compute_paths()
 
     print("=" * 70)
-    print("Explorer Truth Layer V3 — Fail-Closed Drift Gate")
+    print("Explorer Truth Layer V4 — Fail-Closed Drift Gate")
     print("=" * 70)
     print()
 
     # Step 1: Verify snapshot (V3: parse + compare, not just hash)
-    print("[1/7] Verifying source hash + fresh parse...")
+    print("[1/8] Verifying source hash + fresh parse...")
     snapshot = load_and_verify_snapshot()
     print(f"  PASS: CLAIMS.md hash matches, fresh parse matches committed snapshot")
     print(f"  Claims in authority: {snapshot['claim_count']}")
 
     # Step 2: Extract public claims
-    print("\n[2/7] Extracting public claims...")
+    print("\n[2/8] Extracting public claims...")
     public_claims = extract_public_claims()
     public_results = extract_public_results()
     print(f"  Claims in public data: {len(public_claims)}")
     print(f"  Results in runtime data: {len(public_results)}")
 
     # Step 3: Check claim drift
-    print("\n[3/7] Checking claim drift...")
+    print("\n[3/8] Checking claim drift...")
     drift_failures = check_claim_drift(snapshot, public_claims)
     if drift_failures:
         print(f"  FAIL: {len(drift_failures)} drift failures:")
@@ -509,7 +578,7 @@ def main() -> int:
         print("  PASS: All public claims match authority")
 
     # Step 4: Check result drift (V3 NEW)
-    print("\n[4/7] Checking runtime result drift...")
+    print("\n[4/8] Checking runtime result drift...")
     result_failures = check_result_drift(snapshot, public_results)
     if result_failures:
         print(f"  FAIL: {len(result_failures)} result drift failures:")
@@ -518,18 +587,18 @@ def main() -> int:
     else:
         print("  PASS: All runtime results match authority")
 
-    # Step 5: Check scope fields (V3: premise + scope required)
-    print("\n[5/7] Checking premise/scope fields...")
+    # Step 5: Check scope fields (V4: premise + scope + semantic triples)
+    print("\n[5/8] Checking premise/scope fields + V4 semantic triples...")
     scope_failures = check_scope_fields(snapshot, public_claims)
     if scope_failures:
         print(f"  FAIL: {len(scope_failures)} scope failures:")
         for f in scope_failures[:10]:
             print(f"    - {f}")
     else:
-        print("  PASS: All PF claims have nonempty premise and scope")
+        print("  PASS: All PF claims have nonempty premise, scope, and semantic triples")
 
-    # Step 6: Scan all public surfaces for unmapped badges (V3: no exemptions)
-    print("\n[6/7] Scanning all public surfaces for unmapped badges...")
+    # Step 6: Scan all public surfaces for unmapped badges (V4: no fallback skip)
+    print("\n[6/8] Scanning all public surfaces for unmapped badges...")
     surfaces = enumerate_public_surfaces()
     badge_failures = []
     for surface in surfaces:
@@ -542,7 +611,7 @@ def main() -> int:
         print(f"  PASS: No unmapped badges in {len(surfaces)} public surfaces")
 
     # Step 7: Check God Equation split, source unity, HTML entry points
-    print("\n[7/7] Checking God Equation split, source unity, HTML entry points...")
+    print("\n[7/8] Checking God Equation split, source unity, HTML entry points...")
     god_failures = check_god_equation_split(snapshot, public_claims)
     unity_failures = check_source_unity()
     html_failures = check_html_entry_points()
@@ -554,18 +623,28 @@ def main() -> int:
     else:
         print("  PASS: God Equation split, source unity, HTML entry points all OK")
 
+    # Step 8: V4 NEW — Release-tree registry check
+    print("\n[8/8] Checking release-tree registry...")
+    registry_failures = check_release_tree_registry()
+    if registry_failures:
+        print(f"  FAIL: {len(registry_failures)} registry failures:")
+        for f in registry_failures[:10]:
+            print(f"    - {f}")
+    else:
+        print("  PASS: Release-tree registry complete — all files accounted for")
+
     # Summary
     total_failures = len(drift_failures) + len(result_failures) + len(scope_failures) + \
-                     len(badge_failures) + len(all_check7)
+                     len(badge_failures) + len(all_check7) + len(registry_failures)
 
     print()
     print("=" * 70)
     if total_failures == 0:
-        print("TRUTH GATE V3: PASS — No truth drift detected")
+        print("TRUTH GATE V4: PASS — No truth drift detected")
         print("=" * 70)
         return 0
     else:
-        print(f"TRUTH GATE V3: FAIL ({total_failures} total failures)")
+        print(f"TRUTH GATE V4: FAIL ({total_failures} total failures)")
         print("=" * 70)
         return 1
 

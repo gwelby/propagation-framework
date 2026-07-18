@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+"""
+Explorer V5 — Mechanical Release-Tree Registry Generator
+
+Scans the explorer directory and produces a registry that is the single
+source of truth for:
+  - serve.py (allowlist enforcement)
+  - check_truth_drift_v5.py (scanner coverage)
+  - check_runtime_proof_v5.py (browser route enumeration)
+
+The registry is MECHANICALLY derived from actual files on disk, not
+hand-written. If a file exists on disk but is not classified, the gate fails.
+If a file is in the registry but not on disk, the gate fails.
+
+Usage:
+    python3 generate_release_registry.py [--explorer-dir <dir>]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+from typing import Optional
+
+
+# Files that are generated/evidence and should not be scanned for badges
+GENERATED_FILES = {
+    "data.claims.js", "data.js", "data.graph.js",
+    "_authority_snapshot.json", "generate_claims_data_v3.py",
+    "generate_claims_data_v4.py", "generate_claims_data_v5.py",
+    "check_truth_drift_v3.py", "check_truth_fixtures_v3.py",
+    "check_truth_drift_v4.py", "check_truth_fixtures_v4.py",
+    "check_truth_drift_v5.py", "check_truth_fixtures_v5.py",
+    "check_runtime_proof_v3.py", "check_runtime_proof_v4.py",
+    "check_runtime_proof_v5.py", "scope_triples.json",
+    "_blocked.html", "release_tree_registry.json",
+    "_browser_dom_evidence.json", "generate_release_registry.py",
+    "generate-data-graph.js", "check_explorer_acceptance.py",
+}
+
+# HTML files that are non-claim routes (no claim status display)
+NON_CLAIM_HTML = {
+    "belt-trick.html",
+    "quantum-observatory.html",
+}
+
+# Paths that must never be served
+QUARANTINED_DIRS = ["dev/", "quarantine/"]
+
+# Source viewer prefixes (dev feature, not part of release tree)
+SOURCE_VIEWER_PREFIXES = [
+    "/derivations/", "/definitions/", "/papers/", "/verification/",
+    "/sandbox_results", "/CLAIMS", "/ACTIVE_ISSUES",
+]
+
+
+def classify_html(filename: str) -> str:
+    """Classify an HTML file as claim-route or non-claim-route."""
+    if filename in NON_CLAIM_HTML:
+        return "non-claim"
+    if filename == "_blocked.html":
+        return "blocked"
+    return "claim"
+
+
+def scan_explorer(explorer_dir: Path) -> dict:
+    """Mechanically scan the explorer directory and build the registry."""
+    ed = explorer_dir
+
+    # Collect all files by type
+    html_files = sorted(p.name for p in ed.glob("*.html"))
+    js_root = sorted(p.name for p in ed.glob("*.js"))
+    js_panels = sorted(str(p.relative_to(ed)) for p in (ed / "panels").glob("*.js")) if (ed / "panels").is_dir() else []
+    js_workers = sorted(str(p.relative_to(ed)) for p in (ed / "workers").glob("*.js")) if (ed / "workers").is_dir() else []
+    json_files = sorted(p.name for p in ed.glob("*.json"))
+    css_files = sorted(p.name for p in ed.glob("*.css"))
+
+    # Classify HTML routes
+    served_routes = []
+    blocked_files = []
+    for h in html_files:
+        if h == "_blocked.html":
+            blocked_files.append(h)
+            continue  # Not a served route
+        route_type = classify_html(h)
+        served_routes.append({
+            "path": h,
+            "type": route_type,
+            "hasStatusContent": route_type == "claim",
+        })
+
+    # Classify JS files
+    js_root_classified = []
+    for js in js_root:
+        js_root_classified.append({
+            "path": js,
+            "generated": js in GENERATED_FILES,
+        })
+
+    # Classify JSON files
+    json_classified = []
+    for jf in json_files:
+        json_classified.append({
+            "path": jf,
+            "generated": jf in GENERATED_FILES,
+        })
+
+    # Quarantined paths (probe actual disk)
+    quarantined = []
+    for qdir in QUARANTINED_DIRS:
+        qpath = ed / qdir.rstrip("/")
+        if qpath.is_dir():
+            for p in qpath.rglob("*"):
+                if p.is_file():
+                    quarantined.append({
+                        "path": str(p.relative_to(ed)),
+                        "reason": f"In quarantined directory {qdir}",
+                    })
+
+    # Build the allowlist for serve.py
+    # Every path that serve.py should return 200 for
+    allowlist = []
+    for route in served_routes:
+        allowlist.append(route["path"])
+    for js in js_root:
+        allowlist.append(js)
+    for js in js_panels:
+        allowlist.append(js)
+    for js in js_workers:
+        allowlist.append(js)
+    for jf in json_files:
+        allowlist.append(jf)
+    for css in css_files:
+        allowlist.append(css)
+    # Source viewer paths (dev feature)
+    for prefix in SOURCE_VIEWER_PREFIXES:
+        allowlist.append(prefix)
+
+    # CSS files
+    css_classified = [{"path": c, "generated": False} for c in css_files]
+
+    registry = {
+        "schema_version": "2.0.0",
+        "generated_at": "2026-07-17",
+        "description": (
+            "Mechanical release-tree registry for the PF Explorer. "
+            "Generated by scanning the actual directory. "
+            "serve.py enforces this as an allowlist. "
+            "The gate verifies completeness against disk. "
+            "Files not in this list must not be served."
+        ),
+        "servedRoutes": served_routes,
+        "blockedFiles": blocked_files,
+        "jsRoot": js_root_classified,
+        "jsPanels": [{"path": p, "generated": False} for p in js_panels],
+        "jsWorkers": [{"path": p, "generated": False} for p in js_workers],
+        "jsonFiles": json_classified,
+        "cssFiles": css_classified,
+        "quarantinedPaths": quarantined,
+        "allowlist": allowlist,
+        "sourceViewerPrefixes": SOURCE_VIEWER_PREFIXES,
+        "nonClaimHtml": sorted(NON_CLAIM_HTML),
+        "generatedFiles": sorted(GENERATED_FILES),
+    }
+
+    return registry
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Generate mechanical release-tree registry")
+    parser.add_argument("--explorer-dir", type=Path, default=None,
+                        help="Override explorer directory")
+    parser.add_argument("--output", type=Path, default=None,
+                        help="Output path (default: <explorer-dir>/release_tree_registry.json)")
+    args = parser.parse_args()
+
+    explorer_dir = args.explorer_dir or Path(__file__).resolve().parent
+    output_path = args.output or (explorer_dir / "release_tree_registry.json")
+
+    registry = scan_explorer(explorer_dir)
+
+    output_path.write_text(json.dumps(registry, indent=2), encoding="utf-8")
+
+    print(f"Registry written to {output_path}")
+    print(f"  Served routes: {len(registry['servedRoutes'])}")
+    print(f"  Root JS: {len(registry['jsRoot'])}")
+    print(f"  Panel JS: {len(registry['jsPanels'])}")
+    print(f"  Worker JS: {len(registry['jsWorkers'])}")
+    print(f"  JSON files: {len(registry['jsonFiles'])}")
+    print(f"  CSS files: {len(registry['cssFiles'])}")
+    print(f"  Quarantined: {len(registry['quarantinedPaths'])}")
+    print(f"  Allowlist entries: {len(registry['allowlist'])}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
