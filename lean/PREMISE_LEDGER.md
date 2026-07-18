@@ -1,9 +1,9 @@
 # PFLean Hypothesis / Premise Ledger
 
-> **Purpose:** One place to record what each named hypothesis (H1–H18) actually
+> **Purpose:** One place to record what each named hypothesis (H1–H21) actually
 > buys, what it does *not* buy, and how the Z₃ circulant result depends on explicit
 > premises. This ledger is documentation only; Lean source is the binding truth.
-> **Last updated:** 2026-06-26 (Devin: H18 added, isometry-JI incompatibility proven, D3/D4 theorems verified)
+> **Last updated:** 2026-07-03 (compact-orbit theorem VERIFIED by Lean kernel; H21 added; H20 collision fixed; Codex PASS for narrow compact-orbit truth-lock; PUBLIC/confidence HOLD remains)
 > **Bound:** This file does not modify `CLAIMS.md`, PRED files, public surfaces,
 > or the Fundamentals PUBLIC HOLD.
 
@@ -31,12 +31,19 @@
 | H16 | Metric reflexivity | `Hypothesis_MetricReflexivity` | `d(s,s) = 0` for all `s`. Minimal metric axiom needed to connect H14 + H15 to reversibility (H1). |
 | H17 | Matrix symmetry | `Hypothesis_MatrixSymmetry` | `M(i,j) = M(j,i)` for all `i,j`. Named and formalized in `Axioms.lean`. Distinguish from H12 (permutation symmetry of propagation) and H13 (cyclic symmetry). H17 is a property of the coupling matrix itself. |
 | H18 | Equal row sums | `Hypothesis_EqualRowSums` | `∑ⱼ M i j = c` for all `i`. Named and formalized in `Axioms.lean`. Used in `Z3FromBareMedium` D3 uniqueness and in the Entropy counterexample. |
+| H19 | Bounded orbit | `Hypothesis_BoundedOrbit` | The forward orbit of `s` stays within a finite `d`-distance of `s`. Isometry alone does **not** imply this: the translation flow on `ℝ` (`propagate(t,x)=x+t`) is isometric but unbounded. Needed for the honest statement of the compact-orbit theorem. |
+| H20 | Non-negative distance | `Hypothesis_NonnegativeDistance` | `d(s₁,s₂) ≥ 0` for all states. BareMedium.d has no axioms; this is needed to conclude `d(s,0) = 0` from `d(s,0) ≤ 0` in the real eigenvalue obstruction proof. |
+| H21 | d-agrees-with-norm | `Hypothesis_DIsNorm` | `d(s₁,s₂) = ‖s₁-s₂‖` for all states. Bridges the bare pseudometric to the NormedSpace topology. Added 2026-07-02 for the compact-orbit theorem. Needed to convert H19's d-bound to a norm-bound for Heine-Borel. |
 
 > **Note:** `Axioms.lean` defines H12 as full permutation symmetry and H13 as cyclic
 > symmetry. This ledger follows the source. Any older document that reverses them is
 > stale. H14/H15/H16 are the isometry/metric axioms introduced in the H8 closure
 > experiments (2026-06-25). H17/H18 are the previously-hidden equal-row-sums and
-> matrix-symmetry premises, now formalized (2026-06-26).
+> matrix-symmetry premises, now formalized (2026-06-26). H19 is the bounded-orbit
+> hypothesis added in 2026-06-29 to correct the compact-orbit theorem statement.
+> H20 is the non-negative-distance axiom added in 2026-06-30 for the real eigenvalue
+> obstruction proof. H21 is the d-agrees-with-norm axiom added in 2026-07-02 for the
+> compact-orbit theorem's topology scaffolding.
 
 ---
 
@@ -87,9 +94,125 @@ Where they appear:
 - `degenerate_residue_forces_circulant` (H7 + equal row sums + degenerate residue)
 - `D3_symmetric_zero_diag_equal_rows_forces_JI` (H7 + H17 + H18)
 - `D4_symmetric_zero_diag_equal_rows_not_unique_JI` (H7 + H17 + H18 at D=4)
-- `non_symmetric_cooling_counterexample` (H7 + H17, without H18)
+- `non_symmetric_cooling_counterexample` (H7 + H18, without H17)
 
 Physical origin: **Unresolved**. Both are structural regularities of the coupling matrix, not derived from `BareMedium`.
+
+---
+
+## H19: Bounded orbit — added to correct the compact-orbit theorem
+
+`Hypothesis_BoundedOrbit M s` is now a named hypothesis in `Axioms.lean` (2026-06-29).
+
+| Property | Lean name | Status | Cost |
+|----------|-----------|--------|------|
+| Bounded orbit | `Hypothesis_BoundedOrbit` | **Formalized as H19** | 1 if independent of H14/H2/H15 |
+
+Where it appears:
+- `isometry_finite_dim_gives_compact_orbit` (H19 + H21 + [FiniteDimensional ℝ] + [NormedSpace ℝ] → IsCompact)
+
+Why it is needed: The original statement `isometry + finite-dim → compact orbit closure` is **false** as stated. The translation flow on `ℝ` (`propagate(t,x) = x + t`, `d(x,y) = |x - y|`) is isometric and finite-dimensional, but its orbit closure `[0, ∞)` is unbounded, hence not compact. Boundedness must be an explicit premise (H19) rather than a derived consequence of isometry.
+
+Honest parameter count for the compact-orbit theorem: **H19 + H21 + [FiniteDimensional ℝ] + [NormedSpace ℝ]**.
+
+**VERIFIED 2026-07-03:** The Lean 4 kernel has machine-checked this theorem (0 errors, build green). H14 (isometry) is in the signature but NOT used in the proof — compactness is cheaper than expected. Codex truth-lock report `/mnt/d/Codex/REPORTS/CODEX_20260703_AXIOMS_COMPACT_ORBIT_TRUTH_LOCK.md` gives a scoped PASS for this narrow theorem/artifact/doc-surface claim. No Fundamentals PUBLIC HOLD lift or claim-confidence upgrade follows from this theorem alone.
+
+---
+
+## H20: Non-negative distance — added for the real eigenvalue obstruction
+
+`Hypothesis_NonnegativeDistance M` is a named hypothesis in `Axioms.lean` (2026-06-30).
+
+| Property | Lean name | Status | Cost |
+|----------|-----------|--------|------|
+| Non-negative distance | `Hypothesis_NonnegativeDistance` | **Formalized as H20** | 1 (axiom of pseudometric) |
+
+Where it appears:
+- `real_eigenvalue_obstruction` (H3 + H14 + contraction + H20 → d(s,0) = 0 for all s)
+- `real_eigenvalue_obstruction_trivial` (above + H15 → s = 0 for all s)
+
+Why it is needed: BareMedium.d is a bare function with no axioms. The obstruction proof
+reaches `d(s,0) ≤ 0` by contradiction (contraction gives `< d(s,0)` but isometry gives
+`= d(s,0)`, so `d(s,0) < d(s,0)` is absurd). To conclude `d(s,0) = 0` from `¬(d(s,0) > 0)`,
+we need `0 ≤ d(s,0)` — the non-negativity axiom H20.
+
+Discovery: hSemi (H2), hFin (H5), and hCoh (H8) are NOT needed for the obstruction.
+The incompatibility of isometry and contraction is purely H3 (linearity) + H14 (isometry)
++ the contraction property + H20 (non-negativity).
+
+---
+
+## H21: d-agrees-with-norm — added for the compact-orbit theorem
+
+`Hypothesis_DIsNorm M` is a named hypothesis in `Axioms.lean` (2026-07-02).
+
+| Property | Lean name | Status | Cost |
+|----------|-----------|--------|------|
+| d-agrees-with-norm | `Hypothesis_DIsNorm` | **Formalized as H21** | 1 (bridges d to norm topology) |
+
+Where it appears:
+- `isometry_finite_dim_gives_compact_orbit` (H19 + H21 + [FiniteDimensional ℝ] + [NormedSpace ℝ] → IsCompact)
+
+Why it is needed: `BareMedium.d` is a bare function with no topology. The compact-orbit theorem needs Heine-Borel, which requires a `NormedSpace` structure. H21 bridges the two by asserting `d(s₁,s₂) = ‖s₁-s₂‖`, converting the d-bound from H19 into a norm-bound that `Bornology.IsBounded` can use.
+
+**Is H21 too strong?** It asserts exact equality between d and the norm distance. A weaker condition (e.g., `d ≤ C·‖s₁-s₂‖` for some constant C) would also suffice for the boundedness transfer. The stronger form is chosen for clarity. DeepSeek hostile review will assess whether this is correctly scoped.
+
+**Is H21 too cheap?** It requires `[NormedAddCommGroup M.State]` as an instance parameter, which brings in the full norm/metric/topology infrastructure. This is the "topology scaffolding" cost — it's not free, but it's the minimal structure needed for Heine-Borel.
+
+Discovery: H14 (isometry) is NOT needed for the compactness proof itself. It is included in the theorem signature for the downstream theorem (compact orbit → Poincaré recurrence → periodicity) but the compactness step only needs H19 + H21 + finite-dim + NormedSpace.
+
+---
+
+## Translation-flow counterexample (edge 24, FALSE)
+
+Three theorems in `Axioms.lean` (2026-06-30) together prove that H14 (isometry) + H5
+(finite-dim) does NOT imply H19 (bounded orbit):
+
+1. `translationMedium_isometry`: the translation flow on ℝ preserves |x-y|
+2. `translationMedium_finiteDimensional`: ℝ is finite-dimensional
+3. `translationMedium_not_bounded_orbit`: the orbit of 0 under x+t is [0,∞), unbounded
+
+This justifies H19 as an independent premise. The combined existential theorem is
+commented out due to type class instance resolution issues with BareMedium.State
+field projection on noncomputable def — the three individual theorems constitute the
+full counterexample.
+
+**Build status: VERIFIED** (Lean kernel, 2026-07-14; 0 errors, 0 sorries; 8248 jobs; current Axioms.olean sha256 `645edf3c...`, source `54866d25...` per Devin 2026-07-14 fresh `lake build PfLean.Axioms`).
+
+---
+
+## Compact-orbit theorem (Edge 18, VERIFIED 2026-07-03)
+
+`isometry_finite_dim_gives_compact_orbit` in `Axioms.lean` is **VERIFIED** by the Lean 4 kernel (2026-07-03, Codex truth-lock PASS):
+
+- **Theorem:** H19 (bounded orbit) + H21 (d = norm) + [FiniteDimensional ℝ] + [NormedSpace ℝ]
+  → IsCompact (closure of nonnegative-time orbit)
+- **Proof chain:** H19 bounds d(s, propagate(t,s)) < R → H21 converts to norm → orbit ⊆ closedBall s (R+1) → Bornology.IsBounded → FiniteDimensional.proper_real (ProperSpace instance) → Bornology.IsBounded.isCompact_closure (Heine-Borel)
+- **Discovery:** H14 (isometry) is NOT needed for compactness. It is in the signature for the downstream theorem (compact orbit → Poincaré recurrence → periodicity) but the compactness step only needs H19 + H21 + finite-dim + NormedSpace.
+- **Codex truth-lock:** PASS for narrow theorem/artifact/doc-surface claim. Report: `/mnt/d/Codex/REPORTS/CODEX_20260703_AXIOMS_COMPACT_ORBIT_TRUTH_LOCK.md`
+- **Boundary:** No Fundamentals PUBLIC HOLD lift, no CLAIMS.md confidence upgrade, no Shor/Structure semantic unlock.
+
+**Build status: VERIFIED** (Lean kernel, 2026-07-14; 0 errors, 0 sorries; 8248 jobs; current Axioms.olean sha256 `645edf3c...`, source `54866d25...` per Devin 2026-07-14 fresh `lake build PfLean.Axioms`).
+
+---
+
+## Real eigenvalue obstruction (edges 26-27, PROVEN — no sorry)
+
+`real_eigenvalue_obstruction` in `Axioms.lean` (2026-06-30) is PROVEN with no sorry
+and no True stub:
+
+- **Theorem:** H3 (linear) + H14 (isometry) + contraction + H20 (nonneg distance)
+  → d(s, 0) = 0 for all states s
+- **Proof:** Linearity → propagate(t,0) = 0; isometry → d(prop(τ,s),0) = d(s,0)
+  (norm preservation); contraction → d(s,0) > 0 implies d(prop(τ,s),0) < d(s,0);
+  together → d(s,0) > 0 is impossible → d(s,0) = 0.
+- **Corollary:** + H15 (metric identity) → s = 0 for all s (trivial state space)
+
+The contraction hypothesis is the formal content of "real eigenvalues" for the J-I
+circulant at D=3: T³ scales the residue by -1/8 (|−1/8| < 1), machine-verified as
+`full_norm_T3_strictly_decreases` in Entropy.lean.
+
+**Build status: VERIFIED** (Lean kernel, 2026-07-03; 0 errors).
 
 ---
 
@@ -190,9 +313,12 @@ dimension?" The answer is now machine-verified as `D_selection_principle`:
 | Theorem | Why it is `sorry` |
 |---------|-------------------|
 | `recurrent_mode_bare` | BareMedium does not supply the H8 content. |
-| `recurrent_mode_from_H3_H2` | Real linear semigroups need complex structure for periodicity; the real-semigroup argument is informal. |
 | `recurrent_mode_from_H1` | Reversibility/injectivity does not imply periodicity; the translation example is informal. |
 | `recurrence_stability_plus_structural_gives_nonzero_periodic_orbit` | Frontier theorem; informal contraction evidence suggests it is expected false as stated. No Lean countermodel yet. |
+
+`recurrent_mode_from_H3_H2` is now proven in the live Lean source as the vacuous
+zero-vector fixed-point version. The non-zero periodic orbit target remains open as
+`recurrence_stability_plus_structural_gives_nonzero_periodic_orbit`.
 
 ---
 
@@ -254,3 +380,53 @@ PF Entropy is derived, not primitive. It requires:
   symmetry from PF axioms alone.
 - It is not a physics-claim upgrade or a globally `sorry`-free certification.
 - Fundamentals PUBLIC HOLD remains unchanged.
+
+---
+
+## `PfLean.ShorBound` + `PfLean.QuantumStructureSurvival` — Build Status
+
+### Modules (build-green evidence accepted; statement semantics HOLD)
+
+| Module | Theorems | Status | Build |
+|--------|----------|--------|-------|
+| `ShorBound.lean` | `qft_peak_alignment_iff_period_divides_register`, `shor_circuit_active_count_power_of_two`, `shor_circuit_active_count_non_power_of_two`, `hardware_residual_scales_with_cx_count` (sorry), `hardware_residual_is_cx_dependent` (axiom) | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. The first theorem is modular arithmetic bin alignment, the power-of-two theorem is a pruning-count model, and the non-power-of-two theorem is currently only a weak lower bound. | **GREEN in prior logs 2026-07-01; current source newer than `.olean` after status-comment edits** |
+| `QuantumStructureSurvival.lean` | Rows across the survival map | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. Row 5 is conditional aperiodic logic, Row 6 remains `sorry`, Row 7 is a definition-unpack predicate, and empirical rows are `True := by trivial`. | **GREEN in prior logs 2026-07-02; current source newer than `.olean` after status-comment edits** |
+
+### Compile error history (2026-07-01)
+
+18 compile errors were found and fixed across 3 build attempts:
+- **Axioms.lean**: 1 error (line 515: `|0 - (0+t)| = t` rewrite chain)
+- **ShorBound.lean**: 11 errors (`.mp`/`.mpr` direction, `Nat.pow_pos` arity, `Finset.card_le_card` name, `rw [hr]` before filter, `r=1` case split, filter parenthesization)
+- **QuantumStructureSurvival.lean**: 6 errors (LWELike field order, `Nat.pow_pos` arity, `.card` parens, ZMod arithmetic, vacuous-period guard, summary theorem logic)
+
+All fixes are in the source files. Prior build logs show all 3 modules green as of 2026-07-02. Codex's 2026-07-02 recheck accepts that build-green evidence but does **not** approve public/confidence upgrades until exact current-source rebuild hashes and theorem/prose cleanup land. Report: `/mnt/d/Codex/REPORTS/CODEX_20260702_LEAN_SHOR_STRUCTURE_THEOREM_RECHECK.md`.
+
+### Aer falsification of Claude's spectral leakage claim (2026-07-01)
+
+Claude (family response, 2026-06-30) predicted that the noiseless Aer simulator would show ~1–4% exact-peak% for N=21 (period 6) and N=35 (period 12), matching the hardware scatter. If true, this would mean the "non-monotonic noise boundary" is deterministic QFT spectral leakage, not hardware noise.
+
+**Tested with existing Aer data** (`evidence/shor_probe_aer_n{21,35,51}_8192.json`):
+
+| N | period | r\|256? | Hardware peak% | Aer (noiseless) floor-bin peak% | Hardware-vs-Aer residual |
+|---|--------|---------|----------------|-----------------------|---------------------|
+| 15 | 4 | yes | 76.4% | 100% | 23.6% |
+| 21 | 6 | no | 1.7% | **61.5%** | **59.8%** |
+| 35 | 12 | no | 4.2% | **62.3%** | **58.1%** |
+| 51 | 16 | yes | 60.9% | 100% | 39.1% |
+
+**Claude's prediction is FALSIFIED in the narrow metric sense.** The noiseless simulator shows 61.5% and 62.3% for N=21 and N=35 under floor-bin exact-peak counting -- not 1-4%. Codex recomputed rounded/top-r peak mass at about 79.3%/79.4%, so peak-percent wording must name the metric.
+
+**Implications for ShorBound.lean:**
+- The `qft_peak_alignment_iff_period_divides_register` theorem (r|Q ↔ integer peaks) is still valid — it's pure number theory
+- The `hardware_residual_scales_with_cx_count` theorem remains `sorry`; the data supports a candidate empirical model, not a Lean proof
+- The candidate mechanism is hardware noise scaling with circuit depth (AntiGravity's identity-pruning), not arithmetic spectral leakage; public/universal wording remains on Codex HOLD
+
+**Claude's methodological correction is ADOPTED:** the correct noise metric is divergence between hardware output and noiseless-sim output (per-N, hardware vs its own ideal), not raw peak%.
+
+See `/mnt/d/Crypto/labs/shor_substrate_probe/family_responses/devin.md` for the full response.
+
+---
+
+## Entropy spectral bound — CONDITIONAL, not DERIVED (Claude source audit, 2026-07-15)
+
+`Entropy.lean` is **`sorry`-free** (the `sorry` at L484 is stale docstring prose, not a live tactic). But the spectral-constraint theorems — `residueOperator_contraction` (L507), `entropy_decrease_constrains_residue` (L526), `..._eigenvalue` (L942), `realEigenvalue_is_complexEigenvalue` (L1027) — **take `h_entropy_decrease` (∀-state entropy decrease) as a hypothesis** and thread it through trivially. So they prove *IF entropy decreases THEN the residue operator contracts* — the physical premise is **assumed, not derived** at the general-matrix level. `PFEntropy_T3_decreases` (L293) discharges it unconditionally only for the specific T3 operator; whether the general spectral theorems are discharged for the *physical* operator is the open seam. The strong `Re(λ)≤0` form is **disproven** for non-symmetric matrices (`counterexample_positive_eigenvalue`, L1217 — self-policing). **Cite as CONDITIONAL.** Decisive `#print axioms` still owed (build blocked on NTFS/OOM). Full: `../audit/CLAUDE_20260715_ENTROPY_CHAIN_AUDIT.md`.

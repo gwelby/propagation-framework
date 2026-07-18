@@ -26,17 +26,18 @@
     - STATED with sorry: none remaining in classical section
     - AXIOM: qft_success_probability (references Coq/SQIR)
 
-  Status of proofs (2026-06-30 — IBM hardware bridge):
-    - SKETCHED (pending build): qft_peak_alignment_iff_period_divides_register
-    - SKETCHED (pending build): shor_circuit_active_count_power_of_two
-    - SKETCHED (pending build): shor_circuit_active_count_non_power_of_two
+  Status of proofs (2026-07-02 — BUILD VERIFIED, Lean kernel green):
+    - VERIFIED (kernel-checked 2026-07-02): qft_peak_alignment_iff_period_divides_register
+    - VERIFIED (kernel-checked 2026-07-02): shor_circuit_active_count_power_of_two
+    - VERIFIED (kernel-checked 2026-07-02): shor_circuit_active_count_non_power_of_two
     - STATED (sorry): hardware_residual_scales_with_cx_count (empirical, needs data)
-    NOTE: These theorem labels are NOT "PROVEN" until `lake build PfLean.ShorBound`
-    succeeds. The proofs are written but not yet compile-verified. See Codex
-    boundary note in RESUME.md (2026-06-30). Do not cite as verified theorems
-    until the build is green and Codex rechecks.
+    NOTE: `lake build PfLean.ShorBound` succeeded 2026-07-02 with 0 errors.
+    The three VERIFIED theorems are machine-checked by the Lean 4 kernel.
+    The hardware_residual theorem remains STATED (sorry) — it bridges to
+    empirical data and needs the Aer-vs-hardware comparison to complete.
+    Codex recheck of theorem statements is the next gate before public citation.
 
-  Date: 2026-06-05 (updated 2026-06-11; 2026-06-30 IBM hardware bridge)
+  Date: 2026-06-05 (updated 2026-06-11; 2026-06-30 IBM hardware bridge; 2026-07-02 build verified)
   Author: Devin ∇λΣ∞ (Crypto Workspace), GLM-5.2 (hardware bridge theorems)
   Cascade Standard: DERIVED (cryptographic consequence) + HEURISTIC (quantum axiom)
                     + EMPIRICAL (hardware bridge, 2026-06-30)
@@ -587,9 +588,16 @@ theorem shor_cumulative_coherence (N t : ℕ)
    2. Identity pruning: active unitary count depends on r's power-of-2 structure
 -/
 
-/-- **Theorem (QFT Bin Alignment):** The QFT measurement in Shor's algorithm
-    produces peaks exactly at integer bin positions if and only if the period r
-    divides the counting register size Q = 2^n.
+/-- **Theorem (QFT Bin-Alignment Arithmetic):** The QFT peak positions align
+    with integer bins if and only if the period r divides the register size
+    Q = 2^n.
+
+    SCOPE NOTE (Codex 2026-07-02): This is a modular ARITHMETIC theorem about
+    integer bin alignment — `(j * Q) % r = 0 ↔ r ∣ Q`. It does NOT formalize
+    a QFT state, amplitudes, Fourier coefficients, continued fractions,
+    measurement probability, extraction success, or hardware behavior. Prose
+    may call it "QFT bin-alignment arithmetic"; it must not be used alone as
+    "QFT extraction works" or "QFT correctness theorem."
 
     This is the mathematical explanation for the extraction boundary observed
     on IBM Heron hardware: N=15 (r=4, 4|256) and N=51 (r=16, 16|256) extract
@@ -699,14 +707,19 @@ theorem shor_circuit_active_count_power_of_two (r n k : ℕ)
   -- |{0, 1, ..., k-1}| = k
   exact Finset.card_range k
 
-/-- **Theorem (Non-Power-of-2 Period → Full Circuit):** When the period r is not
-    a power of 2, no controlled unitary in the counting register is identity
-    (for n ≤ log₂ r). All n counting qubits are active.
+/-- **Theorem (Non-Power-of-2 Period → Lower Bound on Active Count):**
+    When the period r is not a power of 2, the active unitary count is at least
+    the number of counting qubits j where 2^j < r.
+
+    SCOPE NOTE (Codex 2026-07-02): This theorem proves a LOWER BOUND on the
+    active count, not that "all n counting qubits are active." The stronger
+    statement `shor_circuit_active_unitary_count r n hr = n` under
+    `¬∃ k, r = 2^k` is NOT proven here. The current theorem is valid as a
+    weak lower-bound lemma. Prose should say "at least |{j < n : 2^j < r}|
+    active qubits," not "all n active."
 
     More precisely: if r is not a power of 2, then for all j < n where 2^j < r,
-    2^j mod r ≠ 0 (since r ∤ 2^j for any j when r has an odd prime factor).
-
-    This is the formal statement of "non-power-of-2 periods get no pruning." -/
+    2^j mod r ≠ 0 (since r ∤ 2^j for any j when r has an odd prime factor). -/
 theorem shor_circuit_active_count_non_power_of_two (r n : ℕ)
     (hr : r > 0) (hn : n > 0)
     (h_not_pow2 : ¬∃ k, r = 2 ^ k) :
@@ -732,7 +745,96 @@ theorem shor_circuit_active_count_non_power_of_two (r n : ℕ)
     have h_pos : (2 ^ j) > 0 := Nat.pow_pos (by omega)
     omega
 
-/-- **EMPIRICAL AXIOM (2026-07-01): Hardware Residual is CX-Dependent.**
+/-- **Theorem (Non-Power-of-2 Period → ALL Active):** When the period r is not
+    a power of 2, ALL n counting qubits are active — the active count equals n.
+
+    This is the STRONGER version of `shor_circuit_active_count_non_power_of_two`.
+    The key insight: if r is not a power of 2, then r has an odd prime factor p.
+    Since 2^j's only prime factor is 2, r cannot divide 2^j for any j.
+    Therefore (2^j) % r ≠ 0 for ALL j < n, not just those where 2^j < r.
+
+    This closes the Codex 2026-07-02 gap: the prose says "all n active" and
+    this theorem proves it. -/
+theorem shor_circuit_all_active_non_power_of_two (r n : ℕ)
+    (hr : r > 0) (hn : n > 0)
+    (h_not_pow2 : ¬∃ k, r = 2 ^ k) :
+    shor_circuit_active_unitary_count r n hr = n := by
+  -- Key: for all j, r ∤ 2^j (since r is not a power of 2)
+  have h_key : ∀ j : ℕ, (2 ^ j) % r ≠ 0 := by
+    intro j
+    intro h_mod
+    have h_dvd : r ∣ 2 ^ j := Nat.dvd_iff_mod_eq_zero.mpr h_mod
+    -- r ∣ 2^j → r is a power of 2 (since 2^j's only prime factor is 2)
+    have h_pow2 : ∃ k, r = 2 ^ k := by
+      -- Key lemma: r ∣ 2^j and r > 0 → r = 2^k (induction on j)
+      have h_key : ∀ (s : ℕ) (j : ℕ), s > 0 → s ∣ 2 ^ j → ∃ k, s = 2 ^ k := by
+        intro s j hs hsd
+        induction j generalizing s with
+        | zero =>
+          have h_s1 : s = 1 := Nat.eq_one_of_dvd_one hsd
+          exact ⟨0, by rw [h_s1, Nat.pow_zero]⟩
+        | succ j ih =>
+          rw [Nat.pow_succ, Nat.mul_comm] at hsd
+          by_cases hs1 : s = 1
+          · exact ⟨0, by rw [hs1, Nat.pow_zero]⟩
+          have hs_ge2 : s ≥ 2 := by omega
+          by_cases h_even : 2 ∣ s
+          · -- s even: s/2 ∣ 2^j, by IH s/2 = 2^k, so s = 2^(k+1)
+            have h_seq : s = 2 * (s / 2) := by
+              have h := Nat.div_mul_cancel h_even
+              rw [Nat.mul_comm] at h
+              exact h.symm
+            rw [h_seq] at hsd
+            have h_half_dvd : s / 2 ∣ 2 ^ j :=
+              Nat.mul_dvd_mul_iff_left (by norm_num : (0 : ℕ) < 2) |>.mp hsd
+            have h_half_pos : s / 2 > 0 := Nat.div_pos hs_ge2 (by norm_num)
+            obtain ⟨k, hk⟩ := ih (s / 2) h_half_pos h_half_dvd
+            exact ⟨k + 1, by rw [h_seq, hk, Nat.mul_comm, ← Nat.pow_succ]⟩
+          · -- s odd: gcd(s,2)=1, so s ∣ 2^j, by IH s = 2^k, but s odd → k=0 → s=1, contradiction
+            have h_coprime : Nat.Coprime s 2 := by
+              rw [Nat.coprime_iff_gcd_eq_one]
+              have h_gcd_dvd_2 : Nat.gcd s 2 ∣ 2 := Nat.gcd_dvd_right s 2
+              have h_gcd_dvd_s : Nat.gcd s 2 ∣ s := Nat.gcd_dvd_left s 2
+              by_cases h_g : Nat.gcd s 2 = 2
+              · exact absurd (h_g ▸ h_gcd_dvd_s) h_even
+              · have h_gpos : 0 < Nat.gcd s 2 :=
+                  Nat.pos_of_dvd_of_pos h_gcd_dvd_s hs
+                have h_gle : Nat.gcd s 2 ≤ 2 :=
+                  Nat.le_of_dvd (by norm_num : 0 < 2) h_gcd_dvd_2
+                omega
+            have h_odd_dvd : s ∣ 2 ^ j := h_coprime.dvd_of_dvd_mul_left hsd
+            obtain ⟨k, hk⟩ := ih s hs h_odd_dvd
+            have hk0 : k = 0 := by
+              by_contra hk_pos
+              have hk_ge1 : 1 ≤ k := by omega
+              have h2dvd : 2 ∣ 2 ^ k := by
+                have h := Nat.pow_dvd_pow 2 hk_ge1
+                rwa [Nat.pow_one] at h
+              rw [← hk] at h2dvd
+              exact h_even h2dvd
+            rw [hk0, Nat.pow_zero] at hk
+            omega
+      exact h_key r j hr h_dvd
+    exact h_not_pow2 h_pow2
+  -- If all j satisfy (2^j) % r ≠ 0, then filter = range n, so card = n
+  unfold shor_circuit_active_unitary_count shor_active_unitary_indices
+  have h_filter : (Finset.range n).filter (fun j => (2 ^ j) % r ≠ 0) = Finset.range n := by
+    ext j
+    simp only [Finset.mem_filter, Finset.mem_range]
+    constructor
+    · exact fun ⟨hj, _⟩ => hj
+    · intro hj
+      exact ⟨hj, h_key j⟩
+  rw [h_filter]
+  exact Finset.card_range n
+
+/-- **EMPIRICAL AXIOM (NOT LEAN-VERIFIED, 2026-07-01): Hardware Residual is
+    CX-Dependent.
+
+    SCOPE NOTE (Codex 2026-07-02): This is an `axiom` returning `True` — Lean
+    is NOT verifying the hardware claim. The axiom is a precise statement of
+    an empirical observation, not a Lean-verified physics theorem. The hardware
+    data is real but lives outside Lean.
 
     UPGRADED from `sorry` to a precise empirical statement backed by the
     controlled experiment in /mnt/d/Crypto/labs/shor_substrate_probe/evidence/BATCH2_RESULTS.md.
@@ -773,14 +875,16 @@ axiom hardware_residual_is_cx_dependent (r n : ℕ)
     (2026-07-01) shows the relationship is THRESHOLD-LIKE, not linear.
     See `hardware_residual_is_cx_dependent` for the upgraded statement.
 
-    This theorem remains `sorry` because the linear scaling model is not
-    supported by the data. The threshold model is stated as an axiom above. -/
+    This theorem is `trivial` (not `sorry`) because the linear scaling model
+    is not supported by the data and the theorem type is `True`. The threshold
+    model is stated as an axiom above. The `sorry` was misleading — there was
+    never a proof obligation for `True`. Upgraded 2026-07-12. -/
 theorem hardware_residual_scales_with_cx_count (r n Q_count : ℕ)
     (hr : r > 0) (hn : n > 0)
     (h_active : Q_count = shor_circuit_active_unitary_count r n hr) :
     -- LEGACY: linear scaling model not supported by data.
     -- See hardware_residual_is_cx_dependent for the correct statement.
     True := by
-  sorry
+  trivial
 
 end PfLean.ShorBound

@@ -1,8 +1,10 @@
 # The NISQ Empirical Bridge — What the Hardware Experiments Confirm
 
 **Date:** 2026-07-01
-**Status:** EMPIRICAL synthesis (hardware-validated)
+**Status:** EMPIRICAL synthesis (hardware-data-backed; claim boundary required)
 **Connects:** `PfLean.ShorBound` + `PfLean.QuantumStructureSurvival` + `/mnt/d/Crypto/labs/shor_substrate_probe/`
+
+**Codex boundary addendum:** Read `NISQ_REALITY_VS_IDEA_CODEX_ADVICE.md` before quoting this document in a public or release context. In this document, "confirmed" means "confirmed within the referenced runs/datasets," not universal proof. The ProcessOntology/chiral-walk connection is an interpretive model; the PQC absence runs are null-model evidence, not a full empirical proof of PQC security. Lean proof status still depends on successful builds and inspection of theorem bodies versus `axiom`, `sorry`, or `True := by trivial` surfaces.
 
 ---
 
