@@ -64,3 +64,9 @@ sandbox/explorer/_visual_pass_screens/
 
 # 8. Generated daily reports and inbox artifacts
 /inbox/
+
+# 9. Build artifacts and backups
+*.bak
+*.bak.*
+lean/.lake.ntfs/
+lean/.lake/
