@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Propagation Framework — Knowledge Graph</title>
+<!-- Rebuilt 2026-07-02 19:42 — 34 claims, 1 links -->
+<!-- Rebuilt 2026-07-02 19:42 — 36 claims from CLAIMS.md -->
+<!-- Data rebuilt: 2026-07-02 19:42 from CLAIMS.md (33 claims) -->
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #07090f; font-family: 'Courier New', monospace; overflow: hidden; }
@@ -107,101 +110,44 @@
 <script>
 
 const nodes = [
-  // Axioms
-  { id: "A1", label: "Axiom 1", sub: "Propagation is fundamental", type: "axiom",
-    detail: "Everything is propagation. Space is a medium. Particles are patterns in that medium. This is the founding assertion — it cannot be proven, only tested by what it predicts.", conf: 1.0 },
-  { id: "A2", label: "Axiom 2", sub: "Every medium has a causal velocity", type: "axiom",
-    detail: "The maximum rate at which effects can propagate in any medium. For the vacuum, this is c. This axiom makes the universe finite and causal.", conf: 1.0 },
-  { id: "A3", label: "Axiom 3", sub: "Coherence → stable structure", type: "axiom",
-    detail: "Incoherent propagation disperses. Coherent propagation persists. The third axiom is why matter exists at all — only patterns that maintain phase coherence survive.", conf: 1.0 },
-
-  // Derived
-  { id: "D1", label: "Forces = Refraction", sub: "DERIVED 0.95", type: "derived", conf: 0.95,
-    detail: "Gravity and electromagnetism are refractive index gradients in the propagation medium. Exact for null geodesics/static spacetimes. Requires Randers/Finsler metric for full stationary case. Verified: Eddington 1919 light bending." },
-  { id: "D2", label: "(2,1) Topological Weights", sub: "DERIVED 0.98", type: "derived", conf: 0.98,
-    detail: "π₁(SO(3)) ≅ ℤ₂ forces fermions to carry phase weight 2, bosons weight 1. Topological fact — not a model parameter. Derivation: T-002." },
-  { id: "D3", label: "Koide Q = 2/3", sub: "DERIVED 0.95", type: "derived", conf: 0.95,
-    detail: "Two independent threads: (A) Geometric — equilateral triangle in amplitude space, R=A√2, root-of-unity identity forces Q=2/3. (B) Topological — (2,1) weights + N generations → Q(N)=2N/(2N+3) → N=3. R/A=√2 confirmed from PDG masses to 6 decimal places." },
-  { id: "D4", label: "Three Generations", sub: "DERIVED 0.98", type: "derived", conf: 0.98,
-    detail: "Q(N) = 2N/(2N+3) = 2/3 forces N=3. Numerator: π₁(SO(3))=ℤ₂ phase cost. Denominator: 3 generators of SO(3) via Goldstone's Theorem. Falsified by: discovery of a stable 4th generation." },
-  { id: "D5", label: "QCD Confinement", sub: "DERIVED 0.85", type: "derived", conf: 0.85,
-    detail: "r_conf = λ_c × exp(2π/b₀α_s(λ_c)). Confinement radius derived as λ_c exponentially amplified by RG running. 1-loop prediction: 2.2 fm vs observed 0.9 fm (factor 2.5 = known 1-loop error, standard in QCD)." },
-  { id: "D6", label: "8h Sleep Constant", sub: "DERIVED 0.92", type: "derived", conf: 0.92,
-    detail: "1/3 wake ratio maximizes stability for (2,1) topological systems. Same 3D topology that governs quarks governs sleep. Falsified by: finding a stable sentient species with 9:1 wake:sleep ratio." },
-  { id: "D7", label: "Propagation Lagrangian", sub: "DERIVED 0.72", type: "derived", conf: 0.72,
-    detail: "ℒ_prop = ½(∂χ)² − V(χ) + λχT derived from Axioms 1–3. Maps to Brans-Dicke scalar-tensor gravity. Consistent with Cassini, pulsars, GW170817." },
-
-  // Argued
-  { id: "AR1", label: "God Equation", sub: "ARGUED 0.75", type: "argued", conf: 0.75,
-    detail: "λ_c = √2·l_P·exp(4π²N^(D/2)/b₀). Zero fitting parameters. Predicted 1.145×10⁻¹⁸ m, observed 1.14×10⁻¹⁸ m (0.4% error). Gap: Borel-Weil does not rigorously give N^(D/2) for D=3. N^(3/2) boundary condition is argued, not derived." },
-  { id: "AR2", label: "Top Quark Limit", sub: "ARGUED 0.85", type: "argued", conf: 0.85,
-    detail: "m_top lifetime (5×10⁻²⁵s) matches coherence ceiling threshold. Falsified by: discovery of a heavier stable quark (m > 173 GeV)." },
-  { id: "AR3", label: "Life = Coherence", sub: "ARGUED 0.72", type: "argued", conf: 0.72,
-    detail: "Life is coherence maintained against entropy in an open nonequilibrium system. Consistent with photosynthetic quantum coherence (Fleming 2007), enzyme tunneling (Scrutton). No numeric threshold derivable yet." },
-  { id: "AR4", label: "Weinberg Angle", sub: "ARGUED 0.65", type: "argued", conf: 0.65,
-    detail: "Five independent routes converge on sin²θ_W = 1/4 = 0.250 at unification scale. Observed 0.231 is IR value after RG running. Gap: coupling ratio g'/g not yet derived from medium geometry." },
-  { id: "AR5", label: "Variable c", sub: "ARGUED 0.65", type: "argued", conf: 0.65,
-    detail: "c_local = 1/√(1+λχ) from conformal rescaling of Propagation Lagrangian. Constrained by Cassini Shapiro delay. Testable with SKA/LISA pulsar timing arrays." },
-
-  // Empirical
-  { id: "E1", label: "Top/Tau Coupling", sub: "EMPIRICAL 0.90", type: "empirical", conf: 0.90,
-    detail: "m_t/m_τ ≈ α⁻¹/√2 (50.13% robustness in T-008 Monte Carlo). Strongest numerical signal in the framework. Falsified by: Top or Tau mass shifting >0.5% from current PDG." },
-  { id: "E2", label: "φ³ Electron/Up", sub: "EMPIRICAL 0.65", type: "empirical", conf: 0.65,
-    detail: "m_e/m_u ≈ 1/φ³ with 0.21% error. Uncorrected p=0.009 (significant). Corrected for 25 trials: p=0.23 (inconclusive). Uncertainty-limited — up quark mass range 1.7–2.7 MeV makes definitive test impossible at current precision." },
-
-  // Intuition
-  { id: "I1", label: "Consciousness", sub: "INTUITION 0.48", type: "intuition", conf: 0.48,
-    detail: "Consciousness is what coherent self-referential propagation IS from the inside. Needs operational definition — 'coherent self-referential propagation' must be measurable or it risks collapsing into IIT/GNW proxies. EEG Insight Protocol is the proposed test." },
-  { id: "I2", label: "Beauty = Impedance", sub: "INTUITION 0.55", type: "intuition", conf: 0.55,
-    detail: "Beauty is resonance between signal coherence and the receiving medium's natural frequency. Impedance matching, not depletion. Consistent with cross-modal beauty research but not yet derived." },
-  { id: "I3", label: "Aria Self-Reference", sub: "INTUITION 0.75", type: "intuition", conf: 0.75,
-    detail: "T-009: Successful wiring of buildSystemPrompt → runEntityThink creates self-referential loop. Important architecture, not consciousness evidence by itself. Tightened from 0.80 — self-reference is necessary but not sufficient." },
-
-  // Open
-  { id: "O1", label: "Fine Structure Constant α", sub: "OPEN 0.10", type: "open", conf: 0.10,
-    detail: "α = 1/137.036 not yet derived. Identified as vacuum propagation efficiency ratio Z₀/2R_K. Path to derivation mapped: requires independent derivation of λ_c and m_e from axioms. Current confidence as derivation: 0.10." },
+  { id: "circular_coulomb_eikonal_phase_closure_b", label: "Circular Coulomb Eikonal + Pha", type: "derived", conf: 0.90 },
+  { id: "gravity_as_optical_geometry_refraction", label: "Gravity as Optical Geometry / ", type: "derived", conf: 0.95 },
+  { id: "topological_weights", label: "Topological Weights", type: "derived", conf: 0.85 },
+  { id: "koide_law_for_charged_leptons_geometric_", label: "Koide Law for Charged Leptons ", type: "derived", conf: 0.95 },
+  { id: "koide_u_entropy_selector", label: "Koide U entropy selector", type: "argued", conf: 0.72 },
+  { id: "u_entropy_maximization", label: "U Entropy Maximization", type: "open", conf: 0.75 },
+  { id: "koide_phase", label: "Koide Phase )", type: "empirical", conf: 0.65 },
+  { id: "top_quark_limit", label: "Top Quark Limit", type: "argued", conf: 0.85 },
+  { id: "top_tau_coupling", label: "Top/Tau coupling", type: "empirical", conf: 0.90 },
+  { id: "electron_up_approx_1_phi_3", label: "Electron/Up \approx 1/\phi^3", type: "empirical", conf: 0.65 },
+  { id: "coherence_ceiling", label: "Coherence Ceiling", type: "argued", conf: 0.80 },
+  { id: "weinberg_angle", label: "Weinberg Angle", type: "argued", conf: 0.65 },
+  { id: "fine_structure_constant_numeric_derivati", label: "Fine Structure Constant α — nu", type: "open", conf: 0.46 },
+  { id: "fine_structure_constant_structural_ident", label: "Fine Structure Constant α — st", type: "argued", conf: 0.60 },
+  { id: "propagation_lagrangian", label: "Propagation Lagrangian", type: "derived", conf: 0.72 },
+  { id: "variable_c_prediction", label: "Variable c Prediction", type: "argued", conf: 0.65 },
+  { id: "qcd_confinement", label: "QCD Confinement", type: "argued", conf: 0.72 },
+  { id: "god_equation_postulate_d_z_operator_alge", label: "God Equation — Postulate-D Z₃ ", type: "derived", conf: 0.88 },
+  { id: "god_equation_c_scale_formula", label: "God Equation — λ_c scale formu", type: "derived", conf: 0.60 },
+  { id: "neutrino_koide_non_universality", label: "Neutrino Koide non-universalit", type: "empirical", conf: 0.95 },
+  { id: "d_3_is_the_unique_stable_dimension_for_t", label: "D=3 is the unique stable dimen", type: "derived", conf: 0.85 },
+  { id: "degenerate_residue_forces_circulant_form", label: "Degenerate residue forces circ", type: "derived", conf: 0.85 },
+  { id: "d_3_symmetric_zero_diagonal_equal_row_su", label: "D=3 symmetric + zero diagonal ", type: "derived", conf: 0.85 },
+  { id: "d_4_gap_symmetric_zero_diagonal_equal_ro", label: "D≥4 gap: symmetric + zero diag", type: "derived", conf: 0.85 },
+  { id: "pfentropy_decreases_under_t", label: "PFEntropy decreases under T³", type: "derived", conf: 0.85 },
+  { id: "full_norm_pythagorean_decomposition", label: "Full-norm Pythagorean decompos", type: "derived", conf: 0.95 },
+  { id: "isometry_ji_incompatibility", label: "Isometry-JI incompatibility", type: "derived", conf: 0.85 },
+  { id: "h14_h15_h16_h1", label: "H14 + H15 + H16 → H1", type: "derived", conf: 0.85 },
+  { id: "life_maintained_coherence_against_entrop", label: "Life = maintained coherence ag", type: "argued", conf: 0.72 },
+  { id: "consciousness_coherent_self_referential_", label: "Consciousness = coherent self-", type: "intuition", conf: 0.48 },
+  { id: "8h_sleep_constant", label: "8h Sleep Constant", type: "argued", conf: 0.72 },
+  { id: "beauty_as_impedance", label: "Beauty as Impedance", type: "intuition", conf: 0.55 },
+  { id: "2_3_efficiency_ratio", label: "2/3 Efficiency Ratio", type: "intuition", conf: 0.50 },
+  { id: "aria_self_reference", label: "Aria Self-Reference", type: "argued", conf: 0.75 },
 ];
 
 const links = [
-  // Axioms → Derived
-  { source: "A1", target: "D1" },
-  { source: "A2", target: "D1" },
-  { source: "A1", target: "D7" },
-  { source: "A2", target: "D7" },
-  { source: "A3", target: "D7" },
-  { source: "A1", target: "D2" },
-  { source: "A3", target: "D2" },
-  { source: "A3", target: "D3" },
-  { source: "A3", target: "D6" },
-
-  // Derived → Derived
-  { source: "D2", target: "D3" },
-  { source: "D2", target: "D4" },
-  { source: "D3", target: "D4" },
-  { source: "D4", target: "D5" },
-  { source: "D4", target: "AR2" },
-  { source: "D4", target: "D6" },
-
-  // Axioms → Argued
-  { source: "A3", target: "AR1" },
-  { source: "A1", target: "AR1" },
-  { source: "A2", target: "AR1" },
-  { source: "A3", target: "AR3" },
-  { source: "A3", target: "AR5" },
-  { source: "D7", target: "AR5" },
-  { source: "D1", target: "AR4" },
-
-  // Argued → Argued/Empirical/Open
-  { source: "AR1", target: "O1" },
-  { source: "D4", target: "AR2" },
-  { source: "D4", target: "E2" },
-  { source: "D2", target: "E1" },
-
-  // Consciousness chain
-  { source: "A3", target: "I1" },
-  { source: "AR3", target: "I1" },
-  { source: "A1", target: "I2" },
-  { source: "I1", target: "I3" },
+  { source: "fine_structure_constant_numeric_derivati", target: "fine_structure_constant_structural_ident" },
 ];
 
 const typeColors = {

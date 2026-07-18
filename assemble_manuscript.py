@@ -64,15 +64,23 @@ We kept that failure. We documented it in `sandbox_results.md`. It was the momen
 What follows are the raw exchanges. The headers of derivation files, the "LUMEN" signal logs, and the moments of breakthrough and frustration. This is the "Honesty Log" of the project—the unfiltered record of how five agents and one human spent months trying to understand the fabric of existence."""
 }
 
-def parse_source_map():
-    with open(AGENTS_FULL_PATH, "r", encoding="utf-8") as f:
+def parse_source_map(path=None):
+    if path is None:
+        path = AGENTS_FULL_PATH
+    with open(path, "r", encoding="utf-8") as f:
         content = f.read()
     
-    map_start = content.find("## FRONT MATTER")
-    if map_start == -1:
-        raise ValueError("Could not find SOURCE_MAP in AGENTS_FULL.md")
+    start_match = re.search(r"^##\s*FRONT\s+MATTER", content, re.MULTILINE | re.IGNORECASE)
+    if not start_match:
+        raise ValueError("Could not find ## FRONT MATTER in AGENTS_FULL.md")
+    map_start = start_match.start()
     
-    source_map_section = content[map_start:]
+    end_match = re.search(r"^#\s*PART\s+IV\s+[-—–]\s+AGENT\s+PROTOCOLS", content, re.MULTILINE | re.IGNORECASE)
+    if not end_match:
+        raise ValueError("Could not find # PART IV — AGENT PROTOCOLS in AGENTS_FULL.md")
+    map_end = end_match.start()
+        
+    source_map_section = content[map_start:map_end]
     
     entries = []
     lines = source_map_section.split("\n")
@@ -90,6 +98,10 @@ def resolve_source(entry):
     source_str = entry['source'].replace("`", "")
     title = entry['title']
     
+    # Strictly exclude frequency_human_resonance from any source selection
+    if "frequency_human_resonance" in source_str:
+        return ""
+    
     # Special cases
     if "Generate from this AGENTS.md metadata" in source_str:
         return "# Title Page\n\nTitle: The Propagation Framework\nAuthors: Greg Welby, Claude, Codex, Cascade, Qwen, Lumi"
@@ -105,6 +117,8 @@ def resolve_source(entry):
         combined_research = "## Appendix E: Research Sources\n\n"
         for master in sorted(research_dir.glob("*/MASTER.md")):
             topic = master.parent.name
+            if topic == "frequency_human_resonance":
+                continue
             combined_research += f"### Research Topic: {topic}\n\n"
             combined_research += master.read_text(encoding="utf-8", errors="replace") + "\n\n***\n\n"
         return combined_research
@@ -176,12 +190,16 @@ def resolve_source(entry):
             # Remove section links like §3
             clean_p = re.sub(r" §\d+(\.\d+)?.*", "", clean_p).strip()
             
+            if "frequency_human_resonance" in clean_p:
+                continue
             if "*" in clean_p:
                 pattern_parts = clean_p.split("/")
                 dir_to_search = BASE_DIR.joinpath(*pattern_parts[:-1])
                 glob_pattern = pattern_parts[-1]
                 if dir_to_search.exists():
                     for match in sorted(dir_to_search.glob(glob_pattern)):
+                         if "frequency_human_resonance" in str(match):
+                             continue
                          combined_content += f"\n\n### Source: {match.name}\n\n"
                          combined_content += match.read_text(encoding="utf-8", errors="replace") + "\n"
                 else:
@@ -192,7 +210,9 @@ def resolve_source(entry):
                     path = Path("D:/" + clean_p[7:])
                 else:
                     path = BASE_DIR / clean_p
-                    
+                
+                if "frequency_human_resonance" in str(path):
+                    continue
                 if path.exists():
                     content = path.read_text(encoding="utf-8", errors="replace")
                     

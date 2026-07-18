@@ -70,7 +70,7 @@ This corollary resolves the selection problem that Axiom 3 alone does not addres
 
 The answer: the simplest one. The mode with winding number k = 1 is fundamental; modes with k > 1 are excited or composite states. This is not an aesthetic preference — it is a structural principle. A mode with higher winding requires more phase relationships to be maintained simultaneously, making it less stable under perturbation.
 
-**Application to the Casimir polynomial**: For helical modes with resonance ratio k = J_z/J_θ, Axiom 3b selects k = 1 (the primitive loop). This closes the derivation of the Casimir polynomial x² + C₂x - C₂ = 0 and, consequently, the Weinberg angle sin²θ_W = 1/4 at the unification scale.
+**Application to the Casimir polynomial**: For helical modes with resonance ratio k = J_z/J_θ, Axiom 3b selects k = 1 (the primitive loop). This closes the derivation of the Casimir polynomial x² + C₂x - C₂ = 0 and, consequently, the argued value of the Weinberg angle sin²θ_W = 1/4 at the unification scale (noting that scheme selection and running remain open; see CLAIMS.md).
 
 ---
 
