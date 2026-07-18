@@ -27,12 +27,23 @@ Codex D1 v3 audit requirements and formula-readiness gate.
 
 import json
 import math
+import os
 import sys
 from typing import Tuple, Dict, List, Optional
 
 import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import chi2
+
+# Shared D-series validator (per Codex 2026-07-15 formula-readiness gate repair)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from d_series_validator import (
+    validate_preflight as _shared_validate,
+    Status as _DStatus,
+    QStatus as _QStatus,
+    Q3DecisionType as _Q3DT,
+    check_language as _check_lang,
+)
 
 
 # ============================================================================
@@ -158,7 +169,7 @@ TOP_CROSS_SECTION = {
     "note": "This is a pole-from-cross-section value, distinct from the direct kinematic average used in the main fit.",
 }
 
-# Zenczykowski predicted phase values (from abstract: "possibly exact")
+# Zenczykowski proposed phase values (from abstract: "possibly exact")
 # delta_L = 3*delta_D/2 = 3*delta_U = 2/9
 # => delta_U = 2/27, delta_D = 4/27
 DELTA_U_PRED = 2.0 / 27.0
@@ -170,13 +181,16 @@ DELTA_D_PRED = 4.0 / 27.0
 # ============================================================================
 
 def run_preflight() -> Dict:
-    """Run Q1/Q2/Q3 preflight checks per Codex formula-readiness gate."""
+    """Run Q1/Q2/Q3 preflight checks per Codex formula-readiness gate.
+
+    Wired through the shared d_series_validator (per 2026-07-15 repair contract).
+    Q3 decision type is COMPUTATIONAL_DIAGNOSTIC: numerical chi^2/p-values are
+    computational outputs of the declared model, not physical sigma,
+    compatibility, or falsification decisions.
+    """
     preflight = {}
 
     # Q1: Units and normalization close in the actual implementation
-    # The formula sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(...)) is dimensionally
-    # consistent: [sqrt(mass)] = [sqrt(mass)] * [dimensionless].
-    # M has units of mass. k and delta are dimensionless.
     preflight["Q1_units"] = {
         "check": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(...)) — sqrt(mass) = sqrt(mass) * dimensionless",
         "status": "CLOSED",
@@ -198,33 +212,41 @@ def run_preflight() -> Dict:
     }
 
     # Q3: Observable, control/null, and decision threshold written before the run
+    # Decision type: COMPUTATIONAL_DIAGNOSTIC — chi^2/p-values are numerical
+    # outputs of the declared model, NOT physical sigma/compatibility/falsification.
     preflight["Q3_observable"] = {
         "observable": "Best-fit phase delta_f for each sector (f=up, down) under Eq. (4)",
-        "null_model": "Zenczykowski predicted values: delta_U=2/27, delta_D=4/27",
+        "null_model": "Zenczykowski proposed values: delta_U=2/27, delta_D=4/27",
         "decision_threshold": (
             "No sigma-based falsification claim and no compatibility/tension verdict labels. "
             "Report only numerical chi^2 and p-value outputs for fixed-phase fits, labeled as "
-            "outputs of the declared exploratory Gaussian input model. Do not claim 'falsification at N sigma'."
+            "computational diagnostics of the declared exploratory Gaussian input model. "
+            "Do not claim 'falsification at N sigma' or 'compatible at N sigma'."
         ),
+        "decision_type": "computational_diagnostic",
         "status": "DECLARED",
         "notes": (
-            "Following Codex D1 v3 audit: numerical discrepancies under mixed-scale inputs are "
-            "not promoted to physical conclusions. This run uses mixed-scale inputs, so all "
-            "results are CONDITIONAL exploratory outputs."
+            "Following Codex D1 v3 audit and 2026-07-15 formula-readiness gate repair: "
+            "numerical discrepancies under mixed-scale inputs are computational "
+            "diagnostics, not physical conclusions. This run uses mixed-scale inputs, "
+            "so all results are CONDITIONAL exploratory outputs."
         ),
     }
 
-    # Overall preflight status
-    all_closed = all(
-        preflight[k]["status"] in ("CLOSED", "DECLARED")
-        for k in preflight
+    # Overall status via shared validator
+    vr = _shared_validate(
+        task_id="D1",
+        q1_status=preflight["Q1_units"]["status"],
+        q2_status=preflight["Q2_inputs"]["status"],
+        q3_status=preflight["Q3_observable"]["status"],
+        q3_decision_type=_Q3DT.COMPUTATIONAL_DIAGNOSTIC,
     )
-    preflight["overall_status"] = "EXPLORATORY" if all_closed else "BLOCKED"
-    preflight["overall_notes"] = (
-        "EXPLORATORY: may run sensitivity/diagnostic work but cannot produce "
-        "prediction, sigma, or public language per Codex formula-readiness gate. "
-        "Results are conditional on mixed-scale assumption."
-    )
+
+    preflight["overall_status"] = str(vr.overall_status)
+    preflight["overall_notes"] = vr.allowed_language
+    preflight["disallowed_language"] = vr.disallowed_language
+    preflight["reducer_reason"] = vr.reducer_reason
+    preflight["validator"] = "d_series_validator.validate_preflight"
 
     return preflight
 
@@ -431,8 +453,8 @@ def regression_test_delta_u_2_27() -> Dict:
         "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
         "free_fit_delta": delta_free,
         "free_fit_delta_deg": math.degrees(delta_free),
-        "predicted_delta": DELTA_U_PRED,
-        "predicted_delta_deg": math.degrees(DELTA_U_PRED),
+        "proposed_delta": DELTA_U_PRED,
+        "proposed_delta_deg": math.degrees(DELTA_U_PRED),
         "delta_difference": delta_free - DELTA_U_PRED,
         "delta_difference_percent": (delta_free - DELTA_U_PRED) / DELTA_U_PRED * 100,
         "fixed_delta_chi2": fixed["chi2"],
@@ -442,7 +464,7 @@ def regression_test_delta_u_2_27() -> Dict:
         "fixed_delta_Q": fixed["Q"],
         "notes": (
             f"Free fit gives delta_U = {delta_free:.6f} rad. "
-            f"Zenczykowski predicts {DELTA_U_PRED:.6f} rad. "
+            f"Zenczykowski proposes {DELTA_U_PRED:.6f} rad. "
             f"Difference: {abs(delta_free - DELTA_U_PRED):.6f} rad "
             f"({abs(delta_free - DELTA_U_PRED)/DELTA_U_PRED*100:.2f}%). "
             f"Fixed-delta chi^2 = {fixed['chi2']:.4f} (p = {fixed['p_value']:.4f}). "
@@ -587,7 +609,7 @@ def main() -> None:
         print(f"    k     = {k:12.6f}")
         print(f"    delta = {delta:12.6f} rad ({math.degrees(delta):.4f}°)")
         print(f"    Q     = {Q:12.6f}  (Koide: 2/3 = {2/3:.6f})")
-        print(f"    Predictions: {[f'{p:.6f}' for p in preds]}")
+        print(f"    Fitted-model values: {[f'{p:.6f}' for p in preds]}")
         print(f"    Residuals:   {[f'{r:.2e}' for r in (masses - preds)]}")
         print()
 
@@ -610,7 +632,7 @@ def main() -> None:
 
     print(f"  Free fit:  delta_U = {delta_u:.6f} rad, delta_D = {delta_d:.6f} rad")
     print(f"  Zenczykowski: delta_U = {DELTA_U_PRED:.6f} rad, delta_D = {DELTA_D_PRED:.6f} rad")
-    print(f"  Ratio delta_D/delta_U = {ratio:.4f}  (Zenczykowski predicts 2.000)")
+    print(f"  Ratio delta_D/delta_U = {ratio:.4f}  (Zenczykowski proposes 2.000)")
     print()
 
     # MC uncertainty on ratio
@@ -642,7 +664,7 @@ def main() -> None:
         print(f"  {sector}-type (delta = {delta_fixed:.6f} rad = {math.degrees(delta_fixed):.4f}°):")
         print(f"    M = {result['M']:.4f} MeV, k = {result['k']:.6f}, Q = {result['Q']:.6f}")
         print(f"    chi^2 = {result['chi2']:.4f} (dof=1, p = {result['p_value']:.6f})")
-        print(f"    Predictions: {[f'{p:.4f}' for p in result['predictions_mev']]}")
+        print(f"    Fitted-model values: {[f'{p:.4f}' for p in result['predictions_mev']]}")
         print(f"    Pulls:       {[f'{p:.2f}' for p in result['pulls']]}")
         print(f"    (chi^2 and p-value are outputs of the declared exploratory Gaussian input model.")
         print(f"     They are not a closed PDG-2024 statistical test.")
@@ -650,11 +672,11 @@ def main() -> None:
 
     # --- Cross-sector 1:2 hierarchy test ---
     print("--- CROSS-SECTOR 1:2 HIERARCHY TEST ---")
-    print("  If delta_D = 2*delta_U, up-type fit predicts down-type phase")
+    print("  If delta_D = 2*delta_U, up-type fit reconstructs down-type phase")
     print()
 
     cross_results = {}
-    # Up predicts down: delta_D = 2 * delta_U_free
+    # Up reconstructs down: delta_D = 2 * delta_U_free
     delta_d_pred_from_up = 2.0 * delta_u
     cross_up_to_down = fixed_delta_fit(
         MASSES["down"]["masses_mev"], MASSES["down"]["sigmas_mev"], delta_d_pred_from_up, sector_name="down_from_up"
@@ -665,7 +687,7 @@ def main() -> None:
     print(f"    (Exploratory model output; not a closed statistical test.)")
     print()
 
-    # Down predicts up: delta_U = delta_D_free / 2
+    # Down reconstructs up: delta_U = delta_D_free / 2
     delta_u_pred_from_down = delta_d / 2.0
     cross_down_to_up = fixed_delta_fit(
         MASSES["up"]["masses_mev"], MASSES["up"]["sigmas_mev"], delta_u_pred_from_down, sector_name="up_from_down"
@@ -712,7 +734,7 @@ def main() -> None:
     print()
     print(f"2. Up-sector fixed delta_U = 2/27:")
     print(f"   chi^2 = {fixed_results['up']['chi2']:.4f}, p = {fixed_results['up']['p_value']:.4f}")
-    print(f"   Free fit differs from prediction by {abs(delta_u - DELTA_U_PRED)/DELTA_U_PRED*100:.2f}%")
+    print(f"   Free fit differs from proposed value by {abs(delta_u - DELTA_U_PRED)/DELTA_U_PRED*100:.2f}%")
     print(f"   NOTE: p-value is an output of the declared exploratory Gaussian input model.")
     print(f"   It is not a closed PDG-2024 statistical test.")
     print()
@@ -720,7 +742,7 @@ def main() -> None:
     print(f"   chi^2 = {fixed_results['down']['chi2']:.4f}, p = {fixed_results['down']['p_value']:.6f}")
     print(f"   NOTE: p-value is an output of the declared exploratory Gaussian input model.")
     print()
-    print(f"4. 1:2 hierarchy: delta_D/delta_U = {ratio:.4f} (predicted 2.000)")
+    print(f"4. 1:2 hierarchy: delta_D/delta_U = {ratio:.4f} (proposed 2.000)")
     print(f"   Cross-sector chi^2 values are large under the exploratory model.")
     print(f"   This is a parameter-ratio discrepancy, not a falsification claim.")
     print()
@@ -774,7 +796,7 @@ def main() -> None:
             "observed": ratio,
             "mc_mean": ratio_mc,
             "mc_sigma": ratio_sigma,
-            "predicted": 2.0,
+            "proposed": 2.0,
         },
         "status": "EXPLORATORY",
         "claim_boundary": (

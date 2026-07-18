@@ -89,13 +89,23 @@
     },
     "Q3_observable": {
       "observable": "Best-fit phase delta_f for each sector (f=up, down) under Eq. (4)",
-      "null_model": "Zenczykowski predicted values: delta_U=2/27, delta_D=4/27",
-      "decision_threshold": "No sigma-based falsification claim and no compatibility/tension verdict labels. Report only numerical chi^2 and p-value outputs for fixed-phase fits, labeled as outputs of the declared exploratory Gaussian input model. Do not claim 'falsification at N sigma'.",
+      "null_model": "Zenczykowski proposed values: delta_U=2/27, delta_D=4/27",
+      "decision_threshold": "No sigma-based falsification claim and no compatibility/tension verdict labels. Report only numerical chi^2 and p-value outputs for fixed-phase fits, labeled as computational diagnostics of the declared exploratory Gaussian input model. Do not claim 'falsification at N sigma' or 'compatible at N sigma'.",
+      "decision_type": "computational_diagnostic",
       "status": "DECLARED",
-      "notes": "Following Codex D1 v3 audit: numerical discrepancies under mixed-scale inputs are not promoted to physical conclusions. This run uses mixed-scale inputs, so all results are CONDITIONAL exploratory outputs."
+      "notes": "Following Codex D1 v3 audit and 2026-07-15 formula-readiness gate repair: numerical discrepancies under mixed-scale inputs are computational diagnostics, not physical conclusions. This run uses mixed-scale inputs, so all results are CONDITIONAL exploratory outputs."
     },
     "overall_status": "EXPLORATORY",
-    "overall_notes": "EXPLORATORY: may run sensitivity/diagnostic work but cannot produce prediction, sigma, or public language per Codex formula-readiness gate. Results are conditional on mixed-scale assumption."
+    "overall_notes": "May report chi^2, p-values, and numerical outputs as computational diagnostics of the declared model. May use 'fitted-model value' and 'reconstruction output' wording.",
+    "disallowed_language": [
+      "prediction",
+      "physical sigma",
+      "compatibility verdict",
+      "falsification claim",
+      "statistical test"
+    ],
+    "reducer_reason": "All checks at least DECLARED, but not all CLOSED.",
+    "validator": "d_series_validator.validate_preflight"
   },
   "free_fit": {
     "up": {
@@ -192,8 +202,8 @@
     "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
     "free_fit_delta": 0.0745169408006364,
     "free_fit_delta_deg": 4.269506210102671,
-    "predicted_delta": 0.07407407407407407,
-    "predicted_delta_deg": 4.244131815783875,
+    "proposed_delta": 0.07407407407407407,
+    "proposed_delta_deg": 4.244131815783875,
     "delta_difference": 0.0004428667265623243,
     "delta_difference_percent": 0.5978700808591377,
     "fixed_delta_chi2": 13.590457350041167,
@@ -201,7 +211,7 @@
     "fixed_delta_k": 1.2442505774281751,
     "fixed_delta_M": 22815.497358234075,
     "fixed_delta_Q": 0.8493864998101156,
-    "notes": "Free fit gives delta_U = 0.074517 rad. Zenczykowski predicts 0.074074 rad. Difference: 0.000443 rad (0.60%). Fixed-delta chi^2 = 13.5905 (p = 0.0002). No compatibility/tension verdict is assigned; these are exploratory model outputs."
+    "notes": "Free fit gives delta_U = 0.074517 rad. Zenczykowski proposes 0.074074 rad. Difference: 0.000443 rad (0.60%). Fixed-delta chi^2 = 13.5905 (p = 0.0002). No compatibility/tension verdict is assigned; these are exploratory model outputs."
   },
   "regression_test_optimizer": {
     "test": "optimizer regression on synthetic data",
@@ -231,7 +241,7 @@
     "observed": 1.4777679300323099,
     "mc_mean": 1.4777688168505057,
     "mc_sigma": 0.00606372421901396,
-    "predicted": 2.0
+    "proposed": 2.0
   },
   "status": "EXPLORATORY",
   "claim_boundary": "No falsification claim. No sigma-based statistical claim. p-values and chi2 are outputs of the declared exploratory Gaussian input model only. Results conditional on mixed-scale inputs. Scale-consistent test requires QCD running to a common scale."
