@@ -204,7 +204,7 @@ Route E’s observation remains valid:
 >
 > **Axiom 3b**: Among coherent states in the same topological class, the stable fundamental PF mode is the one with minimal topological winding. This selects k=1 (primitive loop) over higher winding states.
 >
-> **Result**: Casimir polynomial derived → sin²θ_W = 1/4 at unification scale. Weinberg angle status upgraded from ARGUED (0.65) to DERIVED (0.90).
+> **Result**: Casimir polynomial derived → sin²θ_W = 1/4 at unification scale. (Note: The Weinberg angle status was temporarily changed from ARGUED (0.65) to DERIVED (0.90) on 2026-03-23, but was subsequently demoted back to ARGUED (0.65) on 2026-06-16 because scheme selection remains open and the look-elsewhere scan lowers confidence. This historical status is now superseded; see CLAIMS.md.)
 
 ---
 

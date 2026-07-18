@@ -47,7 +47,7 @@ python3.12 /mnt/d/DeepSeek/sandbox/s2_pf_native_gate.py --kappa 0.5 --trajectori
 
 | Front | Current Status | Audit Finding |
 |-------|----------------|---------------|
-| Weinberg angle | DERIVED 0.90 | Not the next strike. Axiom 3b closes the bounded minimal-winding route. |
+| Weinberg angle | ARGUED 0.65 (demoted 2026-06-16 from DERIVED 0.90) | Scheme selection open; look-elsewhere scan lowers confidence. |
 | Koide amplitude Q=2/3 | DERIVED / high-confidence scoped claim | Not the next strike. It does not select the phase. |
 | G3 / God Equation | CONDITIONAL 0.88 | The active gap is now sharper: the linearized Z3 oscillator does not supply the discrete primitive closure operator. |
 | Axiom 3 selector logic | OPEN / bounded local corollary only | Axiom 3b is accepted locally; no general selector theorem exists. |

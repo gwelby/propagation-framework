@@ -64,3 +64,19 @@ The phase selector remains the single machine PF must build to make a discrimina
 
 ---
 *(append-only resolution log below)*
+
+## Resolution Log
+
+### 2026-06-30 — PRED-001a falsified sub-pattern recorded
+
+PRED-001 remains BLOCKED. A proposed sub-pattern, PRED-001a, is FALSIFIED by existing PMNS first-column data and must not be treated as a live prediction or as an unblocking result.
+
+The rejected sub-pattern was mu/tau symmetry in the PMNS first column:
+`|U_mu1|^2 = |U_tau1|^2 = 1/6`, corresponding to `[2/3, 1/6, 1/6]`.
+
+Claude's archived 2026-06-22 note records measured central values `[0.678, 0.081, 0.241]`; mu1 and tau1 differ by roughly 3x. The close scalar `Q` value was a summary-statistic trap, not a valid prediction.
+
+References:
+- `/mnt/d/DeepSeek/inbox/ARCHIVE/2026-06-26/2026-06-22-claude-PRED001a-falsified-not-prediction.md`
+- `/mnt/d/DeepSeek/REPORTS/DEEPSEEK_20260626_CROSS_SURFACE_TRUTH_TABLE.md`
+- `/mnt/d/Codex/REPORTS/CODEX_20260630_CLAIMS_EXISTING_ROW_UPDATES_AUDIT.md`

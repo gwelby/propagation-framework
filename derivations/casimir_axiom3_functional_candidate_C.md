@@ -304,7 +304,7 @@ Each gap now has a clear candidate corollary that would close it. Neither coroll
 
 5. **If both corollaries are accepted**: The chain is:
 $$\text{Ax.1 (Cor.1a)} \implies k \in \mathbb{Z}^+ \quad + \quad \text{Ax.3 (Cor.3a)} \implies k=1 \implies \gamma\beta^2 = \sqrt{C_2} \implies \text{Casimir polynomial}$$
-All three steps derivation-quality. Issue #3 Weinberg angle confidence upgrades to follow.
+The route remains an argued candidate. Future confidence upgrades are blocked pending the resolution of scheme-selection and look-elsewhere gaps.
 
 ---
 

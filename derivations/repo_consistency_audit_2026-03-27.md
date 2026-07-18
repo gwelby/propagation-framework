@@ -1,5 +1,9 @@
 # Repo Consistency Audit — 2026-03-27
 
+> [!IMPORTANT]
+> **Historical Supersession Note (2026-06-29):**
+> This document is a historical record from March 2026. Its references to the Weinberg angle as `DERIVED` have been superseded by the June 16, 2026 demotion to `ARGUED 0.65` (due to scheme selection remaining open; see `CLAIMS.md`).
+
 **Audit ID**: HA-20260327-001
 **Audit Class**: Repo Coherence
 **Auditor**: Codex
@@ -27,9 +31,9 @@ It is a board-alignment audit.
 
 ### 1. The main board is materially aligned
 
-The top-level story is now consistent across the live board:
+The top-level story is now consistent across the live board (as of 2026-03-27):
 
-- Weinberg angle: `DERIVED`
+- Weinberg angle: `DERIVED` (historical, superseded 2026-06-16; current status `ARGUED 0.65`)
 - God Equation: `CONDITIONAL`
 - Koide phase: still open / empirical frontier
 
@@ -46,9 +50,9 @@ This is a real improvement over the earlier split-brain state.
 [CLAIMS.md](/mnt/d/fundamentals/CLAIMS.md) defines `DERIVED` as allowing explicitly adopted corollaries like Axiom 3b.
 [UNDERSTAND.md](/mnt/d/fundamentals/UNDERSTAND.md) explicitly says Axiom 3b is a genuine added axiom/sub-axiom, not derived from Axiom 3 alone.
 
-That means the repo is now saying one coherent thing:
+That means the repo is now saying one coherent thing (as of 2026-03-27):
 
-- Weinberg is derived in the **extended framework**
+- Weinberg was claimed as derived in the **extended framework** (historical, superseded 2026-06-16; current status `ARGUED 0.65`)
 - not in the strict “Axioms 1–3 only, no adopted corollaries” sense
 
 ### 3. The God Equation front is honestly frozen
@@ -141,7 +145,7 @@ No board-level confidence change is recommended from this audit.
 
 Keep:
 
-- Weinberg angle: `DERIVED`
+- Weinberg angle: `DERIVED` (historical, superseded 2026-06-16; current status `ARGUED 0.65`)
 - God Equation: `CONDITIONAL`
 - Koide phase: open / empirical frontier
 
@@ -153,7 +157,7 @@ The next hostile audit should be:
 
 Reason:
 
-- it is a new high-visibility `DERIVED` claim
+- it is a new high-visibility claim
 - it sits in the public-facing narrative
 - it is exactly the kind of result that can look stronger than it is unless the chain is checked cleanly
 

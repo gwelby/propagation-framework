@@ -7,6 +7,9 @@
 **Source of truth**: All confidence scores from `CLAIMS.md` and `sandbox_results.md`
 **See also**: `movie/SCALE_STACK_MASTER.md` (narrative), `CLAIMS.md` (confidence registry)
 
+> [!IMPORTANT]
+> **Supersession Note (2026-06-29):** The Weinberg-angle entry in Section 5 was demoted from `DERIVED 0.90` to `ARGUED 0.65` on 2026-06-16 (scheme selection remains open; look-elsewhere scan lowers confidence). The document body is preserved as a historical derivation record; the current authoritative status is always in `CLAIMS.md`.
+
 ---
 
 ## 0. Purpose and Scope
@@ -290,9 +293,9 @@ In descending order of formal strength:
 
 2. **partial `(2,1)` closure-order theorem -> conditional N=3** — once the physical numerator theorem for the weight-2 branch and the denominator theorem `M = 3` both close, `Q(N)=2N/(2N+3)=2/3` fixes `N=3` uniquely. Both hinges are now explicit. CONDITIONAL 0.85.
 
-3. **Weinberg angle from Axiom 3b** — Casimir polynomial $x^2 + C_2 x - C_2 = 0$ with minimal winding $k=1$ gives $\sin^2\theta_W = 0.22310$ (0.13σ from PDG). DERIVED 0.90.
+3. **Weinberg angle from Axiom 3b** — Casimir polynomial $x^2 + C_2 x - C_2 = 0$ with minimal winding $k=1$ gives $\sin^2\theta_W = 0.22310$ (0.13σ from PDG). **ARGUED 0.65** (historical, superseded 2026-06-16; scheme selection remains open and the look-elsewhere scan lowers confidence; see `CLAIMS.md`).
 
-All three derive from the same Axiom 3 / phase-closure principle at different scales. This is not coincidence — it is the framework's deepest structural claim: *phase closure is the universal quantization principle.*
+All three rest on the same Axiom 3 / phase-closure principle at different scales (with the Weinberg angle remaining an argued application rather than a derived theorem). This is not coincidence — it is the framework's deepest structural claim: *phase closure is the universal quantization principle.*
 
 ---
 

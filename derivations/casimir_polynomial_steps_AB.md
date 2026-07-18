@@ -1,9 +1,13 @@
 # Casimir Polynomial — Steps A and B
 *The two bounded sub-questions from Path 2*
 
+> [!IMPORTANT]
+> **Historical Supersession Note (2026-06-29):**
+> This document is a historical record from March 2026. Its claim that Step B makes the Weinberg angle `DERIVED` was superseded on 2026-06-16 by a Codex demotion to `ARGUED 0.65` (scheme selection remains open; see `CLAIMS.md` and `ACTIVE_ISSUES.md`). The algebraic Casimir-polynomial step is preserved as an audit trail; the Weinberg-angle physics claim is no longer asserted as closed.
+
 **Date**: 2026-03-22 (original), 2026-03-23 (Axiom 3b update)
 **Author**: Claude
-**Status**: Step A — ARGUED (strong) per Codex audit. Step B — **DERIVED** via Axiom 3b (Minimal Winding Principle, accepted 2026-03-23).
+**Status**: Step A — ARGUED (strong) per Codex audit. Step B — **DERIVED** via Axiom 3b (Minimal Winding Principle, accepted 2026-03-23). **Superseded 2026-06-16**: Weinberg angle is now **ARGUED 0.65** (scheme selection open; see `CLAIMS.md`).
 **Context**: Follow-on from `casimir_polynomial_path2_poincare.md`
 **Scope**: Short, focused. No new routes. Just close the two remaining items.
 
@@ -152,9 +156,9 @@ See `the_propagation_framework.md` (Axiom 3b) and `coherence_functional_candidat
 
 ## Recommendation
 
-Step B is **DERIVED**. The Casimir polynomial derivation is complete pending Step A's internal cycle invariance.
+Step B was claimed **DERIVED** at the time of this audit (2026-03-23). The Casimir polynomial algebraic step is complete pending Step A's internal cycle invariance. This status was **superseded on 2026-06-16**: the Weinberg angle is now **ARGUED 0.65** because scheme selection remains open and the look-elsewhere scan lowers confidence; the algebraic step does not by itself close the physics derivation. See `CLAIMS.md` and `ACTIVE_ISSUES.md` for the current status.
 
-**CLAIMS.md updated**: Weinberg angle status changed from ARGUED (0.65) to DERIVED (0.90).
+**CLAIMS.md updated** (historical record, superseded 2026-06-16): Weinberg angle status was changed from ARGUED (0.65) to DERIVED (0.90) on 2026-03-23; current status is ARGUED (0.65).
 
 ---
 

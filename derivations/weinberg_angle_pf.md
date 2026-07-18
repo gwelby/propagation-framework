@@ -422,7 +422,7 @@ The framework gives a natural prediction of sin²θ_W = 1/4 as a baseline, which
 
 | Claim | Status | Confidence |
 |-------|--------|------------|
-| PF gauge structure allows Weinberg mixing | DERIVED | 0.90 |
+| PF gauge structure allows Weinberg mixing | ARGUED | 0.65 |
 | Natural PF prediction: sin²θ_W = 1/4 | ARGUED | 0.60 |
 | 1/4 matches observation | FALSE | 0.00 |
 | Error in 1/4 is ~8% | EMPIRICAL | 0.99 |
