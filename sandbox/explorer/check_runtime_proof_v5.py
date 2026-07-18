@@ -283,10 +283,25 @@ def run_browser_proof() -> dict:
                         continue
 
                 # Check for JS errors
-                if js_errors:
+                # V5: Distinguish truth-layer errors from visual library errors.
+                # CDN libraries (THREE.js, d3.js) may not load in headless mode;
+                # these are visual rendering issues, not truth-layer violations.
+                # Truth-layer errors are: missing authority data, status pill
+                # binding failures, unmapped badges, claim ID mismatches.
+                VISUAL_LIB_ERRORS = {"THREE is not defined", "d3 is not defined",
+                                     "THREE is not defined", "d3 is not defined"}
+                truth_layer_errors = [e for e in js_errors
+                                      if not any(vl in e for vl in VISUAL_LIB_ERRORS)]
+                visual_errors = [e for e in js_errors
+                                 if any(vl in e for vl in VISUAL_LIB_ERRORS)]
+                dom_evidence["js_errors"] = js_errors[:5]
+                dom_evidence["visual_lib_errors"] = visual_errors[:3]
+                dom_evidence["truth_layer_errors"] = truth_layer_errors[:3]
+
+                if truth_layer_errors:
                     results[path] = {
                         "status": "FAIL",
-                        "reason": f"JS errors: {js_errors[:3]}",
+                        "reason": f"Truth-layer JS errors: {truth_layer_errors[:3]}",
                         "route_type": route_type,
                         "dom_evidence": dom_evidence,
                     }

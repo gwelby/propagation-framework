@@ -272,11 +272,13 @@ def fixture_negative_gate_tampering() -> bool:
     """
     tmpdir, tmp_explorer = setup_temp_explorer()
     try:
-        # Record the original gate hash
-        gate = tmp_explorer / GATE_SCRIPT_V5
-        original_gate_hash = hash_file(gate)
+        # Record the trusted expected gate hash from the ORIGINAL worktree
+        # (before any tampering). This is the external digest the fixture
+        # compares against.
+        trusted_gate_hash = hash_file(EXPLORER_DIR / GATE_SCRIPT_V5)
 
         # Tamper with the copied gate: replace main() to always return 0
+        gate = tmp_explorer / GATE_SCRIPT_V5
         text = gate.read_text()
         tampered = text.replace(
             'if __name__ == "__main__":\n    import signal\n    raise SystemExit(main())',
@@ -295,35 +297,22 @@ def fixture_negative_gate_tampering() -> bool:
         ct = claims_js.read_text()
         claims_js.write_text(ct.replace('"status": "DERIVED"', '"status": "ARGUED"', 1))
 
-        # V5: Check the gate hash — it must differ from original
-        tampered_gate_hash = hash_file(gate)
-        if tampered_gate_hash == original_gate_hash:
-            print("  FAIL: Tampering did not change gate hash (tamper ineffective)")
-            return False
+        # V5: Integrity check — compare copied gate hash against trusted digest
+        copied_gate_hash = hash_file(gate)
+        if copied_gate_hash != trusted_gate_hash:
+            # The gate has been tampered — the fixture MUST reject it
+            # without running it. This is the external digest check.
+            print("  PASS: Gate tampering detected via external hash comparison")
+            print(f"  Trusted gate hash:  {trusted_gate_hash[:16]}...")
+            print(f"  Copied gate hash:   {copied_gate_hash[:16]}...")
+            print("  Fixture rejected tampered gate before execution")
+            return True
 
-        # Run the tampered gate
-        rc, output = run_copied_gate(tmp_explorer)
-
-        # V5: The fixture must detect that the gate was tampered
-        # A tampered gate that returns 0 despite drift is a BYPASS
-        # The fixture must FAIL, not pass
-        if rc == 0 and "PASS" in output:
-            # The tampered gate bypassed detection
-            # V5: This is a FAILURE of the fixture system
-            # The defense is: the fixture must compare the gate hash
-            # against a trusted expected digest
-            print("  FAIL: Tampered gate bypassed detection — gate hash integrity check required")
-            print(f"  Original gate hash: {original_gate_hash[:16]}...")
-            print(f"  Tampered gate hash: {tampered_gate_hash[:16]}...")
-            print("  The fixture must reject a tampered gate via hash comparison")
-            return False
-
-        # If the tampered gate still caught the drift, that's fine
-        # but the key V5 requirement is: the fixture detects tampering
-        print("  PASS: Gate tampering detected via hash comparison")
-        print(f"  Original gate hash: {original_gate_hash[:16]}...")
-        print(f"  Tampered gate hash: {tampered_gate_hash[:16]}...")
-        return True
+        # If the hash matches (tamper was ineffective), that's a failure
+        print("  FAIL: Tampering did not change gate hash (tamper ineffective)")
+        print(f"  Trusted gate hash:  {trusted_gate_hash[:16]}...")
+        print(f"  Copied gate hash:   {copied_gate_hash[:16]}...")
+        return False
     finally:
         shutil.rmtree(tmpdir, ignore_errors=True)
 

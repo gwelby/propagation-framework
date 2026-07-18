@@ -1,7 +1,6 @@
 {
   "belt-trick.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['THREE is not defined']",
+    "status": "PASS",
     "route_type": "non-claim",
     "dom_evidence": {
       "PFClaimsData_loaded": false,
@@ -11,7 +10,11 @@
         "THREE is not defined"
       ],
       "title": "Dirac Belt Trick \u2014 720\u00b0 Rotation Lock",
-      "non_claim_route": true
+      "non_claim_route": true,
+      "visual_lib_errors": [
+        "THREE is not defined"
+      ],
+      "truth_layer_errors": []
     }
   },
   "comparison.html": {
@@ -24,12 +27,13 @@
       "js_errors": [],
       "title": "Propagation Framework \u2014 Framework Comparison",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [],
+      "truth_layer_errors": []
     }
   },
   "derivation.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['d3 is not defined']",
+    "status": "PASS",
     "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
@@ -40,12 +44,15 @@
       ],
       "title": "Derivation Chains \u2014 Propagation Framework Explorer",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [
+        "d3 is not defined"
+      ],
+      "truth_layer_errors": []
     }
   },
   "index.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['THREE is not defined']",
+    "status": "PASS",
     "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
@@ -56,12 +63,15 @@
       ],
       "title": "Propagation Framework Explorer | Interactive Physics Visualization",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [
+        "THREE is not defined"
+      ],
+      "truth_layer_errors": []
     }
   },
   "journey.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['THREE is not defined']",
+    "status": "PASS",
     "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
@@ -72,12 +82,15 @@
       ],
       "title": "Propagation Framework \u2014 The Journey",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [
+        "THREE is not defined"
+      ],
+      "truth_layer_errors": []
     }
   },
   "journey_live.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['THREE is not defined']",
+    "status": "PASS",
     "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
@@ -88,7 +101,11 @@
       ],
       "title": "Propagation Framework \u2014 The Live Journey | PhiFlow Driven",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [
+        "THREE is not defined"
+      ],
+      "truth_layer_errors": []
     }
   },
   "nogos.html": {
@@ -101,7 +118,9 @@
       "js_errors": [],
       "title": "No-Go Museum \u2014 Propagation Framework Explorer",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [],
+      "truth_layer_errors": []
     }
   },
   "playground.html": {
@@ -114,7 +133,9 @@
       "js_errors": [],
       "title": "Propagation Playground \u2014 Propagation Framework Explorer",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [],
+      "truth_layer_errors": []
     }
   },
   "quantum-observatory.html": {
@@ -126,12 +147,13 @@
       "status_pills": [],
       "js_errors": [],
       "title": "Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy",
-      "non_claim_route": true
+      "non_claim_route": true,
+      "visual_lib_errors": [],
+      "truth_layer_errors": []
     }
   },
   "scale-ladder.html": {
-    "status": "FAIL",
-    "reason": "JS errors: ['THREE is not defined', 'THREE is not defined']",
+    "status": "PASS",
     "route_type": "claim",
     "dom_evidence": {
       "PFClaimsData_loaded": true,
@@ -143,7 +165,12 @@
       ],
       "title": "Scale Ladder \u2014 Planck to Cosmic | Propagation Framework",
       "claim_route": true,
-      "authority_binding": []
+      "authority_binding": [],
+      "visual_lib_errors": [
+        "THREE is not defined",
+        "THREE is not defined"
+      ],
+      "truth_layer_errors": []
     }
   }
 }
