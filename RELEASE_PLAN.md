@@ -1,5 +1,7 @@
 # Credibility-First World Release Plan for Fundamentals
 
+> ⚠️ **STALE — do not plan from this file.** Release-lane truth lives in `ACTIVE_ISSUES.md` + `WHATS_NEXT.md` priority #8 as of 2026-07-11. Kept as historical record (archived copy: `Archive/RELEASE_PLAN_20260711.md`). Specific rot: Queue 0 still carries "Weinberg DERIVED 0.90"-era wording (demoted ARGUED 0.65 on 2026-06-16) and pre-split God Equation status; missing the current release order (RELEASE_MANIFEST + BUILD_MANIFEST → label sweep → Legal → PUBLIC HOLD recheck → Greg). The queue *structure* (truth-lock → paper → website → expert preview) remains a useful shape — resync before reuse.
+
 ## Summary
 
 Release Fundamentals as a serious, audit-clean research program, not as a hype blast. The first public package should be the existing website plus an academic-review paper, both synchronized to

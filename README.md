@@ -73,9 +73,10 @@ The exact status definitions and falsification pathways are in [CLAIMS.md](./CLA
 
 ## The God Equation
 
-The derivation of the matter coherence scale from the Planck scale was upgraded to **DERIVED**
-on 2026-05-31 with the acceptance of Postulate D (primitive Z₃ no-self-loop selector). The
-underlying formula is:
+The matter-coherence-scale program is currently split, not DERIVED. The
+Postulate-D Z3 operator algebra is a real conditional result, while the scale
+formula remains argued because Postulate D, `N^(D/2)`, and `H_prod` are not
+derived from Axioms 1-3. The underlying formula is:
 
 \[
 \lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0^{SO(3)}}\right).
@@ -86,8 +87,11 @@ With \(N=3\), \(D=3\), and \(b_0 = 16/3\):
 - **Predicted**: \(1.157 \times 10^{-18}\,\mathrm{m}\)
 - **Observed**: \(1.14 \times 10^{-18}\,\mathrm{m}\)
 - **Error**: \(1.48\%\)
-- **Fitting parameters**: \(0\)
-- **Status**: **CONDITIONAL**, not DERIVED
+- **Parameter boundary**: no tunable numerical knob after \(N\), \(D\), and
+  \(b_0\) are chosen, but \(N\), \(D\), and the \(N^{D/2}\) bridge are still
+  premise-bearing
+- **Status**: Postulate-D operator algebra **CONDITIONAL 0.88**; lambda scale
+  formula **ARGUED 0.60**
 
 What is closed:
 

@@ -1,6 +1,88 @@
 # What's Next: Rigor-First Closure Order
 
 > **STRATEGIC DIRECTION (2026-06-18):** see [`UNDENIABLE_ROADMAP.md`](./UNDENIABLE_ROADMAP.md) — the additive path (make ONE falsifiable forward prediction conditional on Postulate D) that complements the subtractive demotion work below. The honest closure order continues here; the roadmap is *where it's headed*.
+> **Truth stack:** read [`TRUTH_REFERENCE_MAP.md`](./TRUTH_REFERENCE_MAP.md) first (Codex, 2026-07-01) — the ranked "what to trust in what order" surface. This file is the *work order* over that truth stack.
+> **Cross-domain bridge:** read [`MEDIUM_TRANSFER_LAYER.md`](./MEDIUM_TRANSFER_LAYER.md) before trying to connect Lean, Python, hardware, thermal laws, cognition, or narrative. The working question is: what survives through a medium, under which observation, at what cost?
+
+**Date**: 2026-07-14 *(Lean/D-series currency pass updated after Codex Edge 28 semantic audit; `Axioms.lean` has one separate explicit `sorry`, while Edge 28's direct dependency closure is clean; prior currency layers preserved)*
+
+---
+
+## DESTINATION (stated by Greg, 2026-07-11)
+
+**(1) Truth first, whatever it is → (2) publish what survives → (3) earn conversations with real physicists — as a sequence, each stage gating the next.**
+
+- Stage 1 is the live stage: the truth-filter (Codex audits, tiers, Lean, PREMISE_LEDGER) deciding which claims survive. Success at this stage includes demotions and falsifications — the filter working IS the progress.
+- Stage 2 (publication) opens only through the release lane (priority #8 below). PUBLIC HOLD stands until then.
+- Stage 3 (outreach) is research, not promotion — question-generation with real physicists (Rivero precedent: expect pointers, not endorsement). Every outreach act is gated by PUBLIC HOLD and Greg.
+
+## HOW TO GET HERE (boot order — Greg-after-two-weeks-away, or any newcomer)
+
+1. **`TRUTH_REFERENCE_MAP.md`** — what to trust in what order (~2 min).
+2. **`STATE.md`** — what is actually happening right now: active audits, blockers (~5 min).
+3. **This file** — the destination, the lanes, the work order (~10 min).
+
+## THE LANES (8 attack angles — sovereign by design)
+
+*Lanes stay sovereign — this file routes, it does not own. Multi-angle attack is deliberate: a lane's plan lives in the lane; only the pointer lives here.*
+
+| # | Lane | Home (live plan/status) | As of | One-line state |
+|---|------|------------------------|-------|----------------|
+| 1 | Lean formalization | `lean/README.md` + `lean/PREMISE_LEDGER.md` | 07-14 | Axioms build green (8248 jobs for `PfLean.Axioms`) with one explicit `sorry` in the general periodic-orbit theorem; its closure has `sorryAx`. Edge 28's direct closure has no `sorryAx` but needs a discrete-return interface. The 2D rotation example is narrow PASS only; general periodicity/H8 closure remain HOLD. Devin owns both proof-design repairs; public unlock HELD. |
+| 2 | Measurement alignment (D-series) | `measurement_alignment/MAP.md` | 07-15 | D1 v4.4 metadata repair CONDITIONAL PASS: neutral label, preserved v4.3 evidence, byte-identical v4.4 replay, and no numeric JSON change. The old v4.3-only probe rejects v4.4 markers and needs separate harness maintenance; scale-consistent/physical-statistical interpretation remains HOLD. D2 BLOCKED non-prediction (PREMISE_LEDGER 001 - not dimensionally closed) · D3 v3.1 submitted to Codex (central branch continuation accepted, MC/uncertainty layer repaired) · D1/D3 cross-surface drift fixed |
+| 3 | Release / PUBLIC HOLD | `PUBLIC_RELEASE_CONTROL_PLANE.md` | 07-15 | Split into independent rings. Phiharmonic package PASS/live HOLD; Explorer V1 truth return REJECTED and visual/runtime HOLD; Knowledge Base emergency content HOLD; book emergency release HOLD; Marketing waits for exact ring packets. `ACTIVE_ISSUES.md` records blockers; `RELEASE_PLAN.md` remains stale. |
+| 4 | Outreach | `PUBLIC_RELEASE_CONTROL_PLANE.md` + `outreach/HAU_OUTREACH_HOLD_20260708.md` + `HUMAN_ENTRY_MAP.md` | 07-15 | ALL claim-bearing outreach HELD pending an approved public reference body and Greg; posture = gratitude-and-questions, never validation or endorsement |
+| 5 | Predictions (PRED) | `PREDICTIONS/README.md` | 06-26 | PRED-002 (neutrino Koide non-universality) = the ONE live forward prediction, awaiting Codex gate + Greg lock; PRED-001 BLOCKED |
+| 6 | Definitions / axioms | `definitions/README.md` + `lean/PREMISE_LEDGER.md` (H1–H21) | 07-08 | 19 canonical v1.0; consciousness = CANDIDATE 0.48 (not canonical); framework-level gaps → `PREMISE_LEDGER.md` |
+| 7 | G3-OP-MAP unconditional strike | `derivations/` (audit files) | FROZEN | All May routes closed negative; reopen ONLY with a genuinely new route |
+| 8 | Seed vault (frontier-model bridge) | `THE_SEED_VAULT/AGENTS.md` | 05-10 | Structure ready, one seed staged; dormant |
+
+**Framework-gap ledger (cross-lane):** `PREMISE_LEDGER.md` — dimensional/premise holes that block downstream work (001: lepton g-2 not dimensionally closed; 002: CKM SILENT).
+
+## STALE SURFACES — do not plan from these (stamped 2026-07-11, kept as history)
+
+| File | Specific rot |
+|------|-------------|
+| `TASKS.md` (05-13) | lists T-021/T-022 as active — both closed NEGATIVE |
+| `QSOP/STATE.md` (05-08) | Weinberg "DERIVED 0.90" — demoted ARGUED 0.65 on 06-16 |
+| `EXPERIMENTAL_ROADMAP.md` (03-18) | predates PRED lane + Lean surge entirely |
+| `FAMILY_STRIKE_PLAN.md` (04-13) | April lane assignments; T-022 "TOP PRIORITY" long closed |
+| `RELEASE_PLAN.md` (06-17) | Queue 0 carries stale Weinberg/God-Eq wording; release truth lives in `PUBLIC_RELEASE_CONTROL_PLANE.md`, with blocker detail in `ACTIVE_ISSUES.md` |
+
+**Maintenance rule:** any session that changes a priority updates THIS file the same session. A lane's plan lives in the lane; only the pointer lives here. When a lane's home file moves, fix the row above — a stale pointer is worse than no pointer.
+
+---
+
+## 2026-07-01 — WHAT ACTUALLY CHANGED SINCE 06-18 (and the corrected work order)
+
+The frontier **moved** while this file sat still. Since 2026-06-18, the real work was not the G3-OP-MAP hand-derivation lane (unchanged, still open) — it was the **Lean formalization surge** and the **prediction lane**:
+
+- **Lean surge (2026-06-14 → 06-30):** `TopologicalWeights` kernel obstruction **DERIVED 0.95** (0 sorrys, kernel-certified); `Z3FromBareMedium.lean` — degenerate residue → circulant (CONDITIONAL 0.85), D=3 symmetric+zero-diag+equal-rows **uniquely forces J−I** while **D=4 does not** (explicit counterexample), and the **D-selection principle** (D=3 unique stable dimension, CONDITIONAL 0.85); `Entropy.lean` — PFEntropy strictly decreases under T³ (residue norm ×1/8 per cycle), full-norm Pythagorean decomposition (**DERIVED 0.95**, pure linear algebra), and **isometry–J−I incompatibility** (T³ strictly contracts non-uniform states); `Axioms.lean` — H14+H15+H16 → H1, plus the translation-flow counterexample (Exp 7b). All conditional rows remain conditional on H7/H17/H18/Postulate D — none of this derives Postulate D from Axioms 1-3.
+- **The 2026-06-26 alignment session** proved the self-catch mesh works pre-publication: H3 smuggling, H8 defined-as-its-own-conclusion, "stability forces symmetry" killed by Codex's `2S_D` counterexample, and the PFEntropy selection principle shown unnecessary at D=3 — all caught *before* release.
+- **Prediction lane is live:** **PRED-002** (neutrino Koide non-universality; DUNE/Hyper-K ~2029–2033) now EXISTS — this is the roadmap's "ONE falsifiable forward prediction," written and packeted for Codex. **PRED-001a was FALSIFIED** (PMNS μ1/τ1 sub-pattern refuted ~3×); PRED-001 stays BLOCKED (no phase-selector machine).
+- **Weinberg manuscript remediation** landed and Codex returned **CONDITIONAL PASS for the scoped stale-blocker class** (2026-07-01): manuscript/book/pdf no longer carry the stale `DERIVED` promotion language. NOT release approval — `RELEASE_MANIFEST.md`/`BUILD_MANIFEST.md` still missing; broader PUBLIC HOLD stands.
+- **NISQ/Shor cross-workspace bridge** (2026-07-01): `ShorBound.lean` + `QuantumStructureSurvival.lean` are **SKETCHED, build PENDING** — not citable as proven. The empirical side (CX-dependent survival, identity-pruning mechanism, Claude's falsified leakage prediction) is recorded in `CLAIMS.md` §NISQ.
+
+### The corrected priority order (supersedes the §Priority Order below for sequencing; the philosophy there stands)
+
+1. ~~**Heal the Lean build.**~~ ✅ DONE (2026-07-11) — `.lake` moved to ext4; `lake build` green ~17 s; verified twice in a row.
+2. **Compile or demote the Shor bridge.** `lake build PfLean.ShorBound`, then `PfLean.QuantumStructureSurvival`, separately — both now build green (~4 s each). Verified → update headers; failed → demote any `PROVEN` wording to SKETCHED. No third state. (ACTIVE)
+3. **Write transfer contracts before reopening cross-domain bridges.** Use `MEDIUM_TRANSFER_LAYER.md` for thermal-arrow, G3 closure, NISQ survival, consciousness metrics, or any Lean/Python/hardware bridge. If the medium, measurement/coarse-graining map, entropy/cost functional, null model, and falsifier are not named, the route is not ready for upgrade.
+4. **Close ProcessOntology's unitarity gap** (2 sorrys) or park it explicitly.
+5. **Drive PRED-002 through the Codex gate.** It is the one genuinely additive, falsifiable, forward-looking artifact — the roadmap's whole ask. Packet exists (`outbox/CLAIM_PACKET_PRED-002_20260626.md`).
+6. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand (trace-norm, Perron-Frobenius, κ/three-field all closed). The Lean J−I results *sharpen the target* (we now know exactly what J−I implies and what forces it at D=3) but do not derive Postulate D. Reopen only with a genuinely new route.
+7. **EEG TEST 1 (T-020) — still the only test generating new data.** Pre-register in `protocols/muse_insight_protocol.md` BEFORE any session. Unchanged since April; still not run.
+8. **Release lane, strictly in order:** write `RELEASE_MANIFEST.md` + `BUILD_MANIFEST.md` → residual "Weinberg derivation" label sweep in release copy → Legal (V3 PF-vs-Aether exact-copy is already CONDITIONAL PASS awaiting Legal) → broader PUBLIC HOLD recheck → Greg.
+
+### What NOT to do (2026-07-01 additions to the standing list below)
+- Do **not** cite `ShorBound`/`QuantumStructureSurvival` as Lean-proven — SKETCHED until built + Codex-rechecked.
+- Do **not** treat the scoped Weinberg boundary clearance as publication approval.
+- Do **not** let the new Lean conditional rows be quoted without their premises (H7/H17/H18/Postulate D) — "machine-checked under these premises," never "proven by the universe."
+- Keep `TRUTH_REFERENCE_MAP.md` in sync whenever `CLAIMS.md`, Lean build status, or release state changes (standing rule from STATE.md).
+
+---
+
+## — Historical layer (2026-06-16, preserved) —
 
 **Date**: 2026-06-16 *(Codex demotion audit applied; statuses corrected)*
 **Context**: Paper v0.3 is done. Neutrino non-universality integrated as positive scope result. God Equation corrected 2026-06-16: Postulate-D Z₃ operator algebra **CONDITIONAL 0.88** / λ_c scale formula **ARGUED 0.60** — "DERIVED (with Postulate D) 0.90" is withdrawn. Weinberg angle corrected to **ARGUED 0.65** — "DERIVED" is withdrawn. God Equation Path B Families A/B/edge-flux remain historical no-gos for the stronger unconditional target. T-022/T-021 came back as honest negatives. The unconditional research strike remains: derive Postulate D / `H_prod` from Axioms 1-3 rather than adopt it as premise. T3 information-theoretic selector closed as target-loaded no-go 2026-05-20.

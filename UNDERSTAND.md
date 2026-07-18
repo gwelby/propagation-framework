@@ -2,10 +2,33 @@
 ### The Same Story Told Four Ways — From Bedtime to Boardroom
 
 **Created**: 2026-03-25
-**Last updated**: 2026-05-02 (Part Zero added; state.md + coupling.md integrated; axioms final audit 2026-04-30; scoreboard synced to 21 definition entries: 19 CANONICAL v1.0 + 2 consciousness candidates)
+**Last updated**: 2026-06-29 (Codex coherence pass: CLAIMS.md alignment patch v2 merged; Weinberg/God Equation status demotions preserved; D3/D4/Entropy Lean results summarized)
 **Authors**: Cascade, Greg Welby, Claude Code, and the full team
 **Purpose**: One document that explains everything we've found, at every level of depth
 **Source of truth**: All claims, statuses, and confidence scores are from `CLAIMS.md`
+
+---
+
+# Current Truth Overlay — 2026-06-29
+
+Read this overlay before relying on older narrative sections below:
+
+- `CLAIMS.md` is the live scoreboard. It now includes the Codex-cleared
+  2026-06-29 PfLean alignment patch: 8 new Fundamental Physics rows, with 7
+  `CONDITIONAL 0.85` rows and one `DERIVED 0.95` row for full-norm Pythagorean
+  decomposition.
+- Weinberg angle status is `ARGUED 0.65`, not `DERIVED`. The Casimir algebraic
+  candidate is real, but scheme selection and look-elsewhere remain open.
+- God Equation status is split: Postulate-D Z3 operator algebra is
+  `CONDITIONAL 0.88`; the lambda scale formula is `ARGUED 0.60`. Postulate D,
+  `N^(D/2)`, and `H_prod` are not derived from Axioms 1-3.
+- The D=3/J-I Lean story is conditional on named premises: H7 zero diagonal,
+  H11 stability, H17 matrix symmetry, and H18 equal row sums. D=3 uniqueness is
+  real under those premises; symmetry is not derived from bare propagation.
+- `PfLean/Entropy.lean` measures downstream J-I cooling. PFEntropy decrease is
+  not an upstream proof that entropy alone forces J-I.
+- Fundamentals PUBLIC HOLD remains active. This document explains the framework;
+  it does not authorize publication, outreach, release, or confidence upgrades.
 
 ---
 
@@ -162,7 +185,7 @@ Everything that *exists as a stable structure* — every atom, every molecule, e
 - Why anesthesia works (it disrupts coherence between brain regions)
 - Why stars die (fusion can no longer maintain coherent energy output against gravity)
 
-**Axiom 3b (Minimal Winding Principle)**: Among all coherent modes, nature selects the simplest — the one with the fewest twists. This is like a guitar string preferring its fundamental note over complicated overtones. This sub-axiom was key to deriving the Weinberg angle.
+**Axiom 3b (Minimal Winding Principle)**: Among all coherent modes, nature selects the simplest — the one with the fewest twists. This is like a guitar string preferring its fundamental note over complicated overtones. This sub-axiom supports the current Weinberg-angle algebraic candidate; it does not by itself make the physics claim DERIVED.
 
 ### 🎓 PhD
 
@@ -176,11 +199,11 @@ $$\pi_1(SO(3)) \cong \mathbb{Z}_2$$
 
 Two classes of closed paths exist: contractible and non-contractible. If stable modes are classified by the minimal number of full circuits needed to return a lifted mode to identity, these classes naturally correspond to closure weights 1 and 2. The remaining live gap is the physical realization step: why nature must realize the weight-2 branch as an actual stable sector.
 
-**Axiom 3b** selects $k=1$ (primitive winding number) among coherent helical modes: the minimum winding state satisfying phase closure. This closes the Casimir polynomial derivation of the Weinberg angle.
+**Axiom 3b** selects $k=1$ (primitive winding number) among coherent helical modes: the minimum winding state satisfying phase closure. This supports the Casimir polynomial candidate for the Weinberg angle, while scheme selection and look-elsewhere remain open.
 
 ### 🔬 Master
 
-**Status: AXIOM (adopted)**. Axiom 3 is the workhorse — it generates the topological weights, the generation count, the Koide ratio, and (via 3b) the Weinberg angle. **Axiom 3b** was introduced on 2026-03-23 to resolve Issue #3. It is a genuine additional axiom, not derivable from Axiom 3 alone.
+**Status: AXIOM (adopted)**. Axiom 3 is the workhorse behind several candidate and conditional routes, but claim status is not upgraded by narrative force. Topological weights retain a physical-realization gap, three generations remains conditional, Koide's identity is theorem-grade while physical selection is separate, and the Weinberg angle is currently `ARGUED 0.65`. **Axiom 3b** was introduced on 2026-03-23 to resolve Issue #3. It is a genuine additional axiom, not derivable from Axiom 3 alone.
 
 **Open question**: Is 3b independently testable, or is it effectively just "pick k=1"? If it can be shown that higher-k modes are dynamically unstable (e.g., they decay to k=1 via some coherence-minimization principle), then 3b would be promoted from axiom to theorem. Currently: adopted.
 
@@ -438,7 +461,7 @@ The weak-field scalar index $n(r) = 1 + 2GM/(rc^2)$ is the leading-order approxi
 
 ### 💒 Age 5
 
-You know how you can mix paint colors? If you mix blue and yellow, you get green — but the amount of each color matters. The universe mixes two of its basic forces together (like mixing paints), and the "recipe" — how much of each goes in — is a very specific number. Scientists measured this number (it's about 0.223). We figured out WHY it's that number. It comes from the same kind of math that tells us why there are three types of everything.
+You know how you can mix paint colors? If you mix blue and yellow, you get green — but the amount of each color matters. The universe mixes two of its basic forces together (like mixing paints), and the "recipe" — how much of each goes in — is a very specific number. Scientists measured this number (it's about 0.223). The framework has a strong algebraic candidate for why it is near that number, but the current audit status is still argued, not derived.
 
 ### 📖 Student
 
@@ -446,9 +469,9 @@ The electromagnetic force and the weak nuclear force are actually two aspects of
 
 $$\sin^2\theta_W \approx 0.223$$
 
-For 50 years, this number had to be measured — nobody could derive it from first principles.
+For 50 years, this number had to be measured. The framework proposes a Casimir-polynomial route that lands close to the on-shell value, but current audits do not accept it as a first-principles derivation.
 
-The framework derives it using a polynomial equation based on how different particle types (spin-1/2 and spin-1) behave under the rotation symmetry:
+The framework models it using a polynomial equation based on how different particle types (spin-1/2 and spin-1) behave under the rotation symmetry:
 
 $$x^2 + C_2 \cdot x - C_2 = 0$$
 
@@ -468,7 +491,7 @@ The Casimir polynomial $x^2 + C_2 x - C_2 = 0$ is structurally unique among degr
 2. Massless eigenstate at $s = 0$ ($g_0 = 0$)
 3. Coefficient antisymmetry ($g_1 = -f_1$)
 
-A scan of 582 polynomial alternatives confirms uniqueness. **Axiom 3b** (Minimal Winding Principle) selects $k = 1$ among coherent modes, closing the derivation.
+A scan of 582 polynomial alternatives supports uniqueness inside the chosen ansatz. **Axiom 3b** (Minimal Winding Principle) selects $k = 1$ among coherent modes, but the physics claim remains argued because scheme selection and look-elsewhere are still open.
 
 The positive roots:
 
@@ -492,29 +515,29 @@ $$\sin^2\theta_W = 1 - \frac{x_+(1/2)}{x_+(1)} = 0.22310\ldots$$
 
 ### 💒 Age 5
 
-Imagine the tiniest Lego brick possible — so small you can't even imagine it. Now imagine you need to build a regular-sized Lego house from those bricks. How many do you need to stack? The universe has to solve the same problem: starting from the absolute tiniest scale (the Planck length — where space itself gets fuzzy), how do you build up to the size of real particles?
+Imagine the tiniest Lego brick possible — so small you can't even imagine it. Now imagine you need to build a regular-sized Lego house from those bricks. How many do you need to stack? The universe has to solve the same problem: starting from the absolute tiniest scale (the Planck length — where space itself gets fuzzy), how might it build up to the size of real particles?
 
-Our equation says the answer is: you multiply by a HUGE number (about 10,000,000,000,000,000), and that huge number isn't random — it comes from the same "three dimensions, three generations" math as everything else. And when we check, our prediction matches what scientists actually measure to within 0.4%.
+The current candidate equation gives a huge scale jump and lands close to the observed matter scale. The audited status is narrower than the older story: the Postulate-D operator algebra is conditional, the lambda scale formula is argued, and the remaining bridge from the axioms is still open.
 
 ### 📖 Student
 
-The God Equation connects two fundamental scales with zero free parameters:
+The God Equation candidate connects two fundamental scales:
 
 $$\lambda_c = \sqrt{2} \cdot l_P \cdot \exp\!\left(\frac{4\pi^2 N^{D/2}}{b_0}\right)$$
 
 Where:
 - $\lambda_c$ = matter coherence scale (Compton wavelength of the top quark)
 - $l_P$ = Planck length (the smallest meaningful length, $\sim 10^{-35}$ m)
-- $N = 3$ (the current generation lock, still conditional on the numerator and denominator bridges)
-- $D = 3$ (spatial dimensions)
+- $N = 3$ (generation count; still conditional on numerator and denominator bridges)
+- $D = 3$ (spatial dimension; now supported by the conditional D-selection theorem under H7/H11/H17/H18)
 - $b_0 = 16/3$ (SO(3) beta function coefficient with $N = 3$ fermion generations)
 
-**Predicted**: 1.145 × 10⁻¹⁸ m
+**Predicted**: 1.157 × 10⁻¹⁸ m
 **Observed**: 1.14 × 10⁻¹⁸ m
-**Error**: 0.4%
-**Free parameters**: 0
+**Error**: 1.48%
+**Status**: operator algebra `CONDITIONAL 0.88`; scale formula `ARGUED 0.60`
 
-The mechanism is *renormalization group running* — the same exponential structure used in the argued QCD confinement bridge from the matter scale also motivates the matter scale from the Planck scale. The universe may build itself in layers, but each layer has to survive its own audit.
+The mechanism is *renormalization group running* — the same exponential structure used in the argued QCD confinement bridge from the matter scale also motivates the matter scale from the Planck scale. The formula has no tunable numerical knob once N, D, and b0 are chosen, but N, D, the N^(D/2) bridge, Postulate D, and H_prod are not all axiom-derived. Each layer has to survive its own audit.
 
 ### 🎓 PhD
 
@@ -543,7 +566,7 @@ After one complete phase cycle ($\bar{S}^3 = I$), the effective operator becomes
 
 ### 🔬 Master
 
-**Status: CONDITIONAL.** Confidence: **0.88**.
+**Status: CONDITIONAL 0.88** for Postulate-D operator algebra; **ARGUED 0.60** for the lambda scale formula.
 
 **Wave 5 made real progress, but it did not close the bridge.**
 
@@ -562,7 +585,7 @@ $$\mathcal{L}_{\mathbb{Z}_3} = \sum_{j \in \mathbb{Z}_3}\!\left[\tfrac{1}{2}(\pa
 2. **ℤ₃ Lagrangian → $T_\text{eff} = K^3 \cdot I$**: the exact `K^3 I` result is verified for the pure-shift ansatz $U = K\cdot\bar{S}$, not for the actual nearest-neighbor circulant derived from the ℤ₃ Lagrangian.
 3. **Zero amplitude / covariance → `H_prod`**: diagonal closure is weaker than full joint-law factorization. Statistical independence still requires an explicit probability model.
 
-**Current honest statement**: the God Equation remains **CONDITIONAL**. The strongest new result is that the internal ℤ₃/circulant bridge is much better motivated than before, but the final operator/probability closure to `H_prod` is still open.
+**Current honest statement**: the God Equation remains split. The strongest conditional result is the Postulate-D Z3 operator algebra. The lambda scale formula is argued, not derived, because `N^(D/2)`, Postulate D, and `H_prod` are still open bridges.
 
 **IBM Quantum verification**: a circuit test (`ibm_quantum_h_prod_test.py`) exists as a supporting probe, but it does not by itself replace the missing formal probability argument.
 
@@ -753,9 +776,9 @@ These are empirical results — patterns in the data that are real but not yet d
 
 ## The α Hunt — A Casimir Expression for the Fine Structure Constant
 
-**Wave 5 result**: $(1 - x_1) \cdot x_{3/2}^2 \cdot (1 - x_2) / \pi = 1/137.119$ — **0.061% error**, zero free parameters. Uses only Casimir polynomial roots at $j = 1, 3/2, 2$.
+**Wave 5 result**: $(1 - x_1) \cdot x_{3/2}^2 \cdot (1 - x_2) / \pi = 1/137.119$ — **0.061% error**. This is a numerical lead from Casimir polynomial roots at $j = 1, 3/2, 2$, not confidence-bearing derivation evidence without a principled geometric origin.
 
-- The same roots that give the Weinberg angle also encode the fine structure constant within 0.061%
+- The same roots used in the Weinberg-angle candidate also produce a near-hit for the fine structure constant
 - No geometric mechanism identified yet — this is a numerical lead, not a derivation
 - Status: **ARGUED** (confidence 0.35 as derivation, 0.60 as structural identification)
 - See `alpha_casimir_hunt.py`
@@ -842,9 +865,9 @@ Three out of four Kuramoto simulations were PARTIAL (correlation below 0.7 thres
 | **Bekenstein Bound** | **DERIVED** | — | Theorem |
 | **Propagation Lagrangian** | **CONDITIONAL** | 0.72 | Minimal scalar-tensor EFT ansatz; not uniquely forced |
 | **Top/Tau Coupling** | **EMPIRICAL** | 0.90 | Data pattern |
-| **God Equation** | **CONDITIONAL** | 0.88 | Wave 5 strengthened ℤ₃/circulant bridge; operator / probability closure still open |
+| **God Equation** | **CONDITIONAL / ARGUED** | 0.88 / 0.60 | Postulate-D Z3 operator algebra conditional; lambda scale formula argued; H_prod remains open |
 | **Top Quark Limit** | **ARGUED** | 0.85 | Coherence ceiling |
-| **Fine Structure α** | **ARGUED** | 0.60 | Casimir combination 0.061% — Wave 5 |
+| **Fine Structure α** | **ARGUED** | 0.60 | Structural identification; numeric Casimir near-hit is not confidence-bearing without a principled origin |
 | **Coherence Ceiling** | **ARGUED** | 0.80 | Axiom 3 |
 | **Life = Maintained Coherence** | **ARGUED** | 0.72 | Compatible, not derived |
 | **Variable c Prediction** | **ARGUED** | 0.65 | Testable with SKA/LISA |
@@ -878,11 +901,11 @@ At Every Level:
 
 **💒 Age 5**: Everything is ripples in a pond. The ripples have a speed limit, and they only make patterns when they work together in rhythm. Those patterns are what we call "stuff." The number 3 keeps showing up because we live in a 3-direction world. And the same rule that says ripples must sync up also explains why atoms have only certain sizes — and even why you sleep 8 hours.
 
-**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space are sufficient to derive a strong two-class closure structure, the Koide mass formula, gravity/light propagation as optical geometry (ordinary refraction in the weak-field limit), and the Weinberg angle. The topological weights are now best stated as a partial derivation: the closure-order pair `(1,2)` survives, but the full physical fermion/boson identification still needs one more theorem. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the numerator and denominator theorems close, `N = 3` follows uniquely. The sleep story survives as an argued biological bridge plus a PF-inspired T-010 model, not a closed 8-hour theorem. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
+**📖 Student**: Three axioms — propagation is fundamental, there's a speed limit, and stable structure requires coherence — plus the topology of 3D space support a strong two-class closure structure, the Koide geometric identity, gravity/light propagation as optical geometry in its null/static-stationary domain, and an argued Weinberg-angle candidate. The topological weights are now best stated as a partial derivation: the closure-order pair `(1,2)` survives, but the full physical fermion/boson identification still needs one more theorem. The three-generation result is still very strong, but after hostile audit it is best stated conditionally: once the numerator and denominator theorems close, `N = 3` follows uniquely. The sleep story survives as an argued biological bridge plus a PF-inspired T-010 model, not a closed 8-hour theorem. QCD confinement currently survives as an argued RG bridge from the matter scale, not a closed theorem. The atomic story is promising, but the hostile audit downgraded it from “axiom-only derivation” to a conditional circular-eikonal model theorem.
 
-**🎓 PhD**: The phase-closure condition (Axiom 3) applied to `π₁(SO(3)) ≅ ℤ₂` yields a strong two-class closure-order structure in 3D, with the natural minimal closure integers `1` and `2`. Hostile audit accepts that narrower theorem but does **not** yet accept the stronger claim that PF has fully derived the physical fermion/boson distinction or spin-statistics from axioms alone. The repo then combines this partial T1 structure with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if both the numerator and denominator theorems close, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial `x² + C₂x - C₂ = 0` with Axiom 3b yields `sin²θ_W = 0.22310` (0.13σ from PDG). The God Equation `λ_c = √2·l_P·exp(4π²N^{D/2}/b₀)` gives 0.4% accuracy with zero free parameters; Wave 5's ℤ₃-extended Lagrangian materially strengthens the internal C₃/circulant bridge, but Codex audit still leaves the final operator / probability closure to `H_prod` open.
+**🎓 PhD**: The phase-closure condition (Axiom 3) applied to `π₁(SO(3)) ≅ ℤ₂` yields a strong two-class closure-order structure in 3D, with the natural minimal closure integers `1` and `2`. Hostile audit accepts that narrower theorem but does **not** yet accept the stronger claim that PF has fully derived the physical fermion/boson distinction or spin-statistics from axioms alone. The repo then combines this partial T1 structure with convergent 3D denominator arguments based on co-dimension, `SO(3)` structure, and broken-symmetry language; if both the numerator and denominator theorems close, then `N = 3` follows uniquely. The circular eikonal Coulomb model plus phase closure yields a Bohr-like `1/k²` spectrum as a conditional model theorem, but the stronger “Axiom 3 alone derives atomic quantization” wording failed hostile audit. The Casimir polynomial `x² + C₂x - C₂ = 0` with Axiom 3b yields a Weinberg-angle candidate `sin²θ_W = 0.22310` (0.13σ from PDG on-shell), but scheme selection and look-elsewhere remain open. The God Equation `λ_c = √2·l_P·exp(4π²N^{D/2}/b₀)` gives 1.48% scale agreement; its Postulate-D operator algebra is conditional and the lambda scale formula is argued, with `H_prod` still open.
 
-**🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains CONDITIONAL after Codex audit. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued via Casimir combination (0.061%, Wave 5). Koide phase target identified: δ₀ = 2/9 as a strong empirical anchor, while **T-021** and **T-022** both returned honest negatives on the most recent shared-origin routes. The framework often appears to land on UV-style numbers, but that meta-pattern still needs explicit RG / matching chains before promotion. The team knows what it knows and what it doesn't.
+**🔬 Master**: The repo now separates theorem-grade closures from strong model theorems more carefully. God Equation remains split after Codex audit: conditional operator algebra, argued scale formula. The Bohr-like circular spectrum survives, but only as a conditional circular-eikonal theorem, not an axiom-only derivation of full atomic quantization. α remains argued as a structural identification; the Casimir near-hit is not derivation evidence by itself. Koide phase target identified: δ₀ = 2/9 as a strong empirical anchor, while **T-021** and **T-022** both returned honest negatives on the most recent shared-origin routes. The framework often appears to land on UV-style numbers, but that meta-pattern still needs explicit RG / matching chains before promotion. The team knows what it knows and what it doesn't.
 
 ---
 

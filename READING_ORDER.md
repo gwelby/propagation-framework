@@ -1,52 +1,86 @@
-# 🗺️ Reading Order: The Propagation Framework
+# Reading Order: The Propagation Framework
 
-Welcome to the Propagation Framework. This repository contains the results of an 18-month exploration into a first-principles theory of reality, built on a single premise: **propagation is fundamental.**
+**Last updated:** 2026-06-29
 
-Depending on your background and what you want to understand, start at the appropriate level below. 
+This repository is active research, not a finished public release. Some results
+are machine-checked or derived, several are conditional, and some older
+enthusiastic summaries are now superseded. Start with the live truth surfaces
+before reading narrative derivations.
 
----
+## 0. Current Truth First
 
-## Level 1: The Curious Mind (No Math Required)
-*You want to understand the core idea conceptually, using analogies and plain English.*
+1. **[CLAIMS.md](./CLAIMS.md)** - the live claim scoreboard, confidence tiers,
+   falsifiers, and June 29 PfLean alignment patch. This file governs public or
+   release-facing claim status.
+2. **[ACTIVE_ISSUES.md](./ACTIVE_ISSUES.md)** - current blockers, public-HOLD
+   state, and next allowed work.
+3. **[RESUME.md](./RESUME.md)** - latest handoff for this workspace. Read this
+   before editing or auditing.
 
-1. **[EXPLAINER.md](./EXPLAINER.md)** — Start here. The "Water and Whirlpools" analogy. This explains what the framework *is* before we touch any math.
-2. **[README.md](./README.md)** — The high-level overview of the project, its mission, and its structure.
+Use this rule: if a derivation, manuscript, README, or generated artifact
+conflicts with these files, treat the derivation or artifact as stale until it
+is reconciled.
 
----
+## 1. Plain-Language Entry
 
-## Level 2: The Undergraduate (The Axioms)
-*You are comfortable with basic physics concepts and want to see the formal structure of the theory.*
+1. **[EXPLAINER.md](./EXPLAINER.md)** - conceptual entry point.
+2. **[UNDERSTAND.md](./UNDERSTAND.md)** - the framework told at multiple levels.
+   Read the 2026-06-29 current-truth note at the top before relying on older
+   sections.
+3. **[README.md](./README.md)** - repository overview and headline status.
 
-1. **[the_propagation_framework.md](./the_propagation_framework.md)** — The foundational document. Read the three core Axioms carefully. Everything else derives from these.
-2. **[theory_of_propagation.md](./theory_of_propagation.md)** — Expanded definitions of the medium, coherence, and stability.
+## 2. Canonical Foundations
 
----
+1. **[the_propagation_framework.md](./the_propagation_framework.md)** - the
+   three core axioms.
+2. **[theory_of_propagation.md](./theory_of_propagation.md)** - expanded
+   conceptual framework.
+3. **[definitions/README.md](./definitions/README.md)** - canonical definition
+   index.
 
-## Level 3: The Practitioner (The Mathematics & Proofs)
-*You want to see the math. How do we derive known physics from pure geometry and phase coherence?*
+## 3. Formal And Audited Mathematics
 
-1. **[derivations/koide_geometric_equivalence.md](./derivations/koide_geometric_equivalence.md)** — The most solid mathematical result in the repo. The proof that the Koide formula ($Q=2/3$) is geometrically equivalent to the exact identity $R/A = \sqrt{2}$, verified to $0.0009\%$ against PDG 2024 data.
-2. **[derivations/planck_scale_from_pf_axioms.md](./derivations/planck_scale_from_pf_axioms.md)** — How the Planck scale emerges as the boundary of geometric coherence.
-3. **[derivations/topological_weight_from_propagation.md](./derivations/topological_weight_from_propagation.md)** — Why fermions have weight 2 and bosons have weight 1.
+1. **[lean/README.md](./lean/README.md)** - current Lean module map and proof
+   boundary notes.
+2. **[lean/PREMISE_LEDGER.md](./lean/PREMISE_LEDGER.md)** - H1-H18 premise
+   accounting, including H17 matrix symmetry and H18 equal row sums.
+3. **[lean/PfLean/Axioms.lean](./lean/PfLean/Axioms.lean)** - source truth for
+   named hypotheses and real `sorry` versus `True := by trivial` scaffolding.
+4. **[lean/PfLean/Z3FromBareMedium.lean](./lean/PfLean/Z3FromBareMedium.lean)**
+   - D=3 uniqueness, D>=4 counterexample, degenerate-residue boundary, and the
+   D-selection principle.
+5. **[lean/PfLean/Entropy.lean](./lean/PfLean/Entropy.lean)** - PFEntropy as
+   downstream J-I cooling evidence, not an upstream selector.
 
----
+## 4. Core Derivations And Audits
 
-## Level 4: The Empirical Auditor (The Data & Failures)
-*You want to see the code, the Monte Carlo simulations, and the honest failures.*
+1. **[derivations/koide_geometric_equivalence.md](./derivations/koide_geometric_equivalence.md)**
+   - Koide geometric identity; physical vacuum selection remains separate.
+2. **[derivations/topological_weight_from_propagation.md](./derivations/topological_weight_from_propagation.md)**
+   - topology route; physical realization remains conditional.
+3. **[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md)**
+   - historical God Equation bridge context. Check `CLAIMS.md` first because
+   the live status is split: Postulate-D operator algebra is conditional and the
+   lambda scale formula is argued.
+4. **[papers/FALSIFICATION_PAPER_DRAFT.md](./papers/FALSIFICATION_PAPER_DRAFT.md)**
+   - falsification framing.
 
-1. **[sandbox_results.md](./sandbox_results.md)** — The honest log of what worked and what didn't. We hit our beautiful theories with the "Hammer of Data" here.
-2. **[CLAIMS.md](./CLAIMS.md)** — The rigorous scorecard. Every claim is classified as DERIVED, EMPIRICALLY-TESTED, ARGUED, or SPECULATIVE. 
-3. **[sandbox/](./sandbox/)** — Run the Python scripts yourself to verify the Monte Carlo results.
+## 5. Empirical And Executable Checks
 
----
+1. **[sandbox_results.md](./sandbox_results.md)** - empirical and executable
+   results log.
+2. **[sandbox/](./sandbox/)** - local verification scripts and exploratory
+   probes.
+3. **[verification/README.md](./verification/README.md)** - verification index.
 
-## Level 5: The Expert / Collaborator (The Frontier)
-*You are a professional physicist or mathematician looking for the open problems and formal gaps.*
+## Current High-Risk Reading Rules
 
-1. **[CONTRIBUTING.md](./CONTRIBUTING.md)** — The open gaps, precisely stated. G3, Weinberg angle, α derivation, Koide selection. Exact missing steps documented.
-2. **[derivations/g3_coupling_bridge.md](./derivations/g3_coupling_bridge.md)** — The one remaining open theorem in the God Equation derivation.
-3. **[derivations/g3_theorem_audit.md](./derivations/g3_theorem_audit.md)** — Why the last attempt failed. The (4π/3) problem and what would actually close it.
-4. **[papers/FALSIFICATION_PAPER_DRAFT.md](./papers/FALSIFICATION_PAPER_DRAFT.md)** — How to prove this entire framework wrong.
-
----
-*The framework that survives contact with data is the one worth keeping.*
+- Do not call the Weinberg angle `DERIVED`; live status is `ARGUED 0.65`.
+- Do not call the God Equation scale formula `DERIVED`; live status is split:
+  Postulate-D Z3 operator algebra is `CONDITIONAL 0.88`, and the lambda scale
+  formula is `ARGUED 0.60`.
+- Do not say symmetry is derived from bare propagation. H17 matrix symmetry and
+  H18 equal row sums are explicit premises in the current Lean stack.
+- Treat PFEntropy as downstream evidence of J-I cooling, not proof that entropy
+  alone forces J-I.
+- Fundamentals PUBLIC HOLD remains active until Codex explicitly lifts it.
