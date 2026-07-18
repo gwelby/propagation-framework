@@ -1,0 +1,238 @@
+{
+  "schema": "devin-d1-v4-4-results",
+  "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
+  "source": "arXiv:1301.4143 Eq. (4)",
+  "input_manifest": {
+    "pdg_edition": "2024",
+    "primary_source": "https://pdg.lbl.gov/2024/mcdata/mass_width_2024.txt (generated 31-May-2024 by PDG)",
+    "secondary_source": "https://pdg.lbl.gov/2024/tables/rpp2024-sum-quarks.pdf (for confidence-level labels)",
+    "source_accessed": "2026-07-13",
+    "renormalization_scheme": "MS-bar for u,d,s,c,b; top is direct kinematic average (see per-quark notes)",
+    "scale_convention": "MIXED \u2014 not at a common scale; see per-quark entries",
+    "correlation_assumptions": "None \u2014 masses treated as independent. PDG does not publish a full quark-mass covariance matrix.",
+    "per_quark_inputs": {
+      "up": {
+        "mass_mev": 2.16,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "2.16E-03 GeV",
+        "sigma_in_artifact": "0.7E-04 GeV",
+        "confidence_label": "90% CL (per PDG 2024 Summary Table header for light quarks)",
+        "conversion_rule": "sigma_1s = sigma_90CL / 1.645",
+        "scheme": "MS-bar",
+        "scale": "2 GeV"
+      },
+      "down": {
+        "mass_mev": 4.7,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "4.70E-03 GeV",
+        "sigma_in_artifact": "0.7E-04 GeV",
+        "confidence_label": "90% CL (per PDG 2024 Summary Table header for light quarks)",
+        "conversion_rule": "sigma_1s = sigma_90CL / 1.645",
+        "scheme": "MS-bar",
+        "scale": "2 GeV"
+      },
+      "strange": {
+        "mass_mev": 93.5,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "9.35E-02 GeV",
+        "sigma_in_artifact": "0.8E-03 GeV",
+        "confidence_label": "90% CL (per PDG 2024 Summary Table header for light quarks)",
+        "conversion_rule": "sigma_1s = sigma_90CL / 1.645",
+        "scheme": "MS-bar",
+        "scale": "2 GeV"
+      },
+      "charm": {
+        "mass_mev": 1273.0,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "1.273E+00 GeV",
+        "sigma_in_artifact": "5.0E-03 GeV",
+        "confidence_label": "90% CL (per PDG 2024 Summary Table header for heavy quarks)",
+        "conversion_rule": "sigma_1s = sigma_90CL / 1.645",
+        "scheme": "MS-bar",
+        "scale": "m_c (~1.27 GeV)",
+        "note": "PDG 2024 Summary Table gives m_c = 1273.0 +/- 4.6 MeV; MC file gives 1273.0 +/- 5.0 MeV. This fit uses the MC file value."
+      },
+      "bottom": {
+        "mass_mev": 4183.0,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "4.183E+00 GeV",
+        "sigma_in_artifact": "7.0E-03 GeV",
+        "confidence_label": "90% CL (per PDG 2024 Summary Table header for heavy quarks)",
+        "conversion_rule": "sigma_1s = sigma_90CL / 1.645",
+        "scheme": "MS-bar",
+        "scale": "m_b (~4.18 GeV)"
+      },
+      "top": {
+        "mass_mev": 172570.0,
+        "pdg_artifact": "PDG 2024 MC data file (mass_width_2024.txt), generated 31-May-2024",
+        "value_in_artifact": "1.7257E+02 GeV",
+        "sigma_in_artifact": "2.9E-01 GeV",
+        "confidence_label": "Not labeled as 90% CL by PDG; treated as exploratory 1-sigma Gaussian",
+        "conversion_rule": "None \u2014 used as-is",
+        "scheme": "Direct kinematic average / MC-generator mass parameter",
+        "scale": "\u2014",
+        "note": "This is the PDG direct-measurement average of LHC and Tevatron kinematic fits. PDG calls this the 'Monte Carlo mass'; it is the mass parameter used in MC generators, distinct from a theoretically well-defined pole mass. The difference between the MC mass and the pole mass is expected to be around 0.5 GeV and is not fully resolved. The 0.29 GeV error is not converted by 1.645 because it is not marked 90% CL."
+      }
+    },
+    "scale_notes": "Light quarks (u,d,s): MS-bar at 2 GeV. Charm: MS-bar at m_c scale. Bottom: MS-bar at m_b scale. Top: direct kinematic average from tt event kinematics, not run to a common scale with the others. A scale-consistent test requires QCD running. Results are CONDITIONAL on the mixed-scale assumption."
+  },
+  "preflight": {
+    "Q1_units": {
+      "check": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(...)) \u2014 sqrt(mass) = sqrt(mass) * dimensionless",
+      "status": "CLOSED",
+      "notes": "Dimensionally consistent. M in MeV, k and delta dimensionless."
+    },
+    "Q2_inputs": {
+      "check": "All inputs from PDG 2024 with declared scheme, scale, and confidence convention.",
+      "status": "DECLARED",
+      "notes": "Per-quark manifest records exact PDG artifact, value, uncertainty, confidence label, conversion rule, scheme, and scale. u,d,s,c,b: 90% CL converted to 1-sigma. top: direct kinematic average 172.57 +/- 0.29 GeV; uncertainty not labeled 90% CL by PDG, used as exploratory 1-sigma Gaussian. No calibration or target selection reused. WARNING: mixed scales and unresolved top confidence convention mean results are CONDITIONAL exploratory outputs, not a closed PDG-2024 statistical test."
+    },
+    "Q3_observable": {
+      "observable": "Best-fit phase delta_f for each sector (f=up, down) under Eq. (4)",
+      "null_model": "Zenczykowski predicted values: delta_U=2/27, delta_D=4/27",
+      "decision_threshold": "No sigma-based falsification claim and no compatibility/tension verdict labels. Report only numerical chi^2 and p-value outputs for fixed-phase fits, labeled as outputs of the declared exploratory Gaussian input model. Do not claim 'falsification at N sigma'.",
+      "status": "DECLARED",
+      "notes": "Following Codex D1 v3 audit: numerical discrepancies under mixed-scale inputs are not promoted to physical conclusions. This run uses mixed-scale inputs, so all results are CONDITIONAL exploratory outputs."
+    },
+    "overall_status": "EXPLORATORY",
+    "overall_notes": "EXPLORATORY: may run sensitivity/diagnostic work but cannot produce prediction, sigma, or public language per Codex formula-readiness gate. Results are conditional on mixed-scale assumption."
+  },
+  "free_fit": {
+    "up": {
+      "M": 22757.15802040551,
+      "k": 1.2435355414012772,
+      "delta": 0.0745169408006364,
+      "Q": 0.8487935475760559,
+      "predictions": [
+        172570.0,
+        2.1600000000000112,
+        1272.9999999999939
+      ]
+    },
+    "down": {
+      "M": 650.4812934916171,
+      "k": 1.0926402566634248,
+      "delta": 0.11011874535929662,
+      "Q": 0.7312875768271715,
+      "predictions": [
+        4183.000000000001,
+        4.700000000000064,
+        93.49999999999947
+      ]
+    }
+  },
+  "monte_carlo": {
+    "up": {
+      "delta_mean": 0.07451798206391216,
+      "delta_sigma": 0.00012077831561575733,
+      "k_mean": 1.2435343629154836,
+      "k_sigma": 0.00022705807361917462
+    },
+    "down": {
+      "delta_mean": 0.11012035018867468,
+      "delta_sigma": 0.0004151124095840324,
+      "k_mean": 1.092643400759749,
+      "k_sigma": 0.0006115791873948855
+    }
+  },
+  "fixed_delta": {
+    "up": {
+      "delta": 0.07407407407407407,
+      "M": 22815.497358234075,
+      "k": 1.2442505774281751,
+      "Q": 0.8493864998101156,
+      "chi2": 13.590457350041167,
+      "p_value": 0.00022733823539988483,
+      "predictions": [
+        173146.4004747997,
+        2.198871070403906,
+        1263.9796369663666
+      ],
+      "pulls": [
+        -1.9875878441369297,
+        -0.9133888733907186,
+        2.967435370458186
+      ],
+      "optimizer_success": true
+    },
+    "down": {
+      "delta": 0.14814814814814814,
+      "M": 663.4898681172125,
+      "k": 1.0608323686886723,
+      "Q": 0.7084551048192064,
+      "chi2": 9228.415883356873,
+      "p_value": 0.0,
+      "predictions": [
+        4093.2761980902997,
+        2.917988886935353,
+        134.28086959391555
+      ],
+      "pulls": [
+        21.083217285006576,
+        41.8735348941745,
+        -83.84820157723375
+      ],
+      "optimizer_success": true
+    }
+  },
+  "cross_sector": {
+    "up_to_down": {
+      "delta": 0.1490338816012728,
+      "chi2": 9674.583181512924,
+      "p_value": 0.0
+    },
+    "down_to_up": {
+      "delta": 0.05505937267964831,
+      "chi2": 26777.03907855014,
+      "p_value": 0.0
+    }
+  },
+  "regression_test_delta_u_2_27": {
+    "test": "delta_U = 2/27 fixed-phase up-sector diagnostic",
+    "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
+    "free_fit_delta": 0.0745169408006364,
+    "free_fit_delta_deg": 4.269506210102671,
+    "predicted_delta": 0.07407407407407407,
+    "predicted_delta_deg": 4.244131815783875,
+    "delta_difference": 0.0004428667265623243,
+    "delta_difference_percent": 0.5978700808591377,
+    "fixed_delta_chi2": 13.590457350041167,
+    "fixed_delta_p_value": 0.00022733823539988483,
+    "fixed_delta_k": 1.2442505774281751,
+    "fixed_delta_M": 22815.497358234075,
+    "fixed_delta_Q": 0.8493864998101156,
+    "notes": "Free fit gives delta_U = 0.074517 rad. Zenczykowski predicts 0.074074 rad. Difference: 0.000443 rad (0.60%). Fixed-delta chi^2 = 13.5905 (p = 0.0002). No compatibility/tension verdict is assigned; these are exploratory model outputs."
+  },
+  "regression_test_optimizer": {
+    "test": "optimizer regression on synthetic data",
+    "M_true": 10000.0,
+    "k_true": 1.2,
+    "delta_true": 0.07,
+    "M_recovered": 10000.068370545574,
+    "k_recovered": 1.200000583104104,
+    "M_relative_error": 6.8370545573998245e-06,
+    "k_relative_error": 4.859200867605533e-07,
+    "chi2_found": 0.22596667202850726,
+    "chi2_expected_at_true": 0.5899999999991258,
+    "optimizer_success": true,
+    "pass": true
+  },
+  "top_mass_sensitivity": {
+    "top_definition_used": "pole-from-cross-section (172.4 +/- 0.7 GeV)",
+    "M": 22736.57956313005,
+    "k": 1.2434600966582574,
+    "delta": 0.07455524934204148,
+    "delta_deg": 4.2717011278444845,
+    "Q": 0.8487310039937878,
+    "delta_difference_from_main": 3.8308541405088214e-05,
+    "notes": "Using the cross-section top definition instead of the direct-measurement average shifts the up-sector free-fit phase. This check varies only the central mass; it does not carry the alternate uncertainty through the fixed-phase or Monte-Carlo outputs. A full sensitivity study is future work."
+  },
+  "phase_ratio": {
+    "observed": 1.4777679300323099,
+    "mc_mean": 1.4777688168505057,
+    "mc_sigma": 0.00606372421901396,
+    "predicted": 2.0
+  },
+  "status": "EXPLORATORY",
+  "claim_boundary": "No falsification claim. No sigma-based statistical claim. p-values and chi2 are outputs of the declared exploratory Gaussian input model only. Results conditional on mixed-scale inputs. Scale-consistent test requires QCD running to a common scale."
+}

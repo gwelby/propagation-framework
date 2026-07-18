@@ -1,0 +1,230 @@
+{
+  "schema": "devin-d3-v3-1-results",
+  "source": "Zenczykowski 2013, arXiv:1301.4143v2",
+  "pre_registration": {
+    "analysis_type": "SENSITIVITY STUDY \u2014 non-statistical",
+    "reason": "Quark masses are at different renormalization scales (light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass). Without QCD running to a common scale, no sigma-based falsification or prediction claim is valid.",
+    "branch_rule": "Track the paper's Eq. (25) root pair by continuity. Start from (paper masses, 2012 FX angles, k=1) where \u03b8\u2082\u2083=2.988\u00b0. Identify the root pair (\u03b8_b, \u03b8_t) that produces 2.988\u00b0. Gradually interpolate masses and angles to PDG 2024 values. At each step, select the root pair closest to the previous step. Report where the tracked branch ends.",
+    "statistic": "Predicted \u03b8\u2082\u2083 from the tracked branch vs. observed PDG 2024 \u03b8\u2082\u2083. Reported as a qualitative sensitivity observation, not a sigma pull.",
+    "threshold": "No pass/fail threshold. This is a sensitivity study. The output is: where does the paper branch end up under PDG 2024 inputs, and how sensitive is it to mass and CKM parameter uncertainties?",
+    "what_this_does_not_claim": "No falsification of Zenczykowski's model. No confirmation of the pseudo-mass Koide hypothesis. No sigma-based statistical test. No CLAIMS.md, MAP.md, or CKM tier change. CKM remains SILENT in PF."
+  },
+  "pdg_2024_ckm": {
+    "s12": 0.22501,
+    "s23": 0.04183,
+    "s13": 0.003732,
+    "delta_cp": 1.147,
+    "delta_cp_sig": 0.026,
+    "s12_sig": 0.00068,
+    "s23_sig_plus": 0.00079,
+    "s23_sig_minus": 0.00069,
+    "s13_sig_plus": 9e-05,
+    "s13_sig_minus": 8.5e-05
+  },
+  "fx_angles_pdg_2024": {
+    "theta_d_deg": 11.792767517423416,
+    "theta_u_deg": 5.098366518103112,
+    "theta_23_deg": 2.4068934420310497
+  },
+  "masses": {
+    "paper_down": [
+      7.843,
+      160.0,
+      4209.0
+    ],
+    "paper_up": [
+      4.392,
+      1296.0,
+      172000.0
+    ],
+    "pdg_down": [
+      4.7,
+      93.5,
+      4183.0
+    ],
+    "pdg_up": [
+      2.16,
+      1273.0,
+      172500.0
+    ],
+    "pdg_down_sig": [
+      0.043,
+      0.486,
+      4.26
+    ],
+    "pdg_up_sig": [
+      0.043,
+      2.8,
+      700.0
+    ],
+    "scale_note": "MIXED \u2014 light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass"
+  },
+  "branch_4a_mass_only": {
+    "start_theta_23": 2.988276938198376,
+    "end_theta_23": 4.303851395173489
+  },
+  "branch_4b_full_pdg": {
+    "start_theta_23": 2.988276938198376,
+    "end_theta_23": 4.308496268831267
+  },
+  "branch_4c_k1015": {
+    "start_theta_23": 2.4425680757413666,
+    "end_theta_23": 3.7257786761631855
+  },
+  "sensitivity_envelope": {
+    "central_theta_23_deg": 4.308496268831267,
+    "envelopes": [
+      {
+        "parameter": "m_d+",
+        "value": 4.743,
+        "theta_23_deg": 4.310611393026523,
+        "shift": 0.0021151241952557243
+      },
+      {
+        "parameter": "m_d-",
+        "value": 4.657,
+        "theta_23_deg": 4.306386184961843,
+        "shift": -0.0021100838694243507
+      },
+      {
+        "parameter": "m_s+",
+        "value": 93.986,
+        "theta_23_deg": 4.296730115649701,
+        "shift": -0.011766153181566708
+      },
+      {
+        "parameter": "m_s-",
+        "value": 93.014,
+        "theta_23_deg": 4.320290536331027,
+        "shift": 0.011794267499759314
+      },
+      {
+        "parameter": "m_b+",
+        "value": 4187.26,
+        "theta_23_deg": 4.310567374341884,
+        "shift": 0.002071105510617066
+      },
+      {
+        "parameter": "m_b-",
+        "value": 4178.74,
+        "theta_23_deg": 4.3064215640717185,
+        "shift": -0.002074704759548851
+      },
+      {
+        "parameter": "m_u+",
+        "value": 2.2030000000000003,
+        "theta_23_deg": 4.308671947138795,
+        "shift": 0.00017567830752796
+      },
+      {
+        "parameter": "m_u-",
+        "value": 2.117,
+        "theta_23_deg": 4.308320631926351,
+        "shift": -0.00017563690491595452
+      },
+      {
+        "parameter": "m_c+",
+        "value": 1275.8,
+        "theta_23_deg": 4.308410182262757,
+        "shift": -8.60865685101686e-05
+      },
+      {
+        "parameter": "m_c-",
+        "value": 1270.2,
+        "theta_23_deg": 4.308583752792908,
+        "shift": 8.748396164026673e-05
+      },
+      {
+        "parameter": "m_t+",
+        "value": 173200.0,
+        "theta_23_deg": 4.308622345850273,
+        "shift": 0.00012607701900524404
+      },
+      {
+        "parameter": "m_t-",
+        "value": 171800.0,
+        "theta_23_deg": 4.30837376025992,
+        "shift": -0.0001225085713469909
+      },
+      {
+        "parameter": "sin(theta12)+",
+        "value": 0.22569,
+        "theta_23_deg": 4.305493661641939,
+        "shift": -0.0030026071893285433
+      },
+      {
+        "parameter": "sin(theta12)-",
+        "value": 0.22432999999999997,
+        "theta_23_deg": 4.311507444025999,
+        "shift": 0.0030111751947314858
+      },
+      {
+        "parameter": "sin(theta23)+",
+        "value": 0.04262,
+        "theta_23_deg": 4.316692540363542,
+        "shift": 0.008196271532274757
+      },
+      {
+        "parameter": "sin(theta23)-",
+        "value": 0.041139999999999996,
+        "theta_23_deg": 4.301116505445441,
+        "shift": -0.00737976338582591
+      },
+      {
+        "parameter": "sin(theta13)+",
+        "value": 0.003822,
+        "theta_23_deg": 4.297894781096814,
+        "shift": -0.01060148773445313
+      },
+      {
+        "parameter": "sin(theta13)-",
+        "value": 0.003647,
+        "theta_23_deg": 4.31857477245824,
+        "shift": 0.010078503626973045
+      },
+      {
+        "parameter": "delta_CP+",
+        "value": 1.173,
+        "theta_23_deg": 4.297747153338329,
+        "shift": -0.010749115492938444
+      },
+      {
+        "parameter": "delta_CP-",
+        "value": 1.121,
+        "theta_23_deg": 4.319371404880796,
+        "shift": 0.0108751360495285
+      }
+    ],
+    "max_positive_shift": 0.011794267499759314,
+    "max_negative_shift": -0.011766153181566708,
+    "envelope_lower": 4.296730115649701,
+    "envelope_upper": 4.320290536331027
+  },
+  "exploratory_mc": {
+    "n_successful": 100,
+    "n_draws": 100,
+    "min": 4.252270003922303,
+    "max": 4.358196921363587,
+    "mean": 4.3068996033139015,
+    "note": "Exploratory sanity check, NOT a confidence interval"
+  },
+  "all_branches_at_pdg": [
+    0.18272777337802334,
+    0.18272777337803167,
+    -1.8735409074382938,
+    -1.8735409074383043,
+    4.308496268831267,
+    -5.999309402891541
+  ],
+  "observed_theta_23_fx_deg": 2.4068934420310497,
+  "observed_theta_23_std_deg": 2.3973819400182745,
+  "pre_registered_plan": {
+    "file": "D3v3_1_preregistered_plan.md",
+    "sha256": "4fffaefa984b4d6325689f1a487926c6b109b5f315de697ac45c32850eb73cfb",
+    "timestamp": "2026-07-13T04:36:24Z",
+    "git_hash": "57eafcadf2fb809ac86905227b9c7e22dcf1fc82",
+    "note": "Reproducible sensitivity work, NOT externally pre-registered. Hashes are actual on-disk values. A future v3.2 pre-registered run must use an immutable receipt before execution."
+  },
+  "status": "SENSITIVITY STUDY \u2014 non-statistical",
+  "claim_boundary": "No falsification claim. No sigma-based claim. No CLAIMS.md, MAP.md, or CKM tier change. CKM remains SILENT in PF. Results conditional on mixed-scale masses. A scale-consistent test requires QCD running to a common scale."
+}

@@ -1,0 +1,148 @@
+{
+  "schema": "devin-d1-v4-results",
+  "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
+  "source": "arXiv:1301.4143 Eq. (4)",
+  "input_manifest": {
+    "pdg_edition": "2024",
+    "source": "PDG 2024 Review of Particle Physics + pdgLive verification",
+    "renormalization_scheme": "MS-bar",
+    "scale_convention": "MIXED \u2014 see notes below",
+    "confidence_convention": "1-sigma Gaussian for Monte Carlo; see per-quark notes",
+    "correlation_assumptions": "None \u2014 masses treated as independent",
+    "scale_notes": "Light quarks (u,d,s): MS-bar at 2 GeV. Charm: MS-bar at m_c scale (~1.27 GeV). Bottom: MS-bar at m_b scale (~4.18 GeV). Top: pole mass from cross-section measurements. These are NOT at a common scale. Zenczykowski frames the phase discussion at 'low energy'. A scale-consistent test requires QCD running to a common scale. Results are CONDITIONAL on the mixed-scale assumption."
+  },
+  "preflight": {
+    "Q1_units": {
+      "check": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(...)) \u2014 sqrt(mass) = sqrt(mass) * dimensionless",
+      "status": "CLOSED",
+      "notes": "Dimensionally consistent. M in MeV, k and delta dimensionless."
+    },
+    "Q2_inputs": {
+      "check": "All inputs from PDG 2024 with declared scheme, scale, and confidence convention.",
+      "status": "CLOSED",
+      "notes": "Mixed-scale inputs explicitly declared in INPUT_MANIFEST. Light quarks: MS-bar at 2 GeV, 90% CL converted to 1-sigma. Heavy quarks: MS-bar at own scale or pole mass, 1-sigma. No calibration or target selection reused. WARNING: mixed scales mean results are CONDITIONAL, not scale-consistent."
+    },
+    "Q3_observable": {
+      "observable": "Best-fit phase delta_f for each sector (f=up, down) under Eq. (4)",
+      "null_model": "Zenczykowski predicted values: delta_U=2/27, delta_D=4/27",
+      "decision_threshold": "No sigma-based falsification claim due to mixed-scale inputs. Report compatibility/tension qualitatively and with chi^2/p-values for fixed-phase fits. Do not claim 'falsification at N sigma'.",
+      "status": "DECLARED",
+      "notes": "Following Codex D1 v3 audit: 'Treat any hierarchy tension as conditional unless the scale-consistent analysis justifies a stronger statement.' This run uses mixed-scale inputs, so all results are CONDITIONAL."
+    },
+    "overall_status": "EXPLORATORY",
+    "overall_notes": "EXPLORATORY: may run sensitivity/diagnostic work but cannot produce prediction, sigma, or public language per Codex formula-readiness gate. Results are conditional on mixed-scale assumption."
+  },
+  "free_fit": {
+    "up": {
+      "M": 22748.684638829112,
+      "k": 1.2435044884655335,
+      "delta": 0.074532707860004,
+      "Q": 0.8487678042779759,
+      "predictions": [
+        172499.99999999997,
+        2.159999999999612,
+        1273.0000000000034
+      ]
+    },
+    "down": {
+      "M": 650.4812934916171,
+      "k": 1.0926402566634248,
+      "delta": 0.11011874535929662,
+      "Q": 0.7312875768271715,
+      "predictions": [
+        4183.000000000001,
+        4.700000000000064,
+        93.49999999999947
+      ]
+    }
+  },
+  "monte_carlo": {
+    "up": {
+      "delta_mean": 0.07453460411833843,
+      "delta_sigma": 0.00021784999140727907,
+      "k_mean": 1.2435018067958674,
+      "k_sigma": 0.00041447388844212667
+    },
+    "down": {
+      "delta_mean": 0.1101199705936388,
+      "delta_sigma": 0.0006600934045559582,
+      "k_mean": 1.0926444679306566,
+      "k_sigma": 0.000953251669455232
+    }
+  },
+  "fixed_delta": {
+    "up": {
+      "delta": 0.07407407407407407,
+      "M": 22869.65101424426,
+      "k": 1.2443384978953203,
+      "Q": 0.8494594324481272,
+      "chi2": 4.497787088079747,
+      "p_value": 0.03393874690728147,
+      "predictions": [
+        173572.9960044018,
+        2.172784625912559,
+        1266.3981485923564
+      ],
+      "pulls": [
+        -1.5328514348597049,
+        -0.29731688168741915,
+        1.4351850886181756
+      ]
+    },
+    "down": {
+      "delta": 0.14814814814814814,
+      "M": 670.7954756543095,
+      "k": 1.0480292261186575,
+      "Q": 0.6994550862662906,
+      "chi2": 3807.2917816092386,
+      "p_value": 0.0,
+      "predictions": [
+        4078.8876931427394,
+        4.0378653036782834,
+        139.79620717098499
+      ],
+      "pulls": [
+        14.87318669389437,
+        15.398481309807368,
+        -57.87025896373123
+      ]
+    }
+  },
+  "cross_sector": {
+    "up_to_down": {
+      "delta": 0.149065415720008,
+      "chi2": 4004.1924960227802,
+      "p_value": 0.0
+    },
+    "down_to_up": {
+      "delta": 0.05505937267964831,
+      "chi2": 139834.8970273679,
+      "p_value": 0.0
+    }
+  },
+  "regression_test": {
+    "test": "delta_U = 2/27 compatibility with up-sector masses",
+    "formula": "sqrt(m_j) = sqrt(M) * (1 + sqrt(2)*k*cos(2*pi*j/3 + delta))",
+    "free_fit_delta": 0.074532707860004,
+    "free_fit_delta_deg": 4.270409596059767,
+    "predicted_delta": 0.07407407407407407,
+    "predicted_delta_deg": 4.244131815783875,
+    "delta_difference": 0.0004586337859299322,
+    "delta_difference_percent": 0.6191556110054085,
+    "fixed_delta_chi2": 4.497787088079747,
+    "fixed_delta_p_value": 0.03393874690728147,
+    "fixed_delta_k": 1.2443384978953203,
+    "fixed_delta_M": 22869.65101424426,
+    "fixed_delta_Q": 0.8494594324481272,
+    "verdict": "TENSION",
+    "notes": "Free fit gives delta_U = 0.074533 rad. Zenczykowski predicts 0.074074 rad. Difference: 0.000459 rad (0.62%). Fixed-delta chi^2 = 4.4978 (p = 0.0339). Tension at 95% CL."
+  },
+  "phase_ratio": {
+    "observed": 1.477455314868399,
+    "mc_mean": 1.4774341649256173,
+    "mc_sigma": 0.009852896422046474,
+    "predicted": 2.0
+  },
+  "status": "EXPLORATORY",
+  "claim_boundary": "No falsification claim. No sigma-based claim. Results conditional on mixed-scale inputs. Scale-consistent test requires QCD running."
+}
