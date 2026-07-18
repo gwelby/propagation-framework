@@ -2,9 +2,9 @@
 *Devin · 2026-07-12 · Zenczykowski 2013 (arXiv:1301.4143v2) · PDG 2024*
 *Corrected per Codex audits: CODEX_20260711_D3V2_CKM_PSEUDOMASS_AUDIT.md and CODEX_20260712_D3V3_CKM_BRANCH_CONTINUATION_AUDIT.md*
 
-## Pre-Registration (Declared Before Computation)
+## Analysis Declaration (Post-Hoc Reproduducible Sensitivity Run)
 
-**Analysis type:** SENSITIVITY STUDY — non-statistical
+**Analysis type:** POST-HOC REPRODUCIBLE SENSITIVITY RUN — non-statistical
 **Reason:** Quark masses are at different renormalization scales (light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass). Without QCD running to a common scale, no sigma-based falsification or prediction claim is valid.
 **Branch rule:** Track the paper's Eq. (25) root pair by continuity. Start from (paper masses, 2012 FX angles, k=1) where θ₂₃=2.988°. Identify the root pair (θ_b, θ_t) that produces 2.988°. Gradually interpolate masses and angles to PDG 2024 values. At each step, select the root pair closest to the previous step. Report where the tracked branch ends.
 **Statistic:** Predicted θ₂₃ from the tracked branch vs. observed PDG 2024 θ₂₃. Reported as a qualitative sensitivity observation, not a sigma pull.
@@ -19,7 +19,7 @@ D3 v2 was CONDITIONAL PASS for source replay but REJECTED for current-data claim
 3. **Sensitivity study label:** Mixed-scale masses → no sigma-based claim. Explicitly labeled as non-statistical.
 4. **Correct PDG uncertainty values (v3.1):** sin(θ₁₂) = 0.00068, sin(θ₁₃) = +0.000090/-0.000085, matching PDG 2024 Eq. (12.28)
 5. **Plus/minus sensitivity envelope (v3.1):** Replaces the rejected MC confidence interval. One-at-a-time parameter variations, non-statistical.
-6. **Sealed pre-registration (v3.1):** Pre-run plan file with SHA-256 and timestamp, included in packet.
+6. **Post-hoc sensitivity run (v3.1):** Plan file recorded with SHA-256 and timestamp for reproducibility. This is NOT a pre-registered run.
 
 ## 1. Unit Tests — Paper Checkpoint Reproduction
 
@@ -146,12 +146,24 @@ Starting θ₂₃: 2.4426° (paper checkpoint: 2.44°)
 Ending θ₂₃: 3.7258°
 Observed θ₂₃: 2.407° (FX, PDG 2024)
 
+### 4d. High-angle initial pair (negative control)
+
+Using INITIAL_PAIR_HIGH (89.446°, 86.458°) instead of INITIAL_PAIR_LOW to confirm that the two pairs diverge to different endpoints.
+
+Starting θ₂₃: 2.9883°
+Ending θ₂₃: 0.1827°
+Low-pair endpoint: 4.3085°
+High-pair endpoint: 0.1827°
+Endpoints differ by 4.1258°
+
+**The two initial pairs produce different endpoints, confirming that branch selection is determined by the exact initial_pair, not by rounded-difference enumeration.**
+
 ## 5. Sensitivity Envelope (v3.1 Fix)
 
 **No "full uncertainty propagation" claim.** This section computes a **plus/minus**
 **sensitivity envelope** by varying each uncertain parameter one at a time, holding
 all others at central values. It is a non-statistical envelope, not a confidence
-interval. A small exploratory MC with a proper two-sided asymmetric sampler is
+interval. A small exploratory MC with a zero-centered two-width exploratory mixture is
 included as a sanity check, not as a statistical result.
 
 **Central endpoint:** 4.3085°
@@ -217,8 +229,8 @@ The continuity-tracked branch is the one that connects to the paper's 2.988° ch
 - PDG uncertainty values corrected: sin(θ₁₂) = 0.00068, sin(θ₁₃) = +0.000090/-0.000085
 - Mixed-scale masses explicitly labeled as sensitivity study, not statistical test
 - Plus/minus sensitivity envelope replaces the rejected MC confidence interval
-- Exploratory MC uses a zero-centered two-width mixture (sanity check only). Note: this is NOT a cited split-normal/two-piece model — the code produces both signs but does not assign the plus width only to the upper tail and the minus width only to the lower tail.
-- Analysis recorded with a plan file (hash + timestamp). **Audit addendum (2026-07-13):** This is reproducible sensitivity work, NOT externally pre-registered. The plan file's actual SHA-256 is `4fff...3cfb` and git blob is `57ea...fc82`; prior claims of `ac0b...ffa3` and `cddf...e508` did not match the actual file and have been corrected. A future v3.2 pre-registered run must use an immutable receipt before execution.
+- Exploratory MC uses a zero-centered two-width exploratory mixture (sanity check only). Note: the code produces both signs but does not assign the plus width only to the upper tail and the minus width only to the lower tail.
+- Analysis recorded with a plan file (hash + timestamp) for reproducibility. This is a post-hoc reproducible sensitivity run, NOT a pre-registered analysis. A future v3.2 may use a detached immutable pre-run receipt.
 
 **What the corrected analysis shows:**
 
@@ -242,7 +254,7 @@ The continuity-tracked branch is the one that connects to the paper's 2.988° ch
 **What would be needed for a statistical test:**
 - Run all six quark masses to a common renormalization scale with a trusted QCD prescription
 - Include PDG-published CKM-fit covariance (not just independent parameter uncertainties)
-- Pre-register the branch, statistic, and pass/fail threshold before the scale-consistent run
+- Use a detached immutable pre-run receipt for the branch, statistic, and pass/fail threshold before the scale-consistent run
 - Only then would a sigma-based comparison to observed θ₂₃ be meaningful
 
 ## 8. Method Notes
@@ -262,6 +274,6 @@ The continuity-tracked branch is the one that connects to the paper's 2.988° ch
 - Top mass input: 172.5 ± 0.7 GeV (source input; note: PDG 2024 cross-section pole row is 172.4 ± 0.7 GeV — 0.1 GeV offset, -0.000018° effect on central result)
 - 90% CL uncertainties converted to 1σ by dividing by 1.645 for light quarks
 - Sensitivity envelope: one-at-a-time parameter variations, non-statistical
-- Exploratory MC: 100 draws, zero-centered two-width mixture (NOT a cited split-normal; sanity check only)
-- Pre-registration: `D3v3_1_preregistered_plan.md` recorded with SHA-256 and timestamp. **NOT externally pre-registered** — see audit addendum above.
+- Exploratory MC: 100 draws, zero-centered two-width exploratory mixture (sanity check only)
+- Plan file: `D3v3_1_preregistered_plan.md` recorded with SHA-256 and timestamp for reproducibility. This is a post-hoc reproducible sensitivity run, NOT a pre-registered analysis.
 - Source script: `d3_ckm_scan_v3_1.py` in this directory

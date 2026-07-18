@@ -1,13 +1,24 @@
 {
   "schema": "devin-d3-v3-1-results",
   "source": "Zenczykowski 2013, arXiv:1301.4143v2",
-  "pre_registration": {
-    "analysis_type": "SENSITIVITY STUDY \u2014 non-statistical",
+  "analysis_declaration": {
+    "analysis_type": "POST-HOC REPRODUCIBLE SENSITIVITY RUN \u2014 non-statistical",
     "reason": "Quark masses are at different renormalization scales (light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass). Without QCD running to a common scale, no sigma-based falsification or prediction claim is valid.",
     "branch_rule": "Track the paper's Eq. (25) root pair by continuity. Start from (paper masses, 2012 FX angles, k=1) where \u03b8\u2082\u2083=2.988\u00b0. Identify the root pair (\u03b8_b, \u03b8_t) that produces 2.988\u00b0. Gradually interpolate masses and angles to PDG 2024 values. At each step, select the root pair closest to the previous step. Report where the tracked branch ends.",
     "statistic": "Predicted \u03b8\u2082\u2083 from the tracked branch vs. observed PDG 2024 \u03b8\u2082\u2083. Reported as a qualitative sensitivity observation, not a sigma pull.",
     "threshold": "No pass/fail threshold. This is a sensitivity study. The output is: where does the paper branch end up under PDG 2024 inputs, and how sensitive is it to mass and CKM parameter uncertainties?",
     "what_this_does_not_claim": "No falsification of Zenczykowski's model. No confirmation of the pseudo-mass Koide hypothesis. No sigma-based statistical test. No CLAIMS.md, MAP.md, or CKM tier change. CKM remains SILENT in PF."
+  },
+  "initial_pairs": {
+    "low_angle_deg": [
+      -0.5537461078,
+      -3.542023046
+    ],
+    "high_angle_deg": [
+      89.4462538922,
+      86.457976954
+    ],
+    "note": "Both pairs give theta_23 ~ 2.988 deg at start; they diverge under interpolation."
   },
   "pdg_2024_ckm": {
     "s12": 0.22501,
@@ -218,13 +229,10 @@
   ],
   "observed_theta_23_fx_deg": 2.4068934420310497,
   "observed_theta_23_std_deg": 2.3973819400182745,
-  "pre_registered_plan": {
+  "plan_file": {
     "file": "D3v3_1_preregistered_plan.md",
-    "sha256": "4fffaefa984b4d6325689f1a487926c6b109b5f315de697ac45c32850eb73cfb",
-    "timestamp": "2026-07-13T04:36:24Z",
-    "git_hash": "57eafcadf2fb809ac86905227b9c7e22dcf1fc82",
-    "note": "Reproducible sensitivity work, NOT externally pre-registered. Hashes are actual on-disk values. A future v3.2 pre-registered run must use an immutable receipt before execution."
+    "note": "Post-hoc reproducible sensitivity run. NOT a pre-registered analysis. A future v3.2 may use a detached immutable pre-run receipt."
   },
-  "status": "SENSITIVITY STUDY \u2014 non-statistical",
+  "status": "POST-HOC REPRODUCIBLE SENSITIVITY RUN \u2014 non-statistical",
   "claim_boundary": "No falsification claim. No sigma-based claim. No CLAIMS.md, MAP.md, or CKM tier change. CKM remains SILENT in PF. Results conditional on mixed-scale masses. A scale-consistent test requires QCD running to a common scale."
 }

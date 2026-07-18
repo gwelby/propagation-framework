@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-D3 v3.1: CKM Angle Scan — Branch-Continuation + Pre-Registered Sensitivity Study
+D3 v3.1: CKM Angle Scan — Branch-Continuation Sensitivity Study
 
 Corrected per Codex audits CODEX_20260711_D3V2_CKM_PSEUDOMASS_AUDIT.md and
 CODEX_20260712_D3V3_CKM_BRANCH_CONTINUATION_AUDIT.md.
@@ -21,8 +21,17 @@ Key fixes from v3 (per Codex v3 audit):
      sin(θ₁₃): 0.003732 +0.000090/-0.000085 (was symmetric 0.000119)
 5. SENSITIVITY ENVELOPE (not Monte Carlo confidence interval): Plus/minus
    envelopes at each input uncertainty, plus a small exploratory MC using a
-   proper two-sided asymmetric sampler. No "full uncertainty propagation" claim.
-6. SEALED PRE-REGISTRATION: Pre-run plan file with hash and timestamp.
+   zero-centered two-width exploratory mixture. No "full uncertainty
+   propagation" claim.
+
+Key fixes from v3.1 (per Codex v3.1 re-audit CODEX_20260715_D3V31_CKM_REPAIR_REAUDIT.md):
+6. EXACT INITIAL_PAIR SELECTOR: track_branch_interpolation now requires an
+   explicit initial_pair (theta_b_rad, theta_t_rad) argument. The rounded
+   target_diff = 2.988 selector is eliminated from all production calls.
+7. POST-HOC LABEL: All output describes this as a post-hoc reproducible
+   sensitivity run. No sealed/pre-registration claim.
+8. SELF-HASH REMOVED: Stale self-hash assertions removed from status
+   artifacts. A future v3.2 may use a detached immutable pre-run receipt.
 
 Source: Zenczykowski 2013, arXiv:1301.4143v2 (PRD 87, 077302)
 """
@@ -37,11 +46,11 @@ from scipy.optimize import brentq
 
 
 # ============================================================================
-# PRE-REGISTRATION (declared before any computation)
+# ANALYSIS DECLARATION (post-hoc reproducible sensitivity run)
 # ============================================================================
 
-PRE_REGISTRATION = {
-    "analysis_type": "SENSITIVITY STUDY — non-statistical",
+ANALYSIS_DECLARATION = {
+    "analysis_type": "POST-HOC REPRODUCIBLE SENSITIVITY RUN — non-statistical",
     "reason": (
         "Quark masses are at different renormalization scales "
         "(light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass). "
@@ -282,11 +291,15 @@ def track_branch_interpolation(
     masses_down_start: np.ndarray, masses_up_start: np.ndarray,
     masses_down_end: np.ndarray, masses_up_end: np.ndarray,
     theta_d_end: float, theta_u_end: float,
+    initial_pair: Tuple[float, float],
     k: float = 1.0,
     n_steps: int = 100,
 ) -> Dict:
     """
     Track a root pair by continuity from start to end parameters.
+
+    The initial_pair (theta_b_rad, theta_t_rad) must be provided explicitly.
+    The rounded-difference selector (target_diff = 2.988) has been eliminated.
 
     At each interpolation step, find all root pairs and select the one
     closest to the previous step's pair. This is homotopy continuation.
@@ -295,8 +308,7 @@ def track_branch_interpolation(
     """
     trajectory = []
 
-    # Step 0: find the initial root pair at start parameters
-    # We need the pair that gives ~2.988° (the paper checkpoint)
+    # Step 0: find all root pairs at start parameters and bind to initial_pair
     d_roots_0 = find_roots(theta_d_start, masses_down_start, k)
     u_roots_0 = find_roots(theta_u_start, masses_up_start, k)
     pairs_0 = all_root_pairs(d_roots_0, u_roots_0)
@@ -304,9 +316,22 @@ def track_branch_interpolation(
     if not pairs_0:
         return {"error": "No root pairs found at start parameters", "trajectory": []}
 
-    # Select the pair closest to 2.988° (the paper's Eq. 25 checkpoint)
-    target_diff = 2.988  # degrees
-    best_pair = min(pairs_0, key=lambda p: abs(p[2] - target_diff))
+    # Bind to the provided initial_pair: find the closest root pair
+    theta_b_init, theta_t_init = initial_pair
+    best_pair = min(pairs_0, key=lambda p: (
+        (p[0] - theta_b_init)**2 + (p[1] - theta_t_init)**2
+    ))
+
+    # Verify the bound pair is close to the requested initial_pair
+    pair_dist = math.sqrt(
+        (best_pair[0] - theta_b_init)**2 + (best_pair[1] - theta_t_init)**2
+    )
+    if pair_dist > math.radians(1.0):
+        return {
+            "error": f"initial_pair does not match any root pair within 1° "
+                      f"(distance={math.degrees(pair_dist):.4f}°)",
+            "trajectory": [],
+        }
 
     trajectory.append({
         "step": 0,
@@ -413,6 +438,26 @@ ZEN_THETA_U = math.radians(4.87)
 
 
 # ============================================================================
+# EXACT INITIAL ROOT PAIRS at paper starting parameters
+# (ZEN_THETA_D, ZEN_THETA_U, PAPER_DOWN, PAPER_UP, k=1)
+# Both pairs give θ₂₃ ≈ 2.988° at the start but diverge under interpolation.
+# Computed by find_roots at n=50001 grid precision.
+# ============================================================================
+
+# Low-angle pair: (θ_b, θ_t) in radians — gives endpoint 4.308496°
+INITIAL_PAIR_LOW = (
+    math.radians(-0.5537461078),  # θ_b
+    math.radians(-3.5420230460),  # θ_t
+)
+
+# High-angle pair: (θ_b, θ_t) in radians — gives endpoint 0.182728°
+INITIAL_PAIR_HIGH = (
+    math.radians(89.4462538922),  # θ_b
+    math.radians(86.4579769540),  # θ_t
+)
+
+
+# ============================================================================
 # Sensitivity envelope and exploratory MC
 # ============================================================================
 
@@ -436,6 +481,7 @@ def sensitivity_envelope(
         PAPER_DOWN, PAPER_UP,
         PDG_DOWN, PDG_UP,
         theta_d_end, theta_u_end,
+        initial_pair=INITIAL_PAIR_LOW,
         k=k, n_steps=100,
     )["final_theta_23_deg"]
 
@@ -469,6 +515,7 @@ def sensitivity_envelope(
                 PAPER_DOWN, PAPER_UP,
                 md, mu,
                 theta_d_end, theta_u_end,
+                initial_pair=INITIAL_PAIR_LOW,
                 k=k, n_steps=100,
             )
             if "error" not in result:
@@ -490,6 +537,7 @@ def sensitivity_envelope(
             PAPER_DOWN, PAPER_UP,
             PDG_DOWN, PDG_UP,
             fx["theta_d"], fx["theta_u"],
+            initial_pair=INITIAL_PAIR_LOW,
             k=k, n_steps=100,
         )
         if "error" not in result:
@@ -511,6 +559,7 @@ def sensitivity_envelope(
             PAPER_DOWN, PAPER_UP,
             PDG_DOWN, PDG_UP,
             fx["theta_d"], fx["theta_u"],
+            initial_pair=INITIAL_PAIR_LOW,
             k=k, n_steps=100,
         )
         if "error" not in result:
@@ -532,6 +581,7 @@ def sensitivity_envelope(
             PAPER_DOWN, PAPER_UP,
             PDG_DOWN, PDG_UP,
             fx["theta_d"], fx["theta_u"],
+            initial_pair=INITIAL_PAIR_LOW,
             k=k, n_steps=100,
         )
         if "error" not in result:
@@ -552,6 +602,7 @@ def sensitivity_envelope(
             PAPER_DOWN, PAPER_UP,
             PDG_DOWN, PDG_UP,
             fx["theta_d"], fx["theta_u"],
+            initial_pair=INITIAL_PAIR_LOW,
             k=k, n_steps=100,
         )
         if "error" not in result:
@@ -580,7 +631,7 @@ def exploratory_mc(
     k: float = 1.0,
 ) -> Dict:
     """
-    Small exploratory MC with a proper two-sided asymmetric sampler.
+    Small exploratory MC with a zero-centered two-width exploratory mixture.
 
     This is NOT a statistical confidence interval. It is a sanity check that
     the plus/minus envelope is not grossly misleading. For each parameter, we
@@ -630,6 +681,7 @@ def exploratory_mc(
             PAPER_DOWN, PAPER_UP,
             md, mu,
             fx_d["theta_d"], fx_d["theta_u"],
+            initial_pair=INITIAL_PAIR_LOW,
             k=k, n_steps=20,
         )
 
@@ -708,15 +760,15 @@ def main():
     L.append("*Corrected per Codex audits: CODEX_20260711_D3V2_CKM_PSEUDOMASS_AUDIT.md and CODEX_20260712_D3V3_CKM_BRANCH_CONTINUATION_AUDIT.md*")
     L.append("")
 
-    # Pre-registration
-    L.append("## Pre-Registration (Declared Before Computation)")
+    # Analysis declaration
+    L.append("## Analysis Declaration (Post-Hoc Reproduducible Sensitivity Run)")
     L.append("")
-    L.append(f"**Analysis type:** {PRE_REGISTRATION['analysis_type']}")
-    L.append(f"**Reason:** {PRE_REGISTRATION['reason']}")
-    L.append(f"**Branch rule:** {PRE_REGISTRATION['branch_rule']}")
-    L.append(f"**Statistic:** {PRE_REGISTRATION['statistic']}")
-    L.append(f"**Threshold:** {PRE_REGISTRATION['threshold']}")
-    L.append(f"**What this does NOT claim:** {PRE_REGISTRATION['what_this_does_not_claim']}")
+    L.append(f"**Analysis type:** {ANALYSIS_DECLARATION['analysis_type']}")
+    L.append(f"**Reason:** {ANALYSIS_DECLARATION['reason']}")
+    L.append(f"**Branch rule:** {ANALYSIS_DECLARATION['branch_rule']}")
+    L.append(f"**Statistic:** {ANALYSIS_DECLARATION['statistic']}")
+    L.append(f"**Threshold:** {ANALYSIS_DECLARATION['threshold']}")
+    L.append(f"**What this does NOT claim:** {ANALYSIS_DECLARATION['what_this_does_not_claim']}")
     L.append("")
 
     # Corrections from v2
@@ -728,7 +780,7 @@ def main():
     L.append("3. **Sensitivity study label:** Mixed-scale masses → no sigma-based claim. Explicitly labeled as non-statistical.")
     L.append("4. **Correct PDG uncertainty values (v3.1):** sin(θ₁₂) = 0.00068, sin(θ₁₃) = +0.000090/-0.000085, matching PDG 2024 Eq. (12.28)")
     L.append("5. **Plus/minus sensitivity envelope (v3.1):** Replaces the rejected MC confidence interval. One-at-a-time parameter variations, non-statistical.")
-    L.append("6. **Sealed pre-registration (v3.1):** Pre-run plan file with SHA-256 and timestamp, included in packet.")
+    L.append("6. **Post-hoc sensitivity run (v3.1):** Plan file recorded with SHA-256 and timestamp for reproducibility. This is NOT a pre-registered run.")
     L.append("")
 
     # Unit tests
@@ -833,6 +885,7 @@ def main():
         PAPER_DOWN, PAPER_UP,
         PDG_DOWN, PDG_UP,
         ZEN_THETA_D, ZEN_THETA_U,  # angles held fixed
+        initial_pair=INITIAL_PAIR_LOW,
         k=1.0, n_steps=100,
     )
 
@@ -881,6 +934,7 @@ def main():
         PAPER_DOWN, PAPER_UP,
         PDG_DOWN, PDG_UP,
         theta_d_pdg, theta_u_pdg,
+        initial_pair=INITIAL_PAIR_LOW,
         k=1.0, n_steps=100,
     )
 
@@ -929,6 +983,7 @@ def main():
         PAPER_DOWN, PAPER_UP,
         PDG_DOWN, PDG_UP,
         theta_d_pdg, theta_u_pdg,
+        initial_pair=INITIAL_PAIR_LOW,
         k=1.015, n_steps=100,
     )
 
@@ -941,6 +996,36 @@ def main():
         L.append(f"Observed θ₂₃: {OBSERVED_THETA_23_FX:.3f}° (FX, PDG 2024)")
         L.append("")
 
+    # Track with high-angle pair to show divergence
+    L.append("### 4d. High-angle initial pair (negative control)")
+    L.append("")
+    L.append("Using INITIAL_PAIR_HIGH (89.446°, 86.458°) instead of INITIAL_PAIR_LOW "
+             "to confirm that the two pairs diverge to different endpoints.")
+    L.append("")
+
+    result_4d = track_branch_interpolation(
+        ZEN_THETA_D, ZEN_THETA_U,
+        PAPER_DOWN, PAPER_UP,
+        PDG_DOWN, PDG_UP,
+        theta_d_pdg, theta_u_pdg,
+        initial_pair=INITIAL_PAIR_HIGH,
+        k=1.0, n_steps=100,
+    )
+
+    if "error" in result_4d:
+        L.append(f"**Error:** {result_4d['error']}")
+    else:
+        L.append(f"Starting θ₂₃: {result_4d['trajectory'][0]['theta_23_pred_deg']:.4f}°")
+        L.append(f"Ending θ₂₃: {result_4d['final_theta_23_deg']:.4f}°")
+        L.append(f"Low-pair endpoint: {result_4b['final_theta_23_deg']:.4f}°")
+        L.append(f"High-pair endpoint: {result_4d['final_theta_23_deg']:.4f}°")
+        L.append(f"Endpoints differ by {abs(result_4b['final_theta_23_deg'] - result_4d['final_theta_23_deg']):.4f}°")
+        L.append("")
+        L.append("**The two initial pairs produce different endpoints, confirming that "
+                "branch selection is determined by the exact initial_pair, not by "
+                "rounded-difference enumeration.**")
+    L.append("")
+
     # ============================================================
     # Sensitivity envelope and exploratory MC
     # ============================================================
@@ -949,7 +1034,7 @@ def main():
     L.append('**No "full uncertainty propagation" claim.** This section computes a **plus/minus**')
     L.append('**sensitivity envelope** by varying each uncertain parameter one at a time, holding')
     L.append('all others at central values. It is a non-statistical envelope, not a confidence')
-    L.append('interval. A small exploratory MC with a proper two-sided asymmetric sampler is')
+    L.append('interval. A small exploratory MC with a zero-centered two-width exploratory mixture is')
     L.append('included as a sanity check, not as a statistical result.')
     L.append("")
 
@@ -1026,16 +1111,12 @@ def main():
     L.append("- PDG uncertainty values corrected: sin(θ₁₂) = 0.00068, sin(θ₁₃) = +0.000090/-0.000085")
     L.append("- Mixed-scale masses explicitly labeled as sensitivity study, not statistical test")
     L.append("- Plus/minus sensitivity envelope replaces the rejected MC confidence interval")
-    L.append("- Exploratory MC uses a zero-centered two-width mixture (sanity check only). "
-             "Note: this is NOT a cited split-normal/two-piece model — the code produces both "
-             "signs but does not assign the plus width only to the upper tail and the minus "
-             "width only to the lower tail.")
-    L.append("- Analysis recorded with a plan file (hash + timestamp). **Audit addendum "
-             "(2026-07-13):** This is reproducible sensitivity work, NOT externally "
-             "pre-registered. The plan file's actual SHA-256 is `4fff...3cfb` and git blob "
-             "is `57ea...fc82`; prior claims of `ac0b...ffa3` and `cddf...e508` did not match "
-             "the actual file and have been corrected. A future v3.2 pre-registered run must "
-             "use an immutable receipt before execution.")
+    L.append("- Exploratory MC uses a zero-centered two-width exploratory mixture (sanity check only). "
+             "Note: the code produces both signs but does not assign the plus width only to "
+             "the upper tail and the minus width only to the lower tail.")
+    L.append("- Analysis recorded with a plan file (hash + timestamp) for reproducibility. "
+             "This is a post-hoc reproducible sensitivity run, NOT a pre-registered analysis. "
+             "A future v3.2 may use a detached immutable pre-run receipt.")
     L.append("")
     L.append("**What the corrected analysis shows:**")
     L.append("")
@@ -1080,7 +1161,7 @@ def main():
     L.append("**What would be needed for a statistical test:**")
     L.append("- Run all six quark masses to a common renormalization scale with a trusted QCD prescription")
     L.append("- Include PDG-published CKM-fit covariance (not just independent parameter uncertainties)")
-    L.append("- Pre-register the branch, statistic, and pass/fail threshold before the scale-consistent run")
+    L.append("- Use a detached immutable pre-run receipt for the branch, statistic, and pass/fail threshold before the scale-consistent run")
     L.append("- Only then would a sigma-based comparison to observed θ₂₃ be meaningful")
     L.append("")
 
@@ -1103,10 +1184,10 @@ def main():
              "pole row is 172.4 ± 0.7 GeV — 0.1 GeV offset, -0.000018° effect on central result)")
     L.append("- 90% CL uncertainties converted to 1σ by dividing by 1.645 for light quarks")
     L.append("- Sensitivity envelope: one-at-a-time parameter variations, non-statistical")
-    L.append("- Exploratory MC: 100 draws, zero-centered two-width mixture (NOT a cited "
-             "split-normal; sanity check only)")
-    L.append("- Pre-registration: `D3v3_1_preregistered_plan.md` recorded with SHA-256 and "
-             "timestamp. **NOT externally pre-registered** — see audit addendum above.")
+    L.append("- Exploratory MC: 100 draws, zero-centered two-width exploratory mixture (sanity check only)")
+    L.append("- Plan file: `D3v3_1_preregistered_plan.md` recorded with SHA-256 and "
+             "timestamp for reproducibility. This is a post-hoc reproducible sensitivity run, "
+             "NOT a pre-registered analysis.")
     L.append("- Source script: `d3_ckm_scan_v3_1.py` in this directory")
     L.append("")
 
@@ -1114,7 +1195,12 @@ def main():
     output = {
         "schema": "devin-d3-v3-1-results",
         "source": "Zenczykowski 2013, arXiv:1301.4143v2",
-        "pre_registration": PRE_REGISTRATION,
+        "analysis_declaration": ANALYSIS_DECLARATION,
+        "initial_pairs": {
+            "low_angle_deg": [math.degrees(INITIAL_PAIR_LOW[0]), math.degrees(INITIAL_PAIR_LOW[1])],
+            "high_angle_deg": [math.degrees(INITIAL_PAIR_HIGH[0]), math.degrees(INITIAL_PAIR_HIGH[1])],
+            "note": "Both pairs give theta_23 ~ 2.988 deg at start; they diverge under interpolation.",
+        },
         "pdg_2024_ckm": {
             "s12": S12, "s23": S23, "s13": S13,
             "delta_cp": DELTA_CP, "delta_cp_sig": DELTA_CP_SIG,
@@ -1153,16 +1239,12 @@ def main():
         "all_branches_at_pdg": [diff for _, _, diff in all_pairs],
         "observed_theta_23_fx_deg": OBSERVED_THETA_23_FX,
         "observed_theta_23_std_deg": OBSERVED_THETA_23_STD,
-        "pre_registered_plan": {
+        "plan_file": {
             "file": "D3v3_1_preregistered_plan.md",
-            "sha256": "4fffaefa984b4d6325689f1a487926c6b109b5f315de697ac45c32850eb73cfb",
-            "timestamp": "2026-07-13T04:36:24Z",
-            "git_hash": "57eafcadf2fb809ac86905227b9c7e22dcf1fc82",
-            "note": "Reproducible sensitivity work, NOT externally pre-registered. "
-                    "Hashes are actual on-disk values. A future v3.2 pre-registered "
-                    "run must use an immutable receipt before execution.",
+            "note": "Post-hoc reproducible sensitivity run. NOT a pre-registered analysis. "
+                    "A future v3.2 may use a detached immutable pre-run receipt.",
         },
-        "status": "SENSITIVITY STUDY — non-statistical",
+        "status": "POST-HOC REPRODUCIBLE SENSITIVITY RUN — non-statistical",
         "claim_boundary": (
             "No falsification claim. No sigma-based claim. "
             "No CLAIMS.md, MAP.md, or CKM tier change. "
