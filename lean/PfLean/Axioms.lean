@@ -1810,23 +1810,59 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
         · sorry
       -- Step 8: Define z: ℝ → Circle and verify properties
       -- z(t) = ⟨v, U(t)v⟩ + i⟨e₂, U(t)v⟩ ∈ Circle
-      -- This requires W-invariance to ensure |z(t)| = 1
+      -- |z(t)|² = ⟨v, U(t)v⟩² + ⟨e₂, U(t)v⟩² = ‖proj_W(U(t)v)‖² = ‖U(t)v‖² = 1
+      -- (using W-invariance: U(t)v ∈ W = span{v, e₂}, and {v, e₂} orthonormal)
+      have h_z_norm_sq : ∀ t, inner ℝ v (U t v) ^ 2 + inner ℝ e₂ (U t v) ^ 2 = 1 := by
+        sorry -- Needs W-invariance + orthonormality decomposition
       have h_z_cont : Continuous (fun t => inner ℝ v (U t v)) := by
-        sorry
+        have h_cont_U : Continuous (fun t => U t v) := hCont v
+        exact continuous_inner.comp (Continuous.prodMk continuous_const h_cont_U)
       have h_z_e2_cont : Continuous (fun t => inner ℝ e₂ (U t v)) := by
-        sorry
+        have h_cont_U : Continuous (fun t => U t v) := hCont v
+        exact continuous_inner.comp (Continuous.prodMk continuous_const h_cont_U)
+      -- The underlying complex-valued function
+      have h_z_complex_cont : Continuous (fun t =>
+        (↑(inner ℝ v (U t v)) : ℂ) + Complex.I * (↑(inner ℝ e₂ (U t v)) : ℂ)) := by
+        have h1 : Continuous (fun t => (↑(inner ℝ v (U t v)) : ℂ)) :=
+          Complex.continuous_ofReal.comp h_z_cont
+        have h2 : Continuous (fun t => (↑(inner ℝ e₂ (U t v)) : ℂ)) :=
+          Complex.continuous_ofReal.comp h_z_e2_cont
+        exact Continuous.add h1 (Continuous.mul continuous_const h2)
       -- Construct z as a function ℝ → Circle
       let z : ℝ → Circle := fun t =>
         ⟨((inner ℝ v (U t v)) : ℂ) + Complex.I * (inner ℝ e₂ (U t v) : ℂ), by
           sorry⟩
       have h_z_zero : z 0 = 1 := by
-        sorry
+        -- z(0) = ⟨v, U(0)v⟩ + i⟨e₂, U(0)v⟩ = ⟨v, v⟩ + i⟨e₂, v⟩ = 1 + 0i = 1
+        rw [Circle.ext_iff]
+        simp only [Circle.coe_one]
+        simp only [z, h_U0, LinearMap.id_apply]
+        -- Need: (↑(inner v v) : ℂ) + I * ↑(inner e₂ v) = 1
+        -- inner v v = 1, inner e₂ v = 0
+        rw [show inner ℝ v v = 1 from h_v_inner,
+            show inner ℝ e₂ v = 0 from (real_inner_comm v e₂).trans he₂_orth]
+        simp [Complex.ext_iff]
       have h_z_add : ∀ s t, z (s + t) = z s * z t := by
         sorry
       have h_z_one_ne : z 1 ≠ 1 := by
-        sorry
+        -- z(1) = ⟨v, U(1)v⟩ + i⟨e₂, U(1)v⟩ = μ/2 + iσ
+        -- Since σ > 0, Im(z(1)) = σ ≠ 0, so z(1) ≠ 1 (which has Im = 0)
+        intro h_eq
+        rw [Circle.ext_iff] at h_eq
+        have h_z1_val : ↑(z 1) = (↑(μ/2) : ℂ) + Complex.I * (↑σ : ℂ) := by
+          simp only [z, h_ip_v_U1v, h_ip_e2_U1v]
+        rw [h_z1_val, Circle.coe_one] at h_eq
+        -- h_eq : (↑(μ/2) : ℂ) + I * ↑σ = 1
+        -- Take imaginary parts: 0 + σ = 0
+        have h_im : ((↑(μ/2) : ℂ) + Complex.I * (↑σ : ℂ)).im = (1 : ℂ).im := by
+          rw [h_eq]
+        rw [Complex.add_im, Complex.ofReal_im, Complex.mul_im,
+            Complex.I_im, Complex.ofReal_im] at h_im
+        -- h_im : 0 + (0 * 0 + 1 * σ) = 0
+        simp at h_im
+        exact hσ_pos.ne' h_im
       have h_z_cont' : Continuous z := by
-        sorry
+        apply Continuous.subtype_mk h_z_complex_cont
       -- Step 9: Apply helper lemma
       obtain ⟨T, hT_pos, hT_z⟩ := exists_period_of_continuous_circle_hom z h_z_cont' h_z_zero h_z_add h_z_one_ne
       -- Step 10: Derive U(T)v = v from z(T) = 1
