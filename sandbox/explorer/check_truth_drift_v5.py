@@ -64,6 +64,57 @@ STATUS_WORDS = {"DERIVED", "CONDITIONAL", "ARGUED", "EMPIRICAL",
                 "INTUITION", "OPEN", "EXACT IDENTITY", "CANONICAL",
                 "STANDARD MATH", "NO-GO", "UNSYNCED", "PARTIAL DERIVATION"}
 
+# Sort status words by length descending so multi-word phrases match first
+_STATUS_WORD_ALT = "|".join(re.escape(w) for w in sorted(STATUS_WORDS, key=len, reverse=True))
+
+# Pre-compiled combined patterns: each matches any status word in a specific
+# suspicious context. The (?P<word>...) group captures the matched status word.
+# This reduces the per-line scan from (12 words × 16 patterns) regex searches
+# to 16 combined regex searches, which is much faster on large trees.
+_V51_FALLBACK_COMBINED = [
+    re.compile(r'''\?\s*[^:]*:\s*[\'"](?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)[\'"]''', re.IGNORECASE),
+    re.compile(r'''\|\|[^)]*label\s*:\s*[\'"](?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)[\'"]''', re.IGNORECASE),
+]
+
+_STATUS_CONTEXT_COMBINED = [
+    # Badge/pill HTML elements with visible text
+    re.compile(r'''class=["\']status-pill[^"\']*["\']\s*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''class=["\']status-badge[^"\']*["\']\s*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''class=\\"status-pill[^>]*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''class=\\"status-badge[^>]*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    # insertAdjacentHTML / innerHTML with status pill
+    re.compile(r'''insertAdjacentHTML.*status-pill.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''innerHTML.*status-pill.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''insertAdjacentHTML.*status-badge.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''innerHTML.*status-badge.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    # Template literals with status pill/badge
+    re.compile(r'''`[^`]*status-pill[^`]*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''`[^`]*status-badge[^`]*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    # String concatenation building status pills
+    re.compile(r'''["\']status-pill["\']\s*\+.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''["\']status-badge["\']\s*\+.*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    # Fallback string literals (|| 'DERIVED')
+    re.compile(r'''\|\|\s*[\'"](?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)[\'"]''', re.IGNORECASE),
+    # _fallbackStatus with status words
+    re.compile(r'''_fallbackStatus\s*[:=]\s*[\'"](?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)[\'"]''', re.IGNORECASE),
+    # Plain-text "Status: WORD" in HTML content
+    re.compile(r'''Status:\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    # V5: Visible tier promotion: "DERIVED 1.00" or similar
+    re.compile(r'''(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)\s+\d+\.\d+''', re.IGNORECASE),
+    # V5: Status word in a status-pill/badge context within string concat
+    re.compile(r'''status-pill[^\'"]*[\'"]\s*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+    
+    re.compile(r'''status-badge[^\'"]*[\'"]\s*>\s*(?P<word>PARTIAL\ DERIVATION|EXACT\ IDENTITY|STANDARD\ MATH|CONDITIONAL|CANONICAL|EMPIRICAL|INTUITION|UNSYNCED|DERIVED|ARGUED|NO\-GO|OPEN)''', re.IGNORECASE),
+]
+
 # V5: Generated files that are exempt from badge scanning
 # These are mechanically generated from authority, not hand-written
 GENERATED_FILES = {"data.claims.js", "data.js", "data.graph.js",
@@ -482,18 +533,16 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
             continue
 
         # V5.1: Check for ternary/object-literal fallback patterns FIRST
-        # These are always violations regardless of other infra patterns
-        # on the same line, because the status word is a display fallback
-        V51_FALLBACK_PATTERNS = [
-            # Ternary fallback: ? ... : 'STATUS_WORD'
-            r"""\?\s*[^:]*:\s*['"](?:DERIVED|CONDITIONAL|ARGUED|EMPIRICAL|INTUITION|EXACT IDENTITY|CANONICAL|STANDARD MATH|NO-GO|UNSYNCED|PARTIAL DERIVATION)['"]""",
-            # Object-literal fallback after ||: || { ... label: 'STATUS_WORD' ... }
-            r"""\|\|[^)]*label\s*:\s*['"](?:DERIVED|CONDITIONAL|ARGUED|EMPIRICAL|INTUITION|EXACT IDENTITY|CANONICAL|STANDARD MATH|NO-GO|UNSYNCED|PARTIAL DERIVATION)['"]""",
-        ]
         v51_fallback_found = False
-        for pat in V51_FALLBACK_PATTERNS:
-            if re.search(pat, line, re.IGNORECASE):
+        for pat in _V51_FALLBACK_COMBINED:
+            m = pat.search(line)
+            if m:
                 v51_fallback_found = True
+                word = m.group("word")
+                failures.append(
+                    f"UNMAPPED_BADGE: {rel_path}:{i} contains status word '{word}' "
+                    f"(V5.1 fallback). Line: {stripped[:120]}"
+                )
                 break
 
         # Check if this line matches any narrow infrastructure pattern
@@ -506,56 +555,17 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
         if is_infra:
             continue
 
-        # V5: Scan for status words in ALL contexts except narrow infra
-        for word in STATUS_WORDS:
-            we = re.escape(word)
-
-            # V5: Comprehensive patterns — catches injections in JS, HTML, templates
-            patterns = [
-                # Badge/pill HTML elements with visible text
-                r"""class=["']status-pill[^"']*["']\s*>\s*""" + we,
-                r"""class=["']status-badge[^"']*["']\s*>\s*""" + we,
-                r"""class=\\"status-pill[^>]*>\s*""" + we,
-                r"""class=\\"status-badge[^>]*>\s*""" + we,
-                # insertAdjacentHTML / innerHTML with status pill
-                r"""insertAdjacentHTML.*status-pill.*""" + we,
-                r"""innerHTML.*status-pill.*""" + we,
-                r"""insertAdjacentHTML.*status-badge.*""" + we,
-                r"""innerHTML.*status-badge.*""" + we,
-                # Template literals with status pill/badge
-                r"""`[^`]*status-pill[^`]*""" + we,
-                r"""`[^`]*status-badge[^`]*""" + we,
-                # String concatenation building status pills
-                r"""['"]status-pill['"]\s*\+.*""" + we,
-                r"""['"]status-badge['"]\s*\+.*""" + we,
-                # Fallback string literals (|| 'DERIVED')
-                r"""\|\|\s*['"]""" + we + r"""['"]""",
-                # V5.1: Ternary fallback to status word (? ... : 'DERIVED')
-                # Must have ? before : to be a ternary, not an object literal
-                r"""\?\s*[^:]*:\s*['"]""" + we + r"""['"]""",
-                # V5.1: Object-literal fallback with status word after ||
-                # e.g. || { status: { label: 'DERIVED' } }
-                r"""\|\|[^)]*label\s*:\s*['"]""" + we + r"""['"]""",
-                # _fallbackStatus with status words
-                r"""_fallbackStatus\s*[:=]\s*['"]""" + we,
-                # Plain-text "Status: WORD" in HTML content
-                r"""Status:\s*""" + we,
-                # V5: Visible tier promotion: "DERIVED 1.00" or similar
-                # This catches the decisive Codex probe: a badge with status + confidence
-                we + r"""\s+\d+\.\d+""",
-                # V5: Status word in a status-pill/badge context within string concat
-                # e.g. '<div class="status-pill status-derived">DERIVED</div>'
-                r"""status-pill[^'"]*['"]\s*>\s*""" + we,
-                r"""status-badge[^'"]*['"]\s*>\s*""" + we,
-            ]
-
-            for pat in patterns:
-                if re.search(pat, line, re.IGNORECASE):
-                    failures.append(
-                        f"UNMAPPED_BADGE: {rel_path}:{i} contains status word '{word}' "
-                        f"in hand-written file. Line: {stripped[:120]}"
-                    )
-                    break
+        # V5: Scan for status words in ALL contexts except narrow infra.
+        # Uses pre-compiled combined regexes for performance.
+        for pat in _STATUS_CONTEXT_COMBINED:
+            m = pat.search(line)
+            if m:
+                word = m.group("word")
+                failures.append(
+                    f"UNMAPPED_BADGE: {rel_path}:{i} contains status word '{word}' "
+                    f"in hand-written file. Line: {stripped[:120]}"
+                )
+                break
 
     return failures
 

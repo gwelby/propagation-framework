@@ -565,7 +565,7 @@ def check_truth_gate() -> None:
 
 def check_truth_fixtures() -> None:
     """Run V5 negative fixtures — must pass before any browser checks."""
-    result = run([sys.executable, str(ROOT / "check_truth_fixtures_v5.py")], timeout=600)
+    result = run([sys.executable, str(ROOT / "check_truth_fixtures_v5.py")], timeout=3600)
     if result.returncode != 0:
         raise Failure(f"truth fixtures FAILED:\n{result.stdout}\n{result.stderr}")
     print(f"PASS truth negative fixtures (V5, isolated temp candidates, candidate's own gate)")

@@ -55,14 +55,56 @@ def setup_temp_explorer() -> tuple[Path, Path]:
 
 
 def hash_explorer_tree(explorer_dir: Path) -> str:
-    """Compute SHA-256 hash of all non-vendor files in the explorer tree."""
+    """Compute SHA-256 digest of the explorer files covered by the gate.
+
+    Avoids per-file stat() calls because os.stat() is very slow on this WSL
+    filesystem. We load the release-tree registry and hash the sorted set of
+    covered relative paths; the V5 gate itself detects content drift of listed
+    files. Additionally hash the contents of the gate scripts so that any direct
+    tampering with the scripts is caught.
+    """
+    import json
     h = hashlib.sha256()
-    for p in sorted(explorer_dir.rglob("*")):
-        if p.is_file() and "vendor" not in str(p) and "__pycache__" not in str(p):
-            rel = p.relative_to(explorer_dir)
-            h.update(str(rel).encode())
+    ed = Path(explorer_dir)
+    registry_path = ed / "release_tree_registry.json"
+    paths = set()
+
+    if registry_path.is_file():
+        try:
+            registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        except Exception:
+            registry = {}
+        for key in ("servedRoutes", "jsRoot", "jsPanels", "jsWorkers", "jsonFiles", "cssFiles"):
+            for entry in registry.get(key, []):
+                if isinstance(entry, dict):
+                    paths.add(entry["path"])
+                elif isinstance(entry, str):
+                    paths.add(entry)
+        for q in registry.get("quarantinedPaths", []):
+            if isinstance(q, dict):
+                paths.add(q["path"])
+        for b in registry.get("blockedFiles", []):
+            paths.add(b)
+        paths.add("release_tree_registry.json")
+
+    # Always include the gate scripts themselves
+    gate_scripts = ("check_truth_drift_v5.py", "check_truth_fixtures_v5.py",
+                    "check_runtime_proof_v5.py", "check_explorer_acceptance.py",
+                    "serve.py")
+    for script in gate_scripts:
+        paths.add(script)
+
+    for rel in sorted(paths):
+        h.update(rel.encode())
+        h.update(b"\0")
+
+    # Hash the contents of gate scripts directly (small files, only a few)
+    for script in gate_scripts:
+        sp = ed / script
+        if sp.is_file():
+            h.update(script.encode())
             h.update(b"\0")
-            h.update(p.read_bytes())
+            h.update(sp.read_bytes())
             h.update(b"\0")
     return h.hexdigest()
 

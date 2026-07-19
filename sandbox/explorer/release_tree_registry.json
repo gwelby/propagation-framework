@@ -55,7 +55,8 @@
     }
   ],
   "blockedFiles": [
-    "_blocked.html"
+    "_blocked.html",
+    "ceremony_remote.html"
   ],
   "jsRoot": [
     {
