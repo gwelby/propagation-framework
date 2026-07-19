@@ -609,14 +609,16 @@ def check_browser_dom_evidence() -> None:
     total_bindings = 0
     for route, data in evidence.items():
         dom = data.get("dom_evidence", {})
-        if data.get("route_type") == "claim-route":
+        if data.get("route_type") in ("claim", "claim-route"):
             claim_route_count += 1
             if not dom.get("PFClaimsData_loaded"):
                 raise Failure(f"claim route {route} did not load PFCallsData")
             # V5.1: Filter visual library errors (THREE.js, d3.js CDN)
             js_errors = dom.get("js_errors", [])
             truth_errors = [e for e in js_errors if not any(
-                lib in str(e) for lib in ["THREE", "three.js", "d3.js", "d3.v", "service worker", "cache"]
+                lib in str(e) for lib in ["THREE", "three.js", "THREE is not defined",
+                                           "d3", "d3.js", "d3.v", "d3 is not defined",
+                                           "service worker", "cache"]
             )]
             if truth_errors:
                 raise Failure(f"claim route {route} has truth-layer JS errors: {truth_errors}")

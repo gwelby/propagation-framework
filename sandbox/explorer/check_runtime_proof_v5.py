@@ -150,9 +150,9 @@ def run_browser_proof() -> dict:
                     () => {
                         var activations = [];
                         // Click any result-item or claim-row elements
-                        var items = document.querySelectorAll('.result-item, .claim-row, [data-claim], .panel-trigger, .nav-item');
-                        for (var i = 0; i < Math.min(items.length, 5); i++) {
-                            try { items[i].click(); activations.push(items[i].className || 'item'); } catch(e) {}
+                        var items = document.querySelectorAll('.result-item, .claim-row, [data-claim], .panel-trigger, .nav-item, [data-route]');
+                        for (var i = 0; i < Math.min(items.length, 8); i++) {
+                            try { items[i].click(); activations.push(items[i].getAttribute('data-route') || items[i].className || 'item'); } catch(e) {}
                         }
                         // Click on Refraction panel if present
                         var refPanel = document.querySelector('#refractionInfo, [data-panel="refraction"]');
@@ -175,7 +175,7 @@ def run_browser_proof() -> dict:
                 # 2. V5: Extract status pills with claim ID binding
                 status_pills = page.evaluate("""
                     () => {
-                        const pills = document.querySelectorAll('.status-pill, .status-badge');
+                        const pills = document.querySelectorAll('.status-pill, .status-badge, [data-status-note]');
                         return Array.from(pills).map(p => {
                             // V5: Look for claim ID in data attributes or parent context
                             let claimId = null;
