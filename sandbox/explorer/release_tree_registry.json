@@ -467,15 +467,6 @@
     "/CLAIMS",
     "/ACTIVE_ISSUES"
   ],
-  "sourceViewerPrefixes": [
-    "/derivations/",
-    "/definitions/",
-    "/papers/",
-    "/verification/",
-    "/sandbox_results",
-    "/CLAIMS",
-    "/ACTIVE_ISSUES"
-  ],
   "nonClaimHtml": [
     "belt-trick.html",
     "quantum-observatory.html"

@@ -143,6 +143,35 @@ def run_browser_proof() -> dict:
                 )
                 dom_evidence["PFExplorerData_loaded"] = has_explorer_data
 
+                # V5.1: Activate status-bearing panel states
+                # Click on panel triggers, result items, and drawer openers
+                # to ensure status pills are rendered and bound
+                panel_activations = page.evaluate("""
+                    () => {
+                        var activations = [];
+                        // Click any result-item or claim-row elements
+                        var items = document.querySelectorAll('.result-item, .claim-row, [data-claim], .panel-trigger, .nav-item');
+                        for (var i = 0; i < Math.min(items.length, 5); i++) {
+                            try { items[i].click(); activations.push(items[i].className || 'item'); } catch(e) {}
+                        }
+                        // Click on Refraction panel if present
+                        var refPanel = document.querySelector('#refractionInfo, [data-panel="refraction"]');
+                        if (refPanel) {
+                            try { refPanel.click(); activations.push('refraction'); } catch(e) {}
+                        }
+                        // Open evidence drawer if present
+                        var drawerTriggers = document.querySelectorAll('.drawer-trigger, .evidence-link, [data-drawer]');
+                        for (var i = 0; i < Math.min(drawerTriggers.length, 3); i++) {
+                            try { drawerTriggers[i].click(); activations.push('drawer'); } catch(e) {}
+                        }
+                        return activations;
+                    }
+                """)
+                dom_evidence["panel_activations"] = panel_activations
+
+                # Wait for any panel rendering to complete
+                page.wait_for_timeout(2000)
+
                 # 2. V5: Extract status pills with claim ID binding
                 status_pills = page.evaluate("""
                     () => {

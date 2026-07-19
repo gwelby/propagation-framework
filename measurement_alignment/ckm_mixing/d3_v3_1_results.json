@@ -9,6 +9,23 @@
     "threshold": "No pass/fail threshold. This is a sensitivity study. The output is: where does the paper branch end up under PDG 2024 inputs, and how sensitive is it to mass and CKM parameter uncertainties?",
     "what_this_does_not_claim": "No falsification of Zenczykowski's model. No confirmation of the pseudo-mass Koide hypothesis. No sigma-based statistical test. No CLAIMS.md, MAP.md, or CKM tier change. CKM remains SILENT in PF."
   },
+  "preflight": {
+    "task_id": "D3",
+    "overall_status": "EXPLORATORY",
+    "q1_status": "DECLARED",
+    "q2_status": "DECLARED",
+    "q3_status": "DECLARED",
+    "q3_decision_type": "computational_diagnostic",
+    "reducer_reason": "All checks at least DECLARED, but not all CLOSED.",
+    "allowed_language": "May report chi^2, p-values, and numerical outputs as computational diagnostics of the declared model. May use 'fitted-model value' and 'reconstruction output' wording.",
+    "disallowed_language": [
+      "prediction",
+      "physical sigma",
+      "compatibility verdict",
+      "falsification claim",
+      "statistical test"
+    ]
+  },
   "initial_pairs": {
     "low_angle_deg": [
       -0.5537461078,

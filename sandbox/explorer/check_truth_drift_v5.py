@@ -481,12 +481,28 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
         if stripped.startswith("<!--") or stripped.startswith("-->"):
             continue
 
+        # V5.1: Check for ternary/object-literal fallback patterns FIRST
+        # These are always violations regardless of other infra patterns
+        # on the same line, because the status word is a display fallback
+        V51_FALLBACK_PATTERNS = [
+            # Ternary fallback: ? ... : 'STATUS_WORD'
+            r"""\?\s*[^:]*:\s*['"](?:DERIVED|CONDITIONAL|ARGUED|EMPIRICAL|INTUITION|EXACT IDENTITY|CANONICAL|STANDARD MATH|NO-GO|UNSYNCED|PARTIAL DERIVATION)['"]""",
+            # Object-literal fallback after ||: || { ... label: 'STATUS_WORD' ... }
+            r"""\|\|[^)]*label\s*:\s*['"](?:DERIVED|CONDITIONAL|ARGUED|EMPIRICAL|INTUITION|EXACT IDENTITY|CANONICAL|STANDARD MATH|NO-GO|UNSYNCED|PARTIAL DERIVATION)['"]""",
+        ]
+        v51_fallback_found = False
+        for pat in V51_FALLBACK_PATTERNS:
+            if re.search(pat, line, re.IGNORECASE):
+                v51_fallback_found = True
+                break
+
         # Check if this line matches any narrow infrastructure pattern
         is_infra = False
-        for pat in NARROW_INFRA:
-            if re.search(pat, line, re.IGNORECASE):
-                is_infra = True
-                break
+        if not v51_fallback_found:
+            for pat in NARROW_INFRA:
+                if re.search(pat, line, re.IGNORECASE):
+                    is_infra = True
+                    break
         if is_infra:
             continue
 
@@ -514,6 +530,12 @@ def scan_file_for_badges(filepath: Path, auth_claims: dict) -> list[str]:
                 r"""['"]status-badge['"]\s*\+.*""" + we,
                 # Fallback string literals (|| 'DERIVED')
                 r"""\|\|\s*['"]""" + we + r"""['"]""",
+                # V5.1: Ternary fallback to status word (? ... : 'DERIVED')
+                # Must have ? before : to be a ternary, not an object literal
+                r"""\?\s*[^:]*:\s*['"]""" + we + r"""['"]""",
+                # V5.1: Object-literal fallback with status word after ||
+                # e.g. || { status: { label: 'DERIVED' } }
+                r"""\|\|[^)]*label\s*:\s*['"]""" + we + r"""['"]""",
                 # _fallbackStatus with status words
                 r"""_fallbackStatus\s*[:=]\s*['"]""" + we,
                 # Plain-text "Status: WORD" in HTML content
@@ -648,6 +670,17 @@ def check_server_enforcement(registry: dict) -> list[str]:
             "_blocked.html",
             "serve.py",
             "check_truth_drift_v5.py",
+            # V5.1: Traversal attempts must return 404
+            "derivations/../CLAIMS.md",
+            "derivations/../../System/FAMILY_WORKSPACE_UPDATE_RULE.md",
+            # V5.1: Source-viewer prefixes must return 404 on release server
+            "derivations/",
+            "definitions/",
+            "papers/",
+            "verification/",
+            "sandbox_results",
+            "CLAIMS",
+            "ACTIVE_ISSUES",
         ]
         for qpath in registry.get("quarantinedPaths", []):
             blocked_paths.append(qpath["path"])

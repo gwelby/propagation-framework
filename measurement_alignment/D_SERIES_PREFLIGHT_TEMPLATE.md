@@ -14,7 +14,7 @@ tasks must invoke `validate_preflight()` from this module.
 
 | Field | Required record |
 |-------|----------------|
-| Q1 status | `CLOSED` / `OPEN` / `BLOCKED` |
+| Q1 status | `CLOSED` / `DECLARED` / `OPEN` / `BLOCKED` / `UNKNOWN` |
 | Units | State the unit system (e.g., MeV, GeV, natural units) |
 | Normalization | State the normalization convention and verify it is dimensionally consistent |
 | Evidence | Cite the source line(s) or equation(s) where closure is verified |
@@ -26,7 +26,7 @@ selection, and reused observed targets declared?
 
 | Field | Required record |
 |-------|----------------|
-| Q2 status | `CLOSED` / `OPEN` / `BLOCKED` |
+| Q2 status | `CLOSED` / `DECLARED` / `OPEN` / `BLOCKED` / `UNKNOWN` |
 | Input manifest | List each input: value, unit, scheme, scale, source, confidence convention |
 | Calibration | Declare any calibration parameters and how they were selected |
 | Target selection | If a target value is used, state whether it is independent or a posteriori |
@@ -39,7 +39,7 @@ before the run? Is the decision type declared?
 
 | Field | Required record |
 |-------|----------------|
-| Q3 status | `CLOSED` / `OPEN` / `BLOCKED` |
+| Q3 status | `CLOSED` / `DECLARED` / `OPEN` / `BLOCKED` / `UNKNOWN` |
 | Observable | State the quantity being computed |
 | Control / null | State the control or null comparison |
 | Decision threshold | State the pass/fail rule **before** reading the result |

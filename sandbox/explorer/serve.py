@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-serve.py -- PF Explorer release server (V5)
+serve.py -- PF Explorer release server (V5.1)
 
-V5: Enforces the release-tree registry as an allowlist.
+V5.1: Release server serves ONLY exact normalized release-tree paths.
+Source-viewer prefixes are removed from the release server entirely.
 Any path not in the registry allowlist returns 404.
-Quarantine/dev paths return 404.
-Source viewer paths are a separate dev feature.
+Traversal attempts (../) are canonicalized and rejected.
 
 Usage:
     cd /mnt/d/Fundamentals/sandbox/explorer
@@ -20,7 +20,6 @@ import sys
 from pathlib import Path
 
 EXPLORER_DIR = Path(__file__).resolve().parent
-FUNDAMENTALS_DIR = EXPLORER_DIR.parent.parent
 REGISTRY_PATH = EXPLORER_DIR / "release_tree_registry.json"
 PORT = 8080
 if len(sys.argv) > 1:
@@ -33,40 +32,53 @@ if len(sys.argv) > 1:
 try:
     _REGISTRY = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
     ALLOWLIST = set(_REGISTRY.get("allowlist", []))
-    SOURCE_PREFIXES = _REGISTRY.get("sourceViewerPrefixes", [])
 except (OSError, json.JSONDecodeError):
     print(f"ERROR: Could not load registry from {REGISTRY_PATH}", file=sys.stderr)
     ALLOWLIST = set()
-    SOURCE_PREFIXES = []
 
 
 class ReleaseHandler(http.server.SimpleHTTPRequestHandler):
-    """V5: Only serve paths in the registry allowlist."""
+    """V5.1: Only serve exact normalized paths in the registry allowlist."""
 
     def translate_path(self, path):
-        # Strip query string
+        # Strip query string and fragment
         path = path.split("?")[0].split("#")[0]
         rel = path.lstrip("/")
 
-        # Check source viewer prefixes first (dev feature)
-        for prefix in SOURCE_PREFIXES:
-            p = prefix.lstrip("/")
-            if rel.startswith(p) or rel == p.rstrip("/"):
-                return os.path.join(FUNDAMENTALS_DIR, rel)
+        # V5.1: Canonicalize to reject traversal (../) attempts
+        # os.path.normpath collapses ../ sequences
+        rel_norm = os.path.normpath(rel)
+        # If normalization changed the path (traversal was attempted), reject
+        if rel_norm != rel and rel_norm.replace("\\", "/") != rel:
+            return None  # traversal attempt -> 404
+        # Reject any path that still contains .. after normalization
+        if ".." in rel_norm.split("/"):
+            return None
 
-        # V5: Check allowlist
-        # Exact match
-        if rel in ALLOWLIST:
-            return os.path.join(EXPLORER_DIR, rel)
+        # V5.1: Check exact allowlist match
+        if rel_norm in ALLOWLIST:
+            candidate = (EXPLORER_DIR / rel_norm).resolve()
+            # Containment check: resolved path must be under EXPLORER_DIR
+            try:
+                candidate.relative_to(EXPLORER_DIR)
+            except ValueError:
+                return None  # escaped explorer dir -> 404
+            return str(candidate)
 
-        # Check if it's a prefix match (for source viewer paths with subpaths)
+        # V5.1: Check prefix match (for directory entries ending with /)
         for entry in ALLOWLIST:
-            if entry.endswith("/") and rel.startswith(entry):
-                return os.path.join(EXPLORER_DIR, rel)
+            if entry.endswith("/") and rel_norm.startswith(entry):
+                candidate = (EXPLORER_DIR / rel_norm).resolve()
+                try:
+                    candidate.relative_to(EXPLORER_DIR)
+                except ValueError:
+                    return None
+                return str(candidate)
 
-        # V5: Everything not in the allowlist returns 404
-        # This includes dev/, quarantine/, _blocked.html, .py files, etc.
-        return None  # translate_path returning None triggers 404
+        # V5.1: Everything not in the allowlist returns 404
+        # This includes dev/, quarantine/, _blocked.html, .py files,
+        # source-viewer prefixes, and traversal attempts.
+        return None
 
     def do_GET(self):
         path = self.translate_path(self.path)
@@ -108,7 +120,7 @@ class ReleaseHandler(http.server.SimpleHTTPRequestHandler):
 try:
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     with socketserver.ThreadingTCPServer(("", PORT), ReleaseHandler) as httpd:
-        print(f"PF Explorer (V5 release server)  ->  http://localhost:{PORT}/")
+        print(f"PF Explorer (V5.1 release server)  ->  http://localhost:{PORT}/")
         print(f"Explorer dir :  {EXPLORER_DIR}")
         print(f"Registry     :  {REGISTRY_PATH}")
         print(f"Allowlist    :  {len(ALLOWLIST)} entries")

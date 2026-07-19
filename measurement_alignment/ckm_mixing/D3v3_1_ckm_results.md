@@ -2,7 +2,7 @@
 *Devin · 2026-07-12 · Zenczykowski 2013 (arXiv:1301.4143v2) · PDG 2024*
 *Corrected per Codex audits: CODEX_20260711_D3V2_CKM_PSEUDOMASS_AUDIT.md and CODEX_20260712_D3V3_CKM_BRANCH_CONTINUATION_AUDIT.md*
 
-## Analysis Declaration (Post-Hoc Reproduducible Sensitivity Run)
+## Analysis Declaration (Post-Hoc Reproducible Sensitivity Run)
 
 **Analysis type:** POST-HOC REPRODUCIBLE SENSITIVITY RUN — non-statistical
 **Reason:** Quark masses are at different renormalization scales (light: MS-bar 2 GeV, c/b: MS-bar at own mass, t: pole mass). Without QCD running to a common scale, no sigma-based falsification or prediction claim is valid.
@@ -242,7 +242,7 @@ The continuity-tracked branch is the one that connects to the paper's 2.988° ch
 
 3. **Sensitivity envelope:** One-at-a-time parameter variations move the endpoint from 4.2967° to 4.3203°. The largest shifts are from the strange-quark mass and the sin(θ₂₃) uncertainty. This is NOT a confidence interval; it is a non-statistical sensitivity scan.
 
-4. **Exploratory MC sanity check:** 100 draws with a two-sided asymmetric sampler span 4.2523° to 4.3582°. This is NOT a confidence interval and is NOT a statistical test.
+4. **Exploratory MC sanity check:** 100 draws with a zero-centered two-width exploratory mixture span 4.2523° to 4.3582°. This is NOT a confidence interval and is NOT a statistical test.
 
 **What this does NOT prove:**
 - It does not falsify Zenczykowski's model. The mixed-scale masses prevent any falsification claim.

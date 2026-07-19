@@ -605,15 +605,36 @@ def check_browser_dom_evidence() -> None:
         raise Failure(f"browser DOM evidence has failed routes:\n" + "\n".join(failed_routes))
 
     # Verify claim routes loaded PFCallsData
+    claim_route_count = 0
+    total_bindings = 0
     for route, data in evidence.items():
         dom = data.get("dom_evidence", {})
         if data.get("route_type") == "claim-route":
+            claim_route_count += 1
             if not dom.get("PFClaimsData_loaded"):
                 raise Failure(f"claim route {route} did not load PFCallsData")
-            if dom.get("js_errors"):
-                raise Failure(f"claim route {route} has JS errors: {dom['js_errors']}")
+            # V5.1: Filter visual library errors (THREE.js, d3.js CDN)
+            js_errors = dom.get("js_errors", [])
+            truth_errors = [e for e in js_errors if not any(
+                lib in str(e) for lib in ["THREE", "three.js", "d3.js", "d3.v", "service worker", "cache"]
+            )]
+            if truth_errors:
+                raise Failure(f"claim route {route} has truth-layer JS errors: {truth_errors}")
+            # V5.1: Check authority binding coverage
+            bindings = dom.get("authority_binding", [])
+            total_bindings += len(bindings)
+            binding_errors = [b for b in bindings if b.get("error")]
+            if binding_errors:
+                raise Failure(f"claim route {route} has binding errors: {binding_errors[:3]}")
 
-    print(f"PASS browser DOM evidence (V4, {len(evidence)} routes, all PASS, claim routes loaded authority)")
+    # V5.1: Require non-vacuous binding coverage
+    if claim_route_count > 0 and total_bindings == 0:
+        raise Failure(
+            f"V5.1: {claim_route_count} claim routes but 0 authority bindings — "
+            f"browser proof did not activate any status-bearing panel states"
+        )
+
+    print(f"PASS browser DOM evidence (V5.1, {len(evidence)} routes, {claim_route_count} claim routes, {total_bindings} authority bindings)")
 
 
 def main() -> int:

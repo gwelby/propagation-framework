@@ -1714,24 +1714,100 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
         have h_SUtx : (U 1 + U (-1) : Module.End ℝ M.State) (U t x) =
             U t ((U 1 + U (-1) : Module.End ℝ M.State) x) := h_comm_S t x
         rw [h_SUtx, h_Sx, map_smul]
-      -- Step 6e: e₂ ∈ E_μ (from the rotation matrix form)
-      -- U(1)e₂ = -σv + (μ/2)e₂, U(-1)e₂ = σv + (μ/2)e₂
-      -- So (U(1) + U(-1))e₂ = μe₂, meaning e₂ ∈ E_μ
-      -- This follows from the quadratic relation U(1)² = μU(1) - I on E_μ
-      -- and U(-1) = U(1)⁻¹ = μI - U(1) on E_μ.
-      -- The proof requires: (1) U(1)²e₂ = μ·U(1)e₂ - e₂ (module algebra with σ²=1-μ²/4),
-      -- (2) U(1) injective (isometry), (3) U(1)(μe₂ - U(1)e₂) = e₂, (4) U(-1)e₂ = μe₂ - U(1)e₂.
+      -- Step 6e: e₂ ∈ E_μ
+      -- e₂ = σ⁻¹ • (U(1)v - (μ/2)•v). Since v ∈ E_μ and U(1)v ∈ E_μ (by invariance),
+      -- and E_μ is a submodule, e₂ ∈ E_μ. No quadratic relation needed!
+      have h_U1v_in_E : U 1 v ∈ E_μ := h_E_invariant 1 v h_v_in_E
       have h_e2_in_E : e₂ ∈ E_μ := by
-        sorry
-      -- Step 7: W-invariance
-      -- W = span{v, e₂} is invariant under U(t) for all t.
-      -- KEY ISSUE: This requires more than E_μ-invariance when dim(E_μ) > 2.
-      -- When dim(E_μ) = 2, W = E_μ and invariance follows from h_E_invariant.
-      -- When dim(E_μ) > 2, we need Stone's theorem or the iterative spectral theorem.
+        -- e₂ = σ⁻¹ • w' where w' = U(1)v - (μ/2)•v
+        have hw'_in_E : w' ∈ E_μ := by
+          rw [hw'_def]
+          apply Submodule.sub_mem
+          · exact h_U1v_in_E
+          · exact Submodule.smul_mem _ _ h_v_in_E
+        rw [he₂_def]
+        exact Submodule.smul_mem _ _ hw'_in_E
+      -- Step 7: W-invariance via dim(E_μ) = 2 case split
+      -- When dim(E_μ) = 2: W = span{v, e₂} = E_μ (both are 2D, W ⊆ E_μ)
+      -- When dim(E_μ) > 2: needs spectral theorem (sorry for now)
+      have h_finrank_E_pos : 0 < Module.finrank ℝ ↥E_μ := by
+        -- v ∈ E_μ, v ≠ 0, so E_μ has positive dimension
+        rw [Module.finrank_pos_iff_exists_ne_zero]
+        refine ⟨⟨v, h_v_in_E⟩, ?_⟩
+        intro h
+        exact hv_ne (Subtype.ext_iff.mp h)
+      -- {v, e₂} is linearly independent (orthogonal nonzero vectors) → dim(span{v,e₂}) = 2
+      have h_W_dim : Module.finrank ℝ ↥(Submodule.span ℝ ({v, e₂} : Set M.State)) = 2 := by
+        -- Use linearIndependent_fin2 with f = ![v, e₂]
+        have h_li : LinearIndependent ℝ ![v, e₂] := by
+          rw [linearIndependent_fin2]
+          simp only [Matrix.cons_val_one, Matrix.cons_val_zero]
+          refine ⟨?_, ?_⟩
+          · -- e₂ ≠ 0
+            intro he2_zero
+            have : ‖e₂‖ = 0 := by rw [he2_zero, norm_zero]
+            rw [he₂_norm] at this
+            exact one_ne_zero this
+          · -- ∀ a, a • e₂ ≠ v
+            intro a ha
+            -- If a • e₂ = v, take inner product with e₂: a•⟨e₂,e₂⟩ = ⟨e₂,v⟩ = 0, so a = 0
+            -- Then 0 = v, contradiction
+            have h_ip : inner ℝ e₂ (a • e₂) = inner ℝ e₂ v := by rw [ha]
+            rw [real_inner_smul_right, he₂_self] at h_ip
+            have h_e2v : inner ℝ e₂ v = 0 := (real_inner_comm v e₂).trans he₂_orth
+            rw [h_e2v] at h_ip
+            simp at h_ip
+            rw [h_ip, zero_smul] at ha
+            exact hv_ne ha.symm
+        -- finrank of span = card of linearly independent set
+        have h_range : Set.range (![v, e₂] : Fin 2 → M.State) = {v, e₂} := by
+          ext x
+          constructor
+          · rintro ⟨i, rfl⟩
+            fin_cases i <;> simp [Matrix.cons_val_zero, Matrix.cons_val_one, Set.mem_insert_iff, Set.mem_singleton_iff]
+          · rintro (rfl | rfl)
+            · exact ⟨0, rfl⟩
+            · exact ⟨1, rfl⟩
+        rw [← h_range]
+        exact finrank_span_eq_card h_li
       have h_W_invariant : ∀ t, U t v ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
-        sorry
+        -- Case split on dim(E_μ) = 2
+        by_cases h_dim : Module.finrank ℝ ↥E_μ = 2
+        · -- W = E_μ: both 2D, W ⊆ E_μ
+          have h_W_eq_E : Submodule.span ℝ ({v, e₂} : Set M.State) = E_μ := by
+            -- W ⊆ E_μ (since v, e₂ ∈ E_μ)
+            have h_W_sub : Submodule.span ℝ ({v, e₂} : Set M.State) ≤ E_μ := by
+              rw [Submodule.span_le]
+              intro x hx
+              simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+              rcases hx with rfl | rfl
+              · exact h_v_in_E
+              · exact h_e2_in_E
+            -- dim W = 2 = dim E_μ, so W = E_μ
+            exact Submodule.eq_of_le_of_finrank_eq h_W_sub
+              (h_W_dim.trans h_dim.symm)
+          -- U(t)v ∈ E_μ = W
+          intro t
+          rw [h_W_eq_E]
+          exact h_E_invariant t v h_v_in_E
+        · -- dim(E_μ) ≠ 2: need spectral theorem for general case
+          sorry
       have h_W_invariant_e2 : ∀ t, U t e₂ ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
-        sorry
+        by_cases h_dim : Module.finrank ℝ ↥E_μ = 2
+        · have h_W_eq_E : Submodule.span ℝ ({v, e₂} : Set M.State) = E_μ := by
+            have h_W_sub : Submodule.span ℝ ({v, e₂} : Set M.State) ≤ E_μ := by
+              rw [Submodule.span_le]
+              intro x hx
+              simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+              rcases hx with rfl | rfl
+              · exact h_v_in_E
+              · exact h_e2_in_E
+            exact Submodule.eq_of_le_of_finrank_eq h_W_sub
+              (h_W_dim.trans h_dim.symm)
+          intro t
+          rw [h_W_eq_E]
+          exact h_E_invariant t e₂ h_e2_in_E
+        · sorry
       -- Step 8: Define z: ℝ → Circle and verify properties
       -- z(t) = ⟨v, U(t)v⟩ + i⟨e₂, U(t)v⟩ ∈ Circle
       -- This requires W-invariance to ensure |z(t)| = 1

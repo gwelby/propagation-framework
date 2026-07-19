@@ -43,7 +43,13 @@ from d_series_validator import (
     QStatus as _QStatus,
     Q3DecisionType as _Q3DT,
     check_language as _check_lang,
+    scan_artifact as _scan_artifact,
 )
+
+
+def _check_lang_scan(preflight_result, artifact_dict):
+    """Run structured language scan on the actual D1 artifact before writing."""
+    return _scan_artifact(preflight_result, artifact_dict)
 
 
 # ============================================================================
@@ -248,7 +254,7 @@ def run_preflight() -> Dict:
     preflight["reducer_reason"] = vr.reducer_reason
     preflight["validator"] = "d_series_validator.validate_preflight"
 
-    return preflight
+    return preflight, vr
 
 
 # ============================================================================
@@ -390,7 +396,7 @@ def fixed_delta_fit(masses: np.ndarray, sigmas: np.ndarray, delta: float, sector
         "chi2": chisq,
         "dof": 1,
         "p_value": float(chi2.sf(chisq, 1)),
-        "predictions_mev": preds.tolist(),
+        "fitted_model_values_mev": preds.tolist(),
         "pulls": ((masses - preds) / sigmas).tolist(),
         "residuals": (masses - preds).tolist(),
         "optimizer_success": True,
@@ -551,7 +557,7 @@ def main() -> None:
 
     # --- Preflight ---
     print("--- Q1/Q2/Q3 PREFLIGHT (Codex formula-readiness gate) ---")
-    preflight = run_preflight()
+    preflight, preflight_vr = run_preflight()
     print(f"Overall status: {preflight['overall_status']}")
     print(f"  Q1 (units): {preflight['Q1_units']['status']}")
     print(f"  Q2 (inputs): {preflight['Q2_inputs']['status']}")
@@ -600,7 +606,7 @@ def main() -> None:
 
         free_results[sector] = {
             "M": M, "k": k, "delta": delta, "Q": Q,
-            "predictions": preds.tolist(),
+            "fitted_model_values": preds.tolist(),
             "residuals": (masses - preds).tolist(),
         }
 
@@ -664,7 +670,7 @@ def main() -> None:
         print(f"  {sector}-type (delta = {delta_fixed:.6f} rad = {math.degrees(delta_fixed):.4f}°):")
         print(f"    M = {result['M']:.4f} MeV, k = {result['k']:.6f}, Q = {result['Q']:.6f}")
         print(f"    chi^2 = {result['chi2']:.4f} (dof=1, p = {result['p_value']:.6f})")
-        print(f"    Fitted-model values: {[f'{p:.4f}' for p in result['predictions_mev']]}")
+        print(f"    Fitted-model values: {[f'{p:.4f}' for p in result['fitted_model_values_mev']]}")
         print(f"    Pulls:       {[f'{p:.2f}' for p in result['pulls']]}")
         print(f"    (chi^2 and p-value are outputs of the declared exploratory Gaussian input model.")
         print(f"     They are not a closed PDG-2024 statistical test.")
@@ -765,7 +771,7 @@ def main() -> None:
         "free_fit": {
             sector: {
                 "M": r["M"], "k": r["k"], "delta": r["delta"],
-                "Q": r["Q"], "predictions": r["predictions"],
+                "Q": r["Q"], "fitted_model_values": r["fitted_model_values"],
             }
             for sector, r in free_results.items()
         },
@@ -774,7 +780,7 @@ def main() -> None:
             sector: {
                 "delta": r["delta"], "M": r["M"], "k": r["k"], "Q": r["Q"],
                 "chi2": r["chi2"], "p_value": r["p_value"],
-                "predictions": r["predictions_mev"], "pulls": r["pulls"],
+                "fitted_model_values_mev": r["fitted_model_values_mev"], "pulls": r["pulls"],
                 "optimizer_success": r["optimizer_success"],
             }
             for sector, r in fixed_results.items()
@@ -807,11 +813,21 @@ def main() -> None:
         ),
     }
 
+    # V5: Structured language scan on the actual artifact before writing
+    art_violations = _scan_artifact(preflight_vr, output)
+    if art_violations:
+        print(f"\n  WARNING: Language violations in artifact ({len(art_violations)}):")
+        for path, term, snippet in art_violations:
+            print(f"    {path}: '{term}' in '{snippet}'")
+        print("  Artifact NOT written due to language violations.")
+        raise SystemExit(1)
+
     # Write JSON for Codex audit
     json_path = "/mnt/d/Fundamentals/measurement_alignment/quark_masses/d1_v4_4_results.json"
     with open(json_path, "w") as f:
         json.dump(output, f, indent=2, default=str)
     print(f"\nJSON output written to: {json_path}")
+    print(f"Language scan: PASS (0 violations in user-facing artifact fields)")
 
 
 if __name__ == "__main__":

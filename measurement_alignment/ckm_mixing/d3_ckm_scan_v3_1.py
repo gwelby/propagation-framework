@@ -38,11 +38,20 @@ Source: Zenczykowski 2013, arXiv:1301.4143v2 (PRD 87, 077302)
 
 import json
 import math
+import os
 import sys
 from typing import Tuple, Dict, List, Optional, NamedTuple
 
 import numpy as np
 from scipy.optimize import brentq
+
+# Shared D-series validator (per Codex 2026-07-18 formula-readiness enforcement repair)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from d_series_validator import (
+    validate_preflight as _shared_validate,
+    Q3DecisionType as _Q3DT,
+    scan_artifact as _scan_artifact,
+)
 
 
 # ============================================================================
@@ -635,8 +644,9 @@ def exploratory_mc(
 
     This is NOT a statistical confidence interval. It is a sanity check that
     the plus/minus envelope is not grossly misleading. For each parameter, we
-    sample from a two-sided distribution: with 50% probability use the upper
-    uncertainty, with 50% probability use the lower uncertainty.
+    sample from a zero-centered two-width exploratory mixture: with 50%
+    probability use the upper uncertainty, with 50% probability use the lower
+    uncertainty.
     """
     rng = np.random.default_rng(seed)
     results = []
@@ -649,7 +659,7 @@ def exploratory_mc(
         if np.any(md <= 0) or np.any(mu <= 0):
             continue
 
-        # Perturb CKM parameters with two-sided asymmetric sampling
+        # Perturb CKM parameters with zero-centered two-width exploratory mixture
         s12_d = S12 + rng.normal(0, S12_SIG)
         delta_d = DELTA_CP + rng.normal(0, DELTA_CP_SIG)
 
@@ -761,7 +771,7 @@ def main():
     L.append("")
 
     # Analysis declaration
-    L.append("## Analysis Declaration (Post-Hoc Reproduducible Sensitivity Run)")
+    L.append("## Analysis Declaration (Post-Hoc Reproducible Sensitivity Run)")
     L.append("")
     L.append(f"**Analysis type:** {ANALYSIS_DECLARATION['analysis_type']}")
     L.append(f"**Reason:** {ANALYSIS_DECLARATION['reason']}")
@@ -1146,7 +1156,7 @@ def main():
         L.append("")
 
     if mc_result and "error" not in mc_result:
-        L.append(f"4. **Exploratory MC sanity check:** 100 draws with a two-sided asymmetric sampler "
+        L.append(f"4. **Exploratory MC sanity check:** 100 draws with a zero-centered two-width exploratory mixture "
                 f"span {mc_result['min']:.4f}° to {mc_result['max']:.4f}°. "
                 f"This is NOT a confidence interval and is NOT a statistical test.")
         L.append("")
@@ -1192,10 +1202,19 @@ def main():
     L.append("")
 
     # JSON output for audit
+    # V5: Run shared validator preflight and include result in JSON
+    d3_preflight = _shared_validate(
+        "D3",
+        "DECLARED",  # Q1: mixed scales (MS-bar 2 GeV, MS-bar own mass, pole)
+        "DECLARED",  # Q2: inputs declared but mixed scheme
+        "DECLARED",  # Q3: observable declared, no closed decision threshold
+        _Q3DT.COMPUTATIONAL_DIAGNOSTIC,
+    )
     output = {
         "schema": "devin-d3-v3-1-results",
         "source": "Zenczykowski 2013, arXiv:1301.4143v2",
         "analysis_declaration": ANALYSIS_DECLARATION,
+        "preflight": json.loads(d3_preflight.to_json()),
         "initial_pairs": {
             "low_angle_deg": [math.degrees(INITIAL_PAIR_LOW[0]), math.degrees(INITIAL_PAIR_LOW[1])],
             "high_angle_deg": [math.degrees(INITIAL_PAIR_HIGH[0]), math.degrees(INITIAL_PAIR_HIGH[1])],
@@ -1253,6 +1272,15 @@ def main():
             "A scale-consistent test requires QCD running to a common scale."
         ),
     }
+
+    # V5: Structured language scan on the actual artifact before writing
+    art_violations = _scan_artifact(d3_preflight, output)
+    if art_violations:
+        print(f"\n  WARNING: Language violations in artifact ({len(art_violations)}):")
+        for path, term, snippet in art_violations:
+            print(f"    {path}: '{term}' in '{snippet}'")
+        print("  Artifact NOT written due to language violations.")
+        raise SystemExit(1)
 
     # Write JSON for Codex audit
     json_path = "/mnt/d/Fundamentals/measurement_alignment/ckm_mixing/d3_v3_1_results.json"

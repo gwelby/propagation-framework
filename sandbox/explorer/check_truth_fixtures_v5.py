@@ -418,6 +418,50 @@ def fixture_post_hash_verification() -> bool:
         shutil.rmtree(tmpdir, ignore_errors=True)
 
 
+def fixture_negative_ternary_fallback() -> bool:
+    """V5.1 NEGATIVE: Ternary fallback to DERIVED must fail the gate."""
+    tmpdir, tmp_explorer = setup_temp_explorer()
+    try:
+        foundations = tmp_explorer / "panels" / "foundations.js"
+        text = foundations.read_text()
+        probe = '\nvar x = condition ? result.status.label : \'DERIVED\';\n'
+        foundations.write_text(text + probe)
+
+        rc, output = run_copied_gate(tmp_explorer)
+        if rc == 0:
+            print("  FAIL: Ternary DERIVED fallback NOT detected (gate PASSED)")
+            return False
+        if "UNMAPPED_BADGE" not in output:
+            print(f"  FAIL: Gate failed but didn't report UNMAPPED_BADGE")
+            return False
+        print("  PASS: Ternary DERIVED fallback detected")
+        return True
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def fixture_negative_object_literal_fallback() -> bool:
+    """V5.1 NEGATIVE: Object-literal fallback with DERIVED label must fail."""
+    tmpdir, tmp_explorer = setup_temp_explorer()
+    try:
+        foundations = tmp_explorer / "panels" / "foundations.js"
+        text = foundations.read_text()
+        probe = '\nvar result = claim || { status: { label: \'DERIVED\' } };\n'
+        foundations.write_text(text + probe)
+
+        rc, output = run_copied_gate(tmp_explorer)
+        if rc == 0:
+            print("  FAIL: Object-literal DERIVED fallback NOT detected (gate PASSED)")
+            return False
+        if "UNMAPPED_BADGE" not in output:
+            print(f"  FAIL: Gate failed but didn't report UNMAPPED_BADGE")
+            return False
+        print("  PASS: Object-literal DERIVED fallback detected")
+        return True
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
 # ============================================================================
 # MAIN
 # ============================================================================
@@ -439,6 +483,8 @@ def main() -> int:
         ("Negative: Unregistered HTML file", fixture_negative_unregistered_file),
         ("Negative: Root JS omission from registry", fixture_negative_root_js_omission),
         ("Negative: Quarantine leak", fixture_negative_quarantine_leak),
+        ("V5.1 Negative: Ternary DERIVED fallback", fixture_negative_ternary_fallback),
+        ("V5.1 Negative: Object-literal DERIVED fallback", fixture_negative_object_literal_fallback),
         ("Post-hash verification", fixture_post_hash_verification),
     ]
 

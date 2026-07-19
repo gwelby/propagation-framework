@@ -238,13 +238,14 @@
       if (dom.drawerEyebrow) dom.drawerEyebrow.textContent = item.type === 'def' ? 'Canonical Definition' : 'Claim Evidence';
 
       if (item.type === 'claim') {
-        var status = d.status || { label: 'NO-GO', color: 'red' };
+        var status = d.status || { label: 'UNAVAILABLE', color: 'gray' };
         var isNoGo = !!d.failedAt;
+        var claimId = d.id || '';
 
         html = [
           '<div class="drawer-item">',
             '<header class="drawer-header">',
-              '<span class="status-pill" style="--cc:var(--col-' + status.color + ')">' + status.label + '</span>',
+              '<span class="status-pill" style="--cc:var(--col-' + status.color + ')" data-claim-id="' + claimId + '">' + status.label + '</span>',
               '<h2>' + d.title + '</h2>',
             '</header>',
             '<div class="drawer-body">',

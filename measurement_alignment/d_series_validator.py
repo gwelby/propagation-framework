@@ -279,6 +279,98 @@ def check_language(result: ValidationResult, text: str) -> list:
     return violations
 
 
+# Paths in a D-series JSON artifact that are policy metadata, not user-facing
+# output. These are excluded from the structured artifact scan.
+_POLICY_PATHS = {
+    "preflight.disallowed_language",
+    "preflight.allowed_language",
+    "preflight.reducer_reason",
+}
+
+
+def scan_artifact(result: ValidationResult, artifact: dict) -> list:
+    """
+    Structured scan of a D-series JSON artifact for disallowed language.
+
+    Walks all keys and string values in the artifact, excluding policy metadata
+    paths (preflight.disallowed_language, etc.). Returns a list of violations,
+    each as a (path, term, value_snippet) tuple.
+
+    Negation context: terms appearing in explicit negation phrases such as
+    "No falsification claim" or "not a statistical test" are NOT violations.
+    A term is in negation context if it is preceded by "no ", "not a ", "not ",
+    "cannot ", or "is not " within the same string value.
+    """
+    import re
+
+    violations = []
+
+    # Patterns that indicate negation context for a following term
+    _NEGATION_PATTERNS = [
+        r"no\s+",
+        r"not\s+a\s+",
+        r"not\s+",
+        r"cannot\s+",
+        r"is\s+not\s+",
+        r"are\s+not\s+",
+        r"no\s+sigma-based\s+",
+    ]
+
+    def _is_negated(text_lower, term_lower, pos):
+        """Check if term at position pos in text is preceded by a negation.
+
+        A term is in negation context if there is a negation word ("no",
+        "not", "cannot") earlier in the same sentence (delimited by . or ; or
+        start of string), with no intervening affirmation.
+        """
+        # Find the start of the current sentence
+        sent_start = 0
+        for i in range(pos - 1, -1, -1):
+            if text_lower[i] in ".;":
+                sent_start = i + 1
+                break
+        before = text_lower[sent_start:pos]
+        # Check for negation patterns anywhere in the sentence before the term
+        for pat in _NEGATION_PATTERNS:
+            if re.search(pat, before):
+                return True
+        return False
+
+    def _walk(obj, path=""):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                child_path = f"{path}.{k}" if path else k
+                if child_path in _POLICY_PATHS:
+                    continue
+                # Check the key name itself against disallowed terms
+                # Key names are never in negation context
+                for term in result.disallowed_language:
+                    tl = term.lower()
+                    if tl in k.lower():
+                        violations.append((child_path, term, f"KEY:{k}"))
+                _walk(v, child_path)
+        elif isinstance(obj, list):
+            for i, v in enumerate(obj):
+                _walk(v, f"{path}[{i}]")
+        elif isinstance(obj, str):
+            # Check the string value with negation awareness
+            obj_lower = obj.lower()
+            for term in result.disallowed_language:
+                tl = term.lower()
+                search_pos = 0
+                while True:
+                    pos = obj_lower.find(tl, search_pos)
+                    if pos == -1:
+                        break
+                    if not _is_negated(obj_lower, tl, pos):
+                        violations.append((path, term, obj[:80]))
+                        break  # one violation per term per string
+                    search_pos = pos + len(tl)
+
+    _walk(artifact)
+    return violations
+
+
 # ============================================================================
 # Self-test fixtures
 # ============================================================================
@@ -331,6 +423,43 @@ def _run_fixtures():
     r_blk = validate_preflight("FIXTURE_BLK_LANG", "CLOSED", "OPEN", "DECLARED")
     violations = check_language(r_blk, "The fitted-model value is 4.3.")
     assert "fitted-model value" in violations, "BLOCKED should flag 'fitted-model value'"
+
+    # Fixture 7: Structured artifact scan — clean D1 artifact passes
+    r_art = validate_preflight("D1", "CLOSED", "DECLARED", "DECLARED",
+                               Q3DecisionType.COMPUTATIONAL_DIAGNOSTIC)
+    clean_artifact = {
+        "task": "D1",
+        "status": "EXPLORATORY",
+        "preflight": {
+            "overall_status": "EXPLORATORY",
+            "disallowed_language": ["prediction", "physical sigma"],
+            "allowed_language": "May report chi^2.",
+        },
+        "free_fit": {
+            "up": {"fitted_model_values": [2.16, 1273.0, 172570.0]},
+        },
+    }
+    art_violations = scan_artifact(r_art, clean_artifact)
+    assert not art_violations, f"Clean artifact should have no violations: {art_violations}"
+    fixtures.append(("ARTIFACT_CLEAN", r_art))
+
+    # Fixture 8: Structured artifact scan — injected "prediction" key fails
+    dirty_artifact = {
+        "task": "D1",
+        "status": "EXPLORATORY",
+        "preflight": {
+            "overall_status": "EXPLORATORY",
+            "disallowed_language": ["prediction", "physical sigma"],
+        },
+        "free_fit": {
+            "up": {"predictions": [2.16, 1273.0, 172570.0]},
+        },
+    }
+    art_violations = scan_artifact(r_art, dirty_artifact)
+    assert art_violations, "Dirty artifact with 'predictions' key should fail"
+    assert any("prediction" in v[1] for v in art_violations), \
+        f"Should flag 'prediction' in key: {art_violations}"
+    fixtures.append(("ARTIFACT_DIRTY", r_art))
 
     return fixtures
 

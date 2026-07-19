@@ -207,8 +207,10 @@
     renderInfo: function (ctx) {
       var state = this.state;
       var data = window.PFClaimsData || {};
-      var result = (data.CLAIMS || []).find(function (c) { return c.id === 'gravity-optical'; }) ||
-                   { status: { label: 'DERIVED' }, title: 'Gravity as Refraction' };
+      var claim = (data.CLAIMS || []).find(function (c) { return c.id === 'gravity-optical'; });
+      var claimId = claim ? claim.id : 'gravity-optical';
+      var statusLabel = claim ? (claim.status ? claim.status.label : 'UNAVAILABLE') : 'UNAVAILABLE';
+      var statusClass = claim ? ('status-' + statusLabel.toLowerCase()) : 'status-unavailable';
       var formula = state.mode === "gravity"
         ? "sandbox lens: n^2 = 1 + gain * sum(M / r)"
         : "sandbox lens: n^2 = gain + sum(q / r)";
@@ -223,7 +225,7 @@
             "<h3>" + (state.mode === "gravity" ? "Mass bends the medium." : "Charge bends the medium.") + "</h3>" +
             "<p>" + bridge + "</p>" +
           "</div>" +
-          "<span class=\"status-pill status-derived\">" + (result.status ? result.status.label : 'DERIVED') + "</span>" +
+          "<span class=\"status-pill " + statusClass + "\" data-claim-id=\"" + claimId + "\">" + statusLabel + "</span>" +
         "</div>" +
         "<div class=\"formula\">" + formula + "</div>" +
         "<div class=\"note-box story-only\"><strong>How to use it</strong><p>Click empty space to place a new source. Drag an existing source to reshape the field. Negative sources only apply in EM mode.</p></div>" +
