@@ -56,3 +56,6 @@
 
 **Hook C: The Coherence Hook (Experience)**
 "You know that feeling when you walk into a room and the energy just feels... off? That's not your imagination. The same mathematics that holds an atom together—coherence, resonance, things fitting together—applies to the room you're in. When coherence breaks, structure breaks. In particles, and in minds."
+
+**Hook D: The Speed of Light Hook (Vacuum Structure)** — ADDED 2026-07-17
+"Where does the speed of light come from? The vacuum properties ε₀ and μ₀ — how hard it is to establish electric and magnetic fields in empty space. Maxwell put them together and got c = 1/√(ε₀μ₀). Einstein showed this is a causal limit, not a light limit. Lene Hau proved it's medium-dependent: she slowed light to 17 m/s by changing the medium. The next question — why those specific ε₀ and μ₀ values? — is where the Propagation Framework lives. If the vacuum is a structured medium, those values emerge from that structure."
