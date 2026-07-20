@@ -92,3 +92,13 @@ protocols/
 
 # 14. Already-public outreach (KEEP — intentionally public)
 # outreach/ is NOT ignored — these are meant to be public
+
+# 15. Internal Audit Files (pass 2)
+derivations/*pre_dispatch*.md
+derivations/frontier_memo*.md
+derivations/g3_kappa*.md
+derivations/g3_triangular*.md
+derivations/god_eq_path_b_family*.md
+papers/sprint_brief*.md
+outbox/
+archive/
