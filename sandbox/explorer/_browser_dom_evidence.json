@@ -1,176 +1,480 @@
 {
-  "belt-trick.html": {
-    "status": "PASS",
-    "route_type": "non-claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": false,
-      "PFExplorerData_loaded": false,
-      "status_pills": [],
-      "js_errors": [
-        "THREE is not defined"
-      ],
-      "title": "Dirac Belt Trick \u2014 720\u00b0 Rotation Lock",
-      "non_claim_route": true,
-      "visual_lib_errors": [
-        "THREE is not defined"
-      ],
-      "truth_layer_errors": []
-    }
+  "schema_version": "5.2",
+  "generated_at": "2026-07-20T16:02:44.770741+00:00",
+  "candidate_server": {
+    "pid": 2473,
+    "port": 50835,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/d/Fundamentals/sandbox/explorer/serve.py",
+      "50835"
+    ],
+    "cwd": "/mnt/d/Fundamentals/sandbox/explorer"
   },
-  "comparison.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [],
-      "title": "Propagation Framework \u2014 Framework Comparison",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [],
-      "truth_layer_errors": []
-    }
-  },
-  "derivation.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [
-        "d3 is not defined"
-      ],
-      "title": "Derivation Chains \u2014 Propagation Framework Explorer",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [
-        "d3 is not defined"
-      ],
-      "truth_layer_errors": []
-    }
-  },
-  "index.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [
-        "THREE is not defined"
-      ],
-      "title": "Propagation Framework Explorer | Interactive Physics Visualization",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [
-        "THREE is not defined"
-      ],
-      "truth_layer_errors": []
-    }
-  },
-  "journey.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [
-        "THREE is not defined"
-      ],
-      "title": "Propagation Framework \u2014 The Journey",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [
-        "THREE is not defined"
-      ],
-      "truth_layer_errors": []
-    }
-  },
-  "journey_live.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [
-        "THREE is not defined"
-      ],
-      "title": "Propagation Framework \u2014 The Live Journey | PhiFlow Driven",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [
-        "THREE is not defined"
-      ],
-      "truth_layer_errors": []
-    }
-  },
-  "nogos.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [],
-      "title": "No-Go Museum \u2014 Propagation Framework Explorer",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [],
-      "truth_layer_errors": []
-    }
-  },
-  "playground.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [],
-      "title": "Propagation Playground \u2014 Propagation Framework Explorer",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [],
-      "truth_layer_errors": []
-    }
-  },
-  "quantum-observatory.html": {
-    "status": "PASS",
-    "route_type": "non-claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": false,
-      "PFExplorerData_loaded": false,
-      "status_pills": [],
-      "js_errors": [],
-      "title": "Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy",
-      "non_claim_route": true,
-      "visual_lib_errors": [],
-      "truth_layer_errors": []
-    }
-  },
-  "scale-ladder.html": {
-    "status": "PASS",
-    "route_type": "claim",
-    "dom_evidence": {
-      "PFClaimsData_loaded": true,
-      "PFExplorerData_loaded": true,
-      "status_pills": [],
-      "js_errors": [
-        "THREE is not defined",
-        "THREE is not defined"
-      ],
-      "title": "Scale Ladder \u2014 Planck to Cosmic | Propagation Framework",
-      "claim_route": true,
-      "authority_binding": [],
-      "visual_lib_errors": [
-        "THREE is not defined",
-        "THREE is not defined"
-      ],
-      "truth_layer_errors": []
+  "route_results": {
+    "belt-trick.html": {
+      "status": "PASS",
+      "route_type": "non-claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": false,
+        "PFExplorerData_loaded": false,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [
+          "THREE is not defined"
+        ],
+        "title": "Dirac Belt Trick \u2014 720\u00b0 Rotation Lock",
+        "non_claim_route": true,
+        "visual_lib_errors": [
+          "THREE is not defined"
+        ],
+        "truth_layer_errors": []
+      }
+    },
+    "comparison.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [],
+        "title": "Propagation Framework \u2014 Framework Comparison",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [],
+        "truth_layer_errors": []
+      }
+    },
+    "derivation.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [
+          "d3 is not defined"
+        ],
+        "title": "Derivation Chains \u2014 Propagation Framework Explorer",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [
+          "d3 is not defined"
+        ],
+        "truth_layer_errors": []
+      }
+    },
+    "index.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [
+          "observatory",
+          "scale-ladder-panel",
+          "refraction",
+          "koide",
+          "weinberg",
+          "bohr",
+          "generations",
+          "god-equation"
+        ],
+        "status_pills": [
+          {
+            "text": "DERIVED 0.95 \u00b7 light bending",
+            "class": "ws-btn-note",
+            "claimId": "gravity-optical",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
+            "class": "ws-btn-note",
+            "claimId": "koide-leptons",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
+            "class": "ws-btn-note",
+            "claimId": "weinberg-angle",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "DERIVED 0.9 \u00b7 phase closure",
+            "class": "ws-btn-note",
+            "claimId": "bohr-spectrum",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "CONDITIONAL 0.88 \u00b7 why 3?",
+            "class": "ws-btn-note",
+            "claimId": "three-generations",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
+            "class": "ws-btn-note",
+            "claimId": "god-equation-operator",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn is-active"
+          },
+          {
+            "text": "INTUITION 0.48 \u00b7 hypothesis",
+            "class": "ws-btn-note",
+            "claimId": "consciousness-claim",
+            "tagName": "SPAN",
+            "parentTag": "BUTTON",
+            "parentClass": "ws-btn"
+          },
+          {
+            "text": "CONDITIONAL 0.88",
+            "class": "status-pill conditional",
+            "claimId": "god-equation-operator",
+            "tagName": "SPAN",
+            "parentTag": "DIV",
+            "parentClass": "panel-header"
+          },
+          {
+            "text": "ARGUED 0.6",
+            "class": "status-badge argued",
+            "claimId": "god-equation-scale",
+            "tagName": "SPAN",
+            "parentTag": "STRONG",
+            "parentClass": ""
+          }
+        ],
+        "inventory_results": [
+          {
+            "claimId": "gravity-optical",
+            "selector": "[data-route='refraction'] [data-status-note]",
+            "activation": "[data-route='refraction']",
+            "ok": true,
+            "observed_claimId": "gravity-optical",
+            "observed_text": "DERIVED 0.95 \u00b7 light bending",
+            "observed_confidence": 0.95
+          },
+          {
+            "claimId": "koide-leptons",
+            "selector": "[data-route='koide'] [data-status-note]",
+            "activation": "[data-route='koide']",
+            "ok": true,
+            "observed_claimId": "koide-leptons",
+            "observed_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
+            "observed_confidence": 0.95
+          },
+          {
+            "claimId": "weinberg-angle",
+            "selector": "[data-route='weinberg'] [data-status-note]",
+            "activation": "[data-route='weinberg']",
+            "ok": true,
+            "observed_claimId": "weinberg-angle",
+            "observed_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
+            "observed_confidence": 0.65
+          },
+          {
+            "claimId": "bohr-spectrum",
+            "selector": "[data-route='bohr'] [data-status-note]",
+            "activation": "[data-route='bohr']",
+            "ok": true,
+            "observed_claimId": "bohr-spectrum",
+            "observed_text": "DERIVED 0.9 \u00b7 phase closure",
+            "observed_confidence": 0.9
+          },
+          {
+            "claimId": "three-generations",
+            "selector": "[data-route='generations'] [data-status-note]",
+            "activation": "[data-route='generations']",
+            "ok": true,
+            "observed_claimId": "three-generations",
+            "observed_text": "CONDITIONAL 0.88 \u00b7 why 3?",
+            "observed_confidence": 0.88
+          },
+          {
+            "claimId": "god-equation-operator",
+            "selector": "[data-route='god-equation'] [data-status-note]",
+            "activation": "[data-route='god-equation']",
+            "ok": true,
+            "observed_claimId": "god-equation-operator",
+            "observed_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
+            "observed_confidence": 0.88
+          },
+          {
+            "claimId": "consciousness-claim",
+            "selector": "[data-route='consciousness'] [data-status-note]",
+            "activation": "[data-route='consciousness']",
+            "ok": true,
+            "observed_claimId": "consciousness-claim",
+            "observed_text": "INTUITION 0.48 \u00b7 hypothesis",
+            "observed_confidence": 0.48
+          },
+          {
+            "claimId": "god-equation-operator",
+            "selector": ".panel-header .status-pill[data-claim-id='god-equation-operator']",
+            "activation": "[data-route='god-equation']",
+            "ok": true,
+            "observed_claimId": "god-equation-operator",
+            "observed_text": "CONDITIONAL 0.88",
+            "observed_confidence": 0.88
+          },
+          {
+            "claimId": "god-equation-scale",
+            "selector": ".note-box .status-badge[data-claim-id='god-equation-scale']",
+            "activation": "[data-route='god-equation']",
+            "ok": true,
+            "observed_claimId": "god-equation-scale",
+            "observed_text": "ARGUED 0.6",
+            "observed_confidence": 0.6
+          }
+        ],
+        "js_errors": [
+          "THREE is not defined"
+        ],
+        "title": "Propagation Framework Explorer | Interactive Physics Visualization",
+        "claim_route": true,
+        "authority_binding": [
+          {
+            "pill_text": "DERIVED 0.95 \u00b7 light bending",
+            "pill_class": "ws-btn-note",
+            "claim_id": "gravity-optical",
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
+            "pill_class": "ws-btn-note",
+            "claim_id": "koide-leptons",
+            "has_status_word": true,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
+            "pill_class": "ws-btn-note",
+            "claim_id": "weinberg-angle",
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "pill_confidence": 0.65,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED 0.9 \u00b7 phase closure",
+            "pill_class": "ws-btn-note",
+            "claim_id": "bohr-spectrum",
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.9,
+            "matches_status": true,
+            "pill_confidence": 0.9,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
+            "pill_class": "ws-btn-note",
+            "claim_id": "three-generations",
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
+            "pill_class": "ws-btn-note",
+            "claim_id": "god-equation-operator",
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
+            "pill_class": "ws-btn-note",
+            "claim_id": "consciousness-claim",
+            "has_status_word": true,
+            "auth_status": "INTUITION",
+            "auth_confidence": 0.48,
+            "matches_status": true,
+            "pill_confidence": 0.48,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "CONDITIONAL 0.88",
+            "pill_class": "status-pill conditional",
+            "claim_id": "god-equation-operator",
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED 0.6",
+            "pill_class": "status-badge argued",
+            "claim_id": "god-equation-scale",
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.6,
+            "matches_status": true,
+            "pill_confidence": 0.6,
+            "matches_confidence": true
+          }
+        ],
+        "visual_lib_errors": [
+          "THREE is not defined"
+        ],
+        "truth_layer_errors": []
+      }
+    },
+    "journey.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [
+          "result-item",
+          "result-item"
+        ],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [
+          "THREE is not defined"
+        ],
+        "title": "Propagation Framework \u2014 The Journey",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [
+          "THREE is not defined"
+        ],
+        "truth_layer_errors": []
+      }
+    },
+    "journey_live.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [
+          "result-item",
+          "result-item"
+        ],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [
+          "THREE is not defined"
+        ],
+        "title": "Propagation Framework \u2014 The Live Journey | PhiFlow Driven",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [
+          "THREE is not defined"
+        ],
+        "truth_layer_errors": []
+      }
+    },
+    "nogos.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [],
+        "title": "No-Go Museum \u2014 Propagation Framework Explorer",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [],
+        "truth_layer_errors": []
+      }
+    },
+    "playground.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [],
+        "title": "Propagation Playground \u2014 Propagation Framework Explorer",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [],
+        "truth_layer_errors": []
+      }
+    },
+    "quantum-observatory.html": {
+      "status": "PASS",
+      "route_type": "non-claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": false,
+        "PFExplorerData_loaded": false,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [],
+        "title": "Quantum Substrate Observatory | Shor Probe & Noise Spectroscopy",
+        "non_claim_route": true,
+        "visual_lib_errors": [],
+        "truth_layer_errors": []
+      }
+    },
+    "scale-ladder.html": {
+      "status": "PASS",
+      "route_type": "claim",
+      "dom_evidence": {
+        "PFClaimsData_loaded": true,
+        "PFExplorerData_loaded": true,
+        "panel_activations": [],
+        "status_pills": [],
+        "inventory_results": [],
+        "js_errors": [
+          "THREE is not defined",
+          "THREE is not defined"
+        ],
+        "title": "Scale Ladder \u2014 Planck to Cosmic | Propagation Framework",
+        "claim_route": true,
+        "authority_binding": [],
+        "visual_lib_errors": [
+          "THREE is not defined",
+          "THREE is not defined"
+        ],
+        "truth_layer_errors": []
+      }
     }
   }
 }

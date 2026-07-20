@@ -54,6 +54,89 @@
       "hasStatusContent": true
     }
   ],
+  "statusInventory": [
+    {
+      "route": "index.html",
+      "activation": "[data-route='refraction']",
+      "selector": "[data-route='refraction'] [data-status-note]",
+      "claimId": "gravity-optical",
+      "splitPart": null,
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.95
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='koide']",
+      "selector": "[data-route='koide'] [data-status-note]",
+      "claimId": "koide-leptons",
+      "splitPart": null,
+      "expectedStatus": "EXACT IDENTITY",
+      "expectedConfidence": 0.95
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='weinberg']",
+      "selector": "[data-route='weinberg'] [data-status-note]",
+      "claimId": "weinberg-angle",
+      "splitPart": null,
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.65
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='bohr']",
+      "selector": "[data-route='bohr'] [data-status-note]",
+      "claimId": "bohr-spectrum",
+      "splitPart": null,
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.9
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='generations']",
+      "selector": "[data-route='generations'] [data-status-note]",
+      "claimId": "three-generations",
+      "splitPart": null,
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='god-equation']",
+      "selector": "[data-route='god-equation'] [data-status-note]",
+      "claimId": "god-equation-operator",
+      "splitPart": null,
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='consciousness']",
+      "selector": "[data-route='consciousness'] [data-status-note]",
+      "claimId": "consciousness-claim",
+      "splitPart": null,
+      "expectedStatus": "INTUITION",
+      "expectedConfidence": 0.48
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='god-equation']",
+      "selector": ".panel-header .status-pill[data-claim-id='god-equation-operator']",
+      "claimId": "god-equation-operator",
+      "splitPart": "primary",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='god-equation']",
+      "selector": ".note-box .status-badge[data-claim-id='god-equation-scale']",
+      "claimId": "god-equation-scale",
+      "splitPart": "scale",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.6
+    }
+  ],
   "blockedFiles": [
     "_blocked.html",
     "ceremony_remote.html"

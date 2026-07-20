@@ -571,11 +571,18 @@ def check_truth_fixtures() -> None:
     print(f"PASS truth negative fixtures (V5, isolated temp candidates, candidate's own gate)")
 
 def check_runtime_proof() -> None:
-    """Run V5 runtime proof — verifies each HTML entry point at runtime with authority binding."""
+    """Run V5/V5.2 runtime proof — verifies each HTML entry point at runtime with authority binding."""
     result = run([sys.executable, str(ROOT / "check_runtime_proof_v5.py")], timeout=120)
     if result.returncode != 0:
         raise Failure(f"runtime proof FAILED:\n{result.stdout}\n{result.stderr}")
-    print(f"PASS runtime proof (V5, authority-bound DOM verification)")
+    print(f"PASS runtime proof (V5/V5.2, authority-bound DOM verification)")
+
+def check_runtime_fixtures() -> None:
+    """Run V5.2 runtime proof copied-candidate negative fixtures."""
+    result = run([sys.executable, str(ROOT / "check_runtime_fixtures_v5.py")], timeout=1800)
+    if result.returncode != 0:
+        raise Failure(f"runtime fixtures FAILED:\n{result.stdout}\n{result.stderr}")
+    print(f"PASS runtime fixtures (V5.2, copied-candidate negative cases)")
 
 def check_browser_dom_evidence() -> None:
     """V4: Verify browser DOM evidence file exists and all routes PASS.
@@ -593,21 +600,39 @@ def check_browser_dom_evidence() -> None:
     except (OSError, json.JSONDecodeError) as e:
         raise Failure(f"browser DOM evidence file parse error: {e}")
 
-    if len(evidence) == 0:
+    if not evidence:
         raise Failure("browser DOM evidence file is empty")
 
+    # V5.2: Accept either legacy flat route map or V5.2 structured evidence
+    if isinstance(evidence, dict) and "route_results" in evidence:
+        route_results = evidence["route_results"]
+        server_meta = evidence.get("candidate_server", {})
+        generated_at = evidence.get("generated_at")
+        schema = evidence.get("schema_version")
+        if schema != "5.2":
+            raise Failure(f"browser DOM evidence schema is {schema!r}, expected '5.2'")
+        if not generated_at:
+            raise Failure("browser DOM evidence missing generated_at timestamp")
+        if not server_meta.get("pid") or not server_meta.get("port"):
+            raise Failure("browser DOM evidence missing candidate server pid/port identity")
+    else:
+        route_results = evidence
+
+    if not route_results:
+        raise Failure("browser DOM evidence has no route results")
+
     failed_routes = []
-    for route, data in evidence.items():
+    for route, data in route_results.items():
         if data.get("status") != "PASS":
             failed_routes.append(f"{route}: {data.get('status', 'UNKNOWN')}")
 
     if failed_routes:
         raise Failure(f"browser DOM evidence has failed routes:\n" + "\n".join(failed_routes))
 
-    # Verify claim routes loaded PFCallsData
+    # Verify claim routes loaded PFClaimsData
     claim_route_count = 0
     total_bindings = 0
-    for route, data in evidence.items():
+    for route, data in route_results.items():
         dom = data.get("dom_evidence", {})
         if data.get("route_type") in ("claim", "claim-route"):
             claim_route_count += 1
@@ -629,14 +654,42 @@ def check_browser_dom_evidence() -> None:
             if binding_errors:
                 raise Failure(f"claim route {route} has binding errors: {binding_errors[:3]}")
 
-    # V5.1: Require non-vacuous binding coverage
+    # V5.2: Every status inventory entry must be present and passing
+    registry_path = ROOT / "release_tree_registry.json"
+    if registry_path.is_file():
+        try:
+            registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            registry = {}
+    else:
+        registry = {}
+    inventory = registry.get("statusInventory", [])
+    inventory_seen = 0
+    inventory_failures = []
+    for entry in inventory:
+        route = entry.get("route")
+        if route not in route_results:
+            inventory_failures.append(f"{route}: inventory entry route not in evidence")
+            continue
+        inv_results = route_results[route].get("dom_evidence", {}).get("inventory_results", [])
+        found = next((r for r in inv_results if r.get("claimId") == entry.get("claimId") and r.get("selector") == entry.get("selector")), None)
+        if not found:
+            inventory_failures.append(f"{route}: missing inventory result for {entry.get('claimId')}")
+        elif not found.get("ok"):
+            inventory_failures.append(f"{route}: inventory entry {entry.get('claimId')} failed: {found.get('error')}")
+        else:
+            inventory_seen += 1
+    if inventory_failures:
+        raise Failure("V5.2 status inventory not fully verified:\n" + "\n".join(inventory_failures))
+
+    # V5.1/V5.2: Require non-vacuous binding coverage
     if claim_route_count > 0 and total_bindings == 0:
         raise Failure(
-            f"V5.1: {claim_route_count} claim routes but 0 authority bindings — "
+            f"V5.2: {claim_route_count} claim routes but 0 authority bindings — "
             f"browser proof did not activate any status-bearing panel states"
         )
 
-    print(f"PASS browser DOM evidence (V5.1, {len(evidence)} routes, {claim_route_count} claim routes, {total_bindings} authority bindings)")
+    print(f"PASS browser DOM evidence (V5.2, {len(route_results)} routes, {claim_route_count} claim routes, {total_bindings} authority bindings, {inventory_seen}/{len(inventory)} inventory entries)")
 
 
 def main() -> int:
@@ -645,6 +698,7 @@ def main() -> int:
         check_truth_gate,
         check_truth_fixtures,
         check_runtime_proof,
+        check_runtime_fixtures,
         check_browser_dom_evidence,
         check_source_hygiene,
         check_local_refs,

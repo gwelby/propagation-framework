@@ -20,9 +20,11 @@ Uses Playwright to:
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
 import signal
+import socket
 import subprocess
 import sys
 import time
@@ -34,26 +36,47 @@ EXPLORER_DIR = Path(__file__).resolve().parent
 SERVE_SCRIPT = EXPLORER_DIR / "serve.py"
 REGISTRY_PATH = EXPLORER_DIR / "release_tree_registry.json"
 EVIDENCE_PATH = EXPLORER_DIR / "_browser_dom_evidence.json"
-PORT = 8773
 
 
-def start_server() -> subprocess.Popen:
-    """Start the Explorer's V5 serve.py on a test port."""
+def _find_free_port() -> int:
+    """Find an isolated free port on loopback."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+def start_server() -> tuple[subprocess.Popen, int]:
+    """Start the Explorer's V5 serve.py on an isolated free test port.
+
+    V5.2: The proof must own its server. We pick a fresh free port, start the
+    candidate serve.py with that port, and fail if the child exits or an
+    unrelated process already owns the port.
+    """
+    port = _find_free_port()
     proc = subprocess.Popen(
-        [sys.executable, str(SERVE_SCRIPT), str(PORT)],
+        [sys.executable, str(SERVE_SCRIPT), str(port)],
         cwd=str(EXPLORER_DIR),
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         preexec_fn=os.setsid if sys.platform != "win32" else None,
     )
+    url = f"http://127.0.0.1:{port}/index.html"
     for _ in range(30):
         time.sleep(0.5)
+        if proc.poll() is not None:
+            stdout = proc.stdout.read().decode("utf-8", errors="ignore")[:500] if proc.stdout else ""
+            stderr = proc.stderr.read().decode("utf-8", errors="ignore")[:500] if proc.stderr else ""
+            raise RuntimeError(
+                f"serve.py exited before binding to port {port} (rc={proc.returncode}). "
+                f"stdout={stdout!r} stderr={stderr!r}"
+            )
         try:
-            urllib.request.urlopen(f"http://127.0.0.1:{PORT}/index.html", timeout=3)
-            return proc
+            with urllib.request.urlopen(url, timeout=3) as resp:
+                if resp.status == 200:
+                    return proc, port
         except Exception:
             pass
-    return proc
+    raise RuntimeError(f"serve.py did not become ready on isolated port {port} within 15s")
 
 
 def stop_server(proc: subprocess.Popen):
@@ -94,12 +117,85 @@ def load_authority_data() -> dict:
     return claims
 
 
-def run_browser_proof() -> dict:
-    """V5: Run browser DOM proof with authority binding."""
+def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
+    """V5.2: Activate and verify one status inventory entry.
+
+    Returns a dict with ok, claimId, selector, observed, and error if failed.
+    """
+    import re as _re
+    claim_id = entry["claimId"]
+    selector = entry["selector"]
+    activation = entry.get("activation")
+    expected_status = entry.get("expectedStatus", "").upper()
+    expected_conf = entry.get("expectedConfidence")
+    result = {
+        "claimId": claim_id,
+        "selector": selector,
+        "activation": activation,
+        "ok": False,
+    }
+
+    try:
+        if activation:
+            try:
+                el = page.query_selector(activation)
+                if el:
+                    el.click()
+                    page.wait_for_timeout(800)
+            except Exception as e:
+                result["error"] = f"activation failed: {e}"
+                return result
+
+        el = page.query_selector(selector)
+        if not el:
+            result["error"] = "expected status element not found"
+            return result
+
+        observed_id = el.get_attribute("data-claim-id")
+        if not observed_id:
+            # Check closest parent with data-claim-id for sidebar notes
+            observed_id = el.evaluate("(node) => { var p = node.closest('[data-claim-id]'); return p ? p.getAttribute('data-claim-id') : null; }")
+        result["observed_claimId"] = observed_id
+        if observed_id != claim_id:
+            result["error"] = f"data-claim-id mismatch: expected {claim_id}, got {observed_id}"
+            return result
+
+        text = (el.text_content() or "").strip()
+        result["observed_text"] = text
+        if expected_status and expected_status not in text.upper():
+            result["error"] = f"status mismatch: expected {expected_status} in '{text}'"
+            return result
+
+        if expected_conf is not None:
+            m = _re.search(r'(\d+\.\d+)', text)
+            if not m:
+                result["error"] = f"expected confidence {expected_conf} but no numeric confidence in '{text}'"
+                return result
+            obs_conf = float(m.group(1))
+            result["observed_confidence"] = obs_conf
+            if abs(obs_conf - expected_conf) > 0.01:
+                result["error"] = f"confidence mismatch: expected {expected_conf}, got {obs_conf}"
+                return result
+
+        if claim_id not in authority_claims:
+            result["error"] = f"unknown claim ID in authority: {claim_id}"
+            return result
+
+        result["ok"] = True
+    except Exception as e:
+        result["error"] = f"exception: {e}"
+    return result
+
+
+def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
+    """V5/V5.2: Run browser DOM proof with authority binding."""
     from playwright.sync_api import sync_playwright
 
     registry = json.loads(REGISTRY_PATH.read_text())
     served_routes = registry.get("servedRoutes", [])
+    route_filter = os.environ.get("PF_RUNTIME_ROUTE")
+    if route_filter:
+        served_routes = [r for r in served_routes if r.get("path") == route_filter]
     authority_claims = load_authority_data()
 
     results = {}
@@ -111,7 +207,7 @@ def run_browser_proof() -> dict:
         for route in served_routes:
             path = route["path"]
             route_type = route.get("type", "unknown")
-            url = f"http://127.0.0.1:{PORT}/{path}"
+            url = f"http://127.0.0.1:{port}/{path}"
 
             page = context.new_page()
             js_errors = []
@@ -206,6 +302,18 @@ def run_browser_proof() -> dict:
                 """)
                 dom_evidence["status_pills"] = status_pills
 
+                # V5.2: Activate and verify every expected status inventory entry
+                # for this route. Missing element, missing data-claim-id, unknown
+                # ID, or status/confidence mismatch must fail.
+                inventory = registry.get("statusInventory", [])
+                route_inventory = [e for e in inventory if e.get("route") == path]
+                inventory_results = []
+                for entry in route_inventory:
+                    inv_res = _verify_inventory_entry(page, entry, authority_claims)
+                    inventory_results.append(inv_res)
+                dom_evidence["inventory_results"] = inventory_results
+                inventory_failures = [r for r in inventory_results if not r.get("ok")]
+
                 # 3. Check for JS errors
                 dom_evidence["js_errors"] = js_errors[:5]
 
@@ -299,7 +407,18 @@ def run_browser_proof() -> dict:
                         }
                         continue
 
-                elif route_type == "non-claim":
+                # V5.2: Any inventory failure is a runtime proof failure
+                if inventory_failures:
+                    results[path] = {
+                        "status": "FAIL",
+                        "reason": f"Status inventory failures: {len(inventory_failures)}",
+                        "route_type": route_type,
+                        "dom_evidence": dom_evidence,
+                        "inventory_failures": inventory_failures[:5],
+                    }
+                    continue
+
+                if route_type == "non-claim":
                     dom_evidence["non_claim_route"] = True
                     # V5: Non-claim routes must not have status pills
                     if status_pills:
@@ -358,26 +477,21 @@ def run_browser_proof() -> dict:
 
 def main() -> int:
     print("=" * 70)
-    print("Explorer Truth Layer V5 — Browser DOM Runtime Proof")
+    print("Explorer Truth Layer V5/V5.2 — Browser DOM Runtime Proof")
     print("=" * 70)
     print()
 
-    # Start server
-    print(f"Starting V5 release server on port {PORT}...")
-    proc = start_server()
-    try:
-        # Verify server is up
-        try:
-            urllib.request.urlopen(f"http://127.0.0.1:{PORT}/index.html", timeout=5)
-        except Exception:
-            print("FAIL: Server did not start")
-            return 1
+    # Start server on an isolated free port
+    print("Starting V5/V5.2 release server on an isolated free port...")
+    proc, port = start_server()
+    print(f"  Candidate server pid={proc.pid} port={port}")
 
+    try:
         # V5: Verify quarantine paths return 404
         print("Verifying quarantine/dev paths return 404...")
         for test_path in ["quarantine/test-d3.html", "dev/test-d3.html", "_blocked.html"]:
             try:
-                urllib.request.urlopen(f"http://127.0.0.1:{PORT}/{test_path}", timeout=5)
+                urllib.request.urlopen(f"http://127.0.0.1:{port}/{test_path}", timeout=5)
                 print(f"  FAIL: {test_path} returned 200 (expected 404)")
                 return 1
             except urllib.error.HTTPError as e:
@@ -391,10 +505,22 @@ def main() -> int:
 
         # Run browser proof
         print("\nRunning browser DOM proof with authority binding...")
-        results = run_browser_proof()
+        results = run_browser_proof(port, proc)
 
-        # Save evidence
-        EVIDENCE_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        # V5.2: Evidence includes inventory result, activations, observed
+        # comparisons, candidate port/process identity, and run timestamp.
+        evidence = {
+            "schema_version": "5.2",
+            "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "candidate_server": {
+                "pid": proc.pid,
+                "port": port,
+                "command": [sys.executable, str(SERVE_SCRIPT), str(port)],
+                "cwd": str(EXPLORER_DIR),
+            },
+            "route_results": results,
+        }
+        EVIDENCE_PATH.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
         print(f"Evidence saved to {EVIDENCE_PATH}")
 
         # Report results
@@ -421,7 +547,7 @@ def main() -> int:
 
         print()
         print("=" * 70)
-        print(f"Browser DOM Proof V5: {passed} passed, {failed} failed, {errors} errors")
+        print(f"Browser DOM Proof V5.2: {passed} passed, {failed} failed, {errors} errors")
         print("=" * 70)
         return 0 if failed == 0 and errors == 0 else 1
 

@@ -458,7 +458,10 @@
         || (window.PFExplorerData && window.PFExplorerData.godEquationAudit)
         || { dependencyChain: [], gaps: [] };
       var isClaimPoint = (state.nValue === 3 && state.dValue === 3);
-      var godResult = ctx.app.getResult('god-equation') || {};
+      // V5.2: Bind to the exact authority records. The primary pill represents
+      // the operator-algebra claim; the scale split is a separate authority.
+      var godOperator = ctx.app.getResult('god-equation-operator') || {};
+      var godScale = ctx.app.getResult('god-equation-scale') || {};
 
       state.info.innerHTML =
         '<div class="panel-header">' +
@@ -467,9 +470,9 @@
             '<h3>' + (prediction ? ctx.utils.formatScientific(prediction, 3) + ' m' : 'no asymptotic branch') + '</h3>' +
             '<p>The formula and numerical target are anchored. The operator and probability bridge remain explicitly open.</p>' +
           '</div>' +
-          '<span class="status-pill ' + (godResult.statusClass || 'status-unavailable') + '">' + (godResult.badge || (godResult.status && godResult.status.label ? godResult.status.label : 'UNAVAILABLE')) + '</span>' +
+          '<span class="status-pill ' + (godOperator.statusClass || 'status-unavailable') + '" data-claim-id="god-equation-operator">' + (godOperator.badge || (godOperator.status && godOperator.status.label ? godOperator.status.label : 'UNAVAILABLE')) + '</span>' +
         '</div>' +
-        ctx.app.renderWrongIntuition(ctx.app.getResult('god-equation')) +
+        ctx.app.renderWrongIntuition(ctx.app.getResult('god-equation-operator')) +
         '<div class="control-group">' +
           '<label for="godN">Generations N</label>' +
           '<input id="godN" class="premium-slider" type="range" min="1" max="5" step="1" value="' + state.nValue + '">' +
@@ -488,7 +491,7 @@
           '<div class="stat-tile"><strong>' + (isClaimPoint ? '✓ CLAIM (3,3)' : 'other point') + '</strong><span>formula position</span></div>' +
         '</div>' +
         '<div class="note-box story-only"><strong>Story</strong><p>N = 3 and D = 3 are the intended landing site. Moving either shifts the exponential enough that the matter window becomes visibly special.</p></div>' +
-        '<div class="note-box audit-only"><strong>Why the scale formula stays <span class="status-badge ' + (ctx.utils.statusToClass ? ctx.utils.statusToClass(godResult.splitStatuses && godResult.splitStatuses[1] ? godResult.splitStatuses[1].status : 'UNAVAILABLE') : 'status-unavailable') + '" data-claim-id="god-equation-scale">' + (godResult.splitStatuses && godResult.splitStatuses[1] ? godResult.splitStatuses[1].status : 'UNAVAILABLE') + '</span></strong><p>The (3,3) point is anchored at 1.157e-18 m and 1.48% error. N^(D/2) is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. The operator algebra and the scale formula are separate claims — see their authority records for current status. What stays open is the bridge from the exact internal model to operator closure and H_prod factorization.</p></div>' +
+        '<div class="note-box audit-only"><strong>Why the scale formula stays <span class="status-badge ' + (godScale.statusClass || 'status-unavailable') + '" data-claim-id="god-equation-scale">' + (godScale.badge || (godScale.status && godScale.status.label ? godScale.status.label : 'UNAVAILABLE')) + '</span></strong><p>The (3,3) point is anchored at 1.157e-18 m and 1.48% error. N^(D/2) is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. The operator algebra and the scale formula are separate claims — see their authority records for current status. What stays open is the bridge from the exact internal model to operator closure and H_prod factorization.</p></div>' +
         '<section class="audit-stack audit-only">' +
           '<div class="audit-section">' +
             '<span class="eyebrow">Dependency chain</span>' +
