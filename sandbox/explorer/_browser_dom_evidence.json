@@ -1,13 +1,13 @@
 {
   "schema_version": "5.2",
-  "generated_at": "2026-07-20T16:02:44.770741+00:00",
+  "generated_at": "2026-07-20T17:02:55.115927+00:00",
   "candidate_server": {
-    "pid": 2473,
-    "port": 50835,
+    "pid": 66924,
+    "port": 60275,
     "command": [
       "/usr/bin/python3",
       "/mnt/d/Fundamentals/sandbox/explorer/serve.py",
-      "50835"
+      "60275"
     ],
     "cwd": "/mnt/d/Fundamentals/sandbox/explorer"
   },
