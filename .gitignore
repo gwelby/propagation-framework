@@ -1,5 +1,6 @@
 # -------------------------------------------------------------------------
-# LUMI PROTOCOL: FUNDAMENTALS PUBLIC REPO GITIGNORE
+# FUNDAMENTALS PUBLIC REPO GITIGNORE
+# Updated 2026-07-19 by Hermes — comprehensive public safety sweep
 # -------------------------------------------------------------------------
 
 # 1. Private / Personal Directories
@@ -10,63 +11,84 @@ BUSINESS.md
 /TASKS.md
 /WORKSPACE.md
 
-# 2. Agent Prompts and Internal Logs
+# 2. Agent Workspace State (internal only)
+AGENTS.md
 AGENTS*.md
+STATE.md
+RESUME.md
+CHANGELOG.md
+REMEMBER.md
+ACTIVE_ISSUES.md
+AGENT_BLACKBOARD.jsonl
+AGENT_BRIEFS.md
+AGENT_BRIEF_*.md
+API_README.md
+GREG_TEST_LOG.md
+GREG_TEST_SEQUENCE.md
+HOOK_TEST_CARDS.md
+FIVE_AGENT_COORDINATION.md
+
+# 3. Agent Dispatches & Continuity (internal)
+CONTINUITY/
+inbox/
+outbox/
+
+# 4. Internal Strategy & Vision
+UNIFIED_VISION.md
+MASTERS_IN_PLAIN_SIGHT.md
+WHAT_BECOMES_OBVIOUS.md
+what_else_i_see.md
+FAMILY_STRIKE_PLAN.md
+PF_FOUNDATION_MODEL.md
+ECOSYSTEM_MASTER_AUDIT_*.md
+CONSCIOUSNESS_AS_MEDIUM.md
+
+# 5. Seed Vault / Security (CRITICAL)
+THE_SEED_VAULT/
+
+# 6. Agent Configs
+.codex
+.pi/
+.gemini/
+.kiro/
+.playwright-cli/
+
+# 7. Temporary / Draft Files
+tmp_*.md
+.warp_query_err.txt
+.warp_query_out.txt
+
+# 8. Internal Research Queue (already covered but explicit)
+MASTER_RESEARCH_QUEUE.md
+RESEARCH_QUEUE.md
+THE_BOOK_OUTLINE.md
+THE_DELTA.md
+EXPERIMENTAL_ROADMAP.md
+
+# 9. Agent Prompts and Internal Logs
 TEAM_WAVE*.md
 TEAM_PROMPTS.md
 deep_research_prompts.md
 Discussions/
 conductor/
 SESSION_LOG*.md
+
+# 10. Email / Outreach Drafts (moved to outreach/ now)
 RIVERO_EMAIL_FINAL.md
 RIVERO_EMAIL_WAVE2.md
 RIVERO_SERVER.md
+START_HERE_FOR_RIVERO.md
 GITHUB_PUBLIC_PLAN.md
-MASTER_RESEARCH_QUEUE.md
-RESEARCH_QUEUE.md
-THE_BOOK_OUTLINE.md
-THE_DELTA.md
-what_else_i_see.md
-EXPERIMENTAL_ROADMAP.md
 
-# 3. Health & Raw Data (EEG, etc.)
-*.edf
-*.set
-*.fdt
-*.csv
-mne_data/
+# 11. Social Media Strategy
+SOCIAL/
 
-# 4. OS and Environment Files
-.DS_Store
-Thumbs.db
-__pycache__/
-*.pyc
-.env
-.venv/
-env/
-D:\Fundamentals\sandbox\sandbox_results.md
+# 12. Internal Protocols
+QSOP/
+protocols/
 
-# 5. Verification harness cache (propagation-framework-verification spec)
-verification/.cache/
+# 13. Broken paths
+:/mnt/d/
 
-# 6. Runtime telemetry / IDE state / auto-generated manifests / build noise
-.vscode/
-/AGENT_RESONANCE.jsonl
-/AGENT_RESONANCE_DASHBOARD.txt
-/index.json
-/assemble_log.txt
-archive/AGENT_BLACKBOARD_flooded_*.jsonl
-*.pyc
-.pytest_cache/
-
-# 7. Generated visual-pass screenshots (regenerated each run)
-sandbox/explorer/_visual_pass_screens/
-
-# 8. Generated daily reports and inbox artifacts
-/inbox/
-
-# 9. Build artifacts and backups
-*.bak
-*.bak.*
-lean/.lake.ntfs/
-lean/.lake/
+# 14. Already-public outreach (KEEP — intentionally public)
+# outreach/ is NOT ignored — these are meant to be public
