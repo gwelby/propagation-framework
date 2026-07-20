@@ -305,36 +305,68 @@ def scan_artifact(result: ValidationResult, artifact: dict) -> list:
 
     violations = []
 
-    # Patterns that indicate negation context for a following term
-    _NEGATION_PATTERNS = [
-        r"no\s+",
-        r"not\s+a\s+",
-        r"not\s+",
-        r"cannot\s+",
-        r"is\s+not\s+",
-        r"are\s+not\s+",
-        r"no\s+sigma-based\s+",
-    ]
+    # Words that break a negation phrase; a negation before one of these
+    # cannot govern a term on the far side.
+    _NEGATION_BLOCKERS = {
+        "but", "however", "yet", "though", "although", "nevertheless",
+        "nonetheless", "only", "just", "also", "merely", "then", "therefore",
+        "so", "thus", "hence", "if", "because", "since", "while", "whereas",
+    }
+
+    # Clause/sentence splitters. A negation in one clause cannot exempt a term
+    # in another clause separated by one of these.
+    _CLAUSE_SPLIT_RE = re.compile(
+        r"(?:"
+        r"\.\s+|"              # sentence end
+        r";\s+|"               # semicolon
+        r",?\s*\bbut\b\s+|"   # but (optionally after comma)
+        r"\bhowever\b\s+|"    # however
+        r"\byet\b\s+|"        # yet
+        r"\bthough\b\s+|"      # though
+        r"\balthough\b\s+"     # although
+        r")",
+        re.IGNORECASE,
+    )
+
+    # Allowed negation phrases that can govern a following term, with up to
+    # three modifier words between the negation and the term. The modifiers
+    # must not be blockers above (e.g. "only", "but").
+    _NEGATION_PHRASE_RE = re.compile(
+        r"(?:^|.*\s)"  # any prefix, last whitespace before negation
+        r"(?:"
+        r"no|"
+        r"not\s+a|"
+        r"not|"
+        r"cannot(?:\s+be(?:\s+a)?)?|"
+        r"is\s+not(?:\s+a)?|"
+        r"are\s+not(?:\s+a)?|"
+        r"no\s+sigma-based"
+        r")"
+        r"\s+"
+        r"(?:(?!" + r"|".join(re.escape(w) for w in _NEGATION_BLOCKERS) + r")\b[\w-]+\b\s+){0,3}"
+        r"$",
+        re.IGNORECASE | re.VERBOSE,
+    )
 
     def _is_negated(text_lower, term_lower, pos):
-        """Check if term at position pos in text is preceded by a negation.
+        """Check if term at position pos is governed by a negation phrase.
 
-        A term is in negation context if there is a negation word ("no",
-        "not", "cannot") earlier in the same sentence (delimited by . or ; or
-        start of string), with no intervening affirmation.
+        A term is only in negation context when the negation phrase directly
+        precedes it in the same clause, with no intervening clause breaker or
+        blocker word. Earlier sentence negation does not blanket-exempt later
+        affirmative uses (e.g. "not a statistical test, but it makes a
+        falsification claim" flags the second clause).
         """
-        # Find the start of the current sentence
-        sent_start = 0
-        for i in range(pos - 1, -1, -1):
-            if text_lower[i] in ".;":
-                sent_start = i + 1
-                break
-        before = text_lower[sent_start:pos]
-        # Check for negation patterns anywhere in the sentence before the term
-        for pat in _NEGATION_PATTERNS:
-            if re.search(pat, before):
-                return True
-        return False
+        # Find clause start: last clause splitter before term
+        clause_start = 0
+        for m in _CLAUSE_SPLIT_RE.finditer(text_lower[:pos]):
+            clause_start = m.end()
+        clause = text_lower[clause_start:]
+        term_pos_in_clause = pos - clause_start
+        prefix = clause[:term_pos_in_clause]
+        if not prefix.strip():
+            return False
+        return bool(_NEGATION_PHRASE_RE.search(prefix))
 
     def _walk(obj, path=""):
         if isinstance(obj, dict):
@@ -460,6 +492,49 @@ def _run_fixtures():
     assert any("prediction" in v[1] for v in art_violations), \
         f"Should flag 'prediction' in key: {art_violations}"
     fixtures.append(("ARTIFACT_DIRTY", r_art))
+
+    # Fixture 9: Contrast sentences — earlier negation does not blanket-exempt
+    # a later affirmative forbidden term
+    contrast_artifact = {
+        "task": "D1",
+        "status": "EXPLORATORY",
+        "preflight": {
+            "overall_status": "EXPLORATORY",
+            "disallowed_language": ["prediction", "physical sigma",
+                                    "compatibility verdict", "falsification claim",
+                                    "statistical test"],
+        },
+        "claim_boundary": (
+            "This is not a statistical test, but it makes a falsification claim. "
+            "No statistical test is claimed, but this is a compatibility verdict. "
+            "This is not a statistical test but the prediction is confirmed."
+        ),
+    }
+    art_violations = scan_artifact(r_art, contrast_artifact)
+    assert art_violations, "Contrast artifact must fail on the affirmative clauses"
+    flagged = {v[1] for v in art_violations}
+    assert "falsification claim" in flagged, f"Should flag falsification claim: {art_violations}"
+    assert "compatibility verdict" in flagged, f"Should flag compatibility verdict: {art_violations}"
+    assert "prediction" in flagged, f"Should flag prediction: {art_violations}"
+    # The negated 'statistical test' phrases must NOT be flagged
+    assert "statistical test" not in flagged, f"Should not flag negated statistical test: {art_violations}"
+    fixtures.append(("ARTIFACT_CONTRAST", r_art))
+
+    # Fixture 10: Direct negation boundaries still permitted
+    neg_boundary_artifact = {
+        "task": "D1",
+        "status": "EXPLORATORY",
+        "preflight": {
+            "overall_status": "EXPLORATORY",
+            "disallowed_language": ["falsification claim", "statistical test"],
+        },
+        "claim_boundary": (
+            "No falsification claim. not a closed statistical test."
+        ),
+    }
+    art_violations = scan_artifact(r_art, neg_boundary_artifact)
+    assert not art_violations, f"Direct negation boundaries should pass: {art_violations}"
+    fixtures.append(("ARTIFACT_NEG_BOUNDARY", r_art))
 
     return fixtures
 
