@@ -253,6 +253,9 @@
   }
 
   function initGodEquationThreeJS() {
+    if (typeof THREE === 'undefined') {
+      return;
+    }
     var container = document.getElementById("god-equation-container");
     if (!container || godEquationState.scene) return;
 
@@ -583,8 +586,8 @@
     setText("journey-pf-derived", counts.total + " audited claims • " + (counts.DERIVED || 0) + " derived");
     setText("journey-pf-falsifiable", "Yes (" + falsifiableCount + " audited falsifiers)");
     // V4: Pull status from authority, not hardcoded
-    var threeGen = api.getResult("three-generations");
-    var bohr = api.getResult("bohr-spectrum");
+    var threeGen = api.getClaim("three-generations");
+    var bohr = api.getClaim("bohr-spectrum");
     setText("journey-pf-generations", threeGen ? threeGen.badge : "UNAVAILABLE", threeGen ? threeGen.id : "");
     setText("journey-pf-atomic", bohr ? bohr.badge : "UNAVAILABLE", bohr ? bohr.id : "");
   }

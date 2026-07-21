@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-Explorer Truth Layer V5.2 — Runtime Proof Copied-Candidate Negative Fixtures
+Explorer Truth Layer V5.2/V5.3 — Runtime Proof Copied-Candidate Negative Fixtures
 
-Per Codex 2026-07-20 V5.2 repair contract:
+Per Codex 2026-07-20 V5.2/V5.3 repair contract:
 1. Occupied/wrong server port
 2. Missing expected rendered state
 3. Unbound God Equation primary pill
-4. Mismatched claim ID or displayed status
+4. Mismatched claim ID or displayed status (God Equation)
+5. Unbound primary Weinberg or Bohr pill
+6. Unbound Consciousness audit badge
+7. Rendered status that reads UNAVAILABLE / missing
+8. Status/confidence mismatch on a non-God-Equation claim
 
 Each fixture reuses one temp copy of the explorer tree, applies a mutation,
 runs the copied candidate's own `check_runtime_proof_v5.py`, and asserts it
@@ -160,9 +164,84 @@ def fixture_mismatched_status(tmp_explorer: Path) -> None:
     print("  PASS fixture: mismatched status/confidence rejected")
 
 
+def fixture_unbound_weinberg(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from the Weinberg primary pill."""
+    with _mutate(tmp_explorer, "panels/weinberg.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Source uses double-quoted JS strings, so the HTML attribute is escaped.
+        patched = text.replace(
+            'data-claim-id=\\"weinberg-angle\\">',
+            '>',
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        result = _run_runtime_proof(tmp_explorer)
+
+    if result.returncode == 0:
+        raise AssertionError(
+            f"Unbound Weinberg fixture should have failed; stdout={result.stdout[-500:]}, stderr={result.stderr[-500:]}"
+        )
+    print("  PASS fixture: unbound Weinberg primary pill rejected")
+
+
+def fixture_unbound_consciousness_audit(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from a Consciousness audit badge."""
+    with _mutate(tmp_explorer, "panels/consciousness.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Target the audit note badge, not the primary pill.
+        patched = text.replace(
+            """The consciousness claim remains <span class="status-badge ' + (consciousness.statusClass || statusToClass(consciousness.status)) + '" data-claim-id="consciousness-claim">""",
+            """The consciousness claim remains <span class="status-badge ' + (consciousness.statusClass || statusToClass(consciousness.status)) + '">""",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        result = _run_runtime_proof(tmp_explorer)
+
+    if result.returncode == 0:
+        raise AssertionError(
+            f"Unbound Consciousness audit fixture should have failed; stdout={result.stdout[-500:]}, stderr={result.stderr[-500:]}"
+        )
+    print("  PASS fixture: unbound Consciousness audit badge rejected")
+
+
+def fixture_unavailable_status(tmp_explorer: Path) -> None:
+    """Force a primary status pill to render as UNAVAILABLE / missing."""
+    with _mutate(tmp_explorer, "panels/bohr.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Replace the badge expression so the pill text becomes UNAVAILABLE
+        patched = text.replace(
+            "var badge = claim ? (claim.badge || claim.status) : 'UNAVAILABLE';",
+            "var badge = 'UNAVAILABLE';",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        result = _run_runtime_proof(tmp_explorer)
+
+    if result.returncode == 0:
+        raise AssertionError(
+            f"Unavailable status fixture should have failed; stdout={result.stdout[-500:]}, stderr={result.stderr[-500:]}"
+        )
+    print("  PASS fixture: rendered UNAVAILABLE status rejected")
+
+
+def fixture_mismatched_non_god_equation(tmp_explorer: Path) -> None:
+    """Set inventory expected status to a value that does not match a non-God-Equation claim."""
+    with _mutate(tmp_explorer, "release_tree_registry.json") as registry_path:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        for entry in registry.get("statusInventory", []):
+            if entry.get("claimId") == "weinberg-angle":
+                entry["expectedStatus"] = "DERIVED"  # authority is ARGUED
+                entry["expectedConfidence"] = 0.95   # authority is 0.65
+        registry_path.write_text(json.dumps(registry, indent=2), encoding="utf-8")
+        result = _run_runtime_proof(tmp_explorer)
+
+    if result.returncode == 0:
+        raise AssertionError(
+            f"Mismatched non-God-Equation fixture should have failed; stdout={result.stdout[-500:]}, stderr={result.stderr[-500:]}"
+        )
+    print("  PASS fixture: mismatched non-God-Equation status/confidence rejected")
+
+
 def main() -> int:
     print("=" * 70)
-    print("Explorer V5.2 Runtime Proof — Copied-Candidate Negative Fixtures")
+    print("Explorer V5.2/V5.3 Runtime Proof — Copied-Candidate Negative Fixtures")
     print("=" * 70)
     print()
 
@@ -179,6 +258,10 @@ def main() -> int:
         fixture_missing_state(tmp_explorer)
         fixture_unbound_god_equation(tmp_explorer)
         fixture_mismatched_status(tmp_explorer)
+        fixture_unbound_weinberg(tmp_explorer)
+        fixture_unbound_consciousness_audit(tmp_explorer)
+        fixture_unavailable_status(tmp_explorer)
+        fixture_mismatched_non_god_equation(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 
@@ -189,7 +272,7 @@ def main() -> int:
     print(f"  original hash unchanged: {after_hash[:16]}...")
 
     print()
-    print("All V5.2 runtime negative fixtures passed.")
+    print("All V5.2/V5.3 runtime negative fixtures passed.")
     return 0
 
 

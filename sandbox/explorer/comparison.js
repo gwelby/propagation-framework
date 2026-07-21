@@ -100,18 +100,18 @@
       return result.falsifier;
     }).length;
     var derivedCount = counts.DERIVED || 0;
-    var variableC = getTruth().getResult("variable-c");
-    var koidePhase = getTruth().getResult("koide-phase");
+    var variableC = getTruth().getClaim("variable-c");
+    var koidePhase = getTruth().getClaim("koide-phase");
 
     setText("pf-parameter-detail", "3 axioms • " + counts.total + " audited claims • " + derivedCount + " derived");
     setText("pf-free-cell", "3 axioms");
     setText("pf-derived-cell", counts.total + " audited claims • " + derivedCount + " derived");
     setText("pf-falsifiable-cell", "Yes (" + falsifiableCount + " audited falsifiers)");
     // V4: Pull status from authority, not hardcoded
-    var threeGen = getTruth().getResult("three-generations");
-    var bohr = getTruth().getResult("bohr-spectrum");
-    var weinberg = getTruth().getResult("weinberg-angle");
-    var godScale = getTruth().getResult("god-equation-scale");
+    var threeGen = getTruth().getClaim("three-generations");
+    var bohr = getTruth().getClaim("bohr-spectrum");
+    var weinberg = getTruth().getClaim("weinberg-angle");
+    var godScale = getTruth().getClaim("god-equation-scale");
     setText("pf-generations-cell", threeGen ? threeGen.badge : "UNAVAILABLE", threeGen ? threeGen.id : "");
     setText("pf-atomic-cell", bohr ? bohr.badge : "UNAVAILABLE", bohr ? bohr.id : "");
     setText("pf-weinberg-cell", weinberg ? weinberg.badge : "UNAVAILABLE", weinberg ? weinberg.id : "");
@@ -128,13 +128,13 @@
     var parts = [];
 
     if (variableC) {
-      parts.push('<span data-claim-id="variable-c">Variable c (' + variableC.status.toLowerCase() + ')</span>');
+      parts.push('<span data-claim-id="variable-c">Variable c (' + variableC.status.toLowerCase() + ' ' + variableC.confidence + ')</span>');
     } else {
       parts.push('<span data-claim-id="variable-c">Variable c (argued)</span>');
     }
 
     if (koidePhase) {
-      parts.push('<span data-claim-id="koide-phase">Koide phase (' + koidePhase.status.toLowerCase() + ')</span>');
+      parts.push('<span data-claim-id="koide-phase">Koide phase (' + koidePhase.status.toLowerCase() + ' ' + koidePhase.confidence + ')</span>');
     } else {
       parts.push('<span data-claim-id="koide-phase">Koide phase (empirical)</span>');
     }

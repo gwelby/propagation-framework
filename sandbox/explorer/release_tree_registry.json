@@ -16,7 +16,7 @@
       "statusInventory": [
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-generations-cell",
           "claimId": "three-generations",
           "expectedStatus": "CONDITIONAL",
@@ -25,7 +25,7 @@
         },
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-atomic-cell",
           "claimId": "bohr-spectrum",
           "expectedStatus": "DERIVED",
@@ -34,7 +34,7 @@
         },
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-weinberg-cell",
           "claimId": "weinberg-angle",
           "expectedStatus": "ARGUED",
@@ -43,7 +43,7 @@
         },
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-scale-cell",
           "claimId": "god-equation-scale",
           "expectedStatus": "ARGUED",
@@ -52,7 +52,7 @@
         },
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-testable-cell [data-claim-id='variable-c']",
           "claimId": "variable-c",
           "expectedStatus": "ARGUED",
@@ -61,7 +61,7 @@
         },
         {
           "route": "comparison.html",
-          "activation": "body",
+          "activation": "",
           "selector": "#pf-testable-cell [data-claim-id='koide-phase']",
           "claimId": "koide-phase",
           "expectedStatus": "EMPIRICAL",
@@ -252,7 +252,7 @@
       "statusInventory": [
         {
           "route": "journey.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#ge-error",
           "claimId": "god-equation-operator",
           "expectedStatus": "CONDITIONAL",
@@ -261,7 +261,7 @@
         },
         {
           "route": "journey.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#journey-pf-generations",
           "claimId": "three-generations",
           "expectedStatus": "CONDITIONAL",
@@ -270,7 +270,7 @@
         },
         {
           "route": "journey.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#journey-pf-atomic",
           "claimId": "bohr-spectrum",
           "expectedStatus": "DERIVED",
@@ -286,7 +286,7 @@
       "statusInventory": [
         {
           "route": "journey_live.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#ge-error",
           "claimId": "god-equation-operator",
           "expectedStatus": "CONDITIONAL",
@@ -295,7 +295,7 @@
         },
         {
           "route": "journey_live.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#journey-pf-generations",
           "claimId": "three-generations",
           "expectedStatus": "CONDITIONAL",
@@ -304,7 +304,7 @@
         },
         {
           "route": "journey_live.html",
-          "activation": "#begin-journey",
+          "activation": "",
           "selector": "#journey-pf-atomic",
           "claimId": "bohr-spectrum",
           "expectedStatus": "DERIVED",
@@ -503,7 +503,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-generations-cell",
       "claimId": "three-generations",
       "expectedStatus": "CONDITIONAL",
@@ -512,7 +512,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-atomic-cell",
       "claimId": "bohr-spectrum",
       "expectedStatus": "DERIVED",
@@ -521,7 +521,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-weinberg-cell",
       "claimId": "weinberg-angle",
       "expectedStatus": "ARGUED",
@@ -530,7 +530,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-scale-cell",
       "claimId": "god-equation-scale",
       "expectedStatus": "ARGUED",
@@ -539,7 +539,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-testable-cell [data-claim-id='variable-c']",
       "claimId": "variable-c",
       "expectedStatus": "ARGUED",
@@ -548,7 +548,7 @@
     },
     {
       "route": "comparison.html",
-      "activation": "body",
+      "activation": "",
       "selector": "#pf-testable-cell [data-claim-id='koide-phase']",
       "claimId": "koide-phase",
       "expectedStatus": "EMPIRICAL",
@@ -557,7 +557,7 @@
     },
     {
       "route": "journey.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#ge-error",
       "claimId": "god-equation-operator",
       "expectedStatus": "CONDITIONAL",
@@ -566,7 +566,7 @@
     },
     {
       "route": "journey.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#journey-pf-generations",
       "claimId": "three-generations",
       "expectedStatus": "CONDITIONAL",
@@ -575,7 +575,7 @@
     },
     {
       "route": "journey.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#journey-pf-atomic",
       "claimId": "bohr-spectrum",
       "expectedStatus": "DERIVED",
@@ -584,7 +584,7 @@
     },
     {
       "route": "journey_live.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#ge-error",
       "claimId": "god-equation-operator",
       "expectedStatus": "CONDITIONAL",
@@ -593,7 +593,7 @@
     },
     {
       "route": "journey_live.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#journey-pf-generations",
       "claimId": "three-generations",
       "expectedStatus": "CONDITIONAL",
@@ -602,7 +602,7 @@
     },
     {
       "route": "journey_live.html",
-      "activation": "#begin-journey",
+      "activation": "",
       "selector": "#journey-pf-atomic",
       "claimId": "bohr-spectrum",
       "expectedStatus": "DERIVED",

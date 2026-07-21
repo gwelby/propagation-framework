@@ -209,8 +209,8 @@
       var data = window.PFClaimsData || {};
       var claim = (data.CLAIMS || []).find(function (c) { return c.id === 'gravity-optical'; });
       var claimId = claim ? claim.id : 'gravity-optical';
-      var statusLabel = claim ? (claim.status ? claim.status.label : 'UNAVAILABLE') : 'UNAVAILABLE';
-      var statusClass = claim ? ('status-' + statusLabel.toLowerCase()) : 'status-unavailable';
+      var statusLabel = claim ? (claim.badge || (claim.status ? claim.status.label : 'UNAVAILABLE')) : 'UNAVAILABLE';
+      var statusClass = claim ? (claim.statusClass || 'status-' + statusLabel.split(' ')[0].toLowerCase()) : 'status-unavailable';
       var formula = state.mode === "gravity"
         ? "sandbox lens: n^2 = 1 + gain * sum(M / r)"
         : "sandbox lens: n^2 = gain + sum(q / r)";
