@@ -1,13 +1,13 @@
 {
   "schema_version": "5.2",
-  "generated_at": "2026-07-21T15:48:47.804447+00:00",
+  "generated_at": "2026-07-21T17:00:32.376655+00:00",
   "candidate_server": {
-    "pid": 55177,
-    "port": 38179,
+    "pid": 83462,
+    "port": 56299,
     "command": [
       "/usr/bin/python3.12",
       "/mnt/d/Fundamentals/sandbox/explorer/serve.py",
-      "38179"
+      "56299"
     ],
     "cwd": "/mnt/d/Fundamentals/sandbox/explorer"
   },
@@ -508,7 +508,7 @@
             "activation": "",
             "ok": true,
             "observed_claimId": "god-equation-operator",
-            "observed_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
+            "observed_text": "Status: CONDITIONAL 0.88 \u2022 numerical anchor error 1.5%",
             "observed_confidence": 0.88
           },
           {
@@ -556,7 +556,7 @@
             "activation": "",
             "ok": true,
             "observed_claimId": "god-equation-operator",
-            "observed_text": "Status: CONDITIONAL 0.88 0.88 \u2022 numerical anchor error 1.5%",
+            "observed_text": "Status: CONDITIONAL 0.88 \u2022 numerical anchor error 1.5%",
             "observed_confidence": 0.88
           },
           {
