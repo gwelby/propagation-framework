@@ -1,5 +1,8 @@
 # The Grand Plan: Propagation Framework Explorer 2.0
 
+> **SUPERSEDED.** This plan is now consolidated into `EXPLORER_MASTER_PLAN.md`.
+> Do not plan from this file. Keep it as historical context only.
+
 **Date**: 2026-03-31  
 **Author**: Cascade (with Lumi's vision and Codex's audit)  
 **Mission**: Transform the Explorer from a reference tool into an unforgettable experience

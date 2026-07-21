@@ -1,5 +1,8 @@
 # Propagation Framework Explorer — WORLD-CLASS OVERHAUL PLAN
 
+> **SUPERSEDED.** This plan is now consolidated into `EXPLORER_MASTER_PLAN.md`.
+> Do not plan from this file. Keep it as historical context only.
+
 ## THE NORTH STAR
 
 > "Every human intuition about reality is wrong. The Explorer makes you feel that — then shows you why — then shows you what replaces it."

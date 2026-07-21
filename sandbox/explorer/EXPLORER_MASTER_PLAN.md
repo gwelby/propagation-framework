@@ -15,6 +15,16 @@ The Explorer is a **reality-correction machine**: a browser experience that dism
 - A runtime-proof gate (`check_runtime_proof_v5.py`) that verifies every rendered status state is bound to an authority claim ID and matches generated authority.
 - A public-facing surface subject to the **PUBLIC HOLD** until Codex clears the current audits.
 
+## Legacy Plans (Superseded)
+
+The following files are historical context and are no longer authoritative:
+
+- `EXPLORER_OVERHAUL_PLAN.md` — original 7-pass visual/narrative overhaul.
+- `GRAND_PLAN.md` — original 2.0 vision and Journey Mode.
+- `PLAN_OVERHAUL.md` — early duplicate of the overhaul plan.
+
+All future Explorer planning should use this file (`EXPLORER_MASTER_PLAN.md`) only.
+
 ## Roadmap
 
 ### Phase A — Truth Layer & Runtime Proof (ACTIVE)
