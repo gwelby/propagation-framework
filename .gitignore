@@ -12,11 +12,12 @@ BUSINESS.md
 /WORKSPACE.md
 
 # 2. Agent Workspace State (internal only)
-AGENTS.md
+# AGENTS.md, STATE.md, RESUME.md, CHANGELOG.md tracked in origin (private)
+# as of 2026-07-21 per Greg's stated preference (git access > file-only
+# backup) -- still excluded from the public pf mirror via pf_purge_list.txt.
+# See audit/CLAUDE_20260721_PF_HISTORY_SCRUB_INCIDENT.md.
 AGENTS*.md
-STATE.md
-RESUME.md
-CHANGELOG.md
+!AGENTS.md
 REMEMBER.md
 ACTIVE_ISSUES.md
 AGENT_BLACKBOARD.jsonl
