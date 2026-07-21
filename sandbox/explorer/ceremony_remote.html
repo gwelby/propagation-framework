@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>PhiFlow Ceremony Remote</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #050510;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Georgia, serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+    h1 {
+      margin: 0 0 6px 0;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: #4af;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 18px;
+    }
+    #status {
+      font-size: 13px;
+      color: #fa0;
+      margin-bottom: 18px;
+      min-height: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      border: 1px solid rgba(68, 136, 255, 0.35);
+      border-radius: 14px;
+      background: rgba(10, 20, 40, 0.85);
+      color: #fff;
+      font-size: 16px;
+      padding: 22px 10px;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.15s, box-shadow 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:active {
+      transform: scale(0.96);
+      background: rgba(20, 50, 90, 0.95);
+    }
+    button.primary {
+      border-color: rgba(80, 255, 120, 0.5);
+      background: rgba(10, 50, 25, 0.9);
+      grid-column: span 2;
+    }
+    button.primary:active {
+      background: rgba(25, 90, 45, 0.95);
+    }
+    button.danger {
+      border-color: rgba(255, 80, 80, 0.5);
+      background: rgba(60, 15, 15, 0.9);
+    }
+    button.danger:active {
+      background: rgba(110, 25, 25, 0.95);
+    }
+    .label {
+      font-size: 14px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .hint {
+      font-size: 11px;
+      opacity: 0.7;
+      display: block;
+    }
+    .coherence {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+    .coherence label {
+      display: block;
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+    .coherence input[type=range] {
+      width: 100%;
+    }
+    .coherence .value {
+      text-align: center;
+      font-size: 13px;
+      color: #fa0;
+      margin-top: 4px;
+    }
+    .log {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 20px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 11px;
+      color: #aaa;
+      min-height: 60px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>PhiFlow Ceremony Remote</h1>
+  <div class="subtitle">Facilitator cues to a running PhiFlow ceremony</div>
+  <div id="status">Connecting...</div>
+
+  <div class="grid">
+    <button class="primary" onclick="send('facilitator','breathe')">
+      <span class="label">Breathe</span>
+      <span class="hint">Start / Opening</span>
+    </button>
+
+    <button onclick="send('facilitator','release')">
+      <span class="label">Release</span>
+      <span class="hint">Grounding → Integration</span>
+    </button>
+
+    <button onclick="send('facilitator','advance')">
+      <span class="label">Advance</span>
+      <span class="hint">Generic next cue</span>
+    </button>
+
+    <button class="danger" onclick="send('facilitator','close')">
+      <span class="label">Close</span>
+      <span class="hint">End ceremony</span>
+    </button>
+  </div>
+
+  <div class="coherence">
+    <label for="cohSlider">Room coherence (optional sensor override)</label>
+    <input id="cohSlider" type="range" min="0" max="1" step="0.01" value="0.5" oninput="updateCoherence(this.value)">
+    <div class="value" id="cohValue">0.50</div>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <script src="phi-bridge.js"></script>
+  <script>
+    (function () {
+      var statusEl = document.getElementById('status');
+      var logEl = document.getElementById('log');
+      var cohValueEl = document.getElementById('cohValue');
+
+      function log(msg) {
+        var line = document.createElement('div');
+        line.textContent = new Date().toLocaleTimeString() + ' ' + msg;
+        logEl.insertBefore(line, logEl.firstChild);
+        if (logEl.children.length > 20) logEl.removeChild(logEl.lastChild);
+      }
+
+      function updateStatus() {
+        if (window.PhiBridge && window.PhiBridge.status === 'connected') {
+          statusEl.textContent = 'Connected — waiting for PhiFlow ceremony';
+          statusEl.style.color = '#4f4';
+        } else {
+          statusEl.textContent = 'Disconnected — retrying...';
+          statusEl.style.color = '#fa0';
+        }
+      }
+
+      window.send = function (channel, value) {
+        if (window.PhiBridge && window.PhiBridge.sendCue) {
+          if (window.PhiBridge.sendCue(channel, value)) {
+            log('Sent cue: ' + channel + ' → ' + value);
+          } else {
+            log('Failed to send cue (not connected)');
+          }
+        } else {
+          log('PhiBridge not ready');
+        }
+      };
+
+      window.updateCoherence = function (value) {
+        cohValueEl.textContent = parseFloat(value).toFixed(2);
+        if (window.PhiBridge && window.PhiBridge.sendCoherence) {
+          window.PhiBridge.sendCoherence(value);
+        }
+      };
+
+      // Connect manually (this page does not auto-connect)
+      if (window.PhiBridge) {
+        window.PhiBridge.onEvent(function (address, args) {
+          log('Φ ' + address + ' ' + JSON.stringify(args));
+        });
+        window.PhiBridge.connect();
+      }
+
+      setInterval(updateStatus, 1000);
+      updateStatus();
+    })();
+  </script>
+</body>
+</html>

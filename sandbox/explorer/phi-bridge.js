@@ -420,6 +420,39 @@
     }, 3000);
   }
 
+  // ═════════════════════════════════════════════════════════════════
+  //  FACILITATOR CUE SENDING (Ceremony Engine)
+  // ═════════════════════════════════════════════════════════════════
+
+  function sendOsc(address, args) {
+    if (!ws || !connected) {
+      console.warn('[PhiBridge] Not connected, cannot send:', address, args);
+      return false;
+    }
+    try {
+      ws.send(JSON.stringify({ address: address, args: args || [] }));
+      return true;
+    } catch (e) {
+      console.error('[PhiBridge] Send error:', e);
+      return false;
+    }
+  }
+
+  function sendCue(channel, value) {
+    return sendOsc('/ceremony/cue', [channel, value]);
+  }
+
+  function sendAdvance() {
+    return sendOsc('/ceremony/advance', []);
+  }
+
+  function sendCoherence(value) {
+    // value should be a number 0.0–1.0
+    var num = parseFloat(value);
+    if (isNaN(num)) num = 0.5;
+    return sendOsc('/ceremony/coherence', [num]);
+  }
+
   function disconnect() {
     if (reconnectTimer) {
       clearTimeout(reconnectTimer);
@@ -442,6 +475,10 @@
     connect: connect,
     disconnect: disconnect,
     onEvent: function (cb) { eventListeners.push(cb); },
+    sendOsc: sendOsc,
+    sendCue: sendCue,
+    sendAdvance: sendAdvance,
+    sendCoherence: sendCoherence,
     get status() { return connected ? 'connected' : 'disconnected'; },
     get currentIntention() { return currentIntention; },
     intentionMap: INTENTION_MAP,
