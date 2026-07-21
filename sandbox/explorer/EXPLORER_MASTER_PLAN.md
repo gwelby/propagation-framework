@@ -35,7 +35,7 @@ The runtime proof is the gate that keeps the Explorer honest. No visual/narrativ
 |---------|--------|--------------|------|
 | **V5.1** | ✅ PASS | Authority-bound DOM verification, `PFClaimsData` / `PFExplorerData` unity, quarantine 404s, source hygiene. | — |
 | **V5.2** | ❌ REJECT | Candidate-owned server, dynamic free port, `statusInventory` (9 entries on `index.html`), God Equation primary pill bound to `god-equation-operator`, scale badge bound to `god-equation-scale`. Rejected because inventory covers only `index.html` and generic pill collection precedes per-entry activation. | V5.3 |
-| **V5.3** | 📋 IN PROGRESS | Complete inventory across every `servedRoutes` entry with `hasStatusContent: true`; per-entry activation and inspection; bind every authority-bearing rendered status element with `data-claim-id`; copied-candidate negative fixtures with named failures. | See contract `/mnt/d/Devin/inbox/manual/2026-07-20-codex-explorer-v5.3-complete-status-inventory-repair.md` |
+| **V5.3** | ✅ PASS | Complete inventory across every `servedRoutes` entry with `hasStatusContent: true` (30 entries); per-entry activation and inspection; bind every authority-bearing rendered status element with `data-claim-id`; copied-candidate negative fixtures with named failures. | Return packet submitted: `/mnt/d/Codex/inbox/2026-07-20_devin-explorer-v5.3-complete-status-inventory-return.md` |
 | **V5.x** | 📋 PLANNED | Runtime proof for dynamically rendered states, Journey mode claim states, scale-ladder claim badges, and any new panels added in Phase B. | After V5.3 |
 
 ### Phase B — Visual & Narrative Experience
