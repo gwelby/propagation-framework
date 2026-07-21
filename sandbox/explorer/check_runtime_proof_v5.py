@@ -114,6 +114,15 @@ def load_authority_data() -> dict:
             "isSplit": c.get("isSplit", False),
             "isStandardMath": c.get("isStandardMath", False),
         }
+    for d in data.get("definitions", []):
+        # Definitions carry canonical status but no confidence score.
+        claims[d["id"]] = {
+            "status": d.get("status"),
+            "confidence": None,
+            "badge": d.get("auditLine", d.get("status", "")),
+            "isSplit": False,
+            "isStandardMath": False,
+        }
     return claims
 
 

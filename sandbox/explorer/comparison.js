@@ -112,11 +112,11 @@
     var bohr = getTruth().getResult("bohr-spectrum");
     var weinberg = getTruth().getResult("weinberg-angle");
     var godScale = getTruth().getResult("god-equation-scale");
-    setText("pf-generations-cell", threeGen ? threeGen.badge : "UNAVAILABLE");
-    setText("pf-atomic-cell", bohr ? bohr.badge : "UNAVAILABLE");
-    setText("pf-weinberg-cell", weinberg ? weinberg.badge : "UNAVAILABLE");
-    setText("pf-scale-cell", godScale ? godScale.badge : "UNAVAILABLE");
-    setText(
+    setText("pf-generations-cell", threeGen ? threeGen.badge : "UNAVAILABLE", threeGen ? threeGen.id : "");
+    setText("pf-atomic-cell", bohr ? bohr.badge : "UNAVAILABLE", bohr ? bohr.id : "");
+    setText("pf-weinberg-cell", weinberg ? weinberg.badge : "UNAVAILABLE", weinberg ? weinberg.id : "");
+    setText("pf-scale-cell", godScale ? godScale.badge : "UNAVAILABLE", godScale ? godScale.id : "");
+    setHtml(
       "pf-testable-cell",
       buildTestablePredictionLine(variableC, koidePhase)
     );
@@ -128,15 +128,15 @@
     var parts = [];
 
     if (variableC) {
-      parts.push("Variable c (" + variableC.status.toLowerCase() + ")");
+      parts.push('<span data-claim-id="variable-c">Variable c (' + variableC.status.toLowerCase() + ')</span>');
     } else {
-      parts.push("Variable c (argued)");
+      parts.push('<span data-claim-id="variable-c">Variable c (argued)</span>');
     }
 
     if (koidePhase) {
-      parts.push("Koide phase (" + koidePhase.status.toLowerCase() + ")");
+      parts.push('<span data-claim-id="koide-phase">Koide phase (' + koidePhase.status.toLowerCase() + ')</span>');
     } else {
-      parts.push("Koide phase (empirical)");
+      parts.push('<span data-claim-id="koide-phase">Koide phase (empirical)</span>');
     }
 
     return parts.join(", ");
@@ -231,10 +231,20 @@
     });
   }
 
-  function setText(id, value) {
+  function setText(id, value, claimId) {
     var node = document.getElementById(id);
     if (node) {
       node.textContent = value;
+      if (claimId) {
+        node.setAttribute('data-claim-id', claimId);
+      }
+    }
+  }
+
+  function setHtml(id, html) {
+    var node = document.getElementById(id);
+    if (node) {
+      node.innerHTML = html;
     }
   }
 })();

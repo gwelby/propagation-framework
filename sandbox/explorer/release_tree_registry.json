@@ -6,52 +6,336 @@
     {
       "path": "belt-trick.html",
       "type": "non-claim",
-      "hasStatusContent": false
+      "hasStatusContent": false,
+      "statusInventory": []
     },
     {
       "path": "comparison.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-generations-cell",
+          "claimId": "three-generations",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-atomic-cell",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.9,
+          "note": ""
+        },
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-weinberg-cell",
+          "claimId": "weinberg-angle",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.65,
+          "note": ""
+        },
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-scale-cell",
+          "claimId": "god-equation-scale",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.6,
+          "note": ""
+        },
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-testable-cell [data-claim-id='variable-c']",
+          "claimId": "variable-c",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.65,
+          "note": ""
+        },
+        {
+          "route": "comparison.html",
+          "activation": "body",
+          "selector": "#pf-testable-cell [data-claim-id='koide-phase']",
+          "claimId": "koide-phase",
+          "expectedStatus": "EMPIRICAL",
+          "expectedConfidence": 0.65,
+          "note": ""
+        }
+      ]
     },
     {
       "path": "derivation.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": false,
+      "statusInventory": []
     },
     {
       "path": "index.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "index.html",
+          "activation": "[data-route='refraction']",
+          "selector": "[data-route='refraction'] [data-status-note]",
+          "claimId": "gravity-optical",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.95,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='refraction']",
+          "selector": "#panelStage .panel-header [data-claim-id='gravity-optical']",
+          "claimId": "gravity-optical",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.95,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='koide']",
+          "selector": "[data-route='koide'] [data-status-note]",
+          "claimId": "koide-leptons",
+          "expectedStatus": "EXACT IDENTITY",
+          "expectedConfidence": 0.95,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='koide']",
+          "selector": "#panelStage .panel-header [data-claim-id='koide-leptons']",
+          "claimId": "koide-leptons",
+          "expectedStatus": "EXACT IDENTITY",
+          "expectedConfidence": 0.95,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='weinberg']",
+          "selector": "[data-route='weinberg'] [data-status-note]",
+          "claimId": "weinberg-angle",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.65,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='weinberg']",
+          "selector": "#panelStage .panel-header [data-claim-id='weinberg-angle']",
+          "claimId": "weinberg-angle",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.65,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='bohr']",
+          "selector": "[data-route='bohr'] [data-status-note]",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.9,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='bohr']",
+          "selector": "#panelStage .panel-header [data-claim-id='bohr-spectrum']",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.9,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='generations']",
+          "selector": "[data-route='generations'] [data-status-note]",
+          "claimId": "three-generations",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='generations']",
+          "selector": "#panelStage .panel-header [data-claim-id='three-generations']",
+          "claimId": "three-generations",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='god-equation']",
+          "selector": "[data-route='god-equation'] [data-status-note]",
+          "claimId": "god-equation-operator",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='god-equation']",
+          "selector": "#panelStage .panel-header [data-claim-id='god-equation-operator']",
+          "claimId": "god-equation-operator",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='consciousness']",
+          "selector": "[data-route='consciousness'] [data-status-note]",
+          "claimId": "consciousness-claim",
+          "expectedStatus": "INTUITION",
+          "expectedConfidence": 0.48,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='consciousness']",
+          "selector": "#panelStage .panel-header [data-claim-id='consciousness-claim']",
+          "claimId": "consciousness-claim",
+          "expectedStatus": "INTUITION",
+          "expectedConfidence": 0.48,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='god-equation']",
+          "selector": "#panelStage .note-box [data-claim-id='god-equation-scale']",
+          "claimId": "god-equation-scale",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.6,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='consciousness']",
+          "selector": "#panelStage .note-box [data-claim-id='consciousness-claim']",
+          "claimId": "consciousness-claim",
+          "expectedStatus": "INTUITION",
+          "expectedConfidence": 0.48,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='consciousness']",
+          "selector": "#panelStage .note-box [data-claim-id='aria-self-reference']",
+          "claimId": "aria-self-reference",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.75,
+          "note": ""
+        },
+        {
+          "route": "index.html",
+          "activation": "[data-route='foundations']",
+          "selector": "#panelStage .panel-header [data-claim-id='medium']",
+          "claimId": "medium",
+          "expectedStatus": "CANONICAL",
+          "expectedConfidence": null,
+          "note": "Foundations panel shows canonical definition status, not claim confidence."
+        }
+      ]
     },
     {
       "path": "journey.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "journey.html",
+          "activation": "#begin-journey",
+          "selector": "#ge-error",
+          "claimId": "god-equation-operator",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "journey.html",
+          "activation": "#begin-journey",
+          "selector": "#journey-pf-generations",
+          "claimId": "three-generations",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "journey.html",
+          "activation": "#begin-journey",
+          "selector": "#journey-pf-atomic",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.9,
+          "note": ""
+        }
+      ]
     },
     {
       "path": "journey_live.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "journey_live.html",
+          "activation": "#begin-journey",
+          "selector": "#ge-error",
+          "claimId": "god-equation-operator",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "journey_live.html",
+          "activation": "#begin-journey",
+          "selector": "#journey-pf-generations",
+          "claimId": "three-generations",
+          "expectedStatus": "CONDITIONAL",
+          "expectedConfidence": 0.88,
+          "note": ""
+        },
+        {
+          "route": "journey_live.html",
+          "activation": "#begin-journey",
+          "selector": "#journey-pf-atomic",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": 0.9,
+          "note": ""
+        }
+      ]
     },
     {
       "path": "nogos.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": false,
+      "statusInventory": []
     },
     {
       "path": "playground.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": false,
+      "statusInventory": []
     },
     {
       "path": "quantum-observatory.html",
       "type": "non-claim",
-      "hasStatusContent": false
+      "hasStatusContent": false,
+      "statusInventory": []
     },
     {
       "path": "scale-ladder.html",
       "type": "claim",
-      "hasStatusContent": true
+      "hasStatusContent": false,
+      "statusInventory": []
     }
   ],
   "statusInventory": [
@@ -60,81 +344,270 @@
       "activation": "[data-route='refraction']",
       "selector": "[data-route='refraction'] [data-status-note]",
       "claimId": "gravity-optical",
-      "splitPart": null,
       "expectedStatus": "DERIVED",
-      "expectedConfidence": 0.95
+      "expectedConfidence": 0.95,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='refraction']",
+      "selector": "#panelStage .panel-header [data-claim-id='gravity-optical']",
+      "claimId": "gravity-optical",
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.95,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='koide']",
       "selector": "[data-route='koide'] [data-status-note]",
       "claimId": "koide-leptons",
-      "splitPart": null,
       "expectedStatus": "EXACT IDENTITY",
-      "expectedConfidence": 0.95
+      "expectedConfidence": 0.95,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='koide']",
+      "selector": "#panelStage .panel-header [data-claim-id='koide-leptons']",
+      "claimId": "koide-leptons",
+      "expectedStatus": "EXACT IDENTITY",
+      "expectedConfidence": 0.95,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='weinberg']",
       "selector": "[data-route='weinberg'] [data-status-note]",
       "claimId": "weinberg-angle",
-      "splitPart": null,
       "expectedStatus": "ARGUED",
-      "expectedConfidence": 0.65
+      "expectedConfidence": 0.65,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='weinberg']",
+      "selector": "#panelStage .panel-header [data-claim-id='weinberg-angle']",
+      "claimId": "weinberg-angle",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.65,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='bohr']",
       "selector": "[data-route='bohr'] [data-status-note]",
       "claimId": "bohr-spectrum",
-      "splitPart": null,
       "expectedStatus": "DERIVED",
-      "expectedConfidence": 0.9
+      "expectedConfidence": 0.9,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='bohr']",
+      "selector": "#panelStage .panel-header [data-claim-id='bohr-spectrum']",
+      "claimId": "bohr-spectrum",
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.9,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='generations']",
       "selector": "[data-route='generations'] [data-status-note]",
       "claimId": "three-generations",
-      "splitPart": null,
       "expectedStatus": "CONDITIONAL",
-      "expectedConfidence": 0.88
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='generations']",
+      "selector": "#panelStage .panel-header [data-claim-id='three-generations']",
+      "claimId": "three-generations",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='god-equation']",
       "selector": "[data-route='god-equation'] [data-status-note]",
       "claimId": "god-equation-operator",
-      "splitPart": null,
       "expectedStatus": "CONDITIONAL",
-      "expectedConfidence": 0.88
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='god-equation']",
+      "selector": "#panelStage .panel-header [data-claim-id='god-equation-operator']",
+      "claimId": "god-equation-operator",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='consciousness']",
       "selector": "[data-route='consciousness'] [data-status-note]",
       "claimId": "consciousness-claim",
-      "splitPart": null,
       "expectedStatus": "INTUITION",
-      "expectedConfidence": 0.48
+      "expectedConfidence": 0.48,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='consciousness']",
+      "selector": "#panelStage .panel-header [data-claim-id='consciousness-claim']",
+      "claimId": "consciousness-claim",
+      "expectedStatus": "INTUITION",
+      "expectedConfidence": 0.48,
+      "note": ""
     },
     {
       "route": "index.html",
       "activation": "[data-route='god-equation']",
-      "selector": ".panel-header .status-pill[data-claim-id='god-equation-operator']",
-      "claimId": "god-equation-operator",
-      "splitPart": "primary",
-      "expectedStatus": "CONDITIONAL",
-      "expectedConfidence": 0.88
-    },
-    {
-      "route": "index.html",
-      "activation": "[data-route='god-equation']",
-      "selector": ".note-box .status-badge[data-claim-id='god-equation-scale']",
+      "selector": "#panelStage .note-box [data-claim-id='god-equation-scale']",
       "claimId": "god-equation-scale",
-      "splitPart": "scale",
       "expectedStatus": "ARGUED",
-      "expectedConfidence": 0.6
+      "expectedConfidence": 0.6,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='consciousness']",
+      "selector": "#panelStage .note-box [data-claim-id='consciousness-claim']",
+      "claimId": "consciousness-claim",
+      "expectedStatus": "INTUITION",
+      "expectedConfidence": 0.48,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='consciousness']",
+      "selector": "#panelStage .note-box [data-claim-id='aria-self-reference']",
+      "claimId": "aria-self-reference",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.75,
+      "note": ""
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='foundations']",
+      "selector": "#panelStage .panel-header [data-claim-id='medium']",
+      "claimId": "medium",
+      "expectedStatus": "CANONICAL",
+      "expectedConfidence": null,
+      "note": "Foundations panel shows canonical definition status, not claim confidence."
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-generations-cell",
+      "claimId": "three-generations",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-atomic-cell",
+      "claimId": "bohr-spectrum",
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.9,
+      "note": ""
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-weinberg-cell",
+      "claimId": "weinberg-angle",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.65,
+      "note": ""
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-scale-cell",
+      "claimId": "god-equation-scale",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.6,
+      "note": ""
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-testable-cell [data-claim-id='variable-c']",
+      "claimId": "variable-c",
+      "expectedStatus": "ARGUED",
+      "expectedConfidence": 0.65,
+      "note": ""
+    },
+    {
+      "route": "comparison.html",
+      "activation": "body",
+      "selector": "#pf-testable-cell [data-claim-id='koide-phase']",
+      "claimId": "koide-phase",
+      "expectedStatus": "EMPIRICAL",
+      "expectedConfidence": 0.65,
+      "note": ""
+    },
+    {
+      "route": "journey.html",
+      "activation": "#begin-journey",
+      "selector": "#ge-error",
+      "claimId": "god-equation-operator",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "journey.html",
+      "activation": "#begin-journey",
+      "selector": "#journey-pf-generations",
+      "claimId": "three-generations",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "journey.html",
+      "activation": "#begin-journey",
+      "selector": "#journey-pf-atomic",
+      "claimId": "bohr-spectrum",
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.9,
+      "note": ""
+    },
+    {
+      "route": "journey_live.html",
+      "activation": "#begin-journey",
+      "selector": "#ge-error",
+      "claimId": "god-equation-operator",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "journey_live.html",
+      "activation": "#begin-journey",
+      "selector": "#journey-pf-generations",
+      "claimId": "three-generations",
+      "expectedStatus": "CONDITIONAL",
+      "expectedConfidence": 0.88,
+      "note": ""
+    },
+    {
+      "route": "journey_live.html",
+      "activation": "#begin-journey",
+      "selector": "#journey-pf-atomic",
+      "claimId": "bohr-spectrum",
+      "expectedStatus": "DERIVED",
+      "expectedConfidence": 0.9,
+      "note": ""
     }
   ],
   "blockedFiles": [

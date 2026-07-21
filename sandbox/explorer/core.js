@@ -298,7 +298,7 @@
         html = [
           '<div class="drawer-item">',
             '<header class="drawer-header">',
-              '<span class="status-pill" style="--cc:var(--col-white)">' + (d.auditLine || d.status || 'UNAVAILABLE') + '</span>',
+              '<span class="status-pill" style="--cc:var(--col-white)" data-claim-id="' + (d.id || '') + '">' + (d.auditLine || d.status || 'UNAVAILABLE') + '</span>',
               '<h2>' + d.title + '</h2>',
             '</header>',
             '<div class="drawer-body">',

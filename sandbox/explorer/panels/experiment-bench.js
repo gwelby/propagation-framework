@@ -142,7 +142,7 @@
         return [
           '<article class="eb-card" data-claim-id="' + c.id + '">',
             '<div class="eb-card-head">',
-              '<span class="eb-status-pill ' + statusClass + '">' + c.status.label + '</span>',
+              '<span class="eb-status-pill ' + statusClass + '" data-claim-id="' + c.id + '">' + c.status.label + '</span>',
               '<h4 class="eb-card-title">' + c.title + '</h4>',
             '</div>',
             '<p class="eb-card-summary">' + claimSummary(c) + '</p>',

@@ -430,7 +430,7 @@
             '<h3>' + def.title + '</h3>',
             '<p class="drawer-quote">\u201c' + (def.oneLiner || '') + '\u201d</p>',
           '</div>',
-          '<span class="status-pill status-derived">' + (def.auditLine || 'UNAVAILABLE') + '</span>',
+          '<span class="status-pill status-derived" data-claim-id="' + def.id + '">' + (def.auditLine || 'UNAVAILABLE') + '</span>',
         '</div>',
         '<div style="padding:0 var(--spacing-4)">',
           '<p>' + (def.storyLine || '') + '</p>',

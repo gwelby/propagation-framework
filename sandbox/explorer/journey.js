@@ -539,6 +539,7 @@
       var godOp = truth && truth.getClaim ? truth.getClaim("god-equation-operator") : null;
       var opStatus = godOp ? (godOp.badge || (godOp.status && godOp.status.label ? godOp.status.label : godOp.status) || "UNAVAILABLE") : "UNAVAILABLE";
       var opConf = godOp ? (godOp.confidence || 0) : 0;
+      geError.setAttribute('data-claim-id', 'god-equation-operator');
       if (N === 3 && D === 3) {
         geError.textContent = "Status: " + opStatus + " " + opConf + " • numerical anchor error " + error.toFixed(1) + "%";
         geError.style.color = "#44ff88";
@@ -584,8 +585,8 @@
     // V4: Pull status from authority, not hardcoded
     var threeGen = api.getResult("three-generations");
     var bohr = api.getResult("bohr-spectrum");
-    setText("journey-pf-generations", threeGen ? threeGen.badge : "UNAVAILABLE");
-    setText("journey-pf-atomic", bohr ? bohr.badge : "UNAVAILABLE");
+    setText("journey-pf-generations", threeGen ? threeGen.badge : "UNAVAILABLE", threeGen ? threeGen.id : "");
+    setText("journey-pf-atomic", bohr ? bohr.badge : "UNAVAILABLE", bohr ? bohr.id : "");
   }
 
   function populateResults() {
@@ -603,9 +604,10 @@
       var badgeClass = statusClass.replace(/^status-/, "");
 
       card.className = "result-card " + statusClass;
+      card.setAttribute('data-claim-id', result.id);
       card.innerHTML = [
         '<div class="result-card-title">' + escapeHtml(result.title) + "</div>",
-        '<div class="result-card-status ' + badgeClass + '">' + escapeHtml(result.status) + "</div>",
+        '<div class="result-card-status ' + badgeClass + '" data-claim-id="' + result.id + '">' + escapeHtml(result.status) + "</div>",
         '<div class="result-card-formula">' + escapeHtml(result.formula) + "</div>",
         '<div class="result-card-confidence">Confidence: ' + Math.round((result.confidence || 0) * 100) + "%</div>"
       ].join("");
@@ -672,10 +674,13 @@
     });
   }
 
-  function setText(id, value) {
+  function setText(id, value, claimId) {
     var node = document.getElementById(id);
     if (node) {
       node.textContent = value;
+      if (claimId) {
+        node.setAttribute('data-claim-id', claimId);
+      }
     }
   }
 

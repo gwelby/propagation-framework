@@ -323,7 +323,7 @@
             var claim = window.PFTruth && window.PFTruth.getClaim ? window.PFTruth.getClaim('koide-leptons') : null;
             var badge = claim ? (claim.badge || claim.status) : 'UNAVAILABLE';
             var cls = claim ? (claim.statusClass || 'status-derived') : 'status-derived';
-            return '<span class="status-pill ' + cls + '">' + badge + '</span>';
+            return '<span class="status-pill ' + cls + '" data-claim-id="koide-leptons">' + badge + '</span>';
           })() +
         '</div>' +
         ctx.app.renderWrongIntuition(ctx.app.getResult('koide-law')) +
