@@ -1765,9 +1765,174 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
         have h0 : v ∈ (⊥ : Submodule ℝ M.State) := by rw [← h]; exact h_v_in_E
         simp [Submodule.mem_bot] at h0
         exact hv_ne h0
-      -- Step 7: W-invariance via dim(E_μ) = 2 case split
-      -- When dim(E_μ) = 2: W = span{v, e₂} = E_μ (both are 2D, W ⊆ E_μ)
-      -- When dim(E_μ) > 2: needs spectral theorem (sorry for now)
+      -- Common-eigenvector substitution: replace the spectral-basis v with a
+      -- simultaneous eigenvector of all U(t) on E_μ, and take e₂ = J_E v.
+      obtain ⟨v', χ, hv'_ne, hχ⟩ := exists_common_eigenvector U h_U0 h_Usemi h_norm_pres μ h_μ_abs_lt E_μ h_E_invariant h_U1_sq_E hEμne
+      let c := ‖(v' : M.State)‖
+      have hc_pos : c > 0 := by
+        apply (norm_pos_iff).mpr
+        intro h
+        apply hv'_ne
+        exact Subtype.ext h
+      have hc_ne : c ≠ 0 := hc_pos.ne'
+      let v'unit : ↥E_μ := (1 / c) • v'
+      let v : M.State := (v'unit : M.State)
+      let e₂ : M.State := (J_E U μ E_μ h_E_invariant v'unit : M.State)
+      have hv_norm : ‖v‖ = 1 := by
+        have h1 : v = (1 / c) • (v' : M.State) := by
+          simp [v, v'unit]
+          all_goals norm_num
+        rw [h1, norm_smul, Real.norm_eq_abs (1 / c), abs_of_pos (one_div_pos.mpr hc_pos)]
+        rw [show ‖(v' : M.State)‖ = c by rfl]
+        field_simp [hc_ne]
+      have hv_ne : v ≠ 0 := by
+        intro h
+        rw [h] at hv_norm
+        simp at hv_norm
+      have h_v_in_E : v ∈ E_μ := by
+        have h1 : (v : M.State) = (v'unit : M.State) := by rfl
+        rw [h1]
+        exact v'unit.2
+      have h_U1v_in_E : U 1 v ∈ E_μ := h_E_invariant 1 v h_v_in_E
+      have h_e2_in_E : e₂ ∈ E_μ := by
+        exact (J_E U μ E_μ h_E_invariant v'unit).2
+      have he₂_norm : ‖e₂‖ = 1 := by
+        have h1 : ‖e₂‖ = ‖J_E U μ E_μ h_E_invariant v'unit‖ := by
+          rw [Submodule.norm_coe]
+        rw [h1, J_E_norm U h_Usemi h_norm_pres μ h_μ_abs_lt E_μ h_E_invariant h_U1_sq_E v'unit]
+        have h2 : ‖v'unit‖ = ‖(v'unit : M.State)‖ := by rw [Submodule.coe_norm]
+        rw [h2, show (v'unit : M.State) = v by rfl, hv_norm]
+      have he₂_orth : inner ℝ v e₂ = 0 := by
+        have h1 : inner ℝ v e₂ = inner ℝ (v'unit : M.State) (J_E U μ E_μ h_E_invariant v'unit : M.State) := by
+          simp [v, e₂]
+        rw [h1]
+        exact J_E_inner_zero U h_Usemi h_norm_pres μ h_μ_abs_lt E_μ h_E_invariant h_U1_sq_E v'unit
+      have he₂_self : inner ℝ e₂ e₂ = 1 := by
+        rw [real_inner_self_eq_norm_sq, he₂_norm, one_pow]
+      have h_v_inner : inner ℝ v v = 1 := by
+        rw [real_inner_self_eq_norm_sq, hv_norm, one_pow]
+      have h_ip_v_U1v : inner ℝ v (U 1 v) = μ / 2 := by
+        have h0 : U 1 v + U (-1) v - μ • v = 0 := by
+          have h' : v ∈ LinearMap.ker ((U 1 + U (-1) : Module.End ℝ M.State) - μ • LinearMap.id) := by
+            rw [← hE_def]
+            exact h_v_in_E
+          have hmem := LinearMap.mem_ker.mp h'
+          simpa [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply, LinearMap.add_apply] using hmem
+        have h_Sv : U 1 v + U (-1) v = μ • v := by
+          apply eq_of_sub_eq_zero
+          exact h0
+        have h_ip_neg : inner ℝ v (U (-1) v) = inner ℝ v (U 1 v) := by
+          have hip := h_inner_pres 1 v (U (-1) v)
+          rw [show U 1 (U (-1) v) = v from LinearMap.congr_fun h_U1_Uneg1 v] at hip
+          exact hip.symm.trans (real_inner_comm v (U 1 v))
+        have h_ip : inner ℝ v (U 1 v + U (-1) v) = inner ℝ v (μ • v) := by rw [h_Sv]
+        rw [inner_add_right, real_inner_smul_right, h_v_inner] at h_ip
+        rw [h_ip_neg] at h_ip
+        linarith
+      have h_U1_v : U 1 v = (μ / 2) • v + σ • e₂ := by
+        have h1 : σ • e₂ = U 1 v - (μ / 2) • v := by
+          have he2 : (e₂ : M.State) = (J_E U μ E_μ h_E_invariant v'unit : M.State) := by rfl
+          rw [he2]
+          rw [J_E_coe U μ E_μ h_E_invariant v'unit]
+          have hv : (v'unit : M.State) = v := by simp [v]
+          have hσ_eq : _root_.σ μ = σ := by rfl
+          rw [hv, hσ_eq]
+          calc
+            σ • ((1 / σ) • (U 1 v - (μ / 2) • v)) = (σ * (1 / σ)) • (U 1 v - (μ / 2) • v) := by
+              rw [← mul_smul]
+            _ = (1 : ℝ) • (U 1 v - (μ / 2) • v) := by
+              have h4 : σ * (1 / σ) = 1 := by
+                have hσ_ne : σ ≠ 0 := by
+                  intro h
+                  rw [hσ_def] at h
+                  linarith [hσ_pos]
+                field_simp [hσ_ne]
+              rw [h4]
+            _ = U 1 v - (μ / 2) • v := by
+              rw [one_smul]
+        rw [h1]
+        abel
+      have h_ip_e2_U1v : inner ℝ e₂ (U 1 v) = σ := by
+        rw [h_U1_v]
+        rw [inner_add_right, inner_smul_right, inner_smul_right,
+            show inner ℝ e₂ v = 0 from (real_inner_comm v e₂).trans he₂_orth,
+            he₂_self]
+        ring
+      have h_U1_sq : U 1 (U 1 v) = μ • (U 1 v) - v := by
+        exact h_U1_sq_E v h_v_in_E
+      -- Step 7: W-invariance via the common-eigenvector character χ
+      have hχ_unit_Eμ (t : ℝ) : U_E_real U E_μ h_E_invariant t v'unit = (χ t).re • v'unit + (χ t).im • J_E U μ E_μ h_E_invariant v'unit := by
+        have h1 := (hχ t).1
+        have h2 : v'unit = (1 / c) • v' := by simp [v'unit]
+        have h3 : U_E_real U E_μ h_E_invariant t v'unit = (1 / c) • (U_E_real U E_μ h_E_invariant t v') := by
+          rw [h2]
+          rw [map_smul]
+        have h4 : J_E U μ E_μ h_E_invariant v'unit = (1 / c) • J_E U μ E_μ h_E_invariant v' := by
+          rw [h2]
+          rw [map_smul]
+        rw [h3, h1]
+        rw [h4]
+        rw [smul_add]
+        rw [smul_smul, smul_smul]
+        rw [mul_comm (1 / c) ((χ t).re), mul_comm (1 / c) ((χ t).im)]
+        rw [← smul_smul, ← smul_smul]
+      have hχ_unit (t : ℝ) : U t v = (χ t).re • v + (χ t).im • e₂ := by
+        have h1 : U t v = (U_E_real U E_μ h_E_invariant t v'unit : M.State) := by
+          rw [U_E_real_coe U E_μ h_E_invariant t v'unit]
+        rw [h1]
+        rw [hχ_unit_Eμ t]
+        simp [v, e₂]
+        all_goals abel
+      have hχ_e2 (t : ℝ) : U t e₂ = (χ t).re • e₂ - (χ t).im • v := by
+        have h1 : U t e₂ = (U_E_real U E_μ h_E_invariant t (J_E U μ E_μ h_E_invariant v'unit) : M.State) := by
+          rw [U_E_real_coe U E_μ h_E_invariant t (J_E U μ E_μ h_E_invariant v'unit)]
+        rw [h1]
+        have h2 := U_E_commutes_J U h_Usemi μ E_μ h_E_invariant t v'unit
+        have h3 := hχ_unit_Eμ t
+        have h4 : U_E_real U E_μ h_E_invariant t (J_E U μ E_μ h_E_invariant v'unit) = (χ t).re • (J_E U μ E_μ h_E_invariant v'unit) - (χ t).im • v'unit := by
+          rw [h2, h3]
+          have h5 := J_E_sq U μ h_μ_abs_lt E_μ h_E_invariant h_U1_sq_E v'unit
+          simp only [map_add, map_smul, h5, smul_neg]
+          all_goals abel
+        rw [h4]
+        simp [v, e₂]
+        all_goals abel
+      have h_W_invariant : ∀ t, U t v ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
+        intro t
+        rw [hχ_unit t]
+        apply Submodule.add_mem
+        · apply Submodule.smul_mem
+          apply Submodule.subset_span
+          simp
+        · apply Submodule.smul_mem
+          apply Submodule.subset_span
+          simp
+      have h_W_invariant_e2 : ∀ t, U t e₂ ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
+        intro t
+        rw [hχ_e2 t]
+        apply Submodule.sub_mem
+        · apply Submodule.smul_mem
+          apply Submodule.subset_span
+          simp
+        · apply Submodule.smul_mem
+          apply Submodule.subset_span
+          simp
+      have h_U1_e₂ : U 1 e₂ = -(σ) • v + (μ / 2) • e₂ := by
+        have h2 : (χ 1).re = μ / 2 := by
+          have h3 : inner ℝ v (U 1 v) = (χ 1).re := by
+            rw [hχ_unit 1]
+            rw [inner_add_right, real_inner_smul_right, real_inner_smul_right, h_v_inner, he₂_orth]
+            ring
+          linarith [h_ip_v_U1v, h3]
+        have h3 : (χ 1).im = σ := by
+          have h_e2v : inner ℝ e₂ v = 0 := (real_inner_comm v e₂).trans he₂_orth
+          have h4 : inner ℝ e₂ (U 1 v) = (χ 1).im := by
+            rw [hχ_unit 1]
+            rw [inner_add_right, real_inner_smul_right, real_inner_smul_right, h_e2v, he₂_self]
+            ring
+          linarith [h_ip_e2_U1v, h4]
+        rw [hχ_e2 1, h2, h3]
+        all_goals module
       have h_finrank_E_pos : 0 < Module.finrank ℝ ↥E_μ := by
         -- v ∈ E_μ, v ≠ 0, so E_μ has positive dimension
         rw [Module.finrank_pos_iff_exists_ne_zero]
@@ -1808,44 +1973,6 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
             · exact ⟨1, rfl⟩
         rw [← h_range]
         exact finrank_span_eq_card h_li
-      have h_W_invariant : ∀ t, U t v ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
-        -- Case split on dim(E_μ) = 2
-        by_cases h_dim : Module.finrank ℝ ↥E_μ = 2
-        · -- W = E_μ: both 2D, W ⊆ E_μ
-          have h_W_eq_E : Submodule.span ℝ ({v, e₂} : Set M.State) = E_μ := by
-            -- W ⊆ E_μ (since v, e₂ ∈ E_μ)
-            have h_W_sub : Submodule.span ℝ ({v, e₂} : Set M.State) ≤ E_μ := by
-              rw [Submodule.span_le]
-              intro x hx
-              simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-              rcases hx with rfl | rfl
-              · exact h_v_in_E
-              · exact h_e2_in_E
-            -- dim W = 2 = dim E_μ, so W = E_μ
-            exact Submodule.eq_of_le_of_finrank_eq h_W_sub
-              (h_W_dim.trans h_dim.symm)
-          -- U(t)v ∈ E_μ = W
-          intro t
-          rw [h_W_eq_E]
-          exact h_E_invariant t v h_v_in_E
-        · -- dim(E_μ) ≠ 2: need spectral theorem for general case
-          sorry
-      have h_W_invariant_e2 : ∀ t, U t e₂ ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := by
-        by_cases h_dim : Module.finrank ℝ ↥E_μ = 2
-        · have h_W_eq_E : Submodule.span ℝ ({v, e₂} : Set M.State) = E_μ := by
-            have h_W_sub : Submodule.span ℝ ({v, e₂} : Set M.State) ≤ E_μ := by
-              rw [Submodule.span_le]
-              intro x hx
-              simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-              rcases hx with rfl | rfl
-              · exact h_v_in_E
-              · exact h_e2_in_E
-            exact Submodule.eq_of_le_of_finrank_eq h_W_sub
-              (h_W_dim.trans h_dim.symm)
-          intro t
-          rw [h_W_eq_E]
-          exact h_E_invariant t e₂ h_e2_in_E
-        · sorry
       -- General projection formula for W = span{v, e₂}: any x ∈ W is its orthonormal expansion
       have h_W_proj : ∀ (x : M.State) (hx : x ∈ Submodule.span ℝ ({v, e₂} : Set M.State)),
           x = inner ℝ v x • v + inner ℝ e₂ x • e₂ := by
@@ -1898,7 +2025,7 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
           ring
         -- ‖U(t)v‖² = ‖v‖² = 1 (norm preservation)
         have h_Ut_norm : inner ℝ (U t v) (U t v) = 1 := by
-          rw [real_inner_self_eq_norm_sq, h_norm_pres t v, h_v_norm, one_pow]
+          rw [real_inner_self_eq_norm_sq, h_norm_pres t v, hv_norm, one_pow]
         -- a² + b² = 1, and a = ⟨v, U(t)v⟩, b = ⟨e₂, U(t)v⟩
         rw [ha, hb] at h_norm_sq
         exact h_norm_sq.symm.trans h_Ut_norm
