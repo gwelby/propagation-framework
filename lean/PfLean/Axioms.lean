@@ -24,6 +24,7 @@
 -/
 
 import Mathlib
+import PfLean.PeriodOrbitRefactor
 
 /-! # THE BARE MEDIUM
 
@@ -1336,6 +1337,7 @@ lemma exists_period_of_continuous_circle_hom
       have hneg : (-α) ≠ 0 := ne_of_gt (by linarith [hα_neg])
       field_simp]
     ring
+
 /-- GENERAL THEOREM (WITH CONTINUITY — still needs spectral theorem for full proof):
 
     PROOF-DESIGN CHOICE (2026-07-15, per Codex intake HOLD 2026-07-14):
@@ -1808,12 +1810,62 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
           rw [h_W_eq_E]
           exact h_E_invariant t e₂ h_e2_in_E
         · sorry
+      -- General projection formula for W = span{v, e₂}: any x ∈ W is its orthonormal expansion
+      have h_W_proj : ∀ (x : M.State) (hx : x ∈ Submodule.span ℝ ({v, e₂} : Set M.State)),
+          x = inner ℝ v x • v + inner ℝ e₂ x • e₂ := by
+        intro x hx
+        have h_ab : ∃ a b : ℝ, a • v + b • e₂ = x :=
+          Submodule.mem_span_pair.mp hx
+        rcases h_ab with ⟨a, b, hab⟩
+        have hab' : x = a • v + b • e₂ := hab.symm
+        have h_e2_v : inner ℝ e₂ v = 0 := (real_inner_comm v e₂).trans he₂_orth
+        have ha : a = inner ℝ v x := by
+          rw [hab', inner_add_right, real_inner_smul_right, real_inner_smul_right,
+              h_v_inner, he₂_orth]
+          ring
+        have hb : b = inner ℝ e₂ x := by
+          rw [hab', inner_add_right, real_inner_smul_right, real_inner_smul_right,
+              h_e2_v, he₂_self]
+          ring
+        rw [ha, hb] at hab'
+        exact hab'
       -- Step 8: Define z: ℝ → Circle and verify properties
       -- z(t) = ⟨v, U(t)v⟩ + i⟨e₂, U(t)v⟩ ∈ Circle
       -- |z(t)|² = ⟨v, U(t)v⟩² + ⟨e₂, U(t)v⟩² = ‖proj_W(U(t)v)‖² = ‖U(t)v‖² = 1
       -- (using W-invariance: U(t)v ∈ W = span{v, e₂}, and {v, e₂} orthonormal)
       have h_z_norm_sq : ∀ t, inner ℝ v (U t v) ^ 2 + inner ℝ e₂ (U t v) ^ 2 = 1 := by
-        sorry -- Needs W-invariance + orthonormality decomposition
+        intro t
+        -- U(t)v ∈ W = span{v, e₂}, so U(t)v = a•v + b•e₂ for some a, b
+        have h_mem : U t v ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := h_W_invariant t
+        have h_ab : ∃ a b : ℝ, a • v + b • e₂ = U t v :=
+          Submodule.mem_span_pair.mp h_mem
+        rcases h_ab with ⟨a, b, hab⟩
+        have hab' : U t v = a • v + b • e₂ := hab.symm
+        -- Useful: inner e₂ v = 0 by symmetry of inner product
+        have h_e2_v : inner ℝ e₂ v = 0 := (real_inner_comm v e₂).trans he₂_orth
+        -- Take inner product with v: ⟨v, U(t)v⟩ = a⟨v,v⟩ + b⟨v,e₂⟩ = a
+        have ha : a = inner ℝ v (U t v) := by
+          rw [hab', inner_add_right, real_inner_smul_right, real_inner_smul_right,
+              h_v_inner, he₂_orth]
+          ring
+        -- Take inner product with e₂: ⟨e₂, U(t)v⟩ = a⟨e₂,v⟩ + b⟨e₂,e₂⟩ = b
+        have hb : b = inner ℝ e₂ (U t v) := by
+          rw [hab', inner_add_right, real_inner_smul_right, real_inner_smul_right,
+              h_e2_v, he₂_self]
+          ring
+        -- ‖U(t)v‖² = ⟨U(t)v, U(t)v⟩ = a² + b²
+        have h_norm_sq : inner ℝ (U t v) (U t v) = a ^ 2 + b ^ 2 := by
+          rw [hab']
+          rw [inner_add_add_self]
+          simp only [real_inner_smul_left, real_inner_smul_right]
+          simp only [h_v_inner, he₂_orth, h_e2_v, he₂_self]
+          ring
+        -- ‖U(t)v‖² = ‖v‖² = 1 (norm preservation)
+        have h_Ut_norm : inner ℝ (U t v) (U t v) = 1 := by
+          rw [real_inner_self_eq_norm_sq, h_norm_pres t v, h_v_norm, one_pow]
+        -- a² + b² = 1, and a = ⟨v, U(t)v⟩, b = ⟨e₂, U(t)v⟩
+        rw [ha, hb] at h_norm_sq
+        exact h_norm_sq.symm.trans h_Ut_norm
       have h_z_cont : Continuous (fun t => inner ℝ v (U t v)) := by
         have h_cont_U : Continuous (fun t => U t v) := hCont v
         exact continuous_inner.comp (Continuous.prodMk continuous_const h_cont_U)
@@ -1831,7 +1883,22 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
       -- Construct z as a function ℝ → Circle
       let z : ℝ → Circle := fun t =>
         ⟨((inner ℝ v (U t v)) : ℂ) + Complex.I * (inner ℝ e₂ (U t v) : ℂ), by
-          sorry⟩
+          -- Need to show |z(t)| = 1, i.e., z(t) ∈ unitSphere ℂ
+          -- For z = x + y*I, |z| = sqrt(x² + y²), and x² + y² = 1 by h_z_norm_sq
+          have h := h_z_norm_sq t
+          let x := inner ℝ v (U t v)
+          let y := inner ℝ e₂ (U t v)
+          have h_eq : (↑x + Complex.I * ↑y : ℂ) = (↑x + ↑y * Complex.I : ℂ) := by ring
+          have h_norm : ‖(↑x + Complex.I * ↑y : ℂ)‖ = 1 := by
+            rw [h_eq, Complex.norm_add_mul_I]
+            rw [show x ^ 2 + y ^ 2 = (1 : ℝ) by linarith]
+            exact Real.sqrt_one
+          -- Membership in Submonoid.unitSphere ℂ is z ∈ Metric.sphere 0 1, i.e. ‖z‖ = 1
+          change (↑x + Complex.I * ↑y : ℂ) ∈ Metric.sphere (0 : ℂ) 1
+          rw [Metric.mem_sphere]
+          rw [dist_eq_norm]
+          rw [sub_zero]
+          exact h_norm⟩
       have h_z_zero : z 0 = 1 := by
         -- z(0) = ⟨v, U(0)v⟩ + i⟨e₂, U(0)v⟩ = ⟨v, v⟩ + i⟨e₂, v⟩ = 1 + 0i = 1
         rw [Circle.ext_iff]
@@ -1843,7 +1910,170 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
             show inner ℝ e₂ v = 0 from (real_inner_comm v e₂).trans he₂_orth]
         simp [Complex.ext_iff]
       have h_z_add : ∀ s t, z (s + t) = z s * z t := by
-        sorry
+        intro s t
+        let a_s := inner ℝ v (U s v)
+        let b_s := inner ℝ e₂ (U s v)
+        let a_t := inner ℝ v (U t v)
+        let b_t := inner ℝ e₂ (U t v)
+        -- Decompose U(s)v and U(t)v in orthonormal basis {v, e₂}
+        have hUs_v : U s v = a_s • v + b_s • e₂ := h_W_proj (U s v) (h_W_invariant s)
+        have hUt_v : U t v = a_t • v + b_t • e₂ := h_W_proj (U t v) (h_W_invariant t)
+        have h_e2_v : inner ℝ e₂ v = 0 := (real_inner_comm v e₂).trans he₂_orth
+        -- Determine the action of U(s) on e₂ via inner products
+        have hUs_e2 : U s e₂ = -b_s • v + a_s • e₂ := by
+          -- U(s)e₂ ∈ W, so U(s)e₂ = X v + Y e₂ for some X, Y
+          have h1 : U s e₂ ∈ Submodule.span ℝ ({v, e₂} : Set M.State) := h_W_invariant_e2 s
+          have h_ab : ∃ X Y : ℝ, X • v + Y • e₂ = U s e₂ := Submodule.mem_span_pair.mp h1
+          rcases h_ab with ⟨X, Y, hXY⟩
+          have hXY' : U s e₂ = X • v + Y • e₂ := hXY.symm
+          -- Compare U(s)(U(1)v) and U(1)(U(s)v) using linearity of inner products
+          have h_comm1 : U s (U 1 v) = U 1 (U s v) := by
+            rw [← LinearMap.comp_apply, h_comm s, LinearMap.comp_apply]
+          -- Inner product with v
+          have h_eq_v : inner ℝ v (U s (U 1 v)) = inner ℝ v (U 1 (U s v)) := by rw [h_comm1]
+          have h_lhs_v : inner ℝ v (U s (U 1 v)) = (μ / 2) * a_s + σ * X := by
+            have h2 : U s (U 1 v) = (μ / 2) • U s v + σ • U s e₂ := by
+              rw [h_U1_v]
+              rw [map_add, map_smul, map_smul]
+            rw [h2]
+            have h3 : inner ℝ v ((μ / 2) • U s v + σ • U s e₂) =
+                      (μ / 2) * inner ℝ v (U s v) + σ * inner ℝ v (U s e₂) := by
+              rw [inner_add_right, inner_smul_right, inner_smul_right]
+              all_goals ring
+            rw [h3]
+            have h4 : inner ℝ v (U s v) = a_s := by
+              rw [hUs_v]
+              simp only [inner_add_right, inner_smul_right, h_v_inner, he₂_orth]
+              ring
+            have h5 : inner ℝ v (U s e₂) = X := by
+              rw [hXY']
+              simp only [inner_add_right, inner_smul_right, h_v_inner, he₂_orth]
+              ring
+            rw [h4, h5]
+            all_goals ring
+          have h_rhs_v : inner ℝ v (U 1 (U s v)) = (μ / 2) * a_s - σ * b_s := by
+            have h2 : U 1 (U s v) = a_s • (U 1 v) + b_s • (U 1 e₂) := by
+              rw [hUs_v]
+              rw [map_add, map_smul, map_smul]
+            rw [h2]
+            have h3 : inner ℝ v (a_s • (U 1 v) + b_s • (U 1 e₂)) =
+                      a_s * inner ℝ v (U 1 v) + b_s * inner ℝ v (U 1 e₂) := by
+              rw [inner_add_right, inner_smul_right, inner_smul_right]
+              all_goals ring
+            rw [h3, h_ip_v_U1v]
+            have h4 : inner ℝ v (U 1 e₂) = -σ := by
+              rw [h_U1_e₂]
+              simp only [inner_add_right, inner_smul_right, h_v_inner, he₂_orth]
+              ring
+            rw [h4]
+            ring
+          rw [h_lhs_v, h_rhs_v] at h_eq_v
+          -- Inner product with e₂
+          have h_eq_e2 : inner ℝ e₂ (U s (U 1 v)) = inner ℝ e₂ (U 1 (U s v)) := by rw [h_comm1]
+          have h_lhs_e2 : inner ℝ e₂ (U s (U 1 v)) = (μ / 2) * b_s + σ * Y := by
+            have h2 : U s (U 1 v) = (μ / 2) • U s v + σ • U s e₂ := by
+              rw [h_U1_v]
+              rw [map_add, map_smul, map_smul]
+            rw [h2]
+            have h3 : inner ℝ e₂ ((μ / 2) • U s v + σ • U s e₂) =
+                      (μ / 2) * inner ℝ e₂ (U s v) + σ * inner ℝ e₂ (U s e₂) := by
+              rw [inner_add_right, inner_smul_right, inner_smul_right]
+              all_goals ring
+            rw [h3]
+            have h4 : inner ℝ e₂ (U s v) = b_s := by
+              rw [hUs_v]
+              simp only [inner_add_right, inner_smul_right, h_e2_v, he₂_self]
+              ring
+            have h5 : inner ℝ e₂ (U s e₂) = Y := by
+              rw [hXY']
+              simp only [inner_add_right, inner_smul_right, h_e2_v, he₂_self]
+              ring
+            rw [h4, h5]
+            all_goals ring
+          have h_rhs_e2 : inner ℝ e₂ (U 1 (U s v)) = σ * a_s + (μ / 2) * b_s := by
+            have h2 : U 1 (U s v) = a_s • (U 1 v) + b_s • (U 1 e₂) := by
+              rw [hUs_v]
+              rw [map_add, map_smul, map_smul]
+            rw [h2]
+            have h3 : inner ℝ e₂ (a_s • (U 1 v) + b_s • (U 1 e₂)) =
+                      a_s * inner ℝ e₂ (U 1 v) + b_s * inner ℝ e₂ (U 1 e₂) := by
+              rw [inner_add_right, inner_smul_right, inner_smul_right]
+              all_goals ring
+            rw [h3, h_ip_e2_U1v]
+            have h4 : inner ℝ e₂ (U 1 e₂) = μ / 2 := by
+              rw [h_U1_e₂]
+              simp only [inner_add_right, inner_smul_right, h_e2_v, he₂_self]
+              ring
+            rw [h4]
+            ring
+          rw [h_lhs_e2, h_rhs_e2] at h_eq_e2
+          -- Solve for X and Y using σ ≠ 0
+          have hX : X = -b_s := by
+            have h_eq2 : σ * X = -σ * b_s := by linarith
+            have h_eq2' : X * σ = -b_s * σ := by
+              rw [show σ * X = X * σ by ring, show -σ * b_s = -b_s * σ by ring] at h_eq2
+              exact h_eq2
+            exact (mul_left_inj' hσ_pos.ne').mp h_eq2'
+          have hY : Y = a_s := by
+            have h_eq2 : σ * Y = σ * a_s := by linarith
+            have h_eq2' : Y * σ = a_s * σ := by
+              rw [show σ * Y = Y * σ by ring, show σ * a_s = a_s * σ by ring] at h_eq2
+              exact h_eq2
+            exact (mul_left_inj' hσ_pos.ne').mp h_eq2'
+          rw [hX, hY] at hXY'
+          exact hXY'
+        -- Compute real and imaginary parts of z(s+t)
+        have h_a_st : inner ℝ v (U (s + t) v) = a_s * a_t - b_s * b_t := by
+          rw [show U (s + t) v = U s (U t v) by rw [h_Usemi s t]; rfl]
+          have h2 : U s (U t v) = a_t • (U s v) + b_t • (U s e₂) := by
+            rw [hUt_v]
+            rw [map_add, map_smul, map_smul]
+          rw [h2]
+          have h3 : inner ℝ v (a_t • (U s v) + b_t • (U s e₂)) =
+                    a_t * inner ℝ v (U s v) + b_t * inner ℝ v (U s e₂) := by
+            rw [inner_add_right, inner_smul_right, inner_smul_right]
+            all_goals ring
+          rw [h3]
+          have h4 : inner ℝ v (U s v) = a_s := by
+            rw [hUs_v]
+            simp only [inner_add_right, inner_smul_right, h_v_inner, he₂_orth]
+            ring
+          have h5 : inner ℝ v (U s e₂) = -b_s := by
+            rw [hUs_e2]
+            simp only [inner_add_right, inner_smul_right, h_v_inner, he₂_orth]
+            ring
+          rw [h4, h5]
+          ring
+        have h_b_st : inner ℝ e₂ (U (s + t) v) = a_s * b_t + b_s * a_t := by
+          rw [show U (s + t) v = U s (U t v) by rw [h_Usemi s t]; rfl]
+          have h2 : U s (U t v) = a_t • (U s v) + b_t • (U s e₂) := by
+            rw [hUt_v]
+            rw [map_add, map_smul, map_smul]
+          rw [h2]
+          have h3 : inner ℝ e₂ (a_t • (U s v) + b_t • (U s e₂)) =
+                    a_t * inner ℝ e₂ (U s v) + b_t * inner ℝ e₂ (U s e₂) := by
+            rw [inner_add_right, inner_smul_right, inner_smul_right]
+            all_goals ring
+          rw [h3]
+          have h4 : inner ℝ e₂ (U s v) = b_s := by
+            rw [hUs_v]
+            simp only [inner_add_right, inner_smul_right, h_e2_v, he₂_self]
+            ring
+          have h5 : inner ℝ e₂ (U s e₂) = a_s := by
+            rw [hUs_e2]
+            simp only [inner_add_right, inner_smul_right, h_e2_v, he₂_self]
+            ring
+          rw [h4, h5]
+          ring
+        -- z(s+t) and z(s)*z(t) have the same real and imaginary parts
+        rw [Circle.ext_iff]
+        simp only [Circle.coe_mul, z, h_a_st, h_b_st]
+        have h_eq : (↑(a_s * a_t - b_s * b_t) + Complex.I * ↑(a_s * b_t + b_s * a_t) : ℂ) =
+                    (↑a_s + Complex.I * ↑b_s) * (↑a_t + Complex.I * ↑b_t) := by
+          simp [Complex.ext_iff, Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im,
+                Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+          all_goals ring
+        exact h_eq
       have h_z_one_ne : z 1 ≠ 1 := by
         -- z(1) = ⟨v, U(1)v⟩ + i⟨e₂, U(1)v⟩ = μ/2 + iσ
         -- Since σ > 0, Im(z(1)) = σ ≠ 0, so z(1) ≠ 1 (which has Im = 0)
@@ -1869,10 +2099,36 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
       -- z(T) = 1 means ⟨v, U(T)v⟩ + i⟨e₂, U(T)v⟩ = 1
       -- So ⟨v, U(T)v⟩ = 1 and ⟨e₂, U(T)v⟩ = 0
       -- Since U(T)v ∈ W and has the same coordinates as v, U(T)v = v
-      have h_U1v_T : inner ℝ v (U T v) = 1 := by sorry
-      have h_Ue2_T : inner ℝ e₂ (U T v) = 0 := by sorry
+      have h_U1v_T : inner ℝ v (U T v) = 1 := by
+        have h_zT : (z T : ℂ) = (1 : ℂ) := Circle.coe_eq_one.mpr hT_z
+        have h_z_def : (z T : ℂ) = (↑(inner ℝ v (U T v)) : ℂ) + Complex.I * (↑(inner ℝ e₂ (U T v)) : ℂ) := by
+          simp [z]
+        have h_re : (z T : ℂ).re = 1 := by
+          rw [h_zT]
+          simp
+        have h_re' : (z T : ℂ).re = inner ℝ v (U T v) := by
+          rw [h_z_def]
+          simp [Complex.add_re, Complex.ofReal_re, Complex.mul_re, Complex.I_re, Complex.ofReal_im]
+          all_goals ring
+        rw [h_re'] at h_re
+        exact h_re
+      have h_Ue2_T : inner ℝ e₂ (U T v) = 0 := by
+        have h_zT : (z T : ℂ) = (1 : ℂ) := Circle.coe_eq_one.mpr hT_z
+        have h_z_def : (z T : ℂ) = (↑(inner ℝ v (U T v)) : ℂ) + Complex.I * (↑(inner ℝ e₂ (U T v)) : ℂ) := by
+          simp [z]
+        have h_im : (z T : ℂ).im = 0 := by
+          rw [h_zT]
+          simp
+        have h_im' : (z T : ℂ).im = inner ℝ e₂ (U T v) := by
+          rw [h_z_def]
+          simp [Complex.add_im, Complex.ofReal_im, Complex.mul_im, Complex.I_im, Complex.I_re, Complex.ofReal_re]
+          all_goals ring
+        rw [h_im'] at h_im
+        exact h_im
       have h_UT_v : U T v = v := by
-        sorry
+        rw [h_W_proj (U T v) (h_W_invariant T)]
+        rw [h_U1v_T, h_Ue2_T]
+        simp
       -- Step 11: Conclude — T is the period
       refine ⟨v, T, hv_ne, hT_pos, ?_⟩
       intro k
