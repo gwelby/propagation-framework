@@ -443,10 +443,11 @@
       if (result.id) card.setAttribute('data-result-id', result.id);
       var confidence = (typeof result.confidence === 'number')
         ? Math.round(result.confidence * 100) + '%' : 'n/a';
+      var authorityId = (result.authorityClaimIds && result.authorityClaimIds.length > 0) ? result.authorityClaimIds[0] : (result.id || '');
       var parts = [
         '<div class="result-card-head">',
           '<div class="result-card-title">', (result.title || ''), '</div>',
-          '<div class="result-card-status ', statusClass.replace(/^status-/, ''), '">', statusStr, '</div>',
+          '<div class="result-card-status ', statusClass.replace(/^status-/, ''), '" data-claim-id="', authorityId, '">', statusStr, '</div>',
         '</div>'
       ];
       if (result.formula) parts.push('<div class="result-card-formula">', result.formula, '</div>');

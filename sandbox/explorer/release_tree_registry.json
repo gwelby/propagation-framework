@@ -334,8 +334,17 @@
     {
       "path": "scale-ladder.html",
       "type": "claim",
-      "hasStatusContent": false,
-      "statusInventory": []
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "scale-ladder.html",
+          "activation": "",
+          "selector": ".result-status",
+          "claimId": "*",
+          "dynamic": true,
+          "note": "Dynamic PF result status list rendered for the initially selected scale."
+        }
+      ]
     }
   ],
   "statusInventory": [
@@ -608,6 +617,38 @@
       "expectedStatus": "DERIVED",
       "expectedConfidence": 0.9,
       "note": ""
+    },
+    {
+      "route": "journey.html",
+      "activation": "",
+      "selector": ".result-card-status",
+      "claimId": "*",
+      "dynamic": true,
+      "note": "Mechanically verifies every Journey audited result card."
+    },
+    {
+      "route": "journey_live.html",
+      "activation": "",
+      "selector": ".result-card-status",
+      "claimId": "*",
+      "dynamic": true,
+      "note": "Mechanically verifies every Journey live audited result card."
+    },
+    {
+      "route": "index.html",
+      "activation": "[data-route='experiment-bench']",
+      "selector": ".eb-status-pill",
+      "claimId": "*",
+      "dynamic": true,
+      "note": "Mechanically verifies every Experiment Bench claim status pill."
+    },
+    {
+      "route": "scale-ladder.html",
+      "activation": "",
+      "selector": ".result-status",
+      "claimId": "*",
+      "dynamic": true,
+      "note": "Mechanically verifies every PF result status rendered for the selected scale."
     }
   ],
   "blockedFiles": [
@@ -931,6 +972,7 @@
     }
   ],
   "allowlist": [
+    "vendor/",
     "belt-trick.html",
     "comparison.html",
     "derivation.html",

@@ -35,7 +35,8 @@ The runtime proof is the gate that keeps the Explorer honest. No visual/narrativ
 |---------|--------|--------------|------|
 | **V5.1** | ✅ PASS | Authority-bound DOM verification, `PFClaimsData` / `PFExplorerData` unity, quarantine 404s, source hygiene. | — |
 | **V5.2** | ❌ REJECT | Candidate-owned server, dynamic free port, `statusInventory` (9 entries on `index.html`), God Equation primary pill bound to `god-equation-operator`, scale badge bound to `god-equation-scale`. Rejected because inventory covers only `index.html` and generic pill collection precedes per-entry activation. | V5.3 |
-| **V5.3** | ✅ PASS | Complete inventory across every `servedRoutes` entry with `hasStatusContent: true` (30 entries); per-entry activation and inspection; bind every authority-bearing rendered status element with `data-claim-id`; copied-candidate negative fixtures with named failures. | Return packet submitted: `/mnt/d/Codex/inbox/2026-07-20_devin-explorer-v5.3-complete-status-inventory-return.md` |
+| **V5.3** | ❌ REJECT | Complete inventory across every `servedRoutes` entry with `hasStatusContent: true` (30 entries); per-entry activation and inspection; bind every authority-bearing rendered status element with `data-claim-id`; copied-candidate negative fixtures with named failures. | Re-audited 2026-07-22: registry did not cover Journey `.result-card-status` (36) or Experiment Bench `.eb-status-pill` (36); generic scan did not include those selectors and inherited `data-claim-id` from parent cards. |
+| **V5.4** | ✅ PASS | Mechanical status-class scan covering `.status-pill`, `.status-badge`, `[data-status-note]`, `.result-card-status`, `.eb-status-pill`, `.result-status`; panel-walk activation for `index.html`; direct `data-claim-id` on every status-bearing element; dynamic inventory entries; copied-candidate fixtures for unbound Journey result-card and Experiment Bench pill. | Return packet submitted: `/mnt/d/Codex/inbox/2026-07-22_devin-explorer-v5.4-dynamic-status-inventory-return.md` |
 | **V5.x** | 📋 PLANNED | Runtime proof for dynamically rendered states, Journey mode claim states, scale-ladder claim badges, and any new panels added in Phase B. | After V5.3 |
 
 ### Phase B — Visual & Narrative Experience
@@ -56,11 +57,11 @@ Based on `EXPLORER_OVERHAUL_PLAN.md` / `GRAND_PLAN.md` / `PLAN_OVERHAUL.md`.
 
 ## Active Repair Contracts (Explorer)
 
-1. **V5.3 Complete Status Inventory Repair** — `/mnt/d/Devin/inbox/manual/2026-07-20-codex-explorer-v5.3-complete-status-inventory-repair.md`
-   - Build complete `statusInventory` across all served claim routes.
-   - Bind every authority-bearing status element with `data-claim-id`.
-   - Per-entry activation and inspection before moving to next entry.
-   - Copied-candidate negative fixtures: primary Weinberg/Bohr unbinding, Consciousness audit badge, missing/unavailable state, status/confidence mismatch.
+1. **V5.4 Dynamic Status Inventory Repair** — `/mnt/d/Codex/REPORTS/CODEX_20260722_EXPLORER_V5_3_COMPLETE_STATUS_INVENTORY_REAUDIT.md`
+   - Mechanically scan all status-bearing DOM classes: `.status-pill`, `.status-badge`, `[data-status-note]`, `.result-card-status`, `.eb-status-pill`, `.result-status`.
+   - Activate each real panel and compare every rendered authority-bearing item.
+   - Direct `data-claim-id` on every status-bearing element (no parent inheritance).
+   - Copied-candidate negative fixtures: unbound Journey result-card status and unbound Experiment Bench status pill.
 
 ## Cross-Dependencies
 
@@ -72,12 +73,11 @@ Based on `EXPLORER_OVERHAUL_PLAN.md` / `GRAND_PLAN.md` / `PLAN_OVERHAUL.md`.
 
 ## Current Blockers
 
-- **V5.2 rejection** in `/mnt/d/Codex/REPORTS/CODEX_20260720_EXPLORER_V5_2_RUNTIME_PROOF_REAUDIT.md`.
 - **PUBLIC HOLD** on Fundamentals claim surfaces until Codex recheck clears.
 
 ## Next Step
 
-Implement **Explorer V5.3**: complete `statusInventory`, per-entry activation, bind all remaining panel primary pills, and submit a gate-shaped return packet.
+Await Codex re-audit of the V5.4 return packet.
 
 ## Boundaries
 

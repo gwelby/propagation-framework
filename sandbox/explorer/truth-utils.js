@@ -240,7 +240,9 @@
         title: c.title,
         status: c.status || c.primary_status,
         confidence: c.confidence,
-        section: c.section
+        section: c.section,
+        isStandardMath: c.isStandardMath || false,
+        badge: c.badge || (c.status || c.primary_status || "")
       };
     });
   }

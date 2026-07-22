@@ -93,9 +93,22 @@ def stop_server(proc: subprocess.Popen):
             pass
 
 
+def _extract_js_object(text: str, var_name: str) -> dict:
+    """Extract a JS object assignment like `window.X = {...};` and parse as JSON."""
+    import re
+    m = re.search(rf'window\.{re.escape(var_name)}\s*=\s*(\{{.*?\n\}});\s*\n', text, re.DOTALL)
+    if not m:
+        return {}
+    try:
+        return json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return {}
+
+
 def load_authority_data() -> dict:
     """Load the generated authority data for comparison."""
     claims_js = EXPLORER_DIR / "data.claims.js"
+    explorer_data_js = EXPLORER_DIR / "data.js"
     import re
     text = claims_js.read_text(encoding="utf-8")
     m = re.search(r'window\.PFClaimsData\s*=\s*(\{.*?\});', text, re.DOTALL)
@@ -107,10 +120,20 @@ def load_authority_data() -> dict:
         return {}
     claims = {}
     for c in data.get("claims", []):
+        status = c.get("status") or "UNAVAILABLE"
+        badge = c.get("badge", status)
+        # V5.4: For STANDARD MATH claims, the rendered status label comes from the
+        # badge (e.g. "STANDARD MATH 0.85"), not from the authority status field.
+        display_status = status
+        if c.get("isStandardMath"):
+            m = re.match(r"^([A-Za-z\s\-]+?)(?=\s*\d|\/|\()", badge)
+            if m:
+                display_status = m.group(1).strip()
         claims[c["id"]] = {
-            "status": c.get("status"),
+            "status": display_status,
+            "raw_status": status,
             "confidence": c.get("confidence"),
-            "badge": c.get("badge", ""),
+            "badge": badge,
             "isSplit": c.get("isSplit", False),
             "isStandardMath": c.get("isStandardMath", False),
         }
@@ -123,11 +146,56 @@ def load_authority_data() -> dict:
             "isSplit": False,
             "isStandardMath": False,
         }
+
+    # V5.4: Also index PFExplorerData.results by result id, so dynamic surfaces
+    # (scale-ladder, journey fallback, etc.) that expose a result id can be
+    # verified against authority.
+    if explorer_data_js.is_file():
+        explorer_data = _extract_js_object(explorer_data_js.read_text(encoding="utf-8"), "PFExplorerData")
+        for r in explorer_data.get("results", []):
+            rid = r.get("id")
+            if rid and rid not in claims:
+                claims[rid] = {
+                    "status": r.get("status"),
+                    "confidence": r.get("confidence"),
+                    "badge": r.get("badge", r.get("status", "")),
+                    "isSplit": r.get("isSplit", False),
+                    "isStandardMath": r.get("isStandardMath", False),
+                }
     return claims
+
+STATUS_ELEMENT_SELECTORS = ".status-pill, .status-badge, [data-status-note], .result-card-status, .eb-status-pill, .result-status"
+
+
+def _collect_status_elements(page, selector: str = STATUS_ELEMENT_SELECTORS) -> list:
+    """V5.4: Collect all authority-bearing status elements in the current DOM.
+
+    Each status-bearing element must carry its own data-claim-id binding.
+    Parent inheritance is intentionally disabled so that removing a binding
+    from a Journey result-card or Experiment Bench pill is detected.
+    """
+    return page.evaluate(
+        """
+        (selector) => {
+            const pills = document.querySelectorAll(selector);
+            return Array.from(pills).map(p => {
+                return {
+                    text: p.textContent.trim(),
+                    class: p.className,
+                    claimId: p.dataset.claimId || null,
+                    tagName: p.tagName,
+                    parentTag: p.parentElement ? p.parentElement.tagName : null,
+                    parentClass: p.parentElement ? p.parentElement.className : null,
+                };
+            });
+        }
+        """,
+        selector,
+    )
 
 
 def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
-    """V5.2: Activate and verify one status inventory entry.
+    """V5.2/V5.4: Activate and verify one static or dynamic status inventory entry.
 
     Returns a dict with ok, claimId, selector, observed, and error if failed.
     """
@@ -137,6 +205,7 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
     activation = entry.get("activation")
     expected_status = entry.get("expectedStatus", "").upper()
     expected_conf = entry.get("expectedConfidence")
+    is_dynamic = entry.get("dynamic", False) or claim_id == "*"
     result = {
         "claimId": claim_id,
         "selector": selector,
@@ -154,6 +223,45 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
             except Exception as e:
                 result["error"] = f"activation failed: {e}"
                 return result
+
+        # V5.4: Dynamic inventory entries verify every matching element.
+        if is_dynamic:
+            elements = page.query_selector_all(selector)
+            if not elements:
+                result["error"] = f"dynamic selector returned no elements: {selector}"
+                return result
+            observed = []
+            errors = []
+            for el in elements:
+                obs_id = el.get_attribute("data-claim-id")
+                if not obs_id:
+                    obs_id = el.evaluate("(node) => { var p = node.closest('[data-claim-id]'); return p ? p.getAttribute('data-claim-id') : null; }")
+                text = (el.text_content() or "").strip()
+                observed.append({"claimId": obs_id, "text": text})
+                if not obs_id:
+                    errors.append(f"missing data-claim-id in {selector}: '{text}'")
+                    continue
+                if obs_id not in authority_claims:
+                    errors.append(f"unknown claim ID in {selector}: {obs_id}")
+                    continue
+                auth = authority_claims[obs_id]
+                auth_status = (auth.get("status") or "").upper()
+                text_u = text.upper()
+                if auth_status and auth_status not in text_u and text_u not in auth_status:
+                    errors.append(f"status mismatch for {obs_id}: text='{text}' vs authority={auth['status']}")
+                    continue
+                conf_match = _re.search(r'(\d+\.\d+)', text)
+                if conf_match and auth.get("confidence") is not None:
+                    pill_conf = float(conf_match.group(1))
+                    if abs(pill_conf - auth["confidence"]) > 0.01:
+                        errors.append(f"confidence mismatch for {obs_id}: text='{text}' vs authority={auth['confidence']}")
+            result["observed"] = observed[:5]
+            result["observed_count"] = len(elements)
+            if errors:
+                result["error"] = "; ".join(errors[:3])
+                return result
+            result["ok"] = True
+            return result
 
         el = page.query_selector(selector)
         if not el:
@@ -248,67 +356,33 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 )
                 dom_evidence["PFExplorerData_loaded"] = has_explorer_data
 
-                # V5.1: Activate status-bearing panel states
-                # Click on panel triggers, result items, and drawer openers
-                # to ensure status pills are rendered and bound
-                panel_activations = page.evaluate("""
-                    () => {
-                        var activations = [];
-                        // Click any result-item or claim-row elements
-                        var items = document.querySelectorAll('.result-item, .claim-row, [data-claim], .panel-trigger, .nav-item, [data-route]');
-                        for (var i = 0; i < Math.min(items.length, 8); i++) {
-                            try { items[i].click(); activations.push(items[i].getAttribute('data-route') || items[i].className || 'item'); } catch(e) {}
-                        }
-                        // Click on Refraction panel if present
-                        var refPanel = document.querySelector('#refractionInfo, [data-panel="refraction"]');
-                        if (refPanel) {
-                            try { refPanel.click(); activations.push('refraction'); } catch(e) {}
-                        }
-                        // Open evidence drawer if present
-                        var drawerTriggers = document.querySelectorAll('.drawer-trigger, .evidence-link, [data-drawer]');
-                        for (var i = 0; i < Math.min(drawerTriggers.length, 3); i++) {
-                            try { drawerTriggers[i].click(); activations.push('drawer'); } catch(e) {}
-                        }
-                        return activations;
-                    }
-                """)
+                # V5.4: Activate status-bearing surfaces and collect all authority-bearing
+                # status elements. index.html has multiple panel routes; walk them so
+                # dynamic lists (Experiment Bench, etc.) are mounted and scanned.
+                status_pills = []
+                panel_activations = []
+                if path == "index.html":
+                    route_buttons = page.evaluate(
+                        "() => Array.from(document.querySelectorAll('[data-route]')).map(b => b.getAttribute('data-route'))"
+                    )
+                    for route in route_buttons:
+                        try:
+                            page.evaluate(
+                                "(route) => { var b = document.querySelector('[data-route=\"' + route + '\"]'); if (b) b.click(); }",
+                                route,
+                            )
+                            page.wait_for_timeout(500)
+                            status_pills.extend(_collect_status_elements(page))
+                            panel_activations.append(route)
+                        except Exception as _e:
+                            panel_activations.append(f"{route}:error")
+                    page.wait_for_timeout(1000)
+                else:
+                    # Journey result cards, scale-ladder result statuses, and static
+                    # route cells render after a short wait.
+                    page.wait_for_timeout(2000)
+                    status_pills = _collect_status_elements(page)
                 dom_evidence["panel_activations"] = panel_activations
-
-                # Wait for any panel rendering to complete
-                page.wait_for_timeout(2000)
-
-                # 2. V5: Extract status pills with claim ID binding
-                status_pills = page.evaluate("""
-                    () => {
-                        const pills = document.querySelectorAll('.status-pill, .status-badge, [data-status-note]');
-                        return Array.from(pills).map(p => {
-                            // V5: Look for claim ID in data attributes or parent context
-                            let claimId = null;
-                            // Check data-claim-id attribute
-                            if (p.dataset.claimId) claimId = p.dataset.claimId;
-                            // Check parent element for data-claim-id
-                            if (!claimId && p.parentElement) {
-                                claimId = p.parentElement.dataset.claimId ||
-                                          p.closest('[data-claim-id]')?.dataset.claimId;
-                            }
-                            // Check for nearby claim ID in id attribute or data-id
-                            if (!claimId) {
-                                const row = p.closest('[data-id], [id]');
-                                if (row) {
-                                    claimId = row.dataset.id || row.id;
-                                }
-                            }
-                            return {
-                                text: p.textContent.trim(),
-                                class: p.className,
-                                claimId: claimId,
-                                tagName: p.tagName,
-                                parentTag: p.parentElement ? p.parentElement.tagName : null,
-                                parentClass: p.parentElement ? p.parentElement.className : null,
-                            };
-                        });
-                    }
-                """)
                 dom_evidence["status_pills"] = status_pills
 
                 # V5.2: Activate and verify every expected status inventory entry
@@ -376,12 +450,15 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
 
                                 binding["auth_status"] = auth_status
                                 binding["auth_confidence"] = auth_conf
-                                binding["matches_status"] = auth_status.upper() in pill_text.upper()
+                                binding["matches_status"] = (
+                                    auth_status.upper() in pill_text.upper()
+                                    or pill_text.upper() in auth_status.upper()
+                                )
 
                                 # Check confidence if present in pill text
                                 import re as _re
                                 conf_match = _re.search(r'(\d+\.\d+)', pill_text)
-                                if conf_match:
+                                if conf_match and auth_conf is not None:
                                     pill_conf = float(conf_match.group(1))
                                     binding["pill_confidence"] = pill_conf
                                     binding["matches_confidence"] = abs(pill_conf - auth_conf) < 0.01

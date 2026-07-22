@@ -239,6 +239,49 @@ def fixture_mismatched_non_god_equation(tmp_explorer: Path) -> None:
     print("  PASS fixture: mismatched non-God-Equation status/confidence rejected")
 
 
+def fixture_unbound_journey_result_card(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from the Journey result-card status renderer."""
+    with _mutate(tmp_explorer, "journey.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Remove data-claim-id from the .result-card-status string literal only.
+        patched = text.replace(
+            'data-claim-id="',
+            'data-result-id="',
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="journey.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Unbound Journey result-card fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    if "Status pill without claim ID binding" not in proc.stdout and "missing data-claim-id" not in proc.stdout:
+        raise AssertionError("Journey fixture did not report the intended unbound status failure")
+    print("  PASS fixture: unbound Journey result-card status rejected")
+
+
+def fixture_unbound_experiment_bench(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from the Experiment Bench status pill renderer."""
+    with _mutate(tmp_explorer, "panels/experiment-bench.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Both .eb-card and .eb-status-pill carry data-claim-id; swapping the
+        # attribute name removes the binding from the pill the proof targets.
+        patched = text.replace(
+            'data-claim-id="',
+            'data-result-id="',
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="index.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Unbound Experiment Bench fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    if "Status pill without claim ID binding" not in proc.stdout and "missing data-claim-id" not in proc.stdout:
+        raise AssertionError("Experiment Bench fixture did not report the intended unbound status failure")
+    print("  PASS fixture: unbound Experiment Bench status pill rejected")
+
+
 def main() -> int:
     print("=" * 70)
     print("Explorer V5.2/V5.3 Runtime Proof — Copied-Candidate Negative Fixtures")
@@ -262,6 +305,8 @@ def main() -> int:
         fixture_unbound_consciousness_audit(tmp_explorer)
         fixture_unavailable_status(tmp_explorer)
         fixture_mismatched_non_god_equation(tmp_explorer)
+        fixture_unbound_journey_result_card(tmp_explorer)
+        fixture_unbound_experiment_bench(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 

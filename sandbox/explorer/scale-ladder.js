@@ -224,10 +224,11 @@
       html += '<h4>PF Results</h4><div class="scale-result-list">';
       results.forEach(function (r) {
         var statusClass = r.status ? r.status.toLowerCase().replace(' ', '-') : '';
+        var authorityId = (r.authorityClaimIds && r.authorityClaimIds.length > 0) ? r.authorityClaimIds[0] : r.id;
         html += [
           '<div class="scale-result-item" data-result="' + r.id + '">',
           '<div class="result-title">' + (r.shortTitle || r.title) + '</div>',
-          '<span class="result-status ' + statusClass + '">' + (r.status || 'UNAVAILABLE') + '</span>',
+          '<span class="result-status ' + statusClass + '" data-claim-id="' + authorityId + '">' + (r.status || 'UNAVAILABLE') + '</span>',
           '</div>'
         ].join('');
       });

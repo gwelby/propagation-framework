@@ -479,6 +479,7 @@
         var badge = claim.badge || status;
         var desc = note.getAttribute('data-status-note') || note.textContent || '';
         note.textContent = badge + ' · ' + desc;
+        note.setAttribute('data-claim-id', claimId);
         // Update icon color based on status
         var icon = btn.querySelector('.ws-btn-icon');
         if (icon) {

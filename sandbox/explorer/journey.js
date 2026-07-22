@@ -602,14 +602,20 @@
 
     api.sortResultsForNarrative(api.getAuditedResults()).forEach(function (result) {
       var card = document.createElement("div");
-      var statusClass = api.statusToClass(result.status);
+      // V5.4: Standard-math claims display the badge status (e.g. STANDARD MATH)
+      // instead of the raw authority status (e.g. CONDITIONAL / DERIVED).
+      var displayStatus = result.status;
+      if (result.isStandardMath && result.badge) {
+        displayStatus = result.badge.replace(/\s+\d+(\.\d+)?\s*%?.*$/, "");
+      }
+      var statusClass = api.statusToClass(displayStatus);
       var badgeClass = statusClass.replace(/^status-/, "");
 
       card.className = "result-card " + statusClass;
       card.setAttribute('data-claim-id', result.id);
       card.innerHTML = [
         '<div class="result-card-title">' + escapeHtml(result.title) + "</div>",
-        '<div class="result-card-status ' + badgeClass + '" data-claim-id="' + result.id + '">' + escapeHtml(result.status) + "</div>",
+        '<div class="result-card-status ' + badgeClass + '" data-claim-id="' + result.id + '">' + escapeHtml(displayStatus) + "</div>",
         '<div class="result-card-formula">' + escapeHtml(result.formula) + "</div>",
         '<div class="result-card-confidence">Confidence: ' + Math.round((result.confidence || 0) * 100) + "%</div>"
       ].join("");

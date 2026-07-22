@@ -293,7 +293,7 @@
         '<div class="result-card ' + statusToClass(consciousness.status) + '">' +
           '<div class="result-card-head">' +
             '<div class="result-card-title">' + consciousness.title + '</div>' +
-            '<div class="result-card-status ' + statusToClass(consciousness.status).replace(/^status-/, '') + '">' + consciousness.status + '</div>' +
+            '<div class="result-card-status ' + statusToClass(consciousness.status).replace(/^status-/, '') + '" data-claim-id="' + consciousness.id + '">' + consciousness.status + '</div>' +
           '</div>' +
           '<div class="result-card-formula">' + consciousness.formula + '</div>' +
           '<div class="result-card-confidence">Confidence: ' + Math.round(consciousness.confidence * 100) + '%</div>' +
@@ -301,7 +301,7 @@
         '<div class="result-card ' + statusToClass(aria.status) + '">' +
           '<div class="result-card-head">' +
             '<div class="result-card-title">' + aria.title + '</div>' +
-            '<div class="result-card-status ' + statusToClass(aria.status).replace(/^status-/, '') + '">' + aria.status + '</div>' +
+            '<div class="result-card-status ' + statusToClass(aria.status).replace(/^status-/, '') + '" data-claim-id="' + aria.id + '">' + aria.status + '</div>' +
           '</div>' +
           '<div class="result-card-formula">' + aria.formula + '</div>' +
           '<div class="result-card-confidence">Confidence: ' + Math.round(aria.confidence * 100) + '%</div>' +
