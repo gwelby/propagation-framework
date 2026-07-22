@@ -494,6 +494,7 @@ lemma J_E_norm (x : ↥Eμ) : ‖J_E U μ Eμ hEinvar x‖ = ‖x‖ := by
   nlinarith [h_eq2, h_pos, h_pos']
 
 include U hU0 hUadd hUnorm μ hμ Eμ hEinvar hU1sqE in
+set_option maxHeartbeats 400000 in
 theorem exists_common_eigenvector (hEμne : Eμ ≠ ⊥) :
   ∃ (v : ↥Eμ) (χ : ℝ → ℂ), v ≠ 0 ∧
     ∀ (t : ℝ), U_E_real U Eμ hEinvar t v = (χ t).re • v + (χ t).im • J_E U μ Eμ hEinvar v ∧
@@ -642,8 +643,152 @@ theorem exists_common_eigenvector (hEμne : Eμ ≠ ⊥) :
           rwa [norm_pos_iff]
         have : ‖lam‖ = 1 := by nlinarith
         exact this
-      -- TODO: polynomial growth contradiction (nilpotent perturbation of isometry cannot have index > 1)
-      sorry
+      -- polynomial growth contradiction: a nilpotent perturbation of an isometry cannot have index > 1
+      let r := k0 - 2
+      have hr : k0 = r + 2 := by omega
+      let u := (g_t ^ r) v
+      have hgu : g_t u = w := by
+        rw [show u = (g_t ^ r) v by rfl]
+        rw [show w = (g_t ^ m) v by rfl]
+        rw [show m = r + 1 by omega]
+        rw [← Module.End.mul_apply]
+        rw [pow_succ']
+      have hgu2 : (g_t ^ 2) u = 0 := by
+        rw [show u = (g_t ^ r) v by rfl]
+        rw [← Module.End.mul_apply]
+        rw [← pow_add]
+        rw [show 2 + r = k0 by omega]
+        exact h_k0_min
+      have hu_ne : u ≠ 0 := by
+        by_contra hu0
+        have hw0 : w = 0 := by
+          rw [← hgu, hu0]
+          simp
+        contradiction
+      have hw_pos : 0 < ‖w‖ := by rwa [norm_pos_iff]
+      have hu_pos : 0 < ‖u‖ := by rwa [norm_pos_iff]
+      have hftu : (f t) u = lam • u + w := by
+        have h' : (f t) u = g_t u + lam • u := by
+          have hfeq : f t = g_t + lam • (LinearMap.id : ↥Eμ →ₗ[ℂ] ↥Eμ) := by
+            simp [g_t]
+          rw [hfeq]
+          simp
+        rw [h', hgu]
+        abel
+      have hftn : ∀ (n : ℕ), n ≥ 1 → ((f t) ^ n) u = (lam ^ n) • u + ((n : ℂ) * lam ^ (n - 1)) • w := by
+        intro n hn
+        refine Nat.le_induction ?_ (fun n _ ih => ?_) n hn
+        · -- n = 1
+          simp
+          rw [hftu]
+          <;> ring_nf
+          <;> abel
+        · -- n → n + 1
+          have h1 : ((f t) ^ (n + 1)) u = (f t) (((f t) ^ n) u) := by
+            rw [pow_succ']
+            simp
+          rw [h1, ih]
+          have h2 : (f t) ((lam ^ n) • u) = (lam ^ (n + 1)) • u + (lam ^ n) • w := by
+            rw [map_smul, hftu, smul_add]
+            have h7 : (lam ^ n : ℂ) • (lam • u) = (lam ^ (n + 1)) • u := by
+              rw [smul_smul]
+              rw [mul_comm]
+              rw [← pow_succ']
+            rw [h7]
+          have h3 : (f t) (((n : ℂ) * lam ^ (n - 1)) • w) = ((n : ℂ) * lam ^ n) • w := by
+            rw [map_smul, hw_eig, smul_smul]
+            have h8 : ((n : ℂ) * lam ^ (n - 1)) * lam = (n : ℂ) * lam ^ n := by
+              have h9 : (lam ^ (n - 1) : ℂ) * lam = lam ^ n := by
+                rw [mul_comm]
+                rw [← pow_succ']
+                rw [show (n - 1 : ℕ) + 1 = n by omega]
+              calc
+                ((n : ℂ) * lam ^ (n - 1)) * lam = (n : ℂ) * ((lam ^ (n - 1)) * lam) := by ring
+                _ = (n : ℂ) * lam ^ n := by rw [h9]
+            rw [h8]
+          rw [map_add, h2, h3]
+          have h10 : (lam ^ n : ℂ) • w + ((n : ℂ) * (lam ^ n : ℂ)) • w = (((n + 1 : ℕ) : ℂ) * (lam ^ n : ℂ)) • w := by
+            rw [← add_smul]
+            have h11 : (lam ^ n : ℂ) + ((n : ℂ) * (lam ^ n : ℂ)) = (((n + 1 : ℕ) : ℂ) * (lam ^ n : ℂ)) := by
+              rw [Nat.cast_succ]
+              ring
+            rw [h11]
+          rw [add_assoc]
+          rw [h10]
+          have h12 : n + 1 - 1 = n := by omega
+          simp [h12]
+          <;> ring_nf
+          <;> abel
+      have h_norm_lam : ∀ (n : ℕ), ‖lam ^ n‖ = 1 := by
+        intro n
+        rw [norm_pow]
+        rw [hlam_mod]
+        norm_num
+      have h_norm_smul_n : ∀ (n : ℕ), ‖(n : ℂ)‖ = (n : ℝ) := by
+        intro n
+        simp [RCLike.norm_natCast]
+      have h_lower : ∀ (n : ℕ), n ≥ 1 → ‖((f t) ^ n) u‖ ≥ |((↑n : ℝ) * ‖w‖ - ‖u‖ : ℝ)| := by
+        intro n hn
+        have h_eq : ((f t) ^ n) u = (lam ^ n) • u + ((n : ℂ) * lam ^ (n - 1)) • w := hftn n hn
+        rw [h_eq]
+        let A := (lam ^ n) • u
+        let B := ((n : ℂ) * lam ^ (n - 1)) • w
+        have hA : ‖A‖ = ‖u‖ := by
+          simp [A, hnorm_smul, h_norm_lam n]
+          all_goals norm_num
+        have hB : ‖B‖ = ((n : ℝ) * ‖w‖) := by
+          rw [show B = ((n : ℂ) * lam ^ (n - 1)) • w by rfl]
+          rw [hnorm_smul]
+          have h1 : ‖(n : ℂ) * lam ^ (n - 1)‖ = (n : ℝ) := by
+            rw [norm_mul]
+            rw [h_norm_lam (n - 1)]
+            rw [h_norm_smul_n n]
+            all_goals norm_num
+          rw [h1]
+          <;> ring_nf
+          <;> norm_num
+        have h_pos := norm_sub_norm_le B (-A)
+        have h_neg := norm_sub_norm_le (-A) B
+        have hneg1 : ‖-A‖ = ‖A‖ := by rw [norm_neg]
+        have hsum_pos : B - -A = A + B := by
+          simp [sub_neg_eq_add, A, B]
+          <;> ring_nf
+          <;> abel
+        have hsum_neg : -A - B = -(A + B) := by
+          simp [A, B]
+          <;> ring_nf
+          <;> abel
+        rw [hneg1, hA, hB, hsum_pos] at h_pos
+        rw [hneg1, hA, hB, hsum_neg, norm_neg] at h_neg
+        cases' abs_cases ((↑n : ℝ) * ‖w‖ - ‖u‖ : ℝ) with h h <;> linarith [h_pos, h_neg]
+      have h_isom_n : ∀ (n : ℕ), ‖((f t) ^ n) u‖ = ‖u‖ := by
+        intro n
+        have h_eq : (f t) ^ n = f (n * t : ℝ) := by
+          rw [hf_pow n t]
+        rw [h_eq]
+        rw [hf_isom]
+      obtain ⟨N, hN⟩ := exists_nat_gt ((2 * ‖u‖ / ‖w‖) : ℝ)
+      have hN1 : N ≥ 1 := by
+        by_contra h
+        push_neg at h
+        have hN0 : N = 0 := by linarith
+        rw [hN0] at hN
+        have : 0 > 2 * ‖u‖ / ‖w‖ := by nlinarith
+        have : 2 * ‖u‖ / ‖w‖ ≥ 0 := by positivity
+        linarith
+      have hN_lower := h_lower N hN1
+      have hN_isom := h_isom_n N
+      have hN_gt : (↑N * ‖w‖ - ‖u‖ : ℝ) > ‖u‖ := by
+        have h1 : (↑N : ℝ) * ‖w‖ > 2 * ‖u‖ := by
+          have h2 : 2 * ‖u‖ / ‖w‖ < (↑N : ℝ) := hN
+          have hw' : 0 < ‖w‖ := hw_pos
+          rw [div_lt_iff₀ hw'] at h2
+          linarith
+        linarith
+      have hN_abs_pos : 0 < (↑N * ‖w‖ - ‖u‖ : ℝ) := by linarith [hN_gt]
+      have hN_abs : |((↑N : ℝ) * ‖w‖ - ‖u‖ : ℝ)| = (↑N * ‖w‖ - ‖u‖ : ℝ) := by
+        apply abs_of_pos hN_abs_pos
+      linarith [hN_lower, hN_isom, hN_gt, hN_abs]
     have hgv0 : g_t v = 0 := by
       rw [← pow_one g_t]
       rw [hk1] at h_k0_min
