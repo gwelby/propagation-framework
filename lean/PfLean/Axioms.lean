@@ -1338,6 +1338,7 @@ lemma exists_period_of_continuous_circle_hom
       field_simp]
     ring
 
+set_option maxHeartbeats 800000 in
 /-- GENERAL THEOREM (WITH CONTINUITY — still needs spectral theorem for full proof):
 
     PROOF-DESIGN CHOICE (2026-07-15, per Codex intake HOLD 2026-07-14):
@@ -1729,6 +1730,41 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
           · exact Submodule.smul_mem _ _ h_v_in_E
         rw [he₂_def]
         exact Submodule.smul_mem _ _ hw'_in_E
+      -- General quadratic identity for all x ∈ E_μ (needed for the common-eigenvector route)
+      have h_U1_sq_E : ∀ (x : M.State), x ∈ E_μ → U 1 (U 1 x) = μ • U 1 x - x := by
+        intro x hx
+        have h_Sx : (U 1 + U (-1) : Module.End ℝ M.State) x = μ • x := by
+          rw [hE_def] at hx
+          have hmem := LinearMap.mem_ker.mp hx
+          have h0 : U 1 x + U (-1) x - μ • x = 0 := by
+            simpa [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply,
+                   LinearMap.add_apply] using hmem
+          calc
+            (U 1 + U (-1) : Module.End ℝ M.State) x = U 1 x + U (-1) x := by
+              simp [LinearMap.add_apply]
+            _ = (U 1 x + U (-1) x - μ • x) + μ • x := by rw [sub_add_cancel]
+            _ = 0 + μ • x := by rw [h0]
+            _ = μ • x := by rw [zero_add]
+        have h_Uneg1_x : U (-1) x = μ • x - U 1 x := by
+          have h1 : U 1 x + U (-1) x = μ • x := by
+            simpa [LinearMap.add_apply] using h_Sx
+          calc
+            U (-1) x = (U 1 x + U (-1) x) - U 1 x := by rw [add_sub_cancel_left]
+            _ = μ • x - U 1 x := by rw [h1]
+        have h2 : U 1 (U (-1) x) = μ • (U 1 x) - U 1 (U 1 x) := by
+          rw [h_Uneg1_x, map_sub, map_smul]
+        have h3 : U 1 (U (-1) x) = x := LinearMap.congr_fun h_U1_Uneg1 x
+        rw [h3] at h2
+        have h4 : x + U 1 (U 1 x) = μ • (U 1 x) := by
+          have h_sub : (μ • (U 1 x) - U 1 (U 1 x)) + U 1 (U 1 x) = μ • (U 1 x) := sub_add_cancel _ _
+          rw [← h2] at h_sub
+          exact h_sub
+        rw [← h4, add_sub_cancel_left]
+      have hEμne : E_μ ≠ ⊥ := by
+        intro h
+        have h0 : v ∈ (⊥ : Submodule ℝ M.State) := by rw [← h]; exact h_v_in_E
+        simp [Submodule.mem_bot] at h0
+        exact hv_ne h0
       -- Step 7: W-invariance via dim(E_μ) = 2 case split
       -- When dim(E_μ) = 2: W = span{v, e₂} = E_μ (both are 2D, W ⊆ E_μ)
       -- When dim(E_μ) > 2: needs spectral theorem (sorry for now)
