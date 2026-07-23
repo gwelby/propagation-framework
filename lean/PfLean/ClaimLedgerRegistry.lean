@@ -1,0 +1,154 @@
+/-
+  PfLean.ClaimLedgerRegistry — Real PF Theorems in the Claim Ledger
+  Authors: Devin (Cognition AI), Greg Welby, PF Research Team
+  Date: 2026-07-23
+
+  This module wires selected machine-verified PF theorems into the
+  `PfLean.ClaimLedger` infrastructure.  It is the first real registry of
+  claims with epistemic tiers, confidence intervals, evidence strings,
+  falsifiers, and dependency links.
+-/
+
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
+import PfLean.ClaimLedger
+import PfLean.PFCore
+import PfLean.SO3DoubleCover
+import PfLean.TopologicalWeights
+import PfLean.Entropy
+
+namespace PfLean
+
+-- ---------------------------------------------------------------------------
+-- 1. Topological / double-cover claims
+-- ---------------------------------------------------------------------------
+
+def quatToSO3KerEntry : ClaimEntry :=
+  let P : Prop := ∀ q : UnitQuaternion, quatToSO3 q = 1 ↔ q = 1 ∨ q = -1
+  let h : P := quatToSO3_ker
+  ClaimEntry.mk "quatToSO3_ker" P
+    (ClaimRecord.derived h
+      "SO3DoubleCover.lean: quaternion-to-SO(3) kernel is exactly {±1}"
+      "antipodal quaternions do not map to the same rotation")
+
+def atMostTwoClosureOrdersEntry : ClaimEntry :=
+  let P : Prop := ∀ (g : UnitQuaternion), g = 1 ∨ g = -1 →
+    closureOrder g = 1 ∨ closureOrder g = 2
+  let h : P := at_most_two_closure_orders
+  ClaimEntry.mk "at_most_two_closure_orders" P
+    (ClaimRecord.derived h
+      "TopologicalWeights.lean: only closure orders 1 and 2 are forced by the kernel"
+      "unit-quaternion kernel contains an element of order other than 1 or 2")
+
+def kernelClosureOrdersEntry : ClaimEntry :=
+  let P : Prop := ∀ g : UnitQuaternion, quatToSO3 g = 1 →
+    closureOrder g = 1 ∨ closureOrder g = 2
+  let h : P := kernel_closure_orders
+  ClaimEntry.mk "kernel_closure_orders" P
+    (ClaimRecord.derived h
+      "TopologicalWeights.lean: kernel elements have closure order 1 or 2"
+      "trivial action on SO(3) does not imply closure order in {1,2}"
+      ["quatToSO3_ker", "at_most_two_closure_orders"])
+
+def topologicalAvailabilityEntry : ClaimEntry :=
+  let P : Prop := ∀ g : UnitQuaternion, quatToSO3 g = 1 →
+    closureOrder g = 1 ∨ closureOrder g = 2
+  let h : P := topological_availability
+  ClaimEntry.mk "topological_availability" P
+    (ClaimRecord.derived h
+      "TopologicalWeights.lean: topological availability theorem for (2,1) weights"
+      "SO(3) kernel admits a closure order outside {1,2}"
+      ["kernel_closure_orders"])
+
+-- ---------------------------------------------------------------------------
+-- 2. PFCore / state-update claims
+-- ---------------------------------------------------------------------------
+
+def TFullDecompositionEntry : ClaimEntry :=
+  let P : Prop := ∀ (dt α : ℝ) (x : Fin 3 → ℝ) (n : ℕ) (i : Fin 3),
+    (T_update dt α)^[n] x i =
+      (1 + dt * (-1 + 2 * α)) ^ n * (P0 x i) +
+      (1 + dt * (-1 - α)) ^ n * (Q x i)
+  let h : P := T_full_decomposition
+  ClaimEntry.mk "T_full_decomposition" P
+    (ClaimRecord.derived h
+      "PFCore.lean: T^n preserves the P₀/Q decomposition for arbitrary dt, α, n"
+      "state update does not split into uniform and residue eigenmodes")
+
+def QSumZeroEntry : ClaimEntry :=
+  let P : Prop := ∀ x : Fin 3 → ℝ, Q x 0 + Q x 1 + Q x 2 = 0
+  let h : P := Q_sum_zero
+  ClaimEntry.mk "Q_sum_zero" P
+    (ClaimRecord.derived h
+      "PFCore.lean: the residue projection Q(x) always sums to zero"
+      "residue vectors have non-zero total sum")
+
+-- ---------------------------------------------------------------------------
+-- 3. PF Entropy claims
+-- ---------------------------------------------------------------------------
+
+def P0QDotZeroEntry : ClaimEntry :=
+  let P : Prop := ∀ x : Fin 3 → ℝ,
+    (P0 x 0) * (Q x 0) + (P0 x 1) * (Q x 1) + (P0 x 2) * (Q x 2) = 0
+  let h : P := P0_Q_dot_zero
+  ClaimEntry.mk "P0_Q_dot_zero" P
+    (ClaimRecord.derived h
+      "Entropy.lean: P₀ and Q are orthogonal in the Euclidean inner product"
+      "uniform and residue components are not orthogonal")
+
+def fullNormPythagoreanEntry : ClaimEntry :=
+  let P : Prop := ∀ x : Fin 3 → ℝ,
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2
+                       + (PFEntropy x) ^ 2
+  let h : P := full_norm_Pythagorean
+  ClaimEntry.mk "full_norm_Pythagorean" P
+    (ClaimRecord.derived h
+      "Entropy.lean: full norm² = P₀ norm² + PF Entropy²"
+      "orthogonal decomposition of state space fails"
+      ["P0_Q_dot_zero", "Q_sum_zero"])
+
+def PFEntropyDecreasesT3Entry : ClaimEntry :=
+  let P : Prop := ∀ x : Fin 3 → ℝ, PFEntropy (T3 x) = (1 / 8) * PFEntropy x
+  let h : P := PFEntropy_decreases_T3
+  ClaimEntry.mk "PFEntropy_decreases_T3" P
+    (ClaimRecord.conditional h
+      "Entropy.lean: one 3-step T³ cycle scales PF Entropy by 1/8"
+      "T³ does not scale residue tension by 1/8"
+      ["T_full_decomposition", "Q_sum_zero"])
+
+def fullNormT3StrictlyDecreasesEntry : ClaimEntry :=
+  let P : Prop := ∀ x : Fin 3 → ℝ, PFEntropy x > 0 →
+    full_norm (T3 x) < full_norm x
+  let h : P := full_norm_T3_strictly_decreases
+  ClaimEntry.mk "full_norm_T3_strictly_decreases" P
+    (ClaimRecord.conditional h
+      "Entropy.lean: J-I dynamics strictly decreases full Euclidean norm"
+      "a non-uniform state has its full norm preserved under T³"
+      ["full_norm_Pythagorean", "PFEntropy_decreases_T3"])
+
+-- ---------------------------------------------------------------------------
+-- 4. The real PF claim ledger
+-- ---------------------------------------------------------------------------
+
+def pfClaimLedger : ClaimLedger :=
+  ⟨[ fullNormT3StrictlyDecreasesEntry
+   , PFEntropyDecreasesT3Entry
+   , fullNormPythagoreanEntry
+   , P0QDotZeroEntry
+   , QSumZeroEntry
+   , TFullDecompositionEntry
+   , topologicalAvailabilityEntry
+   , kernelClosureOrdersEntry
+   , atMostTwoClosureOrdersEntry
+   , quatToSO3KerEntry ]⟩
+
+theorem pfClaimLedger_wellFormed :
+    pfClaimLedger.dependenciesResolved := by
+  simp [pfClaimLedger, ClaimLedger.dependenciesResolved, ClaimEntry.dependencies,
+        ClaimRecord.derived, ClaimRecord.conditional,
+        fullNormT3StrictlyDecreasesEntry, PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
+        P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,
+        topologicalAvailabilityEntry, kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry,
+        quatToSO3KerEntry]
+
+end PfLean

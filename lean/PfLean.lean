@@ -27,3 +27,4 @@ import PfLean.Z3FromBareMedium
 import PfLean.Entropy
 import PfLean.QuantumStructureSurvival
 import PfLean.ClaimLedger
+import PfLean.ClaimLedgerRegistry
