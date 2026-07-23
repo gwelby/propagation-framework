@@ -1,8 +1,8 @@
-# Report: PfLean.ClaimLedger + Registry — 2026-07-23
+# Report: PfLean.ClaimLedger + Registry + MeasurementContract — 2026-07-23
 
 **Agent:** Devin (Cognition AI)  
 **Workspace:** `/mnt/d/Fundamentals/lean`  
-**Files touched:** `PfLean/ClaimLedger.lean`, `PfLean/ClaimLedgerRegistry.lean`, `PfLean.lean`
+**Files touched:** `PfLean/ClaimLedger.lean`, `PfLean/ClaimLedgerRegistry.lean`, `PfLean/MeasurementContract.lean`, `PfLean.lean`
 
 ## What was built
 
@@ -33,14 +33,31 @@ Wires 10 real PF theorems into the ledger:
 
 `pfClaimLedger` is a concrete `ClaimLedger`; `pfClaimLedger_wellFormed` proves every dependency resolves.
 
+### `PfLean/MeasurementContract.lean`
+Bridges sandbox/experimental measurements to formal claims:
+- `Measurement` — `value`, non-negative `uncertainty`, `source`.
+- `MeasurementContract` — `claimName`, `predictedValue`, `tolerance`, `falsificationThreshold`.
+- `MeasurementOutcome` — `Confirmed`, `Inconclusive`, `Falsified`.
+- `MeasurementContract.compatible` / `falsified` predicates.
+- `MeasurementContract.outcome` — decide outcome (falsification has priority).
+- `MeasurementContract.applyOutcome` — return a new `ClaimRecord` with updated `ClaimStatus` and annotated evidence.
+
+Example contract for `PFEntropy_decreases_T3`:
+- predicts T³ entropy ratio `1/8`
+- tolerance `0.01`, falsification threshold `0.05`
+- `0.124 ± 0.005` sandbox scan → `Confirmed` (machine-proven)
+- `0.20 ± 0.005` hostile scan → `Falsified` (machine-proven)
+
 ## Verification
 
 - `lake build PfLean.ClaimLedger` — green, 3285 jobs.
 - `lake build PfLean.ClaimLedgerRegistry` — green, 8256 jobs.
-- `lake build` (full project including executable) — green, 16530 jobs.
-- Zero `sorry`s in `ClaimLedger.lean` and `ClaimLedgerRegistry.lean`.
+- `lake build PfLean.MeasurementContract` — green, 3286 jobs.
+- `lake build` (full project including executable) — green, 16532 jobs.
+- Zero `sorry`s in `ClaimLedger.lean`, `ClaimLedgerRegistry.lean`, and `MeasurementContract.lean`.
 
 ## Next
 
 1. Extend `ClaimLedgerRegistry` with more PF theorems (e.g. `isometry_linear_semigroup_gives_nonzero_periodic_orbit`, `ThreeGenerations`, `ShorBound`).
-2. Build `PfLean.MeasurementContract` as the bridge between sandbox scanners and formal theorems.
+2. Wire more `MeasurementContract` examples (Weinberg angle, Koide ratio, gravity lensing index).
+3. Build `MeasurementLedger` that links a list of contracts to the `ClaimLedger` and checks global consistency.
