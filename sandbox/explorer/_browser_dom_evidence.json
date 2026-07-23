@@ -1,13 +1,13 @@
 {
   "schema_version": "5.2",
-  "generated_at": "2026-07-22T13:33:53.748615+00:00",
+  "generated_at": "2026-07-23T13:07:25.015734+00:00",
   "candidate_server": {
-    "pid": 93605,
-    "port": 53129,
+    "pid": 6201,
+    "port": 49385,
     "command": [
       "/usr/bin/python3.12",
       "/mnt/d/Fundamentals/sandbox/explorer/serve.py",
-      "53129"
+      "49385"
     ],
     "cwd": "/mnt/d/Fundamentals/sandbox/explorer"
   },
@@ -106,13 +106,892 @@
       "dom_evidence": {
         "PFClaimsData_loaded": true,
         "PFExplorerData_loaded": true,
-        "panel_activations": [],
-        "status_pills": [],
+        "panel_activations": [
+          "graph:weinberg-angle",
+          "timeline:bohr-quantization",
+          "timeline:casimir-poly"
+        ],
+        "status_pills": [
+          {
+            "text": "AXIOM",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "1.00",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "AXIOM",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "1.00",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "AXIOM",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "1.00",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "AXIOM",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.92",
+            "class": {},
+            "claimId": null,
+            "statusReason": "axiom",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "UNAVAILABLE",
+            "class": {},
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.90",
+            "class": {},
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "ARGUED",
+            "class": {},
+            "claimId": "weinberg-angle",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.65",
+            "class": {},
+            "claimId": "weinberg-angle",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "EXACT IDENTITY",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "EXACT IDENTITY",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "EXACT IDENTITY",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "EXACT IDENTITY",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "koide-leptons",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "DERIVED",
+            "class": {},
+            "claimId": "topological-weights",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "topological-weights",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "UNAVAILABLE",
+            "class": {},
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.90",
+            "class": {},
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "CONDITIONAL",
+            "class": {},
+            "claimId": "three-generations",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.88",
+            "class": {},
+            "claimId": "three-generations",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "CONDITIONAL",
+            "class": {},
+            "claimId": "god-equation-operator",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.88",
+            "class": {},
+            "claimId": "god-equation-operator",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "CONDITIONAL",
+            "class": {},
+            "claimId": "god-equation-operator",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.88",
+            "class": {},
+            "claimId": "god-equation-operator",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "ARGUED",
+            "class": {},
+            "claimId": "god-equation-scale",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.60",
+            "class": {},
+            "claimId": "god-equation-scale",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "DERIVED",
+            "class": {},
+            "claimId": "gravity-optical",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.95",
+            "class": {},
+            "claimId": "gravity-optical",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "DERIVED",
+            "class": {},
+            "claimId": "bohr-spectrum",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.90",
+            "class": {},
+            "claimId": "bohr-spectrum",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "OPEN",
+            "class": {},
+            "claimId": "alpha-numeric",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "\u2014",
+            "class": {},
+            "claimId": "alpha-numeric",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "ARGUED",
+            "class": {},
+            "claimId": "top-quark-limit",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.85",
+            "class": {},
+            "claimId": "top-quark-limit",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "EMPIRICAL",
+            "class": {},
+            "claimId": "koide-phase",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "0.65",
+            "class": {},
+            "claimId": "koide-phase",
+            "statusReason": null,
+            "tagName": "text",
+            "parentTag": "g",
+            "parentClass": {}
+          },
+          {
+            "text": "ARGUED (0.65)",
+            "class": "detail-confidence confidence-argued",
+            "claimId": "weinberg-angle",
+            "statusReason": null,
+            "tagName": "SPAN",
+            "parentTag": "DIV",
+            "parentClass": "detail-section"
+          },
+          {
+            "text": "UNAVAILABLE",
+            "class": "detail-status",
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "detail-header"
+          },
+          {
+            "text": "0.90",
+            "class": "conf-value",
+            "claimId": null,
+            "statusReason": "intermediate-ui",
+            "tagName": "SPAN",
+            "parentTag": "DIV",
+            "parentClass": "detail-confidence-row"
+          }
+        ],
         "inventory_results": [],
         "js_errors": [],
         "title": "Derivation Chains \u2014 Propagation Framework Explorer",
         "claim_route": true,
-        "authority_binding": [],
+        "authority_binding": [
+          {
+            "pill_text": "AXIOM",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "1.00",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "AXIOM",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "1.00",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "AXIOM",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "1.00",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "AXIOM",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "0.92",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "axiom",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "UNAVAILABLE",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "0.90",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "ARGUED",
+            "pill_class": {},
+            "claim_id": "weinberg-angle",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.65",
+            "pill_class": {},
+            "claim_id": "weinberg-angle",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "pill_confidence": 0.65,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EXACT IDENTITY",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EXACT IDENTITY",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EXACT IDENTITY",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EXACT IDENTITY",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "koide-leptons",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "EXACT IDENTITY",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED",
+            "pill_class": {},
+            "claim_id": "topological-weights",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "topological-weights",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "UNAVAILABLE",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "0.90",
+            "pill_class": {},
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "CONDITIONAL",
+            "pill_class": {},
+            "claim_id": "three-generations",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.88",
+            "pill_class": {},
+            "claim_id": "three-generations",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "CONDITIONAL",
+            "pill_class": {},
+            "claim_id": "god-equation-operator",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.88",
+            "pill_class": {},
+            "claim_id": "god-equation-operator",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "CONDITIONAL",
+            "pill_class": {},
+            "claim_id": "god-equation-operator",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.88",
+            "pill_class": {},
+            "claim_id": "god-equation-operator",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "CONDITIONAL",
+            "auth_confidence": 0.88,
+            "matches_status": true,
+            "pill_confidence": 0.88,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED",
+            "pill_class": {},
+            "claim_id": "god-equation-scale",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.6,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.60",
+            "pill_class": {},
+            "claim_id": "god-equation-scale",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.6,
+            "matches_status": true,
+            "pill_confidence": 0.6,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED",
+            "pill_class": {},
+            "claim_id": "gravity-optical",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.95",
+            "pill_class": {},
+            "claim_id": "gravity-optical",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "pill_confidence": 0.95,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED",
+            "pill_class": {},
+            "claim_id": "bohr-spectrum",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.9,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.90",
+            "pill_class": {},
+            "claim_id": "bohr-spectrum",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.9,
+            "matches_status": true,
+            "pill_confidence": 0.9,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "OPEN",
+            "pill_class": {},
+            "claim_id": "alpha-numeric",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "OPEN",
+            "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "\u2014",
+            "pill_class": {},
+            "claim_id": "alpha-numeric",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "OPEN",
+            "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED",
+            "pill_class": {},
+            "claim_id": "top-quark-limit",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.85,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.85",
+            "pill_class": {},
+            "claim_id": "top-quark-limit",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.85,
+            "matches_status": true,
+            "pill_confidence": 0.85,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "EMPIRICAL",
+            "pill_class": {},
+            "claim_id": "koide-phase",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "EMPIRICAL",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "0.65",
+            "pill_class": {},
+            "claim_id": "koide-phase",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "EMPIRICAL",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "pill_confidence": 0.65,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED (0.65)",
+            "pill_class": "detail-confidence confidence-argued",
+            "claim_id": "weinberg-angle",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "pill_confidence": 0.65,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "UNAVAILABLE",
+            "pill_class": "detail-status",
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          },
+          {
+            "pill_text": "0.90",
+            "pill_class": "conf-value",
+            "claim_id": null,
+            "status_reason": "intermediate-ui",
+            "has_status_word": false,
+            "non_authority": true
+          }
+        ],
         "visual_lib_errors": [],
         "truth_layer_errors": []
       }
@@ -145,6 +1024,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -153,6 +1033,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -161,6 +1042,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -169,6 +1051,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -177,6 +1060,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -185,6 +1069,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -193,6 +1078,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -201,6 +1087,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -209,6 +1096,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -217,6 +1105,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -225,6 +1114,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -233,6 +1123,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -241,6 +1132,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -249,6 +1141,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -257,6 +1150,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -265,6 +1159,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -273,6 +1168,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -281,6 +1177,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -289,6 +1186,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -297,6 +1195,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -305,6 +1204,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -313,6 +1213,7 @@
             "text": "DERIVED 0.95",
             "class": "status-pill derived",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -321,6 +1222,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -329,6 +1231,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -337,6 +1240,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -345,6 +1249,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -353,6 +1258,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -361,6 +1267,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -369,6 +1276,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -377,6 +1285,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection)",
             "class": "status-pill exact-identity",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -385,6 +1294,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -393,6 +1303,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -401,6 +1312,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -409,6 +1321,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -417,6 +1330,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -425,6 +1339,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -433,6 +1348,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -441,6 +1357,7 @@
             "text": "ARGUED 0.65",
             "class": "status-pill argued",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -449,6 +1366,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -457,6 +1375,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -465,6 +1384,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -473,6 +1393,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -481,6 +1402,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -489,6 +1411,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -497,6 +1420,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -505,6 +1429,7 @@
             "text": "DERIVED 0.9",
             "class": "status-pill derived",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -513,6 +1438,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -521,6 +1447,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -529,6 +1456,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -537,6 +1465,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -545,6 +1474,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -553,6 +1483,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -561,6 +1492,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -569,6 +1501,7 @@
             "text": "CONDITIONAL 0.88",
             "class": "status-pill conditional",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -577,6 +1510,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -585,6 +1519,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -593,6 +1528,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -601,6 +1537,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -609,6 +1546,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -617,6 +1555,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -625,6 +1564,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -633,6 +1573,7 @@
             "text": "CONDITIONAL 0.88",
             "class": "status-pill conditional",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -641,6 +1582,7 @@
             "text": "ARGUED 0.6",
             "class": "status-badge argued",
             "claimId": "god-equation-scale",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "STRONG",
             "parentClass": ""
@@ -649,6 +1591,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -657,6 +1600,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -665,6 +1609,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -673,6 +1618,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -681,6 +1627,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -689,6 +1636,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -697,6 +1645,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn is-active"
@@ -705,6 +1654,7 @@
             "text": "INTUITION 0.48",
             "class": "status-pill intuition",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -713,6 +1663,7 @@
             "text": "INTUITION",
             "class": "result-card-status intuition",
             "claimId": "consciousness",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card-head"
@@ -721,6 +1672,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "aria-self-reference",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card-head"
@@ -729,6 +1681,7 @@
             "text": "INTUITION 0.48",
             "class": "status-badge intuition",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "P",
             "parentClass": ""
@@ -737,6 +1690,7 @@
             "text": "ARGUED 0.75",
             "class": "status-badge argued",
             "claimId": "aria-self-reference",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "P",
             "parentClass": ""
@@ -745,6 +1699,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -753,6 +1708,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -761,6 +1717,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -769,6 +1726,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -777,6 +1735,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -785,6 +1744,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -793,6 +1753,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -801,6 +1762,7 @@
             "text": "CANONICAL v1.0 \u2014 passed Codex final audit 2026-04-28",
             "class": "status-pill status-derived",
             "claimId": "medium",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "panel-header"
@@ -809,6 +1771,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -817,6 +1780,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -825,6 +1789,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -833,6 +1798,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -841,6 +1807,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -849,6 +1816,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -857,6 +1825,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -865,6 +1834,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -873,6 +1843,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -881,6 +1852,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -889,6 +1861,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -897,6 +1870,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -905,6 +1879,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -913,6 +1888,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -921,6 +1897,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -929,6 +1906,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -937,6 +1915,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -945,6 +1924,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -953,6 +1933,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -961,6 +1942,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -969,6 +1951,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -977,6 +1960,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -985,6 +1969,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -993,6 +1978,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1001,6 +1987,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1009,6 +1996,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1017,6 +2005,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1025,6 +2014,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1033,6 +2023,7 @@
             "text": "DERIVED 0.95 \u00b7 light bending",
             "class": "ws-btn-note",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1041,6 +2032,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "class": "ws-btn-note",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1049,6 +2041,7 @@
             "text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "class": "ws-btn-note",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1057,6 +2050,7 @@
             "text": "DERIVED 0.9 \u00b7 phase closure",
             "class": "ws-btn-note",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1065,6 +2059,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "class": "ws-btn-note",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1073,6 +2068,7 @@
             "text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "class": "ws-btn-note",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1081,6 +2077,7 @@
             "text": "INTUITION 0.48 \u00b7 hypothesis",
             "class": "ws-btn-note",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "BUTTON",
             "parentClass": "ws-btn"
@@ -1089,6 +2086,7 @@
             "text": "OPEN",
             "class": "eb-status-pill status-open",
             "claimId": "alpha-numeric",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1097,6 +2095,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "alpha-structural",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1105,6 +2104,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "aria-self-reference",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1113,6 +2113,7 @@
             "text": "INTUITION",
             "class": "eb-status-pill status-intuition",
             "claimId": "beauty-impedance",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1121,6 +2122,7 @@
             "text": "DERIVED",
             "class": "eb-status-pill status-derived",
             "claimId": "bohr-spectrum",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1129,6 +2131,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "coherence-ceiling",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1137,6 +2140,7 @@
             "text": "INTUITION",
             "class": "eb-status-pill status-intuition",
             "claimId": "consciousness-claim",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1145,6 +2149,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "d3-symmetric-ji",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1153,6 +2158,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "d3-unique-stable",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1161,6 +2167,7 @@
             "text": "STANDARD MATH",
             "class": "eb-status-pill status-standard-math",
             "claimId": "d4-gap-not-ji",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1169,6 +2176,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "degenerate-residue-circulant",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1177,6 +2185,7 @@
             "text": "EMPIRICAL",
             "class": "eb-status-pill status-empirical",
             "claimId": "electron-up-phi",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1185,6 +2194,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "god-equation-operator",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1193,6 +2203,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "god-equation-scale",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1201,6 +2212,7 @@
             "text": "DERIVED",
             "class": "eb-status-pill status-derived",
             "claimId": "gravity-optical",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1209,6 +2221,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "isometry-ji-incompatibility",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1217,6 +2230,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "isometry-reversibility",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1225,6 +2239,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "koide-entropy",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1233,6 +2248,7 @@
             "text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection)",
             "class": "eb-status-pill status-exact-identity 0.95 (geometry) / open (physical vacuum selection)",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1241,6 +2257,7 @@
             "text": "EMPIRICAL",
             "class": "eb-status-pill status-empirical",
             "claimId": "koide-phase",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1249,6 +2266,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "koide-u3-maximization",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1257,6 +2275,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "life-coherence",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1265,6 +2284,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "n3-cp-violation",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1273,6 +2293,7 @@
             "text": "EMPIRICAL",
             "class": "eb-status-pill status-empirical",
             "claimId": "neutrino-koide",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1281,6 +2302,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "pfentropy-decreases",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1289,6 +2311,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "propagation-lagrangian",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1297,6 +2320,7 @@
             "text": "STANDARD MATH",
             "class": "eb-status-pill status-standard-math",
             "claimId": "pythagorean-decomposition",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1305,6 +2329,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "qcd-confinement",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1313,6 +2338,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "sleep-constant",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1321,6 +2347,7 @@
             "text": "CONDITIONAL",
             "class": "eb-status-pill status-conditional",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1329,6 +2356,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "top-quark-limit",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1337,6 +2365,7 @@
             "text": "EMPIRICAL",
             "class": "eb-status-pill status-empirical",
             "claimId": "top-tau-coupling",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1345,6 +2374,7 @@
             "text": "DERIVED 0.95 (kernel-only topological obstruction) / CONDITIONAL 0.85 (physical realization)",
             "class": "eb-status-pill status-derived-0.95 (kernel-only topological obstruction) / conditional 0.85 (physical realization)",
             "claimId": "topological-weights",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1353,6 +2383,7 @@
             "text": "INTUITION",
             "class": "eb-status-pill status-intuition",
             "claimId": "two-thirds-efficiency",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1361,6 +2392,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "variable-c",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1369,6 +2401,7 @@
             "text": "ARGUED",
             "class": "eb-status-pill status-argued",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "eb-card-head"
@@ -1574,6 +2607,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1585,6 +2619,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1596,6 +2631,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1607,6 +2643,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -1618,6 +2655,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1629,6 +2667,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1640,6 +2679,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -1651,6 +2691,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1662,6 +2703,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1673,6 +2715,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1684,6 +2727,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -1695,6 +2739,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1706,6 +2751,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1717,6 +2763,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -1728,6 +2775,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1739,6 +2787,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1750,6 +2799,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1761,6 +2811,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -1772,6 +2823,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1783,6 +2835,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1794,6 +2847,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -1805,6 +2859,7 @@
             "pill_text": "DERIVED 0.95",
             "pill_class": "status-pill derived",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1816,6 +2871,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1827,6 +2883,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1838,6 +2895,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1849,6 +2907,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -1860,6 +2919,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1871,6 +2931,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1882,6 +2943,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -1893,6 +2955,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection)",
             "pill_class": "status-pill exact-identity",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1904,6 +2967,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -1915,6 +2979,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -1926,6 +2991,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1937,6 +3003,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -1948,6 +3015,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1959,6 +3027,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -1970,6 +3039,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -1981,6 +3051,7 @@
             "pill_text": "ARGUED 0.65",
             "pill_class": "status-pill argued",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -1992,6 +3063,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2003,6 +3075,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2014,6 +3087,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2025,6 +3099,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2036,6 +3111,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2047,6 +3123,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2058,6 +3135,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2069,6 +3147,7 @@
             "pill_text": "DERIVED 0.9",
             "pill_class": "status-pill derived",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2080,6 +3159,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2091,6 +3171,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2102,6 +3183,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2113,6 +3195,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2124,6 +3207,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2135,6 +3219,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2146,6 +3231,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2157,6 +3243,7 @@
             "pill_text": "CONDITIONAL 0.88",
             "pill_class": "status-pill conditional",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2168,6 +3255,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2179,6 +3267,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2190,6 +3279,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2201,6 +3291,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2212,6 +3303,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2223,6 +3315,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2234,6 +3327,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2245,6 +3339,7 @@
             "pill_text": "CONDITIONAL 0.88",
             "pill_class": "status-pill conditional",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2256,6 +3351,7 @@
             "pill_text": "ARGUED 0.6",
             "pill_class": "status-badge argued",
             "claim_id": "god-equation-scale",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.6,
@@ -2267,6 +3363,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2278,6 +3375,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2289,6 +3387,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2300,6 +3399,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2311,6 +3411,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2322,6 +3423,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2333,6 +3435,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2344,6 +3447,7 @@
             "pill_text": "INTUITION 0.48",
             "pill_class": "status-pill intuition",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2355,6 +3459,7 @@
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
             "claim_id": "consciousness",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CANDIDATE \u2014 INTUITION 0.48 \u2014 NOT CANONICAL",
             "auth_confidence": null,
@@ -2365,6 +3470,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "aria-self-reference",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -2375,6 +3481,7 @@
             "pill_text": "INTUITION 0.48",
             "pill_class": "status-badge intuition",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2386,6 +3493,7 @@
             "pill_text": "ARGUED 0.75",
             "pill_class": "status-badge argued",
             "claim_id": "aria-self-reference",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -2397,6 +3505,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2408,6 +3517,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2419,6 +3529,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2430,6 +3541,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2441,6 +3553,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2452,6 +3565,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2463,6 +3577,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2474,6 +3589,7 @@
             "pill_text": "CANONICAL v1.0 \u2014 passed Codex final audit 2026-04-28",
             "pill_class": "status-pill status-derived",
             "claim_id": "medium",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CANONICAL v1.0 \u2014 passed Codex final audit 2026-04-28",
             "auth_confidence": null,
@@ -2484,6 +3600,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2495,6 +3612,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2506,6 +3624,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2517,6 +3636,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2528,6 +3648,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2539,6 +3660,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2550,6 +3672,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2561,6 +3684,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2572,6 +3696,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2583,6 +3708,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2594,6 +3720,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2605,6 +3732,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2616,6 +3744,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2627,6 +3756,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2638,6 +3768,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2649,6 +3780,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2660,6 +3792,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2671,6 +3804,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2682,6 +3816,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2693,6 +3828,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2704,6 +3840,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2715,6 +3852,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2726,6 +3864,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2737,6 +3876,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2748,6 +3888,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2759,6 +3900,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2770,6 +3912,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2781,6 +3924,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2792,6 +3936,7 @@
             "pill_text": "DERIVED 0.95 \u00b7 light bending",
             "pill_class": "ws-btn-note",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -2803,6 +3948,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection) \u00b7 3 leptons",
             "pill_class": "ws-btn-note",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -2814,6 +3960,7 @@
             "pill_text": "ARGUED 0.65 \u00b7 sin\u00b2\u03b8_W",
             "pill_class": "ws-btn-note",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -2825,6 +3972,7 @@
             "pill_text": "DERIVED 0.9 \u00b7 phase closure",
             "pill_class": "ws-btn-note",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2836,6 +3984,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 why 3?",
             "pill_class": "ws-btn-note",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2847,6 +3996,7 @@
             "pill_text": "CONDITIONAL 0.88 \u00b7 \u03bb_c",
             "pill_class": "ws-btn-note",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2858,6 +4008,7 @@
             "pill_text": "INTUITION 0.48 \u00b7 hypothesis",
             "pill_class": "ws-btn-note",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2869,6 +4020,7 @@
             "pill_text": "OPEN",
             "pill_class": "eb-status-pill status-open",
             "claim_id": "alpha-numeric",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "OPEN",
             "auth_confidence": null,
@@ -2879,6 +4031,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "alpha-structural",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.6,
@@ -2889,6 +4042,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "aria-self-reference",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -2899,6 +4053,7 @@
             "pill_text": "INTUITION",
             "pill_class": "eb-status-pill status-intuition",
             "claim_id": "beauty-impedance",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.55,
@@ -2909,6 +4064,7 @@
             "pill_text": "DERIVED",
             "pill_class": "eb-status-pill status-derived",
             "claim_id": "bohr-spectrum",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -2919,6 +4075,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "coherence-ceiling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.8,
@@ -2929,6 +4086,7 @@
             "pill_text": "INTUITION",
             "pill_class": "eb-status-pill status-intuition",
             "claim_id": "consciousness-claim",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.48,
@@ -2939,6 +4097,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "d3-symmetric-ji",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -2949,6 +4108,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "d3-unique-stable",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -2959,6 +4119,7 @@
             "pill_text": "STANDARD MATH",
             "pill_class": "eb-status-pill status-standard-math",
             "claim_id": "d4-gap-not-ji",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "STANDARD MATH",
             "auth_confidence": 0.85,
@@ -2969,6 +4130,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "degenerate-residue-circulant",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -2979,6 +4141,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "eb-status-pill status-empirical",
             "claim_id": "electron-up-phi",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -2989,6 +4152,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "god-equation-operator",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -2999,6 +4163,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "god-equation-scale",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.6,
@@ -3009,6 +4174,7 @@
             "pill_text": "DERIVED",
             "pill_class": "eb-status-pill status-derived",
             "claim_id": "gravity-optical",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -3019,6 +4185,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "isometry-ji-incompatibility",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -3029,6 +4196,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "isometry-reversibility",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -3039,6 +4207,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "koide-entropy",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3049,6 +4218,7 @@
             "pill_text": "EXACT IDENTITY 0.95 (geometry) / OPEN (physical vacuum selection)",
             "pill_class": "eb-status-pill status-exact-identity 0.95 (geometry) / open (physical vacuum selection)",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -3060,6 +4230,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "eb-status-pill status-empirical",
             "claim_id": "koide-phase",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -3070,6 +4241,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "koide-u3-maximization",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -3080,6 +4252,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "life-coherence",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3090,6 +4263,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "n3-cp-violation",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.7,
@@ -3100,6 +4274,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "eb-status-pill status-empirical",
             "claim_id": "neutrino-koide",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.95,
@@ -3110,6 +4285,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "pfentropy-decreases",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.85,
@@ -3120,6 +4296,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "propagation-lagrangian",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.72,
@@ -3130,6 +4307,7 @@
             "pill_text": "STANDARD MATH",
             "pill_class": "eb-status-pill status-standard-math",
             "claim_id": "pythagorean-decomposition",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "STANDARD MATH",
             "auth_confidence": 0.95,
@@ -3140,6 +4318,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "qcd-confinement",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3150,6 +4329,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "sleep-constant",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3160,6 +4340,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "eb-status-pill status-conditional",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -3170,6 +4351,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "top-quark-limit",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.85,
@@ -3180,6 +4362,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "eb-status-pill status-empirical",
             "claim_id": "top-tau-coupling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.9,
@@ -3190,6 +4373,7 @@
             "pill_text": "DERIVED 0.95 (kernel-only topological obstruction) / CONDITIONAL 0.85 (physical realization)",
             "pill_class": "eb-status-pill status-derived-0.95 (kernel-only topological obstruction) / conditional 0.85 (physical realization)",
             "claim_id": "topological-weights",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -3201,6 +4385,7 @@
             "pill_text": "INTUITION",
             "pill_class": "eb-status-pill status-intuition",
             "claim_id": "two-thirds-efficiency",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.5,
@@ -3211,6 +4396,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "variable-c",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -3221,6 +4407,7 @@
             "pill_text": "ARGUED",
             "pill_class": "eb-status-pill status-argued",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -3243,7 +4430,17 @@
           {
             "text": "DERIVED",
             "class": "result-card-status derived",
-            "claimId": "gravity-optical",
+            "claimId": "forces-refraction",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-derived"
+          },
+          {
+            "text": "DERIVED",
+            "class": "result-card-status derived",
+            "claimId": "weights-21",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -3251,31 +4448,8 @@
           {
             "text": "EXACT IDENTITY",
             "class": "result-card-status derived",
-            "claimId": "koide-leptons",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-derived"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "neutrino-koide",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "STANDARD MATH",
-            "class": "result-card-status standard-math",
-            "claimId": "pythagorean-decomposition",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-standard-math"
-          },
-          {
-            "text": "DERIVED",
-            "class": "result-card-status derived",
-            "claimId": "topological-weights",
+            "claimId": "koide-law",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -3283,7 +4457,8 @@
           {
             "text": "DERIVED",
             "class": "result-card-status derived",
-            "claimId": "bohr-spectrum",
+            "claimId": "bohr-quantization",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -3292,6 +4467,7 @@
             "text": "EMPIRICAL",
             "class": "result-card-status empirical",
             "claimId": "top-tau-coupling",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-empirical"
@@ -3299,15 +4475,8 @@
           {
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
-            "claimId": "god-equation-operator",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -3315,55 +4484,8 @@
           {
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
-            "claimId": "d3-symmetric-ji",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "d3-unique-stable",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "STANDARD MATH",
-            "class": "result-card-status standard-math",
-            "claimId": "d4-gap-not-ji",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-standard-math"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "degenerate-residue-circulant",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "isometry-ji-incompatibility",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "isometry-reversibility",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "pfentropy-decreases",
+            "claimId": "god-equation",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -3372,6 +4494,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "top-quark-limit",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3380,6 +4503,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "coherence-ceiling",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3388,6 +4512,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "aria-self-reference",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3395,23 +4520,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "koide-u3-maximization",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "koide-entropy",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "life-coherence",
+            "claimId": "qcd-confinement",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3420,6 +4530,7 @@
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
             "claimId": "propagation-lagrangian",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -3427,7 +4538,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "qcd-confinement",
+            "claimId": "sleep-8h",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3435,39 +4547,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "sleep-constant",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "n3-cp-violation",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "electron-up-phi",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "koide-phase",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "variable-c",
+            "claimId": "life-coherence",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3476,6 +4557,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -3483,23 +4565,35 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "alpha-structural",
+            "claimId": "variable-c",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
           },
           {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "god-equation-scale",
+            "text": "EMPIRICAL",
+            "class": "result-card-status empirical",
+            "claimId": "phi3-ratio",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
+            "parentClass": "result-card status-empirical"
+          },
+          {
+            "text": "EMPIRICAL",
+            "class": "result-card-status empirical",
+            "claimId": "koide-phase",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-empirical"
           },
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
             "claimId": "beauty-impedance",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -3507,7 +4601,8 @@
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
-            "claimId": "two-thirds-efficiency",
+            "claimId": "efficiency-ratio",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -3515,7 +4610,8 @@
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
-            "claimId": "consciousness-claim",
+            "claimId": "consciousness",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -3523,7 +4619,35 @@
           {
             "text": "OPEN",
             "class": "result-card-status open",
-            "claimId": "alpha-numeric",
+            "claimId": "fine-structure-alpha",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-open"
+          },
+          {
+            "text": "UNSYNCED",
+            "class": "result-card-status unsynced",
+            "claimId": "bekenstein-bound",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-unsynced"
+          },
+          {
+            "text": "NO-GO",
+            "class": "result-card-status open",
+            "claimId": "nogo-harmonic-series",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-open"
+          },
+          {
+            "text": "NO-GO",
+            "class": "result-card-status open",
+            "claimId": "nogo-single-scalar",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-open"
@@ -3564,27 +4688,27 @@
             "ok": true,
             "observed": [
               {
-                "claimId": "gravity-optical",
+                "claimId": "forces-refraction",
                 "text": "DERIVED"
               },
               {
-                "claimId": "koide-leptons",
+                "claimId": "weights-21",
+                "text": "DERIVED"
+              },
+              {
+                "claimId": "koide-law",
                 "text": "EXACT IDENTITY"
               },
               {
-                "claimId": "neutrino-koide",
-                "text": "EMPIRICAL"
-              },
-              {
-                "claimId": "pythagorean-decomposition",
-                "text": "STANDARD MATH"
-              },
-              {
-                "claimId": "topological-weights",
+                "claimId": "bohr-quantization",
                 "text": "DERIVED"
+              },
+              {
+                "claimId": "top-tau-coupling",
+                "text": "EMPIRICAL"
               }
             ],
-            "observed_count": 36
+            "observed_count": 25
           }
         ],
         "js_errors": [],
@@ -3594,7 +4718,19 @@
           {
             "pill_text": "DERIVED",
             "pill_class": "result-card-status derived",
-            "claim_id": "gravity-optical",
+            "claim_id": "forces-refraction",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED",
+            "pill_class": "result-card-status derived",
+            "claim_id": "weights-21",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -3604,7 +4740,8 @@
           {
             "pill_text": "EXACT IDENTITY",
             "pill_class": "result-card-status derived",
-            "claim_id": "koide-leptons",
+            "claim_id": "koide-law",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -3612,39 +4749,10 @@
             "matches_confidence": true
           },
           {
-            "pill_text": "EMPIRICAL",
-            "pill_class": "result-card-status empirical",
-            "claim_id": "neutrino-koide",
-            "has_status_word": true,
-            "auth_status": "EMPIRICAL",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "STANDARD MATH",
-            "pill_class": "result-card-status standard-math",
-            "claim_id": "pythagorean-decomposition",
-            "has_status_word": true,
-            "auth_status": "STANDARD MATH",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
             "pill_text": "DERIVED",
             "pill_class": "result-card-status derived",
-            "claim_id": "topological-weights",
-            "has_status_word": true,
-            "auth_status": "DERIVED",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "DERIVED",
-            "pill_class": "result-card-status derived",
-            "claim_id": "bohr-spectrum",
+            "claim_id": "bohr-quantization",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -3655,6 +4763,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
             "claim_id": "top-tau-coupling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.9,
@@ -3664,17 +4773,8 @@
           {
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
-            "claim_id": "god-equation-operator",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.88,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -3684,70 +4784,11 @@
           {
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
-            "claim_id": "d3-symmetric-ji",
+            "claim_id": "god-equation",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "d3-unique-stable",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "STANDARD MATH",
-            "pill_class": "result-card-status standard-math",
-            "claim_id": "d4-gap-not-ji",
-            "has_status_word": true,
-            "auth_status": "STANDARD MATH",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "degenerate-residue-circulant",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "isometry-ji-incompatibility",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "isometry-reversibility",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "pfentropy-decreases",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
+            "auth_confidence": 0.88,
             "matches_status": true,
             "matches_confidence": true
           },
@@ -3755,6 +4796,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "top-quark-limit",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.85,
@@ -3765,6 +4807,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "coherence-ceiling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.8,
@@ -3775,6 +4818,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "aria-self-reference",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -3784,27 +4828,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "koide-u3-maximization",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.75,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "koide-entropy",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.72,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "life-coherence",
+            "claim_id": "qcd-confinement",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3815,6 +4840,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
             "claim_id": "propagation-lagrangian",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.72,
@@ -3824,7 +4850,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "qcd-confinement",
+            "claim_id": "sleep-8h",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3834,7 +4861,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "sleep-constant",
+            "claim_id": "life-coherence",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -3844,17 +4872,30 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "n3-cp-violation",
+            "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
-            "auth_confidence": 0.7,
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED",
+            "pill_class": "result-card-status argued",
+            "claim_id": "variable-c",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
             "matches_status": true,
             "matches_confidence": true
           },
           {
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
-            "claim_id": "electron-up-phi",
+            "claim_id": "phi3-ratio",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -3865,6 +4906,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
             "claim_id": "koide-phase",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -3872,49 +4914,10 @@
             "matches_confidence": true
           },
           {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "variable-c",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.65,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "weinberg-angle",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.65,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "alpha-structural",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.6,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "god-equation-scale",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.6,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
             "claim_id": "beauty-impedance",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.55,
@@ -3924,7 +4927,8 @@
           {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
-            "claim_id": "two-thirds-efficiency",
+            "claim_id": "efficiency-ratio",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.5,
@@ -3934,20 +4938,55 @@
           {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
-            "claim_id": "consciousness-claim",
+            "claim_id": "consciousness",
+            "status_reason": null,
             "has_status_word": true,
-            "auth_status": "INTUITION",
-            "auth_confidence": 0.48,
+            "auth_status": "CANDIDATE \u2014 INTUITION 0.48 \u2014 NOT CANONICAL",
+            "auth_confidence": null,
             "matches_status": true,
             "matches_confidence": true
           },
           {
             "pill_text": "OPEN",
             "pill_class": "result-card-status open",
-            "claim_id": "alpha-numeric",
+            "claim_id": "fine-structure-alpha",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "OPEN",
             "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "UNSYNCED",
+            "pill_class": "result-card-status unsynced",
+            "claim_id": "bekenstein-bound",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "UNSYNCED",
+            "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "NO-GO",
+            "pill_class": "result-card-status open",
+            "claim_id": "nogo-harmonic-series",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "NO-GO",
+            "auth_confidence": 0.0,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "NO-GO",
+            "pill_class": "result-card-status open",
+            "claim_id": "nogo-single-scalar",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "NO-GO",
+            "auth_confidence": 0.0,
             "matches_status": true,
             "matches_confidence": true
           }
@@ -3967,7 +5006,17 @@
           {
             "text": "DERIVED",
             "class": "result-card-status derived",
-            "claimId": "gravity-optical",
+            "claimId": "forces-refraction",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-derived"
+          },
+          {
+            "text": "DERIVED",
+            "class": "result-card-status derived",
+            "claimId": "weights-21",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -3975,31 +5024,8 @@
           {
             "text": "EXACT IDENTITY",
             "class": "result-card-status derived",
-            "claimId": "koide-leptons",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-derived"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "neutrino-koide",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "STANDARD MATH",
-            "class": "result-card-status standard-math",
-            "claimId": "pythagorean-decomposition",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-standard-math"
-          },
-          {
-            "text": "DERIVED",
-            "class": "result-card-status derived",
-            "claimId": "topological-weights",
+            "claimId": "koide-law",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -4007,7 +5033,8 @@
           {
             "text": "DERIVED",
             "class": "result-card-status derived",
-            "claimId": "bohr-spectrum",
+            "claimId": "bohr-quantization",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-derived"
@@ -4016,6 +5043,7 @@
             "text": "EMPIRICAL",
             "class": "result-card-status empirical",
             "claimId": "top-tau-coupling",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-empirical"
@@ -4023,15 +5051,8 @@
           {
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
-            "claimId": "god-equation-operator",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -4039,55 +5060,8 @@
           {
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
-            "claimId": "d3-symmetric-ji",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "d3-unique-stable",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "STANDARD MATH",
-            "class": "result-card-status standard-math",
-            "claimId": "d4-gap-not-ji",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-standard-math"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "degenerate-residue-circulant",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "isometry-ji-incompatibility",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "isometry-reversibility",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-conditional"
-          },
-          {
-            "text": "CONDITIONAL",
-            "class": "result-card-status conditional",
-            "claimId": "pfentropy-decreases",
+            "claimId": "god-equation",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -4096,6 +5070,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "top-quark-limit",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4104,6 +5079,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "coherence-ceiling",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4112,6 +5088,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "aria-self-reference",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4119,23 +5096,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "koide-u3-maximization",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "koide-entropy",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "life-coherence",
+            "claimId": "qcd-confinement",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4144,6 +5106,7 @@
             "text": "CONDITIONAL",
             "class": "result-card-status conditional",
             "claimId": "propagation-lagrangian",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-conditional"
@@ -4151,7 +5114,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "qcd-confinement",
+            "claimId": "sleep-8h",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4159,39 +5123,8 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "sleep-constant",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "n3-cp-violation",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "electron-up-phi",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "EMPIRICAL",
-            "class": "result-card-status empirical",
-            "claimId": "koide-phase",
-            "tagName": "DIV",
-            "parentTag": "DIV",
-            "parentClass": "result-card status-empirical"
-          },
-          {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "variable-c",
+            "claimId": "life-coherence",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4200,6 +5133,7 @@
             "text": "ARGUED",
             "class": "result-card-status argued",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
@@ -4207,23 +5141,35 @@
           {
             "text": "ARGUED",
             "class": "result-card-status argued",
-            "claimId": "alpha-structural",
+            "claimId": "variable-c",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-argued"
           },
           {
-            "text": "ARGUED",
-            "class": "result-card-status argued",
-            "claimId": "god-equation-scale",
+            "text": "EMPIRICAL",
+            "class": "result-card-status empirical",
+            "claimId": "phi3-ratio",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
-            "parentClass": "result-card status-argued"
+            "parentClass": "result-card status-empirical"
+          },
+          {
+            "text": "EMPIRICAL",
+            "class": "result-card-status empirical",
+            "claimId": "koide-phase",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-empirical"
           },
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
             "claimId": "beauty-impedance",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -4231,7 +5177,8 @@
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
-            "claimId": "two-thirds-efficiency",
+            "claimId": "efficiency-ratio",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -4239,7 +5186,8 @@
           {
             "text": "INTUITION",
             "class": "result-card-status intuition",
-            "claimId": "consciousness-claim",
+            "claimId": "consciousness",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-intuition"
@@ -4247,7 +5195,35 @@
           {
             "text": "OPEN",
             "class": "result-card-status open",
-            "claimId": "alpha-numeric",
+            "claimId": "fine-structure-alpha",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-open"
+          },
+          {
+            "text": "UNSYNCED",
+            "class": "result-card-status unsynced",
+            "claimId": "bekenstein-bound",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-unsynced"
+          },
+          {
+            "text": "NO-GO",
+            "class": "result-card-status open",
+            "claimId": "nogo-harmonic-series",
+            "statusReason": null,
+            "tagName": "DIV",
+            "parentTag": "DIV",
+            "parentClass": "result-card status-open"
+          },
+          {
+            "text": "NO-GO",
+            "class": "result-card-status open",
+            "claimId": "nogo-single-scalar",
+            "statusReason": null,
             "tagName": "DIV",
             "parentTag": "DIV",
             "parentClass": "result-card status-open"
@@ -4288,27 +5264,27 @@
             "ok": true,
             "observed": [
               {
-                "claimId": "gravity-optical",
+                "claimId": "forces-refraction",
                 "text": "DERIVED"
               },
               {
-                "claimId": "koide-leptons",
+                "claimId": "weights-21",
+                "text": "DERIVED"
+              },
+              {
+                "claimId": "koide-law",
                 "text": "EXACT IDENTITY"
               },
               {
-                "claimId": "neutrino-koide",
-                "text": "EMPIRICAL"
-              },
-              {
-                "claimId": "pythagorean-decomposition",
-                "text": "STANDARD MATH"
-              },
-              {
-                "claimId": "topological-weights",
+                "claimId": "bohr-quantization",
                 "text": "DERIVED"
+              },
+              {
+                "claimId": "top-tau-coupling",
+                "text": "EMPIRICAL"
               }
             ],
-            "observed_count": 36
+            "observed_count": 25
           }
         ],
         "js_errors": [],
@@ -4318,7 +5294,19 @@
           {
             "pill_text": "DERIVED",
             "pill_class": "result-card-status derived",
-            "claim_id": "gravity-optical",
+            "claim_id": "forces-refraction",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "DERIVED",
+            "auth_confidence": 0.95,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "DERIVED",
+            "pill_class": "result-card-status derived",
+            "claim_id": "weights-21",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -4328,7 +5316,8 @@
           {
             "pill_text": "EXACT IDENTITY",
             "pill_class": "result-card-status derived",
-            "claim_id": "koide-leptons",
+            "claim_id": "koide-law",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -4336,39 +5325,10 @@
             "matches_confidence": true
           },
           {
-            "pill_text": "EMPIRICAL",
-            "pill_class": "result-card-status empirical",
-            "claim_id": "neutrino-koide",
-            "has_status_word": true,
-            "auth_status": "EMPIRICAL",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "STANDARD MATH",
-            "pill_class": "result-card-status standard-math",
-            "claim_id": "pythagorean-decomposition",
-            "has_status_word": true,
-            "auth_status": "STANDARD MATH",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
             "pill_text": "DERIVED",
             "pill_class": "result-card-status derived",
-            "claim_id": "topological-weights",
-            "has_status_word": true,
-            "auth_status": "DERIVED",
-            "auth_confidence": 0.95,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "DERIVED",
-            "pill_class": "result-card-status derived",
-            "claim_id": "bohr-spectrum",
+            "claim_id": "bohr-quantization",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.9,
@@ -4379,6 +5339,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
             "claim_id": "top-tau-coupling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.9,
@@ -4388,17 +5349,8 @@
           {
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
-            "claim_id": "god-equation-operator",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.88,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -4408,70 +5360,11 @@
           {
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
-            "claim_id": "d3-symmetric-ji",
+            "claim_id": "god-equation",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "d3-unique-stable",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "STANDARD MATH",
-            "pill_class": "result-card-status standard-math",
-            "claim_id": "d4-gap-not-ji",
-            "has_status_word": true,
-            "auth_status": "STANDARD MATH",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "degenerate-residue-circulant",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "isometry-ji-incompatibility",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "isometry-reversibility",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "CONDITIONAL",
-            "pill_class": "result-card-status conditional",
-            "claim_id": "pfentropy-decreases",
-            "has_status_word": true,
-            "auth_status": "CONDITIONAL",
-            "auth_confidence": 0.85,
+            "auth_confidence": 0.88,
             "matches_status": true,
             "matches_confidence": true
           },
@@ -4479,6 +5372,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "top-quark-limit",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.85,
@@ -4489,6 +5383,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "coherence-ceiling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.8,
@@ -4499,6 +5394,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
             "claim_id": "aria-self-reference",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.75,
@@ -4508,27 +5404,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "koide-u3-maximization",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.75,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "koide-entropy",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.72,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "life-coherence",
+            "claim_id": "qcd-confinement",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -4539,6 +5416,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "result-card-status conditional",
             "claim_id": "propagation-lagrangian",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.72,
@@ -4548,7 +5426,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "qcd-confinement",
+            "claim_id": "sleep-8h",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -4558,7 +5437,8 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "sleep-constant",
+            "claim_id": "life-coherence",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.72,
@@ -4568,17 +5448,30 @@
           {
             "pill_text": "ARGUED",
             "pill_class": "result-card-status argued",
-            "claim_id": "n3-cp-violation",
+            "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
-            "auth_confidence": 0.7,
+            "auth_confidence": 0.65,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "ARGUED",
+            "pill_class": "result-card-status argued",
+            "claim_id": "variable-c",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "ARGUED",
+            "auth_confidence": 0.65,
             "matches_status": true,
             "matches_confidence": true
           },
           {
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
-            "claim_id": "electron-up-phi",
+            "claim_id": "phi3-ratio",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -4589,6 +5482,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-card-status empirical",
             "claim_id": "koide-phase",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -4596,49 +5490,10 @@
             "matches_confidence": true
           },
           {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "variable-c",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.65,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "weinberg-angle",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.65,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "alpha-structural",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.6,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
-            "pill_text": "ARGUED",
-            "pill_class": "result-card-status argued",
-            "claim_id": "god-equation-scale",
-            "has_status_word": true,
-            "auth_status": "ARGUED",
-            "auth_confidence": 0.6,
-            "matches_status": true,
-            "matches_confidence": true
-          },
-          {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
             "claim_id": "beauty-impedance",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.55,
@@ -4648,7 +5503,8 @@
           {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
-            "claim_id": "two-thirds-efficiency",
+            "claim_id": "efficiency-ratio",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "INTUITION",
             "auth_confidence": 0.5,
@@ -4658,20 +5514,55 @@
           {
             "pill_text": "INTUITION",
             "pill_class": "result-card-status intuition",
-            "claim_id": "consciousness-claim",
+            "claim_id": "consciousness",
+            "status_reason": null,
             "has_status_word": true,
-            "auth_status": "INTUITION",
-            "auth_confidence": 0.48,
+            "auth_status": "CANDIDATE \u2014 INTUITION 0.48 \u2014 NOT CANONICAL",
+            "auth_confidence": null,
             "matches_status": true,
             "matches_confidence": true
           },
           {
             "pill_text": "OPEN",
             "pill_class": "result-card-status open",
-            "claim_id": "alpha-numeric",
+            "claim_id": "fine-structure-alpha",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "OPEN",
             "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "UNSYNCED",
+            "pill_class": "result-card-status unsynced",
+            "claim_id": "bekenstein-bound",
+            "status_reason": null,
+            "has_status_word": false,
+            "auth_status": "UNSYNCED",
+            "auth_confidence": null,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "NO-GO",
+            "pill_class": "result-card-status open",
+            "claim_id": "nogo-harmonic-series",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "NO-GO",
+            "auth_confidence": 0.0,
+            "matches_status": true,
+            "matches_confidence": true
+          },
+          {
+            "pill_text": "NO-GO",
+            "pill_class": "result-card-status open",
+            "claim_id": "nogo-single-scalar",
+            "status_reason": null,
+            "has_status_word": true,
+            "auth_status": "NO-GO",
+            "auth_confidence": 0.0,
             "matches_status": true,
             "matches_confidence": true
           }
@@ -4742,6 +5633,7 @@
             "text": "DERIVED",
             "class": "result-status derived",
             "claimId": "topological-weights",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4750,6 +5642,7 @@
             "text": "EXACT IDENTITY",
             "class": "result-status exact-identity",
             "claimId": "koide-leptons",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4758,6 +5651,7 @@
             "text": "CONDITIONAL",
             "class": "result-status conditional",
             "claimId": "three-generations",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4766,6 +5660,7 @@
             "text": "ARGUED",
             "class": "result-status argued",
             "claimId": "top-quark-limit",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4774,6 +5669,7 @@
             "text": "EMPIRICAL",
             "class": "result-status empirical",
             "claimId": "top-tau-coupling",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4782,6 +5678,7 @@
             "text": "ARGUED",
             "class": "result-status argued",
             "claimId": "coherence-ceiling",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4790,6 +5687,7 @@
             "text": "ARGUED",
             "class": "result-status argued",
             "claimId": "weinberg-angle",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4798,6 +5696,7 @@
             "text": "OPEN",
             "class": "result-status open",
             "claimId": "alpha-numeric",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4806,6 +5705,7 @@
             "text": "EMPIRICAL",
             "class": "result-status empirical",
             "claimId": "koide-phase",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4814,6 +5714,7 @@
             "text": "NO-GO",
             "class": "result-status no-go",
             "claimId": "nogo-harmonic-series",
+            "statusReason": null,
             "tagName": "SPAN",
             "parentTag": "DIV",
             "parentClass": "scale-result-item"
@@ -4858,6 +5759,7 @@
             "pill_text": "DERIVED",
             "pill_class": "result-status derived",
             "claim_id": "topological-weights",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "DERIVED",
             "auth_confidence": 0.95,
@@ -4868,6 +5770,7 @@
             "pill_text": "EXACT IDENTITY",
             "pill_class": "result-status exact-identity",
             "claim_id": "koide-leptons",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EXACT IDENTITY",
             "auth_confidence": 0.95,
@@ -4878,6 +5781,7 @@
             "pill_text": "CONDITIONAL",
             "pill_class": "result-status conditional",
             "claim_id": "three-generations",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "CONDITIONAL",
             "auth_confidence": 0.88,
@@ -4888,6 +5792,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-status argued",
             "claim_id": "top-quark-limit",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.85,
@@ -4898,6 +5803,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-status empirical",
             "claim_id": "top-tau-coupling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.9,
@@ -4908,6 +5814,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-status argued",
             "claim_id": "coherence-ceiling",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.8,
@@ -4918,6 +5825,7 @@
             "pill_text": "ARGUED",
             "pill_class": "result-status argued",
             "claim_id": "weinberg-angle",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "ARGUED",
             "auth_confidence": 0.65,
@@ -4928,6 +5836,7 @@
             "pill_text": "OPEN",
             "pill_class": "result-status open",
             "claim_id": "alpha-numeric",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "OPEN",
             "auth_confidence": null,
@@ -4938,6 +5847,7 @@
             "pill_text": "EMPIRICAL",
             "pill_class": "result-status empirical",
             "claim_id": "koide-phase",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "EMPIRICAL",
             "auth_confidence": 0.65,
@@ -4948,6 +5858,7 @@
             "pill_text": "NO-GO",
             "pill_class": "result-status no-go",
             "claim_id": "nogo-harmonic-series",
+            "status_reason": null,
             "has_status_word": true,
             "auth_status": "NO-GO",
             "auth_confidence": 0.0,

@@ -73,7 +73,10 @@
         formula: result.formula,
         sources: result.sources,
         derivation: result.derivation || [],
-        category: result.category
+        category: result.category,
+        authorityClaimIds: result.authorityClaimIds || [],
+        isStandardMath: result.isStandardMath || false,
+        badge: result.badge || result.status
       };
       nodes.push(node);
       nodeMap.set(result.id, node);
@@ -230,10 +233,30 @@
       html += '</div>';
     }
     
-    if (nodeData.confidence && nodeData.type !== 'axiom') {
+    if (nodeData.type !== 'axiom') {
+      // V5.5: Resolve displayed status/confidence from the authoritative claim.
+      var claimId = (nodeData.authorityClaimIds && nodeData.authorityClaimIds.length > 0)
+        ? nodeData.authorityClaimIds[0]
+        : nodeData.id;
+      var claim = (window.PFTruth && window.PFTruth.getClaim) ? window.PFTruth.getClaim(claimId) : null;
+      var displayStatus = nodeData.status;
+      var displayConfidence = nodeData.confidence;
+      var bindingAttr = '';
+      if (claim) {
+        displayStatus = (claim.isStandardMath && claim.badge)
+          ? claim.badge.replace(/\s+\d+(\.\d+)?\s*%?.*$/, '')
+          : claim.status;
+        displayConfidence = claim.confidence;
+        bindingAttr = ' data-claim-id="' + claimId + '"';
+      } else {
+        bindingAttr = ' data-status-reason="unmapped-result"';
+      }
+      var confText = (displayConfidence !== null && displayConfidence !== undefined)
+        ? ' (' + displayConfidence.toFixed(2) + ')'
+        : '';
       html += '<div class="detail-section">';
       html += '<h4>Status</h4>';
-      html += '<span class="detail-confidence">' + nodeData.status + ' (' + nodeData.confidence.toFixed(2) + ')</span>';
+      html += '<span class="detail-confidence"' + bindingAttr + '>' + displayStatus + confText + '</span>';
       html += '</div>';
     }
     

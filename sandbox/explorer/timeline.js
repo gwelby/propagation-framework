@@ -22,7 +22,8 @@
     EMPIRICAL: { color: '#ffdd55', label: 'EMPIRICAL', bg: 'rgba(255, 221, 85, 0.15)' },
     INTUITION: { color: '#ff92d2', label: 'INTUITION', bg: 'rgba(255, 146, 210, 0.15)' },
     OPEN: { color: '#888', label: 'OPEN', bg: 'rgba(136, 136, 136, 0.15)' },
-    UNSYNCED: { color: '#d9a2ff', label: 'UNSYNCED', bg: 'rgba(217, 162, 255, 0.15)' }
+    UNSYNCED: { color: '#d9a2ff', label: 'UNSYNCED', bg: 'rgba(217, 162, 255, 0.15)' },
+    UNAVAILABLE: { color: '#666', label: 'UNAVAILABLE', bg: 'rgba(100, 100, 100, 0.1)' }
   };
 
   // ── V3: Authority status resolver ─────────────────────────────────────────────
@@ -46,24 +47,33 @@
     'koide-phase': 'koide-phase'
   };
 
-  function resolveNodeStatus(node) {
-    // Axioms stay as axioms
-    if (node.type === 'axiom' || node._fallbackStatus === 'axiom') return 'axiom';
-    // Look up authority
+  function resolveNodeAuthority(node) {
+    // Axioms are non-authority UI markers, not claim records.
+    if (node.type === 'axiom' || node._fallbackStatus === 'axiom') {
+      return { status: 'axiom', confidence: node.confidence[1], isAuthority: false, reason: 'axiom' };
+    }
     var authId = NODE_TO_AUTHORITY[node.id];
-    if (authId && window.PFClaimsData) {
-      var claims = window.PFClaimsData.claims || [];
-      for (var i = 0; i < claims.length; i++) {
-        if (claims[i].id === authId) {
-          var s = claims[i].status;
-          // Map EXACT IDENTITY → DERIVED for timeline display
-          if (s === 'EXACT IDENTITY') return 'DERIVED';
-          return s;
-        }
+    if (authId && window.PFTruth && window.PFTruth.getClaim) {
+      var claim = window.PFTruth.getClaim(authId);
+      if (claim) {
+        // V5.5: use the rendered status label (handles STANDARD MATH) and current authority confidence.
+        var displayStatus = (claim.isStandardMath && claim.badge)
+          ? claim.badge.replace(/\s+\d+(\.\d+)?\s*%?.*$/, '')
+          : claim.status;
+        return { status: displayStatus, confidence: claim.confidence, isAuthority: true, claimId: authId };
       }
     }
-    // Fallback: use the node's _fallbackStatus (intermediate steps only, not authority-bearing)
-    return node._fallbackStatus || 'UNAVAILABLE';
+    // No authority mapping: explicitly classified as intermediate/non-authority UI.
+    return { status: node._fallbackStatus || 'UNAVAILABLE', confidence: node.confidence[1], isAuthority: false, reason: 'intermediate-ui' };
+  }
+
+  // Kept for callers that only need the status label string.
+  function resolveNodeStatus(node) {
+    return resolveNodeAuthority(node).status;
+  }
+
+  function resolveNodeConfidence(node) {
+    return resolveNodeAuthority(node).confidence;
   }
 
   // ── Timeline node data ────────────────────────────────────────────────────────
@@ -613,7 +623,10 @@
     nodes.forEach(function (node) {
       var x = padding.x + node._x * 280;
       var y = padding.y + node._y * (nodeHeight + axiomGap);
-      var rStatus = resolveNodeStatus(node);
+      // V5.5: Resolve current authority status/confidence for every node.
+      var authority = resolveNodeAuthority(node);
+      var rStatus = authority.status;
+      var rConf = authority.confidence;
       var config = STATUS_CONFIG[rStatus] || { color: '#666', bg: 'rgba(100,100,100,0.1)' };
       var isAxiom = node.type === 'axiom';
       var isSelected = selectedNodeId === node.id;
@@ -654,6 +667,12 @@
       statusLabel.setAttribute('font-family', 'JetBrains Mono, monospace');
       statusLabel.setAttribute('font-size', '9');
       statusLabel.setAttribute('font-weight', '600');
+      statusLabel.setAttribute('class', 'node-status-label');
+      if (authority.isAuthority && authority.claimId) {
+        statusLabel.setAttribute('data-claim-id', authority.claimId);
+      } else {
+        statusLabel.setAttribute('data-status-reason', authority.reason || 'intermediate-ui');
+      }
       statusLabel.textContent = config.label;
       nodeG.appendChild(statusLabel);
 
@@ -711,7 +730,13 @@
       confValue.setAttribute('font-family', 'JetBrains Mono, monospace');
       confValue.setAttribute('font-size', '14');
       confValue.setAttribute('font-weight', '600');
-      confValue.textContent = node.confidence[1].toFixed(2);
+      confValue.setAttribute('class', 'node-conf-value');
+      if (authority.isAuthority && authority.claimId) {
+        confValue.setAttribute('data-claim-id', authority.claimId);
+      } else {
+        confValue.setAttribute('data-status-reason', authority.reason || 'intermediate-ui');
+      }
+      confValue.textContent = (rConf !== null && rConf !== undefined) ? rConf.toFixed(2) : '—';
       confBadge.appendChild(confValue);
 
       nodeG.appendChild(confBadge);
@@ -768,12 +793,25 @@
     var panel = document.getElementById('nodeDetailPanel');
     if (!panel) return;
 
-    var rStatus = resolveNodeStatus(node);
+    // V5.5: Resolve current authority status/confidence.
+    var authority = resolveNodeAuthority(node);
+    var rStatus = authority.status;
+    var rConf = authority.confidence;
     var config = STATUS_CONFIG[rStatus] || { color: '#666', label: 'UNKNOWN' };
-    var delta = node.confidence[1] - node.confidence[0];
+    var bindingAttr = '';
+    var confBindingAttr = '';
+    if (authority.isAuthority && authority.claimId) {
+      bindingAttr = ' data-claim-id="' + authority.claimId + '"';
+      confBindingAttr = ' data-claim-id="' + authority.claimId + '"';
+    } else {
+      bindingAttr = ' data-status-reason="' + (authority.reason || 'intermediate-ui') + '"';
+      confBindingAttr = ' data-status-reason="' + (authority.reason || 'intermediate-ui') + '"';
+    }
+    var delta = (rConf !== null && rConf !== undefined ? rConf : node.confidence[1]) - node.confidence[0];
     var deltaStr = delta !== 0
       ? '<span class="confidence-delta" style="color:' + (delta > 0 ? '#69ff94' : '#ff6b6b') + '">' + (delta > 0 ? '+' : '') + delta.toFixed(2) + '</span>'
       : '';
+    var confText = (rConf !== null && rConf !== undefined) ? rConf.toFixed(2) : '—';
 
     var parentsHtml = node.parents 
       ? node.parents.map(function(p) {
@@ -795,15 +833,15 @@
 
     panel.innerHTML =
       '<div class="detail-header" style="border-left-color:' + config.color + '">' +
-        '<div class="detail-status" style="color:' + config.color + '">' + config.label + '</div>' +
+        '<div class="detail-status" style="color:' + config.color + '"' + bindingAttr + '>' + config.label + '</div>' +
         '<h3>' + node.title + '</h3>' +
         '<div class="detail-formula">' + (node.formula || '') + '</div>' +
       '</div>' +
       '<div class="detail-body">' +
         '<p class="detail-description">' + node.description + '</p>' +
-        '<div class="detail-confidence">' +
+        '<div class="detail-confidence-row">' +
           '<span class="conf-label">Confidence:</span>' +
-          '<span class="conf-value" style="color:' + config.color + '">' + node.confidence[1].toFixed(2) + '</span>' +
+          '<span class="conf-value" style="color:' + config.color + '"' + confBindingAttr + '>' + confText + '</span>' +
           deltaStr +
         '</div>' +
         '<div class="detail-meta">' +
@@ -886,7 +924,7 @@
       '.detail-status { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }' +
       '.detail-formula { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #8ba3bd; margin-top: 8px; }' +
       '.detail-description { color: #b8c5d6; line-height: 1.6; margin-bottom: 15px; }' +
-      '.detail-confidence { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; }' +
+      '.detail-confidence-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; }' +
       '.conf-label { color: #8ba3bd; font-size: 12px; }' +
       '.conf-value { font-family: "JetBrains Mono", monospace; font-size: 18px; font-weight: 600; }' +
       '.confidence-delta { font-family: "JetBrains Mono", monospace; font-size: 12px; }' +
@@ -923,6 +961,27 @@
       if (container) {
         renderTimeline(container, currentFilter);
       }
+    },
+    open: function() {
+      var section = document.getElementById('timelineSection');
+      var toggle = document.getElementById('timelineToggle');
+      if (section && section.hasAttribute('hidden')) {
+        section.removeAttribute('hidden');
+        if (toggle) toggle.classList.add('is-active');
+        this.init('timelineContainer');
+      }
+    },
+    isReady: function() {
+      var container = document.getElementById('timelineContainer');
+      return !!container && container.querySelector('svg') !== null;
+    },
+    selectNodeById: function(id) {
+      var node = TIMELINE_NODES.find(function(n) { return n.id === id; });
+      if (node) { selectNode(node); return true; }
+      return false;
+    },
+    getMappedNodeIds: function() {
+      return Object.keys(NODE_TO_AUTHORITY);
     }
   };
 }());

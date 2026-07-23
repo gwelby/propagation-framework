@@ -346,12 +346,24 @@
         document.body.appendChild(modal);
       }
       
+      // V5.5: Bind fallback modal output to the source ID and classify NO-GO nodes.
+      var statusLabel = result.status && result.status.label ? result.status.label : (result.status || 'UNKNOWN');
+      var statusLower = statusLabel.toLowerCase();
+      var bindingAttr = result.isNogo
+        ? ' data-status-reason="no-go-route"'
+        : ` data-claim-id="${result.id}"`;
+      var confidenceHtml = '';
+      if (!result.isNogo && (result.confidence !== undefined && result.confidence !== null)) {
+        confidenceHtml = `<p data-claim-id="${result.id}">Confidence: ${(result.confidence * 100).toFixed(1)}%</p>`;
+      } else if (result.isNogo) {
+        confidenceHtml = `<p data-status-reason="no-go-route">Confidence: not applicable</p>`;
+      }
       modal.innerHTML = `
         <div class="graph-modal-content">
           <button class="graph-modal-close">&times;</button>
           <h3>${result.title}</h3>
-          <p class="status-badge status-${result.status.toLowerCase()}">${result.status}</p>
-          ${result.confidence ? `<p>Confidence: ${(result.confidence * 100).toFixed(1)}%</p>` : ''}
+          <p class="status-badge status-${statusLower}"${bindingAttr}>${statusLabel}</p>
+          ${confidenceHtml}
           ${result.formula ? `<p class="formula">${result.formula}</p>` : ''}
           ${result.summary ? `<p>${result.summary}</p>` : ''}
           ${result.falsifier ? `<div class="falsifier"><strong>Falsifier:</strong> ${result.falsifier}</div>` : ''}

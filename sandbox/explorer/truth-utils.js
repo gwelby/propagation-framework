@@ -228,6 +228,11 @@
   }
 
   function getAuditedResults() {
+    // V5.5: Prefer the curated PFExplorerData.results snapshot; it carries
+    // authorityClaimIds, derivation links, summaries, and source metadata.
+    if (window.PFExplorerData && window.PFExplorerData.results) {
+      return window.PFExplorerData.results;
+    }
     var data = getData();
     if (data && data.results) {
       return data.results;
@@ -242,7 +247,8 @@
         confidence: c.confidence,
         section: c.section,
         isStandardMath: c.isStandardMath || false,
-        badge: c.badge || (c.status || c.primary_status || "")
+        badge: c.badge || (c.status || c.primary_status || ""),
+        authorityClaimIds: [c.id]
       };
     });
   }

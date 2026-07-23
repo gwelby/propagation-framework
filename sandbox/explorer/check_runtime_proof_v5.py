@@ -164,13 +164,17 @@ def load_authority_data() -> dict:
                 }
     return claims
 
-STATUS_ELEMENT_SELECTORS = ".status-pill, .status-badge, [data-status-note], .result-card-status, .eb-status-pill, .result-status"
+STATUS_ELEMENT_SELECTORS = (
+    ".status-pill, .status-badge, [data-status-note], .result-card-status, .eb-status-pill, .result-status, "
+    ".detail-confidence, .node-status-label, .node-conf-value, .detail-status, .conf-value"
+)
 
 
 def _collect_status_elements(page, selector: str = STATUS_ELEMENT_SELECTORS) -> list:
-    """V5.4: Collect all authority-bearing status elements in the current DOM.
+    """V5.5: Collect all authority-bearing status elements in the current DOM.
 
-    Each status-bearing element must carry its own data-claim-id binding.
+    Each authority-bearing element must carry its own data-claim-id binding.
+    Non-authority UI must carry data-status-reason with a source-backed reason.
     Parent inheritance is intentionally disabled so that removing a binding
     from a Journey result-card or Experiment Bench pill is detected.
     """
@@ -183,6 +187,7 @@ def _collect_status_elements(page, selector: str = STATUS_ELEMENT_SELECTORS) -> 
                     text: p.textContent.trim(),
                     class: p.className,
                     claimId: p.dataset.claimId || null,
+                    statusReason: p.dataset.statusReason || null,
                     tagName: p.tagName,
                     parentTag: p.parentElement ? p.parentElement.tagName : null,
                     parentClass: p.parentElement ? p.parentElement.className : null,
@@ -205,6 +210,7 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
     activation = entry.get("activation")
     expected_status = entry.get("expectedStatus", "").upper()
     expected_conf = entry.get("expectedConfidence")
+    non_authority = entry.get("nonAuthority", False) or claim_id == ""
     is_dynamic = entry.get("dynamic", False) or claim_id == "*"
     result = {
         "claimId": claim_id,
@@ -216,15 +222,20 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
     try:
         if activation:
             try:
-                el = page.query_selector(activation)
-                if el:
-                    el.click()
+                # V5.5: Activation may be a CSS selector (click) or a JS expression (evaluate).
+                if activation.startswith("window.") or "(" in activation:
+                    page.evaluate("() => { " + activation + "; }")
                     page.wait_for_timeout(800)
+                else:
+                    el = page.query_selector(activation)
+                    if el:
+                        el.click()
+                        page.wait_for_timeout(800)
             except Exception as e:
                 result["error"] = f"activation failed: {e}"
                 return result
 
-        # V5.4: Dynamic inventory entries verify every matching element.
+        # V5.4/V5.5: Dynamic inventory entries verify every matching element.
         if is_dynamic:
             elements = page.query_selector_all(selector)
             if not elements:
@@ -238,6 +249,14 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
                     obs_id = el.evaluate("(node) => { var p = node.closest('[data-claim-id]'); return p ? p.getAttribute('data-claim-id') : null; }")
                 text = (el.text_content() or "").strip()
                 observed.append({"claimId": obs_id, "text": text})
+                if non_authority:
+                    reason = el.get_attribute("data-status-reason")
+                    if not reason:
+                        errors.append(f"non-authority element missing data-status-reason in {selector}: '{text}'")
+                        continue
+                    if expected_status and expected_status not in text.upper():
+                        errors.append(f"non-authority status mismatch in {selector}: expected {expected_status} in '{text}'")
+                    continue
                 if not obs_id:
                     errors.append(f"missing data-claim-id in {selector}: '{text}'")
                     continue
@@ -247,11 +266,24 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
                 auth = authority_claims[obs_id]
                 auth_status = (auth.get("status") or "").upper()
                 text_u = text.upper()
-                if auth_status and auth_status not in text_u and text_u not in auth_status:
-                    errors.append(f"status mismatch for {obs_id}: text='{text}' vs authority={auth['status']}")
-                    continue
+                has_status_word = any(w in text_u for w in
+                    ["DERIVED", "CONDITIONAL", "ARGUED", "EMPIRICAL",
+                     "INTUITION", "OPEN", "EXACT IDENTITY", "CANONICAL",
+                     "STANDARD MATH", "NO-GO", "PARTIAL DERIVATION"])
                 conf_match = _re.search(r'(\d+\.\d+)', text)
-                if conf_match and auth.get("confidence") is not None:
+                is_confidence_only = (not has_status_word) and bool(conf_match)
+                if not is_confidence_only:
+                    if auth_status and auth_status not in text_u and text_u not in auth_status:
+                        errors.append(f"status mismatch for {obs_id}: text='{text}' vs authority={auth['status']}")
+                        continue
+                if expected_conf is not None:
+                    if conf_match:
+                        pill_conf = float(conf_match.group(1))
+                        if abs(pill_conf - expected_conf) > 0.01:
+                            errors.append(f"confidence mismatch for {obs_id}: text='{text}' vs expected={expected_conf}")
+                    else:
+                        errors.append(f"expected confidence {expected_conf} but no numeric confidence in '{text}'")
+                elif conf_match and auth.get("confidence") is not None:
                     pill_conf = float(conf_match.group(1))
                     if abs(pill_conf - auth["confidence"]) > 0.01:
                         errors.append(f"confidence mismatch for {obs_id}: text='{text}' vs authority={auth['confidence']}")
@@ -266,6 +298,20 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
         el = page.query_selector(selector)
         if not el:
             result["error"] = "expected status element not found"
+            return result
+
+        if non_authority:
+            reason = el.get_attribute("data-status-reason")
+            result["observed_reason"] = reason
+            if not reason:
+                result["error"] = f"non-authority element missing data-status-reason: {selector}"
+                return result
+            text = (el.text_content() or "").strip()
+            result["observed_text"] = text
+            if expected_status and expected_status not in text.upper():
+                result["error"] = f"non-authority status mismatch: expected {expected_status} in '{text}'"
+                return result
+            result["ok"] = True
             return result
 
         observed_id = el.get_attribute("data-claim-id")
@@ -377,6 +423,34 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                         except Exception as _e:
                             panel_activations.append(f"{route}:error")
                     page.wait_for_timeout(1000)
+                elif path == "derivation.html":
+                    # V5.5: Exercise the derivation graph and timeline interactions
+                    # before scanning so dynamically-rendered status elements are mounted.
+                    for _ in range(20):
+                        if page.evaluate(
+                            "() => typeof window.DerivationRoute !== 'undefined' && window.DerivationRoute.isReady()"
+                        ):
+                            break
+                        page.wait_for_timeout(250)
+                    page.evaluate("() => { if(window.DerivationRoute) window.DerivationRoute.selectNodeById('weinberg-angle'); }")
+                    page.wait_for_timeout(500)
+                    page.evaluate("() => { if(window.DerivationTimeline) window.DerivationTimeline.open(); }")
+                    for _ in range(20):
+                        if page.evaluate(
+                            "() => typeof window.DerivationTimeline !== 'undefined' && window.DerivationTimeline.isReady()"
+                        ):
+                            break
+                        page.wait_for_timeout(250)
+                    page.evaluate(
+                        "() => { if(window.DerivationTimeline) { window.DerivationTimeline.selectNodeById('bohr-quantization'); } }"
+                    )
+                    page.wait_for_timeout(500)
+                    page.evaluate(
+                        "() => { if(window.DerivationTimeline) { window.DerivationTimeline.selectNodeById('casimir-poly'); } }"
+                    )
+                    page.wait_for_timeout(500)
+                    status_pills = _collect_status_elements(page)
+                    panel_activations = ["graph:weinberg-angle", "timeline:bohr-quantization", "timeline:casimir-poly"]
                 else:
                     # Journey result cards, scale-ladder result statuses, and static
                     # route cells render after a short wait.
@@ -417,67 +491,107 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                         }
                         continue
 
-                    # V5: For each status pill, verify it matches authority
+                    # V5.5: For each status element, verify authority binding or
+                    # explicit non-authority classification.
+                    import re as _re
                     for pill in status_pills:
                         pill_text = pill.get("text", "")
                         pill_class = pill.get("class", "")
                         claim_id = pill.get("claimId")
+                        status_reason = pill.get("statusReason")
 
                         # Skip empty pills
                         if not pill_text:
                             continue
 
-                        # V5: Check for forged/injected pills
-                        # A pill with "DERIVED 1.00" but no claim ID is suspicious
                         has_status_word = any(w in pill_text.upper() for w in
                             ["DERIVED", "CONDITIONAL", "ARGUED", "EMPIRICAL",
                              "INTUITION", "OPEN", "EXACT IDENTITY", "CANONICAL",
                              "STANDARD MATH", "NO-GO", "PARTIAL DERIVATION"])
+                        conf_match = _re.search(r'(\d+\.\d+)', pill_text)
+                        is_confidence_only = (not has_status_word) and bool(conf_match)
 
-                        if has_status_word:
-                            binding = {
-                                "pill_text": pill_text,
-                                "pill_class": pill_class,
-                                "claim_id": claim_id,
-                                "has_status_word": True,
-                            }
+                        binding = {
+                            "pill_text": pill_text,
+                            "pill_class": pill_class,
+                            "claim_id": claim_id,
+                            "status_reason": status_reason,
+                            "has_status_word": has_status_word,
+                        }
 
-                            # V5: If pill has a claim ID, verify against authority
-                            if claim_id and claim_id in authority_claims:
-                                auth = authority_claims[claim_id]
-                                auth_status = auth["status"]
-                                auth_conf = auth["confidence"]
+                        # Explicit non-authority classification: record and skip.
+                        if status_reason:
+                            binding["non_authority"] = True
+                            authority_binding.append(binding)
+                            continue
 
-                                binding["auth_status"] = auth_status
-                                binding["auth_confidence"] = auth_conf
+                        # Authority-bearing elements must have a claim ID.
+                        if claim_id and claim_id in authority_claims:
+                            auth = authority_claims[claim_id]
+                            auth_status = auth["status"]
+                            auth_conf = auth["confidence"]
+
+                            binding["auth_status"] = auth_status
+                            binding["auth_confidence"] = auth_conf
+
+                            # Sentinel for missing/null confidence displayed as em-dash
+                            is_missing_conf = pill_text == "\u2014"
+
+                            if is_confidence_only:
+                                # Confidence-only element (e.g. .conf-value, .node-conf-value)
+                                binding["matches_status"] = True
+                                if is_missing_conf:
+                                    if auth_conf is None:
+                                        binding["matches_confidence"] = True
+                                    else:
+                                        binding["matches_confidence"] = False
+                                        binding["error"] = f"Missing confidence: pill={pill_text} vs authority={auth_conf}"
+                                else:
+                                    pill_conf = float(conf_match.group(1))
+                                    binding["pill_confidence"] = pill_conf
+                                    if auth_conf is not None:
+                                        binding["matches_confidence"] = abs(pill_conf - auth_conf) < 0.01
+                                    else:
+                                        binding["matches_confidence"] = False
+                                        binding["error"] = f"Unexpected confidence: pill={pill_text} vs authority confidence null"
+                                if not binding.get("error") and not binding["matches_confidence"]:
+                                    binding["error"] = f"Confidence mismatch: pill={pill_conf} vs authority={auth_conf}"
+                            elif is_missing_conf:
+                                # Missing confidence marker for an authority-bearing element; skip status check.
+                                binding["matches_status"] = True
+                                binding["matches_confidence"] = (auth_conf is None)
+                                if binding["matches_confidence"] is False:
+                                    binding["error"] = f"Missing confidence: pill={pill_text} vs authority={auth_conf}"
+                            else:
                                 binding["matches_status"] = (
                                     auth_status.upper() in pill_text.upper()
                                     or pill_text.upper() in auth_status.upper()
                                 )
-
-                                # Check confidence if present in pill text
-                                import re as _re
-                                conf_match = _re.search(r'(\d+\.\d+)', pill_text)
                                 if conf_match and auth_conf is not None:
                                     pill_conf = float(conf_match.group(1))
                                     binding["pill_confidence"] = pill_conf
                                     binding["matches_confidence"] = abs(pill_conf - auth_conf) < 0.01
                                 else:
-                                    binding["matches_confidence"] = True  # No confidence to check
+                                    binding["matches_confidence"] = True
 
                                 if not binding["matches_status"]:
                                     binding["error"] = f"Status mismatch: pill={pill_text} vs authority={auth_status}"
                                 elif not binding["matches_confidence"]:
                                     binding["error"] = f"Confidence mismatch: pill={pill_conf} vs authority={auth_conf}"
 
-                            elif claim_id and claim_id not in authority_claims:
-                                binding["error"] = f"Unknown claim ID: {claim_id}"
-                            else:
-                                # V5: Status pill without claim ID
-                                # This is suspicious — could be an injection
-                                binding["error"] = "Status pill without claim ID binding"
+                        elif claim_id and claim_id not in authority_claims:
+                            binding["error"] = f"Unknown claim ID: {claim_id}"
+                        elif is_confidence_only:
+                            # Confidence number with no claim binding is suspicious
+                            binding["error"] = "Confidence value without claim ID binding"
+                        elif has_status_word:
+                            # Status word with no claim binding is an injection risk
+                            binding["error"] = "Status pill without claim ID binding"
+                        else:
+                            # No status word, no claim id, no reason: ignore
+                            continue
 
-                            authority_binding.append(binding)
+                        authority_binding.append(binding)
 
                     dom_evidence["authority_binding"] = authority_binding
 

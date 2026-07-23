@@ -51,7 +51,14 @@ def _copy_tree() -> Path:
             "_visual_pass_screens", "_browser_dom_evidence.json",
         ),
     )
-    (tmp_explorer / "vendor").mkdir(exist_ok=True)
+    # V5.5: derivation.html needs d3 (and fonts.css for layout). 3D bundle is optional.
+    vendor_src = EXPLORER_DIR / "vendor"
+    vendor_dst = tmp_explorer / "vendor"
+    vendor_dst.mkdir(exist_ok=True)
+    for vf in ("d3.v7.min.js", "fonts.css"):
+        src = vendor_src / vf
+        if src.exists():
+            shutil.copy2(src, vendor_dst / vf)
     return tmp_explorer
 
 
@@ -240,15 +247,16 @@ def fixture_mismatched_non_god_equation(tmp_explorer: Path) -> None:
 
 
 def fixture_unbound_journey_result_card(tmp_explorer: Path) -> None:
-    """Remove data-claim-id from the Journey result-card status renderer."""
+    """Remove data-claim-id from the Journey result-card child status only."""
     with _mutate(tmp_explorer, "journey.js") as panel_path:
-        text = panel_path.read_text(encoding="utf-8")
-        # Remove data-claim-id from the .result-card-status string literal only.
-        patched = text.replace(
-            'data-claim-id="',
-            'data-result-id="',
-        )
-        panel_path.write_text(patched, encoding="utf-8")
+        lines = panel_path.read_text(encoding="utf-8").splitlines()
+        # V5.5: target only the inner .result-card-status binding, leaving the parent card binding intact.
+        patched_lines = []
+        for line in lines:
+            if 'result-card-status' in line and 'data-claim-id="' in line:
+                line = line.replace('data-claim-id="', 'data-result-id="')
+            patched_lines.append(line)
+        panel_path.write_text("\n".join(patched_lines), encoding="utf-8")
         proc = _run_runtime_proof(tmp_explorer, route="journey.html")
 
     if proc.returncode == 0:
@@ -261,16 +269,16 @@ def fixture_unbound_journey_result_card(tmp_explorer: Path) -> None:
 
 
 def fixture_unbound_experiment_bench(tmp_explorer: Path) -> None:
-    """Remove data-claim-id from the Experiment Bench status pill renderer."""
+    """Remove data-claim-id from the Experiment Bench child status pill only."""
     with _mutate(tmp_explorer, "panels/experiment-bench.js") as panel_path:
-        text = panel_path.read_text(encoding="utf-8")
-        # Both .eb-card and .eb-status-pill carry data-claim-id; swapping the
-        # attribute name removes the binding from the pill the proof targets.
-        patched = text.replace(
-            'data-claim-id="',
-            'data-result-id="',
-        )
-        panel_path.write_text(patched, encoding="utf-8")
+        lines = panel_path.read_text(encoding="utf-8").splitlines()
+        # V5.5: target only the inner .eb-status-pill binding, leaving the parent card binding intact.
+        patched_lines = []
+        for line in lines:
+            if 'eb-status-pill' in line and 'data-claim-id="' in line:
+                line = line.replace('data-claim-id="', 'data-result-id="')
+            patched_lines.append(line)
+        panel_path.write_text("\n".join(patched_lines), encoding="utf-8")
         proc = _run_runtime_proof(tmp_explorer, route="index.html")
 
     if proc.returncode == 0:
@@ -282,9 +290,69 @@ def fixture_unbound_experiment_bench(tmp_explorer: Path) -> None:
     print("  PASS fixture: unbound Experiment Bench status pill rejected")
 
 
+def fixture_unbound_main_graph_detail(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from the derivation main graph detail status."""
+    with _mutate(tmp_explorer, "derivation.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        patched = text.replace(
+            'bindingAttr = ` data-claim-id="${claimId}"`;',
+            'bindingAttr = ` data-result-id="${claimId}"`;',
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Unbound main graph detail fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    if "Status pill without claim ID binding" not in proc.stdout and "missing data-claim-id" not in proc.stdout:
+        raise AssertionError("Main graph detail fixture did not report the intended unbound status failure")
+    print("  PASS fixture: unbound main graph detail status rejected")
+
+
+def fixture_unbound_timeline(tmp_explorer: Path) -> None:
+    """Remove data-claim-id from all timeline-rendered status elements."""
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        patched = text.replace(
+            "setAttribute('data-claim-id', authority.claimId)",
+            "setAttribute('data-result-id', authority.claimId)",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Unbound timeline fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    if "Status pill without claim ID binding" not in proc.stdout and "missing data-claim-id" not in proc.stdout:
+        raise AssertionError("Timeline fixture did not report the intended unbound status failure")
+    print("  PASS fixture: unbound timeline status rejected")
+
+
+def fixture_bohr_confidence_mismatch(tmp_explorer: Path) -> None:
+    """Force bohr-quantization timeline confidence to 0.78 while still bound to bohr-spectrum."""
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        patched = text.replace(
+            "return { status: displayStatus, confidence: claim.confidence, isAuthority: true, claimId: authId };",
+            "return { status: displayStatus, confidence: (node.id === 'bohr-quantization' ? 0.78 : claim.confidence), isAuthority: true, claimId: authId };",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Bohr confidence mismatch fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    if "Confidence mismatch" not in proc.stdout:
+        raise AssertionError("Bohr fixture did not report the intended confidence mismatch")
+    print("  PASS fixture: Bohr confidence mismatch rejected")
+
+
 def main() -> int:
     print("=" * 70)
-    print("Explorer V5.2/V5.3 Runtime Proof — Copied-Candidate Negative Fixtures")
+    print("Explorer V5.2/V5.3/V5.5 Runtime Proof — Copied-Candidate Negative Fixtures")
     print("=" * 70)
     print()
 
@@ -307,6 +375,9 @@ def main() -> int:
         fixture_mismatched_non_god_equation(tmp_explorer)
         fixture_unbound_journey_result_card(tmp_explorer)
         fixture_unbound_experiment_bench(tmp_explorer)
+        fixture_unbound_main_graph_detail(tmp_explorer)
+        fixture_unbound_timeline(tmp_explorer)
+        fixture_bohr_confidence_mismatch(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 

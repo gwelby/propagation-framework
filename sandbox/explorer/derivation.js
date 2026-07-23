@@ -175,11 +175,18 @@
         description: result.summary,
         formula: result.formula,
         sources: result.sources,
-        derivation: result.derivation || []
+        derivation: result.derivation || [],
+        authorityClaimIds: result.authorityClaimIds || [],
+        isStandardMath: result.isStandardMath || false,
+        badge: result.badge || result.status,
+        category: result.category
       };
       nodes.push(node);
       nodeMap.set(result.id, node);
     });
+
+    // V5.5: expose lookup map for runtime proof interactions
+    window.__derivationNodes = nodeMap;
 
     // Create links based on derivations
     results.forEach(result => {
@@ -392,13 +399,33 @@
       `;
     }
     
-    if (nodeData.confidence && nodeData.type !== 'axiom') {
-      const statusClass = `confidence-${nodeData.status.toLowerCase().replace(' ', '-')}`;
+    if (nodeData.type !== 'axiom') {
+      // V5.5: Resolve displayed status/confidence from the authoritative claim.
+      let claimId = (nodeData.authorityClaimIds && nodeData.authorityClaimIds.length > 0)
+        ? nodeData.authorityClaimIds[0]
+        : nodeData.id;
+      let claim = (window.PFTruth && window.PFTruth.getClaim) ? window.PFTruth.getClaim(claimId) : null;
+      let displayStatus = nodeData.status;
+      let displayConfidence = nodeData.confidence;
+      let bindingAttr = '';
+      if (claim) {
+        displayStatus = (claim.isStandardMath && claim.badge)
+          ? claim.badge.replace(/\s+\d+(\.\d+)?\s*%?.*$/, '')
+          : claim.status;
+        displayConfidence = claim.confidence;
+        bindingAttr = ` data-claim-id="${claimId}"`;
+      } else {
+        bindingAttr = ' data-status-reason="unmapped-result"';
+      }
+      const statusClass = `confidence-${(displayStatus || 'unavailable').toLowerCase().replace(/\s+/g, '-')}`;
+      const confText = (displayConfidence !== null && displayConfidence !== undefined)
+        ? ` (${displayConfidence.toFixed(2)})`
+        : '';
       html += `
         <div class="detail-section">
           <h4>Status</h4>
-          <span class="detail-confidence ${statusClass}">
-            ${nodeData.status} (${nodeData.confidence.toFixed(2)})
+          <span class="detail-confidence ${statusClass}"${bindingAttr}>
+            ${displayStatus}${confText}
           </span>
         </div>
       `;
@@ -521,6 +548,23 @@
     buildGraph();
     updateStatistics();
   }
+
+  // V5.5: Expose minimal API for the runtime proof to exercise interactions
+  window.DerivationRoute = {
+    isReady: function() {
+      return !!window.__derivationNodes && window.__derivationNodes.size > 0;
+    },
+    selectNodeById: function(id) {
+      if (!window.__derivationNodes) return false;
+      var node = window.__derivationNodes.get(id);
+      if (node) { selectNode(node); return true; }
+      return false;
+    },
+    getResultNodeIds: function() {
+      if (!window.__derivationNodes) return [];
+      return Array.from(window.__derivationNodes.keys()).filter(function(k) { return !/^axiom/.test(k); });
+    }
+  };
 
   // Initialize when ready
   if (document.readyState === 'loading') {

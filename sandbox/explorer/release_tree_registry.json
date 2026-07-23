@@ -73,8 +73,55 @@
     {
       "path": "derivation.html",
       "type": "claim",
-      "hasStatusContent": false,
-      "statusInventory": []
+      "hasStatusContent": true,
+      "statusInventory": [
+        {
+          "route": "derivation.html",
+          "activation": "window.DerivationRoute.selectNodeById('weinberg-angle')",
+          "selector": ".detail-confidence",
+          "claimId": "weinberg-angle",
+          "expectedStatus": "ARGUED",
+          "expectedConfidence": 0.65,
+          "note": "main graph detail status for a mapped result"
+        },
+        {
+          "route": "derivation.html",
+          "activation": "window.DerivationTimeline.open(); window.DerivationTimeline.selectNodeById('bohr-quantization')",
+          "selector": ".detail-status",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "DERIVED",
+          "expectedConfidence": null,
+          "note": "timeline detail status for a mapped node"
+        },
+        {
+          "route": "derivation.html",
+          "activation": "window.DerivationTimeline.open(); window.DerivationTimeline.selectNodeById('bohr-quantization')",
+          "selector": ".conf-value[data-claim-id='bohr-spectrum']",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "",
+          "expectedConfidence": 0.9,
+          "dynamic": true,
+          "note": "timeline detail confidence for a mapped node"
+        },
+        {
+          "route": "derivation.html",
+          "activation": "window.DerivationTimeline.open()",
+          "selector": ".node-conf-value[data-claim-id='bohr-spectrum']",
+          "claimId": "bohr-spectrum",
+          "expectedStatus": "",
+          "expectedConfidence": 0.9,
+          "dynamic": true,
+          "note": "timeline node confidence badge for a mapped node"
+        },
+        {
+          "route": "derivation.html",
+          "activation": "window.DerivationTimeline.open()",
+          "selector": ".node-status-label[data-status-reason='intermediate-ui']",
+          "claimId": "",
+          "expectedStatus": "UNAVAILABLE",
+          "note": "unmapped intermediate timeline node is explicitly classified as non-authority"
+        }
+      ]
     },
     {
       "path": "index.html",
