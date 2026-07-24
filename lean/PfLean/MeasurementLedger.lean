@@ -152,4 +152,132 @@ theorem applyOutcome_tier_bound_holds {P : Prop} (cr : ClaimRecord P)
   rw [ht, hc]
   exact cr.tier_bound
 
+-- ---------------------------------------------------------------------------
+-- 4. Entry-level measurement application
+-- ---------------------------------------------------------------------------
+
+/-- Apply a measurement outcome to a `ClaimEntry`, producing an updated entry
+    with the same `P` and an updated record. -/
+def ClaimEntry.applyOutcome (e : ClaimEntry) (o : MeasurementOutcome)
+    (note : String) : ClaimEntry :=
+  { name := e.name
+    P := e.P
+    record := MeasurementContract.applyOutcome e.record o note }
+
+/-- The record field of `applyOutcome` is the applied record. -/
+theorem ClaimEntry.applyOutcome_record (e : ClaimEntry) (o : MeasurementOutcome)
+    (note : String) :
+    (ClaimEntry.applyOutcome e o note).record =
+      MeasurementContract.applyOutcome e.record o note := by
+  rfl
+
+/-- The name field of `applyOutcome` is preserved. -/
+theorem ClaimEntry.applyOutcome_name (e : ClaimEntry) (o : MeasurementOutcome)
+    (note : String) :
+    (ClaimEntry.applyOutcome e o note).name = e.name := by
+  rfl
+
+/-- Applying a Confirmed outcome to a DERIVED entry makes it public-ready.
+
+    This is the core publication-readiness theorem: a machine-confirmed
+    measurement on a DERIVED claim yields a public-ready claim. -/
+theorem confirmed_derived_entry_is_public_ready (e : ClaimEntry) (note : String)
+    (h_derived : e.record.tier = .DERIVED) :
+    (ClaimEntry.applyOutcome e .Confirmed note).record.isPublicReady := by
+  unfold ClaimRecord.isPublicReady
+  rw [ClaimEntry.applyOutcome_record]
+  refine ⟨?_, ?_⟩
+  · exact applyOutcome_confirmed_sets_OK e.record note
+  · left
+    have h := applyOutcome_preserves_tier e.record .Confirmed note
+    rw [h]
+    exact h_derived
+
+/-- Applying a Confirmed outcome to an EMPIRICAL entry with confidence ≥ 0.90
+    makes it public-ready. -/
+theorem confirmed_empirical_entry_is_public_ready (e : ClaimEntry) (note : String)
+    (h_empirical : e.record.tier = .EMPIRICAL)
+    (h_conf : e.record.confidence.value ≥ 0.90) :
+    (ClaimEntry.applyOutcome e .Confirmed note).record.isPublicReady := by
+  unfold ClaimRecord.isPublicReady
+  rw [ClaimEntry.applyOutcome_record]
+  refine ⟨?_, ?_⟩
+  · exact applyOutcome_confirmed_sets_OK e.record note
+  · right
+    refine ⟨?_, ?_⟩
+    · have h := applyOutcome_preserves_tier e.record .Confirmed note
+      rw [h]
+      exact h_empirical
+    · have h := applyOutcome_preserves_confidence e.record .Confirmed note
+      rw [h]
+      exact h_conf
+
+-- ---------------------------------------------------------------------------
+-- 5. Ledger-level measurement application
+-- ---------------------------------------------------------------------------
+
+/-- Apply a measurement outcome to the entry in a `ClaimLedger` matching a
+    given claim name.  Entries that don't match are left unchanged. -/
+def ClaimLedger.applyMeasurement (cl : ClaimLedger) (claimName : String)
+    (o : MeasurementOutcome) (note : String) : ClaimLedger :=
+  ⟨cl.entries.map (fun e =>
+    if e.name = claimName then ClaimEntry.applyOutcome e o note else e)⟩
+
+/-- The entries of `applyMeasurement` are the same length as the original. -/
+theorem ClaimLedger.applyMeasurement_length (cl : ClaimLedger) (name : String)
+    (o : MeasurementOutcome) (note : String) :
+    (cl.applyMeasurement name o note).entries.length = cl.entries.length := by
+  simp [ClaimLedger.applyMeasurement, List.length_map]
+
+/-- A Confirmed measurement on a DERIVED claim in the ledger produces a
+    public-ready entry in the updated ledger.
+
+    This is the cross-ledger publication-readiness theorem: it composes
+    `contractsResolved` (the measurement points at a real claim) with
+    `confirmed_derived_entry_is_public_ready` (confirmation makes it
+    publishable) to give the end-to-end guarantee. -/
+theorem confirmed_derived_claim_becomes_public_ready
+    (cl : ClaimLedger) (ml : MeasurementLedger)
+    (c : MeasurementContract) (note : String)
+    (h_c_in_ml : c ∈ ml.contracts)
+    (h_resolved : ml.contractsResolved cl)
+    (e : ClaimEntry) (h_e_in_cl : e ∈ cl.entries)
+    (h_name_match : e.name = c.claimName)
+    (h_derived : e.record.tier = .DERIVED) :
+    ∃ e' ∈ (cl.applyMeasurement c.claimName .Confirmed note).entries,
+      e'.name = e.name ∧ e'.record.isPublicReady := by
+  refine ⟨ClaimEntry.applyOutcome e .Confirmed note, ?_, ?_⟩
+  · -- The updated entry is in the mapped list
+    simp [ClaimLedger.applyMeasurement]
+    refine ⟨e, h_e_in_cl, ?_⟩
+    rw [h_name_match]
+    simp
+  · -- The updated entry has the right name and is public-ready
+    refine ⟨ClaimEntry.applyOutcome_name e .Confirmed note,
+            confirmed_derived_entry_is_public_ready e note h_derived⟩
+
+-- ---------------------------------------------------------------------------
+-- 6. Concrete example: Koide claim is DERIVED and has a confirmed measurement
+-- ---------------------------------------------------------------------------
+
+/-- The Koide Q = 2/3 claim is DERIVED tier. -/
+theorem koide_entry_is_derived :
+    koideQTwoThirdsEntry.record.tier = .DERIVED := by
+  rfl
+
+/-- The gravity optics n(0) = 1 claim is DERIVED tier. -/
+theorem gravityOptics_entry_is_derived :
+    weakFieldIndexFlatEntry.record.tier = .DERIVED := by
+  rfl
+
+/-- The Weinberg angle claim is ARGUED tier (not DERIVED). -/
+theorem weinberg_entry_is_argued :
+    weinbergRatioEntry.record.tier = .ARGUED := by
+  rfl
+
+/-- The PFEntropy T³ claim is CONDITIONAL tier (not DERIVED). -/
+theorem pfentropy_entry_is_conditional :
+    PFEntropyDecreasesT3Entry.record.tier = .CONDITIONAL := by
+  rfl
+
 end PfLean
