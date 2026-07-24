@@ -81,17 +81,32 @@ def applyOutcome {P : Prop} (cr : ClaimRecord P) (o : MeasurementOutcome)
     (measurementNote : String) : ClaimRecord P :=
   match o with
   | .Confirmed =>
-      { cr with
-        status := .OK,
-        evidence := cr.evidence ++ " | measurement confirmed: " ++ measurementNote }
+      { proof := cr.proof
+        tier := cr.tier
+        status := .OK
+        confidence := cr.confidence
+        evidence := cr.evidence ++ " | measurement confirmed: " ++ measurementNote
+        falsifier := cr.falsifier
+        dependencies := cr.dependencies
+        tier_bound := cr.tier_bound }
   | .Inconclusive =>
-      { cr with
-        status := .HOLD,
-        evidence := cr.evidence ++ " | measurement inconclusive: " ++ measurementNote }
+      { proof := cr.proof
+        tier := cr.tier
+        status := .HOLD
+        confidence := cr.confidence
+        evidence := cr.evidence ++ " | measurement inconclusive: " ++ measurementNote
+        falsifier := cr.falsifier
+        dependencies := cr.dependencies
+        tier_bound := cr.tier_bound }
   | .Falsified =>
-      { cr with
-        status := .NOGO,
-        evidence := cr.evidence ++ " | measurement falsified: " ++ measurementNote }
+      { proof := cr.proof
+        tier := cr.tier
+        status := .NOGO
+        confidence := cr.confidence
+        evidence := cr.evidence ++ " | measurement falsified: " ++ measurementNote
+        falsifier := cr.falsifier
+        dependencies := cr.dependencies
+        tier_bound := cr.tier_bound }
 
 end MeasurementContract
 

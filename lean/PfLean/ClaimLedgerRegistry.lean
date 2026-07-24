@@ -16,6 +16,9 @@ import PfLean.PFCore
 import PfLean.SO3DoubleCover
 import PfLean.TopologicalWeights
 import PfLean.Entropy
+import PfLean.WeinbergAngle
+import PfLean.KoideGeometry
+import PfLean.GravityOptics
 
 namespace PfLean
 
@@ -127,7 +130,36 @@ def fullNormT3StrictlyDecreasesEntry : ClaimEntry :=
       ["full_norm_Pythagorean", "PFEntropy_decreases_T3"])
 
 -- ---------------------------------------------------------------------------
--- 4. The real PF claim ledger
+-- 4. Weinberg / Koide / Gravity claims
+-- ---------------------------------------------------------------------------
+
+def weinbergRatioEntry : ClaimEntry :=
+  let P : Prop := 22309 / 100000 < WeinbergRatio ∧ WeinbergRatio < 22311 / 100000
+  let h : P := weinberg_ratio_bounds
+  ClaimEntry.mk "weinberg_ratio" P
+    (ClaimRecord.argued h
+      "WeinbergAngle.lean: de Vries identity gives sin²θ_W ≈ 0.22310 (0.13σ PDG match)"
+      "the Casimir root ratio does not match the measured Weinberg angle")
+
+def koideQTwoThirdsEntry : ClaimEntry :=
+  { name := "koide_Q_two_thirds"
+    P := ∀ (a b c : ℝ), a > 0 → b > 0 → c > 0 →
+      (KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a))
+    record := ClaimRecord.derived
+      (fun a b c ha hb hc => @koide_Q_two_thirds_iff a b c ha hb hc)
+      "KoideGeometry.lean: Q = 2/3 ↔ equal-strength geometric identity (exact, physical selection OPEN)"
+      "three positive amplitudes satisfying the constraint do not yield Q = 2/3" }
+
+def weakFieldIndexFlatEntry : ClaimEntry :=
+  let P : Prop := weakFieldIndex 0 = 1
+  let h : P := weakFieldIndex_flat
+  ClaimEntry.mk "weakFieldIndex_flat" P
+    (ClaimRecord.derived h
+      "GravityOptics.lean: n(0) = 1 — flat-space refractive index is unity"
+      "the weak-field metric null condition does not give n = 1 at Φ = 0")
+
+-- ---------------------------------------------------------------------------
+-- 5. The real PF claim ledger
 -- ---------------------------------------------------------------------------
 
 def pfClaimLedger : ClaimLedger :=
@@ -140,7 +172,10 @@ def pfClaimLedger : ClaimLedger :=
    , topologicalAvailabilityEntry
    , kernelClosureOrdersEntry
    , atMostTwoClosureOrdersEntry
-   , quatToSO3KerEntry ]⟩
+   , quatToSO3KerEntry
+   , weinbergRatioEntry
+   , koideQTwoThirdsEntry
+   , weakFieldIndexFlatEntry ]⟩
 
 theorem pfClaimLedger_wellFormed :
     pfClaimLedger.dependenciesResolved := by
@@ -149,6 +184,7 @@ theorem pfClaimLedger_wellFormed :
         fullNormT3StrictlyDecreasesEntry, PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
         P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,
         topologicalAvailabilityEntry, kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry,
-        quatToSO3KerEntry]
+        quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]
+  decide
 
 end PfLean
