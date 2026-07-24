@@ -140,4 +140,119 @@ theorem hostile_PFEntropy_falsified :
         MeasurementContract.falsified, PFEntropy_T3_contract, hostile_PFEntropy_measurement]
   norm_num [abs_of_nonneg, abs_of_nonpos]
 
+-- ---------------------------------------------------------------------------
+-- 4. Weinberg angle contract
+-- ---------------------------------------------------------------------------
+
+/-- The Weinberg angle contract: `sin²θ_W = 1 - M_W²/M_Z²` is predicted by the
+    de Vries identity to be `R ≈ 0.22310`.  Tolerance `0.0002` (PDG on-shell
+    uncertainty), falsification `0.005` (any other GUT-scale structure would
+    land far outside this band). -/
+noncomputable def Weinberg_contract : MeasurementContract :=
+  { claimName := "weinberg_ratio"
+    predictedValue := (0.22310 : ℝ)
+    tolerance := (0.0002 : ℝ)
+    tolerance_nonneg := by norm_num
+    falsificationThreshold := (0.005 : ℝ)
+    falsification_nonneg := by norm_num
+    tolerance_le_falsification := by norm_num }
+
+/-- PDG on-shell measurement: `sin²θ_W = 0.22310 ± 0.00010`. -/
+noncomputable def PDG_Weinberg_measurement : Measurement :=
+  { value := (0.22310 : ℝ)
+    uncertainty := (0.00010 : ℝ)
+    uncertainty_nonneg := by norm_num
+    source := "PDG on-shell sin²θ_W" }
+
+/-- The PDG measurement confirms the Weinberg contract. -/
+theorem PDG_Weinberg_confirmed :
+    (MeasurementContract.outcome PDG_Weinberg_measurement Weinberg_contract)
+      = MeasurementOutcome.Confirmed := by
+  simp [MeasurementContract.outcome, MeasurementContract.compatible,
+        MeasurementContract.falsified, Weinberg_contract, PDG_Weinberg_measurement]
+  norm_num [abs_of_nonneg, abs_of_nonpos]
+
+-- ---------------------------------------------------------------------------
+-- 5. Koide ratio contract
+-- ---------------------------------------------------------------------------
+
+/-- The Koide ratio contract: for charged leptons, `Q = (m_e² + m_μ² + m_τ²) /
+    (m_e + m_μ + m_τ)²` is predicted to be exactly `2/3`.  Tolerance `0.001`
+    (lepton mass uncertainty), falsification `0.01` (any non-Koide mass
+    structure would deviate by more than 1%). -/
+noncomputable def Koide_contract : MeasurementContract :=
+  { claimName := "koide_Q_two_thirds"
+    predictedValue := (2 / 3 : ℝ)
+    tolerance := (0.001 : ℝ)
+    tolerance_nonneg := by norm_num
+    falsificationThreshold := (0.01 : ℝ)
+    falsification_nonneg := by norm_num
+    tolerance_le_falsification := by norm_num }
+
+/-- Charged-lepton mass measurement: `Q ≈ 0.66666 ± 0.00001`
+    (from m_e = 0.511 MeV, m_μ = 105.658 MeV, m_τ = 1776.86 MeV). -/
+noncomputable def chargedLepton_Koide_measurement : Measurement :=
+  { value := (0.66666 : ℝ)
+    uncertainty := (0.00001 : ℝ)
+    uncertainty_nonneg := by norm_num
+    source := "PDG charged lepton masses" }
+
+/-- The charged-lepton measurement confirms the Koide contract. -/
+theorem chargedLepton_Koide_confirmed :
+    (MeasurementContract.outcome chargedLepton_Koide_measurement Koide_contract)
+      = MeasurementOutcome.Confirmed := by
+  simp [MeasurementContract.outcome, MeasurementContract.compatible,
+        MeasurementContract.falsified, Koide_contract, chargedLepton_Koide_measurement]
+  norm_num [abs_of_nonneg, abs_of_nonpos]
+
+-- ---------------------------------------------------------------------------
+-- 6. Gravity lensing index contract
+-- ---------------------------------------------------------------------------
+
+/-- The gravity lensing contract: at `Φ = 0` (flat space), the effective
+    refractive index `n(Φ) = √[(1-2Φ)/(1+2Φ)]` is predicted to be exactly `1`.
+    Tolerance `0.0001` (vacuum measurement precision), falsification `0.01`
+    (any non-unit vacuum index would violate Lorentz invariance at the 1%
+    level). -/
+noncomputable def GravityOptics_contract : MeasurementContract :=
+  { claimName := "weakFieldIndex_flat"
+    predictedValue := (1 : ℝ)
+    tolerance := (0.0001 : ℝ)
+    tolerance_nonneg := by norm_num
+    falsificationThreshold := (0.01 : ℝ)
+    falsification_nonneg := by norm_num
+    tolerance_le_falsification := by norm_num }
+
+/-- Vacuum speed-of-light measurement: `n = 1.00000 ± 0.00001`. -/
+noncomputable def vacuum_n_measurement : Measurement :=
+  { value := (1.00000 : ℝ)
+    uncertainty := (0.00001 : ℝ)
+    uncertainty_nonneg := by norm_num
+    source := "vacuum speed of light (SI definition)" }
+
+/-- The vacuum measurement confirms the gravity optics contract. -/
+theorem vacuum_n_confirmed :
+    (MeasurementContract.outcome vacuum_n_measurement GravityOptics_contract)
+      = MeasurementOutcome.Confirmed := by
+  simp [MeasurementContract.outcome, MeasurementContract.compatible,
+        MeasurementContract.falsified, GravityOptics_contract, vacuum_n_measurement]
+  norm_num [abs_of_nonneg, abs_of_nonpos]
+
+/-- A Lorentz-violating measurement: `n = 1.02 ± 0.001` would falsify the
+    flat-space contract. -/
+noncomputable def lorentz_violating_n_measurement : Measurement :=
+  { value := (1.02 : ℝ)
+    uncertainty := (0.001 : ℝ)
+    uncertainty_nonneg := by norm_num
+    source := "hypothetical Lorentz violation" }
+
+/-- The Lorentz-violating measurement falsifies the gravity optics contract. -/
+theorem lorentz_violating_n_falsified :
+    (MeasurementContract.outcome lorentz_violating_n_measurement GravityOptics_contract)
+      = MeasurementOutcome.Falsified := by
+  simp [MeasurementContract.outcome, MeasurementContract.compatible,
+        MeasurementContract.falsified, GravityOptics_contract,
+        lorentz_violating_n_measurement]
+  norm_num [abs_of_nonneg, abs_of_nonpos]
+
 end PfLean
