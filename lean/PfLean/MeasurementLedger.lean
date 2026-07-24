@@ -280,4 +280,113 @@ theorem pfentropy_entry_is_conditional :
     PFEntropyDecreasesT3Entry.record.tier = .CONDITIONAL := by
   rfl
 
+-- ---------------------------------------------------------------------------
+-- 7. Concrete positive instance: Koide claim is publication-ready
+-- ---------------------------------------------------------------------------
+
+/-- The Koide entry is in `pfClaimLedger`. -/
+theorem koide_entry_in_ledger :
+    koideQTwoThirdsEntry ∈ pfClaimLedger.entries := by
+  simp [pfClaimLedger]
+
+/-- The Koide contract's claimName matches the Koide entry's name. -/
+theorem koide_contract_matches_entry :
+    Koide_contract.claimName = koideQTwoThirdsEntry.name := by
+  simp [Koide_contract, koideQTwoThirdsEntry]
+
+/-- The Koide contract is in `pfMeasurementLedger_full`. -/
+theorem koide_contract_in_ledger :
+    Koide_contract ∈ pfMeasurementLedger_full.contracts := by
+  simp [pfMeasurementLedger_full, MeasurementLedger.empty, MeasurementLedger.add]
+
+/-- **Concrete publication-readiness theorem**: Applying the confirmed Koide
+    measurement to the Koide claim in `pfClaimLedger` produces a public-ready
+    entry.  This is the first specific, concrete instance of the capstone
+    theorem — not "for any DERIVED claim" but "this specific Koide Q = 2/3
+    claim, with this specific charged-lepton measurement, is public-ready." -/
+theorem koide_claim_is_public_ready_after_confirmation :
+    ∃ e' ∈ (pfClaimLedger.applyMeasurement
+              koideQTwoThirdsEntry.name .Confirmed
+              "PDG charged lepton masses: Q = 0.66666 ± 0.00001").entries,
+      e'.name = koideQTwoThirdsEntry.name ∧ e'.record.isPublicReady := by
+  apply confirmed_derived_claim_becomes_public_ready
+    pfClaimLedger pfMeasurementLedger_full Koide_contract
+    "PDG charged lepton masses: Q = 0.66666 ± 0.00001"
+  · exact koide_contract_in_ledger
+  · exact pfMeasurementLedger_full_resolved
+  · exact koide_entry_in_ledger
+  · exact koide_contract_matches_entry
+  · exact koide_entry_is_derived
+
+-- ---------------------------------------------------------------------------
+-- 8. Concrete negative instance: Falsified claims are NOT public-ready
+-- ---------------------------------------------------------------------------
+
+/-- Applying a Falsified outcome to any entry makes it NOT public-ready.
+    This is the core rejection theorem: a falsified claim cannot be
+    public-ready because its status is NOGO, not OK. -/
+theorem falsified_entry_is_not_public_ready (e : ClaimEntry) (note : String) :
+    ¬ (ClaimEntry.applyOutcome e .Falsified note).record.isPublicReady := by
+  intro h
+  unfold ClaimRecord.isPublicReady at h
+  have h_status := h.1
+  have h_falsified : (MeasurementContract.applyOutcome e.record .Falsified note).status = .NOGO := by
+    simp [MeasurementContract.applyOutcome]
+  rw [ClaimEntry.applyOutcome_record] at h_status
+  -- h_status : status = OK, h_falsified : status = NOGO, OK ≠ NOGO
+  rw [h_status] at h_falsified
+  exact absurd h_falsified (by decide)
+
+/-- Applying an Inconclusive outcome to any entry makes it NOT public-ready.
+    An inconclusive measurement cannot make a claim public-ready. -/
+theorem inconclusive_entry_is_not_public_ready (e : ClaimEntry) (note : String) :
+    ¬ (ClaimEntry.applyOutcome e .Inconclusive note).record.isPublicReady := by
+  intro h
+  unfold ClaimRecord.isPublicReady at h
+  have h_status := h.1
+  have h_inconclusive : (MeasurementContract.applyOutcome e.record .Inconclusive note).status = .HOLD := by
+    simp [MeasurementContract.applyOutcome]
+  rw [ClaimEntry.applyOutcome_record] at h_status
+  rw [h_status] at h_inconclusive
+  exact absurd h_inconclusive (by decide)
+
+/-- **Concrete rejection theorem**: The PFEntropy T³ claim, after a falsifying
+    measurement (0.20 ± 0.005, which falsifies the ratio = 1/8 prediction),
+    is NOT public-ready.  This is the system rejecting its own claim —
+    machine-proven. -/
+theorem pfentropy_claim_not_public_ready_after_falsification :
+    ¬ (ClaimEntry.applyOutcome PFEntropyDecreasesT3Entry .Falsified
+        "sandbox/T3_entropy_ratio_hostile: 0.20 ± 0.005").record.isPublicReady := by
+  exact falsified_entry_is_not_public_ready PFEntropyDecreasesT3Entry _
+
+/-- **Concrete rejection theorem**: The gravity optics n(0) = 1 claim — which
+    is DERIVED tier — after a falsifying Lorentz-violating measurement
+    (n = 1.02 ± 0.001), is NOT public-ready.  Falsification overrides tier:
+    a falsified DERIVED claim is still not publishable. -/
+theorem gravity_claim_not_public_ready_after_falsification :
+    ¬ (ClaimEntry.applyOutcome weakFieldIndexFlatEntry .Falsified
+        "hypothetical Lorentz violation: n = 1.02 ± 0.001").record.isPublicReady := by
+  exact falsified_entry_is_not_public_ready weakFieldIndexFlatEntry _
+
+/-- **Concrete non-promotion theorem**: The Weinberg angle claim is ARGUED
+    tier.  Even after a confirming measurement, it is NOT public-ready —
+    because `isPublicReady` requires DERIVED or EMPIRICAL ≥ 0.90, and ARGUED
+    does not qualify.  This is the system being honest: confirmation is
+    necessary but not sufficient; the tier must also be high enough. -/
+theorem weinberg_claim_not_public_ready_even_if_confirmed :
+    ¬ (ClaimEntry.applyOutcome weinbergRatioEntry .Confirmed
+        "PDG on-shell sin²θ_W: 0.22310 ± 0.00010").record.isPublicReady := by
+  intro h
+  unfold ClaimRecord.isPublicReady at h
+  obtain ⟨h_status, h_tier⟩ := h
+  -- tier is preserved as ARGUED
+  rw [ClaimEntry.applyOutcome_record] at h_tier
+  have h_preserve : (MeasurementContract.applyOutcome weinbergRatioEntry.record .Confirmed
+                      "PDG on-shell sin²θ_W: 0.22310 ± 0.00010").tier
+                    = weinbergRatioEntry.record.tier := by
+    exact applyOutcome_preserves_tier _ _ _
+  rw [h_preserve, weinberg_entry_is_argued] at h_tier
+  -- h_tier : ARGUED = DERIVED ∨ (ARGUED = EMPIRICAL ∧ ...) — both impossible
+  simp at h_tier
+
 end PfLean
