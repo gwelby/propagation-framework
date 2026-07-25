@@ -111,6 +111,73 @@ def applyOutcome {P : Prop} (cr : ClaimRecord P) (o : MeasurementOutcome)
 end MeasurementContract
 
 -- ---------------------------------------------------------------------------
+-- 2b. Outcome correctness — the outcome function computes what it claims
+-- ---------------------------------------------------------------------------
+
+/-- The outcome is `Falsified` if and only if the measurement falsifies the
+    contract.  This is the correctness theorem for the falsification branch:
+    it says `outcome` correctly identifies falsification. -/
+theorem outcome_iff_falsified (m : Measurement) (c : MeasurementContract) :
+    MeasurementContract.outcome m c = .Falsified ↔ MeasurementContract.falsified m c := by
+  unfold MeasurementContract.outcome
+  split_ifs with h_falsified h_compatible
+  · exact ⟨fun _ => h_falsified, fun _ => rfl⟩
+  · exact ⟨fun h => absurd h (by decide), fun hf => absurd hf h_falsified⟩
+  · exact ⟨fun h => absurd h (by decide), fun hf => absurd hf h_falsified⟩
+
+/-- The outcome is `Confirmed` if and only if the measurement is compatible
+    and NOT falsified.  This is the correctness theorem for the confirmation
+    branch: it says `outcome` correctly identifies confirmation, while
+    respecting falsification priority. -/
+theorem outcome_iff_confirmed (m : Measurement) (c : MeasurementContract) :
+    MeasurementContract.outcome m c = .Confirmed ↔
+    MeasurementContract.compatible m c ∧ ¬ MeasurementContract.falsified m c := by
+  unfold MeasurementContract.outcome
+  split_ifs with h_falsified h_compatible
+  · exact ⟨fun h => absurd h (by decide), fun ⟨_, hf⟩ => absurd h_falsified hf⟩
+  · exact ⟨fun _ => ⟨h_compatible, h_falsified⟩, fun _ => rfl⟩
+  · exact ⟨fun h => absurd h (by decide), fun ⟨hc, _⟩ => absurd hc h_compatible⟩
+
+/-- The outcome is `Inconclusive` if and only if the measurement is neither
+    compatible nor falsified — it falls in the gap between tolerance and
+    falsification threshold. -/
+theorem outcome_iff_inconclusive (m : Measurement) (c : MeasurementContract) :
+    MeasurementContract.outcome m c = .Inconclusive ↔
+    ¬ MeasurementContract.compatible m c ∧ ¬ MeasurementContract.falsified m c := by
+  unfold MeasurementContract.outcome
+  split_ifs with h_falsified h_compatible
+  · exact ⟨fun h => absurd h (by decide), fun ⟨_, hf⟩ => absurd h_falsified hf⟩
+  · exact ⟨fun h => absurd h (by decide), fun ⟨hnc, _⟩ => absurd h_compatible hnc⟩
+  · exact ⟨fun _ => ⟨h_compatible, h_falsified⟩, fun _ => rfl⟩
+
+/-- If the outcome is `Confirmed`, then the measurement is not falsified.
+    This is a direct corollary of `outcome_iff_confirmed`. -/
+theorem confirmed_implies_not_falsified (m : Measurement) (c : MeasurementContract) :
+    MeasurementContract.outcome m c = .Confirmed →
+    ¬ MeasurementContract.falsified m c := by
+  rw [outcome_iff_confirmed]
+  exact fun ⟨_, hf⟩ => hf
+
+/-- If the outcome is `Falsified`, then the measurement is not compatible.
+    Falsification and confirmation are mutually exclusive: the falsification
+    threshold is ≥ the tolerance, so any measurement within the compatible
+    band cannot be in the falsification band. -/
+theorem falsified_implies_not_compatible (m : Measurement) (c : MeasurementContract) :
+    MeasurementContract.outcome m c = .Falsified →
+    ¬ MeasurementContract.compatible m c := by
+  rw [outcome_iff_falsified]
+  intro hf hc
+  -- falsified: |diff| > u + falsThreshold
+  -- compatible: |diff| ≤ u + tolerance
+  -- tolerance ≤ falsThreshold, so u + tolerance ≤ u + falsThreshold
+  -- therefore |diff| ≤ u + falsThreshold, contradicting |diff| > u + falsThreshold
+  have h_le : m.uncertainty + c.tolerance ≤ m.uncertainty + c.falsificationThreshold := by
+    linarith [c.tolerance_le_falsification]
+  have h_comp_abs : |m.value - c.predictedValue| ≤ m.uncertainty + c.falsificationThreshold :=
+    le_trans hc h_le
+  exact absurd hf (not_lt_of_ge h_comp_abs)
+
+-- ---------------------------------------------------------------------------
 -- 3. Example: PF entropy T³ ratio
 -- ---------------------------------------------------------------------------
 

@@ -114,9 +114,15 @@ structure ClaimRecord (P : Prop) where
 
 namespace ClaimRecord
 
-/-- The claim is public-ready only when it is not gated and its tier is
-    `DERIVED` or `EMPIRICAL` with confidence at least 0.90. -/
-def isPublicReady (c : ClaimRecord P) : Prop :=
+/-- The claim meets the publication tier gate when it is not gated and its
+    tier is `DERIVED` or `EMPIRICAL` with confidence at least 0.90.
+
+    This is a **local metadata predicate**, not a release authorization.
+    It checks only the tier and status fields stored in the record.  It does
+    NOT verify data provenance, scientific validation, claim-scope review,
+    independent replication, Legal review, or Greg approval.  Meeting this
+    gate is necessary but not sufficient for any external release. -/
+def meetsPublicationTierGate (c : ClaimRecord P) : Prop :=
   c.status = .OK ∧
   (c.tier = .DERIVED ∨
    c.tier = .EMPIRICAL ∧ c.confidence.value ≥ 0.90)
