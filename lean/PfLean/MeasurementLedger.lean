@@ -10,7 +10,7 @@
   This module defines the structure, the consistency predicate, a concrete
   `pfMeasurementLedger` (the single contract that resolves), and a
   `pfMeasurementLedger_full` (all 4 contracts) which now resolves against
-  the 13-entry `pfClaimLedger`.
+  the 14-entry `pfClaimLedger`.
 
   It also proves `applyOutcome` correctness: Confirmed → OK, Falsified →
   NOGO, Inconclusive → HOLD — closing the loop between measurement and
@@ -88,7 +88,7 @@ theorem pfMeasurementLedger_full_length :
     pfMeasurementLedger_full.contracts.length = 4 := by
   decide
 
-/-- The full ledger resolves against `pfClaimLedger` (13 entries).
+/-- The full ledger resolves against `pfClaimLedger` (14 entries).
     All 4 contract claim names — `PFEntropy_decreases_T3`,
     `weinberg_ratio`, `koide_Q_two_thirds`, `weakFieldIndex_flat` —
     now exist in `pfClaimLedger`. -/
@@ -229,61 +229,80 @@ theorem ClaimLedger.applyMeasurement_length (cl : ClaimLedger) (name : String)
     (cl.applyMeasurement name o note).entries.length = cl.entries.length := by
   simp [ClaimLedger.applyMeasurement, List.length_map]
 
-/-- **Bridge theorem (computed outcome, consumed premises)**: Given a
-    measurement `m`, a contract `c` that is a member of a measurement ledger
-    `ml` that resolves against claim ledger `cl`, and an entry `e` in `cl`
-    whose name matches `c`'s claim name — if the `outcome` function computes
-    `.Confirmed` for `m` against `c`, and `e` is `DERIVED` tier, then applying
-    that computed outcome to `e` in the ledger yields an entry that meets the
+/-- Select the claim entry named by a contract using the ledger-resolution
+    witness.  The selected entry is defined from both membership in the
+    measurement ledger and `contractsResolved`; it is not caller-supplied. -/
+noncomputable def MeasurementLedger.resolvedEntry (ml : MeasurementLedger)
+    (cl : ClaimLedger) (c : MeasurementContract)
+    (h_c_in_ml : c ∈ ml.contracts) (h_resolved : ml.contractsResolved cl) :
+    ClaimEntry :=
+  Classical.choose (h_resolved c h_c_in_ml)
+
+/-- The resolver returns an entry actually present in the claim ledger. -/
+theorem MeasurementLedger.resolvedEntry_mem (ml : MeasurementLedger)
+    (cl : ClaimLedger) (c : MeasurementContract)
+    (h_c_in_ml : c ∈ ml.contracts) (h_resolved : ml.contractsResolved cl) :
+    ml.resolvedEntry cl c h_c_in_ml h_resolved ∈ cl.entries := by
+  exact (Classical.choose_spec (h_resolved c h_c_in_ml)).1
+
+/-- The resolver's entry has exactly the contract's claim name. -/
+theorem MeasurementLedger.resolvedEntry_name (ml : MeasurementLedger)
+    (cl : ClaimLedger) (c : MeasurementContract)
+    (h_c_in_ml : c ∈ ml.contracts) (h_resolved : ml.contractsResolved cl) :
+    (ml.resolvedEntry cl c h_c_in_ml h_resolved).name = c.claimName := by
+  exact (Classical.choose_spec (h_resolved c h_c_in_ml)).2
+
+/-- **Bridge theorem (computed outcome, derived entry, consumed premises)**:
+    Given a measurement `m`, a contract `c` in measurement ledger `ml` that
+    resolves against claim ledger `cl`, if the `outcome` function computes
+    `.Confirmed` for `m` against `c`, and every entry in `cl` matching
+    `c.claimName` is `DERIVED` tier, then applying that computed outcome to
+    the resolved entry in the ledger yields an entry that meets the
     publication tier gate.
 
-    This theorem **actually consumes** all its premises:
-    - `h_c_in_ml : c ∈ ml.contracts` — used to derive that `c`'s claimName is
-      among the ledger's referenced names
-    - `h_resolved : ml.contractsResolved cl` — used to derive that `c`'s
-      claimName matches some entry in `cl`
-    - `h_outcome : outcome m c = .Confirmed` — the computed outcome, not an
-      assumed constructor
-    - `h_e_in_cl : e ∈ cl.entries` — the entry exists in the ledger
-    - `h_name_match : e.name = c.claimName` — the entry matches the contract
-    - `h_derived : e.record.tier = .DERIVED` — the tier gate requirement
+    This theorem **genuinely consumes** all its premises:
+    - `h_c_in_ml : c ∈ ml.contracts` — used to instantiate `h_resolved`
+    - `h_resolved : ml.contractsResolved cl` — applied to `h_c_in_ml` to
+      **derive** the entry `e` from the bridge (not caller-supplied)
+    - `h_outcome : outcome m c = .Confirmed` — the computed outcome, rewritten
+      into the `applyMeasurement` call
+    - `h_tier : ∀ e ∈ cl.entries, e.name = c.claimName → e.record.tier = .DERIVED`
+      — applied to the derived entry to obtain the tier proof
 
-    The proof body uses `h_resolved` applied to `h_c_in_ml` to obtain the
-    fact that `c.claimName` resolves to *some* entry in `cl`, then combines
-    this with `h_name_match` to confirm `e` is that entry.  The computed
-    outcome `h_outcome` is rewritten into the `applyMeasurement` call. -/
+    The entry used in the result is the named `resolvedEntry` selected from
+    `h_resolved` + `h_c_in_ml`, not a caller-supplied witness. -/
 theorem confirmed_derived_claim_meets_tier_gate
     (cl : ClaimLedger) (ml : MeasurementLedger)
     (m : Measurement) (c : MeasurementContract) (note : String)
     (h_c_in_ml : c ∈ ml.contracts)
     (h_resolved : ml.contractsResolved cl)
     (h_outcome : MeasurementContract.outcome m c = .Confirmed)
-    (e : ClaimEntry) (h_e_in_cl : e ∈ cl.entries)
-    (h_name_match : e.name = c.claimName)
-    (h_derived : e.record.tier = .DERIVED) :
+    (h_tier : ∀ e ∈ cl.entries, e.name = c.claimName → e.record.tier = .DERIVED) :
     ∃ e' ∈ (cl.applyMeasurement c.claimName
               (MeasurementContract.outcome m c) note).entries,
-      e'.name = e.name ∧ e'.record.meetsPublicationTierGate := by
-  -- Use h_resolved + h_c_in_ml to confirm c.claimName resolves in cl
-  have h_resolves := h_resolved c h_c_in_ml
-  -- h_resolves : ∃ e' ∈ cl.entries, e'.name = c.claimName
-  -- This confirms the contract points at a real claim in the ledger.
-  -- Combined with h_name_match, e is that claim.
-  -- (We use this to establish the bridge; the membership is exercised.)
-  obtain ⟨e_resolved, h_e_resolved_in, h_e_resolved_name⟩ := h_resolves
+      e'.name = c.claimName ∧ e'.record.meetsPublicationTierGate := by
+  -- Select the entry FROM the bridge; it cannot be named without both
+  -- contract membership and a `contractsResolved` witness.
+  let e := ml.resolvedEntry cl c h_c_in_ml h_resolved
+  have h_e_in : e ∈ cl.entries :=
+    MeasurementLedger.resolvedEntry_mem ml cl c h_c_in_ml h_resolved
+  have h_e_name : e.name = c.claimName :=
+    MeasurementLedger.resolvedEntry_name ml cl c h_c_in_ml h_resolved
+  -- Obtain the tier proof from h_tier, applied to the derived entry
+  have h_derived : e.record.tier = .DERIVED := h_tier e h_e_in h_e_name
   -- Rewrite the computed outcome
   rw [h_outcome]
-  -- Now build the witness
+  -- Build the witness: the derived entry, updated with the computed Confirmed
   refine ⟨ClaimEntry.applyOutcome e .Confirmed note, ?_, ?_⟩
-  · -- The updated entry is in the mapped list
-    -- Use h_e_in_cl and h_name_match to show e is the entry that gets updated
+  · -- The updated entry is in the mapped list (uses h_e_in, h_e_name)
     simp [ClaimLedger.applyMeasurement]
-    refine ⟨e, h_e_in_cl, ?_⟩
-    rw [h_name_match]
+    refine ⟨e, h_e_in, ?_⟩
+    rw [h_e_name]
     simp
-  · -- The updated entry has the right name and meets the tier gate
-    -- Use h_derived for the tier gate, and the computed-confirmed outcome
-    refine ⟨ClaimEntry.applyOutcome_name e .Confirmed note,
+  · -- The updated entry has name = c.claimName (via h_e_name) and meets the tier gate
+    have h_name' : (ClaimEntry.applyOutcome e .Confirmed note).name = c.claimName := by
+      rw [ClaimEntry.applyOutcome_name, h_e_name]
+    refine ⟨h_name',
             confirmed_derived_entry_meets_tier_gate e note h_derived⟩
 
 -- ---------------------------------------------------------------------------
@@ -310,6 +329,13 @@ theorem pfentropy_entry_is_conditional :
     PFEntropyDecreasesT3Entry.record.tier = .CONDITIONAL := by
   rfl
 
+/-- The kernel-only PFEntropy T³ identity is DERIVED.  This is deliberately
+    distinct from `PFEntropyDecreasesT3Entry`, whose physical reading remains
+    conditional on `PFEntropyT3PhysicalTransferPremise`. -/
+theorem pfentropy_formal_identity_entry_is_derived :
+    PFEntropyT3FormalIdentityEntry.record.tier = .DERIVED := by
+  rfl
+
 -- ---------------------------------------------------------------------------
 -- 7. Concrete positive instance: Koide claim is tier-gate
 -- ---------------------------------------------------------------------------
@@ -329,23 +355,23 @@ theorem koide_contract_in_ledger :
     Koide_contract ∈ pfMeasurementLedger_full.contracts := by
   simp [pfMeasurementLedger_full, MeasurementLedger.empty, MeasurementLedger.add]
 
-/-- **Concrete tier-gate theorem (computed outcome)**: Running the
-    charged-lepton measurement through the Koide contract, the `outcome`
-    function computes `.Confirmed`.  Applying that computed outcome to the
-    Koide DERIVED claim in `pfClaimLedger` produces an entry that meets the
+/-- **Concrete tier-gate theorem (computed outcome, derived entry)**: Running
+    the charged-lepton measurement through the Koide contract, the `outcome`
+    function computes `.Confirmed`.  The bridge theorem derives the matching
+    entry from `pfClaimLedger` via `contractsResolved`, obtains its DERIVED
+    tier from the tier hypothesis, and concludes the updated entry meets the
     publication tier gate.
 
-    This is the first concrete instance of the bridge theorem — not "for any
-    DERIVED claim" but "this specific Koide Q = 2/3 claim, with this specific
-    charged-lepton measurement, whose outcome is *computed* (not assumed),
-    meets the tier gate."  The measurement value is a typed literal, not a
-    provenance-validated datum. -/
+    This is the first concrete instance of the bridge theorem.  The entry is
+    NOT caller-supplied — it is derived from the measurement ledger's
+    resolution property.  The outcome is *computed* (not assumed).  The
+    measurement value is a typed literal, not a provenance-validated datum. -/
 theorem koide_claim_meets_tier_gate_after_computed_confirmation :
     ∃ e' ∈ (pfClaimLedger.applyMeasurement
-              koideQTwoThirdsEntry.name
+              Koide_contract.claimName
               (MeasurementContract.outcome chargedLepton_Koide_measurement Koide_contract)
               "PDG charged lepton masses: Q = 0.66666 ± 0.00001").entries,
-      e'.name = koideQTwoThirdsEntry.name ∧ e'.record.meetsPublicationTierGate := by
+      e'.name = Koide_contract.claimName ∧ e'.record.meetsPublicationTierGate := by
   apply confirmed_derived_claim_meets_tier_gate
     pfClaimLedger pfMeasurementLedger_full
     chargedLepton_Koide_measurement Koide_contract
@@ -353,9 +379,25 @@ theorem koide_claim_meets_tier_gate_after_computed_confirmation :
   · exact koide_contract_in_ledger
   · exact pfMeasurementLedger_full_resolved
   · exact chargedLepton_Koide_confirmed
-  · exact koide_entry_in_ledger
-  · exact koide_contract_matches_entry
-  · exact koide_entry_is_derived
+  · -- h_tier: every entry in pfClaimLedger with name = Koide_contract.claimName is DERIVED
+    -- The pfClaimLedger is a concrete list of 14 entries.
+    -- The only entry with name "koide_Q_two_thirds" is koideQTwoThirdsEntry, which is DERIVED.
+    intro e h_e_in h_name
+    -- Unfold Koide_contract to get the literal claim name
+    unfold Koide_contract at h_name
+    -- Unfold the concrete ledger
+    unfold pfClaimLedger at h_e_in
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at h_e_in
+    -- Case-analyze all 14 entries
+    rcases h_e_in with
+      rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+    all_goals first
+      | exact koide_entry_is_derived
+      | simp [fullNormT3StrictlyDecreasesEntry, PFEntropyT3FormalIdentityEntry,
+          PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry, P0QDotZeroEntry,
+          QSumZeroEntry, TFullDecompositionEntry, topologicalAvailabilityEntry,
+          kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry, quatToSO3KerEntry,
+          weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry] at h_name
 
 -- ---------------------------------------------------------------------------
 -- 8. Concrete negative instance: Falsified claims are NOT meet the tier gate
@@ -588,6 +630,19 @@ theorem source_string_alone_does_not_meet_tier_gate :
         "PDG confirmed: Q = 0.66666 ± 0.00001 (fake source)").record.meetsPublicationTierGate := by
   exact falsified_entry_does_not_meet_tier_gate koideQTwoThirdsEntry
     "PDG confirmed: Q = 0.66666 ± 0.00001 (fake source)"
+
+/-- **Negative provenance test**: changing only a measurement's free-form
+    source label leaves its computed numeric outcome unchanged.  A source
+    string is therefore neither a validation receipt nor a substitute for the
+    `MeasurementProvenance` required by `ValidatedMeasurement`. -/
+theorem koide_outcome_is_invariant_under_source_replacement :
+    MeasurementContract.outcome
+        (Measurement.withSource chargedLepton_Koide_measurement
+          "forged external source")
+        Koide_contract =
+      MeasurementContract.outcome chargedLepton_Koide_measurement Koide_contract := by
+  exact MeasurementContract.outcome_invariant_under_source_change
+    chargedLepton_Koide_measurement "forged external source" Koide_contract
 
 /-- **Negative test 2**: An `ARGUED` tier claim, even after a `.Confirmed`
     outcome with a PDG source string, does NOT meet the tier gate.  The tier

@@ -110,14 +110,42 @@ def fullNormPythagoreanEntry : ClaimEntry :=
       "orthogonal decomposition of state space fails"
       ["P0_Q_dot_zero", "Q_sum_zero"])
 
-def PFEntropyDecreasesT3Entry : ClaimEntry :=
+/-- The kernel-level algebraic identity for the defined `T3` operator.  This
+    entry deliberately makes no physical-transfer assertion. -/
+def PFEntropyT3FormalIdentityEntry : ClaimEntry :=
   let P : Prop := ∀ x : Fin 3 → ℝ, PFEntropy (T3 x) = (1 / 8) * PFEntropy x
   let h : P := PFEntropy_decreases_T3
+  ClaimEntry.mk "PFEntropy_T3_formal_identity" P
+    (ClaimRecord.derived h
+      "Entropy.lean: formal T³ algebraic identity only; no physical transfer is asserted"
+      "the formal Entropy.lean identity fails"
+      ["P0_Q_dot_zero", "Q_sum_zero"])
+
+/-- A named, intentionally unproven bridge from the formal `T3` model to a
+    selected physical observation.  No inhabitant is supplied in PfLean. -/
+opaque PFEntropyT3PhysicalTransferPremise : Prop
+
+/-- The physical reading is conditional on an explicit transfer premise; the
+    formal identity alone does not establish that premise. -/
+def PFEntropyT3PhysicalReading : Prop :=
+  PFEntropyT3PhysicalTransferPremise →
+    ∀ x : Fin 3 → ℝ, PFEntropy (T3 x) = (1 / 8) * PFEntropy x
+
+theorem pfentropy_t3_physical_reading : PFEntropyT3PhysicalReading := by
+  intro _ x
+  exact PFEntropy_decreases_T3 x
+
+/-- The physical interpretation of the T³ identity.  The named transfer
+    premise is part of the proposition, so this CONDITIONAL row is distinct
+    from `PFEntropyT3FormalIdentityEntry`. -/
+def PFEntropyDecreasesT3Entry : ClaimEntry :=
+  let P : Prop := PFEntropyT3PhysicalReading
+  let h : P := pfentropy_t3_physical_reading
   ClaimEntry.mk "PFEntropy_decreases_T3" P
     (ClaimRecord.conditional h
-      "Entropy.lean: one 3-step T³ cycle scales PF Entropy by 1/8"
-      "T³ does not scale residue tension by 1/8"
-      ["T_full_decomposition", "Q_sum_zero"])
+      "Conditional physical reading: if PFEntropyT3PhysicalTransferPremise holds, the formal T³ identity applies"
+      "the named physical-transfer premise or formal T³ identity fails"
+      ["PFEntropy_T3_formal_identity"])
 
 def fullNormT3StrictlyDecreasesEntry : ClaimEntry :=
   let P : Prop := ∀ x : Fin 3 → ℝ, PFEntropy x > 0 →
@@ -164,6 +192,7 @@ def weakFieldIndexFlatEntry : ClaimEntry :=
 
 def pfClaimLedger : ClaimLedger :=
   ⟨[ fullNormT3StrictlyDecreasesEntry
+   , PFEntropyT3FormalIdentityEntry
    , PFEntropyDecreasesT3Entry
    , fullNormPythagoreanEntry
    , P0QDotZeroEntry
@@ -181,7 +210,8 @@ theorem pfClaimLedger_wellFormed :
     pfClaimLedger.dependenciesResolved := by
   simp [pfClaimLedger, ClaimLedger.dependenciesResolved, ClaimEntry.dependencies,
         ClaimRecord.derived, ClaimRecord.conditional,
-        fullNormT3StrictlyDecreasesEntry, PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
+        fullNormT3StrictlyDecreasesEntry, PFEntropyT3FormalIdentityEntry,
+        PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
         P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,
         topologicalAvailabilityEntry, kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry,
         quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]

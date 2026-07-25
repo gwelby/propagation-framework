@@ -8,6 +8,9 @@
 
   - `Measurement` carries a real value, a non-negative uncertainty, and a
     source string.
+  - `MeasurementProvenance` is a separate, typed local record for dataset,
+    artifact, method, calibration, and validation-receipt metadata.  A source
+    string is deliberately not treated as provenance.
   - `MeasurementContract` links a claim name to a predicted observable value
     and two bands: a *tolerance* (inside = measurement confirms the claim)
     and a *falsification threshold* (outside = measurement falsifies the
@@ -38,6 +41,57 @@ structure Measurement where
   uncertainty : ℝ
   uncertainty_nonneg : 0 ≤ uncertainty
   source : String
+
+/-- Typed metadata required for a *locally structured* provenance record.
+
+    This structure is intentionally a representation boundary, not an
+    attestation mechanism: its fields are supplied by the caller and the
+    kernel does not retrieve, hash, or independently validate external data.
+    The non-empty fields prevent a record from being silently synthesized from
+    the bare `Measurement.source` string alone. -/
+structure MeasurementProvenance where
+  datasetId : String
+  datasetId_nonempty : datasetId ≠ ""
+  artifactHash : String
+  artifactHash_nonempty : artifactHash ≠ ""
+  versionOrDate : String
+  versionOrDate_nonempty : versionOrDate ≠ ""
+  observable : String
+  observable_nonempty : observable ≠ ""
+  scheme : String
+  scheme_nonempty : scheme ≠ ""
+  uncertaintyModel : String
+  uncertaintyModel_nonempty : uncertaintyModel ≠ ""
+  method : String
+  method_nonempty : method ≠ ""
+  calibration : String
+  calibration_nonempty : calibration ≠ ""
+  validationReceipt : String
+  validationReceipt_nonempty : validationReceipt ≠ ""
+
+/-- A measurement paired with explicit local provenance metadata.
+
+    This type does not certify an external data source.  It ensures only that
+    a proof or API that asks for structured provenance receives a distinct
+    record rather than a free-form source label. -/
+structure ValidatedMeasurement where
+  measurement : Measurement
+  provenance : MeasurementProvenance
+
+namespace Measurement
+
+/-- Replace only explanatory source text; numeric measurement fields remain
+    unchanged. -/
+def withSource (m : Measurement) (source : String) : Measurement :=
+  { m with source }
+
+/-- Attach caller-supplied structured provenance.  There is deliberately no
+    `String → MeasurementProvenance` constructor in this module. -/
+def attachProvenance (m : Measurement) (p : MeasurementProvenance) :
+    ValidatedMeasurement :=
+  ⟨m, p⟩
+
+end Measurement
 
 /-- A contract between a formal claim and an observable. -/
 structure MeasurementContract where
@@ -75,6 +129,14 @@ noncomputable def outcome (m : Measurement) (c : MeasurementContract) : Measurem
   if falsified m c then .Falsified
   else if compatible m c then .Confirmed
   else .Inconclusive
+
+/-- Replacing a free-form source label cannot change a numeric outcome.
+    This is intentional: `source` is explanatory metadata, while a
+    `ValidatedMeasurement` requires a separate `MeasurementProvenance` term. -/
+theorem outcome_invariant_under_source_change (m : Measurement)
+    (source : String) (c : MeasurementContract) :
+    outcome (Measurement.withSource m source) c = outcome m c := by
+  rfl
 
 /-- Update a `ClaimRecord` according to the measurement outcome. -/
 def applyOutcome {P : Prop} (cr : ClaimRecord P) (o : MeasurementOutcome)
