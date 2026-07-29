@@ -350,6 +350,42 @@ def fixture_bohr_confidence_mismatch(tmp_explorer: Path) -> None:
     print("  PASS fixture: Bohr confidence mismatch rejected")
 
 
+def fixture_mapped_authority_bypass(tmp_explorer: Path) -> None:
+    """V5.6: Mutate fine-structure-alpha (mapped to alpha-numeric) to return
+    isAuthority=false with reason='bogus-bypass' while preserving rendered
+    authority values (OPEN, null confidence).
+
+    This is the exact hostile mutation from Codex's adjacent reproduction.
+    The proof must FAIL — a mapped authority node cannot be unbound by
+    substituting an arbitrary data-status-reason.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Inject a hostile override before the normal authority lookup:
+        # if the node is 'fine-structure-alpha', return a non-authority
+        # result with an arbitrary reason, bypassing the mapping.
+        patched = text.replace(
+            "var authId = NODE_TO_AUTHORITY[node.id];",
+            "var authId = NODE_TO_AUTHORITY[node.id];\n"
+            "    if (node.id === 'fine-structure-alpha') { "
+            "return { status: 'OPEN', confidence: null, isAuthority: false, reason: 'bogus-bypass' }; }",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Mapped authority bypass fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
+        )
+    # The proof must report either the closed-vocabulary rejection or the
+    # mapped-node verification failure (both are valid detection paths).
+    if "bogus-bypass" not in proc.stdout and "Mapped" not in proc.stdout and "mapped" not in proc.stdout:
+        raise AssertionError(
+            f"Mapped authority bypass fixture did not report the bypass detection; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: mapped authority bypass (bogus-bypass reason) rejected")
+
+
 def main() -> int:
     print("=" * 70)
     print("Explorer V5.2/V5.3/V5.5 Runtime Proof — Copied-Candidate Negative Fixtures")
@@ -378,6 +414,7 @@ def main() -> int:
         fixture_unbound_main_graph_detail(tmp_explorer)
         fixture_unbound_timeline(tmp_explorer)
         fixture_bohr_confidence_mismatch(tmp_explorer)
+        fixture_mapped_authority_bypass(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 

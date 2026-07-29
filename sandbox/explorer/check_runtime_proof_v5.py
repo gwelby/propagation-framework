@@ -37,6 +37,12 @@ SERVE_SCRIPT = EXPLORER_DIR / "serve.py"
 REGISTRY_PATH = EXPLORER_DIR / "release_tree_registry.json"
 EVIDENCE_PATH = EXPLORER_DIR / "_browser_dom_evidence.json"
 
+# V5.6: Closed vocabulary of accepted non-authority reasons.
+# Only 'axiom' and 'intermediate-ui' are semantically eligible non-authority
+# classifications produced by resolveNodeAuthority() in timeline.js.
+# Any other reason value is treated as a potential authority-bypass.
+CLOSED_REASON_VOCABULARY = {"axiom", "intermediate-ui"}
+
 
 def _find_free_port() -> int:
     """Find an isolated free port on loopback."""
@@ -164,6 +170,34 @@ def load_authority_data() -> dict:
                 }
     return claims
 
+
+def load_node_authority_mapping() -> dict[str, str]:
+    """V5.6: Load the NODE_TO_AUTHORITY mapping from timeline.js.
+
+    This maps timeline node IDs (e.g. 'fine-structure-alpha') to authority
+    claim IDs (e.g. 'alpha-numeric'). The proof uses this to verify that
+    mapped authority nodes render with the correct data-claim-id binding
+    and cannot be bypassed by substituting an arbitrary data-status-reason.
+    """
+    import re
+    timeline_js = EXPLORER_DIR / "timeline.js"
+    if not timeline_js.is_file():
+        return {}
+    text = timeline_js.read_text(encoding="utf-8")
+    m = re.search(r"var\s+NODE_TO_AUTHORITY\s*=\s*\{(.*?)\};", text, re.DOTALL)
+    if not m:
+        return {}
+    mapping: dict[str, str] = {}
+    for line in m.group(1).splitlines():
+        line = line.strip().rstrip(",")
+        if not line or line.startswith("//"):
+            continue
+        m2 = re.match(r"'([^']+)':\s*'([^']+)'", line)
+        if m2:
+            mapping[m2.group(1)] = m2.group(2)
+    return mapping
+
+
 STATUS_ELEMENT_SELECTORS = (
     ".status-pill, .status-badge, [data-status-note], .result-card-status, .eb-status-pill, .result-status, "
     ".detail-confidence, .node-status-label, .node-conf-value, .detail-status, .conf-value"
@@ -197,6 +231,67 @@ def _collect_status_elements(page, selector: str = STATUS_ELEMENT_SELECTORS) -> 
         """,
         selector,
     )
+
+
+def _verify_mapped_nodes(page, node_mapping: dict[str, str], authority_claims: dict) -> list[dict]:
+    """V5.6: Verify that each mapped timeline node renders with the correct
+    data-claim-id binding on its status and confidence elements.
+
+    For each entry in NODE_TO_AUTHORITY, query the DOM for the node's
+    .node-status-label and .node-conf-value elements and verify they carry
+    the expected data-claim-id. A mapped node that renders with
+    data-status-reason instead of data-claim-id is an authority bypass.
+
+    Returns a list of failure dicts (empty if all mapped nodes are correct).
+    """
+    failures: list[dict] = []
+    for node_id, expected_claim_id in node_mapping.items():
+        # Query the timeline node's status label and confidence value
+        result = page.evaluate(
+            """
+            ([nodeId, expectedClaimId]) => {
+                var nodeG = document.querySelector('[data-id="' + nodeId + '"]');
+                if (!nodeG) return { found: false };
+                var statusLabel = nodeG.querySelector('.node-status-label');
+                var confValue = nodeG.querySelector('.node-conf-value');
+                return {
+                    found: true,
+                    statusLabel: statusLabel ? {
+                        text: statusLabel.textContent.trim(),
+                        claimId: statusLabel.getAttribute('data-claim-id'),
+                        statusReason: statusLabel.getAttribute('data-status-reason'),
+                    } : null,
+                    confValue: confValue ? {
+                        text: confValue.textContent.trim(),
+                        claimId: confValue.getAttribute('data-claim-id'),
+                        statusReason: confValue.getAttribute('data-status-reason'),
+                    } : null,
+                };
+            }
+            """,
+            [node_id, expected_claim_id],
+        )
+        if not result.get("found"):
+            # Node not rendered in current view — skip (not all nodes are visible)
+            continue
+
+        for elem_name in ("statusLabel", "confValue"):
+            elem = result.get(elem_name)
+            if not elem:
+                continue
+            claim_id = elem.get("claimId")
+            status_reason = elem.get("statusReason")
+            if claim_id != expected_claim_id:
+                failures.append({
+                    "node_id": node_id,
+                    "element": elem_name,
+                    "expected_claim_id": expected_claim_id,
+                    "observed_claim_id": claim_id,
+                    "observed_status_reason": status_reason,
+                    "error": f"Mapped node '{node_id}' {elem_name} has claim-id={claim_id!r}, expected {expected_claim_id!r}"
+                        + (f" (carries status-reason={status_reason!r} instead)" if status_reason else ""),
+                })
+    return failures
 
 
 def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
@@ -254,6 +349,10 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
                     if not reason:
                         errors.append(f"non-authority element missing data-status-reason in {selector}: '{text}'")
                         continue
+                    # V5.6: Enforce closed reason vocabulary
+                    if reason not in CLOSED_REASON_VOCABULARY:
+                        errors.append(f"unrecognized non-authority reason {reason!r} in {selector} (not in closed vocabulary)")
+                        continue
                     if expected_status and expected_status not in text.upper():
                         errors.append(f"non-authority status mismatch in {selector}: expected {expected_status} in '{text}'")
                     continue
@@ -305,6 +404,10 @@ def _verify_inventory_entry(page, entry: dict, authority_claims: dict) -> dict:
             result["observed_reason"] = reason
             if not reason:
                 result["error"] = f"non-authority element missing data-status-reason: {selector}"
+                return result
+            # V5.6: Enforce closed reason vocabulary
+            if reason not in CLOSED_REASON_VOCABULARY:
+                result["error"] = f"unrecognized non-authority reason: {reason!r} (not in closed vocabulary)"
                 return result
             text = (el.text_content() or "").strip()
             result["observed_text"] = text
@@ -459,6 +562,26 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
+                # V5.6: Verify mapped timeline nodes render with correct
+                # data-claim-id. This catches authority-bypass where a mapped
+                # node is rendered with data-status-reason instead of
+                # data-claim-id. Only applies to derivation.html (timeline).
+                mapped_node_failures: list[dict] = []
+                if path == "derivation.html":
+                    node_mapping = load_node_authority_mapping()
+                    if node_mapping:
+                        mapped_node_failures = _verify_mapped_nodes(page, node_mapping, authority_claims)
+                        dom_evidence["mapped_node_failures"] = mapped_node_failures
+                        if mapped_node_failures:
+                            results[path] = {
+                                "status": "FAIL",
+                                "reason": f"Mapped authority node bypass: {len(mapped_node_failures)} failures",
+                                "route_type": route_type,
+                                "dom_evidence": dom_evidence,
+                                "mapped_node_failures": mapped_node_failures[:5],
+                            }
+                            continue
+
                 # V5.2: Activate and verify every expected status inventory entry
                 # for this route. Missing element, missing data-claim-id, unknown
                 # ID, or status/confidence mismatch must fail.
@@ -519,8 +642,18 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                             "has_status_word": has_status_word,
                         }
 
-                        # Explicit non-authority classification: record and skip.
+                        # V5.6: Explicit non-authority classification — only
+                        # accept reasons from the closed vocabulary. Arbitrary
+                        # reason text (e.g. 'bogus-bypass') is a potential
+                        # authority-bypass on a mapped node and must FAIL.
                         if status_reason:
+                            if status_reason not in CLOSED_REASON_VOCABULARY:
+                                binding["error"] = (
+                                    f"Unrecognized non-authority reason: {status_reason!r} "
+                                    f"(not in closed vocabulary {sorted(CLOSED_REASON_VOCABULARY)})"
+                                )
+                                authority_binding.append(binding)
+                                continue
                             binding["non_authority"] = True
                             authority_binding.append(binding)
                             continue
