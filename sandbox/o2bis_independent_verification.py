@@ -153,7 +153,7 @@ def G_finite_N(a, q, N, c):
 sigma = 0.05
 corr_time = 3.0
 N = 30 if FAST else 100
-n_traj = 1000 if FAST else 50000
+n_traj = 3000 if FAST else 50000
 
 c = np.exp(-1.0 / corr_time)
 
