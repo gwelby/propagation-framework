@@ -325,7 +325,13 @@ def fixture_unbound_timeline(tmp_explorer: Path) -> None:
         raise AssertionError(
             f"Unbound timeline fixture should have failed; stdout={proc.stdout[-500:]}, stderr={proc.stderr[-500:]}"
         )
-    if "Status pill without claim ID binding" not in proc.stdout and "missing data-claim-id" not in proc.stdout:
+    # V5.6: mapped-node verification catches data-claim-id removal as a
+    # mapped authority bypass (the stronger detection path). The older
+    # "Status pill without claim ID binding" / "missing data-claim-id"
+    # messages remain valid for unmapped nodes.
+    if ("Status pill without claim ID binding" not in proc.stdout
+            and "missing data-claim-id" not in proc.stdout
+            and "Mapped authority node bypass" not in proc.stdout):
         raise AssertionError("Timeline fixture did not report the intended unbound status failure")
     print("  PASS fixture: unbound timeline status rejected")
 
