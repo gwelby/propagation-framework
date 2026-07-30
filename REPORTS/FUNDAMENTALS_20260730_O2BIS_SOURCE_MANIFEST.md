@@ -1,6 +1,6 @@
 # O2bis Source Manifest — Repair Against Codex HOLD
 
-**Commit:** `TBD` (run `git rev-parse HEAD` after committing this manifest and the files it lists)  
+**Commit:** see the git revision that contains this file (`git rev-parse --verify HEAD`)  
 **Ledger:** `clg_8d642db3f9d24a616f312922` (prior), `clg_de85188d6be71e28aa854159` (re-audit)  
 **Date:** 2026-07-30  
 **Agent:** Devin ∇λΣ∞
