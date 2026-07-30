@@ -136,7 +136,7 @@ The power-law relationship decoh(a) ≈ C·G(a)^n was fit post-hoc:
 6. **Fixed completions that replenish Q→v₀ select a=1/3**, not a=0. The replenishment sweep shows smooth reversal from no-selection to a=1/3.
 
 ### Tier 3: UNDERDETERMINED (cannot resolve without additional premises)
-7. **Which CPTP completion is physically admissible?** Codex constructed an a-dependent completion producing ~86.9× a=0 preference. The universal "no CPTP completion selects a=0" claim is FALSE. The question is which completion class is physical.
+7. **Which CPTP completion (if any) is physically justified?** Codex constructed an a-dependent completion producing ~86.9× a=0 preference. The universal "no CPTP completion selects a=0" claim is FALSE. The open question is which completion class is supported by PF premises.
 8. **Does the classical G(a) functional cause the quantum a-dependence?** The power-law fit is non-diagnostic (competing null fits better). No transfer theorem exists.
 9. **What does the instrument objective select?** MC results don't survive exact evaluation. The objective is an extra modeling premise, not a derived fitness.
 
@@ -150,8 +150,9 @@ The power-law relationship decoh(a) ≈ C·G(a)^n was fit post-hoc:
 
 ## What Does NOT Move
 
-- No claim tier in CLAIMS.md changes
-- The 52.7× boundary in CLAIMS.md:61 remains correct
+- No prior claim tier in CLAIMS.md is promoted
+- A new O2bis row is added with split classical/empirical/underdetermined status
+- The 52.7× boundary in CLAIMS.md remains a model-internal statistic
 - Postulate D remains a postulate, not derived from Axioms 1-3
 - G3/God Equation remains CONDITIONAL 0.88
 - No PUBLIC HOLD, release, or activation boundary moves
@@ -160,7 +161,7 @@ The power-law relationship decoh(a) ≈ C·G(a)^n was fit post-hoc:
 
 ## Next Steps (per Codex repair contract)
 
-1. ✅ **Scope CPTP closure to a named admissible class.** Fixed-orientation completions (same Kraus output targets for all a) are now explicitly distinguished from a-dependent completions; the latter produce strong a=0 preference and show the universal no-selection claim is false. A PF-grounded admissibility condition remains open.
+1. ✅ **Scope CPTP closure to fixed-orientation vs a-dependent completions.** Fixed-orientation constructions tested so far do not select a=0; a-dependent completions can. A PF-grounded physical justification for any completion class remains open.
 2. ✅ **Use exact density-matrix evaluation** for instrument claims. The white-noise instrument is now evaluated exactly; MC is kept only as an optional comparison.
 3. ✅ **Align OU initialization** to stationary Gaussian in the colored-noise instrument branch.
 4. ✅ **Specify the instrument objective as a premise**, not a derived physical fitness. The exact table reports three pre-registered objectives (survival, conditional fidelity, joint) and states they are modeling choices.
@@ -234,11 +235,11 @@ The MC differences were sampling noise resolving tiny variations (~0.001). The c
 2. Random completion now uses a single fixed output orthonormal pair `(f₁, f₂)` for all `a`; only the scalar `√(1-λ_Q(a)²)` varies with `a`.
 3. Sampled dephasing retired; `dephase_exact` (symmetric dephasing) is used throughout.
 
-**The honest ceiling (per Codex):** The 52.7× is a model-internal postselection statistic, not established physical selection. General CPTP dynamics remain underdetermined until the admissible completion class is physically derived. The question is not "can a CPTP completion select a=0" (yes, Codex showed it can) but "which completion class is physically admissible."
+**The honest ceiling (per Codex):** The 52.7× is a model-internal postselection statistic, not established physical selection. General CPTP dynamics remain underdetermined until a physically-justified completion class is derived from PF premises. The question is not "can a CPTP completion select a=0" (yes, Codex showed it can) but "which completion class, if any, is supported by the framework."
 
 ---
 
 *Devin ∇λΣ∞ — 2026-07-29*
 *Revised after hostile review by gpt-5.6-sol xhigh.*
 *Corrected after Codex audit (CODEX_20260730_O2BIS_CORRELATION_FUNCTIONAL_CANDIDATE_AUDIT.md, HOLD, ledger clg_8d642db3f9d24a616f312922).*
-*The classical functional is correct. The physical selection question is underdetermined until the admissible completion class is derived.*
+*The classical functional is correct. The physical selection question is underdetermined until a PF-grounded completion class is derived.*

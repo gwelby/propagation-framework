@@ -1,22 +1,25 @@
 #!/usr/bin/env python3.12
 """
-Independent verification of the O2bis analytic formula.
+Independent integration check for the O2bis analytic formula.
 
-Claims to verify:
-1. r(k,a) = (1/3)(1 + 2*λ_Q^|k|)  [return probability]
-2. G(a) = (1/3)[S + 2*(1+λ_Q*q)/(1-λ_Q*q)]  [decoherence rate]
-3. dG/da = 2q/(1-λ_Q*q)^2 > 0  [monotonicity]
-4. G(a) matches the Monte Carlo bare variance
-5. The power-law decoh ≈ C*G^n holds (NON-DIAGNOSTIC)
+Checks:
+1. r(k,a) = (1/3)(1 + 2*λ_Q^|k|)  [exact]
+2. G(a) = (1/3)[S + 2*(1+λ_Q*q)/(1-λ_Q*q)]  [exact]
+3. dG/da = 2q/(1-λ_Q*q)^2 > 0  [exact]
+4. G(a) matches the seeded Monte Carlo bare variance [statistical]
+5. The power-law decoh ≈ C*G^n is NON-DIAGNOSTIC compared to a competing null
 
-Run with --fast for a deterministic regression fixture (< 5 seconds).
-Full mode uses 50K/10K trajectories and is slow.
+This is a seeded statistical integration check, not a fast unit-test gate.
+The fast, exact, fail-closed gate is `o2bis_fast_regression.py`.
+Run with --fast for a cheaper smoke test; full mode uses 50K/10K trajectories.
 """
 
 import sys
 import numpy as np
 
 FAST = '--fast' in sys.argv
+NEGATIVE = '--negative' in sys.argv
+FAILURES = 0
 
 # ── Setup ────────────────────────────────────────────────────────────────
 X = np.array([[0,0,1],[1,0,0],[0,1,0]], dtype=complex)
@@ -43,6 +46,8 @@ for a in [0.0, 0.2, 0.5, 0.9]:
         r_matrix = Uk[0, 0].real  # diagonal entry = return prob
         r_formula = (1/3) * (1 + 2 * lambda_Q(a)**k)
         match = "✓" if abs(r_matrix - r_formula) < 1e-10 else "✗"
+        if match == '✗':
+            FAILURES += 1
         print(f"  {k:3d} {r_matrix:14.8f} {r_formula:14.8f} {match:>6}")
         Uk = Uk @ Ua
 
@@ -73,6 +78,8 @@ for a in np.linspace(0, 0.95, 20):
     gf = G_formula(a, q)
     gn = G_numerical(a, q)
     match = "✓" if abs(gf - gn) < 1e-8 else "✗"
+    if match == '✗':
+        FAILURES += 1
     print(f"  {a:6.3f} {gf:12.8f} {gn:12.8f} {match:>6}")
 
 # ── Check 3: Derivative dG/da ────────────────────────────────────────────
@@ -89,6 +96,13 @@ def dG_da_numerical(a, q, h=1e-6):
     """Finite difference."""
     return (G_formula(a + h, q) - G_formula(a - h, q)) / (2 * h)
 
+# Negative control: deliberately corrupt the G formula to prove the gate fails.
+if NEGATIVE:
+    _G_formula = G_formula
+    G_formula = lambda a, q: 2.0 * _G_formula(a, q)
+    print("NEGATIVE CONTROL: G_formula multiplied by 2.0 (expected to fail)")
+    print("=" * 70)
+
 print(f"\n  q = {q}")
 print(f"  {'a':>6} {'dG/da formula':>14} {'dG/da numeric':>14} {'match':>6} {'positive':>8}")
 for a in np.linspace(0, 0.95, 20):
@@ -96,6 +110,10 @@ for a in np.linspace(0, 0.95, 20):
     dn = dG_da_numerical(a, q)
     match = "✓" if abs(df - dn) < 1e-6 else "✗"
     pos = "✓" if df > 0 else "✗"
+    if match == '✗':
+        FAILURES += 1
+    if pos == '✗':
+        FAILURES += 1
     print(f"  {a:6.3f} {df:14.8f} {dn:14.8f} {match:>6} {pos:>8}")
 
 # ── Check 4: G(a) vs Monte Carlo bare variance ───────────────────────────
@@ -157,7 +175,7 @@ n_traj = 3000 if FAST else 50000
 
 c = np.exp(-1.0 / corr_time)
 
-mode = "FAST (deterministic regression)" if FAST else "FULL (50K trajectories)"
+mode = "FAST (statistical smoke test)" if FAST else "FULL (50K trajectories)"
 print(f"  Mode: {mode}")
 print(f"  σ = {sigma}, τ_c = {corr_time}, N = {N}, traj = {n_traj}")
 print(f"  OU stationary variance = σ² = {sigma**2:.6f}")
@@ -173,6 +191,8 @@ for a in [0.0, 0.1, 0.2, 0.333, 0.5, 0.7, 0.9, 0.95]:
     err_fin = abs(ratio - gf_fin) / gf_fin
     tol = 0.05 if FAST else 0.02
     match = "✓" if err_fin < tol else "✗"
+    if match == '✗':
+        FAILURES += 1
     print(f"  {a:6.3f} {gf:10.6f} {gf_fin:10.6f} {mc_var:12.8f} {ratio:10.6f} {ratio/gf_fin:8.4f} {match:>6}")
 
 # ── Check 5: Power-law fit + competing null ──────────────────────────────
@@ -229,7 +249,7 @@ C2_fit = np.exp(log_C2)
 R2_null = 1 - np.var(log_d - m_fit * log_oma - log_C2) / np.var(log_d)
 
 print(f"  Fit A (G power law):  decoh = {C_fit:.4e} × G^{n_fit:.2f},  R² = {R2_G:.6f}")
-print(f"  Fit B (competing null): decoh = {C2_fit:.4e} × (1-a)^(-{m_fit:.3f}),  R² = {R2_null:.6f}")
+print(f"  Fit B (competing null): decoh = {C2_fit:.4e} × (1-a)^({m_fit:.3f}),  R² = {R2_null:.6f}")
 print()
 if R2_null > R2_G:
     print(f"  ⚠ COMPETING NULL FITS BETTER: R²(B) = {R2_null:.6f} > R²(A) = {R2_G:.6f}")
@@ -240,13 +260,38 @@ else:
 
 print()
 print(f"  {'a':>6} {'G(a)':>10} {'decoh(MC)':>10} {'pred(G)':>10} {'pred(null)':>10} {'r(G)':>6} {'r(null)':>7}")
+
+# Sign-consistency and residual assertions
+max_residual_G = 0.0
+max_residual_null = 0.0
 for i, a in enumerate(a_values):
     if mask[i]:
         pred_G = C_fit * G_values[i]**n_fit
-        pred_null = C2_fit * (1 - a)**(-m_fit)
+        # The fit is log(decoh) = m_fit * log(1-a) + log(C2), so the predicted
+        # value is C2 * (1-a)**m_fit.  m_fit is negative, so this is a negative
+        # power of (1-a), exactly as the fit line states.
+        pred_null = C2_fit * (1 - a)**m_fit
         r_G = decoh_values[i] / pred_G if pred_G > 0 else 0
         r_null = decoh_values[i] / pred_null if pred_null > 0 else 0
         print(f"  {a:6.3f} {G_values[i]:10.6f} {decoh_values[i]:10.6f} {pred_G:10.6f} {pred_null:10.6f} {r_G:6.3f} {r_null:7.3f}")
+        max_residual_G = max(max_residual_G, abs(decoh_values[i] - pred_G))
+        max_residual_null = max(max_residual_null, abs(decoh_values[i] - pred_null))
+
+# Recompute R² in log space using the same model used for the fit.
+preds_G = C_fit * G_values[mask]**n_fit
+preds_null = C2_fit * (1 - a_values[mask])**m_fit
+R2_G_recomp = 1 - np.var(log_d - n_fit * log_G - log_C) / np.var(log_d)
+R2_null_recomp = 1 - np.var(log_d - m_fit * log_oma - log_C2) / np.var(log_d)
+
+if abs(R2_G - R2_G_recomp) > 1e-12:
+    print(f"  ERROR: R²_G display={R2_G:.6f} != log-recomputed={R2_G_recomp:.6f}")
+    FAILURES += 1
+if abs(R2_null - R2_null_recomp) > 1e-12:
+    print(f"  ERROR: R²_null display={R2_null:.6f} != log-recomputed={R2_null_recomp:.6f}")
+    FAILURES += 1
+if not np.all(preds_null > 0):
+    print("  ERROR: null predictions contain non-positive values")
+    FAILURES += 1
 
 # ── Summary ──────────────────────────────────────────────────────────────
 print("\n" + "=" * 70)
@@ -272,3 +317,7 @@ print("    The repeatedly normalized amplitude simulation exhibits a")
 print("    correlated a-dependence, but neither the in-sample power-law")
 print("    fit nor the CPTP/instrument controls establish that this")
 print("    classical functional causes quantum or physical selection.")
+print()
+print(f"  EXIT STATUS: {FAILURES} failure(s)")
+
+sys.exit(FAILURES)
