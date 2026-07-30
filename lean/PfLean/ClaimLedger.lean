@@ -274,10 +274,24 @@ def dependenciesResolved (ledger : ClaimLedger) : Prop :=
   ∀ e ∈ ledger.entries, ∀ d ∈ e.dependencies,
     ∃ e' ∈ ledger.entries, e'.name = d
 
+/-- The ledger has unique entry names: no two entries share the same `name`.
+    This is the invariant required for one-to-one contract-to-entry binding
+    in `MeasurementLedger`.  Without it, `applyMeasurement` updates every
+    same-named entry, making the capstone a name-level theorem rather than
+    a one-to-one binding. -/
+def uniqueNames (ledger : ClaimLedger) : Prop :=
+  ∀ e₁ ∈ ledger.entries, ∀ e₂ ∈ ledger.entries,
+    e₁.name = e₂.name → e₁ = e₂
+
 /-- The empty ledger vacuously satisfies `dependenciesResolved`. -/
 theorem empty_dependencies_resolved :
     dependenciesResolved empty := by
   simp [empty, dependenciesResolved]
+
+/-- The empty ledger vacuously satisfies `uniqueNames`. -/
+theorem empty_unique_names :
+    uniqueNames empty := by
+  simp [empty, uniqueNames]
 
 end ClaimLedger
 

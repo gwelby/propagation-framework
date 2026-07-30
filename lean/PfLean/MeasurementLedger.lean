@@ -695,4 +695,169 @@ theorem unresolved_contract_does_not_resolve :
   -- Check all 13 entry names — none is "nonexistent_claim"
   decide
 
+-- ---------------------------------------------------------------------------
+-- 12. Unique-name invariant: one-to-one contract-to-entry binding
+-- ---------------------------------------------------------------------------
+--
+-- Codex re-audit (2026-07-25, ledger `clg_5e44d7c916c6a0ee00978b73`)
+-- flagged two remaining holds on the discarded-premise repair:
+--
+--   1. `contractsResolved` is existential and no unique-name invariant
+--      exists.  `applyMeasurement` updates every same-named entry, so the
+--      capstone is a name-level theorem rather than a one-to-one
+--      contract-to-entry binding.
+--   2. `ValidatedMeasurement` is caller-supplied local metadata but is not
+--      a capstone input.  Hard-coded values and source text remain
+--      externally unvalidated.
+--
+-- This section closes hold #1 by:
+--   - adding `ClaimLedger.uniqueNames` (in `ClaimLedger.lean`),
+--   - proving `pfClaimLedger_uniqueNames` (in `ClaimLedgerRegistry.lean`),
+--   - proving that under `uniqueNames`, `applyMeasurement` updates exactly
+--     one entry (the unique entry matching the claim name),
+--   - proving that the `resolvedEntry` selected by `contractsResolved` is
+--     that same unique entry, so the capstone is a one-to-one binding, not
+--     a name-level theorem.
+--
+-- Hold #2 (ValidatedMeasurement provenance) is NOT addressed here; it
+-- requires structured provenance in the actual measurement pipeline and
+-- remains open.
+
+/-- Under the `uniqueNames` invariant, there is at most one entry in the
+    ledger with a given name.  This is the direct consequence of
+    `uniqueNames`: any two entries sharing a name are equal. -/
+theorem ClaimLedger.uniqueNames_at_most_one
+    (cl : ClaimLedger) (hUnique : cl.uniqueNames) (name : String)
+    (e₁ e₂ : ClaimEntry) (h₁ : e₁ ∈ cl.entries) (h₂ : e₂ ∈ cl.entries)
+    (hName : e₁.name = name) (hName' : e₂.name = name) : e₁ = e₂ := by
+  have h := hUnique e₁ h₁ e₂ h₂
+  exact h (by rw [hName, hName'])
+
+/-- Under `uniqueNames`, the entry selected by `contractsResolved` is the
+    *unique* entry matching the contract's claim name — not just *an*
+    entry.  This upgrades the bridge from existential to unique. -/
+theorem MeasurementLedger.resolvedEntry_unique
+    (ml : MeasurementLedger) (cl : ClaimLedger) (c : MeasurementContract)
+    (h_c_in_ml : c ∈ ml.contracts) (h_resolved : ml.contractsResolved cl)
+    (hUnique : cl.uniqueNames)
+    (e : ClaimEntry) (h_e_in : e ∈ cl.entries) (h_e_name : e.name = c.claimName) :
+    e = ml.resolvedEntry cl c h_c_in_ml h_resolved := by
+  let res := ml.resolvedEntry cl c h_c_in_ml h_resolved
+  have h_res_in : res ∈ cl.entries :=
+    MeasurementLedger.resolvedEntry_mem ml cl c h_c_in_ml h_resolved
+  have h_res_name : res.name = c.claimName :=
+    MeasurementLedger.resolvedEntry_name ml cl c h_c_in_ml h_resolved
+  exact hUnique e h_e_in res h_res_in (by rw [h_e_name, h_res_name])
+
+/-- `applyMeasurement` preserves entry names: every entry in the updated
+    ledger has the same name as its pre-image in the original ledger.
+    This is because `applyOutcome` preserves the name field. -/
+theorem ClaimLedger.applyMeasurement_preserves_names
+    (cl : ClaimLedger) (claimName : String) (o : MeasurementOutcome) (note : String)
+    (e' : ClaimEntry) (h_e' : e' ∈ (cl.applyMeasurement claimName o note).entries) :
+    ∃ e ∈ cl.entries, e'.name = e.name ∧
+      (e.name = claimName → e' = ClaimEntry.applyOutcome e o note) ∧
+      (e.name ≠ claimName → e' = e) := by
+  -- applyMeasurement is entries.map (fun e => if e.name = claimName then ... else e)
+  simp only [ClaimLedger.applyMeasurement, List.mem_map] at h_e'
+  obtain ⟨e, h_e_in, h_eq⟩ := h_e'
+  refine ⟨e, h_e_in, ?_, ?_, ?_⟩
+  · -- e'.name = e.name in both branches
+    by_cases heq : e.name = claimName
+    · -- matched branch: e' = applyOutcome e o note, name preserved
+      simp [heq] at h_eq
+      rw [← h_eq, ClaimEntry.applyOutcome_name]
+    · -- non-matched branch: e' = e
+      simp [heq] at h_eq
+      rw [← h_eq]
+  · intro h_match
+    simp [h_match] at h_eq
+    rw [← h_eq]
+  · intro h_nomatch
+    simp [h_nomatch] at h_eq
+    rw [← h_eq]
+
+/-- **One-to-one binding (uniqueness form)**: Under the `uniqueNames`
+    invariant, applying a measurement outcome to the ledger produces a
+    ledger in which *at most one* entry has any given name.  This is the
+    structural fact that makes the capstone a one-to-one binding rather
+    than a name-level theorem: `applyMeasurement` cannot create duplicate
+    names because `applyOutcome` preserves names and `uniqueNames`
+    guarantees at most one pre-image per name.
+
+    This closes Codex hold #1 in its structural form: the capstone
+    `confirmed_derived_claim_meets_tier_gate` (existence, already proven)
+    plus this uniqueness theorem together give one-to-one binding. -/
+theorem ClaimLedger.applyMeasurement_unique_names
+    (cl : ClaimLedger) (claimName : String) (o : MeasurementOutcome) (note : String)
+    (hUnique : cl.uniqueNames) :
+    (cl.applyMeasurement claimName o note).uniqueNames := by
+  intro e₁' h₁' e₂' h₂' h_name_eq
+  -- Both e₁' and e₂' come from pre-images in cl.entries with the same name.
+  obtain ⟨e₁, h_e₁_in, h_e₁_name, h_e₁_match, h_e₁_nomatch⟩ :=
+    ClaimLedger.applyMeasurement_preserves_names cl claimName o note e₁' h₁'
+  obtain ⟨e₂, h_e₂_in, h_e₂_name, h_e₂_match, h_e₂_nomatch⟩ :=
+    ClaimLedger.applyMeasurement_preserves_names cl claimName o note e₂' h₂'
+  -- e₁'.name = e₁.name and e₂'.name = e₂.name, and e₁'.name = e₂'.name
+  -- so e₁.name = e₂.name.  By uniqueNames, e₁ = e₂.
+  have h_names : e₁.name = e₂.name := by
+    rw [← h_e₁_name, ← h_e₂_name, h_name_eq]
+  have h_e₁_eq_e₂ : e₁ = e₂ := hUnique e₁ h_e₁_in e₂ h_e₂_in h_names
+  -- Now e₁' and e₂' are both derived from the same pre-image e₁ = e₂.
+  subst h_e₁_eq_e₂
+  by_cases heq : e₁.name = claimName
+  · -- Both e₁' and e₂' are applyOutcome e₁ o note, so they're equal.
+    rw [h_e₁_match heq, h_e₂_match heq]
+  · -- Both e₁' and e₂' are e₁ itself, so they're equal.
+    rw [h_e₁_nomatch heq, h_e₂_nomatch heq]
+
+/-- **One-to-one binding capstone (existence + uniqueness)**: Under the
+    `uniqueNames` invariant, applying a computed `.Confirmed` outcome to a
+    `DERIVED` claim produces a ledger in which there is *exactly one* entry
+    with the contract's claim name that meets the publication tier gate.
+
+    - **Existence** follows from the original bridge theorem
+      `confirmed_derived_claim_meets_tier_gate` (which does not require
+      `uniqueNames`).
+    - **Uniqueness** follows from `applyMeasurement_unique_names`: the
+      updated ledger has unique names, so at most one entry has name =
+      `c.claimName`, hence at most one can meet the gate.
+
+    This closes Codex hold #1: the capstone is a one-to-one binding, not
+    a name-level theorem. -/
+theorem confirmed_derived_claim_unique_tier_gate_pass
+    (cl : ClaimLedger) (ml : MeasurementLedger)
+    (m : Measurement) (c : MeasurementContract) (note : String)
+    (h_c_in_ml : c ∈ ml.contracts)
+    (h_resolved : ml.contractsResolved cl)
+    (h_unique : cl.uniqueNames)
+    (h_outcome : MeasurementContract.outcome m c = .Confirmed)
+    (h_tier : ∀ e ∈ cl.entries, e.name = c.claimName → e.record.tier = .DERIVED) :
+    -- Existence: at least one entry passes.
+    (∃ e' ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+       e'.name = c.claimName ∧ e'.record.meetsPublicationTierGate) ∧
+    -- Uniqueness: no two distinct entries both pass.
+    (∀ e₁ ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+     ∀ e₂ ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+       e₁.name = c.claimName → e₂.name = c.claimName →
+       e₁.record.meetsPublicationTierGate → e₂.record.meetsPublicationTierGate →
+       e₁ = e₂) := by
+  refine ⟨?_, ?_⟩
+  · -- Existence: from the original bridge theorem (no uniqueNames needed)
+    exact confirmed_derived_claim_meets_tier_gate cl ml m c note
+      h_c_in_ml h_resolved h_outcome h_tier
+  · -- Uniqueness: the updated ledger has unique names, so any two entries
+    -- with the same name are equal.
+    have h_unique' :
+        (cl.applyMeasurement c.claimName
+           (MeasurementContract.outcome m c) note).uniqueNames := by
+      apply ClaimLedger.applyMeasurement_unique_names
+      · exact h_unique
+    intro e₁ h₁ e₂ h₂ h_name₁ h_name₂ h_gate₁ h_gate₂
+    exact h_unique' e₁ h₁ e₂ h₂
+      (by rw [h_name₁, h_name₂])
+
 end PfLean

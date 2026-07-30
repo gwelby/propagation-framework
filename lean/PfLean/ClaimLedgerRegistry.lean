@@ -217,4 +217,17 @@ theorem pfClaimLedger_wellFormed :
         quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]
   decide
 
+/-- `pfClaimLedger` has unique entry names: no two of the 14 entries share a
+    name.  This is the invariant that upgrades the `MeasurementLedger`
+    capstone from a name-level theorem to a one-to-one contract-to-entry
+    binding.  Verified by `decide` on the concrete 14-entry list. -/
+theorem pfClaimLedger_uniqueNames :
+    pfClaimLedger.uniqueNames := by
+  simp [pfClaimLedger, ClaimLedger.uniqueNames,
+        fullNormT3StrictlyDecreasesEntry, PFEntropyT3FormalIdentityEntry,
+        PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
+        P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,
+        topologicalAvailabilityEntry, kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry,
+        quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]
+
 end PfLean
