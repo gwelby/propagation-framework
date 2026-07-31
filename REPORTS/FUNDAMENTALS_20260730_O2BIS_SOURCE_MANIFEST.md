@@ -1,34 +1,36 @@
 # O2bis Source Manifest — Repair Against Codex HOLD
 
-**Commit:** see the git revision that contains this file (`git rev-parse --verify HEAD`)  
-**Ledger:** `clg_8d642db3f9d24a616f312922` (prior), `clg_de85188d6be71e28aa854159` (re-audit)  
+**Candidate commit bound by this manifest:** `47fdd30ae86d4cae56543858a3f809ce79282b6e`  
+**Current git revision of this file:** use `git rev-parse --verify HEAD`  
+**Ledger:** `clg_8d642db3f9d24a616f312922` (prior), `clg_de85188d6be71e28aa854159` (re-audit), `clg_3bb1fcbcc941a9ca6f11290a` (V2 re-audit)  
 **Date:** 2026-07-30  
 **Agent:** Devin ∇λΣ∞
 
 ---
 
-## Candidate source files (frozen in this commit)
+## Candidate source files (frozen in commit 47fdd30)
 
 | File | SHA-256 | Role |
 |------|---------|------|
 | `derivations/o2bis_analytic_kickstart_2026-07-29.md` | `992100fa34ccb5c407a6d2d8bfe47563542fdff1d2e3f5eebe859db76c8a4974` | Repair notes and claim tiers |
-| `sandbox/o2bis_fast_regression.py` | `6041a2e0fc4b5dee776f353a98217bb94d74c9e193d4d932a96988a572816354` | Fast, exact, fail-closed regression gate (< 2 s) |
-| `sandbox/o2bis_independent_verification.py` | `949086d653141e55607153024370f22a004b247104a3e1da3e5dcdef5c3f2f26` | Seeded MC integration/statistical check (~30 s fast, ~60 s full) |
+| `sandbox/o2bis_fast_regression.py` | `6041a2e0fc4b5dee776f353a98217bb94d74c9e193d4d932a96988a572816354` | Fast, exact, fail-closed regression gate |
+| `sandbox/o2bis_independent_verification.py` | `949086d653141e55607153024370f22a004b247104a3e1da3e5dcdef5c3f2f26` | Seeded MC integration/statistical check |
 | `sandbox/o2bis_cptp_completions.py` | `97d8a52b4c6a436a956bbd13b3f403c85d9d68ccccc2fee50b4d886380bf071a` | Fixed-orientation CPTP sweep + a-dependent counterexample |
 | `sandbox/o2bis_instrument_probe.py` | `a9d2280bd5b7020e2f61d78896728aba72e6f8652e4c6253f48eae32dec23bd3` | Exact white-noise instrument (DeepSeek copy, byte-identical) |
 | `sandbox/o2bis_cptp_channel.py` | `fdf92c7afe03292e64c43dc0d7e4c25ff265db09f1d4b1b48aca22d0b2c23ca5` | Exact Q→Q CPTP no-selection control (DeepSeek copy, byte-identical) |
-| `CLAIMS.md` | `6a30ff19558f201a90c49a7df2dfee2b8fc5f36126e40963a1292cfcc2b4e985` | Live scoreboard row (paths corrected) |
+| `CLAIMS.md` | `8b0f88772bcf283eae5c147c447241a32e607ba50bd42b7fd6a4a494d52589ac` | Live scoreboard row (delimiter and V2/V3 links corrected) |
 
-## Known external files (not in this repo, exact hashes recorded)
+## Known external files and audits (hashes recorded)
 
 | File | SHA-256 | Source |
 |------|---------|--------|
 | `/mnt/d/DeepSeek/sandbox/o2bis_instrument_probe.py` | `a9d2280bd5b7020e2f61d78896728aba72e6f8652e4c6253f48eae32dec23bd3` | DeepSeek workspace (mirrored above) |
 | `/mnt/d/DeepSeek/sandbox/o2bis_cptp_channel.py` | `fdf92c7afe03292e64c43dc0d7e4c25ff265db09f1d4b1b48aca22d0b2c23ca5` | DeepSeek workspace (mirrored above) |
-| `REPORTS/FUNDAMENTALS_20260730_O2BIS_CORRELATION_FUNCTIONAL_REPAIR.md` | `9c9e653b267f775a1b7124accafa34dd27c93748e1e20bedeb05aeeb1ba884bd` | Original repair report (superseded by V2) |
-| `REPORTS/FUNDAMENTALS_20260730_O2BIS_CORRELATION_FUNCTIONAL_REPAIR_V2.md` | `59f126a906d888fb15de9f7c7b659d0d9866746cb4d1166c7f0e5f7aa5d046f1` | O2R-01..O2R-05 response and verification commands |
-| `REPORTS/FUNDAMENTALS_20260730_O2BIS_SOURCE_MANIFEST.md` | `326abee8f96be384e866b4f0e32d5b9f025bce70e917133c0434d63bc6de14fc` | This manifest (self-referential; hash is pre-computed) |
-| `REPORTS/CODEX_20260730_O2BIS_CORRELATION_FUNCTIONAL_0D85A8A_REAUDIT.md` | (frozen by Codex) | Codex hostile re-audit |
+| `REPORTS/FUNDAMENTALS_20260730_O2BIS_CORRELATION_FUNCTIONAL_REPAIR_V2.md` | `59f126a906d888fb15de9f7c7b659d0d9866746cb4d1166c7f0e5f7aa5d046f1` | V2 O2R-01..O2R-05 response and verification commands |
+| `REPORTS/FUNDAMENTALS_20260731_O2BIS_CORRELATION_FUNCTIONAL_REPAIR_V3.md` | `68d14c7dc392433f6c7f1f7f8d533da8a3202e7516692acaf3545c69bb7fb7c3` | V3 addendum to V2 re-audit O2V2-01..O2V2-03 and packet gate |
+| `REPORTS/CODEX_20260731_O2BIS_CORRELATION_FUNCTIONAL_V2_47FDD30_REAUDIT.md` | `ed0afe22c1661635574fdce621aec03a5a400211a2bfdfd6055142a542d2f0e7` | Codex V2 hostile re-audit |
+| `Codex/inbox/2026-07-30_devin-o2bis-correlation-functional-reaudit-v2.md` | `c76a47f8722796f1ddd0727e1b26d22c8d2595c71e56c11bc5a416f304a23587` | V2 re-audit request |
+| `Codex/inbox/2026-07-31_devin-o2bis-correlation-functional-reaudit-v3.md` | `79d7bac415e6de1d7e5611f81a9ee0879218a984ec4bb879b255b33a8f92f97a` | V3 gate-compliant re-audit request |
 
 ---
 
@@ -38,25 +40,25 @@
    ```bash
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_fast_regression.py
    ```
-   Expected: `REGRESSION RESULT: N passed, 0 failed`, exit 0, wall time < 2 s.
+   Expected: `REGRESSION RESULT: N passed, 0 failed` and exit 0. Wall time is informational and depends on CPU availability.
 
 2. **Negative control (proves gate is fail-closed):**
    ```bash
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_fast_regression.py --negative
    ```
-   Expected: exactly one deliberate `FAIL`, exit 1.
+   Expected: exactly one deliberate `FAIL` and exit 1.
 
-3. **Seeded MC integration check (slower, not the fast gate):**
+3. **Seeded MC integration check (not the fast gate):**
    ```bash
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_independent_verification.py --fast
    ```
-   Expected: `EXIT STATUS: 0 failure(s)`, exit 0; wall time ~30 s on this hardware.
+   Expected: `EXIT STATUS: 0 failure(s)` and exit 0. Wall time is informational and depends on CPU availability.
 
 4. **Negative control for the MC script:**
    ```bash
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_independent_verification.py --fast --negative
    ```
-   Expected: `EXIT STATUS: 20 failure(s)` (G formula doubled), exit 20.
+   Expected: `EXIT STATUS: N failure(s)` with N > 0 and exit N.
 
 5. **CPTP completions and exact instrument/channel:**
    ```bash
@@ -64,19 +66,26 @@
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_instrument_probe.py
    python3.12 /mnt/d/Fundamentals/sandbox/o2bis_cptp_channel.py
    ```
-   Expected: prints exact tables, no assertions failed.
+   Expected: prints exact tables and exits 0.
+
+---
+
+## Runtime note
+
+The exact gate is deterministic and contains no Monte Carlo. Its wall-clock time is environment-dependent and is not used as an acceptance criterion. Correctness is determined solely by exit code and the `passed/failed` summary. The seeded MC integration script is a separate, slower statistical check.
 
 ---
 
 ## Audit-item mapping
 
-| Codex O2R | Repair in this commit |
+| Codex O2R / O2V2 | Repair in this manifest |
 |---|---|
-| **O2R-01** regression fixture not fail-closed | New `o2bis_fast_regression.py` accumulates checks and exits non-zero on any failure; `--negative` deliberately corrupts one formula and proves the gate fails. `o2bis_independent_verification.py` also now increments `FAILURES` and exits with the count. |
-| **O2R-02** competing-null exponent sign | `o2bis_independent_verification.py` now uses one convention everywhere: `decoh = C2 * (1-a)**m_fit`, with `m_fit` negative, and recomputes the displayed `R²` in log space. |
-| **O2R-03** fixed-orientation conclusion asserted from examples | `o2bis_cptp_completions.py` and the derivation now list the tested constructions explicitly and label the class-wide statement as sampled evidence, not a theorem; no un-derived `admissible` claim. |
-| **O2R-04** malformed row and source provenance | `CLAIMS.md` row uses absolute resolving paths, removes `admissible` language, and references the manifest. DeepSeek instrument/CPTP scripts are copied into `Fundamentals/sandbox/` so the next commit is self-contained. |
-| **O2R-05** false bounded-runtime claim | `o2bis_fast_regression.py` is purely exact, runs in ~1.3 s. The MC script docstring no longer claims `< 5 s`; it is clearly labelled a statistical integration check. |
+| **O2R-01** regression fixture not fail-closed | `o2bis_fast_regression.py` accumulates checks and exits non-zero on any failure; `--negative` deliberately corrupts one formula and proves the gate fails. `o2bis_independent_verification.py` also exits with its `FAILURES` count. |
+| **O2R-02** competing-null exponent sign | `o2bis_independent_verification.py` uses `C2*(1-a)**m_fit` consistently and recomputes `R²` in log space. |
+| **O2R-03** fixed-orientation conclusion over-claimed | `o2bis_cptp_completions.py` and the derivation list tested constructions and label the class-wide statement as sampled evidence. |
+| **O2R-04 / O2V2-01** `CLAIMS.md` row and provenance | Row now starts with a single `|`, cites the V2 repair report, this manifest, and the V2 Codex re-audit. The manifest names the bound commit and records all hashes. |
+| **O2R-05 / O2V2-03** runtime honesty | No hard wall-clock acceptance bound; exact gate correctness is by exit code only. |
+| **O2V2-02** manifest self-hash | Self-hash row removed; the bound commit is named literally and the current revision can be read from git. |
 
 ---
 
@@ -87,7 +96,7 @@
 - No claim that the `G(a)` power law is a transfer theorem.
 - No claim that `τ_c` is derived from Axioms 1-3.
 - No claim that the tested fixed-orientation constructions exhaust or prove the full class.
-- No PUBLIC HOLD, release, outreach, or Greg boundary moves.
+- No movement of PUBLIC HOLD, release, outreach, or Greg boundaries.
 
 ---
 
