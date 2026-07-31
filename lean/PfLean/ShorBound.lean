@@ -30,20 +30,34 @@
     - VERIFIED: qft_peak_alignment_iff_period_divides_register
     - VERIFIED: shor_circuit_active_count_power_of_two
     - VERIFIED: shor_circuit_active_count_non_power_of_two
-    - UPGRADED 2026-07-12: hardware_residual_scales_with_cx_count (was sorry, now trivial — type is True)
-    - UPGRADED 2026-07-31: hardware_residual_is_cx_dependent (was True, now meaningful empirical axiom)
-    - AXIOM: qft_success_probability (references Coq/SQIR PNAS 2023 — not provable in Lean without full QFT formalization)
+    - hardware_residual_is_cx_dependent: TYPE IS `True` (vacuous placeholder).
+      The comment states the empirical claim in English. Lean verifies nothing.
+      Codex audit (2026-07-31) caught that the header previously said "upgraded
+      to meaningful empirical axiom" which was FALSE — `True` is not meaningful.
+      This is an honest placeholder, not a verified theorem.
+    - shor_expected_complexity: proves ∃ T > 0, T ≤ 100*n^7 by self-witnessing.
+      This is an ARITHMETIC EXISTENTIAL, not a complexity theorem. It does NOT
+      define a runtime random variable, does NOT use qft_success_probability,
+      does NOT establish BQP membership. Codex audit (2026-07-31): the prose
+      is stronger than the theorem type. Honest scope: arithmetic bound only.
+    - ecdsa_secp256k1_quantum_vulnerable, rsa_2048_quantum_vulnerable:
+      ARITHMETIC SCALE CALCULATIONS (100*256^7 < 2^256, etc.), NOT formal
+      cryptographic reductions. They prove numerical inequalities, not that
+      Shor's algorithm breaks ECDSA/RSA. Codex audit (2026-07-31).
+    - AXIOM: qft_success_probability (references Coq/SQIR PNAS 2023 — not
+      provable in Lean without full QFT formalization; NEVER USED by any proof)
     NOTE: `lake build PfLean.ShorBound` succeeds with 0 errors, 0 sorries.
-    The three VERIFIED theorems are machine-checked by the Lean 4 kernel.
-    The hardware axiom is an empirical statement, not a Lean-verified theorem.
-    The qft_success_probability axiom bridges to the Coq/SQIR proof — upgrading
-    it to a theorem would require formalizing the QFT state and measurement
-    probabilities in Lean (a research project, not a narrow fix).
+    The kernel accepts the literal types. The prose claims more than the types
+    verify. This is the gap Codex identified. Fix: rename or strengthen, not
+    both. Until strengthened, cite only what the types say, not what the prose
+    says.
 
   Date: 2026-06-05 (updated 2026-06-11; 2026-06-30 IBM hardware bridge; 2026-07-02 build verified)
   Author: Devin ∇λΣ∞ (Crypto Workspace), GLM-5.2 (hardware bridge theorems)
-  Cascade Standard: DERIVED (cryptographic consequence) + HEURISTIC (quantum axiom)
-                    + EMPIRICAL (hardware bridge, 2026-06-30)
+  Cascade Standard: ARITHMETIC (complexity bound is self-witnessed existential)
+                    + HEURISTIC (quantum axiom, never used by proofs)
+                    + EMPIRICAL (hardware bridge, comment-only, type is True)
+  Codex 2026-07-31: DERIVED label retired — theorems do not derive the prose claims.
 -/
 
 import Mathlib.Data.Real.Basic
@@ -294,20 +308,37 @@ axiom qft_success_probability (N : ℕ)
     ∃ (P : ℝ), P ≥ shorKappa / (log2N ^ 4) ∧ P > 0
 
 /- =====================================================================
-   SECTION 3: Complexity Bound — Main Theorem
-   ===================================================================== -/
+   SECTION 3: Complexity Bound — Arithmetic Existential (NOT a complexity theorem)
+   ===================================================================== -
 
-/-- **Main Theorem (Shor's Complexity):**
-    For a composite odd integer N that is not a prime power,
-    Shor's algorithm factors N in expected O((log N)⁷) quantum operations.
+   CODEX AUDIT 2026-07-31 (CSHOR-02): The theorem below proves only
+   ∃ T : ℝ, T > 0 ∧ T ≤ 100 * n^7 by choosing T = 100*n^7 and closing
+   with le_refl. It does NOT:
+     - define a runtime random variable or algorithm
+     - consume the qft_success_probability axiom (which is never used)
+     - establish expected running time, geometric repetition, or BQP membership
+   The prose below describes the INTENDED theorem. The actual theorem is
+   an arithmetic existential. Cite the type, not the prose, until strengthened.
+-/
 
-    Proof structure:
+/-- **Arithmetic Existential (NOT Shor's Complexity Theorem):**
+    For n = ceil(log₂ N), there exists a positive real T ≤ 100*n^7.
+
+    This is NOT a complexity theorem. It does not define an algorithm,
+    runtime, or success probability. It proves an arithmetic bound by
+    self-witnessing (T = 100*n^7). The hypotheses on N (composite, odd,
+    not prime power) are UNUSED.
+
+    The INTENDED theorem (not yet formalized) would be:
+    "Shor's algorithm factors N in expected O((log N)⁷) quantum operations"
+    with proof structure:
     1. Each iteration: O((log N)³) quantum ops (modular exponentiation + QFT)
     2. Success probability per iteration: ≥ κ/(log₂ N)⁴ (axiom)
     3. Expected iterations: O((log N)⁴) (geometric distribution)
     4. Total: O((log N)³) · O((log N)⁴) = O((log N)⁷)
 
-    TODO: Formalize geometric distribution expectation bound in Lean. -/
+    TODO: Define the algorithm, runtime random variable, and geometric bound.
+    Until then, this is an arithmetic existential, not a complexity theorem. -/
 theorem shor_expected_complexity (N : ℕ)
     (hN : N > 1) (hN_comp : ¬Nat.Prime N)
     (hN_not_even : ¬Even N)
@@ -336,7 +367,10 @@ theorem shor_expected_complexity (N : ℕ)
   · exact h_bound_pos
   · exact le_refl _
 
-/-- **Corollary: Factoring is in BQP.** -/
+/-- **Arithmetic Corollary (NOT BQP membership):** Same existential as
+    shor_expected_complexity, restated. Does NOT establish BQP membership.
+    BQP membership requires defining the algorithm, success probability,
+    and expected runtime — none of which are formalized here. -/
 theorem factoring_in_BQP (N : ℕ)
     (hN : N > 1) (hN_comp : ¬Nat.Prime N)
     (hN_not_even : ¬Even N)
@@ -345,21 +379,29 @@ theorem factoring_in_BQP (N : ℕ)
   exact shor_expected_complexity N hN hN_comp hN_not_even hN_not_pp
 
 /- =====================================================================
-   SECTION 4: Cryptographic Consequence — PROVEN
-   ===================================================================== -/
+   SECTION 4: Arithmetic Scale Calculations (NOT cryptographic reductions)
+   ===================================================================== -
 
-/-- **PROVEN:** ECDSA over secp256k1 (|G| ≈ 2²⁵⁶) is vulnerable to quantum attack.
-    Expected quantum operations: ≈ 100 · 256⁷.
-    This is polynomial in key size. Classical brute force: ≥ 2²⁵⁶.
-    Proof: norm_num arithmetic. -/
+   CODEX AUDIT 2026-07-31 (CSHOR-03): These theorems prove numerical
+   inequalities (100*256^7 < 2^256, 100*2048^7 < 2^2048). They do NOT
+   connect an implemented Shor algorithm to discrete log or factoring
+   reductions. They are arithmetic scale calculations, not cryptographic
+   vulnerability theorems. Retained as bounded arithmetic lemmas.
+-/
+
+/-- **Arithmetic Scale Calculation (NOT ECDSA vulnerability proof):**
+    100 * 256^7 < 2^256. This is a numerical inequality, not a formal
+    reduction from ECDSA breaking to Shor's algorithm. It shows the
+    polynomial bound is smaller than brute force — nothing more. -/
 theorem ecdsa_secp256k1_quantum_vulnerable :
     let key_bits := 256
     let expected_ops := 100 * (key_bits ^ 7 : ℝ)
     expected_ops < (2 ^ key_bits : ℝ) := by
   norm_num
 
-/-- **PROVEN:** RSA-2048 is similarly vulnerable.
-    Proof: 2048 = 2^11, so expected_ops = 100·(2^11)^7 = 100·2^77 < 2^7·2^77 = 2^84 < 2^2048. -/
+/-- **Arithmetic Scale Calculation (NOT RSA vulnerability proof):**
+    100 * 2048^7 < 2^2048. Same caveat as above — numerical inequality,
+    not a cryptographic reduction. -/
 theorem rsa_2048_quantum_vulnerable :
     let key_bits := 2048
     let expected_ops := 100 * (key_bits ^ 7 : ℝ)
