@@ -793,18 +793,18 @@ def fixture_missing_version(tmp_explorer: Path) -> None:
 
 
 def fixture_unsupported_version(tmp_explorer: Path) -> None:
-    """V5.10: Set _version to an unsupported value.
+    """V5.11: Set _version to an invented V-prefixed value (V99).
 
-    Codex V59-01: _version was not validated. Setting it to an arbitrary
-    value false-passed. V5.10 requires _version to be a string starting
-    with 'V'.
+    Codex V510-01: The V5.10 check only required a 'V' prefix, so V99
+    (an invented version-shaped value) false-passed. V5.11 uses a closed
+    supported set, so V99 is rejected.
 
-    The proof must FAIL — the unsupported version is detected.
+    The proof must FAIL — V99 is not in the supported set.
     """
     inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
     original = inventory_path.read_text(encoding="utf-8")
     data = json.loads(original)
-    data["_version"] = "UNSUPPORTED"
+    data["_version"] = "V99"
     inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
     proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
@@ -814,13 +814,44 @@ def fixture_unsupported_version(tmp_explorer: Path) -> None:
 
     if proc.returncode == 0:
         raise AssertionError(
-            f"Unsupported _version fixture should have failed; stdout={proc.stdout[-500:]}"
+            f"V99 _version fixture should have failed; stdout={proc.stdout[-500:]}"
         )
-    if "_version" not in proc.stdout and "version" not in proc.stdout.lower():
+    if "supported" not in proc.stdout.lower() and "version" not in proc.stdout.lower():
         raise AssertionError(
-            f"Unsupported _version fixture did not report the error; stdout={proc.stdout[-500:]}"
+            f"V99 _version fixture did not report unsupported version; stdout={proc.stdout[-500:]}"
         )
-    print("  PASS fixture: unsupported _version rejected")
+    print("  PASS fixture: invented V99 _version rejected")
+
+
+def fixture_prior_version(tmp_explorer: Path) -> None:
+    """V5.11: Set _version to a prior supported version (V5.9).
+
+    Codex V510-01: The V5.10 check only required a 'V' prefix, so V5.9
+    (a prior version) false-passed. V5.11 uses a closed supported set
+    that does not include V5.9, so it is rejected.
+
+    The proof must FAIL — V5.9 is not in the current supported set.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    data = json.loads(original)
+    data["_version"] = "V5.9"
+    inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"V5.9 _version fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "supported" not in proc.stdout.lower() and "version" not in proc.stdout.lower():
+        raise AssertionError(
+            f"V5.9 _version fixture did not report unsupported version; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: prior V5.9 _version rejected")
 
 
 def fixture_metadata_tampering(tmp_explorer: Path) -> None:
@@ -907,6 +938,7 @@ def main() -> int:
         fixture_missing_expected_count(tmp_explorer)
         fixture_missing_version(tmp_explorer)
         fixture_unsupported_version(tmp_explorer)
+        fixture_prior_version(tmp_explorer)
         fixture_metadata_tampering(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)

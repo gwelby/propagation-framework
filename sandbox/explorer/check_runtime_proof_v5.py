@@ -238,13 +238,15 @@ def load_node_authority_mapping() -> tuple[dict[str, str], list[str]]:
 
 
 def load_expected_mapping_inventory() -> dict[str, str]:
-    """V5.10: Load the expected mapping inventory for exact-snapshot comparison.
+    """V5.11: Load the expected mapping inventory for exact-snapshot comparison.
 
-    V5.10 hardening (Codex V59-01/V59-02):
+    V5.11 hardening (Codex V510-01):
     - HARD-FAILS (raises InventoryError) if the file is missing
     - HARD-FAILS if the file is empty or has no mappings
     - HARD-FAILS if mappings is not a dict
-    - _version is MANDATORY: must be present, must be a string, must start with "V"
+    - _version is MANDATORY: must be present, must be a string, and must
+      be in a closed supported set (currently {"V5.10", "V5.11"}).
+      Prior or invented version-shaped values (e.g. V5.9, V99) are rejected.
     - _expected_count is MANDATORY: must be present, must be an integer,
       and must equal len(mappings)
     - _source_hash is not used and not present in the inventory
@@ -252,12 +254,14 @@ def load_expected_mapping_inventory() -> dict[str, str]:
     Scope: This is an exact-snapshot comparison guard. The inventory file
     lives in the same candidate revision as timeline.js. It detects
     one-sided mapping deletion but cannot detect coordinated deletion
-    from both files. It is NOT an independent, frozen, or drift-resistant
-    root of trust.
+    from both files. No affirmative independent, frozen, or drift-resistant
+    authority claim is made. The explicit limitation (coordinated-change
+    not detected) is preserved.
 
     Raises:
         InventoryError: if the inventory is missing, empty, malformed,
-        missing _version, missing _expected_count, or has a count mismatch.
+        missing _version, unsupported _version, missing _expected_count,
+        or has a count mismatch.
     """
     inventory_path = EXPLORER_DIR / "expected_node_authority_mapping.json"
     if not inventory_path.is_file():
@@ -271,14 +275,18 @@ def load_expected_mapping_inventory() -> dict[str, str]:
         raise InventoryError("Expected mapping inventory 'mappings' must be a non-empty object")
     if len(mappings) == 0:
         raise InventoryError("Expected mapping inventory 'mappings' is empty")
-    # V5.10: _version is MANDATORY (Codex V59-01)
+    # V5.11: _version is MANDATORY and must be in a closed supported set (Codex V510-01)
+    SUPPORTED_VERSIONS = frozenset({"V5.10", "V5.11"})
     if "_version" not in data:
         raise InventoryError("Expected mapping inventory is missing required '_version' field")
     version = data["_version"]
     if not isinstance(version, str):
         raise InventoryError(f"_version must be a string, got {type(version).__name__}")
-    if not version.startswith("V"):
-        raise InventoryError(f"_version must start with 'V', got '{version}'")
+    if version not in SUPPORTED_VERSIONS:
+        raise InventoryError(
+            f"_version '{version}' is not in the supported set {sorted(SUPPORTED_VERSIONS)}. "
+            f"Prior or invented version-shaped values are rejected."
+        )
     # V5.9: _expected_count is MANDATORY
     if "_expected_count" not in data:
         raise InventoryError("Expected mapping inventory is missing required '_expected_count' field")
@@ -715,15 +723,14 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
-                # V5.10: Verify mapped timeline nodes render with correct
+                # V5.11: Verify mapped timeline nodes render with correct
                 # data-claim-id. This catches authority-bypass where a mapped
                 # node is rendered with data-status-reason instead of
                 # data-claim-id. Only applies to derivation.html (timeline).
                 #
-                # V5.10 changes (Codex V59-01/V59-02/V59-03):
-                # - _version is mandatory (was: unvalidated in V5.9)
-                # - All independent/frozen wording removed from inventory
-                # - Scope is exact-snapshot comparison (not drift-resistant)
+                # V5.11 changes (Codex V510-01/V510-02):
+                # - _version checked against closed supported set (was: V-prefix only)
+                # - Wording repair described as removal of affirmative claims
                 mapped_node_failures: list[dict] = []
                 if path == "derivation.html":
                     # V5.8: Load expected inventory — hard-fail on any error

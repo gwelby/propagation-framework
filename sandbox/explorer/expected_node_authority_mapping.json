@@ -1,7 +1,7 @@
 {
-  "_comment": "Expected node-to-authority mapping inventory for Explorer V5.10.",
-  "_purpose": "Exact-snapshot comparison: the proof checks the candidate's NODE_TO_AUTHORITY mapping against this inventory. Missing, extra, or mismatched entries are hard failures. This inventory lives in the same candidate revision as timeline.js and detects one-sided mapping deletion. It is NOT an independent or drift-resistant root of trust — coordinated deletion from both files is not detected.",
-  "_version": "V5.10",
+  "_comment": "Expected node-to-authority mapping inventory for Explorer V5.11.",
+  "_purpose": "Exact-snapshot comparison: the proof checks the candidate's NODE_TO_AUTHORITY mapping against this inventory. Missing, extra, or mismatched entries are hard failures. This inventory lives in the same candidate revision as timeline.js and detects one-sided mapping deletion. No affirmative independent, frozen, or drift-resistant authority claim is made. The explicit limitation (coordinated deletion from both files is not detected) is preserved.",
+  "_version": "V5.11",
   "_expected_count": 15,
   "mappings": {
     "weinberg-angle": "weinberg-angle",
