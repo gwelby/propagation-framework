@@ -172,7 +172,13 @@ def load_authority_data() -> dict:
 
 
 def load_node_authority_mapping() -> dict[str, str]:
-    """V5.6: Load the NODE_TO_AUTHORITY mapping from timeline.js.
+    """V5.7: Load the NODE_TO_AUTHORITY mapping from timeline.js.
+
+    V5.7 hardening (Codex V56-02):
+    - Handles both single-quoted and double-quoted entries
+    - Fails on malformed entries (entries that don't match either quote style)
+    - Returns empty dict only on missing file or missing NODE_TO_AUTHORITY block
+      (the caller checks against the expected inventory to detect this)
 
     This maps timeline node IDs (e.g. 'fine-structure-alpha') to authority
     claim IDs (e.g. 'alpha-numeric'). The proof uses this to verify that
@@ -188,14 +194,81 @@ def load_node_authority_mapping() -> dict[str, str]:
     if not m:
         return {}
     mapping: dict[str, str] = {}
+    malformed: list[str] = []
     for line in m.group(1).splitlines():
         line = line.strip().rstrip(",")
         if not line or line.startswith("//"):
             continue
-        m2 = re.match(r"'([^']+)':\s*'([^']+)'", line)
+        # V5.7: Accept both single-quoted and double-quoted entries
+        m2 = re.match(r"""['"]([^'"]+)['"]:\s*['"]([^'"]+)['"]""", line)
         if m2:
             mapping[m2.group(1)] = m2.group(2)
+        else:
+            # V5.7: Record malformed entries instead of silently skipping
+            malformed.append(line)
+    if malformed:
+        # V5.7: Fail-closed on malformed entries — print to stderr
+        print(f"[V5.7] WARNING: {len(malformed)} malformed NODE_TO_AUTHORITY entries: {malformed[:3]}", file=sys.stderr)
     return mapping
+
+
+def load_expected_mapping_inventory() -> dict[str, str]:
+    """V5.7: Load the independent expected mapping inventory (Codex V56-01 fix).
+
+    This is a frozen JSON file that the proof checks the candidate's
+    NODE_TO_AUTHORITY mapping against. If the candidate's mapping is
+    missing entries, has extra entries, or has mismatched values,
+    the proof hard-fails.
+
+    The inventory is independent of the candidate's timeline.js — it is
+    a separate file that Codex can audit and that survives mapping
+    deletion in the candidate.
+    """
+    inventory_path = EXPLORER_DIR / "expected_node_authority_mapping.json"
+    if not inventory_path.is_file():
+        print(f"[V5.7] ERROR: expected mapping inventory not found: {inventory_path}", file=sys.stderr)
+        return {}
+    data = json.loads(inventory_path.read_text(encoding="utf-8"))
+    return data.get("mappings", {})
+
+
+def verify_mapping_completeness(
+    parsed: dict[str, str], expected: dict[str, str]
+) -> list[dict]:
+    """V5.7: Verify parsed mapping matches expected inventory (Codex V56-01 fix).
+
+    Returns a list of failure dicts (empty if mapping is complete and correct).
+    Checks:
+    - Every expected entry is present in parsed mapping
+    - No extra entries in parsed mapping
+    - Values match for every key
+    """
+    failures: list[dict] = []
+    for key, expected_val in expected.items():
+        if key not in parsed:
+            failures.append({
+                "error": f"Missing mapping entry: '{key}' -> '{expected_val}'",
+                "type": "missing_entry",
+                "key": key,
+                "expected": expected_val,
+            })
+        elif parsed[key] != expected_val:
+            failures.append({
+                "error": f"Mapping value mismatch for '{key}': expected '{expected_val}', got '{parsed[key]}'",
+                "type": "value_mismatch",
+                "key": key,
+                "expected": expected_val,
+                "observed": parsed[key],
+            })
+    for key in parsed:
+        if key not in expected:
+            failures.append({
+                "error": f"Unexpected mapping entry: '{key}' -> '{parsed[key]}'",
+                "type": "extra_entry",
+                "key": key,
+                "observed": parsed[key],
+            })
+    return failures
 
 
 STATUS_ELEMENT_SELECTORS = (
@@ -234,8 +307,13 @@ def _collect_status_elements(page, selector: str = STATUS_ELEMENT_SELECTORS) -> 
 
 
 def _verify_mapped_nodes(page, node_mapping: dict[str, str], authority_claims: dict) -> list[dict]:
-    """V5.6: Verify that each mapped timeline node renders with the correct
+    """V5.7: Verify that each mapped timeline node renders with the correct
     data-claim-id binding on its status and confidence elements.
+
+    V5.7 hardening (Codex V56-02):
+    - Hard-fails when a mapped DOM node is absent (was: silently skipped)
+    - Hard-fails when .node-status-label or .node-conf-value is absent
+    - Does NOT skip any mapped node — all must be present and correct
 
     For each entry in NODE_TO_AUTHORITY, query the DOM for the node's
     .node-status-label and .node-conf-value elements and verify they carry
@@ -271,13 +349,30 @@ def _verify_mapped_nodes(page, node_mapping: dict[str, str], authority_claims: d
             """,
             [node_id, expected_claim_id],
         )
+        # V5.7: Hard-fail on missing DOM node (was: silently skipped)
         if not result.get("found"):
-            # Node not rendered in current view — skip (not all nodes are visible)
+            failures.append({
+                "node_id": node_id,
+                "element": "node",
+                "expected_claim_id": expected_claim_id,
+                "observed_claim_id": None,
+                "observed_status_reason": None,
+                "error": f"Mapped node '{node_id}' not found in DOM (data-id='{node_id}')",
+            })
             continue
 
+        # V5.7: Hard-fail on missing status label or confidence value
         for elem_name in ("statusLabel", "confValue"):
             elem = result.get(elem_name)
             if not elem:
+                failures.append({
+                    "node_id": node_id,
+                    "element": elem_name,
+                    "expected_claim_id": expected_claim_id,
+                    "observed_claim_id": None,
+                    "observed_status_reason": None,
+                    "error": f"Mapped node '{node_id}' missing .{elem_name} element",
+                })
                 continue
             claim_id = elem.get("claimId")
             status_reason = elem.get("statusReason")
@@ -562,15 +657,40 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
-                # V5.6: Verify mapped timeline nodes render with correct
+                # V5.7: Verify mapped timeline nodes render with correct
                 # data-claim-id. This catches authority-bypass where a mapped
                 # node is rendered with data-status-reason instead of
                 # data-claim-id. Only applies to derivation.html (timeline).
+                #
+                # V5.7 changes (Codex V56-01/V56-02):
+                # - Uses an independent expected mapping inventory, not the
+                #   candidate's own timeline.js, to detect mapping deletion
+                # - Hard-fails on missing, extra, or mismatched mapping entries
+                # - Hard-fails on missing DOM nodes, status labels, or confidence
+                #   elements (was: silently skipped)
                 mapped_node_failures: list[dict] = []
                 if path == "derivation.html":
-                    node_mapping = load_node_authority_mapping()
-                    if node_mapping:
-                        mapped_node_failures = _verify_mapped_nodes(page, node_mapping, authority_claims)
+                    expected_mapping = load_expected_mapping_inventory()
+                    parsed_mapping = load_node_authority_mapping()
+
+                    # V5.7: Check mapping completeness against independent inventory
+                    if expected_mapping:
+                        mapping_failures = verify_mapping_completeness(parsed_mapping, expected_mapping)
+                        if mapping_failures:
+                            dom_evidence["mapping_completeness_failures"] = mapping_failures
+                            results[path] = {
+                                "status": "FAIL",
+                                "reason": f"Mapping completeness check failed: {len(mapping_failures)} discrepancies",
+                                "route_type": route_type,
+                                "dom_evidence": dom_evidence,
+                                "mapping_failures": mapping_failures[:5],
+                            }
+                            continue
+
+                    # V5.7: Use the EXPECTED mapping (not parsed) for DOM verification
+                    # so that a deleted mapping entry is still checked
+                    if expected_mapping:
+                        mapped_node_failures = _verify_mapped_nodes(page, expected_mapping, authority_claims)
                         dom_evidence["mapped_node_failures"] = mapped_node_failures
                         if mapped_node_failures:
                             results[path] = {

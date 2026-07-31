@@ -392,6 +392,142 @@ def fixture_mapped_authority_bypass(tmp_explorer: Path) -> None:
     print("  PASS fixture: mapped authority bypass (bogus-bypass reason) rejected")
 
 
+def fixture_mapping_entry_deletion(tmp_explorer: Path) -> None:
+    """V5.7: Delete one entry from NODE_TO_AUTHORITY in timeline.js.
+
+    Codex V56-01: The proof was checked against itself — deleting a mapping
+    entry made the proof see 14 expected mappings instead of 15, and it
+    false-passed. V5.7 uses an independent expected inventory, so the
+    deleted entry is detected as a missing entry.
+
+    The proof must FAIL — the parsed mapping has 14 entries but the
+    expected inventory has 15.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Delete the fine-structure-alpha -> alpha-numeric entry
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',\n",
+            "",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Mapping deletion fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "Mapping completeness" not in proc.stdout and "missing" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Mapping deletion fixture did not report the missing entry; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: mapping entry deletion rejected")
+
+
+def fixture_mapping_syntax_drift(tmp_explorer: Path) -> None:
+    """V5.7: Change one mapping entry to double-quoted JavaScript.
+
+    Codex V56-02: A semantically equivalent double-quoted entry was silently
+    omitted by the V5.6 parser (which only matched single quotes). V5.7
+    handles both quote styles, so this should parse correctly and the
+    proof should PASS (the mapping is semantically equivalent).
+
+    This fixture verifies the parser handles double-quoted entries without
+    silently dropping them.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Change one entry from single-quoted to double-quoted
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',",
+            '    "fine-structure-alpha": "alpha-numeric",',
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # The proof should PASS because double-quoted entries are semantically
+    # equivalent and V5.7's parser handles both quote styles.
+    if proc.returncode != 0:
+        # If it fails, it must NOT be because of a silently omitted entry
+        # (that would be the V5.6 bug). It should either pass or fail for
+        # a different reason.
+        if "Mapping completeness" in proc.stdout and "missing" in proc.stdout.lower():
+            raise AssertionError(
+                f"Double-quoted entry was silently omitted (V5.6 bug not fixed); "
+                f"stdout={proc.stdout[-500:]}"
+            )
+    print("  PASS fixture: double-quoted mapping entry parsed correctly")
+
+
+def fixture_mapped_axiom_substitution(tmp_explorer: Path) -> None:
+    """V5.7: A mapped node returns allowed reason 'axiom' instead of authority.
+
+    Codex V56-01: The closed vocabulary accepts 'axiom' as a valid
+    non-authority reason. If a mapped node returns 'axiom', the closed
+    vocabulary alone would accept it. V5.7's mapped-node verification
+    catches this because the DOM element won't have the expected
+    data-claim-id.
+
+    The proof must FAIL — the mapped node's status label will have
+    data-status-reason='axiom' instead of data-claim-id='alpha-numeric'.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Inject a hostile override: mapped node returns allowed 'axiom' reason
+        patched = text.replace(
+            "var authId = NODE_TO_AUTHORITY[node.id];",
+            "var authId = NODE_TO_AUTHORITY[node.id];\n"
+            "    if (node.id === 'fine-structure-alpha') { "
+            "return { status: 'OPEN', confidence: null, isAuthority: false, reason: 'axiom' }; }",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Mapped axiom substitution fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "Mapped" not in proc.stdout and "mapped" not in proc.stdout:
+        raise AssertionError(
+            f"Mapped axiom substitution fixture did not report mapped node failure; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: mapped axiom substitution rejected")
+
+
+def fixture_missing_mapped_dom_node(tmp_explorer: Path) -> None:
+    """V5.7: Rename a mapped node's id in the node data so the DOM node
+    gets a different data-id and the verifier cannot find it.
+
+    Codex V56-02: A missing mapped DOM node was silently skipped (continue).
+    V5.7 hard-fails on missing DOM nodes. Renaming the node's id in the
+    node data causes the DOM to render with data-id='fine-structure-alpha-RENAMED'
+    while the expected mapping still expects 'fine-structure-alpha'.
+
+    The proof must FAIL — the mapped node 'fine-structure-alpha' cannot
+    be found in the DOM.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Rename the node's id in the node data (line 362: id: 'fine-structure-alpha')
+        # This causes the DOM to render with data-id='fine-structure-alpha-RENAMED'
+        patched = text.replace(
+            "id: 'fine-structure-alpha',",
+            "id: 'fine-structure-alpha-RENAMED',",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Missing mapped DOM node fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "not found" not in proc.stdout and "Mapped" not in proc.stdout and "mapped" not in proc.stdout:
+        raise AssertionError(
+            f"Missing mapped DOM node fixture did not report the missing node; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: missing mapped DOM node rejected")
+
+
 def main() -> int:
     print("=" * 70)
     print("Explorer V5.2/V5.3/V5.5 Runtime Proof — Copied-Candidate Negative Fixtures")
@@ -421,6 +557,10 @@ def main() -> int:
         fixture_unbound_timeline(tmp_explorer)
         fixture_bohr_confidence_mismatch(tmp_explorer)
         fixture_mapped_authority_bypass(tmp_explorer)
+        fixture_mapping_entry_deletion(tmp_explorer)
+        fixture_mapping_syntax_drift(tmp_explorer)
+        fixture_mapped_axiom_substitution(tmp_explorer)
+        fixture_missing_mapped_dom_node(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 

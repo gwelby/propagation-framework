@@ -1,0 +1,25 @@
+{
+  "_comment": "Independent expected node-to-authority mapping inventory for Explorer V5.7.",
+  "_purpose": "The proof checks the candidate's NODE_TO_AUTHORITY mapping against this frozen inventory. Missing, extra, or mismatched entries are hard failures. This prevents the proof from being checked against itself — if a mapping entry is deleted from timeline.js, the proof detects the discrepancy against this independent file.",
+  "_version": "V5.7",
+  "_frozen_at": "2026-07-30",
+  "_source_hash": "6bc0432e2e04eda5040196d6fd451d51aa4d652a75f1235e4390c8e90f680ce7",
+  "_expected_count": 15,
+  "mappings": {
+    "weinberg-angle": "weinberg-angle",
+    "three-resonances": "koide-leptons",
+    "120-geometry": "koide-leptons",
+    "foot-radius": "koide-leptons",
+    "koide-q": "koide-leptons",
+    "weights-21": "topological-weights",
+    "three-generations": "three-generations",
+    "z3-extension": "god-equation-operator",
+    "circulant-coupling": "god-equation-operator",
+    "lambda-c": "god-equation-scale",
+    "forces-refraction": "gravity-optical",
+    "bohr-quantization": "bohr-spectrum",
+    "fine-structure-alpha": "alpha-numeric",
+    "top-quark-limit": "top-quark-limit",
+    "koide-phase": "koide-phase"
+  }
+}
