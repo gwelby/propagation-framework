@@ -425,15 +425,14 @@ def fixture_mapping_entry_deletion(tmp_explorer: Path) -> None:
 
 
 def fixture_mapping_syntax_drift(tmp_explorer: Path) -> None:
-    """V5.7: Change one mapping entry to double-quoted JavaScript.
+    """V5.8: Change one mapping entry to double-quoted JavaScript.
 
-    Codex V56-02: A semantically equivalent double-quoted entry was silently
-    omitted by the V5.6 parser (which only matched single quotes). V5.7
-    handles both quote styles, so this should parse correctly and the
-    proof should PASS (the mapping is semantically equivalent).
+    Codex V57-04: The V5.7 fixture did not assert returncode == 0, so it
+    could false-pass on an unrelated failure. V5.8 requires the proof to
+    exit 0 and report 45/45 success.
 
-    This fixture verifies the parser handles double-quoted entries without
-    silently dropping them.
+    The proof must PASS because double-quoted entries are semantically
+    equivalent and V5.8's parser handles both quote styles.
     """
     with _mutate(tmp_explorer, "timeline.js") as panel_path:
         text = panel_path.read_text(encoding="utf-8")
@@ -445,18 +444,17 @@ def fixture_mapping_syntax_drift(tmp_explorer: Path) -> None:
         panel_path.write_text(patched, encoding="utf-8")
         proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
 
-    # The proof should PASS because double-quoted entries are semantically
-    # equivalent and V5.7's parser handles both quote styles.
+    # V5.8: The proof MUST exit 0 and report 45/45 success
     if proc.returncode != 0:
-        # If it fails, it must NOT be because of a silently omitted entry
-        # (that would be the V5.6 bug). It should either pass or fail for
-        # a different reason.
-        if "Mapping completeness" in proc.stdout and "missing" in proc.stdout.lower():
-            raise AssertionError(
-                f"Double-quoted entry was silently omitted (V5.6 bug not fixed); "
-                f"stdout={proc.stdout[-500:]}"
-            )
-    print("  PASS fixture: double-quoted mapping entry parsed correctly")
+        raise AssertionError(
+            f"Double-quoted entry should parse correctly and proof should PASS; "
+            f"got returncode={proc.returncode}, stdout={proc.stdout[-500:]}"
+        )
+    if "pills=45" not in proc.stdout or "bindings=45" not in proc.stdout:
+        raise AssertionError(
+            f"Double-quoted entry proof should report 45/45; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: double-quoted mapping entry parsed correctly (exit 0, 45/45)")
 
 
 def fixture_mapped_axiom_substitution(tmp_explorer: Path) -> None:
@@ -528,6 +526,190 @@ def fixture_missing_mapped_dom_node(tmp_explorer: Path) -> None:
     print("  PASS fixture: missing mapped DOM node rejected")
 
 
+def fixture_missing_inventory_plus_axiom(tmp_explorer: Path) -> None:
+    """V5.8: Delete the expected inventory file AND apply axiom substitution.
+
+    Codex V57-01: With the inventory absent, load_expected_mapping_inventory()
+    returned {} and all checks were skipped (if expected_mapping). A mapped
+    node returning allowed 'axiom' reason false-passed 45/45.
+
+    V5.8: load_expected_mapping_inventory() raises InventoryError on missing
+    file, which is a top-level proof failure before any browser verdict.
+
+    The proof must FAIL — the missing inventory is detected before the
+    axiom substitution is even checked.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    # Delete the inventory file
+    if inventory_path.exists():
+        inventory_path.unlink()
+
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        patched = text.replace(
+            "var authId = NODE_TO_AUTHORITY[node.id];",
+            "var authId = NODE_TO_AUTHORITY[node.id];\n"
+            "    if (node.id === 'fine-structure-alpha') { "
+            "return { status: 'OPEN', confidence: null, isAuthority: false, reason: 'axiom' }; }",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory file for subsequent fixtures
+    _restore_inventory(tmp_explorer)
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Missing inventory + axiom fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "inventory" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Missing inventory fixture did not report inventory error; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: missing inventory + axiom substitution rejected")
+
+
+def fixture_empty_inventory_plus_axiom(tmp_explorer: Path) -> None:
+    """V5.8: Empty the expected inventory AND apply axiom substitution.
+
+    Codex V57-01: With an empty inventory (mappings: {}), all checks were
+    skipped. V5.8 raises InventoryError on empty mappings.
+
+    The proof must FAIL.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    # Write an empty inventory
+    inventory_path.write_text(json.dumps({"mappings": {}}), encoding="utf-8")
+
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        patched = text.replace(
+            "var authId = NODE_TO_AUTHORITY[node.id];",
+            "var authId = NODE_TO_AUTHORITY[node.id];\n"
+            "    if (node.id === 'fine-structure-alpha') { "
+            "return { status: 'OPEN', confidence: null, isAuthority: false, reason: 'axiom' }; }",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Empty inventory + axiom fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "inventory" not in proc.stdout.lower() and "empty" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Empty inventory fixture did not report inventory error; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: empty inventory + axiom substitution rejected")
+
+
+def fixture_duplicate_mapping_key(tmp_explorer: Path) -> None:
+    """V5.8: Add a duplicate mapping key to NODE_TO_AUTHORITY.
+
+    Codex V57-02: Duplicate keys silently collapsed in a Python dict.
+    V5.8 detects duplicates and raises MappingParseError.
+
+    The proof must FAIL — the duplicate key is detected.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Add a duplicate of the fine-structure-alpha entry
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',",
+            "    'fine-structure-alpha': 'alpha-numeric',\n"
+            "    'fine-structure-alpha': 'alpha-numeric',",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Duplicate mapping key fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "duplicate" not in proc.stdout.lower() and "Duplicate" not in proc.stdout:
+        raise AssertionError(
+            f"Duplicate mapping fixture did not report duplicate; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: duplicate mapping key rejected")
+
+
+def fixture_malformed_mapping_entry(tmp_explorer: Path) -> None:
+    """V5.8: Add an unquoted (valid JavaScript but outside accepted grammar)
+    mapping entry to NODE_TO_AUTHORITY.
+
+    Codex V57-02: An unquoted JavaScript key is valid in the live renderer
+    but was only a parser warning. V5.8 hard-fails on malformed entries.
+
+    The proof must FAIL — the malformed entry is detected.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Add an unquoted key (valid JS but outside our accepted grammar)
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',",
+            "    'fine-structure-alpha': 'alpha-numeric',\n"
+            "    unquoted-key: 'some-claim',",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Malformed mapping entry fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "malformed" not in proc.stdout.lower() and "Malformed" not in proc.stdout:
+        raise AssertionError(
+            f"Malformed mapping fixture did not report malformed entry; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: malformed mapping entry rejected")
+
+
+def fixture_metadata_tampering(tmp_explorer: Path) -> None:
+    """V5.8: Corrupt _expected_count in the inventory.
+
+    Codex V57-03: _expected_count was decorative (never enforced). V5.8
+    enforces it. Setting _expected_count=999 must fail.
+
+    _source_hash was removed per the repair contract (it tied the inventory
+    to specific timeline.js bytes, preventing legitimate mutation testing).
+
+    The proof must FAIL — the count mismatch is detected.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    # Corrupt _expected_count
+    data = json.loads(original)
+    data["_expected_count"] = 999
+    inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Metadata tampering fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "count" not in proc.stdout.lower() and "mismatch" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Metadata tampering fixture did not report the count mismatch; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: metadata tampering (_expected_count) rejected")
+
+
+def _restore_inventory(tmp_explorer: Path) -> None:
+    """Restore the expected inventory from the original explorer dir."""
+    src = EXPLORER_DIR / "expected_node_authority_mapping.json"
+    dst = tmp_explorer / "expected_node_authority_mapping.json"
+    if src.exists():
+        shutil.copy2(src, dst)
+
+
 def main() -> int:
     print("=" * 70)
     print("Explorer V5.2/V5.3/V5.5 Runtime Proof — Copied-Candidate Negative Fixtures")
@@ -561,6 +743,11 @@ def main() -> int:
         fixture_mapping_syntax_drift(tmp_explorer)
         fixture_mapped_axiom_substitution(tmp_explorer)
         fixture_missing_mapped_dom_node(tmp_explorer)
+        fixture_missing_inventory_plus_axiom(tmp_explorer)
+        fixture_empty_inventory_plus_axiom(tmp_explorer)
+        fixture_duplicate_mapping_key(tmp_explorer)
+        fixture_malformed_mapping_entry(tmp_explorer)
+        fixture_metadata_tampering(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
 

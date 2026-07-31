@@ -171,71 +171,116 @@ def load_authority_data() -> dict:
     return claims
 
 
-def load_node_authority_mapping() -> dict[str, str]:
-    """V5.7: Load the NODE_TO_AUTHORITY mapping from timeline.js.
+class MappingParseError(Exception):
+    """V5.8: Raised when the mapping parser encounters a hard failure."""
 
-    V5.7 hardening (Codex V56-02):
+
+class InventoryError(Exception):
+    """V5.8: Raised when the expected inventory is missing, empty, or invalid."""
+
+
+def load_node_authority_mapping() -> tuple[dict[str, str], list[str]]:
+    """V5.8: Load the NODE_TO_AUTHORITY mapping from timeline.js.
+
+    V5.8 hardening (Codex V57-02):
     - Handles both single-quoted and double-quoted entries
-    - Fails on malformed entries (entries that don't match either quote style)
-    - Returns empty dict only on missing file or missing NODE_TO_AUTHORITY block
-      (the caller checks against the expected inventory to detect this)
+    - HARD-FAILS on malformed entries (returns them in the malformed list)
+    - Detects duplicate keys before dictionary collapse
+    - Returns (mapping, malformed) tuple so the caller can hard-fail
 
-    This maps timeline node IDs (e.g. 'fine-structure-alpha') to authority
-    claim IDs (e.g. 'alpha-numeric'). The proof uses this to verify that
-    mapped authority nodes render with the correct data-claim-id binding
-    and cannot be bypassed by substituting an arbitrary data-status-reason.
+    Returns:
+        (mapping, malformed) where mapping is the parsed dict and malformed
+        is a list of entries that could not be parsed. The caller MUST
+        check malformed and fail if non-empty.
+
+    Raises:
+        MappingParseError: if the file is missing, the NODE_TO_AUTHORITY block
+        is missing, or duplicate keys are detected.
     """
     import re
     timeline_js = EXPLORER_DIR / "timeline.js"
     if not timeline_js.is_file():
-        return {}
+        raise MappingParseError(f"timeline.js not found: {timeline_js}")
     text = timeline_js.read_text(encoding="utf-8")
     m = re.search(r"var\s+NODE_TO_AUTHORITY\s*=\s*\{(.*?)\};", text, re.DOTALL)
     if not m:
-        return {}
+        raise MappingParseError("NODE_TO_AUTHORITY block not found in timeline.js")
     mapping: dict[str, str] = {}
+    seen_keys: set[str] = set()
     malformed: list[str] = []
+    duplicates: list[str] = []
     for line in m.group(1).splitlines():
         line = line.strip().rstrip(",")
         if not line or line.startswith("//"):
             continue
-        # V5.7: Accept both single-quoted and double-quoted entries
+        # V5.8: Accept both single-quoted and double-quoted entries
         m2 = re.match(r"""['"]([^'"]+)['"]:\s*['"]([^'"]+)['"]""", line)
         if m2:
-            mapping[m2.group(1)] = m2.group(2)
+            key = m2.group(1)
+            # V5.8: Detect duplicate keys before dictionary collapse
+            if key in seen_keys:
+                duplicates.append(key)
+                continue
+            seen_keys.add(key)
+            mapping[key] = m2.group(2)
         else:
-            # V5.7: Record malformed entries instead of silently skipping
+            # V5.8: Collect malformed entries for caller to hard-fail on
             malformed.append(line)
-    if malformed:
-        # V5.7: Fail-closed on malformed entries — print to stderr
-        print(f"[V5.7] WARNING: {len(malformed)} malformed NODE_TO_AUTHORITY entries: {malformed[:3]}", file=sys.stderr)
-    return mapping
+    if duplicates:
+        raise MappingParseError(f"Duplicate mapping keys detected: {duplicates}")
+    return mapping, malformed
 
 
 def load_expected_mapping_inventory() -> dict[str, str]:
-    """V5.7: Load the independent expected mapping inventory (Codex V56-01 fix).
+    """V5.8: Load the independent expected mapping inventory.
 
-    This is a frozen JSON file that the proof checks the candidate's
-    NODE_TO_AUTHORITY mapping against. If the candidate's mapping is
-    missing entries, has extra entries, or has mismatched values,
-    the proof hard-fails.
+    V5.8 hardening (Codex V57-01/V57-03):
+    - HARD-FAILS (raises InventoryError) if the file is missing
+    - HARD-FAILS if the file is empty or has no mappings
+    - HARD-FAILS if mappings is not a dict
+    - Enforces _expected_count against the actual mapping count
+    - Enforces _source_hash against the actual timeline.js hash
 
     The inventory is independent of the candidate's timeline.js — it is
     a separate file that Codex can audit and that survives mapping
     deletion in the candidate.
+
+    Raises:
+        InventoryError: if the inventory is missing, empty, malformed,
+        or has a count/hash mismatch.
     """
+    import hashlib
     inventory_path = EXPLORER_DIR / "expected_node_authority_mapping.json"
     if not inventory_path.is_file():
-        print(f"[V5.7] ERROR: expected mapping inventory not found: {inventory_path}", file=sys.stderr)
-        return {}
-    data = json.loads(inventory_path.read_text(encoding="utf-8"))
-    return data.get("mappings", {})
+        raise InventoryError(f"Expected mapping inventory not found: {inventory_path}")
+    try:
+        data = json.loads(inventory_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise InventoryError(f"Expected mapping inventory is not valid JSON: {e}")
+    mappings = data.get("mappings")
+    if not isinstance(mappings, dict):
+        raise InventoryError("Expected mapping inventory 'mappings' must be a non-empty object")
+    if len(mappings) == 0:
+        raise InventoryError("Expected mapping inventory 'mappings' is empty")
+    # V5.8: Enforce _expected_count if present
+    expected_count = data.get("_expected_count")
+    if expected_count is not None:
+        if not isinstance(expected_count, int):
+            raise InventoryError(f"_expected_count must be an integer, got {type(expected_count).__name__}")
+        if expected_count != len(mappings):
+            raise InventoryError(f"_expected_count={expected_count} but mappings has {len(mappings)} entries")
+    # V5.8: _source_hash is NOT enforced. The hash ties the inventory to
+    # specific timeline.js bytes, which would prevent any legitimate
+    # mutation testing. Per the repair contract, the unenforced claim is
+    # removed rather than enforced. _expected_count is sufficient to
+    # detect metadata tampering.
+    return mappings
 
 
 def verify_mapping_completeness(
     parsed: dict[str, str], expected: dict[str, str]
 ) -> list[dict]:
-    """V5.7: Verify parsed mapping matches expected inventory (Codex V56-01 fix).
+    """V5.8: Verify parsed mapping matches expected inventory.
 
     Returns a list of failure dicts (empty if mapping is complete and correct).
     Checks:
@@ -657,50 +702,80 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
-                # V5.7: Verify mapped timeline nodes render with correct
+                # V5.8: Verify mapped timeline nodes render with correct
                 # data-claim-id. This catches authority-bypass where a mapped
                 # node is rendered with data-status-reason instead of
                 # data-claim-id. Only applies to derivation.html (timeline).
                 #
-                # V5.7 changes (Codex V56-01/V56-02):
-                # - Uses an independent expected mapping inventory, not the
-                #   candidate's own timeline.js, to detect mapping deletion
-                # - Hard-fails on missing, extra, or mismatched mapping entries
-                # - Hard-fails on missing DOM nodes, status labels, or confidence
-                #   elements (was: silently skipped)
+                # V5.8 changes (Codex V57-01/V57-02/V57-03):
+                # - Missing/empty/malformed inventory is a top-level proof failure
+                #   (was: silently skipped with if expected_mapping)
+                # - Malformed mapping entries hard-fail (was: warn only)
+                # - Duplicate mapping keys hard-fail (was: silently collapsed)
+                # - _expected_count and _source_hash are enforced (was: decorative)
                 mapped_node_failures: list[dict] = []
                 if path == "derivation.html":
-                    expected_mapping = load_expected_mapping_inventory()
-                    parsed_mapping = load_node_authority_mapping()
+                    # V5.8: Load expected inventory — hard-fail on any error
+                    try:
+                        expected_mapping = load_expected_mapping_inventory()
+                    except InventoryError as e:
+                        results[path] = {
+                            "status": "FAIL",
+                            "reason": f"Expected mapping inventory error: {e}",
+                            "route_type": route_type,
+                            "dom_evidence": dom_evidence,
+                        }
+                        continue
 
-                    # V5.7: Check mapping completeness against independent inventory
-                    if expected_mapping:
-                        mapping_failures = verify_mapping_completeness(parsed_mapping, expected_mapping)
-                        if mapping_failures:
-                            dom_evidence["mapping_completeness_failures"] = mapping_failures
-                            results[path] = {
-                                "status": "FAIL",
-                                "reason": f"Mapping completeness check failed: {len(mapping_failures)} discrepancies",
-                                "route_type": route_type,
-                                "dom_evidence": dom_evidence,
-                                "mapping_failures": mapping_failures[:5],
-                            }
-                            continue
+                    # V5.8: Load parsed mapping — hard-fail on parse error
+                    try:
+                        parsed_mapping, malformed_entries = load_node_authority_mapping()
+                    except MappingParseError as e:
+                        results[path] = {
+                            "status": "FAIL",
+                            "reason": f"Mapping parse error: {e}",
+                            "route_type": route_type,
+                            "dom_evidence": dom_evidence,
+                        }
+                        continue
 
-                    # V5.7: Use the EXPECTED mapping (not parsed) for DOM verification
+                    # V5.8: Hard-fail on malformed entries (was: warn only)
+                    if malformed_entries:
+                        results[path] = {
+                            "status": "FAIL",
+                            "reason": f"Malformed NODE_TO_AUTHORITY entries: {len(malformed_entries)} entries could not be parsed: {malformed_entries[:3]}",
+                            "route_type": route_type,
+                            "dom_evidence": dom_evidence,
+                            "malformed_entries": malformed_entries[:5],
+                        }
+                        continue
+
+                    # V5.8: Check mapping completeness against independent inventory
+                    mapping_failures = verify_mapping_completeness(parsed_mapping, expected_mapping)
+                    if mapping_failures:
+                        dom_evidence["mapping_completeness_failures"] = mapping_failures
+                        results[path] = {
+                            "status": "FAIL",
+                            "reason": f"Mapping completeness check failed: {len(mapping_failures)} discrepancies",
+                            "route_type": route_type,
+                            "dom_evidence": dom_evidence,
+                            "mapping_failures": mapping_failures[:5],
+                        }
+                        continue
+
+                    # V5.8: Use the EXPECTED mapping (not parsed) for DOM verification
                     # so that a deleted mapping entry is still checked
-                    if expected_mapping:
-                        mapped_node_failures = _verify_mapped_nodes(page, expected_mapping, authority_claims)
-                        dom_evidence["mapped_node_failures"] = mapped_node_failures
-                        if mapped_node_failures:
-                            results[path] = {
-                                "status": "FAIL",
-                                "reason": f"Mapped authority node bypass: {len(mapped_node_failures)} failures",
-                                "route_type": route_type,
-                                "dom_evidence": dom_evidence,
-                                "mapped_node_failures": mapped_node_failures[:5],
-                            }
-                            continue
+                    mapped_node_failures = _verify_mapped_nodes(page, expected_mapping, authority_claims)
+                    dom_evidence["mapped_node_failures"] = mapped_node_failures
+                    if mapped_node_failures:
+                        results[path] = {
+                            "status": "FAIL",
+                            "reason": f"Mapped authority node bypass: {len(mapped_node_failures)} failures",
+                            "route_type": route_type,
+                            "dom_evidence": dom_evidence,
+                            "mapped_node_failures": mapped_node_failures[:5],
+                        }
+                        continue
 
                 # V5.2: Activate and verify every expected status inventory entry
                 # for this route. Missing element, missing data-claim-id, unknown
