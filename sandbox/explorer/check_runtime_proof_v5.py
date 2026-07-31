@@ -210,11 +210,17 @@ def load_node_authority_mapping() -> tuple[dict[str, str], list[str]]:
     malformed: list[str] = []
     duplicates: list[str] = []
     for line in m.group(1).splitlines():
-        line = line.strip().rstrip(",")
+        line = line.strip()
         if not line or line.startswith("//"):
             continue
-        # V5.8: Accept both single-quoted and double-quoted entries
-        m2 = re.match(r"""['"]([^'"]+)['"]:\s*['"]([^'"]+)['"]""", line)
+        # V5.9: Normalize one allowed trailing comma, then require full match.
+        # This catches same-line duplicates and same-line unexpected properties
+        # that are valid JavaScript but outside the accepted one-entry-per-line
+        # grammar. (Codex V58-01: re.match was prefix-only.)
+        if line.endswith(","):
+            line = line[:-1].rstrip()
+        # V5.9: Use fullmatch so trailing tokens after a valid prefix are rejected
+        m2 = re.fullmatch(r"""['"]([^'"]+)['"]:\s*['"]([^'"]+)['"]""", line)
         if m2:
             key = m2.group(1)
             # V5.8: Detect duplicate keys before dictionary collapse
@@ -232,24 +238,26 @@ def load_node_authority_mapping() -> tuple[dict[str, str], list[str]]:
 
 
 def load_expected_mapping_inventory() -> dict[str, str]:
-    """V5.8: Load the independent expected mapping inventory.
+    """V5.9: Load the expected mapping inventory for exact-snapshot comparison.
 
-    V5.8 hardening (Codex V57-01/V57-03):
+    V5.9 hardening (Codex V58-02/V58-03):
     - HARD-FAILS (raises InventoryError) if the file is missing
     - HARD-FAILS if the file is empty or has no mappings
     - HARD-FAILS if mappings is not a dict
-    - Enforces _expected_count against the actual mapping count
-    - Enforces _source_hash against the actual timeline.js hash
+    - _expected_count is MANDATORY: must be present, must be an integer,
+      and must equal len(mappings). Deleting it is a hard failure.
+    - _source_hash is not used and not present in the inventory.
 
-    The inventory is independent of the candidate's timeline.js — it is
-    a separate file that Codex can audit and that survives mapping
-    deletion in the candidate.
+    Scope limitation (Codex V58-02): The inventory lives in the same
+    candidate revision as timeline.js. It detects one-sided mapping
+    deletion (deleting from timeline.js only) but cannot detect
+    coordinated deletion from both files. This is an exact-snapshot
+    comparison guard, not an independent drift-resistant root of trust.
 
     Raises:
         InventoryError: if the inventory is missing, empty, malformed,
-        or has a count/hash mismatch.
+        missing _expected_count, or has a count mismatch.
     """
-    import hashlib
     inventory_path = EXPLORER_DIR / "expected_node_authority_mapping.json"
     if not inventory_path.is_file():
         raise InventoryError(f"Expected mapping inventory not found: {inventory_path}")
@@ -262,18 +270,14 @@ def load_expected_mapping_inventory() -> dict[str, str]:
         raise InventoryError("Expected mapping inventory 'mappings' must be a non-empty object")
     if len(mappings) == 0:
         raise InventoryError("Expected mapping inventory 'mappings' is empty")
-    # V5.8: Enforce _expected_count if present
-    expected_count = data.get("_expected_count")
-    if expected_count is not None:
-        if not isinstance(expected_count, int):
-            raise InventoryError(f"_expected_count must be an integer, got {type(expected_count).__name__}")
-        if expected_count != len(mappings):
-            raise InventoryError(f"_expected_count={expected_count} but mappings has {len(mappings)} entries")
-    # V5.8: _source_hash is NOT enforced. The hash ties the inventory to
-    # specific timeline.js bytes, which would prevent any legitimate
-    # mutation testing. Per the repair contract, the unenforced claim is
-    # removed rather than enforced. _expected_count is sufficient to
-    # detect metadata tampering.
+    # V5.9: _expected_count is MANDATORY (was: optional in V5.8)
+    if "_expected_count" not in data:
+        raise InventoryError("Expected mapping inventory is missing required '_expected_count' field")
+    expected_count = data["_expected_count"]
+    if not isinstance(expected_count, int):
+        raise InventoryError(f"_expected_count must be an integer, got {type(expected_count).__name__}")
+    if expected_count != len(mappings):
+        raise InventoryError(f"_expected_count={expected_count} but mappings has {len(mappings)} entries")
     return mappings
 
 
@@ -702,17 +706,16 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
-                # V5.8: Verify mapped timeline nodes render with correct
+                # V5.9: Verify mapped timeline nodes render with correct
                 # data-claim-id. This catches authority-bypass where a mapped
                 # node is rendered with data-status-reason instead of
                 # data-claim-id. Only applies to derivation.html (timeline).
                 #
-                # V5.8 changes (Codex V57-01/V57-02/V57-03):
-                # - Missing/empty/malformed inventory is a top-level proof failure
-                #   (was: silently skipped with if expected_mapping)
-                # - Malformed mapping entries hard-fail (was: warn only)
-                # - Duplicate mapping keys hard-fail (was: silently collapsed)
-                # - _expected_count and _source_hash are enforced (was: decorative)
+                # V5.9 changes (Codex V58-01/V58-02/V58-03):
+                # - Parser uses fullmatch (was: prefix re.match)
+                # - _expected_count is mandatory (was: optional)
+                # - _source_hash removed from docstrings (was: stale claim)
+                # - Scope narrowed to exact-snapshot comparison (not drift-resistant)
                 mapped_node_failures: list[dict] = []
                 if path == "derivation.html":
                     # V5.8: Load expected inventory — hard-fail on any error

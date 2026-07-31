@@ -668,6 +668,100 @@ def fixture_malformed_mapping_entry(tmp_explorer: Path) -> None:
     print("  PASS fixture: malformed mapping entry rejected")
 
 
+def fixture_same_line_duplicate(tmp_explorer: Path) -> None:
+    """V5.9: Add a second identical property on the same JavaScript line.
+
+    Codex V58-01: The V5.8 parser used re.match (prefix), so a valid JS
+    line like `'fine-structure-alpha': 'alpha-numeric', 'fine-structure-alpha': 'alpha-numeric'`
+    matched the prefix and ignored the trailing duplicate. V5.9 uses
+    re.fullmatch after normalizing one trailing comma, so the trailing
+    duplicate token causes the line to be classified as malformed.
+
+    The proof must FAIL — the same-line duplicate is detected as malformed.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Add a second identical property on the same line
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',",
+            "    'fine-structure-alpha': 'alpha-numeric', 'fine-structure-alpha': 'alpha-numeric',",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Same-line duplicate fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "malformed" not in proc.stdout.lower() and "Malformed" not in proc.stdout:
+        raise AssertionError(
+            f"Same-line duplicate fixture did not report malformed entry; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: same-line duplicate mapping rejected")
+
+
+def fixture_same_line_unexpected(tmp_explorer: Path) -> None:
+    """V5.9: Add an unexpected property on the same JavaScript line.
+
+    Codex V58-01: The V5.8 parser used re.match (prefix), so a valid JS
+    line like `'fine-structure-alpha': 'alpha-numeric', 'codex-extra': 'bogus'`
+    matched the prefix and ignored the trailing unexpected property.
+    V5.9 uses re.fullmatch, so the trailing token causes malformed.
+
+    The proof must FAIL — the same-line unexpected property is detected.
+    """
+    with _mutate(tmp_explorer, "timeline.js") as panel_path:
+        text = panel_path.read_text(encoding="utf-8")
+        # Add an unexpected property on the same line
+        patched = text.replace(
+            "    'fine-structure-alpha': 'alpha-numeric',",
+            "    'fine-structure-alpha': 'alpha-numeric', 'codex-extra-node': 'bogus-claim',",
+        )
+        panel_path.write_text(patched, encoding="utf-8")
+        proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Same-line unexpected property fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "malformed" not in proc.stdout.lower() and "Malformed" not in proc.stdout:
+        raise AssertionError(
+            f"Same-line unexpected property fixture did not report malformed; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: same-line unexpected property rejected")
+
+
+def fixture_missing_expected_count(tmp_explorer: Path) -> None:
+    """V5.9: Delete _expected_count from the inventory.
+
+    Codex V58-02: _expected_count was optional (checked only if present).
+    Deleting it disabled the count check. V5.9 makes _expected_count
+    mandatory — its absence is a hard failure.
+
+    The proof must FAIL — the missing _expected_count is detected.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    data = json.loads(original)
+    del data["_expected_count"]
+    inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Missing _expected_count fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "_expected_count" not in proc.stdout and "expected_count" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Missing _expected_count fixture did not report the missing field; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: missing _expected_count rejected")
+
+
 def fixture_metadata_tampering(tmp_explorer: Path) -> None:
     """V5.8: Corrupt _expected_count in the inventory.
 
@@ -747,6 +841,9 @@ def main() -> int:
         fixture_empty_inventory_plus_axiom(tmp_explorer)
         fixture_duplicate_mapping_key(tmp_explorer)
         fixture_malformed_mapping_entry(tmp_explorer)
+        fixture_same_line_duplicate(tmp_explorer)
+        fixture_same_line_unexpected(tmp_explorer)
+        fixture_missing_expected_count(tmp_explorer)
         fixture_metadata_tampering(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
