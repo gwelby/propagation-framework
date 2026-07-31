@@ -238,25 +238,26 @@ def load_node_authority_mapping() -> tuple[dict[str, str], list[str]]:
 
 
 def load_expected_mapping_inventory() -> dict[str, str]:
-    """V5.9: Load the expected mapping inventory for exact-snapshot comparison.
+    """V5.10: Load the expected mapping inventory for exact-snapshot comparison.
 
-    V5.9 hardening (Codex V58-02/V58-03):
+    V5.10 hardening (Codex V59-01/V59-02):
     - HARD-FAILS (raises InventoryError) if the file is missing
     - HARD-FAILS if the file is empty or has no mappings
     - HARD-FAILS if mappings is not a dict
+    - _version is MANDATORY: must be present, must be a string, must start with "V"
     - _expected_count is MANDATORY: must be present, must be an integer,
-      and must equal len(mappings). Deleting it is a hard failure.
-    - _source_hash is not used and not present in the inventory.
+      and must equal len(mappings)
+    - _source_hash is not used and not present in the inventory
 
-    Scope limitation (Codex V58-02): The inventory lives in the same
-    candidate revision as timeline.js. It detects one-sided mapping
-    deletion (deleting from timeline.js only) but cannot detect
-    coordinated deletion from both files. This is an exact-snapshot
-    comparison guard, not an independent drift-resistant root of trust.
+    Scope: This is an exact-snapshot comparison guard. The inventory file
+    lives in the same candidate revision as timeline.js. It detects
+    one-sided mapping deletion but cannot detect coordinated deletion
+    from both files. It is NOT an independent, frozen, or drift-resistant
+    root of trust.
 
     Raises:
         InventoryError: if the inventory is missing, empty, malformed,
-        missing _expected_count, or has a count mismatch.
+        missing _version, missing _expected_count, or has a count mismatch.
     """
     inventory_path = EXPLORER_DIR / "expected_node_authority_mapping.json"
     if not inventory_path.is_file():
@@ -270,7 +271,15 @@ def load_expected_mapping_inventory() -> dict[str, str]:
         raise InventoryError("Expected mapping inventory 'mappings' must be a non-empty object")
     if len(mappings) == 0:
         raise InventoryError("Expected mapping inventory 'mappings' is empty")
-    # V5.9: _expected_count is MANDATORY (was: optional in V5.8)
+    # V5.10: _version is MANDATORY (Codex V59-01)
+    if "_version" not in data:
+        raise InventoryError("Expected mapping inventory is missing required '_version' field")
+    version = data["_version"]
+    if not isinstance(version, str):
+        raise InventoryError(f"_version must be a string, got {type(version).__name__}")
+    if not version.startswith("V"):
+        raise InventoryError(f"_version must start with 'V', got '{version}'")
+    # V5.9: _expected_count is MANDATORY
     if "_expected_count" not in data:
         raise InventoryError("Expected mapping inventory is missing required '_expected_count' field")
     expected_count = data["_expected_count"]
@@ -706,16 +715,15 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                 dom_evidence["panel_activations"] = panel_activations
                 dom_evidence["status_pills"] = status_pills
 
-                # V5.9: Verify mapped timeline nodes render with correct
+                # V5.10: Verify mapped timeline nodes render with correct
                 # data-claim-id. This catches authority-bypass where a mapped
                 # node is rendered with data-status-reason instead of
                 # data-claim-id. Only applies to derivation.html (timeline).
                 #
-                # V5.9 changes (Codex V58-01/V58-02/V58-03):
-                # - Parser uses fullmatch (was: prefix re.match)
-                # - _expected_count is mandatory (was: optional)
-                # - _source_hash removed from docstrings (was: stale claim)
-                # - Scope narrowed to exact-snapshot comparison (not drift-resistant)
+                # V5.10 changes (Codex V59-01/V59-02/V59-03):
+                # - _version is mandatory (was: unvalidated in V5.9)
+                # - All independent/frozen wording removed from inventory
+                # - Scope is exact-snapshot comparison (not drift-resistant)
                 mapped_node_failures: list[dict] = []
                 if path == "derivation.html":
                     # V5.8: Load expected inventory — hard-fail on any error
@@ -753,7 +761,7 @@ def run_browser_proof(port: int, proc: subprocess.Popen) -> dict:
                         }
                         continue
 
-                    # V5.8: Check mapping completeness against independent inventory
+                    # V5.10: Check mapping completeness against expected inventory
                     mapping_failures = verify_mapping_completeness(parsed_mapping, expected_mapping)
                     if mapping_failures:
                         dom_evidence["mapping_completeness_failures"] = mapping_failures

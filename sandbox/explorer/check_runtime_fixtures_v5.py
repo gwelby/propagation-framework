@@ -397,7 +397,7 @@ def fixture_mapping_entry_deletion(tmp_explorer: Path) -> None:
 
     Codex V56-01: The proof was checked against itself — deleting a mapping
     entry made the proof see 14 expected mappings instead of 15, and it
-    false-passed. V5.7 uses an independent expected inventory, so the
+    false-passed. V5.7 uses a separate expected inventory file, so the
     deleted entry is detected as a missing entry.
 
     The proof must FAIL — the parsed mapping has 14 entries but the
@@ -762,6 +762,67 @@ def fixture_missing_expected_count(tmp_explorer: Path) -> None:
     print("  PASS fixture: missing _expected_count rejected")
 
 
+def fixture_missing_version(tmp_explorer: Path) -> None:
+    """V5.10: Delete _version from the inventory.
+
+    Codex V59-01: _version was not validated. Deleting it false-passed 45/45.
+    V5.10 makes _version mandatory — its absence is a hard failure.
+
+    The proof must FAIL — the missing _version is detected.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    data = json.loads(original)
+    del data["_version"]
+    inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Missing _version fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "_version" not in proc.stdout and "version" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Missing _version fixture did not report the missing field; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: missing _version rejected")
+
+
+def fixture_unsupported_version(tmp_explorer: Path) -> None:
+    """V5.10: Set _version to an unsupported value.
+
+    Codex V59-01: _version was not validated. Setting it to an arbitrary
+    value false-passed. V5.10 requires _version to be a string starting
+    with 'V'.
+
+    The proof must FAIL — the unsupported version is detected.
+    """
+    inventory_path = tmp_explorer / "expected_node_authority_mapping.json"
+    original = inventory_path.read_text(encoding="utf-8")
+    data = json.loads(original)
+    data["_version"] = "UNSUPPORTED"
+    inventory_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    proc = _run_runtime_proof(tmp_explorer, route="derivation.html")
+
+    # Restore inventory
+    inventory_path.write_text(original, encoding="utf-8")
+
+    if proc.returncode == 0:
+        raise AssertionError(
+            f"Unsupported _version fixture should have failed; stdout={proc.stdout[-500:]}"
+        )
+    if "_version" not in proc.stdout and "version" not in proc.stdout.lower():
+        raise AssertionError(
+            f"Unsupported _version fixture did not report the error; stdout={proc.stdout[-500:]}"
+        )
+    print("  PASS fixture: unsupported _version rejected")
+
+
 def fixture_metadata_tampering(tmp_explorer: Path) -> None:
     """V5.8: Corrupt _expected_count in the inventory.
 
@@ -844,6 +905,8 @@ def main() -> int:
         fixture_same_line_duplicate(tmp_explorer)
         fixture_same_line_unexpected(tmp_explorer)
         fixture_missing_expected_count(tmp_explorer)
+        fixture_missing_version(tmp_explorer)
+        fixture_unsupported_version(tmp_explorer)
         fixture_metadata_tampering(tmp_explorer)
     finally:
         shutil.rmtree(tmp_explorer.parent, ignore_errors=True)
