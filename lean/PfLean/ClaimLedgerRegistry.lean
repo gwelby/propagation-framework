@@ -217,13 +217,31 @@ theorem pfClaimLedger_wellFormed :
         quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]
   decide
 
-/-- `pfClaimLedger` has unique entry names: no two of the 14 entries share a
-    name.  This is the invariant that upgrades the `MeasurementLedger`
-    capstone from a name-level theorem to a one-to-one contract-to-entry
-    binding.  Verified by `decide` on the concrete 14-entry list. -/
+/-- `pfClaimLedger` has unique entry names (value-level): no two of the 14
+    entries share a name.  Verified by `decide` on the concrete 14-entry list.
+    This is the **weaker** predicate — see `pfClaimLedger_uniqueEntryNames`
+    for the occurrence-level invariant. -/
 theorem pfClaimLedger_uniqueNames :
     pfClaimLedger.uniqueNames := by
   simp [pfClaimLedger, ClaimLedger.uniqueNames,
+        fullNormT3StrictlyDecreasesEntry, PFEntropyT3FormalIdentityEntry,
+        PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
+        P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,
+        topologicalAvailabilityEntry, kernelClosureOrdersEntry, atMostTwoClosureOrdersEntry,
+        quatToSO3KerEntry, weinbergRatioEntry, koideQTwoThirdsEntry, weakFieldIndexFlatEntry]
+
+/-- `pfClaimLedger` has occurrence-unique entry names: no two **positions**
+    in the 14-entry list have the same name.  This is the occurrence-level
+    invariant required for one-to-one contract-to-entry binding.  Verified
+    by `decide` on the concrete 14-entry name list.
+
+    This is the repair for Codex re-audit `clg_1b946d7211000490825d6aa6`
+    (PFU-01): the old `pfClaimLedger_uniqueNames` checks value equality,
+    which is satisfied by `[entry, entry]`.  This theorem proves the
+    stronger `Nodup` property on the name list. -/
+theorem pfClaimLedger_uniqueEntryNames :
+    pfClaimLedger.uniqueEntryNames := by
+  simp [pfClaimLedger, ClaimLedger.uniqueEntryNames,
         fullNormT3StrictlyDecreasesEntry, PFEntropyT3FormalIdentityEntry,
         PFEntropyDecreasesT3Entry, fullNormPythagoreanEntry,
         P0QDotZeroEntry, QSumZeroEntry, TFullDecompositionEntry,

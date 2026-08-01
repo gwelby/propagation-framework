@@ -52,10 +52,71 @@ def allClaimNames (ml : MeasurementLedger) : List String :=
 def contractsResolved (ml : MeasurementLedger) (cl : ClaimLedger) : Prop :=
   ∀ c ∈ ml.contracts, ∃ e ∈ cl.entries, e.name = c.claimName
 
+/-- The measurement ledger has occurrence-unique contract claim names: no
+    two **positions** in `contracts` have the same `claimName`.  This is
+    the occurrence-level invariant for one-to-one contract-to-entry binding.
+
+    Codex re-audit (2026-07-30, `clg_1b946d7211000490825d6aa6`, PFU-03)
+    identified that `contractsResolved` is existential and does not check
+    for duplicate contracts.  This predicate closes that gap. -/
+def uniqueContractNames (ml : MeasurementLedger) : Prop :=
+  (ml.contracts.map (·.claimName)).Nodup
+
 /-- The empty measurement ledger vacuously resolves against any claim ledger. -/
 theorem empty_resolves (cl : ClaimLedger) :
     contractsResolved empty cl := by
   simp [empty, contractsResolved]
+
+/-- The empty measurement ledger vacuously satisfies `uniqueContractNames`. -/
+theorem empty_unique_contract_names :
+    uniqueContractNames empty := by
+  simp [empty, uniqueContractNames]
+
+/-- Under `uniqueContractNames`, if a contract with the given claim name
+    exists, the filter of contracts matching that name has length exactly 1.
+    This is the contract-level analog of `ClaimLedger.exactly_one_matching_entry`. -/
+theorem exactly_one_matching_contract
+    (ml : MeasurementLedger) (hUnique : ml.uniqueContractNames)
+    (name : String) (h_exists : ∃ c ∈ ml.contracts, c.claimName = name) :
+    (ml.contracts.filter (fun c => c.claimName = name)).length = 1 := by
+  have helper : ∀ (l : List MeasurementContract) (target : String),
+      (l.map (·.claimName)).Nodup →
+      (∃ c ∈ l, c.claimName = target) →
+      (l.filter (fun c => c.claimName = target)).length = 1 := by
+    intro l target
+    induction l with
+    | nil => intro _ h; exact absurd h (by simp)
+    | cons x xs ih =>
+      intro hnodup hexists
+      rw [List.map_cons, List.nodup_cons] at hnodup
+      obtain ⟨hfx_notin, hxs_nodup⟩ := hnodup
+      by_cases hxeq : x.claimName = target
+      · have hno_match : ∀ c ∈ xs, c.claimName ≠ target := by
+          intro c hc hcname
+          have hmem : target ∈ xs.map (·.claimName) := by
+            rw [List.mem_map]; exact ⟨c, hc, hcname⟩
+          rw [← hxeq] at hmem
+          exact absurd hmem hfx_notin
+        have hfilter_nil : (xs.filter (fun c => c.claimName = target)) = [] := by
+          clear ih hexists hfx_notin hxs_nodup
+          induction xs with
+          | nil => rfl
+          | cons y ys ih_filter =>
+            by_cases hyeq : y.claimName = target
+            · exact absurd hyeq (hno_match y (by simp))
+            · simp [hyeq]
+              intro e he hename
+              exact hno_match e (List.mem_cons_of_mem _ he) hename
+        simp [hxeq, List.filter_cons, hfilter_nil]
+      · have hexists_xs : ∃ c ∈ xs, c.claimName = target := by
+          obtain ⟨c, hc, hcname⟩ := hexists
+          simp only [List.mem_cons] at hc
+          rcases hc with rfl | hc
+          · simp [hxeq] at hcname
+          · exact ⟨c, hc, hcname⟩
+        simp [hxeq, List.filter_cons]
+        exact ih hxs_nodup hexists_xs
+  exact helper ml.contracts name hUnique h_exists
 
 end MeasurementLedger
 
@@ -74,6 +135,14 @@ theorem pfMeasurementLedger_resolved :
       MeasurementLedger.empty, MeasurementLedger.add]
   simp [PFEntropy_T3_contract]
   native_decide
+
+/-- The minimal ledger has occurrence-unique contract names (single contract,
+    trivially Nodup). -/
+theorem pfMeasurementLedger_unique_contract_names :
+    pfMeasurementLedger.uniqueContractNames := by
+  rw [MeasurementLedger.uniqueContractNames, pfMeasurementLedger,
+      MeasurementLedger.empty, MeasurementLedger.add]
+  simp [PFEntropy_T3_contract]
 
 /-- The full measurement ledger: all 4 contracts. -/
 noncomputable def pfMeasurementLedger_full : MeasurementLedger :=
@@ -95,6 +164,16 @@ theorem pfMeasurementLedger_full_length :
 theorem pfMeasurementLedger_full_resolved :
     MeasurementLedger.contractsResolved pfMeasurementLedger_full pfClaimLedger := by
   rw [MeasurementLedger.contractsResolved, pfMeasurementLedger_full,
+      MeasurementLedger.empty, MeasurementLedger.add]
+  simp [PFEntropy_T3_contract, Weinberg_contract, Koide_contract, GravityOptics_contract]
+  decide
+
+/-- The full ledger has occurrence-unique contract names: the four claim
+    names `PFEntropy_decreases_T3`, `weinberg_ratio`, `koide_Q_two_thirds`,
+    `weakFieldIndex_flat` are all distinct, so the name list is Nodup. -/
+theorem pfMeasurementLedger_full_unique_contract_names :
+    pfMeasurementLedger_full.uniqueContractNames := by
+  rw [MeasurementLedger.uniqueContractNames, pfMeasurementLedger_full,
       MeasurementLedger.empty, MeasurementLedger.add]
   simp [PFEntropy_T3_contract, Weinberg_contract, Koide_contract, GravityOptics_contract]
   decide
@@ -696,7 +775,7 @@ theorem unresolved_contract_does_not_resolve :
   decide
 
 -- ---------------------------------------------------------------------------
--- 12. Unique-name invariant: one-to-one contract-to-entry binding
+-- 12. Unique-name invariant: value-level results (legacy, weak)
 -- ---------------------------------------------------------------------------
 --
 -- Codex re-audit (2026-07-25, ledger `clg_5e44d7c916c6a0ee00978b73`)
@@ -710,22 +789,22 @@ theorem unresolved_contract_does_not_resolve :
 --      a capstone input.  Hard-coded values and source text remain
 --      externally unvalidated.
 --
--- This section closes hold #1 by:
---   - adding `ClaimLedger.uniqueNames` (in `ClaimLedger.lean`),
---   - proving `pfClaimLedger_uniqueNames` (in `ClaimLedgerRegistry.lean`),
---   - proving that under `uniqueNames`, `applyMeasurement` updates exactly
---     one entry (the unique entry matching the claim name),
---   - proving that the `resolvedEntry` selected by `contractsResolved` is
---     that same unique entry, so the capstone is a one-to-one binding, not
---     a name-level theorem.
+-- ⚠️ This section provides VALUE-LEVEL results only.  The `uniqueNames`
+--    predicate checks value equality, which is satisfied by `[entry, entry]`.
+--    These theorems do NOT close hold #1 / PFU-01.  The occurrence-level
+--    repair is in §13 below, using the stronger `uniqueEntryNames`
+--    (Nodup on the name list) and `uniqueContractNames` (Nodup on the
+--    contract claim-name list).
 --
 -- Hold #2 (ValidatedMeasurement provenance) is NOT addressed here; it
 -- requires structured provenance in the actual measurement pipeline and
 -- remains open.
 
-/-- Under the `uniqueNames` invariant, there is at most one entry in the
-    ledger with a given name.  This is the direct consequence of
-    `uniqueNames`: any two entries sharing a name are equal. -/
+/-- **Value-level (legacy, weak)**: Under the `uniqueNames` invariant, any
+    two entries sharing a name are equal **by value**.  This does NOT imply
+    occurrence-level uniqueness: `[entry, entry]` satisfies `uniqueNames`
+    because both quantified values are the same, yet the name appears at two
+    positions.  Use `uniqueEntryNames` for occurrence-level results. -/
 theorem ClaimLedger.uniqueNames_at_most_one
     (cl : ClaimLedger) (hUnique : cl.uniqueNames) (name : String)
     (e₁ e₂ : ClaimEntry) (h₁ : e₁ ∈ cl.entries) (h₂ : e₂ ∈ cl.entries)
@@ -733,9 +812,11 @@ theorem ClaimLedger.uniqueNames_at_most_one
   have h := hUnique e₁ h₁ e₂ h₂
   exact h (by rw [hName, hName'])
 
-/-- Under `uniqueNames`, the entry selected by `contractsResolved` is the
-    *unique* entry matching the contract's claim name — not just *an*
-    entry.  This upgrades the bridge from existential to unique. -/
+/-- **Value-level (legacy, weak)**: Under `uniqueNames`, the entry selected
+    by `contractsResolved` is equal by value to any other entry matching the
+    contract's claim name.  This does NOT prove occurrence-level uniqueness;
+    `[entry, entry]` satisfies `uniqueNames` but has two positions with the
+    same name.  Use `uniqueEntryNames` for occurrence-level results. -/
 theorem MeasurementLedger.resolvedEntry_unique
     (ml : MeasurementLedger) (cl : ClaimLedger) (c : MeasurementContract)
     (h_c_in_ml : c ∈ ml.contracts) (h_resolved : ml.contractsResolved cl)
@@ -777,17 +858,24 @@ theorem ClaimLedger.applyMeasurement_preserves_names
     simp [h_nomatch] at h_eq
     rw [← h_eq]
 
-/-- **One-to-one binding (uniqueness form)**: Under the `uniqueNames`
-    invariant, applying a measurement outcome to the ledger produces a
-    ledger in which *at most one* entry has any given name.  This is the
-    structural fact that makes the capstone a one-to-one binding rather
-    than a name-level theorem: `applyMeasurement` cannot create duplicate
-    names because `applyOutcome` preserves names and `uniqueNames`
-    guarantees at most one pre-image per name.
+/-- **Value-level uniqueness (legacy, weak)**: Under the `uniqueNames`
+    invariant (value equality, NOT occurrence uniqueness), applying a
+    measurement outcome to the ledger produces a ledger in which *at most
+    one* entry has any given name **by value**.
 
-    This closes Codex hold #1 in its structural form: the capstone
-    `confirmed_derived_claim_meets_tier_gate` (existence, already proven)
-    plus this uniqueness theorem together give one-to-one binding. -/
+    ⚠️ **This is a value-level compatibility result, NOT a one-to-one
+    binding theorem.** The `uniqueNames` predicate checks value equality,
+    which is satisfied by `[entry, entry]` (two occurrences of the same
+    value).  The occurrence-level repair is
+    `applyMeasurement_preserves_names_and_updates_one`, which uses the
+    stronger `uniqueEntryNames` (Nodup on the name list) and proves
+    index-level update semantics.
+
+    This theorem is retained for backward compatibility with existing
+    proofs that only need value-level uniqueness.  It does NOT close
+    Codex hold PFU-01; the occurrence-level capstone
+    `confirmed_derived_claim_occurrence_unique_tier_gate_pass` addresses
+    that hold, subject to final revision-bound audit. -/
 theorem ClaimLedger.applyMeasurement_unique_names
     (cl : ClaimLedger) (claimName : String) (o : MeasurementOutcome) (note : String)
     (hUnique : cl.uniqueNames) :
@@ -811,20 +899,29 @@ theorem ClaimLedger.applyMeasurement_unique_names
   · -- Both e₁' and e₂' are e₁ itself, so they're equal.
     rw [h_e₁_nomatch heq, h_e₂_nomatch heq]
 
-/-- **One-to-one binding capstone (existence + uniqueness)**: Under the
-    `uniqueNames` invariant, applying a computed `.Confirmed` outcome to a
-    `DERIVED` claim produces a ledger in which there is *exactly one* entry
-    with the contract's claim name that meets the publication tier gate.
+/-- **Value-level capstone (legacy, weak)**: Under the `uniqueNames`
+    invariant (value equality), applying a computed `.Confirmed` outcome
+    to a `DERIVED` claim produces a ledger in which there is *at most one*
+    entry with the contract's claim name that meets the publication tier
+    gate **by value**.
+
+    ⚠️ **This is a value-level compatibility result, NOT the occurrence-level
+    capstone.**  The `uniqueNames` predicate is satisfied by `[entry, entry]`,
+    so this theorem does not prove occurrence-level one-to-one binding.
+
+    The occurrence-level capstone that addresses Codex hold PFU-01 is
+    `confirmed_derived_claim_occurrence_unique_tier_gate_pass`, which
+    requires the stronger `uniqueEntryNames` and `uniqueContractNames`
+    premises and proves exact-one entry count, exact-one contract count,
+    and pairwise uniqueness.  Closure of PFU-01 is subject to final
+    revision-bound audit.
 
     - **Existence** follows from the original bridge theorem
       `confirmed_derived_claim_meets_tier_gate` (which does not require
       `uniqueNames`).
     - **Uniqueness** follows from `applyMeasurement_unique_names`: the
       updated ledger has unique names, so at most one entry has name =
-      `c.claimName`, hence at most one can meet the gate.
-
-    This closes Codex hold #1: the capstone is a one-to-one binding, not
-    a name-level theorem. -/
+      `c.claimName`, hence at most one can meet the gate. -/
 theorem confirmed_derived_claim_unique_tier_gate_pass
     (cl : ClaimLedger) (ml : MeasurementLedger)
     (m : Measurement) (c : MeasurementContract) (note : String)
@@ -859,5 +956,312 @@ theorem confirmed_derived_claim_unique_tier_gate_pass
     intro e₁ h₁ e₂ h₂ h_name₁ h_name₂ h_gate₁ h_gate₂
     exact h_unique' e₁ h₁ e₂ h₂
       (by rw [h_name₁, h_name₂])
+
+-- ---------------------------------------------------------------------------
+-- 13. Occurrence-level repair (Codex PFU-01..PFU-04, 2026-07-30)
+-- ---------------------------------------------------------------------------
+--
+-- Codex re-audit `clg_1b946d7211000490825d6aa6` identified that the old
+-- `uniqueNames` predicate checks value equality, not occurrence uniqueness.
+-- `[entry, entry]` satisfies it because both quantified values are the same.
+-- The repair uses `uniqueEntryNames` (Nodup on the name list) which is
+-- occurrence-level: no two positions share a name.
+--
+-- This section adds:
+--   - exactly-one-count for resolved contracts (PFU-02)
+--   - applyMeasurement applies the outcome at exactly one matching occurrence (PFU-02/PFU-03)
+--   - the capstone restated with `uniqueEntryNames` (PFU-01)
+--   - negative fixtures for [entry, entry], two distinct same-name entries,
+--     and duplicate contract occurrences (PFU-05)
+
+/-- Under `uniqueEntryNames`, if an entry with the given name exists, the
+    filter of entries matching that name has length exactly 1.  This is the
+    occurrence-level count theorem: not just "all matching values are equal"
+    but "there is exactly one matching position."  Proved by induction. -/
+theorem ClaimLedger.exactly_one_matching_entry
+    (cl : ClaimLedger) (hUnique : cl.uniqueEntryNames)
+    (name : String) (h_exists : ∃ e ∈ cl.entries, e.name = name) :
+    (cl.entries.filter (fun e => e.name = name)).length = 1 := by
+  -- General helper by induction on the list
+  have helper : ∀ (l : List ClaimEntry) (target : String),
+      (l.map ClaimEntry.name).Nodup →
+      (∃ e ∈ l, e.name = target) →
+      (l.filter (fun e => e.name = target)).length = 1 := by
+    intro l target
+    induction l with
+    | nil => intro _ h; exact absurd h (by simp)
+    | cons x xs ih =>
+      intro hnodup hexists
+      rw [List.map_cons, List.nodup_cons] at hnodup
+      obtain ⟨hfx_notin, hxs_nodup⟩ := hnodup
+      by_cases hxeq : x.name = target
+      · -- x matches. No element in xs matches (from Nodup: x.name ∉ xs.map name).
+        have hno_match : ∀ e ∈ xs, e.name ≠ target := by
+          intro e he hename
+          have hmem : target ∈ xs.map ClaimEntry.name := by
+            rw [List.mem_map]; exact ⟨e, he, hename⟩
+          rw [← hxeq] at hmem
+          exact absurd hmem hfx_notin
+        have hfilter_nil : (xs.filter (fun e => e.name = target)) = [] := by
+          clear ih hexists hfx_notin hxs_nodup
+          induction xs with
+          | nil => rfl
+          | cons y ys ih_filter =>
+            by_cases hyeq : y.name = target
+            · exact absurd hyeq (hno_match y (by simp))
+            · simp [hyeq]
+              intro e he hename
+              exact hno_match e (List.mem_cons_of_mem _ he) hename
+        simp [hxeq, List.filter_cons, hfilter_nil]
+      · -- x doesn't match. The matching entry is in xs.
+        have hexists_xs : ∃ e ∈ xs, e.name = target := by
+          obtain ⟨e, he, hename⟩ := hexists
+          simp only [List.mem_cons] at he
+          rcases he with rfl | he
+          · simp [hxeq] at hename
+          · exact ⟨e, he, hename⟩
+        simp [hxeq, List.filter_cons]
+        exact ih hxs_nodup hexists_xs
+  exact helper cl.entries name hUnique h_exists
+
+/-- Under `uniqueEntryNames`, `applyMeasurement` preserves the name list
+    (so `uniqueEntryNames` is preserved) and updates exactly the matching
+    position while leaving every other position unchanged.
+
+    This is the occurrence-level update theorem.  It states three things:
+    1. Exactly one entry in the original ledger matches `claimName`
+       (filter length = 1).
+    2. The updated ledger also has `uniqueEntryNames` (names are preserved).
+    3. **Index-level update semantics**: for every index `i` into the
+       entry list, if the original entry at `i` matches `claimName` then
+       the updated entry at `i` is `applyOutcome` of it (and its name is
+       preserved); if not, the updated entry at `i` is identical to the
+       original.  Combined with (1), exactly one index is updated. -/
+theorem ClaimLedger.applyMeasurement_preserves_names_and_updates_one
+    (cl : ClaimLedger) (claimName : String) (o : MeasurementOutcome) (note : String)
+    (hUnique : cl.uniqueEntryNames)
+    (h_exists : ∃ e ∈ cl.entries, e.name = claimName) :
+    -- Exactly one entry matches the claim name
+    (cl.entries.filter (fun e => e.name = claimName)).length = 1 ∧
+    -- The updated ledger also has unique entry names (names preserved)
+    (cl.applyMeasurement claimName o note).uniqueEntryNames ∧
+    -- Index-level: every position is either updated (name matches) or unchanged.
+    -- The updated list has the same length (applyMeasurement_length), so
+    -- indices are shared.
+    ∀ (i : Nat) (h_i : i < cl.entries.length),
+      (cl.entries.get ⟨i, h_i⟩).name = claimName ∧
+        (cl.applyMeasurement claimName o note).entries.get ⟨i, cl.applyMeasurement_length claimName o note ▸ h_i⟩ =
+          ClaimEntry.applyOutcome (cl.entries.get ⟨i, h_i⟩) o note ∧
+        ((cl.applyMeasurement claimName o note).entries.get ⟨i, cl.applyMeasurement_length claimName o note ▸ h_i⟩).name = claimName
+      ∨
+      (cl.entries.get ⟨i, h_i⟩).name ≠ claimName ∧
+        (cl.applyMeasurement claimName o note).entries.get ⟨i, cl.applyMeasurement_length claimName o note ▸ h_i⟩ =
+          cl.entries.get ⟨i, h_i⟩ := by
+  refine ⟨?_, ?_, ?_⟩
+  · exact cl.exactly_one_matching_entry hUnique claimName h_exists
+  · -- applyMeasurement preserves names, so Nodup is preserved
+    -- The name list of the updated ledger equals the name list of the original
+    have h_names_preserved :
+        (cl.applyMeasurement claimName o note).entries.map ClaimEntry.name =
+        cl.entries.map ClaimEntry.name := by
+      simp only [ClaimLedger.applyMeasurement, List.map_map]
+      rw [show (ClaimEntry.name ∘ fun e => if e.name = claimName then ClaimEntry.applyOutcome e o note else e) = ClaimEntry.name from by
+        funext e
+        by_cases heq : e.name = claimName
+        · simp [heq, ClaimEntry.applyOutcome_name, Function.comp]
+        · simp [heq, Function.comp]]
+    rw [uniqueEntryNames, h_names_preserved]
+    exact hUnique
+  · -- Index-level update semantics: applyMeasurement is List.map, so
+    -- updated[i] = if orig[i].name = claimName then applyOutcome else orig[i]
+    intro i h_i
+    have h_len : (cl.applyMeasurement claimName o note).entries.length = cl.entries.length := by
+      exact cl.applyMeasurement_length claimName o note
+    by_cases heq : (cl.entries.get ⟨i, h_i⟩).name = claimName
+    · -- Name matches: updated[i] = applyOutcome orig[i], name preserved
+      left
+      have h_get : (cl.applyMeasurement claimName o note).entries.get ⟨i, h_len ▸ h_i⟩ =
+                   (cl.entries.get ⟨i, h_i⟩).applyOutcome o note := by
+        unfold ClaimLedger.applyMeasurement
+        -- Convert heq to getElem form
+        have heq_elem : cl.entries[i].name = claimName := by
+          have : cl.entries.get ⟨i, h_i⟩ = cl.entries[i] := by simp
+          rw [← this]; exact heq
+        simp [h_len, heq_elem]
+      refine ⟨heq, h_get, ?_⟩
+      rw [h_get, ClaimEntry.applyOutcome_name, heq]
+    · -- Name doesn't match: updated[i] = orig[i]
+      right
+      have h_get : (cl.applyMeasurement claimName o note).entries.get ⟨i, h_len ▸ h_i⟩ =
+                   cl.entries.get ⟨i, h_i⟩ := by
+        unfold ClaimLedger.applyMeasurement
+        have heq_elem : ¬ cl.entries[i].name = claimName := by
+          have : cl.entries.get ⟨i, h_i⟩ = cl.entries[i] := by simp
+          rw [← this]; exact heq
+        simp [h_len, heq_elem]
+      refine ⟨heq, h_get⟩
+
+/-- **Capstone (occurrence-level)**: Under `uniqueEntryNames`,
+    `contractsResolved`, and `uniqueContractNames`, applying a computed
+    `.Confirmed` outcome to a `DERIVED` claim produces a ledger in which
+    there is *exactly one* entry with the contract's claim name that meets
+    the publication tier gate, the matching-entry count is exactly 1, and
+    the matching-contract count is exactly 1.
+
+    This replaces the value-level capstone
+    `confirmed_derived_claim_unique_tier_gate_pass` with the
+    occurrence-level version.  The existence proof reuses the original
+    bridge theorem.  The entry count and uniqueness use `uniqueEntryNames`
+    (Nodup on the name list), which is strictly stronger than
+    `uniqueNames`.  The contract count uses `uniqueContractNames`
+    (Nodup on the contract claim-name list), which is consumed here as a
+    material premise — not merely named in documentation. -/
+theorem confirmed_derived_claim_occurrence_unique_tier_gate_pass
+    (cl : ClaimLedger) (ml : MeasurementLedger)
+    (m : Measurement) (c : MeasurementContract) (note : String)
+    (h_c_in_ml : c ∈ ml.contracts)
+    (h_resolved : ml.contractsResolved cl)
+    (h_unique : cl.uniqueEntryNames)
+    (h_contract_unique : ml.uniqueContractNames)
+    (h_outcome : MeasurementContract.outcome m c = .Confirmed)
+    (h_tier : ∀ e ∈ cl.entries, e.name = c.claimName → e.record.tier = .DERIVED) :
+    -- Existence: at least one entry passes.
+    (∃ e' ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+       e'.name = c.claimName ∧ e'.record.meetsPublicationTierGate) ∧
+    -- Entry count: exactly one entry in the original ledger matches the claim name.
+    (cl.entries.filter (fun e => e.name = c.claimName)).length = 1 ∧
+    -- Contract count: exactly one contract in the measurement ledger has this claim name.
+    (ml.contracts.filter (fun c' => c'.claimName = c.claimName)).length = 1 ∧
+    -- Uniqueness: no two distinct entries both pass.
+    (∀ e₁ ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+     ∀ e₂ ∈ (cl.applyMeasurement c.claimName
+               (MeasurementContract.outcome m c) note).entries,
+       e₁.name = c.claimName → e₂.name = c.claimName →
+       e₁.record.meetsPublicationTierGate → e₂.record.meetsPublicationTierGate →
+       e₁ = e₂) := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · -- Existence: from the original bridge theorem (no uniqueNames needed)
+    exact confirmed_derived_claim_meets_tier_gate cl ml m c note
+      h_c_in_ml h_resolved h_outcome h_tier
+  · -- Entry count: exactly one matching entry (from uniqueEntryNames + contractsResolved)
+    have h_exists : ∃ e ∈ cl.entries, e.name = c.claimName := by
+      obtain ⟨e, h_e_in, h_e_name⟩ := h_resolved c h_c_in_ml
+      exact ⟨e, h_e_in, h_e_name⟩
+    exact cl.exactly_one_matching_entry h_unique c.claimName h_exists
+  · -- Contract count: exactly one matching contract (from uniqueContractNames + h_c_in_ml)
+    have h_contract_exists : ∃ c' ∈ ml.contracts, c'.claimName = c.claimName := by
+      exact ⟨c, h_c_in_ml, rfl⟩
+    exact MeasurementLedger.exactly_one_matching_contract
+      ml h_contract_unique c.claimName h_contract_exists
+  · -- Uniqueness: the updated ledger has uniqueEntryNames (names preserved)
+    have h_unique' :
+        (cl.applyMeasurement c.claimName
+           (MeasurementContract.outcome m c) note).uniqueEntryNames := by
+      have h_exists : ∃ e ∈ cl.entries, e.name = c.claimName := by
+        obtain ⟨e, h_e_in, h_e_name⟩ := h_resolved c h_c_in_ml
+        exact ⟨e, h_e_in, h_e_name⟩
+      exact (cl.applyMeasurement_preserves_names_and_updates_one c.claimName
+        (MeasurementContract.outcome m c) note h_unique h_exists).2.1
+    -- uniqueEntryNames → uniqueNames (bridge lemma, applied to updated ledger)
+    let cl' := cl.applyMeasurement c.claimName (MeasurementContract.outcome m c) note
+    have h_weak := cl'.uniqueEntryNames_implies_uniqueNames h_unique'
+    intro e₁ h₁ e₂ h₂ h_name₁ h_name₂ h_gate₁ h_gate₂
+    exact h_weak e₁ h₁ e₂ h₂ (by rw [h_name₁, h_name₂])
+
+-- ---------------------------------------------------------------------------
+-- 14. Negative fixtures (Codex PFU-05)
+-- ---------------------------------------------------------------------------
+
+/-- **Negative fixture 1**: A ledger `[entry, entry]` (same value at two
+    positions) does NOT satisfy `uniqueEntryNames`.  This is the core
+    defect: the weak `uniqueNames` passes but the strong
+    `uniqueEntryNames` correctly rejects it. -/
+theorem duplicate_entry_ledger_fails_uniqueEntryNames :
+    ¬ ({ entries := [onePlusOneEntry, onePlusOneEntry] } : ClaimLedger).uniqueEntryNames := by
+  intro h
+  simp only [ClaimLedger.uniqueEntryNames, onePlusOneEntry,
+             List.map_cons, List.map_nil] at h
+  exact absurd h (by decide)
+
+/-- **Negative fixture 2**: Two distinct entries with the same name do NOT
+    satisfy `uniqueEntryNames`.  We construct two entries with the same
+    name `"dup"` but different propositions/proofs. -/
+theorem two_distinct_same_name_entries_fail_uniqueEntryNames :
+    ¬ ({ entries := [ClaimEntry.mk "dup" (1 + 1 = 2 : Prop)
+                       (ClaimRecord.derived one_plus_one_eq_two "evidence1" "falsifier1"),
+                     ClaimEntry.mk "dup" (0 ≤ 1 : Prop)
+                       (ClaimRecord.derived zero_le_one "evidence2" "falsifier2")] } : ClaimLedger).uniqueEntryNames := by
+  intro h
+  simp only [ClaimLedger.uniqueEntryNames, List.map_cons, List.map_nil] at h
+  -- The name list is ["dup", "dup"] which is not Nodup
+  exact absurd h (by decide)
+
+/-- **Negative fixture 3**: A measurement ledger with duplicate contracts
+    (same `claimName` at two positions) does NOT satisfy
+    `uniqueContractNames`.  This is the contract-level analog of the
+    entry-level defect. -/
+theorem duplicate_contract_ledger_fails_uniqueContractNames :
+    ¬ (MeasurementLedger.empty.add
+        { claimName := "koide_Q_two_thirds"
+          predictedValue := 2/3
+          tolerance := 0.001
+          tolerance_nonneg := by norm_num
+          falsificationThreshold := 0.01
+          falsification_nonneg := by norm_num
+          tolerance_le_falsification := by norm_num } |>.add
+        { claimName := "koide_Q_two_thirds"
+          predictedValue := 2/3
+          tolerance := 0.001
+          tolerance_nonneg := by norm_num
+          falsificationThreshold := 0.01
+          falsification_nonneg := by norm_num
+          tolerance_le_falsification := by norm_num }).uniqueContractNames := by
+  intro h
+  simp only [MeasurementLedger.uniqueContractNames, MeasurementLedger.empty,
+             MeasurementLedger.add, List.map_cons, List.map_nil] at h
+  -- The claim name list is ["koide_Q_two_thirds", "koide_Q_two_thirds"]
+  -- which is not Nodup
+  exact absurd h (by decide)
+
+/-- **Negative fixture 4**: `contractsResolved` does NOT imply
+    `uniqueContractNames`.  A ledger with two contracts pointing at the
+    same claim resolves (both find the entry) but has duplicate contract
+    names.  This shows the two predicates are independent. -/
+theorem contractsResolved_does_not_imply_uniqueContractNames :
+    ∃ (ml : MeasurementLedger) (cl : ClaimLedger),
+      ml.contractsResolved cl ∧ ¬ ml.uniqueContractNames := by
+  let dupContract : MeasurementContract :=
+    { claimName := "koide_Q_two_thirds"
+      predictedValue := 2/3
+      tolerance := 0.001
+      tolerance_nonneg := by norm_num
+      falsificationThreshold := 0.01
+      falsification_nonneg := by norm_num
+      tolerance_le_falsification := by norm_num }
+  refine ⟨MeasurementLedger.empty.add dupContract |>.add dupContract,
+          pfClaimLedger, ?_, ?_⟩
+  · -- Both contracts resolve (both find koideQTwoThirdsEntry)
+    rw [MeasurementLedger.contractsResolved, MeasurementLedger.empty,
+        MeasurementLedger.add]
+    intro c hc
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hc
+    -- hc : c = dupContract ∨ c ∈ ({ contracts := [] }.add dupContract).contracts
+    have hc' : c = dupContract := by
+      cases hc with
+      | inl h => exact h
+      | inr h =>
+        simp only [MeasurementLedger.empty, MeasurementLedger.add] at h
+        cases h with
+        | head _ => rfl
+        | tail _ h' => nomatch h'
+    rw [hc']
+    exact ⟨koideQTwoThirdsEntry, koide_entry_in_ledger, rfl⟩
+  · -- But uniqueContractNames fails
+    intro h
+    simp only [MeasurementLedger.uniqueContractNames, MeasurementLedger.empty,
+               MeasurementLedger.add, List.map_cons, List.map_nil] at h
+    exact absurd h (by decide)
 
 end PfLean

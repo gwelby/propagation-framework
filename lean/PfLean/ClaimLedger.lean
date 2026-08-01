@@ -274,14 +274,70 @@ def dependenciesResolved (ledger : ClaimLedger) : Prop :=
   ∀ e ∈ ledger.entries, ∀ d ∈ e.dependencies,
     ∃ e' ∈ ledger.entries, e'.name = d
 
-/-- The ledger has unique entry names: no two entries share the same `name`.
-    This is the invariant required for one-to-one contract-to-entry binding
-    in `MeasurementLedger`.  Without it, `applyMeasurement` updates every
-    same-named entry, making the capstone a name-level theorem rather than
-    a one-to-one binding. -/
+/-- The ledger has unique entry names (value-level): no two entries share
+    the same `name`.  This is the **weaker** invariant — it checks value
+    equality and is satisfied by `[entry, entry]` (same value at two
+    positions), which is insufficient for one-to-one contract-to-entry
+    binding.  See `uniqueEntryNames` for the occurrence-level repair.
+
+    Codex re-audit (2026-07-30, `clg_1b946d7211000490825d6aa6`) identified
+    this predicate as too weak for the capstone's one-to-one binding claim.
+    Retained for backward compatibility; new theorems should use
+    `uniqueEntryNames`. -/
 def uniqueNames (ledger : ClaimLedger) : Prop :=
   ∀ e₁ ∈ ledger.entries, ∀ e₂ ∈ ledger.entries,
     e₁.name = e₂.name → e₁ = e₂
+
+/-- The ledger has occurrence-unique entry names: no two **positions** in
+    `entries` have the same `name`.  This is the occurrence-level invariant
+    required for one-to-one contract-to-entry binding in `MeasurementLedger`.
+
+    This is **strictly stronger** than `uniqueNames`: `uniqueNames` checks
+    value equality and is satisfied by `[entry, entry]` (same value at two
+    positions), while `uniqueEntryNames` rejects that case because the name
+    appears at two positions in the mapped list.
+
+    Codex re-audit (2026-07-30, `clg_1b946d7211000490825d6aa6`) identified
+    that `uniqueNames` is too weak for the capstone's one-to-one binding
+    claim.  This predicate is the repair. -/
+def uniqueEntryNames (ledger : ClaimLedger) : Prop :=
+  (ledger.entries.map ClaimEntry.name).Nodup
+
+/-- `uniqueEntryNames` implies `uniqueNames`: if no two positions share a
+    name, then any two entries (as values) with the same name must be the
+    same value (at the same position).  The new predicate is strictly
+    stronger.  Proved by induction on the entry list. -/
+theorem uniqueEntryNames_implies_uniqueNames
+    (ledger : ClaimLedger) (h : ledger.uniqueEntryNames) :
+    ledger.uniqueNames := by
+  -- Specialized helper (avoids universe polymorphism leak)
+  have helper : ∀ (l : List ClaimEntry) (f : ClaimEntry → String),
+      (l.map f).Nodup → ∀ {a b : ClaimEntry}, a ∈ l → b ∈ l → f a = f b → a = b := by
+    intro l f hnodup
+    induction l with
+    | nil => intro a b ha hb; simp at ha
+    | cons x xs ih =>
+      intro a b ha hb hfab
+      simp only [List.mem_cons] at ha hb
+      rw [List.map_cons, List.nodup_cons] at hnodup
+      obtain ⟨hfx_notin, hxs_nodup⟩ := hnodup
+      rcases ha with rfl | ha
+      · rcases hb with rfl | hb
+        · rfl
+        · have hfb_mem : f b ∈ xs.map f := by
+            rw [List.mem_map]; exact ⟨b, hb, rfl⟩
+          rw [hfab] at hfx_notin
+          exact absurd hfb_mem hfx_notin
+      · rcases hb with rfl | hb
+        · have hfa_mem : f a ∈ xs.map f := by
+            rw [List.mem_map]; exact ⟨a, ha, rfl⟩
+          rw [← hfab] at hfx_notin
+          exact absurd hfa_mem hfx_notin
+        · exact ih hxs_nodup ha hb hfab
+  -- Unfold uniqueEntryNames to the Nodup form
+  have hnodup : (ledger.entries.map ClaimEntry.name).Nodup := h
+  intro e₁ h₁ e₂ h₂ hname
+  exact @helper ledger.entries ClaimEntry.name hnodup e₁ e₂ h₁ h₂ hname
 
 /-- The empty ledger vacuously satisfies `dependenciesResolved`. -/
 theorem empty_dependencies_resolved :
@@ -292,6 +348,11 @@ theorem empty_dependencies_resolved :
 theorem empty_unique_names :
     uniqueNames empty := by
   simp [empty, uniqueNames]
+
+/-- The empty ledger vacuously satisfies `uniqueEntryNames`. -/
+theorem empty_unique_entry_names :
+    uniqueEntryNames empty := by
+  simp [empty, uniqueEntryNames]
 
 end ClaimLedger
 
@@ -328,5 +389,29 @@ theorem exampleLedger_wellFormed :
   simp [exampleLedger, zeroLeOneEntry, onePlusOneEntry, ClaimLedger.dependenciesResolved,
         ClaimEntry.dependencies]
   decide
+
+-- ---------------------------------------------------------------------------
+-- 6. Negative fixture: weak vs strong unique-name predicate
+-- ---------------------------------------------------------------------------
+
+/-- **Negative fixture**: a ledger `[entry, entry]` (same value at two
+    positions) satisfies the weak `uniqueNames` but does NOT satisfy the
+    occurrence-level `uniqueEntryNames`.  This is the defect Codex
+    identified: `uniqueNames` checks value equality, not occurrence
+    uniqueness. -/
+theorem duplicate_entry_satisfies_weak_but_not_strong :
+    ({ entries := [onePlusOneEntry, onePlusOneEntry] } : ClaimLedger).uniqueNames ∧
+    ¬ ({ entries := [onePlusOneEntry, onePlusOneEntry] } : ClaimLedger).uniqueEntryNames := by
+  refine ⟨?_, ?_⟩
+  · -- uniqueNames: both entries are the same value, so e₁ = e₂ trivially
+    intro e₁ h₁ e₂ h₂ hname
+    simp at h₁ h₂
+    exact h₁.trans h₂.symm
+  · -- ¬uniqueEntryNames: [name, name] is not Nodup
+    intro h
+    simp only [ClaimLedger.uniqueEntryNames, onePlusOneEntry,
+               List.map_cons, List.map_nil] at h
+    -- Nodup ["one_plus_one", "one_plus_one"] is false
+    exact absurd h (by decide)
 
 end PfLean
