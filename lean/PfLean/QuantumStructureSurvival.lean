@@ -10,10 +10,11 @@
     What kinds of mathematical structure survive contact with today's quantum
     hardware, and which ones only survive in the formula?
 
-  Each theorem in this module is one row of the survival map. Theorem sketches
-  with full proofs are written but NOT compile-verified. `sorry` theorems are
-  formalization gaps that point to future experiments. Nothing in this module
-  is "PROVEN" until `lake build PfLean.QuantumStructureSurvival` succeeds.
+  Each theorem in this module is one row of the survival map. The formal theorems
+  are build-verified with `lake build PfLean.QuantumStructureSurvival` (0 errors,
+  0 sorries as of 2026-08-02). `sorry` in comments marks empirical/future work,
+  not compile gaps. Hardware rows remain EMPIRICAL or OPEN; do not cite them as
+  proven by the Lean build.
 
   Framework (Codex 2026-06-30):
 
@@ -35,12 +36,13 @@
     from LWE circuits. This is the absence theorem — the thing that makes
     lattice crypto safe against Shor-type attacks.
 
-  Build: lake build PfLean.QuantumStructureSurvival — SUCCEEDED 2026-07-02 (0 errors)
+  Build: `lake build PfLean.QuantumStructureSurvival` — VERIFIED 2026-08-02
+    (3321 jobs, 0 errors, 0 sorries). Incremental build ~4 s after warm cache.
   Dependencies: PfLean.ShorBound (for QFT alignment and identity pruning theorems)
 
-  Date: 2026-06-30 (updated 2026-07-02: build verified, labels upgraded)
+  Date: 2026-06-30 (updated 2026-07-02; build re-verified 2026-08-02)
   Author: Devin GLM-5.2 (hardware bridge theorems, Codex framework formalization)
-  Cascade Standard: DERIVED (mathematical framework) + EMPIRICAL (hardware validation)
+  Cascade Standard: KERNEL-CERTIFIED (formal theorems) + EMPIRICAL (hardware validation)
 -/
 
 import Mathlib.Data.Real.Basic

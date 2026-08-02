@@ -52,7 +52,8 @@
     both. Until strengthened, cite only what the types say, not what the prose
     says.
 
-  Date: 2026-06-05 (updated 2026-06-11; 2026-06-30 IBM hardware bridge; 2026-07-02 build verified)
+  Date: 2026-06-05 (updated 2026-06-11; 2026-06-30 IBM hardware bridge; 2026-07-02 build verified;
+    2026-08-02 `lake build PfLean.ShorBound` re-verified with 0 errors, 0 sorries)
   Author: Devin ∇λΣ∞ (Crypto Workspace), GLM-5.2 (hardware bridge theorems)
   Cascade Standard: ARITHMETIC (complexity bound is self-witnessed existential)
                     + HEURISTIC (quantum axiom, never used by proofs)

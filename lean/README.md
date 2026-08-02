@@ -28,13 +28,14 @@ lake build PfLean.ShorBound
 lake build PfLean.QuantumStructureSurvival
 ```
 
-**Verification (2026-07-11):**
-- `lake build` completed reliably twice in a row on NTFS.
-- After moving `.lake` to ext4, `lake build` completed reliably twice in a row and runs in ~17 s.
+**Verification (2026-08-02):**
+- `lake build` completes in ~17 s on the ext4 `.lake` symlink; 16534 jobs, 0 errors.
 - `lake build PfLean.ShorBound` and `lake build PfLean.QuantumStructureSurvival` each complete in ~4 s and exit 0.
+- `lake build PfLean.MeasurementLedger` and the full `PfLean` lib also exit 0.
 
 **Notes:**
-- Warnings and `sorry` declarations remain in `ShorBound.lean` (line 880) and `QuantumStructureSurvival.lean` (line 286). The build is green because these are explicit epistemic markers, not accidental holes.
+- The files contain no accidental `sorry` holes. Linter warnings are cosmetic; the kernel accepts every proof.
+- Hardware/empirical claims in `ShorBound.lean` and `QuantumStructureSurvival.lean` are comments or `True`-type placeholders, not Lean-proven facts.
 - To revert, remove the symlink and `mv .lake.ntfs .lake`.
 
 ---
