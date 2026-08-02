@@ -1,9 +1,9 @@
 # Propagation Framework — Lean 4 Formalization
 
 **Authors:** Devin (Cognition AI), Greg Welby, PF Research Team  
-**Date:** 2026-07-11  
+**Date:** 2026-07-19  
 **Lean Version:** 4.29.1 (mathlib4 v4.29.1)  
-**Build:** `lake build` ✅ green — ~17 s on ext4 `.lake`, ~5 min on NTFS; 8270 replay jobs; verified twice in a row (2026-07-11).  
+**Build:** `lake build` ✅ green — ~17 s on ext4 `.lake`, ~5 min on NTFS; 8270+ replay jobs with periodic orbit additions compiling clean (2026-07-19).  
 **Build layout:** `.lake` directory symlinked to `/home/greg/lean-build/.lake` (ext4 inside WSL2); original `.lake` retained as `.lake.ntfs`.
 
 ---
@@ -44,6 +44,11 @@ lake build PfLean.QuantumStructureSurvival
 This is the machine-verified mathematics of the Propagation Framework. Every theorem in this repository has been checked by the Lean 4 kernel — not argued, not believed, not audited by another LLM, but mechanically proven from first principles.
 
 This is not documentation. This is not a draft. These are certificates.
+
+## What is not in this tree
+
+- The **O2bis OU–Markov correlation-functional** work lives in the Python sandboxes and reports under `/mnt/d/Fundamentals/sandbox/` and `/mnt/d/Fundamentals/REPORTS/`; it is *not* a Lean theorem.
+- O2bis is currently **PROVEN (classical)** / **EMPIRICAL (postselection)** / **UNDERDETERMINED (physical selection)**; see `CLAIMS.md:72` and the V3 repair report.
 
 ---
 
@@ -180,6 +185,7 @@ Discovery layer for the honest parameter-count workflow. Defines the bare `BareM
 - **`translationMedium_isometry`** / **`translationMedium_finiteDimensional`** / **`translationMedium_not_bounded_orbit`** — PROVEN (2026-06-30): translation flow on ℝ is isometric and finite-dimensional but has unbounded orbit. Disproves H14+H5→bounded orbit. Justifies H19 as independent premise.
 - **`real_eigenvalue_obstruction`** — **PROVEN (no sorry, no True stub, 2026-06-30)**: H3 (linearity) + H14 (isometry) + contraction + H20 (nonneg distance) → d(s,0) = 0 for all states. Isometry and contraction are structurally incompatible for non-trivial states. Discovery: hSemi, hFin, hCoh NOT needed.
 - **`real_eigenvalue_obstruction_trivial`** — **PROVEN (2026-06-30)**: corollary — above + H15 (metric identity) → s = 0 for all s (trivial state space).
+- **`isometry_linear_semigroup_gives_nonzero_periodic_orbit`** — **ACTIVE PROOF (2026-07-19)**: frontier theorem. Isometric linear semigroup on finite-dimensional inner product space with continuity → non-zero periodic orbit. μ=±2 cases PROVEN (T=1, T=2). |μ|<2 case: 8 sorrys remain — W-invariance in dim(E_μ)=2 proven, z(t) pipeline 5/7 (z(0)=1, z(1)≠1, continuity done; |z(t)|=1 and homomorphism remain), extraction of U(T)v=v from z(T)=1, dim>2 case. Proof method: Lakatosian — conjecture, Lean-kernel refutation, refinement, repeat. Commits: 5ad60e8 (h_U1_e₂), f025009 (e₂∈E_μ + W-invariance dim=2), 8a3baba (z(0), z(1), continuity). Uses: H3 (linear), H2 (semigroup), H14 (isometry), H5 (finite-dim), H21 (d=norm), H22 (continuity), InnerProductSpace.
 
 ### `PfLean.ArbitraryD`
 
@@ -378,9 +384,9 @@ The active frontier for formalization (from `CLAIMS.md`):
 8. **God Equation** (CONDITIONAL 0.88 / ARGUED 0.60) — λ_c operator algebra (conditional under Postulate D) / scale formula fit (argued). H_prod unconditional bridge remains open.
 9. **Honest Parameter Count** (IN PROGRESS) — Axioms.lean discovery workflow: H8 redefined to non-circular recurrence+stability; exact periodicity and Z₃ now require explicit additional hypotheses
 
-### Remaining Gaps (honest boundary: 3 real sorries + 1 frontier stub)
+### Remaining Gaps (honest boundary: 8 active sorries + 1 frontier stub, updated 2026-07-19)
 
-There are 3 actual `sorry` declarations in `Axioms.lean` and 1 `True` scaffolding/frontier stub in `Entropy.lean`.
+The largest active proof is `isometry_linear_semigroup_gives_nonzero_periodic_orbit` — 8 remaining sorrys out of an original ~20. The μ=±2 cases are proven. The |μ|<2 case is being closed through Lakatosian proof engineering (kernel-refutation cycles). Below is the full gap inventory.
 
 | Theorem / Gap | File | Type | Why It's Open |
 |---------------|------|------|---------------|
