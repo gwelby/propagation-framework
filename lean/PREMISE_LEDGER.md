@@ -3,7 +3,7 @@
 > **Purpose:** One place to record what each named hypothesis (H1–H21) actually
 > buys, what it does *not* buy, and how the Z₃ circulant result depends on explicit
 > premises. This ledger is documentation only; Lean source is the binding truth.
-> **Last updated:** 2026-07-03 (compact-orbit theorem VERIFIED by Lean kernel; H21 added; H20 collision fixed; Codex PASS for narrow compact-orbit truth-lock; PUBLIC/confidence HOLD remains)
+> **Last updated:** 2026-07-19 (periodic orbit theorem active proof; H22 added; e₂∈E_μ and W-invariance dim=2 proven; 8 sorrys remain)
 > **Bound:** This file does not modify `CLAIMS.md`, PRED files, public surfaces,
 > or the Fundamentals PUBLIC HOLD.
 
@@ -34,6 +34,7 @@
 | H19 | Bounded orbit | `Hypothesis_BoundedOrbit` | The forward orbit of `s` stays within a finite `d`-distance of `s`. Isometry alone does **not** imply this: the translation flow on `ℝ` (`propagate(t,x)=x+t`) is isometric but unbounded. Needed for the honest statement of the compact-orbit theorem. |
 | H20 | Non-negative distance | `Hypothesis_NonnegativeDistance` | `d(s₁,s₂) ≥ 0` for all states. BareMedium.d has no axioms; this is needed to conclude `d(s,0) = 0` from `d(s,0) ≤ 0` in the real eigenvalue obstruction proof. |
 | H21 | d-agrees-with-norm | `Hypothesis_DIsNorm` | `d(s₁,s₂) = ‖s₁-s₂‖` for all states. Bridges the bare pseudometric to the NormedSpace topology. Added 2026-07-02 for the compact-orbit theorem. Needed to convert H19's d-bound to a norm-bound for Heine-Borel. |
+| **H22** | **Continuity** | `Hypothesis_Continuity` | `t ↦ U(t)v` is continuous for each `v`. Needed for the periodic orbit theorem — without it, a discontinuous SO(2) homomorphism (Hamel basis) satisfies all other hypotheses but has no non-zero periodic orbit. Added 2026-07-18 for `isometry_linear_semigroup_gives_nonzero_periodic_orbit`. |
 
 > **Note:** `Axioms.lean` defines H12 as full permutation symmetry and H13 as cyclic
 > symmetry. This ledger follows the source. Any older document that reverses them is

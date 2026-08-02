@@ -1,6 +1,6 @@
 # Fundamentals Public Release Control Plane
 
-**Last verified:** 2026-07-15 EDT  
+**Last verified:** 2026-07-24 EDT
 **Owner of release truth:** Codex  
 **Human release authority:** Legal + Greg  
 **Status:** ACTIVE operating surface
@@ -26,13 +26,25 @@ a general statement that "Fundamentals is public."
 | Ring | Public role | Exact current body | Current verdict | Decisive blocker | What Marketing may do now |
 |---|---|---|---|---|---|
 | A. Phiharmonic Studio | Interactive sound, field, and light experiences | `phiharmonic-public-20260715.tar.gz`, SHA-256 `88b4d1ae86d2d0a0cfa959b850a55bab9d7e7fc16315e8749f58e6a02a9b95c6` | **PACKAGE PASS / LIVE HOLD** | DNS does not resolve; deployment credential gate is `1/17`; exact live body has not been retrieved and rechecked | Draft launch material from the approved Field/Light scope. Do not publish it until a live-body receipt exists. Do not market PF validation or Hau endorsement. |
-| B. Research Atlas / Explorer | Interactive map of claims, derivations, gaps, and no-go results at `unifiedfield.net` | Dirty `/mnt/d/fundamentals/sandbox/explorer` candidate on commit `4791633a7767f514f9b2380c3f9a5437e4bf6462`; current worktree contains multiple owner lanes | **HOLD** | V2 parser/generator is real but live `data.js` still creates stale independent `PFExplorerData`; the gate exempts it, misses public entry points/bare labels, and trusts cached snapshot records. Desktop/mobile clipping and uncaught WebGL remain separate blockers; no immutable release identity. | Nothing public-facing. Marketing may study audience/navigation only. |
+| B. Research Atlas / Explorer | Interactive map of claims, derivations, gaps, and no-go results at `unifiedfield.net` | Dirty `/mnt/d/fundamentals/sandbox/explorer` candidate; no immutable release identity or exact live body | **HOLD** | The V5.5 2D derivation-status binding repair narrowly passes, but no visual-pass or live deployment receipt exists; desktop/mobile/WebGL blockers and exact release identity remain separately unreviewed. | Nothing public-facing. Marketing may study audience/navigation only. |
 | C. Quantum Knowledge Base | Definitions, current claim tiers, sources, and open questions | `/mnt/d/Domains/quantumknowledgebase.com` static tree; no current release manifest | **EMERGENCY CONTENT HOLD** | Eyesight private-path page is quarantined and its legacy URL returns 404, but stale `DERIVED` labels, overclaiming home/paper copy, consciousness/EEG claims, broken research links, and no implemented generation gates remain | Nothing. Do not repair by selective copy editing; regenerate from current authorities. |
 | D. Fundamentals Book | Long-form publication | Current v6 source/HTML/print/PDF in `/mnt/d/fundamentals` | **EMERGENCY RELEASE HOLD** | Source map parses 81 rows instead of 49; health-intervention material remains; Legal/Greg pending. The prior false Codex-PASS row was corrected to HOLD on 2026-07-15. | Nothing public or buyer-facing. |
 | E. Physicist Outreach | Questions and correspondence based on released research | `outreach/` packages | **HOLD** | No claim-bearing public reference body is release-cleared; Greg gate remains | Internal preparation only. Hau posture remains gratitude and questions, never validation or endorsement. |
 | F. Marketing Campaigns | Distribution of an approved public body | No current Fundamentals release packet | **WAITING FOR RING PACKET** | Marketing has no exact live URL/body hash/allowed-claims contract | Maintain channels and templates. Do not infer claims from old Marketing files. |
 
 ## Direct Verification Snapshot - 2026-07-15
+
+### Explorer correction - 2026-07-24
+
+`CODEX_20260724_EXPLORER_V5_5_DERIVATION_STATUS_REAUDIT.md` grants a narrow
+code-boundary PASS for the live 2D `derivation.html` graph/timeline authority
+binding: normal Weinberg and Bohr interactions render the current authority
+status/confidence with matching claim IDs, while non-authority nodes are
+explicitly classified.  This closes the V5.4 dynamic-status defect; it does
+not constitute an Explorer truth-lock, visual pass, immutable release
+candidate, deployment approval, or public-release approval.  The 2026-07-15
+V1/V2 history below is retained as historical evidence, not the current
+description of the named V5.5 repair.
 
 ### Live network state
 

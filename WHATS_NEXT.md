@@ -28,11 +28,11 @@
 
 | # | Lane | Home (live plan/status) | As of | One-line state |
 |---|------|------------------------|-------|----------------|
-| 1 | Lean formalization | `lean/README.md` + `lean/PREMISE_LEDGER.md` | 07-14 | Axioms build green (8248 jobs for `PfLean.Axioms`) with one explicit `sorry` in the general periodic-orbit theorem; its closure has `sorryAx`. Edge 28's direct closure has no `sorryAx` but needs a discrete-return interface. The 2D rotation example is narrow PASS only; general periodicity/H8 closure remain HOLD. Devin owns both proof-design repairs; public unlock HELD. |
+| 1 | Lean formalization | `lean/README.md` + `lean/PREMISE_LEDGER.md` | 07-24 | Current dirty tree builds after Codex added a material `resolvedEntry` selector, typed local provenance structure, and a PFEntropy formal/physical split. This is **implementation awaiting independent hostile re-audit**, not closure: no external provenance validation or physical-transfer premise has been established. Prior contract/report: `/mnt/d/Devin/inbox/manual/2026-07-24-codex-pflean-measurement-bridge-provenance-repair-contract.md`, `/mnt/d/Codex/REPORTS/CODEX_20260724_PFLEAN_MEASUREMENT_ARCHITECTURE_REPAIR_REAUDIT.md`. |
 | 2 | Measurement alignment (D-series) | `measurement_alignment/MAP.md` | 07-15 | D1 v4.4 metadata repair CONDITIONAL PASS: neutral label, preserved v4.3 evidence, byte-identical v4.4 replay, and no numeric JSON change. The old v4.3-only probe rejects v4.4 markers and needs separate harness maintenance; scale-consistent/physical-statistical interpretation remains HOLD. D2 BLOCKED non-prediction (PREMISE_LEDGER 001 - not dimensionally closed) · D3 v3.1 submitted to Codex (central branch continuation accepted, MC/uncertainty layer repaired) · D1/D3 cross-surface drift fixed |
 | 3 | Release / PUBLIC HOLD | `PUBLIC_RELEASE_CONTROL_PLANE.md` | 07-15 | Split into independent rings. Phiharmonic package PASS/live HOLD; Explorer V1 truth return REJECTED and visual/runtime HOLD; Knowledge Base emergency content HOLD; book emergency release HOLD; Marketing waits for exact ring packets. `ACTIVE_ISSUES.md` records blockers; `RELEASE_PLAN.md` remains stale. |
 | 4 | Outreach | `PUBLIC_RELEASE_CONTROL_PLANE.md` + `outreach/HAU_OUTREACH_HOLD_20260708.md` + `HUMAN_ENTRY_MAP.md` | 07-15 | ALL claim-bearing outreach HELD pending an approved public reference body and Greg; posture = gratitude-and-questions, never validation or endorsement |
-| 5 | Predictions (PRED) | `PREDICTIONS/README.md` | 06-26 | PRED-002 (neutrino Koide non-universality) = the ONE live forward prediction, awaiting Codex gate + Greg lock; PRED-001 BLOCKED |
+| 5 | Predictions (PRED) | `PREDICTIONS/README.md` | 07-24 | **PRED-002 commitment HOLD:** its DUNE/Hyper-K route does not measure the individual absolute masses required for `Q_nu`; a revision-bound absolute-mass transfer contract, uncertainty model, primary-source rival check, and canonical packet are required before a new Codex audit or Greg lock. PRED-001 remains BLOCKED. |
 | 6 | Definitions / axioms | `definitions/README.md` + `lean/PREMISE_LEDGER.md` (H1–H21) | 07-08 | 19 canonical v1.0; consciousness = CANDIDATE 0.48 (not canonical); framework-level gaps → `PREMISE_LEDGER.md` |
 | 7 | G3-OP-MAP unconditional strike | `derivations/` (audit files) | FROZEN | All May routes closed negative; reopen ONLY with a genuinely new route |
 | 8 | Seed vault (frontier-model bridge) | `THE_SEED_VAULT/AGENTS.md` | 05-10 | Structure ready, one seed staged; dormant |
@@ -59,7 +59,12 @@ The frontier **moved** while this file sat still. Since 2026-06-18, the real wor
 
 - **Lean surge (2026-06-14 → 06-30):** `TopologicalWeights` kernel obstruction **DERIVED 0.95** (0 sorrys, kernel-certified); `Z3FromBareMedium.lean` — degenerate residue → circulant (CONDITIONAL 0.85), D=3 symmetric+zero-diag+equal-rows **uniquely forces J−I** while **D=4 does not** (explicit counterexample), and the **D-selection principle** (D=3 unique stable dimension, CONDITIONAL 0.85); `Entropy.lean` — PFEntropy strictly decreases under T³ (residue norm ×1/8 per cycle), full-norm Pythagorean decomposition (**DERIVED 0.95**, pure linear algebra), and **isometry–J−I incompatibility** (T³ strictly contracts non-uniform states); `Axioms.lean` — H14+H15+H16 → H1, plus the translation-flow counterexample (Exp 7b). All conditional rows remain conditional on H7/H17/H18/Postulate D — none of this derives Postulate D from Axioms 1-3.
 - **The 2026-06-26 alignment session** proved the self-catch mesh works pre-publication: H3 smuggling, H8 defined-as-its-own-conclusion, "stability forces symmetry" killed by Codex's `2S_D` counterexample, and the PFEntropy selection principle shown unnecessary at D=3 — all caught *before* release.
-- **Prediction lane is live:** **PRED-002** (neutrino Koide non-universality; DUNE/Hyper-K ~2029–2033) now EXISTS — this is the roadmap's "ONE falsifiable forward prediction," written and packeted for Codex. **PRED-001a was FALSIFIED** (PMNS μ1/τ1 sub-pattern refuted ~3×); PRED-001 stays BLOCKED (no phase-selector machine).
+- **Prediction lane:** PRED-002 has a candidate document, but its 2026-07-24
+  Codex audit **HOLDs the commitment**: DUNE/Hyper-K do not provide the named
+  individual-absolute-mass measurement needed for `Q_nu`.  It is not yet the
+  roadmap's live forward prediction; a revised absolute-mass transfer contract
+  and re-audit are required. **PRED-001a was FALSIFIED** (PMNS μ1/τ1
+  sub-pattern refuted ~3×); PRED-001 stays BLOCKED (no phase-selector machine).
 - **Weinberg manuscript remediation** landed and Codex returned **CONDITIONAL PASS for the scoped stale-blocker class** (2026-07-01): manuscript/book/pdf no longer carry the stale `DERIVED` promotion language. NOT release approval — `RELEASE_MANIFEST.md`/`BUILD_MANIFEST.md` still missing; broader PUBLIC HOLD stands.
 - **NISQ/Shor cross-workspace bridge** (2026-07-01): `ShorBound.lean` + `QuantumStructureSurvival.lean` are **SKETCHED, build PENDING** — not citable as proven. The empirical side (CX-dependent survival, identity-pruning mechanism, Claude's falsified leakage prediction) is recorded in `CLAIMS.md` §NISQ.
 
@@ -69,7 +74,13 @@ The frontier **moved** while this file sat still. Since 2026-06-18, the real wor
 2. **Compile or demote the Shor bridge.** `lake build PfLean.ShorBound`, then `PfLean.QuantumStructureSurvival`, separately — both now build green (~4 s each). Verified → update headers; failed → demote any `PROVEN` wording to SKETCHED. No third state. (ACTIVE)
 3. **Write transfer contracts before reopening cross-domain bridges.** Use `MEDIUM_TRANSFER_LAYER.md` for thermal-arrow, G3 closure, NISQ survival, consciousness metrics, or any Lean/Python/hardware bridge. If the medium, measurement/coarse-graining map, entropy/cost functional, null model, and falsifier are not named, the route is not ready for upgrade.
 4. **Close ProcessOntology's unitarity gap** (2 sorrys) or park it explicitly.
-5. **Drive PRED-002 through the Codex gate.** It is the one genuinely additive, falsifiable, forward-looking artifact — the roadmap's whole ask. Packet exists (`outbox/CLAIM_PACKET_PRED-002_20260626.md`).
+5. **Repair PRED-002 before another Codex gate.** The 2026-07-24 audit HOLDs
+   its current lock: the cited DUNE/Hyper-K route does not measure the
+   individual absolute masses needed for `Q_nu`; its packet path is absent and
+   duplicate variants exist.  Owner must submit one evidence-backed
+   absolute-mass transfer contract with uncertainty propagation and a canonical
+   reproducible packet.  Do not ask Greg to lock it yet.  Report:
+   `/mnt/d/Codex/REPORTS/CODEX_20260724_PRED_002_NEUTRINO_KOIDE_COMMITMENT_AUDIT.md`.
 6. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand (trace-norm, Perron-Frobenius, κ/three-field all closed). The Lean J−I results *sharpen the target* (we now know exactly what J−I implies and what forces it at D=3) but do not derive Postulate D. Reopen only with a genuinely new route.
 7. **EEG TEST 1 (T-020) — still the only test generating new data.** Pre-register in `protocols/muse_insight_protocol.md` BEFORE any session. Unchanged since April; still not run.
 8. **Release lane, strictly in order:** write `RELEASE_MANIFEST.md` + `BUILD_MANIFEST.md` → residual "Weinberg derivation" label sweep in release copy → Legal (V3 PF-vs-Aether exact-copy is already CONDITIONAL PASS awaiting Legal) → broader PUBLIC HOLD recheck → Greg.

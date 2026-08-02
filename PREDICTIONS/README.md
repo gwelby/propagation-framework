@@ -42,5 +42,5 @@ falsifier:      the exact observation that kills it
 
 ## Status today
 - `PRED-001` — δ_CP via a PF-native phase selector — **BLOCKED** (the machine doesn't exist; 4 derivation routes failed). Status report: `/mnt/d/Fundamentals/predictions/PRED-001-H8-Z3-STATUS-20260626.md`.
-- `PRED-002` — Neutrino Koide non-universality — **OPEN candidate** (PF predicts neutrino masses do NOT satisfy Q=2/3; DUNE/Hyper-K can resolve ~2029–2033). Awaiting Codex audit and Greg lock. Gate packet: `/mnt/d/Fundamentals/outbox/CLAIM_PACKET_PRED-002_20260626.md`.
+- `PRED-002` — Neutrino Koide non-universality — **OPEN candidate / Codex HOLD on commitment**. The 2026-07-24 audit finds that the cited DUNE/Hyper-K route does not measure the individual absolute masses needed for `Q_nu`; the prediction needs an evidence-backed absolute-mass transfer contract, uncertainty propagation, verified rivals, and one canonical reproducible packet before re-audit or Greg lock. Report: `/mnt/d/Codex/REPORTS/CODEX_20260724_PRED_002_NEUTRINO_KOIDE_COMMITMENT_AUDIT.md`.
 - The day a PRED entry goes OPEN with a real number, a named experiment, and rivals_say filled in differing — that is the day PF stops being numerology and becomes physics.

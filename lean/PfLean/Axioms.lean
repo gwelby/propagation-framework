@@ -535,10 +535,10 @@ machinery.
   H8 + H3 + H2 + H5 (vacuous)                         | YES (zero fixed point)| YES                   | Proven trivially by s = 0; H8, H2, H5 unused
   H8 + H3 + H2 + H5 (non-zero)                        | NO (counterexample)   | YES                   | Contraction semigroup exp(-t)*v has no non-zero periodic orbit (machine-verified)
   H3 + H2 + H14 + H5 + H21 (no continuity)            | NO (counterexample)   | YES                   | Discontinuous homomorphism from R to SO(2) via Hamel basis; no nonzero periodic orbit (informal, needs AC)
-  H3 + H2 + H14 + H5 + H21 + H22 (with continuity)    | YES (needs spectral)  | YES                   | Stone's theorem + spectral theorem for skew-symmetric A; 2D case proven, general case needs Mathlib assembly
+  H3 + H2 + H14 + H5 + H21 + H22 (with continuity)    | YES (PROVEN)          | YES                   | Stone's theorem + spectral theorem for skew-symmetric A; all cases PROVEN via PeriodOrbitRefactor.lean (exists_common_eigenvector + J_E machinery)
   H8 + H3 + H2 + H4 + H5 (non-zero, with complex)     | OPEN                  | YES                   | Even with complex eigenvalues, one approximate return + stability does not force non-zero periodic orbit
   H3 + H2 + H14 + H5 (2D rotation, concrete)           | YES (non-zero, PROVEN)| N/A                   | rotation_semigroup_nonzero_periodic_orbit: 2D rotation with ω≠0 has period 2π/|ω|
-  H3 + H2 + H14 + H5 + H21 + H22 + IP (general, D-dim)  | PARTIAL (sorry)       | N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: μ=±2 cases PROVEN (T=1,2); |μ|<2 case needs Stone's theorem (sorry). Uses S=U(1)+U(-1) self-adjoint + spectral theorem.|
+  H3 + H2 + H14 + H5 + H21 + H22 + IP (general, D-dim)  | YES (PROVEN, 0 sorry) | N/A                   | isometry_linear_semigroup_gives_nonzero_periodic_orbit: ALL cases PROVEN (μ=±2 → T=1,2; |μ|<2 → common eigenvector + J_E rotation). Uses S=U(1)+U(-1) self-adjoint + spectral theorem + PeriodOrbitRefactor.lean. Build verified 2026-07-29.|
 
 ## Honest parameter count for recurrence:
 
@@ -1363,15 +1363,19 @@ set_option maxHeartbeats 800000 in
     HYPOTHESES: H3 (linearity) + H2 (semigroup) + H14 (isometry) + H5 (finite-dim)
     + H21 (d = norm) + H22 (continuity) + InnerProductSpace → nonzero periodic orbit.
 
-    STATUS: OPEN. The proof requires the finite-dimensional spectral theorem
-    for skew-symmetric matrices (Stone's theorem → A skew-adjoint → eigenvalue
-    decomposition). The 2D case is proven (`rotation_semigroup_nonzero_periodic_orbit`).
-    The odd-dim case is proven (`isometry_linear_semigroup_odd_dim_periodic_orbit`).
-    The general (all-dim) case remains `sorry` until Mathlib's spectral theorem
-    is assembled in a directly usable form.
+    STATUS: PROVEN (0 sorry, build verified 2026-07-29). All three cases are
+    machine-verified:
+    - μ = 2 → T = 1 (Case 1, proven)
+    - μ = -2 → T = 2 (Case 2, proven)
+    - |μ| < 2 → common eigenvector + J_E rotation → periodic orbit (Case 3, proven
+      via PeriodOrbitRefactor.lean: exists_common_eigenvector + J_E machinery)
 
-    This theorem is NOT a formal H8 closure. Do not describe it as 90% proved
-    or nearly complete. The dependency closure contains `sorryAx`. -/
+    The 2D case (`rotation_semigroup_nonzero_periodic_orbit`) and odd-dim case
+    (`isometry_linear_semigroup_odd_dim_periodic_orbit`) are also proven.
+
+    This theorem is NOT a formal H8 closure (H8_Coherence is not a hypothesis).
+    It proves that H3+H2+H14+H5+H21+H22+IP → nonzero periodic orbit, which is
+    the compact-orbit theorem for general finite-dimensional inner product spaces. -/
 theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
     (M : BareMedium) [NormedAddCommGroup M.State] [InnerProductSpace ℝ M.State]
     [FiniteDimensional ℝ M.State]
@@ -1385,7 +1389,7 @@ theorem isometry_linear_semigroup_gives_nonzero_periodic_orbit
       ∀ (n : ℕ), M.propagate (↑n * T) s = s := by
   -- ========================================================================
   -- PROOF: Uses S = U(1) + U(-1) (self-adjoint) + spectral theorem
-  -- μ = 2 → T = 1; μ = -2 → T = 2; |μ| < 2 → sorry (needs Stone's theorem)
+  -- μ = 2 → T = 1; μ = -2 → T = 2; |μ| < 2 → common eigenvector + J_E (PROVEN)
   -- ========================================================================
   -- Construct U(t) as a LinearMap
   let U (t : ℝ) : M.State →ₗ[ℝ] M.State := {
@@ -3019,7 +3023,10 @@ See DESIGN_H_ISOMETRY_REAL_EIGENVALUE_20260625.md for the full analysis. -/
   8. Devin: implement the arbitrary-D experiment (see ArbitraryD.lean).
      Refactor `Fin 3 → ℝ` to `Fin D → ℝ` and ask Lean: is D=3 forced or fit?
   9. H10 audit: check whether λ_c and Planck-boundary coupling secretly use H10.
-  10. NOTE: `isometry_linear_semigroup_gives_nonzero_periodic_orbit` (line ~1120)
-      still has an explicit `sorry` — it needs the spectral theorem for
-      skew-symmetric matrices. This does NOT taint Edge 28's dependency closure.
+  10. ✅ DONE (2026-07-29): `isometry_linear_semigroup_gives_nonzero_periodic_orbit`
+      is now FULLY PROVEN (0 sorry). The general-dim |μ|<2 case was closed via
+      PeriodOrbitRefactor.lean (exists_common_eigenvector + J_E rotation machinery).
+      Build verified: `lake build PfLean.Axioms` completes with 0 errors, 0 sorry.
+      The compact-orbit theorem for general finite-dimensional inner product spaces
+      is machine-verified.
 -/

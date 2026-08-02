@@ -21,6 +21,47 @@ Plain language (not the formal definition):
 
 ---
 
+## On Circularity
+
+*Added 2026-07-29 from DeepSeek literature depth pass (`inbox/2026-07-29-deepseek-time-literature-depth-pass.md`)*
+
+The definition "time is the ordering and metric of state changes along physical histories" faces a classical objection: does "change" presuppose a temporal ordering, making the definition circular?
+
+### Historical precedent: Leibniz vs. Clarke (1715-1716)
+
+This is not a new objection. It is exactly the Leibniz-Clarke debate:
+
+- **Leibniz (relationalist):** Time is the "order of successions" — a derived relation between events, not a container.
+- **Clarke (absolutist, Newtonian):** "Succession" already implies temporal order, so Leibniz's definition is circular.
+
+Leibniz's reply: succession is a logical-ordinal relationship, not a temporal-flow relationship. Two events can be ordered (one before the other) without "time" existing independently — the ordering IS the temporal structure.
+
+### Three modern escape routes
+
+1. **Configuration-space (Barbour):** Define "change" as "different points in configuration space." A history is a curve through configuration space. No temporal ordering primitive is needed — the ordering falls out of the curve parameter. Cost: requires a global configuration space and a distinguished measure.
+
+2. **Thermodynamic emergence (Rovelli):** At the fundamental level (Wheeler-DeWitt), there is no time variable. Time emerges from coarse-graining of quantum gravitational degrees of freedom. The arrow requires a low-entropy boundary condition (Past Hypothesis). **This is the closest relative to the PF approach** — both treat time as derived from state-change records.
+
+3. **Operational:** Time is whatever clocks measure. The SI second is 9,192,631,770 hyperfine transitions of Cs-133. Circularity is sidestepped by grounding in a specific physical process. Cost: can't explain why different clocks agree or address the arrow of time.
+
+### Assessment for the PF definition
+
+The PF definition is closest to the Leibniz-Rovelli lineage. The potential circularity is **real but manageable:**
+
+1. **The "metric" component helps.** The definition includes both ordering AND metric. "Metric" implies a measure of separation between state changes — an extra primitive that the Leibniz formulation lacked.
+
+2. **"State change" can be defined without temporal ordering** if states are defined in configuration space. The PF Medium has states {S₁, S₂, ...}. The "change" from Sᵢ to Sⱼ is the difference, not the temporal ordering. The ordering is then the causal-propagation structure of the Medium (Barbour escape).
+
+3. **The honest vulnerability:** If PF "propagation" itself assumes time (propagation takes time), then the definition is circular at a deeper level. This is equivalent to the Wheeler-DeWitt problem: in a fundamentally timeless theory, what selects the foliation? **This remains open.** The PF must be able to define propagation without presupposing time.
+
+### What this subsection does NOT claim
+
+- Does NOT claim the circularity is resolved. The deep vulnerability (propagation presupposing time) is flagged, not closed.
+- Does NOT change the canonical status of the definition. The definition is operationally useful regardless of whether the circularity is fully resolved.
+- Does NOT add a new axiom or postulate. The configuration-space approach is a reading of existing PF structure, not a new assumption.
+
+---
+
 ## Formal Structure
 
 ### Proper Time
