@@ -24,7 +24,7 @@ When explaining or checking Fundamentals, start here in this order:
 3. `MEDIUM_TRANSFER_LAYER.md` - cross-domain bridge protocol; use before
    connecting math, simulation, hardware, thermal laws, cognition, or narrative.
 4. `CLAIMS.md` - live claim tiers, confidence, demotions, and falsification paths.
-5. `ACTIVE_ISSUES.md` - current blockers, no-go lanes, and allowed next moves.
+5. `PUBLIC_RELEASE_CONTROL_PLANE.md` - current release blockers, no-go lanes, and allowed next moves (blockers documented inline).
 6. `definitions/README.md` - the canonical definition index.
 7. `lean/README.md` - what is actually machine-checked and what remains bounded.
 8. `RESUME.md` and `STATE.md` - current handoff and current operational truth.

@@ -3,7 +3,7 @@
 > **Purpose:** One place to record what each named hypothesis (H1–H21) actually
 > buys, what it does *not* buy, and how the Z₃ circulant result depends on explicit
 > premises. This ledger is documentation only; Lean source is the binding truth.
-> **Last updated:** 2026-07-19 (periodic orbit theorem active proof; H22 added; e₂∈E_μ and W-invariance dim=2 proven; 8 sorrys remain)
+> **Last updated:** 2026-08-02 (periodic orbit theorem FULLY PROVEN — 0 sorrys; all 3 cases μ=±2 and |μ|<2 machine-verified via PeriodOrbitRefactor.lean; `lake build` 16534 jobs 0 errors)
 > **Bound:** This file does not modify `CLAIMS.md`, PRED files, public surfaces,
 > or the Fundamentals PUBLIC HOLD.
 
@@ -309,17 +309,22 @@ dimension?" The answer is now machine-verified as `D_selection_principle`:
 
 ---
 
-## Intentional `sorry` boundaries (epistemic markers)
+## `sorry` boundaries — historical note (all closed as of 2026-08-02)
 
-| Theorem | Why it is `sorry` |
-|---------|-------------------|
-| `recurrent_mode_bare` | BareMedium does not supply the H8 content. |
-| `recurrent_mode_from_H1` | Reversibility/injectivity does not imply periodicity; the translation example is informal. |
-| `recurrence_stability_plus_structural_gives_nonzero_periodic_orbit` | Frontier theorem; informal contraction evidence suggests it is expected false as stated. No Lean countermodel yet. |
+The following theorems were previously listed as intentional `sorry` epistemic
+markers. As of 2026-08-02, none of them exist as `sorry` in the live Lean source:
 
-`recurrent_mode_from_H3_H2` is now proven in the live Lean source as the vacuous
-zero-vector fixed-point version. The non-zero periodic orbit target remains open as
-`recurrence_stability_plus_structural_gives_nonzero_periodic_orbit`.
+| Theorem | Former status | Current status |
+|---------|---------------|----------------|
+| `recurrent_mode_bare` | `sorry` — BareMedium does not supply H8 content | Removed from Axioms.lean |
+| `recurrent_mode_from_H1` | `sorry` — reversibility/injectivity does not imply periodicity | Removed from Axioms.lean |
+| `recurrence_stability_plus_structural_gives_nonzero_periodic_orbit` | `sorry` — frontier theorem, expected false as stated | Superseded by `isometry_linear_semigroup_gives_nonzero_periodic_orbit`, which is PROVEN (0 sorry) via `PeriodOrbitRefactor.lean` |
+
+`recurrent_mode_from_H3_H2` is proven in the live Lean source as the vacuous
+zero-vector fixed-point version. The non-zero periodic orbit target is now closed
+by `isometry_linear_semigroup_gives_nonzero_periodic_orbit` (all 3 cases PROVEN:
+μ=±2 → T=1,2; |μ|<2 → common eigenvector + J_E rotation). `lake build` 16534
+jobs, 0 errors, 0 sorrys.
 
 ---
 
