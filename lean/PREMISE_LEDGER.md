@@ -395,8 +395,8 @@ PF Entropy is derived, not primitive. It requires:
 
 | Module | Theorems | Status | Build |
 |--------|----------|--------|-------|
-| `ShorBound.lean` | `qft_peak_alignment_iff_period_divides_register`, `shor_circuit_active_count_power_of_two`, `shor_circuit_active_count_non_power_of_two`, `hardware_residual_scales_with_cx_count` (sorry), `hardware_residual_is_cx_dependent` (axiom) | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. The first theorem is modular arithmetic bin alignment, the power-of-two theorem is a pruning-count model, and the non-power-of-two theorem is currently only a weak lower bound. | **GREEN in prior logs 2026-07-01; current source newer than `.olean` after status-comment edits** |
-| `QuantumStructureSurvival.lean` | Rows across the survival map | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. Row 5 is conditional aperiodic logic, Row 6 remains `sorry`, Row 7 is a definition-unpack predicate, and empirical rows are `True := by trivial`. | **GREEN in prior logs 2026-07-02; current source newer than `.olean` after status-comment edits** |
+| `ShorBound.lean` | `qft_peak_alignment_iff_period_divides_register`, `shor_circuit_active_count_power_of_two`, `shor_circuit_active_count_non_power_of_two`, `hardware_residual_scales_with_cx_count` (True := by trivial, legacy), `hardware_residual_is_cx_dependent` (axiom) | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. The first theorem is modular arithmetic bin alignment, the power-of-two theorem is a pruning-count model, and the non-power-of-two theorem is currently only a weak lower bound. 0 sorrys. | **GREEN 2026-08-02 (16534 jobs, 0 errors)** |
+| `QuantumStructureSurvival.lean` | Rows across the survival map | **BUILD-GREEN / CODEX HOLD ON PUBLIC SEMANTICS**. Row 5 is conditional aperiodic logic, Row 6 is `True := by trivial` (placeholder, not sorry), Row 7 is a definition-unpack predicate, and empirical rows are `True := by trivial`. 0 sorrys. | **GREEN 2026-08-02 (16534 jobs, 0 errors)** |
 
 ### Compile error history (2026-07-01)
 

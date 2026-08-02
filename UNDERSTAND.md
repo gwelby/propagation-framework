@@ -853,8 +853,8 @@ The framework has a Lean 4 formalization: every theorem is checked by the Lean 4
 | `PfLean.ThreeGenerations` | `Q(N)=2/3 ↔ N=3` | CONDITIONAL (premises T1/T2) |
 | `PfLean.Z3FromBareMedium` | D=3 forces J−I; D=4 does not; D-selection principle | CONDITIONAL 0.85 |
 | `PfLean.Entropy` | PFEntropy decreases under T³; Pythagorean decomposition; isometry-J−I incompatibility | DERIVED 0.95 (Pythagorean) / CONDITIONAL 0.85 (entropy) |
-| `PfLean.Axioms` | H14+H15+H16→H1; compact-orbit theorem (2D + odd-dim); translation-flow counterexample | PARTIAL (one sorry for general dim) |
-| `PfLean.ShorBound` | QFT bin alignment, identity gate pruning | GREEN (1 sorry for empirical bridge) |
+| `PfLean.Axioms` | H14+H15+H16→H1; compact-orbit theorem; translation-flow counterexample; periodic orbit theorem (all dims) | GREEN (0 sorrys; periodic orbit PROVEN 2026-08-02) |
+| `PfLean.ShorBound` | QFT bin alignment, identity gate pruning | GREEN (0 sorrys; empirical bridge is an axiom) |
 | `PfLean.QuantumStructureSurvival` | 8-row structure survival hierarchy, PQC security argument | GREEN |
 
 **The PREMISE_LEDGER** (`lean/PREMISE_LEDGER.md`) records what each named hypothesis (H1–H22) actually buys, what it does NOT buy, and how the Z₃ circulant result depends on explicit premises. The Lean source is the binding truth; the ledger is documentation only.

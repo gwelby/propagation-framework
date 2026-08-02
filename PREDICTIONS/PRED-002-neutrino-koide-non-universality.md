@@ -1,6 +1,8 @@
 # PRED-002 — Neutrino Koide Universality (PF predicts NO)
 
-> **STATUS: OPEN candidate.** PF has a pre-registered position: neutrino masses do NOT satisfy the Koide relation Q=2/3 because neutrinos lack electromagnetic coupling, which PF identifies as the mechanism that locks the charged-lepton amplitude geometry. This is a falsifiable disagreement with Brannen/Rivero/ZiP-type rivals that extend Koide to neutrinos.
+> **STATUS: OPEN candidate / Codex HOLD on commitment (2026-07-24).** PF has a pre-registered position: neutrino masses do NOT satisfy the Koide relation Q=2/3 because neutrinos lack electromagnetic coupling, which PF identifies as the mechanism that locks the charged-lepton amplitude geometry. This is a falsifiable disagreement with Brannen/Rivero/ZiP-type rivals that extend Koide to neutrinos.
+>
+> **Codex HOLD (2026-07-24):** the cited DUNE/Hyper-K route does not measure the individual absolute masses needed for `Q_nu`. A revised absolute-mass transfer contract, uncertainty model, primary-source rival check, and canonical reproducible packet are required before re-audit or Greg lock. Report: `/mnt/d/Codex/REPORTS/CODEX_20260724_PRED_002_NEUTRINO_KOIDE_COMMITMENT_AUDIT.md`.
 
 ## Commitment block — *ready to lock once Greg/Codex approve the wording and error bar*
 ```
