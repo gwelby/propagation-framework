@@ -30,3 +30,6 @@ import PfLean.ClaimLedger
 import PfLean.ClaimLedgerRegistry
 import PfLean.MeasurementContract
 import PfLean.MeasurementLedger
+import PfLean.AuditProtocol
+import PfLean.MoneyResearchAudit
+import PfLean.FundamentalsAudit

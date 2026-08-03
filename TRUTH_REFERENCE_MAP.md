@@ -219,5 +219,6 @@ The strongest thing here is not any single headline result. It is the pattern:
 That is what Greg should reference first. The public may understand the results
 slowly, but the method is already visible in the trail.
 
-This document should be updated when `CLAIMS.md`, `ACTIVE_ISSUES.md`, Lean build
-status, or public-release state changes.
+This document should be updated when `CLAIMS.md`, Lean build
+status, or public-release state changes. (Note: `ACTIVE_ISSUES.md` no longer
+exists; release blockers are now inline in `PUBLIC_RELEASE_CONTROL_PLANE.md`.)

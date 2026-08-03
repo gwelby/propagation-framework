@@ -308,7 +308,7 @@ The specific path-contaminating scripts named in the earlier pass have now been 
 ## Working Documents For This Pass
 
 - `CLAIMS.md`
-- `ACTIVE_ISSUES.md`
+- `PUBLIC_RELEASE_CONTROL_PLANE.md` (release blockers are inline here; `ACTIVE_ISSUES.md` no longer exists)
 - `derivations/axiom3_selector_note_2026-04-01.md`
 - `derivations/generation_closure_cards_2026-04-01.md`
 - `derivations/g3_closure_card_2026-04-01.md`
