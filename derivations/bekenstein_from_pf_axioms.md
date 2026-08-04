@@ -5,12 +5,14 @@
 **Author**: Claude Code
 **Status**: ARGUED — physics derivation with algebraic Lean verification (see CLAIMS.md Row 2, ARGUED 0.55)
 
-> **CODEX AUDIT 2026-08-04:** This document's original "DERIVATION COMPLETE" and
-> "without using general relativity" wording exceeds its evidence tier. The
-> Bekenstein bound is NOT formally derived from PF axioms in Lean — the entropy
-> inequality is a hypothesis, not a theorem output. The 2π factor is a steradian
-> measure, not a finite mode count. Axiom 3/H8 does not appear in any theorem
-> signature. See CLAIMS.md rows 73-74 and the Codex audit report.
+> **HERMES AUDIT 2026-08-04 (DeepSeek Flash via master-auditor protocol):**
+> This document's original "DERIVATION COMPLETE" and "without using general
+> relativity" wording exceeds its evidence tier. The Bekenstein bound is NOT
+> formally derived from PF axioms in Lean — the entropy inequality is a
+> hypothesis, not a theorem output. The 2π factor is a steradian measure, not a
+> finite mode count. Axiom 3/H8 does not appear in any theorem signature. This
+> file was NOT caught by the Codex 11-repair set — Hermes found it. See
+> CLAIMS.md rows 73-74 and the Codex audit report.
 
 ---
 
