@@ -52,13 +52,21 @@ Devin, Hermes, and Kiro auditors.
 
 ## Auditor Verdicts
 
-| Auditor | Model | Verdict | Found Issues |
-|---------|-------|---------|--------------|
-| Devin (self) | GLM-5.2 High | PASS | None (honest tiers) |
-| Hermes | DeepSeek Flash | PASS | 3 stale header-level surfaces |
-| Kiro | GPT-5.6 Sol | PASS on 14 rows, HOLD on repairs 10-11 | Deeper body-text overclaims |
-| Codex | GPT-5.6 Sol | HOLD (original, 11 repairs) | Aug 6 re-audit pending |
-| Claude (verifier) | Sonnet 5 | Verified | Misattribution caught, convergence framing corrected |
+| Auditor | Model family | Harness | Verdict | Found Issues |
+|---------|-------------|---------|---------|--------------|
+| Devin (self) | GLM-5.2 High | Devin CLI | PASS | None (honest tiers) |
+| Hermes | DeepSeek Flash | Hermes (tool-calling) | PASS | 3 stale header-level surfaces |
+| Kiro | GPT-5.6 Sol | Kiro IDE | PASS on 14 rows, HOLD on repairs 10-11 | Deeper body-text overclaims |
+| Codex | GPT-5.6 Sol | Codex CLI | HOLD (original, 11 repairs) | Aug 6 re-audit pending |
+| Claude (verifier) | Sonnet 5 | Claude CLI | Verified | Misattribution caught, convergence framing corrected |
+
+**Independence structure (corrected per Claude's harness-vs-model distinction):**
+
+- **2 independent model families**: GLM-5.2 (via Devin) and DeepSeek Flash (via Hermes) — genuinely independent reasoning, both PASS
+- **1 model family checked twice through different harnesses**: GPT-5.6 Sol via Kiro's harness found body-text overclaims the first two missed; Codex will re-audit via its own harness on Aug 6 using the same model family. Same-model-different-harness is real evidence (different prompts, different tool access, different sessions) but is a weaker kind of independence than different model families.
+- **1 verifier**: Claude (Sonnet 5, third model family) independently verified commits, caught the misattribution, and corrected the convergence framing twice.
+
+**Honest framing**: Two independent model-family audits agree (GLM, DeepSeek). A third pass using the same model family as the Aug 6 gold-standard (GPT-5.6 Sol, via Kiro) found additional issues the first two missed — which is actually a useful signal that Codex's Aug 6 pass will have less left to find. The shared deterministic tooling (phrase-scan, theorem-audit, packet gate) confirms mechanically.
 
 ## What This Receipt Does NOT Authorize
 
