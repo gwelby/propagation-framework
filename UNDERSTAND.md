@@ -655,11 +655,11 @@ The key steps:
 
 ### 🔬 Master
 
-**Status: DERIVED (derivation file) / NOT YET IN CLAIMS.md.** The derivation (`derivations/bekenstein_from_pf_axioms.md`, T-014, 2026-03-18) reproduces the Bekenstein bound from Axioms 2 and 3 without using general relativity or black hole physics. The 2π coefficient is recovered from boundary geometry. **One assumption beyond the axioms**: the identification of minimum energy per coherent bit as E_bit = ℏc/λ_c, which is strongly motivated by Axioms 2+3 but is an application, not purely formal.
+**Status: ARGUED (derivation file) / CLAIMS.md Row 2 (ARGUED 0.55).** The derivation (`derivations/bekenstein_from_pf_axioms.md`, T-014, 2026-03-18) argues for the Bekenstein bound from Axioms 2 and 3. The 2π coefficient has algebraic structure consistent with boundary geometry but is NOT a finite mode count — converting it requires a measure, cutoff, and independence rule not provided. The entropy inequality is NOT formalized as a theorem output in Lean — it is taken as a hypothesis. **One assumption beyond the axioms**: the identification of minimum energy per coherent bit as E_bit = ℏc/λ_c, which is strongly motivated by Axioms 2+3 but is an application, not purely formal.
 
-**Important boundary:** This result has NOT been entered into CLAIMS.md (the live scoreboard) and has NOT been through Codex hostile audit to CLAIMS.md standard. It should be treated as a real derivation that awaits formal scoreboard entry and audit. Do not cite as DERIVED without noting this boundary.
+**Important boundary:** This result has been through Codex hostile audit (2026-08-04). The algebra is DERIVED (kernel-verified in Lean); the physics derivation is ARGUED. Axiom 3/H8 does not appear in any theorem signature. Do not cite as DERIVED without noting this boundary.
 
-The framework interpretation: the holographic principle is not gravitational — it follows from the structure of coherent propagation in any finite-speed medium. This extends the bound's applicability beyond gravitational systems.
+The framework interpretation (SPECULATION): the holographic principle may not be gravitational — it is speculated to follow from the structure of coherent propagation in any finite-speed medium. This is argued, not formalized.
 
 ---
 

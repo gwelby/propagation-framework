@@ -4131,11 +4131,16 @@ The maximum entropy of a Planck-volume sphere is exactly $2\pi k \approx 6.28 k$
 
 ## 0. Summary and Honest Assessment
 
-This derivation successfully reproduces the Bekenstein bound
+This derivation argues for the Bekenstein bound
 
 $$S \leq \frac{2\pi k R E}{\hbar c}$$
 
-from Axioms 2 and 3 of the Propagation Framework, without using general relativity or quantum gravity as input. The 2π factor is recovered from boundary geometry of a sphere (the solid angle subtended by the boundary, divided by the number of independent orientations).
+from Axioms 2 and 3 of the Propagation Framework. The 2π factor has algebraic
+structure consistent with boundary geometry of a sphere, but converting it to
+a finite mode count requires a measure, cutoff, and independence rule not
+provided. The entropy inequality is NOT formalized as a theorem output in Lean —
+it is taken as a hypothesis. See CLAIMS.md Row 2 (ARGUED 0.55) and the Codex
+audit report.
 
 **One assumption is required beyond the two axioms**: a specific identification of the minimum energy per coherent bit as $E_\text{bit} = \hbar c / \lambda_c$ where $\lambda_c$ is the coherence length. This identification is strongly motivated by Axiom 3 (coherence requires $\lambda_{dB} \geq \lambda_c$) combined with Axiom 2 (dispersion relation $E = \hbar c / \lambda$ at the causal boundary), but it is an application of those axioms to a specific physical identification, not purely formal. This is noted precisely in Section 5.
 

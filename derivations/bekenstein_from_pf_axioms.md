@@ -3,17 +3,28 @@
 **Task**: T-014
 **Date**: 2026-03-18
 **Author**: Claude Code
-**Status**: DERIVATION COMPLETE — with honest accounting of one residual assumption
+**Status**: ARGUED — physics derivation with algebraic Lean verification (see CLAIMS.md Row 2, ARGUED 0.55)
+
+> **CODEX AUDIT 2026-08-04:** This document's original "DERIVATION COMPLETE" and
+> "without using general relativity" wording exceeds its evidence tier. The
+> Bekenstein bound is NOT formally derived from PF axioms in Lean — the entropy
+> inequality is a hypothesis, not a theorem output. The 2π factor is a steradian
+> measure, not a finite mode count. Axiom 3/H8 does not appear in any theorem
+> signature. See CLAIMS.md rows 73-74 and the Codex audit report.
 
 ---
 
 ## 0. Summary and Honest Assessment
 
-This derivation successfully reproduces the Bekenstein bound
+This derivation argues for the Bekenstein bound
 
 $$S \leq \frac{2\pi k R E}{\hbar c}$$
 
-from Axioms 2 and 3 of the Propagation Framework, without using general relativity or quantum gravity as input. The 2π factor is recovered from boundary geometry of a sphere (the solid angle subtended by the boundary, divided by the number of independent orientations).
+from Axioms 2 and 3 of the Propagation Framework. The 2π factor has algebraic
+structure consistent with boundary geometry of a sphere (the solid angle
+subtended by the boundary), but converting this to a finite mode count requires
+a measure, cutoff, and independence rule not provided. The entropy inequality
+is NOT formalized as a theorem output in Lean — it is taken as a hypothesis.
 
 **One assumption is required beyond the two axioms**: a specific identification of the minimum energy per coherent bit as $E_\text{bit} = \hbar c / \lambda_c$ where $\lambda_c$ is the coherence length. This identification is strongly motivated by Axiom 3 (coherence requires $\lambda_{dB} \geq \lambda_c$) combined with Axiom 2 (dispersion relation $E = \hbar c / \lambda$ at the causal boundary), but it is an application of those axioms to a specific physical identification, not purely formal. This is noted precisely in Section 5.
 
