@@ -633,7 +633,7 @@ The Bekenstein bound says: the maximum information (entropy) inside a sphere of 
 
 $$S \leq \frac{2\pi k R E}{\hbar c}$$
 
-Normally this is derived from black hole physics (requiring general relativity). The framework derives it from Axioms 2 and 3 alone:
+Normally this is derived from black hole physics (requiring general relativity). The framework argues for it from Axioms 2 and 3 (ARGUED 0.55, not formally derived in Lean — see CLAIMS.md Row 2):
 
 - **Axiom 2** gives the speed limit → minimum energy per bit = $\hbar c / \lambda_c$
 - **Axiom 3** gives the coherence condition → modes must fit the cavity

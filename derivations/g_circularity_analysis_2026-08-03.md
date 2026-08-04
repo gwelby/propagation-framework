@@ -251,8 +251,11 @@ scale.
 **Theorem:** The chain rule resolves the factor-of-2 between the PF temperature
 and the Hawking temperature.
 
-**Physical meaning:** The Hawking temperature follows from PF + chain rule,
-conditional on R = R_s.
+**Physical meaning (conditional):** The Hawking temperature formula is
+algebraically consistent with PF + chain rule + imported GR relations
+(Schwarzschild R = 2GE/c⁴) + thermodynamics (1/T = dS/dE), conditional on
+R = R_s. This is NOT a PF-native derivation — it imports GR and thermodynamics
+as premises.
 
 **Limitation:** R = R_s requires G.
 

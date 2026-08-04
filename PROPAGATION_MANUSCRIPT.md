@@ -4125,7 +4125,7 @@ The maximum entropy of a Planck-volume sphere is exactly $2\pi k \approx 6.28 k$
 **Task**: T-014
 **Date**: 2026-03-18
 **Author**: Claude Code
-**Status**: DERIVATION COMPLETE — with honest accounting of one residual assumption
+**Status**: ARGUED — physics derivation with algebraic Lean verification (see CLAIMS.md Row 2, ARGUED 0.55)
 
 ***
 
@@ -4144,14 +4144,14 @@ audit report.
 
 **One assumption is required beyond the two axioms**: a specific identification of the minimum energy per coherent bit as $E_\text{bit} = \hbar c / \lambda_c$ where $\lambda_c$ is the coherence length. This identification is strongly motivated by Axiom 3 (coherence requires $\lambda_{dB} \geq \lambda_c$) combined with Axiom 2 (dispersion relation $E = \hbar c / \lambda$ at the causal boundary), but it is an application of those axioms to a specific physical identification, not purely formal. This is noted precisely in Section 5.
 
-The key structural result: **Bekenstein is a consequence of the medium's finite causal velocity and coherence requirement — not of gravity.**
+The key structural result (ARGUED, not formally derived): **Bekenstein is argued to follow from the medium's finite causal velocity and coherence requirement — not from gravity. The algebra is verified in Lean; the physics derivation is not formalized.**
 
 ***
 
 ## 1. Axioms and NotationGreg
 
 **Axiom 2 (Finite Causal Velocity):**
-Every propagation medium has a maximum signal speed $c$. No causal influence propagates faster than $c$. In vacuum, this is the observed speed of light; the framework does not assume this — it derives it. For this derivation we treat $c$ as a given causal velocity of the specific medium under study.
+Every propagation medium has a maximum signal speed $c$. No causal influence propagates faster than $c$. In vacuum, this is the observed speed of light; the framework hypothesizes this identification but does not formally derive it (see CLAIMS.md Row 14, OPEN 0.15). For this derivation we treat $c$ as a given causal velocity of the specific medium under study.
 
 **Axiom 3 (Coherence Condition):**
 Stable structure requires coherent propagation. Formally: a propagation mode is stable if and only if its de Broglie wavelength $\lambda_{dB}$ satisfies
@@ -4684,18 +4684,18 @@ The Bekenstein bound $S \leq 2\pi kRE/\hbar c$ is a consequence of:
 
 **What this means:**
 
-- Bekenstein is **not a consequence of gravity**. It follows from the structure of any propagation medium with finite causal velocity and a coherence condition.
-- Black hole thermodynamics (Bekenstein-Hawking) specializes this to the gravitational medium (where the "region" is a black hole and $R$ is the Schwarzschild radius). But the bound is more general.
-- The holographic principle — that the information content of a region scales with its surface area — is a **consequence of the coherence condition** (Axiom 3) applied to the boundary of the region: boundary channels count independently, and the interior's entropy cannot exceed what the boundary can carry.
-- **Gravity is not needed.** General relativity is not an input. The Bekenstein bound is a theorem about causal propagation and coherence, not about spacetime curvature.
+- Bekenstein is **argued to not require gravity** (ARGUED, not formally derived). It is argued to follow from the structure of any propagation medium with finite causal velocity and a coherence condition. The algebra is verified in Lean; the mode-counting argument is not formalized.
+- Black hole thermodynamics (Bekenstein-Hawking) specializes this to the gravitational medium (where the "region" is a black hole and $R$ is the Schwarzschild radius). But the bound is more general (argued, not proven).
+- The holographic principle — that the information content of a region scales with its surface area — is **speculated to be a consequence of the coherence condition** (Axiom 3) applied to the boundary of the region. This is NOT formalized in Lean. No statistical mechanics bridge, density operator, or state count is provided.
+- **Gravity is not needed (ARGUED).** General relativity is not an input to the algebraic identity. The Bekenstein bound is an algebraic identity about causal propagation and coherence, not a formally derived theorem about spacetime curvature. The physics interpretation is argued, not machine-checked.
 
-**The hierarchy of derivations:**
+**The hierarchy of arguments (ARGUED, not formally derived):**
 
-$$\text{Axiom 2 (finite } c) + \text{Axiom 3 (coherence)} \implies \text{Bekenstein Bound}$$
-$$\text{Bekenstein Bound} + \text{GR (Schwarzschild)} \implies \text{Bekenstein-Hawking entropy}$$
-$$\text{Bekenstein-Hawking entropy} + \text{Unruh effect} \implies \text{Holographic Principle}$$
+$$\text{Axiom 2 (finite } c) + \text{Axiom 3 (coherence)} \xRightarrow{\text{ARGUED}} \text{Bekenstein Bound}$$
+$$\text{Bekenstein Bound} + \text{GR (Schwarzschild)} \xRightarrow{\text{algebra}} \text{Bekenstein-Hawking entropy}$$
+$$\text{Bekenstein-Hawking entropy} + \text{Unruh effect} \xRightarrow{\text{SPECULATION}} \text{Holographic Principle}$$
 
-If this derivation is correct, the causal direction reverses from the standard presentation: the holographic principle is not mysterious (requiring quantum gravity for its explanation) — it is an elementary consequence of finite propagation velocity and coherence.
+If this argument is correct, the causal direction reverses from the standard presentation: the holographic principle is speculated to be an elementary consequence of finite propagation velocity and coherence. This is NOT formalized — it is a research direction, not a theorem.
 
 ***
 
