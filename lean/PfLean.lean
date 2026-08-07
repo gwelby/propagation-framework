@@ -14,6 +14,7 @@ import PfLean.GravityOptics
 import PfLean.ThreeGenerations
 import PfLean.CasimirPolynomial
 import PfLean.CasimirGap
+import PfLean.BekensteinGap
 import PfLean.SO2Rotation
 import PfLean.SO3DoubleCover
 import PfLean.ProcessOntology
