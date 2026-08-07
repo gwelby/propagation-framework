@@ -24,7 +24,7 @@
 | | The saturation condition as a physical state (no spectrum, density operator, or state count) |
 | | The horizon identification R = R_s (requires G from GR, not derived) |
 | | The holographic principle (speculated, not formalized) |
-| | The information paradox resolution (speculation, not formalized) |
+| | The information paradox question (speculation, not formalized) |
 | | The saturon / unitarity connection (research direction) |
 
 **Bottom line:** Lean verifies that IF you accept the physics derivation in the prose, THEN the algebra is correct. The physics derivation itself is argued, not machine-checked.
@@ -143,24 +143,25 @@ In PF, the saturating configuration is:
 | Location | Surface where escape velocity = c | Surface where all modes are fundamental |
 | Causal structure | Signals cannot escape | Signals circulate, don't escape |
 | Information | Maximal (Bekenstein-Hawking) | Maximal (Bekenstein, saturated) |
-| Interior | Singularity (GR extrapolation) | Informationally empty (no bulk modes) |
+| Interior | Singularity (GR extrapolation) | Informationally empty (no bulk modes) — ARGUED, not proven |
 | Refractive index | n → ∞ (coordinate pole) | All channels occupied at minimum energy |
-| What's inside | Unknown (quantum gravity needed) | Nothing — the boundary IS the object |
+| What's inside | Unknown (quantum gravity needed) | Unknown — the boundary-saturated picture is ARGUED, not established |
 
 ### 3.4 The Key Difference
 
 **GR says: the horizon is where geometry breaks down (singularity inside).**
-**PF says: the horizon is where the medium is full (boundary saturated).**
+**PF argues: the horizon is where the medium is full (boundary saturated) — but this is ARGUED, not proven.**
 
 In GR, the black hole has an interior — a region inside the horizon where
 GR predicts a singularity. The information paradox is: what happens to the
 information that falls through the horizon?
 
-In PF, the saturating configuration has **no interior** in the information-
-theoretic sense. All information is on the boundary. There is no "inside"
-for information to fall into. The boundary IS the object. [SPECULATION:
-there is no information paradox because there is no interior to lose
-information into — argued, not formalized.]
+In the PF saturating picture, the configuration is ARGUED to have no
+information-theoretic interior — all information is on the boundary.
+However, this is argued from the mode-counting hypothesis, not formalized.
+No density operator, state count, or statistical mechanics bridge is
+provided. [SPECULATION: the information paradox may not arise if there
+is no information-theoretic interior — but this is argued, not formalized.]
 
 ### 3.5 Is This a Black Hole?
 
@@ -171,8 +172,8 @@ information into — argued, not formalized.]
 - Both have "no escape" (circulating modes can't radiate outward without
   dropping below the fundamental frequency, which would violate coherence)
 
-But the analogy is not a proof. To show the saturating configuration IS a
-black hole horizon, we would need to show:
+But the analogy is not a proof. To show the saturating configuration
+resembles a black hole horizon, we would need to show:
 
 1. **It traps light**: modes cannot propagate outward
    - *Status: ARGUED.* Circulating modes at the fundamental frequency
@@ -365,13 +366,15 @@ stares back:
 1. **A boundary-saturated configuration** — all modes at the fundamental
    circulating frequency, all orientations occupied. This is argued from
    the mode-counting argument (not formalized in Lean).
-2. **The holographic principle (SPECULATION)** — information is on the
-   boundary, not the bulk. Holography is speculated but not formalized.
+2. **The holographic principle (SPECULATION)** — information is argued to
+   be on the boundary, not the bulk. Holography is speculated but not
+   formalized.
 3. **The temperature formula** T = ℏc/(2πkR) — algebraically identical to
    Hawking temperature. Algebra verified in Lean; physics interpretation
    argued.
-4. **No singularity (SPECULATION)** — the saturating configuration has no
-   interior in the information-theoretic sense. The boundary IS the object.
+4. **Singularity question (OPEN)** — the saturating configuration is
+   ARGUED to have no information-theoretic interior. Whether this implies
+   anything about the geometric singularity is unknown.
    [SPECULATION: the absence of an information-theoretic interior does not
    formally imply the absence of a geometric singularity; this is argued,
    not proven.]
@@ -394,9 +397,10 @@ stares back:
 PF's saturating configuration is what you get when you ask "what's the
 densest possible information state of a propagation medium?" The answer
 is a boundary-saturated state that looks structurally like a black hole
-horizon but [SPECULATION: without the singularity — argued, not proven]. The temperature formula matches
-Hawking's exactly. [SPECULATION: the information paradox doesn't arise
-because there's no interior — argued, not formalized.]
+horizon. [SPECULATION: whether this implies anything about the singularity
+is unknown — argued, not proven.] The temperature formula matches
+Hawking's exactly. [SPECULATION: whether the information paradox arises
+in this picture is an open question — argued, not formalized.]
 
 **This is either the most interesting near-miss in the framework, or
 it's the real thing with one missing piece (G derivation).** The way to
@@ -413,7 +417,7 @@ the G derivation.
 
 2. **Formalize the saturation theorem** (same file)
    - Saturated configuration → equality holds
-   - This would make the algebra of the "boundary IS the object" claim machine-checked (physics interpretation remains argued)
+   - This would make the algebra of the boundary-saturated claim machine-checked (physics interpretation remains argued)
 
 3. **Formalize the temperature formula** (same file or extension)
    - T = ℏc/(2πkR) from dS/dE
@@ -447,9 +451,9 @@ the G derivation.
 | Saturating config = all modes at n=1 | 0.70 | Mode-counting argument (not in Lean); no spectrum or state count formalized |
 | Saturating config is boundary-only | 0.60 | Argued from circulating modes on great circles; no density operator |
 | Saturating config traps modes (horizon-like) | 0.45 | Argued from coherence threshold, not proven |
-| Saturating config IS a black hole horizon | 0.35 | Requires G derivation (open); temperature match is suggestive |
-| No information paradox in PF (SPECULATION) | 0.40 | Argued from boundary-only structure, if saturation holds; not formalized |
-| No singularity (SPECULATION) | 0.30 | Argued from absence of information-theoretic interior; not proven |
+| Saturating config resembles a black hole horizon | 0.35 | Requires G derivation (open); temperature match is suggestive; not established |
+| Information paradox question (OPEN) | 0.40 | Argued from boundary-only structure, if saturation holds; not formalized |
+| Singularity question (OPEN) | 0.30 | Argued from absence of information-theoretic interior; not proven |
 | Holographic principle (SPECULATION) | 0.35 | Speculated but not formalized; no statistical mechanics bridge |
 | PF coherence ↔ unitarity saturation | 0.25 | Research direction, not a result |
 
@@ -471,44 +475,46 @@ interpretation is argued, not machine-checked.
 
 ---
 
-## 10. Implications
+## 10. Implications (Speculative Research Directions — NOT Results)
 
-If this saturation picture is correct:
+If this saturation picture were correct, the following research directions
+would be interesting to pursue. **None of these are claimed as results.**
+They are open questions, not established conclusions.
 
-1. **Black holes are not singularities (SPECULATION).** [SPECULATION: if
-   the equality premise holds, R = R_s follows algebraically; the
-   saturating configuration is boundary-saturated and the "interior" is
-   informationally empty. The claim that the singularity is an artifact
-   of extrapolating GR beyond its domain is argued, not proven.]
+1. **Singularity question (OPEN).** [SPECULATION: if the equality premise
+   holds, R = R_s follows algebraically; the saturating configuration is
+   boundary-saturated. Whether this implies anything about the GR-predicted
+   singularity is unknown — the absence of an information-theoretic interior
+   does not formally imply the absence of a geometric singularity. This
+   remains speculation.]
 
-2. **The information paradox is resolved by construction (SPECULATION).**
-   [SPECULATION: there is no interior for information to fall into. The
-   boundary IS the object. Hawking radiation is perturbation of the
-   saturated state. This is argued, not formalized.]
+2. **Information paradox question (OPEN).** [SPECULATION: if there is no
+   information-theoretic interior, the information paradox may not arise
+   in the PF picture. However, this is not formalized and no unitarity
+   argument is provided. This remains an open question, not a resolution.]
 
-3. **The holographic principle is elementary (SPECULATION).**
-   [SPECULATION: holography is speculated but not formalized — it is
-   argued to follow from the saturation condition, but no statistical
-   mechanics bridge or state-count formalization exists.]
+3. **Holographic principle question (OPEN).** [SPECULATION: holography is
+   speculated to follow from the saturation condition, but no statistical
+   mechanics bridge or state-count formalization exists. This remains
+   speculation.]
 
-4. **Gravity is not fundamental (SPECULATION).** [SPECULATION: the
-   Bekenstein bound, holography, and the Hawking temperature are argued
-   to be algebraically consistent with PF mode-counting, using GR
-   relations (Schwarzschild radius, Bekenstein-Hawking entropy) as
-   imported definitions. G is hypothesized as a derived constant (medium
-   elasticity), not a fundamental parameter — but this derivation is
-   open, not proven.]
+4. **Gravity ontology question (OPEN).** [SPECULATION: the Bekenstein bound,
+   Hawking temperature, and entropic force are argued to be algebraically
+   consistent with PF mode-counting, using GR relations as imported
+   definitions. Whether G is a derived constant or a free parameter of the
+   medium is an open question — the six circularity findings do not
+   uniquely establish the ontology of G.]
 
-5. **Saturons and black holes are the same kind of object (SPECULATION).**
-   [SPECULATION: if the equality premise holds, R = R_s follows
-   algebraically; both are argued to be boundary-saturated propagation
-   states. The difference is which medium they're in (gravitational vs.
-   non-gravitational QFT). This is argued, not formalized.]
+5. **Saturon / black hole connection question (OPEN).** [SPECULATION: if
+   the equality premise holds, R = R_s follows algebraically; both black
+   holes and saturons may be boundary-saturated propagation states. This
+   is argued, not formalized, and remains an open research direction.]
 
-**None of these are claimed as proven.** They are the picture that emerges
-when you follow the propagation axioms to the Bekenstein bound and ask
-what saturates it. The formalization in Lean will make the provable parts
-machine-checked. The rest remains open.
+**None of these are claimed as proven or established.** They are open
+questions that emerge when following the propagation axioms to the
+Bekenstein bound and asking what saturates it. The formalization in Lean
+makes the provable algebra machine-checked. The physics interpretation
+remains open.
 
 ---
 

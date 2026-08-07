@@ -617,33 +617,34 @@ The coherence length $\lambda_c$ appears there as the medium-dependent scale sep
 
 | Step | Result | From | Status |
 |------|--------|------|--------|
-| Minimum mode energy in sphere (circulating) | $E_\text{bit} = \hbar c / R$ | Axiom 2 + Axiom 3 | DERIVED |
-| Maximum mode count | $N \leq ER/\hbar c$ | Both axioms | DERIVED |
-| Orientation degeneracy factor | $g = 2\pi$ | Spherical geometry + Axiom 2 | DERIVED (topology) |
-| Total mode count | $N_\text{total} \leq 2\pi ER/\hbar c$ | All above | DERIVED |
-| Entropy bound | $S \leq 2\pi kRE/\hbar c$ | Information theory | DERIVED |
-| Bekenstein form recovered? | YES | — | ✓ |
-| GR used? | NO | — | ✓ |
-| Quantum gravity used? | NO | — | ✓ |
+| Minimum mode energy in sphere (circulating) | $E_\text{bit} = \hbar c / R$ | Axiom 2 + Axiom 3 | ARGUED (circulating-mode choice not formally proven) |
+| Maximum mode count | $N \leq ER/\hbar c$ | Both axioms | ARGUED (counting argument, no spectrum formalized) |
+| Orientation degeneracy factor | $g = 2\pi$ | Spherical geometry + Axiom 2 | ARGUED (2π is a steradian measure, not a finite mode count; no measure/cutoff/independence rule formalized) |
+| Total mode count | $N_\text{total} \leq 2\pi ER/\hbar c$ | All above | ARGUED (depends on above steps) |
+| Entropy bound | $S \leq 2\pi kRE/\hbar c$ | Information theory | ARGUED (entropy inequality S ≤ k × N_total is a hypothesis in Lean, not a theorem output) |
+| Bekenstein form recovered? | Algebraically consistent | — | ARGUED (coefficient match requires mode-counting hypothesis) |
+| GR used? | Not for algebra | — | The 2π factor is ARGUED from geometry, not derived from GR |
+| Quantum gravity used? | No | — | Not needed for the algebraic identity |
 | Additional assumption beyond axioms? | Circulating > standing modes for upper bound | Entropy maximization | ARGUED (0.80) |
 
-**Overall confidence: 0.82**
+**Overall confidence: 0.55 (ARGUED)**
 
-The derivation is substantially complete and the Bekenstein form is recovered. The 0.18 gap reflects:
+The derivation argues the Bekenstein form from PF axioms but does not formally derive it. The gap reflects:
+- 0.20: The entropy inequality S ≤ k × N_total is a hypothesis, not a theorem output (no spectrum, state count, or density operator formalized)
 - 0.12: The circulating-mode choice is argued but not formally proven to be the entropy-maximizing configuration
-- 0.04: The orientation degeneracy factor ($2\pi$) relies on a topological counting argument that should be stated as a theorem
-- 0.02: Extension to mixed states not done
+- 0.08: The orientation degeneracy factor (2π) is a steradian measure, not a finite mode count — converting it requires a measure, cutoff, and independence rule not provided
+- 0.05: Axiom 3/H8 does not appear in any Lean theorem signature
 
 ---
 
 ## 19. Implications for the Framework
 
-If this derivation stands, the Propagation Framework achieves something significant: it places the Bekenstein bound — currently considered a deep result at the intersection of GR, QM, and thermodynamics — in a more elementary position. The bound requires no quantum gravity, no Hawking radiation, no Unruh effect, no black holes. It requires only:
+If this argument stands up to formal scrutiny, it suggests — but does not establish — that the Bekenstein bound may be algebraically consistent with a propagation-based foundation. The argument requires only:
 
 - A medium with a finite propagation speed
 - A coherence condition for stable information
 
-This suggests that information-theoretic bounds on physical systems are **more fundamental** than the dynamical theories (GR, QM) from which they are usually derived. The framework's axioms may be closer to the actual foundations.
+However, the argument is ARGUED, not formally derived. The entropy inequality is a hypothesis, the mode-counting route is not formalized, and the 2π orientation factor is a steradian measure rather than a finite mode count. The suggestion that information-theoretic bounds are more fundamental than the dynamical theories (GR, QM) from which they are usually derived remains a research hypothesis, not an established result.
 
 The test: can the framework now derive the **Hawking temperature** ($T_H = \hbar c^3 / 8\pi G M k$) without using GR as input? If the Bekenstein bound follows from Axioms 2 and 3, and Hawking temperature follows from Bekenstein + the thermodynamic identity $T = dE/dS$, and if $M$ can be expressed in framework terms (energy of a coherent structure at the boundary), then $T_H$ might follow — and $G$ might appear as a derived constant, not a fundamental one.
 

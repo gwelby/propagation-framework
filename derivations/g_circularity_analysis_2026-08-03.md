@@ -296,9 +296,10 @@ medium, like c and ℏ. The six circularity findings show what current routes
 fail to do; they do not uniquely establish the ontology of G.
 
 This is not a failure of the framework. It is an honest boundary. The framework
-derives the *shape* of gravity (Bekenstein bound, Hawking temperature, entropic
-force, refractive index) from propagation axioms. The *strength* of gravity (G)
-is not currently derived from PF axioms.
+argues the *shape* of gravity (Bekenstein bound, Hawking temperature, entropic
+force, refractive index) from propagation axioms — the algebra is verified in
+Lean, but the physics derivation is ARGUED, not formally derived. The *strength*
+of gravity (G) is not currently derived from PF axioms.
 
 The big prize (deriving G) remains unclaimed. The honest consolation: **the
 algebraic structure is consistent with known black-hole relations, but this is
