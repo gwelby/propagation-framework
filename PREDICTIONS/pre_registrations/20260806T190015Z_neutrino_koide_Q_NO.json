@@ -1,0 +1,26 @@
+{
+  "committed": "2026-08-07T15:32:45.386450+00:00",
+  "committed_by": "Devin ∇λΣ∞ @ pending-SHA",
+  "content_hash": "8e18010fe47c9d86788f2a83860450f912af5e6e8389f29ece4e60229d4eae35",
+  "created_at": "2026-08-06T19:00:15.374838+00:00",
+  "degenerate_risk": false,
+  "payload": {
+    "commitment_date": "2026-08-07",
+    "conditional_on": "m_lightest ∈ [1e-5, 3e-4] eV (0.1 meV = 1e-4 eV as representative near-optimal point; window, not point estimate); Z₃ structure with unlocked amplitude β_NO=1.139 (EM-locking absent for neutrinos); Koide Q=2/3 is charged-lepton specific",
+    "expected_value": 0.549622,
+    "formula": "Q_NO = Σm_k / (Σ√m_k)² with m2=√(m1²+Δm²₂₁), m3=√(m1²+Δm²₃₁), m1=m_lightest (PDG 2024 Δm²: Δm²₂₁=7.53e-5, Δm²₃₁=2.453e-3)",
+    "framework": "PF",
+    "measurement_source": "m_lightest inferred from KATRIN (m_β) / cosmology CMB-S4+DESI (Σmν) / 0νββ nEXO+LEGEND-1000 (m_ββ) + NuFIT 6.0 Δm². No single experiment measures individual absolute masses directly. Live observable: Σmν = 0.0583 eV (NO), testable via cosmology today.",
+    "notes": "PRED-003. Unlocked Z₃ amplitude derivation. Q(β)=(1+β²/2)/3 exact. Deviation from 2/3 = 0.117 (≈2.6σ against full window spread 0.045). Previous 103σ claim withdrawn — used Δm²-only uncertainty. Residual flatness claim WITHDRAWN — referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: Σmν = 0.0583 eV (NO), testable via CMB-S4/DESI cosmology.",
+    "quantity_name": "neutrino_koide_Q_NO",
+    "rival_predictions": {
+      "UGP": "0.0294 (Δm² ratio — orthogonal observable, not a Q rival)",
+      "universal_Koide": "0.6667"
+    },
+    "uncertainty": 0.023
+  },
+  "record_type": "pre_registration",
+  "resolution_log": [],
+  "schema_version": 1,
+  "status": "OPEN"
+}
