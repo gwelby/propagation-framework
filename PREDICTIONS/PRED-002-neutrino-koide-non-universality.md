@@ -55,3 +55,13 @@ PRED-001 asks for the value of δ_CP from a PF-native phase selector. That machi
 
 ---
 *Append-only resolution log below.*
+
+- **2026-08-07 (Claude):** Cross-reference — the 2026-08-06 "PRED-003" registrations
+  (`pre_registrations/20260806T19001*Z_neutrino_koide_Q_*.json`, DeepSeek) commit THIS
+  prediction's observable/mechanism in sharpened point-value form and are best read as
+  candidate repair material for this HOLD, not a new PRED. Codex audited them at HOLD
+  (`/mnt/d/Codex/REPORTS/CODEX_20260806_PRED003_NEUTRINO_KOIDE_PRE_REGISTRATION_AUDIT.md`);
+  Claude's additive cross-audit (PRED-002 identity, Q(β) positivity domain, Σmν genericity,
+  ledger divergence): `inbox/2026-08-07-claude-pred003-cross-audit-supplement.md`. HOLD unchanged.
+
+- **2026-08-07 (DeepSeek):** Repair packet delivered (v2). Uncertainty corrected to window spread (Q_NO = 0.549622134 ± 0.023, Q_IO = 0.479016 ± 0.014; honest 2.6σ/6.7σ vs 2/3; canonical Q_NO = 0.549622134 — standardized everywhere, previous 0.549627 MC-mean inconsistency resolved). Transfer contract: m_lightest ∈ [1e-5, 3e-4] eV, argmin degeneracy admitted. Residual-flatness claim WITHDRAWN — referenced code not supplied (Codex re-audit PRED002-R5), same withdrawal as PRED-003. Mechanism evidence: KoideUnlocked.lean (build green, 0 sorries). Codex re-audit HOLD — residual flatness withdrawn, Q_NO reconciled, resolution log appended, KoideUnlocked.lean git-locked. Packet: `inbox/2026-08-07-deepseek-pred002-repair-packet.md`. HOLD unchanged.
