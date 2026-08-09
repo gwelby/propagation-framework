@@ -255,34 +255,30 @@ This is documented, not proven. There is no theorem to state — the absence
 is in the proof structure, not in a proposition.
 -/
 
-/-- **Non-theorem N1:** The entropy inequality S ≤ k × N_total is not
+/- **Non-theorem (documentation only, not a Lean theorem) N1:** The entropy inequality S ≤ k × N_total is not
     derived from PF axioms. It is a hypothesis.
 
     The mode-counting argument is argued in the physics document but not
     formalized. No spectrum, density operator, or state count is defined. -/
-theorem gap_entropy_inequality_not_derived : True := by trivial
 
-/-- **Non-theorem N2:** Axiom 3 (coherence) does not appear in any theorem
+/- **Non-theorem (documentation only, not a Lean theorem) N2:** Axiom 3 (coherence) does not appear in any theorem
     in BekensteinBound.lean or ChainRule.lean.
 
     The bound follows from Axiom 2 + the entropy hypothesis. Coherence is
     needed for the physics (stable modes, saturation) but not for the algebra. -/
-theorem gap_coherence_absent_from_algebra : True := by trivial
 
-/-- **Non-theorem N3:** The identification R = R_s (Schwarzschild radius)
+/- **Non-theorem (documentation only, not a Lean theorem) N3:** The identification R = R_s (Schwarzschild radius)
     is not derived from PF axioms. It requires G from General Relativity.
 
     Without this identification, the chain rule doesn't close, the
     factor-of-2 doesn't resolve, and the Hawking temperature doesn't emerge. -/
-theorem gap_schwarzschild_identification_not_derived : True := by trivial
 
-/-- **Non-theorem N4:** The saturation configuration (all modes at n=1,
+/- **Non-theorem (documentation only, not a Lean theorem) N4:** The saturation configuration (all modes at n=1,
     all orientations) is argued, not formalized.
 
     The physics argument says the bound is saturated when every mode is
     at the fundamental frequency and every orientation is occupied. This
     is a coherent configuration — but the coherence condition is not
     in the Lean code. -/
-theorem gap_saturation_not_formalized : True := by trivial
 
 end PfLean

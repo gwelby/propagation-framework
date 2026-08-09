@@ -282,16 +282,9 @@ derivation (N4). None is a sorry or an axiom — they are documented here
 so no future formalization claims them as derived.
 -/
 
-/-- **Non-theorem N1:** Spin-pair selection is not derived from Axioms 1-3. -/
-theorem spin_pair_selection_not_derived : True := by trivial
-
-/-- **Non-theorem N2:** Axiom 3b (Minimal Winding) is an explicit premise. -/
-theorem axiom_3b_is_explicit_premise : True := by trivial
-
-/-- **Non-theorem N3:** Scheme selection is not derived. -/
-theorem scheme_selection_not_derived : True := by trivial
-
-/-- **Non-theorem N4:** The polynomial itself is not derived from Axioms 1-3. -/
-theorem polynomial_not_derived_from_axioms : True := by trivial
+/- **Non-theorem (documentation only, not a Lean theorem) N1:** Spin-pair selection is not derived from Axioms 1-3. -/
+/- **Non-theorem (documentation only, not a Lean theorem) N2:** Axiom 3b (Minimal Winding) is an explicit premise. -/
+/- **Non-theorem (documentation only, not a Lean theorem) N3:** Scheme selection is not derived. -/
+/- **Non-theorem (documentation only, not a Lean theorem) N4:** The polynomial itself is not derived from Axioms 1-3. -/
 
 end PfLean

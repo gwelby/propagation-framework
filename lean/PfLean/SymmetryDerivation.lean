@@ -262,7 +262,7 @@ the Wall is breached — Postulate D is derived from the axioms. If it fails,
 we learn exactly which additional structure is needed.
 -/
 
-/-- **Open question:** Can H12 (permutation symmetry) be derived from
+/- **Open question (documentation only, not a Lean theorem):** Can H12 (permutation symmetry) be derived from
     Axiom 1 (the Medium is uniform)?
 
     The physical argument is clear: a uniform Medium has no preferred
@@ -272,9 +272,8 @@ we learn exactly which additional structure is needed.
     (Fin D → Fin D → ℝ). This needs H3 (linearity) and H5 (finite-dim).
 
     This is the frontier. -/
-theorem open_axiom1_to_H12 : True := by trivial
 
-/-- **Summary of the selection chain:**
+/- **Summary of the selection chain (documentation only, not a Lean theorem):**
 
     Step 1: Axiom 1 → H12                    [OPEN — physical argument, not formalized]
     Step 2: H12 → H18 + symmetric            [PROVEN — this module]
@@ -284,6 +283,5 @@ theorem open_axiom1_to_H12 : True := by trivial
     Step 6: α = 1/2                          [arithmetic]
 
     5 of 6 steps are machine-checked. Step 1 is the frontier. -/
-theorem selection_chain_status : True := by trivial
 
 end PfLean.SymmetryDerivation

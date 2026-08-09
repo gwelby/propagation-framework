@@ -121,8 +121,7 @@ denominator bridge theorems still open. Do not cite this module as a
 derivation of the generation count.
 -/
 
-/-- **Non-theorem:** the generation count is not derived here. This module
+/- **Non-theorem (documentation only, not a Lean theorem):** the generation count is not derived here. This module
     sharpens the structure; the derivation remains conditional. -/
-theorem n3_selection_not_derived : True := by trivial
 
 end PfLean

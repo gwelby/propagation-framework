@@ -356,26 +356,23 @@ strongest candidate yet for closing the selection gap, because:
   - It connects to well-known mathematics (graph Laplacian)
 -/
 
-/-- **Open question O1:** Can the equal-weight principle be derived from
+/- **Open question (documentation only, not a Lean theorem) O1:** Can the equal-weight principle be derived from
     Axiom 1 (Medium uniformity → no preferred direction → equal distribution)?
 
     This is the symmetry argument. It's promising but not formalized. -/
-theorem open_equal_weight_from_symmetry : True := by trivial
 
-/-- **Open question O2:** Can the equal-weight principle be derived from
+/- **Open question (documentation only, not a Lean theorem) O2:** Can the equal-weight principle be derived from
     Axiom 3 (Coherence → maximum symmetry → equal-weight coupling)?
 
     Equal-weight is the unique coupling that preserves the full symmetry of
     the complete graph. Any other coupling breaks symmetry. If coherence
     requires maximum symmetry, equal-weight follows. -/
-theorem open_equal_weight_from_coherence : True := by trivial
 
-/-- **Open question O3:** Is the equal-weight principle equivalent to
+/- **Open question (documentation only, not a Lean theorem) O3:** Is the equal-weight principle equivalent to
     requiring that the God Equation operator is the graph Laplacian?
 
     Mathematically, yes (this module proves it). Physically, the question is
     whether "propagation is diffusion" follows from the axioms. -/
-theorem open_equal_weight_is_laplacian : True := by trivial
 
 -- ---------------------------------------------------------------------------
 -- 5. The uniqueness theorem (machine-checked)

@@ -254,15 +254,14 @@ implies frequency equal-weight) or independent entities (no implication).
 This is the frontier.
 -/
 
-/-- **Non-theorem N1:** The equal angular spacing 2π/3 in the Koide ansatz
+/- **Non-theorem (documentation only, not a Lean theorem) N1:** The equal angular spacing 2π/3 in the Koide ansatz
     is not derived from PF axioms. It is a selection — the same kind of
     selection gap as Postulate D in the God Equation.
 
     The Laplacian principle (equal-weight coupling) is a candidate to close
     both gaps, but the derivation from Axioms 1-3 is not yet formalized. -/
-theorem koide_spacing_not_derived : True := by trivial
 
-/-- **Non-theorem N2:** The connection between spatial equal-weight (God
+/- **Non-theorem (documentation only, not a Lean theorem) N2:** The connection between spatial equal-weight (God
     Equation) and frequency equal-weight (Koide) is not formalized.
 
     The hypothesis: if the Medium distributes propagation equally in space,
@@ -271,9 +270,8 @@ theorem koide_spacing_not_derived : True := by trivial
 
     The open question: are the generations modes of the Medium? This
     requires a physical argument (not just algebra). -/
-theorem koide_laplacian_connection_not_formalized : True := by trivial
 
-/-- **Summary:** The Koide selection gap and the God Equation selection gap
+/- **Summary (documentation only, not a Lean theorem):** The Koide selection gap and the God Equation selection gap
     are the same gap — the equal-weight selection — in two domains.
 
     God Equation: equal-weight in space → α = 1/(D-1) → α = 1/2 at D=3
@@ -281,6 +279,5 @@ theorem koide_laplacian_connection_not_formalized : True := by trivial
 
     One principle (equal-weight coupling), two selection gaps, one Wall.
     The Laplacian selection principle is the candidate to breach the Wall. -/
-theorem koide_selection_summary : True := by trivial
 
 end PfLean

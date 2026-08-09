@@ -208,21 +208,19 @@ This is documented, not proven. H_prod is an open research target, not a
 theorem or a non-theorem — it's the frontier.
 -/
 
-/-- **Non-theorem N1:** Postulate D is an explicit premise, not derived
+/- **Non-theorem (documentation only, not a Lean theorem) N1:** Postulate D is an explicit premise, not derived
     from Axioms 1-3.
 
     The operator algebra closes exactly given Postulate D. But Postulate D
     (the primitive Z₃ no-self-loop selector forces U = M/2) is stated, not
     derived. The eigenvalues {1, −1/8, −1/8} are conditional on it. -/
-theorem gap_postulate_D_not_derived : True := by trivial
 
-/-- **Non-theorem N2:** H_prod (the operator/probability bridge) is not
+/- **Non-theorem (documentation only, not a Lean theorem) N2:** H_prod (the operator/probability bridge) is not
     derived from Axioms 1-3.
 
     H_prod requires a joint probability model that genuinely proves the
     product structure. The current best attempt uses zero covariance, which
     does not imply product structure. This is the active unconditional target. -/
-theorem gap_H_prod_not_derived : True := by trivial
 
 -- ---------------------------------------------------------------------------
 -- 4. The IBM hardware scope gap (documented)
@@ -250,13 +248,12 @@ The hardware executed histograms that were classically added — they cannot
 measure the signed eigenvalue. This is calibration support, not measurement.
 -/
 
-/-- **Non-theorem N3:** The IBM Quantum hardware did not measure the −1/8
+/- **Non-theorem (documentation only, not a Lean theorem) N3:** The IBM Quantum hardware did not measure the −1/8
     eigenvalue. It executed cyclic permutation circuits whose histograms
     were classically added. The eigenvalue was verified by local NumPy.
 
     The hardware evidence is calibration/support, not measurement of the
     signed eigenvalue, phase, or non-unitary contraction. -/
-theorem gap_ibm_hardware_scope : True := by trivial
 
 -- ---------------------------------------------------------------------------
 -- 5. The "seven approaches converged" withdrawal (documented)
@@ -291,22 +288,20 @@ This is the target-loading lesson: convergence under a shared premise is
 not independent confirmation.
 -/
 
-/-- **Non-theorem N4:** "Seven approaches converged" is withdrawn.
+/- **Non-theorem (documentation only, not a Lean theorem) N4:** "Seven approaches converged" is withdrawn.
 
     Probes 4/5/6 do not discriminate a=0 (i.e., α = 1/2). They all set
     α = 1/2 and get the same answer. Convergence under a shared premise
     is not independent confirmation. -/
-theorem gap_convergence_claim_withdrawn : True := by trivial
 
-/-- **Non-theorem N5:** "52.7× decisive" is a model-internal ratio, not
+/- **Non-theorem (documentation only, not a Lean theorem) N5:** "52.7× decisive" is a model-internal ratio, not
     independent proof of selection pressure.
 
     The 52.7× ratio compares two model-internal statistics. It is not an
     independent measurement. The Codex audit of 2026-06-16 withdrew this
     claim. -/
-theorem gap_52x_claim_withdrawn : True := by trivial
 
-/-- **Summary:** The God Equation has two split rows in CLAIMS.md:
+/- **Summary (documentation only, not a Lean theorem):** The God Equation has two split rows in CLAIMS.md:
 
     - Postulate-D operator algebra: CONDITIONAL 0.88. The eigenvalues
       {1, −1/8, −1/8} are exact given Postulate D. Postulate D is an
@@ -320,6 +315,5 @@ theorem gap_52x_claim_withdrawn : True := by trivial
 
     Four gap modules now complete: KoideUnlocked, CasimirGap,
     BekensteinGap, GodEquationGap. -/
-theorem gap_summary : True := by trivial
 
 end PfLean
