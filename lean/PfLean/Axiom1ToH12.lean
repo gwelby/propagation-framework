@@ -233,35 +233,53 @@ framework needs 4 posits to derive Postulate D, not 3+1. But:
 This is the honest answer. The Wall is not breached by deriving H12 from
 Axiom 1. The Wall is identified as 4 posits, each necessary, none
 circular, all machine-checked. That's the real contribution.
+
+## SCOPE NOTE (Claude audit 2026-08-08)
+
+The four theorems above (`directed_cycle_zero_diag`,
+`directed_cycle_equal_row_sums`, `directed_cycle_not_permutation_symmetric`,
+`directed_cycle_not_symmetric`) are REAL machine-checked results. They
+prove: H7 + H18 do NOT jointly imply H12 (by countermodel).
+
+The following claims are PROSE-ARGUED, not machine-checked:
+  - "Axiom 1 does not imply H12" — the countermodel shows H7+H18 don't
+    force H12, but Axiom 1 (BareMedium) could carry structure beyond
+    H7+H18 that does. This step is argued informally only.
+  - "The 4-posit chain is non-circular" — sound analysis, but not formalized.
+  - "The parameter count is minimal" — sound analysis, but not formalized.
+
+These prose arguments are kept as documentation, NOT as `True := by trivial`
+theorems (which would be theater — the "True" pattern named in PATTERNS.md).
+The real theorem is the countermodel above. The rest is honest prose.
 -/
 
-/-- **The honest parameter count: 4 posits for Postulate D.**
+-- ---------------------------------------------------------------------------
+-- 3. The real theorem: H7 + H18 do NOT jointly imply H12
+-- ---------------------------------------------------------------------------
 
-    H7 (zero diagonal) + H12 (permutation symmetry) + stationarity +
-    stability → α = 1/2. Each posit does a different job. None is
-    circular. The combination is minimal. -/
-theorem honest_parameter_count : True := by trivial
+/-!
+## What's actually proven (machine-checked)
 
-/-- **The counterexample: H7 + H18 do NOT imply H12.**
+The countermodel above proves:
 
-    The directed cycle matrix satisfies H7 (zero diagonal) and H18
-    (equal row sums) but fails H12 (permutation symmetry). Therefore
-    H12 is NOT a consequence of H7 + H18. It's an independent posit. -/
-theorem h7_h18_do_not_imply_h12 : True := by trivial
+  H7 (zero diagonal) + H18 (equal row sums) ⇏ H12 (permutation symmetry)
 
-/-- **Axiom 1 does NOT imply H12.**
+This is a genuine negative result. The directed cycle at D=3 satisfies
+both H7 and H18 but violates H12. Therefore H12 is NOT a consequence
+of H7 + H18 alone — it's an independent posit.
 
-    The BareMedium structure has no notion of "direction" or "uniformity."
-    Any D×D matrix is a valid generator. The directed cycle is a
-    counterexample. H12 is an independent physical posit. -/
-theorem axiom1_does_not_imply_h12 : True := by trivial
+## What's NOT proven (prose-argued only)
 
-/-- **The non-circularity of the 4-posit chain.**
+  - "Axiom 1 does not imply H12" — OPEN. The countermodel shows H7+H18
+    don't force H12, but BareMedium could carry additional structure
+    that does. The informal argument (any strong-enough formalization
+    of uniformity would BE H12) is reasonable but not formalized.
+  - "The 4-posit chain is non-circular" — sound analysis, not formalized.
+  - "The parameter count is minimal" — sound analysis, not formalized.
 
-    H12 narrows the family (2-param → 1-param).
-    Stationarity picks the unique member (b = 1/(D-1)).
-    H12 is a symmetry; stationarity is a physical requirement.
-    The combination is not circular. -/
-theorem four_posits_non_circular : True := by trivial
+The SymmetryDerivation.lean module already labels Axiom 1 → H12 as OPEN.
+This module does NOT change that status. It provides the countermodel
+that narrows the question, but does not close it.
+-/
 
 end PfLean.Axiom1ToH12
