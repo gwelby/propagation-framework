@@ -16,6 +16,7 @@ import PfLean.CasimirPolynomial
 import PfLean.CasimirGap
 import PfLean.BekensteinGap
 import PfLean.GodEquationGap
+import PfLean.LaplacianSelection
 import PfLean.SO2Rotation
 import PfLean.SO3DoubleCover
 import PfLean.ProcessOntology
