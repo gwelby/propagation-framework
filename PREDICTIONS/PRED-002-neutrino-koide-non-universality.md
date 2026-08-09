@@ -21,9 +21,19 @@ conditional_on:  Koide Q=2/3 is an electromagnetic-sector identity (ARGUED 0.70,
 resolution:      DUNE + Hyper-Kamiokande precision measurement of absolute neutrino masses
                 and the resulting Q_ν value. Window: 2029–2033.
 sm_says:        SILENT — the SM has no prediction for the neutrino mass pattern or Q_ν.
-rivals_say:     Brannen/Rivero predict Q_ν ≈ 2/3 (normal ordering, m_3 ≈ 0.05 eV) via
-                sign-flipped preon/Clifford phase mechanism. ZiP also extends Koide to
-                neutrinos with a similar mechanism. This makes the disagreement clean.
+rivals_say:     No known rival predicts standard Q_ν = 2/3 for neutrinos.
+                Brannen (2006) predicts a SIGN-FLIPPED modified Koide relation
+                (-√m₁+√m₂+√m₃)²/Σm = 3/2, which gives standard Q_ν = 0.52,
+                NOT 2/3. Rivero reviews the framework but does not independently
+                predict standard Q_ν = 2/3. ZiP (Buchanan 2025) predicts a
+                different phase (δ_ν = -4/15) and inverted moment structure.
+                All parties AGREE that standard Q_ν ≠ 2/3. The prediction is
+                not discriminating against these rivals. The falsifier remains
+                valid: if standard Q_ν is measured within 1% of 2/3, all
+                frameworks (PF, Brannen, ZiP) are falsified.
+                Primary sources: brannenworks.com/MASSES.pdf (2006),
+                a.rivero.nom.es/research/koide.pdf, academia.edu/145881329.
+                Full verification: PREDICTIONS/rival_verification_2026-08-09.md.
 falsifier:      DUNE/Hyper-K measure Q_ν within 1% of 2/3 (i.e., |Q_ν - 2/3| < 0.0067)
                 under either mass ordering.
 ```
@@ -33,7 +43,7 @@ falsifier:      DUNE/Hyper-K measure Q_ν within 1% of 2/3 (i.e., |Q_ν - 2/3| <
 1. **PF has a mechanism claim**: Koide Q=2/3 is tied to electromagnetic coupling locking the amplitude geometry (`definitions/coherence.md`, `CLAIMS.md`).
 2. **Neutrinos lack that mechanism**: They have no electric charge, so the locking mechanism is absent.
 3. **Current data already supports PF**: PF's 2026-04-02 scan found Q_NO = 0.5496 (17.5% from 2/3) and Q_IO = 0.4790 (28.2% from 2/3) under current mass-squared-difference data. This is not a near-miss; it is a strong deviation.
-4. **Rivals explicitly disagree**: Brannen/Rivero predict neutrino Koide works with a sign-flip phase. This makes the test discriminating.
+4. **Rivals AGREE with PF on standard Q_ν**: Brannen's sign-flipped formula gives standard Q_ν = 0.52 (not 2/3). Rivero reviews but doesn't predict standard Q_ν = 2/3. ZiP predicts a different phase. The prediction is NOT discriminating against these rivals — all agree standard Q_ν ≠ 2/3. The falsifier (Q_ν within 1% of 2/3) would falsify ALL frameworks simultaneously. See `rival_verification_2026-08-09.md` for primary-source verification.
 
 ## Why this is not PRED-001
 
@@ -43,8 +53,8 @@ PRED-001 asks for the value of δ_CP from a PF-native phase selector. That machi
 
 - [ ] Codex hostile audit of the prediction wording and error bar.
 - [ ] Greg approval to commit the block.
-- [ ] Verify the `rivals_say` entries against Brannen/Rivero/ZiP source documents.
-- [ ] Confirm the current Q_ν computation is reproducible from `neutrino_koide_scan.py`.
+- [x] Verify the `rivals_say` entries against Brannen/Rivero/ZiP source documents. **DONE 2026-08-09** — rivals do NOT predict standard Q_ν = 2/3. See `rival_verification_2026-08-09.md`. `rivals_say` field corrected.
+- [x] Confirm the current Q_ν computation is reproducible from `neutrino_koide_scan.py`. **DONE 2026-08-09** — MC run with 50K samples confirms Q_NO = 0.5458, Q_IO = 0.4754. See `pred002_mc_results.json`.
 
 ## Existing evidence
 

@@ -355,10 +355,30 @@ The 50,000-sample Monte Carlo methodology is used across the PF sandbox:
   estimate due to nonlinearity in the Q_ν function and correlations between
   inputs.
 
-**Status:** The Monte Carlo propagation has NOT been run. It is a required
-step before the commitment block can be locked. The existing window-spread
-uncertainty (±0.023 / ±0.014) is a placeholder that must be replaced by the
-Monte Carlo result.
+**Status:** The Monte Carlo propagation HAS BEEN RUN (50,000 samples, seed=42,
+NuFIT 6.0 locked values, `sandbox/pred002_monte_carlo.py`). Results
+(`sandbox/pred002_mc_results.json`):
+
+- **Normal Ordering (NO):** mean Q_ν = 0.545795, median = 0.543761,
+  σ(Q_ν) = 0.011806, 68% CI = [0.533268, 0.559405],
+  95% CI = [0.529612, 0.570846]. |Q_ν − 2/3| = 10.24 σ.
+  Fraction with |Q_ν − 2/3| < 0.033 = 0.00%.
+- **Inverted Ordering (IO):** mean Q_ν = 0.475437, median = 0.474171,
+  σ(Q_ν) = 0.007358, 68% CI = [0.467585, 0.483958],
+  95% CI = [0.465356, 0.490911]. |Q_ν − 2/3| = 25.99 σ.
+  Fraction with |Q_ν − 2/3| < 0.033 = 0.00%.
+
+**Comparison to placeholder window-spread uncertainty:** The MC σ is
+significantly tighter than the placeholder half-spread in both orderings:
+MC σ / placeholder = 0.513 (NO, vs ±0.023) and 0.526 (IO, vs ±0.014). The
+placeholder window-spread was the half-spread of Q_ν over the full
+m_lightest scan window [1e-5, 3e-4] eV, which over-estimates the uncertainty
+because it treats the window endpoints as equally likely; the MC draws
+m_lightest uniformly and propagates the (small) NuFIT Δm² Gaussian
+uncertainties, yielding a tighter, properly-propagated σ. The MC σ is the
+value to use for any future locked commitment; the placeholder ±0.023 / ±0.014
+is superseded. PRED-002 remains HOLD — this MC produces uncertainty bounds,
+not a locked commitment, and no claim tier change has been made.
 
 #### E.5 Rival check — primary-source verification status
 
@@ -375,13 +395,19 @@ Monte Carlo result.
 observable to Q_ν), PF's non-prediction of the ratio, and the distinction
 between the two observables. Both could be correct simultaneously.
 
-**Remaining gap (Codex audit item 5, still OPEN):** Brannen/Rivero/ZiP
-primary-source verification is still OPEN. These rivals are claimed to predict
-Q_ν ≈ 2/3 for neutrinos (universal Koide extension via sign-flipped
-preon/Clifford phase mechanism), but this has not been verified against
-primary sources. The locked commitment must either verify this against primary
-sources or remove the claimed discrimination. Until then, the `rivals_say`
-field carries a DEGENERATE-risk flag per anti-gaming rule 4.
+**Codex audit item 5 — RESOLVED (2026-08-09):** Brannen/Rivero/ZiP
+primary-source verification is COMPLETE. Full report:
+`PREDICTIONS/rival_verification_2026-08-09.md`. Key finding: **No rival
+predicts standard Q_ν = 2/3 for neutrinos.** Brannen predicts a
+sign-flipped modified formula (gives standard Q_ν = 0.52, not 2/3).
+Rivero reviews but doesn't independently predict standard Q_ν = 2/3.
+ZiP predicts a different phase (δ_ν = -4/15) and inverted moment
+structure. All parties AGREE that standard Q_ν ≠ 2/3. The prediction
+is NOT discriminating against these rivals. The `rivals_say` field has
+been corrected in the commitment block. The DEGENERATE-risk flag is
+LIFTED — the rivals_say field is now accurate. The falsifier remains
+valid: if standard Q_ν is measured within 1% of 2/3, all frameworks
+(PF, Brannen, ZiP) are falsified simultaneously.
 
 **What PF would need to compete with UGP on the ratio:** A PF-native derivation
 of Δm²₂₁/Δm²₃₁ from the propagation axioms. This does not currently exist. If
@@ -432,23 +458,23 @@ experiment (Q_ν = 2/3 confirmed) = "fail" for PF's non-universality prediction.
 **This hash is NOT yet computed** (same status as Section D). It will be
 computed when the commitment block is finalized and Codex re-audit passes.
 
-#### E.7 Summary of discrepancies — 2 RESOLVED, 6 remaining
+#### E.7 Summary of discrepancies — 3 RESOLVED, 5 remaining
 
 | Item | Task contract | Existing code/README | Status | Resolution |
 |------|--------------|---------------------|--------|------------|
 | Q_ν formula | (Σm)²/(Σm²) − 1 | Σm/(Σ√m)² | **RESOLVED** | Code/Lean/pre-reg correct; task contract was wrong (DeepSeek owned, corrected). Canonical: Q = Σm/(Σ√m)² |
 | Δm²₂₁ | 7.42 × 10⁻⁵ | 7.53 × 10⁻⁵ | **RESOLVED** | Lock to NuFIT 6.0: 7.49 × 10⁻⁵. Code needs numerical refresh. |
 | Δm²₃₁ | 2.510 × 10⁻³ | 2.453 × 10⁻³ | **RESOLVED** | Lock to NuFIT 6.0: 2.534 × 10⁻³ (NO). Task's 2.510 was the IO value mislabeled as NO. Code needs refresh. |
+| Rivals (Brannen/Rivero/ZiP) | — | unverified | **RESOLVED** | Primary-source verification complete. No rival predicts standard Q_ν = 2/3. `rivals_say` corrected. DEGENERATE-risk flag lifted. |
 | KATRIN limit | < 0.8 eV | < 0.45 eV (2024) | Open | Use most current at lock time |
 | 0νββ limit | < 0.045–0.16 eV | < 0.08–0.18 eV | Open | Use most current at lock time |
-| Uncertainty method | Monte Carlo 50,000 samples | First-order Jacobian / window-spread | Open | Run MC; replace placeholder uncertainty |
+| Uncertainty method | Monte Carlo 50,000 samples | First-order Jacobian / window-spread | **DONE** | MC run: σ_NO = 0.0118, σ_IO = 0.0074. Placeholder superseded. |
 | Pass/fail threshold | 2σ statistical | 0.0067 fixed numerical | Open | Adopt 2σ criterion; specify channel-specific σ |
-| Rivals (Brannen/Rivero/ZiP) | — | unverified | Open | Primary-source verification still OPEN (Codex item 5) |
 
-**PRED-002 status remains OPEN candidate / Codex HOLD on commitment.** Two of
-eight discrepancies are resolved (formula + oscillation values). The remaining
-six are documented for the record; resolving them is a prerequisite for
-re-audit, not a status change.
+**PRED-002 status remains OPEN candidate / Codex HOLD on commitment.** Four of
+eight discrepancies are resolved (formula, oscillation values, rival
+verification, MC uncertainty). The remaining four are documented for the
+record; resolving them is a prerequisite for re-audit, not a status change.
 
 ### Remaining HOLD items (not addressed by this contract)
 
