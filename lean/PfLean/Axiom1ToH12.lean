@@ -2,6 +2,7 @@ import Mathlib
 import PfLean.Axioms
 import PfLean.SymmetryDerivation
 import PfLean.LaplacianSelection
+import PfLean.Z3FromBareMedium
 
 /-!
 # Axiom1ToH12 — The Honest Assessment: Axiom 1 Does NOT Imply H12
@@ -281,5 +282,114 @@ The SymmetryDerivation.lean module already labels Axiom 1 → H12 as OPEN.
 This module does NOT change that status. It provides the countermodel
 that narrows the question, but does not close it.
 -/
+
+-- ---------------------------------------------------------------------------
+-- 4. The positive chain: H7 + H17 + H18 → H12 at D=3
+-- ---------------------------------------------------------------------------
+
+/-!
+## The positive direction (machine-checked)
+
+The countermodel shows H7 + H18 ⇏ H12. But WITH symmetry (H17), the
+chain closes: H7 + H17 + H18 → J-I → H12 at D=3.
+
+The key insight: the gap is H17 (matrix symmetry), not H12 directly.
+H17 says M(i,j) = M(j,i). The directed cycle fails this: M(0,1) = 1 ≠
+0 = M(1,0). So the real question is: does Axiom 1 force H17?
+
+The answer: NO. BareMedium has no notion of "direction" that would force
+M(i,j) = M(j,i). Any formalization of "no preferred direction" strong
+enough to force H17 IS H17 (or H12, which is stronger). The circularity
+is the same as before, one level down.
+
+So the honest parameter count is:
+  - H7 (zero diagonal) — not derivable from Axiom 1
+  - H17 (symmetry) — not derivable from Axiom 1
+  - H18 (equal row sums) — derivable from H12 (but H12 needs H17)
+  - stationarity — not derivable from H8 (DERIVED negative 0.95)
+  - stability — selects D=3
+
+The chain: H7 + H17 + H18 → J-I → H12 → α = 1/(D-1) → α = 1/2.
+-/
+
+/-- **A J-I matrix (0 on diagonal, c off-diagonal) is permutation-symmetric.**
+
+    This is the key bridge: the J-I form (forced by H7+H17+H18 at D=3)
+    IS permutation-symmetric. Any permutation σ maps i to σ(i) and j to
+    σ(j), so i=j iff σ(i)=σ(j). Therefore M(σ(i),σ(j)) = M(i,j). -/
+theorem JI_matrix_permutation_symmetric {D : ℕ} (D_pos : D ≥ 2)
+    (M : Fin D → Fin D → ℝ) (c : ℝ)
+    (h_JI : ∀ i j, M i j = if i = j then 0 else c) :
+    Hypothesis_PermutationSymmetry M := by
+  intro σ i j
+  rw [h_JI, h_JI]
+  -- σ is a bijection, so σ i = σ j ↔ i = j
+  by_cases h : i = j
+  · -- i = j → σ i = σ j
+    have h_σ : σ i = σ j := by rw [h]
+    simp [h, h_σ]
+  · -- i ≠ j → σ i ≠ σ j (bijections preserve inequality)
+    have h_σ_ne : σ i ≠ σ j := fun h_eq => h (σ.injective h_eq)
+    simp [h, h_σ_ne]
+
+/-- **At D=3: H7 + H17 + H18 → H12 (permutation symmetry).**
+
+    This completes the positive chain. The existing theorem
+    `D3_symmetric_zero_diag_equal_rows_forces_JI` proves H7+H17+H18 → J-I.
+    The theorem above proves J-I → H12. Composing:
+
+      H7 + H17 + H18 → J-I → H12
+
+    The gap is H17 (symmetry), not H12. H17 is the independent posit. -/
+theorem H7_H17_H18_implies_H12_at_D3
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_zero_diag : ∀ i, M i i = 0)
+    (h_symm : ∀ i j, M i j = M j i)
+    (h_row_sums : Hypothesis_EqualRowSums M) :
+    Hypothesis_PermutationSymmetry M := by
+  -- Step 1: H7 + H17 + H18 → M = c/2 · (J-I)
+  have h_JI := Z3FromBareMedium.D3_symmetric_zero_diag_equal_rows_forces_JI M h_symm h_zero_diag h_row_sums
+  -- Step 2: J-I → H12
+  obtain ⟨c, h_JI_form⟩ := h_JI
+  apply JI_matrix_permutation_symmetric (D_pos := by norm_num) M (c / 2)
+  intro i j
+  specialize h_JI_form i j
+  rw [h_JI_form]
+
+/-- **The directed cycle fails H17 (matrix symmetry).**
+
+    M(0,1) = 1 ≠ 0 = M(1,0). The directed cycle is NOT symmetric.
+    This means H7 + H18 do NOT imply H17 — the gap is H17, not H12. -/
+theorem directed_cycle_not_matrix_symmetric :
+    ¬ (∀ i j, directed_cycle_3 i j = directed_cycle_3 j i) := by
+  intro h_symm
+  have h_01 := h_symm 0 1
+  have h_01_val : directed_cycle_3 0 1 = 1 := by simp [directed_cycle_3]
+  have h_10_val : directed_cycle_3 1 0 = 0 := by simp [directed_cycle_3]
+  rw [h_01_val, h_10_val] at h_01
+  norm_num at h_01
+
+/-- **The complete honest assessment: H17 is the gap, not H12.**
+
+    At D=3:
+    - H7 + H17 + H18 → H12 (machine-checked, positive)
+    - H7 + H18 alone ⇏ H12 (machine-checked, directed cycle countermodel)
+    - H7 + H18 alone ⇏ H17 (machine-checked, directed cycle not symmetric)
+
+    The missing posit is H17 (symmetry: M(i,j) = M(j,i)).
+    BareMedium (Axiom 1) has no notion of "direction" that forces M(i,j) = M(j,i).
+    Any formalization of "no preferred direction" strong enough to force H17
+    IS H17. The circularity is structural.
+
+    Therefore: Axiom 1 → H12 is OPEN (and likely not formalizable without
+    adding H17 or H12 as an explicit posit). The honest parameter count
+    includes H17 as a separate posit, or H12 directly if H17 is bypassed. -/
+theorem H7_H18_do_not_imply_H17_at_D3 :
+    ∃ (M : Fin 3 → Fin 3 → ℝ),
+      (∀ i, M i i = 0) ∧
+      Hypothesis_EqualRowSums M ∧
+      ¬ (∀ i j, M i j = M j i) := by
+  refine ⟨directed_cycle_3, directed_cycle_zero_diag, directed_cycle_equal_row_sums, ?_⟩
+  exact directed_cycle_not_matrix_symmetric
 
 end PfLean.Axiom1ToH12
