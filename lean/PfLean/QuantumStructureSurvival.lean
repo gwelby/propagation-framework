@@ -29,12 +29,15 @@
     7    | Random permutation          | VERIFIED (2026-07-02) | OPEN (null model)
     8    | Stabilizer/GHZ              | STATED (trivial)     | OPEN (different class)
 
-  Connection to PQC security:
-    Row 5 is the mathematical core of why lattice cryptography is post-quantum
-    secure. Shor's algorithm extracts periods via the QFT. LWE instances have
-    no periodic structure. Therefore the QFT cannot extract useful information
-    from LWE circuits. This is the absence theorem — the thing that makes
-    lattice crypto safe against Shor-type attacks.
+  Connection to PQC security (STRUCTURAL ARGUMENT, NOT A FORMAL PROOF):
+    Row 5 provides the structural intuition for why lattice cryptography is
+    post-quantum secure: Shor's algorithm extracts periods via the QFT, and
+    LWE instances have no periodic structure. The Lean theorems prove
+    aperiodicity predicates (injective functions have no period), NOT that
+    lattice cryptography is quantum-safe. The full PQC security argument
+    requires probabilistic analysis, worst-case/average-case reductions, and
+    noise models not formalized here. Per Codex (2026-07-02): theorem
+    statements are weaker than this prose — cite the types, not the intuition.
 
   Build: `lake build PfLean.QuantumStructureSurvival` — VERIFIED 2026-08-02
     (3321 jobs, 0 errors, 0 sorries). Incremental build ~4 s after warm cache.
@@ -209,19 +212,22 @@ theorem row4_non_power_of_two_period_high_noise (r n : ℕ)
    superposition, and the QFT in step 2 has no single peak to extract.
    There is no period to recover because there is no period.
 
-   This is WHY lattice cryptography (LWE) is post-quantum secure:
-   the LWE function has no periodic structure for Shor to exploit.
+   This is the STRUCTURAL INTUITION for why lattice cryptography (LWE) is
+   post-quantum secure: the LWE function has no periodic structure for Shor
+   to exploit. NOTE: the Lean theorems prove aperiodicity predicates, NOT
+   PQC security — the full argument requires probabilistic/noise analysis.
 -/
 
-/-- **Row 5 (NO STRUCTURE — PQC SECURITY):** If a function f is aperiodic,
+/-- **Row 5 (NO STRUCTURE — APERIODICITY PREDICATE):** If a function f is aperiodic,
     then there is no period r that the QFT can extract from f's output.
 
-    This is trivially true (no period exists to extract) but it is the
-    foundational theorem for PQC security against Shor-type attacks.
+    This is trivially true (no period exists to extract). It provides the
+    structural intuition for PQC security against Shor-type attacks, but is
+    NOT a formal PQC security theorem — it proves an aperiodicity predicate,
+    not that any cryptographic scheme is secure.
 
     The QFT is not "failing" on aperiodic functions — it is correctly
-    reporting that there is no periodic structure to find. This is a
-    feature, not a bug, for cryptographic security. -/
+    reporting that there is no periodic structure to find. -/
 theorem row5_aperiodic_no_period_to_extract {Q : ℕ} [NeZero Q] {α : Type*}
     (f : ZMod Q → α) (h_aperiodic : IsAperiodicFunction f) :
     -- There is no r > 0 such that f is periodic with period r

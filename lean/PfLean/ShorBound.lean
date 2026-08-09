@@ -1,8 +1,11 @@
 /-
-  PfLean.ShorBound — Formal Statement of Shor's Algorithm Complexity
+  PfLean.ShorBound — Arithmetic Predicates Related to Shor's Algorithm
 
-  This module states the core theorem that establishes the polynomial-time
-  complexity of Shor's algorithm for integer factorization, building on:
+  This module states arithmetic predicates and scale calculations related to
+  Shor's algorithm. The theorems prove numerical inequalities and existential
+  bounds, NOT polynomial-time complexity or cryptographic break results.
+  Per Codex audit (2026-07-31): "the prose is stronger than the theorem type."
+  Cite only what the types say, not what the prose says. Building on:
 
   1. The Coq/SQIR formalization (inQWIRE team, PNAS 2023):
      - end_to_end_shors_correct : correctness

@@ -481,7 +481,7 @@ The theorem below states: if PF Entropy is non-increasing under the
 dynamics for ALL initial states, then the residue eigenvalues must be
 non-positive. This is WITHOUT assuming symmetry of the coupling matrix.
 
-This is `sorry` because formalizing "residue eigenvalues" for a general
+This was originally `sorry` because formalizing "residue eigenvalues" for a general
 (non-symmetric) matrix requires the characteristic polynomial and its
 roots, which is heavy scaffolding. The mathematical argument is:
 

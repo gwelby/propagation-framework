@@ -23,5 +23,6 @@
   "record_type": "pre_registration",
   "resolution_log": [],
   "schema_version": 1,
-  "status": "OPEN"
+  "status": "OPEN",
+  "committed_at": "2026-08-07T15:32:45.386450+00:00"
 }
