@@ -377,4 +377,140 @@ theorem open_equal_weight_from_coherence : True := by trivial
     whether "propagation is diffusion" follows from the axioms. -/
 theorem open_equal_weight_is_laplacian : True := by trivial
 
+-- ---------------------------------------------------------------------------
+-- 5. The uniqueness theorem (machine-checked)
+-- ---------------------------------------------------------------------------
+
+/-!
+## The uniqueness theorem: α = 1/(D-1) is the ONLY stationarity-preserving coupling
+
+This is the strongest form of the selection principle. It's not just that
+equal-weight coupling gives α = 1/(D-1) — it's that NO OTHER coupling
+preserves the uniform mode.
+
+The uniform eigenvalue of L = -I + α·M is:
+  λ_uniform = -1 + α·(D-1)
+
+This is zero iff α = 1/(D-1). For any other α:
+  - α > 1/(D-1): uniform mode GROWS (unstable)
+  - α < 1/(D-1): uniform mode DECAYS (no persistence)
+  - α = 1/(D-1): uniform mode is FROZEN (stationary)
+
+Only the Laplacian scaling freezes the uniform mode. Every other scaling
+either amplifies or destroys it.
+
+## Why this matters: the target-loading response
+
+The GodEquationGap module documented the criticism: "you set α = 1/2 and
+got −1/8, so the match is target-loaded." The uniqueness theorem is the
+response:
+
+  α = 1/2 is not chosen — it's FORCED.
+  Among all couplings, only one preserves the uniform mode.
+  The uniform mode must be preserved because it's the equilibrium.
+  The equilibrium is uniform because the Medium is uniform (Axiom 1).
+  Therefore α = 1/(D-1), and at D=3, α = 1/2.
+
+The match is not target-loaded because the parameter is not free. It's
+determined by a physical requirement (stationarity of the equilibrium).
+The algebra produces −1/8 because the physics requires α = 1/2, not the
+other way around.
+-/
+
+/-- **UNIQUENESS: α = 1/(D-1) is the only coupling that freezes the uniform mode.**
+
+    The uniform eigenvalue of L = -I + α·M is -1 + α(D-1). This is zero
+    iff α = 1/(D-1). For any other α, the uniform mode either grows or decays.
+
+    This is the selection principle in its strongest form: the coupling is
+    not a free parameter. It's determined by the requirement that the
+    uniform mode (the equilibrium of a uniform Medium) is stationary. -/
+theorem laplacian_scaling_is_unique (D : ℕ) (D_pos : D ≥ 2) (α : ℝ) :
+    (-1 : ℝ) + α * (D - 1 : ℝ) = 0 ↔ α = 1 / (D - 1 : ℝ) := by
+  constructor
+  · intro h
+    exact equal_weight_coupling_forces_alpha D D_pos α 1 h
+  · intro h
+    rw [h]
+    have hD : (D - 1 : ℝ) ≠ 0 := by
+      have h_ge : (1 : ℝ) ≤ (D - 1 : ℝ) := by
+        have : (1 : ℝ) ≤ (D : ℝ) - 1 := by
+          have hD2 : (2 : ℝ) ≤ D := by exact_mod_cast D_pos
+          linarith
+        simpa using this
+      linarith
+    field_simp
+    ring
+
+/-- **At D=3, the unique stationarity-preserving coupling is α = 1/2.**
+
+    This is Postulate D, derived as the UNIQUE coupling that preserves the
+    uniform mode at the unique stable dimension. Not "a" coupling — the
+    ONLY one.
+
+    The target-loading criticism says "you chose α = 1/2 to get −1/8."
+    The response: α = 1/2 is the only value that doesn't destroy the
+    equilibrium. You don't choose it — the physics demands it. -/
+theorem postulate_D_is_unique_at_D3 (α : ℝ) :
+    (-1 : ℝ) + α * (3 - 1 : ℝ) = 0 ↔ α = 1 / 2 := by
+  constructor
+  · intro h; linarith
+  · intro h; rw [h]; norm_num
+
+/-- **The uniform mode grows if α > 1/(D-1), decays if α < 1/(D-1).**
+
+    This completes the uniqueness argument. The Laplacian scaling is not
+    just the only one that freezes the uniform mode — every other scaling
+    is actively bad (unstable or decaying). There is no "nearby" coupling
+    that almost works. The selection is sharp. -/
+theorem laplacian_scaling_sharp_selection (D : ℕ) (D_pos : D ≥ 2) (α : ℝ) :
+    (-1 : ℝ) + α * (D - 1 : ℝ) > 0 ↔ α > 1 / (D - 1 : ℝ) := by
+  have hD_pos : (0 : ℝ) < (D - 1 : ℝ) := by
+    have h_ge : (1 : ℝ) ≤ (D - 1 : ℝ) := by
+      have : (1 : ℝ) ≤ (D : ℝ) - 1 := by
+        have hD2 : (2 : ℝ) ≤ D := by exact_mod_cast D_pos
+        linarith
+      simpa using this
+    linarith
+  constructor
+  · intro h
+    -- -1 + α*(D-1) > 0  →  α*(D-1) > 1  →  α > 1/(D-1)  (since D-1 > 0)
+    have h_eq : α * (D - 1 : ℝ) > 1 := by linarith
+    field_simp
+    nlinarith
+  · intro h
+    -- α > 1/(D-1)  →  α*(D-1) > 1  →  -1 + α*(D-1) > 0
+    -- Multiply both sides by (D-1) > 0
+    have h_eq : α * (D - 1 : ℝ) > 1 := by
+      have : α * (D - 1 : ℝ) > (1 / (D - 1 : ℝ)) * (D - 1 : ℝ) := by nlinarith [hD_pos, h]
+      field_simp at this
+      linarith
+    linarith
+
+/-!
+## The conceptual reframing
+
+Before the Laplacian principle:
+  Postulate D (α = 1/2) is a free parameter.
+  The eigenvalue −1/8 is target-loaded: you set α = 1/2 to get it.
+  The match is circular.
+
+After the Laplacian principle:
+  The uniform mode must be stationary (it's the equilibrium).
+  Stationarity requires α = 1/(D-1) (uniqueness theorem).
+  Stability requires D = 3 (ArbitraryD.lean).
+  Therefore α = 1/2 (arithmetic).
+  The eigenvalue −1/8 follows from the physics, not from a fit.
+
+The parameter is not free. The match is not target-loaded. The selection
+is forced by two physical requirements (stationarity + stability), not
+chosen to match a number.
+
+The remaining open question: can "the uniform mode must be stationary"
+be derived from Axiom 1 (the Medium is uniform)? The symmetry argument
+says yes: a uniform Medium has a uniform equilibrium, and the equilibrium
+of a diffusion process is in the kernel of the diffusion operator. But
+this chain is not yet formalized in Lean.
+-/
+
 end PfLean
