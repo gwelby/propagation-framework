@@ -75,7 +75,7 @@ More precisely: null propagation in static gravity is exactly optical geometry, 
 
 ### 2.3 Lean 4 Formalization
 
-The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 32 modules (all imports in the library root verified present). Build status: green, 0 sorrys; full-job count verified on commit (see v0.7 note). The key verified theorems are:
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 36 top-level `.lean` files, of which 32 are imported by the library root `PfLean.lean`; four unimported modules (`AuditRegistry`, `BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone or audit-support files not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8279 jobs (Codex-verified). The key verified theorems are:
 
 **Gravity optics** (`PfLean.GravityOptics`):
 ```lean
