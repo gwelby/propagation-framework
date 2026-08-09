@@ -216,6 +216,240 @@ hash:           SHA-256(<all locked_fields concatenated>)
 is finalized and Codex re-audit passes. The template above is the structure that
 will be filled.
 
+### E. DeepSeek Task 2 contract specification (2026-08-09)
+
+*This section cross-checks the transfer contract against the specification in
+`/mnt/d/Devin/inbox/2026-08-03-deepseek-task-contracts.md` Task 2. Two
+discrepancies (formula, oscillation values) have been resolved as of
+2026-08-09; six remain open. It does NOT change PRED-002 status from HOLD.
+Status change requires a new Codex audit.*
+
+#### E.1 The physics: Koide Q_ν formula — RESOLVED
+
+**Canonical Koide formula (Koide 1981, verified against primary sources):**
+
+Q = Σm / (Σ√m)² = (m₁+m₂+m₃) / (√m₁+√m₂+√m₃)²
+
+This is the form used consistently across all five internal sources:
+- **Lean** (`KoideGeometry.lean` line 71): `KoideQ a b c = (a²+b²+c²)/(a+b+c)²` with a=√m — algebraically identical
+- **Python** (`neutrino_koide_scan.py` line 73): `Q = np.sum(m) / np.sum(np.sqrt(m))**2`
+- **Pre-registration JSON** (`20260806T190015Z_neutrino_koide_Q_NO.json`): formula field states `Q_NO = Σm_k / (Σ√m_k)²`
+- **PRED-002 commitment block** (line 13): `Q_ν` refers to this standard Koide form
+- **Charged-lepton verification**: Q(e,μ,τ) = 0.666661 ≈ 2/3 ✓
+
+**Task contract error (owned by DeepSeek, corrected 2026-08-09):** The original DeepSeek task contract (`/mnt/d/Devin/inbox/2026-08-03-deepseek-task-contracts.md` Task 2, line 139 of dispatched archive) specified `Q_ν = (m₁+m₂+m₃)²/(m₁²+m₂²+m₃²) − 1`. This is NOT the Koide formula — it is a participation-ratio variant that gives 0.119 for charged leptons (not 2/3). DeepSeek has confirmed the error was theirs, corrected their task-contract archive, and logged a calibration delta (−75). The error did not propagate into any code, Lean theorem, or pre-registration — only into this Section E draft.
+
+**Resolution:** The canonical formula is Q = Σm/(Σ√m)². No code, Lean, or pre-registration changes needed. The existing scan values (Q_NO = 0.549622134, Q_IO = 0.479016) are computed with the correct formula. This discrepancy is CLOSED.
+
+**Oscillation data (the gap the contract bridges):** Oscillation experiments
+measure mass-squared differences but NOT the absolute mass scale:
+- Δm²₂₁ (solar mass splitting) — measured by reactor/long-baseline experiments
+- |Δm²₃₁| (atmospheric mass splitting) — measured by atmospheric/long-baseline
+
+Oscillation data does NOT give m_lightest. The transfer contract bridges this
+gap: Section A specifies which experiment(s) provide m_lightest, Section B
+specifies how to convert oscillation Δm² + m_lightest into individual masses.
+
+#### E.2 Oscillation values — RESOLVED: lock to NuFIT 6.0
+
+**NuFIT 6.0 (September 2024, published JHEP 12 (2024) 216) — the locked source:**
+- Δm²₂₁ = 7.49 × 10⁻⁵ eV² (+0.19/−0.19, both orderings)
+- Δm²₃₁ = 2.534 × 10⁻³ eV² (NO, +0.025/−0.023) [with SK/IC atmospheric data]
+- Δm²₃₂ = −2.510 × 10⁻³ eV² (IO, +0.024/−0.025) [with SK/IC atmospheric data]
+- Source: http://www.nu-fit.org/?q=node%2F294, table v60.tbl-parameters.pdf
+
+**Code values (`neutrino_koide_scan.py` lines 39–41):** Δm²₂₁ = 7.53 × 10⁻⁵, Δm²₃₁ = 2.453 × 10⁻³. These are pre-NuFIT 6.0 values (likely NuFIT 5.2, ~2022). Stale but not dramatically wrong.
+
+**Task contract values:** Δm²₂₁ = 7.42 × 10⁻⁵ (unknown source, not NuFIT 6.0), |Δm²₃₁| = 2.510 × 10⁻³. The 2.510 value is actually the NuFIT 6.0 **inverted ordering** |Δm²₃₂|, mislabeled as the normal-ordering Δm²₃₁. The NO value is 2.534, not 2.510.
+
+**Resolution:** Lock to NuFIT 6.0 values. The code should be updated from (7.53, 2.453) to (7.49, 2.534) for normal ordering. The task contract's values are a mix of unknown and mislabeled sources. Impact on Q_ν: shifting from code's (7.53, 2.453) to NuFIT 6.0 (7.49, 2.534) changes Q_ν by < 0.002 (negligible vs the |Q_ν − 2/3| ≥ 0.033 band). The code update is a numerical refresh, not a physics change. This discrepancy is CLOSED with the NuFIT 6.0 lock.
+
+#### E.3 Experiment sensitivities — task contract values vs existing
+
+The task contract specifies these current limits and sensitivities. Where they
+differ from the existing README (Section A), both are documented:
+
+| Channel | Task contract value | Existing README value | Notes |
+|---------|---------------------|----------------------|-------|
+| KATRIN current limit | m_β < 0.8 eV | m_β < 0.45 eV (90% CL, 2024) | Task cites 2022 limit; README cites improved 2024 limit |
+| KATRIN final sensitivity | ~0.2 eV/c² | ~0.2 eV | Agreement |
+| KATRIN next-gen | ~0.04 eV | not specified | Task mentions next-gen sensitivity |
+| Planck 2018 Σm_ν | < 0.12 eV (95% CL) | < 0.12 eV | Agreement |
+| DESI 2024 | "may tighten" | not mentioned | DESI 2024 results may tighten Σm_ν; should be tracked |
+| KamLAND-Zen 0νββ | < 0.045–0.16 eV | < 0.08–0.18 eV | Task cites updated limit; README has older range |
+
+**Honest assessment:** The existing README values for KATRIN and 0νββ are more
+current than the task contract's values for some channels. The task contract's
+values appear to mix current and projected limits. Both sets should be
+documented; the locked commitment should use the most current available values
+at lock time.
+
+**Transfer routes (from task contract, confirmed against Section A):**
+
+- **KATRIN** (direct β decay kinematics): measures m_β = √(Σ|U_ei|²m_i²)
+  (effective electron-neutrino mass), NOT m_lightest directly. Transfer:
+  invert m_β via PMNS mixing matrix + ordering + Δm² to bound m_lightest.
+  Current sensitivity ~0.2 eV/c²; current limit < 0.8 eV (task) / < 0.45 eV
+  (2024 improved).
+
+- **Cosmology** (CMB + BAO + supernovae): constrains Σm_ν = m₁ + m₂ + m₃.
+  Planck 2018 gives Σm_ν < 0.12 eV (95% CL). DESI 2024 may tighten this.
+  Transfer: Σm_ν + oscillation Δm² → individual masses (requires ordering
+  assumption). CMB-S4 target σ(Σm_ν) ~ 0.04 eV, data ~2028–2030.
+
+- **0νββ** (neutrinoless double beta decay): measures m_ββ = |ΣU_ei²m_i|
+  (effective Majorana mass). Current limits: KamLAND-Zen < 0.045–0.16 eV
+  (isotope-dependent, task contract). Transfer: m_ββ + oscillation data +
+  Majorana assumption → individual masses (degenerate for inverted ordering).
+  nEXO/LEGEND-1000 target ~0.01–0.02 eV, ~2032.
+
+**Key honesty point (unchanged from Section A):** None of these channels
+measures m_lightest directly. Each measures a different effective mass
+combination. m_lightest is inferred by combining the measured observable with
+oscillation Δm² values and a mass-ordering assumption. The inference is
+model-dependent (ordering choice, Majorana phase for 0νββ, cosmological priors
+for Σm_ν).
+
+#### E.4 Uncertainty model — Monte Carlo specification
+
+**Task contract specifies:** Propagate uncertainties on Δm²₂₁, Δm²₃₁, and
+m_lightest via Monte Carlo (50,000 samples, same methodology as D2_tau_g2).
+The Q_ν distribution is then computed from the Monte Carlo mass samples.
+
+**Existing Section B uses:** First-order Gaussian Jacobian propagation
+(∂Q_ν/∂(Δm²_ij)), not Monte Carlo. The existing pre-registration JSON files
+use a window-spread uncertainty (±0.023 for NO, ±0.014 for IO), which is the
+half-spread of Q_ν over the m_lightest window [1e-5, 3e-4] eV, not a Monte
+Carlo propagated uncertainty.
+
+**Required upgrade for the locked commitment:** The uncertainty must be
+propagated via Monte Carlo with 50,000 samples, not first-order Jacobian. The
+methodology reference "D2_tau_g2" corresponds to the tau anomalous magnetic
+moment external-watch test (`verification/falsification/test4_tau_g2.py`).
+The 50,000-sample Monte Carlo methodology is used across the PF sandbox:
+- `z3_coupling_scan.py` line 255: `n_samples=50000`
+- `z3_product_walk_monte_carlo.py` line 66: `n_test=50_000`
+
+**Monte Carlo procedure (contract specification):**
+1. Draw 50,000 samples from the joint distribution of inputs:
+   - Δm²₂₁ ~ Gaussian(central_value, σ) or NuFIT posterior
+   - Δm²₃₁ ~ Gaussian(central_value, σ) or NuFIT posterior
+   - m_lightest ~ channel-specific prior (KATRIN m_β / cosmology Σm_ν /
+     0νββ m_ββ), converted to m_lightest via the transfer route
+2. For each sample, compute m₁, m₂, m₃ per the ordering formulas (Section B):
+   - **Normal ordering (NO):** m₁ = m_lightest, m₂ = √(m_lightest² + Δm²₂₁),
+     m₃ = √(m_lightest² + Δm²₃₁)
+   - **Inverted ordering (IO):** m₃ = m_lightest,
+     m₁ = √(m_lightest² + |Δm²₃₁|), m₂ = √(m_lightest² + |Δm²₃₁| + Δm²₂₁)
+3. For each mass triplet, compute Q_ν (using the agreed formula — see E.1
+   ambiguity).
+4. The Q_ν distribution from the 50,000 samples gives the mean, median, and
+   credible interval.
+5. Report σ(Q_ν) from the Monte Carlo spread, not from first-order Jacobian.
+
+**Current first-order estimates (from Section B, for comparison):**
+- σ(Q_ν) ≈ 0.002 (NO) and σ(Q_ν) ≈ 0.003 (IO) from oscillation inputs alone
+  (at m_lightest = 0.0001 eV, using NuFIT 6.0 uncertainties).
+- σ(Q_ν) ~ 0.02–0.04 from m_lightest uncertainty (CMB-S4, channel-dependent).
+- The Monte Carlo will combine both sources and may differ from the first-order
+  estimate due to nonlinearity in the Q_ν function and correlations between
+  inputs.
+
+**Status:** The Monte Carlo propagation has NOT been run. It is a required
+step before the commitment block can be locked. The existing window-spread
+uncertainty (±0.023 / ±0.014) is a placeholder that must be replaced by the
+Monte Carlo result.
+
+#### E.5 Rival check — primary-source verification status
+
+**Task contract confirms (from PHYSICS_CONTEXT.md §1.3 rival landscape and
+`competitor_comparison_2026-08-02.md`):**
+- UGP predicts Δm²₂₁/Δm²₃₁ = 0.0294 (parameter-free, from GF(7) arithmetic).
+  NuFIT 6.0 gives 0.02951 ± 0.00098, so UGP lands at 0.16σ — a strong
+  postdiction.
+- UGP does NOT predict Q_ν directly.
+- No other known framework (UFQFT, IGPS, Pentagram-Koide, Resolution Geometry)
+  predicts Q_ν for neutrinos.
+
+**Existing Section C covers:** UGP's mass-squared ratio prediction (orthogonal
+observable to Q_ν), PF's non-prediction of the ratio, and the distinction
+between the two observables. Both could be correct simultaneously.
+
+**Remaining gap (Codex audit item 5, still OPEN):** Brannen/Rivero/ZiP
+primary-source verification is still OPEN. These rivals are claimed to predict
+Q_ν ≈ 2/3 for neutrinos (universal Koide extension via sign-flipped
+preon/Clifford phase mechanism), but this has not been verified against
+primary sources. The locked commitment must either verify this against primary
+sources or remove the claimed discrimination. Until then, the `rivals_say`
+field carries a DEGENERATE-risk flag per anti-gaming rule 4.
+
+**What PF would need to compete with UGP on the ratio:** A PF-native derivation
+of Δm²₂₁/Δm²₃₁ from the propagation axioms. This does not currently exist. If
+built, it would be a separate prediction (PRED-003 candidate), not a repair of
+PRED-002. The mass-squared ratio is an INPUT to PRED-002's Q_ν calculation,
+not its output.
+
+#### E.6 Pre-registration — pass/fail threshold specification
+
+**Task contract specifies:** The pass/fail threshold is Q_ν = 2/3 within 2σ
+of the measured value.
+
+**Existing Section D specifies:** Falsifier is |Q_ν − 2/3| < 0.0067 (i.e.,
+Q_ν within 1% of 2/3) under either ordering. This is a fixed numerical
+threshold, not a statistical one.
+
+**Discrepancy:** The task's 2σ threshold is a statistical criterion (depends
+on the measured uncertainty), while the existing 0.0067 is a fixed numerical
+threshold. These are different falsification conditions.
+
+**Reconciliation:** The 2σ threshold is more physically motivated — it depends
+on the actual experimental uncertainty. The locked commitment should specify:
+- **Falsification of PF's claim (PF says Q_ν ≠ 2/3):** Q_ν measured within 2σ
+  of 2/3, i.e., |Q_ν_measured − 2/3| < 2·σ_measured. This would FALSIFY PF's
+  non-universality prediction.
+- **Support for PF's claim:** |Q_ν_measured − 2/3| ≥ 2·σ_measured. This would
+  SUPPORT PF's non-universality prediction (Q_ν inconsistent with Koide at 2σ).
+
+**Note on direction:** PF predicts Q_ν ≠ 2/3 (non-universality). So a
+measurement showing Q_ν = 2/3 within 2σ would FALSIFY PF's claim. A
+measurement showing Q_ν far from 2/3 would SUPPORT PF's claim. The "pass/fail"
+language must be unambiguous about whose perspective: "pass" for the
+experiment (Q_ν = 2/3 confirmed) = "fail" for PF's non-universality prediction.
+
+**Pre-registration commitment (from task contract, confirmed):**
+1. Commit the prediction (Q_ν value with uncertainty bounds) to a SHA-256 hash
+   BEFORE new data is public. (Template in Section D; hash NOT yet computed.)
+2. Specify which experiment's upcoming data would test the prediction:
+   - **Primary:** CMB-S4 (Σm_ν sensitivity ~0.04 eV, data ~2028–2030). This is
+     the earliest channel capable of constraining m_lightest at the precision
+     needed to test Q_ν meaningfully.
+   - **Secondary:** nEXO/LEGEND-1000 (m_ββ sensitivity ~0.01–0.02 eV, ~2032).
+   - **Tertiary:** KATRIN final (m_β sensitivity ~0.2 eV — insufficient for a
+     2σ test of the |Q_ν − 2/3| band, but provides a consistency check).
+3. Specify the pass/fail threshold: Q_ν = 2/3 within 2σ of the measured value
+   (statistical criterion, channel-specific σ).
+
+**This hash is NOT yet computed** (same status as Section D). It will be
+computed when the commitment block is finalized and Codex re-audit passes.
+
+#### E.7 Summary of discrepancies — 2 RESOLVED, 6 remaining
+
+| Item | Task contract | Existing code/README | Status | Resolution |
+|------|--------------|---------------------|--------|------------|
+| Q_ν formula | (Σm)²/(Σm²) − 1 | Σm/(Σ√m)² | **RESOLVED** | Code/Lean/pre-reg correct; task contract was wrong (DeepSeek owned, corrected). Canonical: Q = Σm/(Σ√m)² |
+| Δm²₂₁ | 7.42 × 10⁻⁵ | 7.53 × 10⁻⁵ | **RESOLVED** | Lock to NuFIT 6.0: 7.49 × 10⁻⁵. Code needs numerical refresh. |
+| Δm²₃₁ | 2.510 × 10⁻³ | 2.453 × 10⁻³ | **RESOLVED** | Lock to NuFIT 6.0: 2.534 × 10⁻³ (NO). Task's 2.510 was the IO value mislabeled as NO. Code needs refresh. |
+| KATRIN limit | < 0.8 eV | < 0.45 eV (2024) | Open | Use most current at lock time |
+| 0νββ limit | < 0.045–0.16 eV | < 0.08–0.18 eV | Open | Use most current at lock time |
+| Uncertainty method | Monte Carlo 50,000 samples | First-order Jacobian / window-spread | Open | Run MC; replace placeholder uncertainty |
+| Pass/fail threshold | 2σ statistical | 0.0067 fixed numerical | Open | Adopt 2σ criterion; specify channel-specific σ |
+| Rivals (Brannen/Rivero/ZiP) | — | unverified | Open | Primary-source verification still OPEN (Codex item 5) |
+
+**PRED-002 status remains OPEN candidate / Codex HOLD on commitment.** Two of
+eight discrepancies are resolved (formula + oscillation values). The remaining
+six are documented for the record; resolving them is a prerequisite for
+re-audit, not a status change.
+
 ### Remaining HOLD items (not addressed by this contract)
 
 This transfer contract addresses Codex audit items 1–2 (absolute-mass channel +
