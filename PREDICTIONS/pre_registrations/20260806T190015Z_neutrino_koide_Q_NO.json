@@ -1,28 +1,39 @@
 {
+  "amendments": [
+    {
+      "change": "v1→v2 schema migration: added sigma_denominator and committed_at to CANONICAL_FIELDS hash coverage; corrected sigma_denominator unit from eV to dimensionless Q units; reworded notes from sigma to full-window-spread units",
+      "date": "2026-08-08",
+      "new_hash": "a78a91284f55cadb4583e3009cf57517d8535ba247034f044ed2e36110cd1c21",
+      "new_schema_version": 2,
+      "prior_hash": "8e18010fe47c9d86788f2a83860450f912af5e6e8389f29ece4e60229d4eae35",
+      "prior_schema_version": 1
+    }
+  ],
   "committed": "2026-08-07T15:32:45.386450+00:00",
-  "committed_by": "Devin \u2207\u03bb\u03a3\u221e @ f3be9adf8c7f582f9e6d8658509578cfaa880aae",
-  "content_hash": "8e18010fe47c9d86788f2a83860450f912af5e6e8389f29ece4e60229d4eae35",
+  "committed_at": "2026-08-07T15:32:45.386450+00:00",
+  "committed_by": "Devin ∇λΣ∞ @ f3be9adf8c7f582f9e6d8658509578cfaa880aae",
+  "content_hash": "a78a91284f55cadb4583e3009cf57517d8535ba247034f044ed2e36110cd1c21",
   "created_at": "2026-08-06T19:00:15.374838+00:00",
   "degenerate_risk": false,
   "payload": {
     "commitment_date": "2026-08-07",
-    "conditional_on": "m_lightest \u2208 [1e-5, 3e-4] eV (0.1 meV = 1e-4 eV as representative near-optimal point; window, not point estimate); Z\u2083 structure with unlocked amplitude \u03b2_NO=1.139 (EM-locking absent for neutrinos); Koide Q=2/3 is charged-lepton specific",
+    "committed_at": "2026-08-07T15:32:45.386450+00:00",
+    "conditional_on": "m_lightest ∈ [1e-5, 3e-4] eV (0.1 meV = 1e-4 eV as representative near-optimal point; window, not point estimate); Z₃ structure with unlocked amplitude β_NO=1.139 (EM-locking absent for neutrinos); Koide Q=2/3 is charged-lepton specific",
     "expected_value": 0.549622134,
-    "formula": "Q_NO = \u03a3m_k / (\u03a3\u221am_k)\u00b2 with m2=\u221a(m1\u00b2+\u0394m\u00b2\u2082\u2081), m3=\u221a(m1\u00b2+\u0394m\u00b2\u2083\u2081), m1=m_lightest (PDG 2024 \u0394m\u00b2: \u0394m\u00b2\u2082\u2081=7.53e-5, \u0394m\u00b2\u2083\u2081=2.453e-3)",
+    "formula": "Q_NO = Σm_k / (Σ√m_k)² with m2=√(m1²+Δm²₂₁), m3=√(m1²+Δm²₃₁), m1=m_lightest (PDG 2024 Δm²: Δm²₂₁=7.53e-5, Δm²₃₁=2.453e-3)",
     "framework": "PF",
-    "measurement_source": "m_lightest inferred from KATRIN (m_\u03b2) / cosmology CMB-S4+DESI (\u03a3m\u03bd) / 0\u03bd\u03b2\u03b2 nEXO+LEGEND-1000 (m_\u03b2\u03b2) + NuFIT 6.0 \u0394m\u00b2. No single experiment measures individual absolute masses directly. Live observable: \u03a3m\u03bd = 0.0583 eV (NO), testable via cosmology today.",
-    "notes": "PRED-003. Unlocked Z\u2083 amplitude derivation. Q(\u03b2)=(1+\u03b2\u00b2/2)/3 exact. Deviation from 2/3 = 0.117 is \u22482.6\u03c3 against full_window_spread (0.045 eV = 2 \u00d7 half-spread \u00b10.023). Previous 103\u03c3 claim withdrawn \u2014 used \u0394m\u00b2-only uncertainty. Residual flatness claim WITHDRAWN \u2014 referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: \u03a3m\u03bd = 0.0583 eV (NO), testable via CMB-S4/DESI cosmology. Sigma convention: uncertainty field = half-spread (\u00b10.023); sigma_denominator field specifies the denominator used for the \u03c3 estimate \u2014 it is the full window spread (0.045), NOT the uncertainty field (0.023).",
+    "measurement_source": "m_lightest inferred from KATRIN (m_β) / cosmology CMB-S4+DESI (Σmν) / 0νββ nEXO+LEGEND-1000 (m_ββ) + NuFIT 6.0 Δm². No single experiment measures individual absolute masses directly. Live observable: Σmν = 0.0583 eV (NO), testable via cosmology today.",
+    "notes": "PRED-003. Unlocked Z₃ amplitude derivation. Q(β)=(1+β²/2)/3 exact. Deviation from 2/3 = 0.117 is ≈2.6 full-window-spread units against full_window_spread (0.045 dimensionless Q units = 2 × half-spread ±0.023). Previous 103σ claim withdrawn — used Δm²-only uncertainty. Residual flatness claim WITHDRAWN — referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: Σmν = 0.0583 eV (NO), testable via CMB-S4/DESI cosmology. Sigma convention: uncertainty field = half-spread (±0.023); sigma_denominator field specifies the denominator used for the full-window-spread normalization — it is the full window spread (0.045), NOT the uncertainty field (0.023).",
     "quantity_name": "neutrino_koide_Q_NO",
     "rival_predictions": {
-      "UGP": "0.0294 (\u0394m\u00b2 ratio \u2014 orthogonal observable, not a Q rival)",
+      "UGP": "0.0294 (Δm² ratio — orthogonal observable, not a Q rival)",
       "universal_Koide": "0.6667"
     },
-    "sigma_denominator": "full_window_spread (0.045 eV = 2 \u00d7 half-spread \u00b10.023 eV)",
+    "sigma_denominator": "full_window_spread (0.045 dimensionless Q units = 2 × half-spread ±0.023)",
     "uncertainty": 0.023
   },
   "record_type": "pre_registration",
   "resolution_log": [],
-  "schema_version": 1,
-  "status": "OPEN",
-  "committed_at": "2026-08-07T15:32:45.386450+00:00"
+  "schema_version": 2,
+  "status": "OPEN"
 }

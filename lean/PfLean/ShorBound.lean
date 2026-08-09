@@ -14,18 +14,22 @@
 
   2. The Propagation Framework's ProcessOntology:
      - Transform, Coherence, Gate, Fixed Point
-     - This theorem is a DERIVED claim: polynomial-time factoring
+     - NOTE: the DERIVED label was retired per Codex 2026-07-31 (line 64 below).
+       The theorems here are arithmetic predicates and scale calculations, NOT
+       polynomial-time factoring or cryptographic break results.
 
   Build: lake build PfLean.ShorBound (requires mathlib4 v4.29.1)
   First build: ~45 min (mathlib download+compile). Incremental: ~5 min.
 
   Status of proofs (2026-06-11):
-    - PROVEN: kappa_pos, ecdsa_secp256k1_quantum_vulnerable, rsa_2048_quantum_vulnerable
-    - PROVEN: exists_good_base (a = 1, gcd(1,N) = 1)
-    - PROVEN: factorization_identity (difference of squares + Nat.ModEq)
-    - PROVEN: nontrivial_factor_from_order (gcd + Euclid's lemma + contradiction)
-    - PROVEN: shor_expected_complexity (existence of bounded complexity, n ≥ 1)
-    - PROVEN: shor_cumulative_coherence (exponential bound: (1-P)^t ≤ exp(-tP) < 0.01)
+    - ARITHMETIC IDENTITY: kappa_pos (positivity of the SQIR constant)
+    - ARITHMETIC IDENTITY: ecdsa_secp256k1_quantum_vulnerable, rsa_2048_quantum_vulnerable
+      (numerical inequalities 100*256^7 < 2^256, 100*2048^7 < 2^2048; NOT crypto reductions)
+    - ARITHMETIC IDENTITY: exists_good_base (a = 1, gcd(1,N) = 1)
+    - ARITHMETIC IDENTITY: factorization_identity (difference of squares + Nat.ModEq)
+    - ARITHMETIC IDENTITY: nontrivial_factor_from_order (gcd + Euclid's lemma + contradiction)
+    - ARITHMETIC EXISTENTIAL: shor_expected_complexity (self-witnessed T = 100*n^7; NOT a complexity theorem)
+    - ARITHMETIC IDENTITY: shor_cumulative_coherence (exponential bound: (1-P)^t ≤ exp(-tP) < 0.01)
     - STATED with sorry: none remaining in classical section
     - AXIOM: qft_success_probability (references Coq/SQIR)
 

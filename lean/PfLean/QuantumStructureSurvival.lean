@@ -75,8 +75,11 @@ def IsPeriodicFunction {Q : ℕ} [NeZero Q] {α : Type*} (f : ZMod Q → α) (r 
   r > 0 ∧ ∀ (x : ZMod Q), f (x + r) = f x
 
 /-- A function f: ZMod Q → α is aperiodic if it has no period.
-    This is the structure LWE instances have — and the reason Shor cannot
-    break lattice cryptography. -/
+    This is the structural property that LWE instances are conjectured to have.
+    The Lean theorems below prove aperiodicity predicates (injective functions
+    have no period); they do NOT prove that lattice cryptography is quantum-safe.
+    The full PQC security argument requires probabilistic analysis,
+    worst-case/average-case reductions, and noise models not formalized here. -/
 def IsAperiodicFunction {Q : ℕ} [NeZero Q] {α : Type*} (f : ZMod Q → α) : Prop :=
   ∀ (r : ℕ), r > 0 → r < Q → ∃ (x : ZMod Q), f (x + r) ≠ f x
 
@@ -198,10 +201,14 @@ theorem row4_non_power_of_two_period_high_noise (r n : ℕ)
   exact h.2
 
 /- =====================================================================
-   SECTION 4: Row 5 — Aperiodic Structure (VERIFIED 2026-07-02 — PQC Security Core)
+   SECTION 4: Row 5 — Aperiodic Structure (VERIFIED 2026-07-02 — Structural Arithmetic)
    =====================================================================
 
-   This is the mathematical core of post-quantum cryptography security.
+   This section proves aperiodicity predicates: if a function has no period,
+   then Shor-style QFT period extraction has no period to recover. These are
+   structural arithmetic theorems, NOT PQC security proofs. The connection to
+   lattice cryptography is a conjectural bridge (Row 6, still open) that
+   requires probabilistic noise analysis not formalized here.
 
    Shor's algorithm works by:
    1. Preparing a periodic superposition via f(x) = a^x mod N
@@ -255,9 +262,11 @@ theorem row5_aperiodic_no_period_to_extract {Q : ℕ} [NeZero Q] {α : Type*}
     the QFT measurement in Shor's algorithm, applied to f, cannot produce
     peaks corresponding to a period — because there is no period.
 
-    This is the ABSENCE theorem. The power is in what does NOT survive:
-    periodic structure does not exist in aperiodic functions, so Shor
-    cannot find it. -/
+    This is an ARITHMETIC ABSENCE predicate: it states that no period r < Q
+    exists for an aperiodic function. It is NOT a security theorem. The name
+    `row5_shor_cannot_break_aperiodic` is retained for reference continuity
+    but should be read as "Shor-style period extraction has no period to
+    recover from an aperiodic function," not as a cryptographic break claim. -/
 theorem row5_shor_cannot_break_aperiodic {Q : ℕ} [NeZero Q] (f : ZMod Q → ℕ)
     (h_aperiodic : IsAperiodicFunction f) :
     -- No period r < Q can be extracted from f because no period < Q exists.
@@ -420,24 +429,19 @@ theorem row8_stabilizer_structure_open :
    open rows (LWE, random, stabilizer) are where future work points.
 -/
 
-/-- **The Survival Hierarchy:** Structure types ranked by hardware survival:
+/-- **Arithmetic Divisibility Summary (NOT a hardware-survival hierarchy):**
+    This theorem collects the QFT bin-alignment arithmetic from Rows 1-2 into
+    a single conjunction. It proves: r | Q → all peaks on integer bins,
+    r ∤ Q → not all peaks on integer bins, and the boundary is exact.
 
-    1. Periodic + dividing (r | Q) + power-of-2: SURVIVES (low CX, sharp peaks)
-    2. Periodic + dividing (r | Q) + non-power-of-2: SURVIVES (sharp peaks, full CX)
-    3. Periodic + non-dividing (r ∤ Q): FAILS (spectral leakage, wrong peaks)
-    4. Aperiodic (no period): NO STRUCTURE TO EXTRACT (PQC security)
-    5. LWE-like: OPEN (PQC question — if aperiodic, same as row 4)
-    6. Random permutation: NO STRUCTURE (null model — false positives only)
-    7. Stabilizer/GHZ: OPEN (different quantum class)
-
-    The hierarchy is a prediction: rows higher in the list should have
-    higher extraction success on hardware. Rows 1-4 are proven in Lean.
-    Rows 5-7 are open and point to future experiments.
-
-    EMPIRICAL UPDATE (2026-07-01): Rows 1-4 and 7 are now empirically validated
-    by IBM Heron hardware experiments. See NISQ_EMPIRICAL_BRIDGE.md.
-    Row 7 (random permutation) confirmed by PQC absence circuit: KL correctly
-    returns "no period," honest extractor returns false positive (C-048/C-051). -/
+    The rows below are an organizational summary, NOT a proven hierarchy of
+    hardware survival. Rows 1-2 are arithmetic theorems (bin alignment).
+    Rows 3-4 are circuit-count arithmetic. Row 5 is an aperiodicity predicate.
+    Rows 6-8 are `True := by trivial` placeholders marking open formalization
+    targets. The IBM Heron hardware experiments (N=15,21,35,51) are empirical
+    observations that live outside Lean; they are NOT proven by this theorem
+    or any other theorem in this module. Do not cite this theorem as
+    "hardware survival proven in Lean" or "IBM Heron validation." -/
 theorem survival_hierarchy_summary (r n : ℕ) (hr : r > 0) (hn : n > 0) :
     let Q := 2 ^ n
     -- Row 1: r | Q → peaks survive
@@ -524,34 +528,27 @@ theorem two_axis_survival_map_empirical (r n : ℕ) (hr : r > 0) (hn : n > 0) :
     True := by
   trivial
 
-/-- **Row 7 Empirical Validation (EMPIRICAL PLACEHOLDER — NOT LEAN-VERIFIED,
-    2026-07-01):** The PQC absence circuit (structureless random circuit) on
-    IBM Heron hardware confirms Row 7: a random permutation has no periodic
-    structure, and the KL divergence extractor correctly returns "no period."
+/-- **Row 7 Empirical Placeholder (TYPE IS `True` — LEAN VERIFIES NOTHING):**
+    This is a `True := by trivial` placeholder. It carries NO Lean-verified
+    content. The comments below describe empirical observations from IBM Heron
+    hardware experiments, but Lean does not verify any of them.
 
-    SCOPE NOTE (Codex 2026-07-02): This is `True := by trivial` — Lean is NOT
-    verifying the hardware claims. The empirical data is real but lives outside
-    Lean. This is an empirical placeholder, not a Lean-verified validation of
-    the PQC security argument.
+    The empirical observations (not Lean theorems): the PQC absence circuit
+    (structureless random circuit) on IBM Heron hardware showed that a random
+    permutation has no periodic structure, and the KL divergence extractor
+    correctly returns "no period." The honest extractor returns false
+    positives (period 5 on kingston, period 8 on fez, period 4 at 33K CX).
 
-    The honest (top-vote) extractor returns a FALSE POSITIVE (period 5 on
-    kingston, period 8 on fez, period 4 at 33K CX depth). This is NOT a
-    counterexample to Row 7 — it is a BUG in the honest extractor, not a
-    failure of the theorem. The KL extractor correctly implements Row 7's
-    prediction.
-
-    This is the empirical observation (not Lean validation) of the PQC
-    security argument: Shor's algorithm cannot extract a period from an
-    aperiodic function because there is no period to extract. The QFT
-    correctly reports "no structure" on the null model. -/
+    These observations are NOT a Lean-verified PQC security argument. They
+    are empirical data points that live outside the formal system. This
+    placeholder marks the formalization gap; it should not be cited as
+    "proven in Lean," "PQC security validation," or "IBM Heron validation
+    of Row 7." The actual Row 7 theorem (`row7_random_permutation_no_structure`)
+    proves only a definition-unpack predicate. -/
 theorem row7_empirical_validation :
-    -- The PQC absence circuit on IBM Heron hardware (2026-07-01) confirms:
-    -- 1. Random permutation → no period (Row 7 theorem holds)
-    -- 2. KL extractor correctly returns "no period" (implements theorem)
-    -- 3. Honest extractor returns false positive (extractor bug, not theorem failure)
-    -- 4. The false positive is backend-specific (kingston→5, fez→8)
-    -- 5. The false positive scales with CX depth (540→5, 33K→4)
-    -- This is EMPIRICAL, not provable in Lean.
+    -- TYPE IS True: Lean verifies nothing here.
+    -- Empirical observations (IBM Heron, 2026-07-01) are in the comment above.
+    -- This is a placeholder marking the formalization gap, NOT a theorem.
     True := by
   trivial
 
