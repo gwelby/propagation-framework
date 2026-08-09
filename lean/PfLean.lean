@@ -19,6 +19,7 @@ import PfLean.GodEquationGap
 import PfLean.LaplacianSelection
 import PfLean.KoideSelection
 import PfLean.SymmetryDerivation
+import PfLean.Axiom1ToH12
 import PfLean.SO2Rotation
 import PfLean.SO3DoubleCover
 import PfLean.ProcessOntology
