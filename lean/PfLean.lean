@@ -16,6 +16,7 @@ import PfLean.CasimirPolynomial
 import PfLean.CasimirGap
 import PfLean.BekensteinGap
 import PfLean.GodEquationGap
+import PfLean.GodEquationSelection
 import PfLean.LaplacianSelection
 import PfLean.KoideSelection
 import PfLean.SymmetryDerivation
