@@ -282,6 +282,45 @@ we learn exactly which additional structure is needed.
     Step 5: stability → D = 3                [PROVEN — ArbitraryD]
     Step 6: α = 1/2                          [arithmetic]
 
-    5 of 6 steps are machine-checked. Step 1 is the frontier. -/
+    5 of 6 steps are machine-checked. Step 1 is the frontier.
+
+    ## Can stationarity (Step 4) be derived from H8 (coherence)?
+
+    H8 = approximate recurrence + Lyapunov stability. The question:
+    does H8 imply stationarity (uniform eigenvalue = 0)?
+
+    **NO.** The contraction counterexample (Axioms.lean, ~line 2580)
+    shows that a system where everything decays (all eigenvalues < 0)
+    can still satisfy H8 — vacuously, through the trivial state s = 0.
+
+    The sharp selection theorem (LaplacianSelection.lean) proves:
+      - α > 1/(D-1) ↔ uniform eigenvalue > 0 (uniform grows)
+      - α < 1/(D-1) ↔ uniform eigenvalue < 0 (uniform decays)
+      - α = 1/(D-1) ↔ uniform eigenvalue = 0 (stationarity)
+
+    The connection to H8:
+      - H8's Lyapunov stability rules out α > 1/(D-1) (uniform grows
+        → nearby states diverge → not Lyapunov stable)
+      - But H8 ALLOWS α < 1/(D-1) (uniform decays → contraction →
+        nearby states get closer → Lyapunov stable; s=0 recurs →
+        approximate recurrence satisfied vacuously)
+      - Therefore H8 → α ≤ 1/(D-1) at best, NOT α = 1/(D-1)
+
+    **Stationarity is a 4th independent posit**, not derivable from H8.
+    The 4 posits (H7 + H12 + stationarity + stability) are each
+    necessary, none redundant, none circular. This is the honest
+    parameter count, now fully analyzed.
+
+    ## Consistency check (positive result)
+
+    The 4-posit chain is CONSISTENT: at α = 1/(D-1) (stationarity),
+    the uniform mode is frozen (eigenvalue 0) and the residue decays
+    (eigenvalue < 0). Any state with a non-zero uniform component will
+    have its residue decay, leaving only the uniform component. After
+    sufficient time, the state approximately recurs (the residue has
+    decayed, the uniform is preserved). Lyapunov stability is satisfied
+    (nearby states stay nearby — uniform is frozen, residue decays).
+    So H8 is non-trivially satisfiable at α = 1/(D-1). The 4-posit
+    chain is consistent with H8, even though H8 doesn't imply it. -/
 
 end PfLean.SymmetryDerivation
