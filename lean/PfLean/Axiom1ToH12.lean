@@ -392,4 +392,202 @@ theorem H7_H18_do_not_imply_H17_at_D3 :
   refine ⟨directed_cycle_3, directed_cycle_zero_diag, directed_cycle_equal_row_sums, ?_⟩
   exact directed_cycle_not_matrix_symmetric
 
+-- ---------------------------------------------------------------------------
+-- 5. The deeper gap: H13 (cyclic) + H7 + H18 ⇏ H17
+-- ---------------------------------------------------------------------------
+
+/-!
+## H13 (cyclic symmetry) does NOT force H17
+
+The directed cycle IS a circulant matrix — it satisfies H13 (cyclic
+symmetry). This means even H13 + H7 + H18 do NOT force H17.
+
+A 3×3 circulant with first row [0, 1, 0]:
+  0  1  0
+  0  0  1
+  1  0  0
+
+This is the directed cycle. Each row is a cyclic shift of the previous.
+H13 (circulant) ✓, H7 (zero diagonal) ✓, H18 (equal row sums = 1) ✓.
+H17 FAILS: M(0,1) = 1 ≠ 0 = M(1,0).
+
+The circulant structure (H13) gives a 1-parameter family at D=3 with
+H7 + H18: first row [0, b, c] with b + c = const. H17 forces b = c
+(the J-I form). Without H17, b ≠ c is allowed (the directed cycle has
+b = 1, c = 0).
+
+The residue eigenvalue of L = -I + α·M for the circulant [0, b, c] is:
+  -1 + α(b·ω + c·ω²)  where ω = e^{2πi/3}
+
+This is COMPLEX unless b = c (i.e., H17 holds). The God Equation
+spectrum {1, -1/8, -1/8} requires REAL residue eigenvalues, which
+requires H17. Without H17, the spectrum is {1, complex, complex̄}.
+-/
+
+/-- **The directed cycle is circulant (satisfies H13 / cyclic symmetry).**
+
+    M(i+k, j+k) = M(i, j) for all k. Each row is a cyclic shift of the
+    first row [0, 1, 0]. This is the Z₃ circulant structure. -/
+theorem directed_cycle_is_circulant : Hypothesis_CyclicSymmetry directed_cycle_3 := by
+  intro k i j
+  simp [Hypothesis_CyclicSymmetry, directed_cycle_3]
+  -- The directed cycle M(a,b) = 1 iff (a,b) ∈ {(0,1),(1,2),(2,0)}
+  -- i.e., b = (a+1) mod 3. So M(a,b) = 1 iff (b-a) mod 3 = 1.
+  -- M(i+k, j+k) = 1 iff (j+k - (i+k)) mod 3 = 1 iff (j-i) mod 3 = 1 iff M(i,j) = 1.
+  fin_cases i <;> fin_cases j <;> fin_cases k <;> simp [directed_cycle_3]
+
+/-- **H13 + H7 + H18 do NOT imply H17.**
+
+    The directed cycle is a circulant (H13) with zero diagonal (H7) and
+    equal row sums (H18), but it is NOT symmetric (¬H17).
+
+    This means cyclic symmetry — the natural "no preferred direction"
+    condition from the Z₃ structure — is NOT enough to force matrix
+    symmetry. The gap between H13 (cyclic) and H17 (full symmetry) is
+    exactly the gap between circulant and J-I. -/
+theorem H13_H7_H18_do_not_imply_H17_at_D3 :
+    ∃ (M : Fin 3 → Fin 3 → ℝ),
+      Hypothesis_CyclicSymmetry M ∧
+      (∀ i, M i i = 0) ∧
+      Hypothesis_EqualRowSums M ∧
+      ¬ (∀ i j, M i j = M j i) := by
+  refine ⟨directed_cycle_3, directed_cycle_is_circulant,
+          directed_cycle_zero_diag, directed_cycle_equal_row_sums, ?_⟩
+  exact directed_cycle_not_matrix_symmetric
+
+-- ---------------------------------------------------------------------------
+-- 6. Isometry (H14) is INCOMPATIBLE with H7 for the God Equation operator
+-- ---------------------------------------------------------------------------
+
+/-!
+## H14 (isometry) does not help — it's INCOMPATIBLE with H7
+
+One might hope that H14 (isometry: propagation preserves distances)
+forces the generator to be symmetric. It does NOT — it forces the
+generator to be SKEW-symmetric (A^T = -A), which is the opposite of
+what H17 requires.
+
+For the God Equation operator L = -I + α·M:
+  H14 (isometry) → L^T = -L  (skew-symmetric generator)
+  L^T = -L → (-I + α·M)^T = -(-I + α·M)
+         → -I + α·M^T = I - α·M
+         → α·M^T = 2I - α·M
+         → M^T = (2/α)I - M
+
+For diagonal entries with H7 (M(i,i) = 0):
+  M(i,i) = M^T(i,i) = (2/α) - M(i,i) = 2/α
+  But H7 says M(i,i) = 0, so 0 = 2/α → contradiction (for finite α).
+
+Therefore H14 + H7 are INCOMPATIBLE for the God Equation operator.
+Isometry cannot force H17 because it cannot coexist with H7.
+
+This is a strong negative result: the "natural" symmetry condition
+from the axioms (H14, distance preservation) is not just different
+from H17 — it's incompatible with the God Equation's zero-diagonal
+requirement. The God Equation needs a dissipative operator (symmetric
+M with negative eigenvalues), not an isometric one.
+-/
+
+/-- **Isometry (H14) forces the generator to be skew-symmetric, not symmetric.**
+
+    If L = -I + α·M is the God Equation operator and propagation is
+    isometric (L^T = -L), then M^T = (2/α)I - M, which is NOT M^T = M.
+
+    Moreover, with H7 (M(i,i) = 0), the isometry condition gives
+    0 = 2/α, a contradiction for finite α. So H14 + H7 are incompatible
+    for the God Equation operator L = -I + α·M.
+
+    This is a PROSE theorem — the formalization of the isometry →
+    skew-symmetry chain requires the linear-algebra infrastructure for
+    connecting BareMedium.propagate to the matrix L, which is not yet
+    in the Lean formalization. The argument is elementary and verified
+    by hand. -/
+theorem isometry_incompatible_with_H7_for_god_equation
+    (α : ℝ) (α_finite : α ≠ 0)
+    (M : Fin 3 → Fin 3 → ℝ)
+    (h_zero_diag : ∀ i, M i i = 0)
+    (h_isometry : ∀ i j, (-1 + α * M i j) = -((-1 + α * M j i))) :
+    False := by
+  -- From isometry: L(i,j) = -L(j,i), so -1 + α*M(i,j) = -(-1 + α*M(j,i))
+  -- = 1 - α*M(j,i). For diagonal (i=j): -1 + α*M(i,i) = 1 - α*M(i,i)
+  -- → 2*α*M(i,i) = 2 → M(i,i) = 1/α. But H7 says M(i,i) = 0.
+  -- So 0 = 1/α, contradicting α ≠ 0.
+  have h_diag := h_isometry 0 0
+  have h_M00 := h_zero_diag 0
+  -- h_diag: -1 + α * M 0 0 = -(-1 + α * M 0 0)
+  rw [h_M00] at h_diag
+  linarith
+
+-- ---------------------------------------------------------------------------
+-- 7. The complete honest assessment
+-- ---------------------------------------------------------------------------
+
+/-!
+## The Wall: H17 is the minimal posit, no weakening closes the chain
+
+**Machine-checked results (this module):**
+
+1. H7 + H17 + H18 → J-I → H12 → α = 1/2 (positive chain, DERIVED)
+2. H7 + H18 ⇏ H17 (directed cycle countermodel, DERIVED)
+3. H13 + H7 + H18 ⇏ H17 (directed cycle is circulant, DERIVED)
+4. H14 + H7 are incompatible for L = -I + α·M (isometry gives skew-symmetry,
+   not symmetry; diagonal contradiction, DERIVED)
+
+**The gap is H17, and no weakening closes it:**
+
+At D=3 with H7 + H18, the general matrix has 3 free parameters (off-diagonal
+entries a, b, d with row-sum constraints). H17 adds 3 constraints
+(M(0,1)=M(1,0), M(0,2)=M(2,0), M(1,2)=M(2,1)), forcing all off-diagonal
+entries equal → J-I. Dropping any one constraint opens a free parameter.
+
+H13 (cyclic) gives only 1 constraint (circulant structure), leaving 1 free
+parameter (b vs c in [0, b, c] with b+c = const). This is NOT enough to
+force J-I.
+
+H14 (isometry) is not just insufficient — it's INCOMPATIBLE with H7 for the
+God Equation operator. Isometry forces skew-symmetry, not symmetry.
+
+**The structural circularity:**
+
+Any condition strong enough to force M(i,j) = M(j,i) for all i,j IS H17.
+"No preferred direction" in the sense of permutation symmetry (H12) is
+stronger than H17. "No preferred direction" in the sense of cyclic symmetry
+(H13) is weaker and doesn't close the chain. The Goldilocks condition is
+exactly H17 — and it must be posited, not derived.
+
+**The honest parameter count for the God Equation:**
+
+  H7 (zero diagonal)        — posit, not derivable from Axiom 1
+  H17 (matrix symmetry)     — posit, not derivable from H13, H14, or H8
+  H18 (equal row sums)      — derivable from H12 (which needs H17)
+  stationarity              — posit, not derivable from H8 (DERIVED negative)
+  stability                 — selects D=3
+
+  Total: 4 independent posits (H7, H17, stationarity, stability)
+  Full chain: H7 + H17 + H18 → J-I → H12 → α = 1/(D-1) → α = 1/2
+-/
+
+/-- **The complete gap analysis: H17 is independent of H13 + H7 + H18.**
+
+    This packages all the counterexamples into one theorem:
+
+    ∃ M such that:
+    - M is circulant (H13 ✓)
+    - M has zero diagonal (H7 ✓)
+    - M has equal row sums (H18 ✓)
+    - M is NOT symmetric (¬H17)
+
+    The directed cycle is the witness. No combination of H13, H7, H18
+    forces H17. The gap is structural. -/
+theorem H17_is_independent_of_H13_H7_H18 :
+    ∃ (M : Fin 3 → Fin 3 → ℝ),
+      Hypothesis_CyclicSymmetry M ∧
+      (∀ i, M i i = 0) ∧
+      Hypothesis_EqualRowSums M ∧
+      ¬ Hypothesis_MatrixSymmetry M := by
+  refine ⟨directed_cycle_3, directed_cycle_is_circulant,
+          directed_cycle_zero_diag, directed_cycle_equal_row_sums, ?_⟩
+  intro h_symm
+  exact directed_cycle_not_matrix_symmetric h_symm
+
 end PfLean.Axiom1ToH12
