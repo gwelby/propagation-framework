@@ -6,12 +6,12 @@ and ask: does the Koide relation Q = 2/3 hold for neutrinos? And if so, at
 what phase δ does it lock — the same as charged leptons (δ_lepton), the quark
 anchor (π/4), the 2/9 candidate, or something distinct?
 
-PDG 2024 mass-squared differences (normal ordering):
-  Δm²_21 =  7.53 × 10⁻⁵ eV²  (solar)
-  Δm²_31 =  2.453 × 10⁻³ eV²  (atmospheric)
+NuFIT 6.0 (September 2024) mass-squared differences (normal ordering):
+  Δm²_21 =  7.49 × 10⁻⁵ eV²  (solar)
+  Δm²_31 =  2.534 × 10⁻³ eV²  (atmospheric)
 
 Inverted ordering:
-  Δm²_32 = -2.546 × 10⁻³ eV²  (atmospheric IH)
+  Δm²_32 = -2.510 × 10⁻³ eV²  (atmospheric IH)
 
 Cosmological bound: Σ mν < 0.12 eV (Planck 2018)
 
@@ -34,11 +34,11 @@ from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).resolve().parent
 
-# ── PDG 2024 values ──────────────────────────────────────────────────────────
+# ── NuFIT 6.0 (September 2024, JHEP 12 (2024) 216) values ────────────────────
 
-DM2_21 = 7.53e-5     # eV²  solar
-DM2_31_NO = 2.453e-3  # eV²  atmospheric, normal ordering  (m3 > m1)
-DM2_32_IO = -2.546e-3 # eV²  atmospheric, inverted ordering (m3 < m1)
+DM2_21 = 7.49e-5     # eV²  solar (NuFIT 6.0)
+DM2_31_NO = 2.534e-3  # eV²  atmospheric, normal ordering (NuFIT 6.0)  (m3 > m1)
+DM2_32_IO = -2.510e-3 # eV²  atmospheric, inverted ordering (NuFIT 6.0) (m3 < m1)
 
 COSMO_SUM_BOUND = 0.12  # eV
 
