@@ -1,0 +1,63 @@
+{
+  "prediction": "PRED-002",
+  "formula": "Q = sum(m) / (sum(sqrt(m)))^2  (canonical Koide)",
+  "implementation": "stdlib-only (no numpy/matplotlib)",
+  "n_samples": 50000,
+  "seed": 42,
+  "oscillation_inputs": {
+    "dm2_21": {
+      "mean": 7.49e-05,
+      "sigma": 1.9e-06,
+      "source": "NuFIT 6.0"
+    },
+    "dm2_31_NO": {
+      "mean": 0.002534,
+      "sigma": 2.5e-05,
+      "source": "NuFIT 6.0 NO"
+    },
+    "dm2_32_IO_abs": {
+      "mean": 0.00251,
+      "sigma": 2.4e-05,
+      "source": "NuFIT 6.0 IO"
+    }
+  },
+  "m_lightest_prior": {
+    "dist": "uniform",
+    "low": 1e-05,
+    "high": 0.0003,
+    "unit": "eV"
+  },
+  "PF_band": 0.033,
+  "two_thirds": 0.6666666666666666,
+  "NO": {
+    "n_samples": 50000,
+    "mean": 0.5458099267838562,
+    "sigma": 0.011847262565470165,
+    "ci68": [
+      0.5332899502192806,
+      0.559607058837266
+    ],
+    "ci95": [
+      0.5295929468603275,
+      0.570798986524387
+    ],
+    "abs_dev_in_sigma": 10.201237561414185,
+    "frac_within_PF_band_0.033": 0.0
+  },
+  "IO": {
+    "n_samples": 50000,
+    "mean": 0.4754249047089428,
+    "sigma": 0.007396389806714201,
+    "ci68": [
+      0.4675384589285326,
+      0.48406079474243213
+    ],
+    "ci95": [
+      0.46534291734620303,
+      0.49094609735095684
+    ],
+    "abs_dev_in_sigma": 25.856095602765667,
+    "frac_within_PF_band_0.033": 0.0
+  },
+  "status_note": "Numerical computation only. PRED-002 remains HOLD. Stdlib-only reproduction of pred002_monte_carlo.py."
+}
