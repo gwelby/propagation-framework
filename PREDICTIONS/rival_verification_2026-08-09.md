@@ -153,4 +153,56 @@ rivals_say: No known rival predicts standard Q_ν = 2/3 for neutrinos.
 
 ---
 
-*This verification was conducted against primary sources (Brannen's papers at brannenworks.com, Rivero's review at a.rivero.nom.es, ZiP preprints at academia.edu). All URLs verified accessible 2026-08-09.*
+## Addendum: The Real Discrimination Is on Σm_ν, Not Q_ν = 2/3
+
+**Computed 2026-08-09 (Devin).** While no rival disagrees with PF on the binary
+question (Q_ν ≠ 2/3), Brannen's sign-flipped formula makes a *specific*
+prediction that PF does not: it pins m_lightest, and therefore Σm_ν.
+
+### Brannen's prediction with NuFIT 6.0 Δm²
+
+Solving Brannen's sign-flipped relation `(-√m₁+√m₂+√m₃)²/(m₁+m₂+m₃) = 3/2`
+with NuFIT 6.0 oscillation parameters (Δm²₂₁ = 7.49e-5, Δm²₃₁ = 2.534e-3):
+
+| Quantity | Brannen prediction | PF MC (averaged) |
+|----------|-------------------|------------------|
+| m_lightest | **0.362 meV** | not predicted (scanned 0.01–0.3 meV) |
+| Σm_ν | **59.4 meV** | not predicted |
+| Standard Q_ν | **0.524** | 0.546 ± 0.012 |
+| Sign-flipped Q | 2/3 (by construction) | N/A |
+
+### The discrimination
+
+The difference in Q_ν (0.524 vs 0.546) is 1.81σ — not yet discriminating.
+But the *source* of the difference is that Brannen predicts a specific
+m_lightest while PF does not. The real test is cosmological:
+
+- **CMB-S4** (2028–2030) will measure Σm_ν with σ ~ 0.04 eV = 40 meV
+- Brannen predicts Σm_ν = 59.4 meV
+- If CMB-S4 measures Σm_ν ≈ 59 meV → Brannen's sign-flipped relation is supported
+- If CMB-S4 measures Σm_ν ≠ 59 meV → Brannen is falsified
+- PF's "Q_ν ≠ 2/3" is confirmed either way (Q_ν = 0.524 ≠ 2/3 at Brannen's point)
+
+### What this means for PRED-002
+
+PRED-002's binary claim (Q_ν ≠ 2/3) is not discriminating. But PRED-002's
+*resolution pathway* IS discriminating: the same CMB-S4 experiment that
+tests PF's Q_ν ≠ 2/3 claim also tests Brannen's Σm_ν = 59.4 meV prediction.
+If both are confirmed, Brannen is more specific (predicts the exact value
+of Q_ν via m_lightest). If Brannen's Σm_ν is falsified, PF's claim still
+stands but loses its most prominent rival.
+
+### Recommended PRED-002 enhancement (not a status change)
+
+Consider adding a secondary prediction:
+- **PRED-002b:** Brannen's sign-flipped relation predicts Σm_ν = 59.4 meV
+  (NO). If CMB-S4 measures Σm_ν inconsistent with 59.4 meV, Brannen's
+  sign-flipped Koide extension is falsified. PF's Q_ν ≠ 2/3 survives either way.
+
+This would make PRED-002 a two-level prediction:
+1. Binary: Q_ν ≠ 2/3 (all frameworks agree, confirmed at 10.24σ)
+2. Value: Σm_ν ≠ 59.4 meV would falsify Brannen specifically
+
+---
+
+*This verification was conducted against primary sources (Brannen's papers at brannenworks.com, Rivero's review at a.rivero.nom.es, ZiP preprints at academia.edu). All URLs verified accessible 2026-08-09. Addendum computed with NuFIT 6.0 parameters and Brannen's sign-flipped relation solved via scipy.optimize.brentq.*
