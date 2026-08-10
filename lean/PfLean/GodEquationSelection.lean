@@ -25,6 +25,11 @@ Machine-checked consequences:
 - `n6_sign_flip`: cos³(π/3) = +1/8 — N=6 sign flip (expansive residue)
 - `n3_unique_among_small_cycles`: only N=3 of {3,4,6} gives −1/8 —
   the generation-count selection, machine-checked
+- `n2_gives_minus_one`: cos³(π) = −1 — N=2 trivial (maximal contraction)
+- `cos_pos_for_n_ge_5`: cos(2π/N) > 0 for all N ≥ 5 — expansive residue
+- `n3_unique_nontrivial_contracting`: **N=3 is the unique non-trivial
+  contracting cycle among ALL integers N ≥ 2** — the strengthened
+  generation-count selection (Devin, 2026-08-10)
 
 **The structural statement:** the God Equation spectrum {1, −1/8, −1/8}
 encodes BOTH "3"s — the uniform sector eigenvalue 1 selects D=3
@@ -120,6 +125,92 @@ conditional T3 theorem (`ThreeGenerations.lean`), with numerator and
 denominator bridge theorems still open. Do not cite this module as a
 derivation of the generation count.
 -/
+
+-- ---------------------------------------------------------------------------
+-- 4. The full uniqueness — N=3 among ALL integers ≥ 2
+-- ---------------------------------------------------------------------------
+
+/-!
+## The strengthened selection: N=3 is the unique non-trivial contracting cycle
+
+The `n3_unique_among_small_cycles` theorem only checks {3, 4, 6}. The
+stronger statement is that N=3 is unique among ALL integers N ≥ 2.
+
+The mathematics: cos(2π/N) < 0 iff 2π/N ∈ (π/2, 3π/2) iff N ∈ (4/3, 4).
+For integers N ≥ 2, this means N ∈ {2, 3}. So:
+  - N=2: cos³(π) = −1 (trivial 2-cycle, maximal contraction, only 2 elements)
+  - N=3: cos³(2π/3) = −1/8 (God Equation value, 3 generations)
+  - N=4: cos³(π/2) = 0 (degenerate, residue preserved)
+  - N≥5: cos³(2π/N) > 0 (expansive, residue grows)
+
+N=3 is the UNIQUE non-trivial contracting cycle. N=2 contracts harder but
+is trivial (2 elements cannot give 3 generations). N≥4 does not contract.
+-/
+
+/-- **N=2 gives maximal contraction:** cos³(π) = −1. The 2-cycle contracts
+    harder than the 3-cycle, but it is trivial — only 2 elements, not enough
+    for 3 generations. -/
+theorem n2_gives_minus_one :
+    (cos (2 * Real.pi / 2)) ^ 3 = (-1 : ℝ) := by
+  have h : (2 * Real.pi : ℝ) / 2 = Real.pi := by field_simp
+  rw [h, Real.cos_pi]
+  norm_num
+
+/-- **For N ≥ 5: cos(2π/N) > 0.** The angle 2π/N is in (0, π/2) for all
+    N ≥ 5, so cosine is positive. This means the residue is expansive —
+    no contraction — for all N ≥ 5. -/
+theorem cos_pos_for_n_ge_5 (n : ℕ) (hn : 5 ≤ n) :
+    0 < cos (2 * Real.pi / n) := by
+  have hpi : 0 < Real.pi := Real.pi_pos
+  have hn_pos : 0 < (n : ℝ) := by exact_mod_cast (lt_of_le_of_lt (by omega) hn)
+  have h5_pos : (0 : ℝ) < 5 := by norm_num
+  have h2_pos : (0 : ℝ) < 2 := by norm_num
+  -- Key: 2π/n ≤ 2π/5 < π/2
+  have h_2pi5_lt_pi2 : 2 * Real.pi / 5 < Real.pi / 2 := by
+    field_simp
+    linarith [hpi]
+  have h_upper : 2 * Real.pi / n ≤ 2 * Real.pi / 5 := by
+    rw [div_le_div_iff_of_pos_left (by linarith : (0:ℝ) < 2 * Real.pi) hn_pos h5_pos]
+    exact_mod_cast hn
+  have h_lower : 0 < 2 * Real.pi / n := by
+    apply div_pos
+    linarith [hpi]
+    exact hn_pos
+  have h_lt_pi2 : 2 * Real.pi / n < Real.pi / 2 := by
+    calc 2 * Real.pi / n ≤ 2 * Real.pi / 5 := h_upper
+      _ < Real.pi / 2 := h_2pi5_lt_pi2
+  have h_neg : -(Real.pi / 2) < 2 * Real.pi / n := by
+    linarith [hpi, h_lower]
+  exact Real.cos_pos_of_mem_Ioo ⟨h_neg, h_lt_pi2⟩
+
+/-- **For N ≥ 5: cos³(2π/N) > 0.** The residue is expansive — no contraction.
+    Combined with N=4 giving 0, this means N ≥ 4 gives NO contraction. -/
+theorem cos_cubed_pos_for_n_ge_5 (n : ℕ) (hn : 5 ≤ n) :
+    0 < (cos (2 * Real.pi / n)) ^ 3 := by
+  have h := cos_pos_for_n_ge_5 n hn
+  exact pow_pos h 3
+
+/-- **N=3 is the unique non-trivial contracting cycle among all N ≥ 2.**
+
+    The full picture for integer N ≥ 2:
+      - N=2: cos³ = −1 (trivial, maximal contraction, only 2 elements)
+      - N=3: cos³ = −1/8 (God Equation value, 3 generations)
+      - N=4: cos³ = 0 (degenerate, residue preserved)
+      - N≥5: cos³ > 0 (expansive, residue grows)
+
+    N=3 is the UNIQUE non-trivial cycle with contracting residue, and it
+    gives exactly the God Equation value −1/8. N=2 contracts harder but is
+    trivial. N≥4 does not contract at all.
+
+    This is the strengthened generation-count selection: not just "unique
+    among {3,4,6}" but "unique among ALL integers ≥ 2". -/
+theorem n3_unique_nontrivial_contracting :
+    (cos (2 * Real.pi / 2)) ^ 3 = (-1 : ℝ) ∧
+    (cos (2 * Real.pi / 3)) ^ 3 = (-1 : ℝ) / 8 ∧
+    (cos (Real.pi / 2)) ^ 3 = 0 ∧
+    ∀ n : ℕ, 5 ≤ n → 0 < (cos (2 * Real.pi / n)) ^ 3 := by
+  exact ⟨n2_gives_minus_one, n3_gives_minus_eighth, n4_gives_zero,
+         cos_cubed_pos_for_n_ge_5⟩
 
 /- **Non-theorem (documentation only, not a Lean theorem):** the generation count is not derived here. This module
     sharpens the structure; the derivation remains conditional. -/
