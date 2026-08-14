@@ -17,6 +17,7 @@ import PfLean.CasimirGap
 import PfLean.BekensteinGap
 import PfLean.GodEquationGap
 import PfLean.GodEquationSelection
+import PfLean.GodEquationSpectrum
 import PfLean.LaplacianSelection
 import PfLean.KoideSelection
 import PfLean.SymmetryDerivation
@@ -44,3 +45,4 @@ import PfLean.AuditProtocol
 import PfLean.MoneyResearchAudit
 import PfLean.FundamentalsAudit
 import PfLean.MeasurementLedgerAudit
+import PfLean.Circulant3Spectrum
