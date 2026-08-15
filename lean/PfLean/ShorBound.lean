@@ -620,41 +620,41 @@ theorem shor_cumulative_coherence (N t : ℕ)
   linarith
 
 /- =====================================================================
-   SECTION 6: QFT Extraction Boundary — IBM Hardware Bridge
+   SECTION 6: QFT Bin-Alignment Arithmetic — Extraction Boundary
    =====================================================================
 
-   These theorems connect the Lean formalization to the IBM Heron hardware
-   experiments in /mnt/d/Crypto/labs/shor_substrate_probe/ (2026-06-30).
+   These theorems formalize the ARITHMETIC of QFT bin alignment: when the
+   period r divides the register size Q = 2^n, the peak positions j·Q/r
+   are integers. This is a modular arithmetic predicate, NOT a QFT state
+   formalization, amplitude computation, or extraction-success proof.
 
-   The family ran Shor's period-finding on N=15,21,35,51 on IBM Heron hardware.
-   The honest extraction audit (evidence/HONEST_EXTRACTION_AUDIT.md) found:
-   - Dividing periods (r | 2^n): hardware extracts correctly
-   - Non-dividing periods (r ∤ 2^n): hardware FAILS to extract
-   - The noiseless sim can extract non-dividing periods (N=21) but hardware cannot
+   Empirical observations from IBM Heron hardware experiments
+   (/mnt/d/Crypto/labs/shor_substrate_probe/, 2026-06-30) are recorded
+   separately in evidence/HONEST_EXTRACTION_AUDIT.md. They are NOT proven
+   by these theorems. The arithmetic predicate is consistent with the
+   observed boundary (dividing periods extract, non-dividing fail), but
+   consistency is not derivation.
 
-   The mechanism (found by AntiGravity): identity gate pruning in the Qiskit
-   transpiler. When 2^j mod r = 0, U^(2^j) = I, and the transpiler prunes it.
-   Power-of-2 periods get most unitaries pruned → fewer CX gates → less noise.
-
-   These theorems formalize the two mechanisms that explain the hardware results:
-   1. QFT bin alignment: r | Q ⟺ peaks on integer bins ⟺ extraction works
-   2. Identity pruning: active unitary count depends on r's power-of-2 structure
+   The theorems below prove:
+   1. Bin-alignment arithmetic: r | Q ⟺ (j·Q) % r = 0 for all j < r
+   2. Identity pruning count: active unitary count depends on r's power-of-2 structure
 -/
 
 /-- **Theorem (QFT Bin-Alignment Arithmetic):** The QFT peak positions align
     with integer bins if and only if the period r divides the register size
     Q = 2^n.
 
-    SCOPE NOTE (Codex 2026-07-02): This is a modular ARITHMETIC theorem about
-    integer bin alignment — `(j * Q) % r = 0 ↔ r ∣ Q`. It does NOT formalize
-    a QFT state, amplitudes, Fourier coefficients, continued fractions,
-    measurement probability, extraction success, or hardware behavior. Prose
-    may call it "QFT bin-alignment arithmetic"; it must not be used alone as
-    "QFT extraction works" or "QFT correctness theorem."
+    SCOPE NOTE (Codex 2026-07-02, reinforced 2026-08-15): This is a modular
+    ARITHMETIC theorem about integer bin alignment — `(j * Q) % r = 0 ↔
+    r ∣ Q`. It does NOT formalize a QFT state, amplitudes, Fourier
+    coefficients, continued fractions, measurement probability, extraction
+    success, or hardware behavior. It must not be cited as "QFT extraction
+    works" or "QFT correctness theorem" or "IBM Heron validation."
 
-    This is the mathematical explanation for the extraction boundary observed
-    on IBM Heron hardware: N=15 (r=4, 4|256) and N=51 (r=16, 16|256) extract
-    correctly, while N=21 (r=6, 6∤256) and N=35 (r=12, 12∤256) fail.
+    The arithmetic is consistent with the extraction boundary observed on
+    IBM Heron hardware (N=15, N=51 divide; N=21, N=35 do not), but
+    consistency is not derivation. Empirical evidence lives in
+    evidence/HONEST_EXTRACTION_AUDIT.md, not in this theorem.
 
     The QFT maps the periodic state |Σ_k e^{2πi r k / Q} |k⟩ to peaks at
     positions j·Q/r for j = 0, 1, ..., r-1. These are integers iff r | Q.

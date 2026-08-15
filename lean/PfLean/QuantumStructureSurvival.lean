@@ -97,20 +97,28 @@ structure LWELike (Q q n : ℕ) [NeZero Q] where
   noiseBound : ∀ x, noise x ≠ 0  -- noise is non-zero (destroys periodicity)
 
 /- =====================================================================
-   SECTION 2: Rows 1-2 — Periodic Structure (VERIFIED 2026-07-02)
+   SECTION 2: Rows 1-2 — Bin-Alignment Arithmetic (VERIFIED 2026-07-02)
    =====================================================================
 
-   These rows connect to ShorBound.lean's QFT alignment theorem.
-   Row 1: r | Q → peaks on integer bins → extraction works
-   Row 2: r ∤ Q → peaks off integer bins → extraction fails
+   These rows formalize the ARITHMETIC of QFT bin alignment from
+   ShorBound.lean. They are modular divisibility predicates, NOT QFT
+   state formalizations or extraction-success proofs.
+
+   Row 1: r | Q → (j·Q) % r = 0 for all j (integer bin alignment)
+   Row 2: r ∤ Q → ¬(∀ j, (j·Q) % r = 0) (non-integer bin positions)
+
+   Empirical IBM Heron observations (N=15,21,35,51) are recorded in
+   evidence/HONEST_EXTRACTION_AUDIT.md, NOT proven here.
 -/
 
-/-- **Row 1 (SURVIVES):** If f has period r and r divides Q = 2^n,
-    then the QFT measurement produces peaks at integer bin positions,
-    and the period can be extracted via continued fractions.
+/-- **Row 1 (Integer Bin Alignment):** If f has period r and r divides
+    Q = 2^n, then (j·Q) % r = 0 for all j < r — the bin positions are
+    integers.
 
-    This is the mathematical explanation for why N=15 (r=4, 4|256) and
-    N=51 (r=16, 16|256) extract correctly on IBM Heron hardware.
+    This is an arithmetic divisibility predicate. It does NOT formalize
+    a QFT state, measurement, continued-fraction extraction, or hardware
+    behavior. The IBM Heron hardware results (N=15, N=51) are empirical
+    observations consistent with this arithmetic, not consequences of it.
 
     Proof: Direct from qft_peak_alignment_iff_period_divides_register. -/
 theorem row1_periodic_dividing_survives (r n : ℕ) (hr : r > 0) (hn : n > 0)
@@ -120,13 +128,15 @@ theorem row1_periodic_dividing_survives (r n : ℕ) (hr : r > 0) (hn : n > 0)
   have h := qft_peak_alignment_iff_period_divides_register r n hr hn
   exact h.mpr h_div
 
-/-- **Row 2 (FAILS):** If f has period r and r does NOT divide Q = 2^n,
-    then the QFT peak positions are NOT all at integer bins, causing
-    spectral leakage. The tallest peaks land at "round" positions that
-    give wrong convergent denominators.
+/-- **Row 2 (Non-Integer Bin Positions):** If f has period r and r does
+    NOT divide Q = 2^n, then ¬(∀ j < r, (j·Q) % r = 0) — not all bin
+    positions are integers.
 
-    This is the mathematical explanation for why N=21 (r=6, 6∤256) and
-    N=35 (r=12, 12∤256) fail to extract on hardware.
+    This is an arithmetic divisibility predicate (contrapositive of Row 1).
+    It does NOT formalize spectral leakage, convergent denominators, or
+    hardware extraction failure. The IBM Heron hardware results (N=21,
+    N=35) are empirical observations consistent with this arithmetic, not
+    consequences of it.
 
     Proof: Contrapositive of qft_peak_alignment_iff_period_divides_register.
     If all peaks were at integer bins, then r | Q. But r ∤ Q, contradiction. -/
@@ -420,28 +430,31 @@ theorem row8_stabilizer_structure_open :
   trivial
 
 /- =====================================================================
-   SECTION 6: The Survival Hierarchy — Summary Theorem
+   SECTION 6: Arithmetic Bin-Alignment Summary
    =====================================================================
 
-   This theorem collects all rows into a single statement: the survival
-   hierarchy. Structure that divides the register (r | Q) and is a power
-   of 2 survives best. Aperiodic structure has nothing to extract. The
-   open rows (LWE, random, stabilizer) are where future work points.
+   This theorem collects the bin-alignment arithmetic from Rows 1-2 into a
+   single conjunction. It is NOT a "survival hierarchy" — it is an
+   organizational summary of modular divisibility predicates. Structure
+   that divides the register (r | Q) has integer bin positions; aperiodic
+   structure does not. The open rows (LWE, random, stabilizer) are where
+   future work points.
 -/
 
-/-- **Arithmetic Divisibility Summary (NOT a hardware-survival hierarchy):**
-    This theorem collects the QFT bin-alignment arithmetic from Rows 1-2 into
-    a single conjunction. It proves: r | Q → all peaks on integer bins,
-    r ∤ Q → not all peaks on integer bins, and the boundary is exact.
+/-- **Arithmetic Bin-Alignment Summary (NOT a hardware-survival hierarchy):**
+    This theorem collects the QFT bin-alignment arithmetic from Rows 1-2
+    into a single conjunction. It proves: r | Q → all peaks on integer
+    bins, r ∤ Q → not all peaks on integer bins, and the boundary is exact.
 
-    The rows below are an organizational summary, NOT a proven hierarchy of
+    This is an arithmetic divisibility summary, NOT a proven hierarchy of
     hardware survival. Rows 1-2 are arithmetic theorems (bin alignment).
-    Rows 3-4 are circuit-count arithmetic. Row 5 is an aperiodicity predicate.
-    Rows 6-8 are `True := by trivial` placeholders marking open formalization
-    targets. The IBM Heron hardware experiments (N=15,21,35,51) are empirical
-    observations that live outside Lean; they are NOT proven by this theorem
-    or any other theorem in this module. Do not cite this theorem as
-    "hardware survival proven in Lean" or "IBM Heron validation." -/
+    Rows 3-4 are circuit-count arithmetic. Row 5 is an aperiodicity
+    predicate. Rows 6-8 are `True := by trivial` placeholders marking open
+    formalization targets. The IBM Heron hardware experiments (N=15,21,35,
+    51) are empirical observations that live outside Lean; they are NOT
+    proven by this theorem or any other theorem in this module. Do not cite
+    this theorem as "hardware survival proven in Lean" or "IBM Heron
+    validation" or "survival hierarchy." -/
 theorem survival_hierarchy_summary (r n : ℕ) (hr : r > 0) (hn : n > 0) :
     let Q := 2 ^ n
     -- Row 1: r | Q → peaks survive

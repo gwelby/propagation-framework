@@ -1,0 +1,36 @@
+{
+  "content_hash": "2cd549c32e85f9785596bb7bfb89847db982249e4118fca77f065e4d9b2d8293",
+  "created_at": "2026-08-06T19:00:20.717333+00:00",
+  "degenerate_risk": false,
+  "envelope": {
+    "amendment_change": "v2→v3: injective canonical-JSON serialization; self-verifying envelope binding predecessor full-record SHA-256, git revision, schema version, and amendment content; removed duplicate top-level committed_at; schema-aware verification rejecting downgraded/unknown schema versions",
+    "amendment_date": "2026-08-15",
+    "committed_by": "Devin ∇λΣ∞ @ f3be9adf8c7f582f9e6d8658509578cfaa880aae",
+    "prior_git_revision": "682760ec2067cead2951dc30fb50c290b90b1b16",
+    "prior_record_sha256": "d4e08ba748e7cb81c7fe06def322d94b4886a6055818c72b43772feec54a1440",
+    "prior_schema_version": 2,
+    "schema_version": 3
+  },
+  "envelope_hash": "9dd0569ff32f1b34528064ba14a14ce6a41a12df0307e0de2178096f32405ac8",
+  "payload": {
+    "commitment_date": "2026-08-07",
+    "committed_at": "2026-08-07T15:32:45.386450+00:00",
+    "conditional_on": "m_lightest ∈ [1e-5, 3e-4] eV (0.1 meV = 1e-4 eV as representative near-optimal point; window, not point estimate); Z₃ structure with unlocked amplitude β_IO=0.935 (EM-locking absent for neutrinos); Koide Q=2/3 is charged-lepton specific",
+    "expected_value": 0.479016,
+    "formula": "Q_IO = Σm_k / (Σ√m_k)² with m1=√(m3²−Δm²₃₂), m2=√(m3²−Δm²₃₂+Δm²₂₁), m3=m_lightest (PDG 2024 Δm²: Δm²₂₁=7.53e-5, Δm²₃₂=−2.546e-3)",
+    "framework": "PF",
+    "measurement_source": "m_lightest inferred from KATRIN (m_β) / cosmology CMB-S4+DESI (Σmν) / 0νββ nEXO+LEGEND-1000 (m_ββ) + NuFIT 6.0 Δm². No single experiment measures individual absolute masses directly. Live observable: Σmν = 0.1018 eV (IO), testable via cosmology today.",
+    "notes": "PRED-003. Unlocked Z₃ amplitude derivation. Q(β)=(1+β²/2)/3 exact. Deviation from 2/3 = 0.188 is ≈6.7 full-window-spread units against full_window_spread (0.028 dimensionless Q units = 2 × half-spread ±0.014). Previous 2870σ claim withdrawn — used Δm²-only uncertainty. Residual flatness claim WITHDRAWN — referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: Σmν = 0.1018 eV (IO), testable via CMB-S4/DESI cosmology. Sigma convention: uncertainty field = half-spread (±0.014); sigma_denominator field specifies the denominator used for the full-window-spread normalization — it is the full window spread (0.028), NOT the uncertainty field (0.014).",
+    "quantity_name": "neutrino_koide_Q_IO",
+    "rival_predictions": {
+      "UGP": "0.0294 (Δm² ratio — orthogonal observable, not a Q rival)",
+      "universal_Koide": "0.6667"
+    },
+    "sigma_denominator": "full_window_spread (0.028 dimensionless Q units = 2 × half-spread ±0.014)",
+    "uncertainty": 0.014
+  },
+  "record_type": "pre_registration",
+  "resolution_log": [],
+  "schema_version": 3,
+  "status": "OPEN"
+}

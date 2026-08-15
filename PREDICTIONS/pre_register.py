@@ -36,15 +36,29 @@ Self-test (Koide Q = 2/3 for charged leptons):
 
     python3 pre_register.py test
 
-The record JSON embeds a SHA-256 hash of the canonical-field concatenation so
-that any post-hoc edit to the commitment block is detectable.
+The record JSON embeds two SHA-256 hashes:
+  - ``content_hash``: SHA-256 of the canonical-JSON payload (injective).
+  - ``envelope_hash``: SHA-256 of the canonical-JSON envelope (binds schema
+    version, predecessor reference, and amendment content).
+
+Any post-hoc edit to a hash-bound field is detectable.
+
+Schema history:
+  v1 (2026-08-06): original, pipe-delimited canonical string.
+  v2 (2026-08-08): added sigma_denominator + committed_at to hash surface.
+  v3 (2026-08-15): injective canonical-JSON serialization; self-verifying
+    envelope binding predecessor full-record SHA-256, git revision, schema
+    version, and amendment content; removed duplicate top-level committed_at;
+    schema-aware verification rejecting downgraded/unknown schema versions.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import hmac
 import json
+import math
 import os
 import sys
 from datetime import datetime, timezone
@@ -64,9 +78,12 @@ RECORDS_DIR.mkdir(parents=True, exist_ok=True)
 #
 # v2 (2026-08-08): added `sigma_denominator` and `committed_at` to the hash
 # surface so that mutation of either claim-bearing field invalidates the
-# content lock. Prior v1 records that pre-date this change carry an
-# `amendments` array documenting the v1→v2 migration; their stored
-# `content_hash` is the v2 digest (computed over the full v2 field set).
+# content lock.
+#
+# v3 (2026-08-15): canonical-JSON serialization (injective, no delimiter
+# injection). The field set is unchanged from v2; only the serialization
+# format changed, so v3 records have different content_hash values than
+# their v2 predecessors.
 CANONICAL_FIELDS: List[str] = [
     "quantity_name",
     "formula",
@@ -82,29 +99,56 @@ CANONICAL_FIELDS: List[str] = [
     "committed_at",
 ]
 
-SCHEMA_VERSION = 2
+# Envelope fields — bound by envelope_hash. These protect the schema version,
+# predecessor reference, and amendment metadata from post-hoc mutation.
+ENVELOPE_FIELDS: List[str] = [
+    "schema_version",
+    "prior_record_sha256",
+    "prior_git_revision",
+    "prior_schema_version",
+    "amendment_change",
+    "amendment_date",
+    "committed_by",
+]
+
+SCHEMA_VERSION = 3
 
 
 # ---------------------------------------------------------------------------
-# Hashing
+# Hashing (v3: injective canonical-JSON serialization)
 # ---------------------------------------------------------------------------
+
+def _canonical_json(obj: Dict[str, Any], fields: List[str]) -> str:
+    """Serialize a dict as canonical JSON over the given field order.
+
+    This is injective: unlike pipe-delimited ``field=value`` concatenation,
+    canonical JSON properly escapes strings so delimiter-injection collisions
+    are impossible. Field names are included in the JSON keys, and string
+    values are JSON-escaped.
+    """
+    canonical_obj = {}
+    for field in fields:
+        canonical_obj[field] = obj.get(field, "")
+    return json.dumps(canonical_obj, sort_keys=True, ensure_ascii=False,
+                      separators=(",", ":"))
+
 
 def canonical_string(payload: Dict[str, Any]) -> str:
-    """Build the canonical concatenation string used for hashing.
+    """Build the canonical JSON string used for payload hashing.
 
-    Fields are joined in CANONICAL_FIELDS order, each rendered as
-    ``field=value`` with a pipe separator. Dicts and lists are JSON-serialized
-    with sorted keys so the hash is stable regardless of insertion order.
+    Uses canonical JSON (sorted keys, no whitespace) over an explicit schema
+    object with all CANONICAL_FIELDS. This is injective — the v2
+    pipe-delimited format was vulnerable to delimiter-injection collisions
+    (e.g. a quantity_name containing ``|formula=`` could collide with a
+    different payload). Canonical JSON escapes all special characters,
+    eliminating this class of collision.
     """
-    parts: List[str] = []
-    for field in CANONICAL_FIELDS:
-        value = payload.get(field, "")
-        if isinstance(value, (dict, list)):
-            rendered = json.dumps(value, sort_keys=True, ensure_ascii=False)
-        else:
-            rendered = str(value)
-        parts.append(f"{field}={rendered}")
-    return "|".join(parts)
+    return _canonical_json(payload, CANONICAL_FIELDS)
+
+
+def envelope_string(envelope: Dict[str, Any]) -> str:
+    """Build the canonical JSON string used for envelope hashing."""
+    return _canonical_json(envelope, ENVELOPE_FIELDS)
 
 
 def compute_hash(payload: Dict[str, Any]) -> str:
@@ -112,15 +156,46 @@ def compute_hash(payload: Dict[str, Any]) -> str:
     return hashlib.sha256(canonical_string(payload).encode("utf-8")).hexdigest()
 
 
+def compute_envelope_hash(envelope: Dict[str, Any]) -> str:
+    """Return the SHA-256 hex digest of the canonical envelope string."""
+    return hashlib.sha256(envelope_string(envelope).encode("utf-8")).hexdigest()
+
+
 def verify_hash(record: Dict[str, Any]) -> bool:
-    """Return True iff the stored hash matches a recomputed hash of the payload."""
+    """Return True iff the record passes all v3 integrity checks.
+
+    Checks:
+      1. ``content_hash`` matches recomputed hash of ``payload``.
+      2. ``schema_version`` equals the current SCHEMA_VERSION (rejects
+         downgraded or unknown schema versions).
+      3. No top-level ``committed_at`` exists (H1: single authoritative
+         timestamp in ``payload.committed_at`` only).
+      4. If ``envelope_hash`` is present, it matches the recomputed envelope
+         hash (H2: binds schema, predecessor, amendment).
+    """
     stored = record.get("content_hash")
     if not stored:
         return False
     recomputed = compute_hash(record.get("payload", {}))
-    # Use compare_digest to avoid timing-attack concerns (defence in depth).
-    import hmac
-    return hmac.compare_digest(stored, recomputed)
+    content_ok = hmac.compare_digest(stored, recomputed)
+
+    # H2: reject downgraded or unknown schema versions
+    if record.get("schema_version") != SCHEMA_VERSION:
+        return False
+
+    # H1: reject records with a duplicate top-level committed_at
+    if "committed_at" in record:
+        return False
+
+    # H2: verify envelope hash if present
+    stored_envelope = record.get("envelope_hash")
+    if stored_envelope:
+        envelope = record.get("envelope", {})
+        recomputed_envelope = compute_envelope_hash(envelope)
+        if not hmac.compare_digest(stored_envelope, recomputed_envelope):
+            return False
+
+    return content_ok
 
 
 # ---------------------------------------------------------------------------
@@ -128,7 +203,12 @@ def verify_hash(record: Dict[str, Any]) -> bool:
 # ---------------------------------------------------------------------------
 
 def build_record(args: argparse.Namespace) -> Dict[str, Any]:
-    """Construct a pre-registration record dict from CLI args."""
+    """Construct a pre-registration record dict from CLI args.
+
+    v3: No top-level ``committed_at`` — the authoritative timestamp lives
+    only in ``payload.committed_at`` (hash-bound). The envelope binds
+    schema version, predecessor reference, and amendment content.
+    """
     # Parse --rival NAME:VALUE repeated flags into a dict.
     rival_predictions: Dict[str, str] = {}
     for item in getattr(args, "rival", []) or []:
@@ -168,14 +248,30 @@ def build_record(args: argparse.Namespace) -> Dict[str, Any]:
     if degenerate_risk:
         status = "OPEN-DEGENERATE-RISK"
 
+    # v3 envelope: binds schema version, predecessor, and amendment.
+    # For new records (no predecessor), envelope fields are empty but still
+    # hash-bound so the schema version cannot be mutated.
+    envelope: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "prior_record_sha256": "",
+        "prior_git_revision": "",
+        "prior_schema_version": "",
+        "amendment_change": "initial registration",
+        "amendment_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "committed_by": getattr(args, "committed_by", "") or "",
+    }
+    envelope_hash = compute_envelope_hash(envelope)
+
     record: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "record_type": "pre_registration",
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "committed_at": committed_at,
+        # H1: NO top-level committed_at — authoritative copy is in payload only.
         "status": status,
         "degenerate_risk": degenerate_risk,
         "content_hash": content_hash,
+        "envelope_hash": envelope_hash,
+        "envelope": envelope,
         "payload": payload,
         # Append-only resolution log — verify() appends here.
         "resolution_log": [],
@@ -292,27 +388,71 @@ def print_verify_result(result: Dict[str, Any]) -> None:
 # Self-test (Koide Q = 2/3 for charged leptons)
 # ---------------------------------------------------------------------------
 
+# PDG 2024 pole masses for charged leptons (in MeV/c²).
+# Source: PDG Review of Particle Physics, charged lepton masses.
+# These are the locally bound mass fixture for the Koide self-test.
+PDG_MASSES_MEV: Dict[str, float] = {
+    "m_e": 0.510998950,    # electron pole mass
+    "m_mu": 105.6583755,   # muon pole mass
+    "m_tau": 1776.86,      # tau pole mass
+}
+
+
+def compute_koide_Q(masses: Dict[str, float]) -> float:
+    """Compute the Koide quantity Q = Σm / (Σ√m)² from a mass fixture.
+
+    The Koide relation (1981) for charged leptons is:
+        Q = (m_e + m_μ + m_τ) / (√m_e + √m_μ + √m_τ)²
+
+    This is the form that yields Q ≈ 2/3. The alternative form
+    (Σm)² / Σm² yields ≈1.119 and is NOT the Koide relation.
+
+    With PDG 2024 pole masses, Q ≈ 0.66666, consistent with 2/3.
+    """
+    m_e = masses["m_e"]
+    m_mu = masses["m_mu"]
+    m_tau = masses["m_tau"]
+    sum_m = m_e + m_mu + m_tau
+    sum_sqrt_m = math.sqrt(m_e) + math.sqrt(m_mu) + math.sqrt(m_tau)
+    return sum_m / (sum_sqrt_m ** 2)
+
+
 def run_self_test() -> Dict[str, Any]:
     """Pre-register the Koide charged-lepton Q = 2/3 prediction and verify it.
 
-    The Koide relation for charged leptons gives Q = (m_e + m_μ + m_τ)^2
-    / (m_e^2 + m_μ^2 + m_τ^2) = 2/3 exactly in the original 1981 form.
-    The empirical value from PDG masses is ~0.6674, consistent with 2/3
-    to within the mass uncertainties. We pre-register 2/3 = 0.6666666667
-    with a small theory uncertainty and verify against 0.6674 ± 0.0001.
+    The Koide relation for charged leptons is:
+        Q = (m_e + m_μ + m_τ) / (√m_e + √m_μ + √m_τ)² ≈ 2/3
+
+    This self-test COMPUTES Q from the PDG 2024 pole mass fixture (not
+    hard-coded) and verifies it against the theoretical value 2/3. The
+    computed value is ~0.66666, consistent with 2/3 to within the mass
+    uncertainties.
+
+    H5 fix (Codex 2026-08-15): the previous self-test hard-coded both the
+    expected and measured values and stated the wrong formula
+    ((Σm)²/Σm² instead of Σm/(Σ√m)²). This version computes Q from a
+    locally bound mass fixture using the correct formula.
     """
     print("=" * 60)
     print("SELF-TEST: Koide Q = 2/3 for charged leptons")
     print("=" * 60)
 
+    # Compute Q from the PDG mass fixture (not hard-coded).
+    computed_Q = compute_koide_Q(PDG_MASSES_MEV)
+    print(f"  PDG masses (MeV): m_e={PDG_MASSES_MEV['m_e']}, "
+          f"m_μ={PDG_MASSES_MEV['m_mu']}, m_τ={PDG_MASSES_MEV['m_tau']}")
+    print(f"  Computed Q = Σm / (Σ√m)² = {computed_Q:.10f}")
+    print(f"  Theoretical Q = 2/3 = {2.0/3.0:.10f}")
+    print(f"  |deviation| = {abs(computed_Q - 2.0/3.0):.10f}")
+
     # Build the prediction payload directly (mirrors `register` args).
     committed_at = datetime.now(timezone.utc).isoformat()
     payload = {
         "quantity_name": "koide_Q_charged_leptons",
-        "formula": "(m_e + m_μ + m_τ)^2 / (m_e^2 + m_μ^2 + m_τ^2)",
+        "formula": "(m_e + m_μ + m_τ) / (√m_e + √m_μ + √m_τ)²",
         "expected_value": 2.0 / 3.0,
         "uncertainty": 0.001,
-        "measurement_source": "PDG_masses",
+        "measurement_source": "PDG_2024_pole_masses",
         "rival_predictions": {
             "SM": "no prediction (free Yukawa parameters)",
             "Brannen": "2/3 (same form, independent origin)",
@@ -320,31 +460,49 @@ def run_self_test() -> Dict[str, Any]:
         "commitment_date": datetime.now(timezone.utc).isoformat(),
         "framework": "PF",
         "conditional_on": "Koide geometric identity Q=2/3 (Lean: PfLean.KoideGeometry); physical selection OPEN",
-        "notes": "Self-test: exact geometric identity; empirical check uses PDG pole masses.",
+        "notes": "Self-test: Q computed from PDG 2024 pole masses using Σm/(Σ√m)² formula. "
+                 "Computed value is plumbing-verified against the mass fixture, not hard-coded.",
         "sigma_denominator": "",
         "committed_at": committed_at,
     }
     content_hash = compute_hash(payload)
+
+    # v3 envelope for the self-test record.
+    envelope: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "prior_record_sha256": "",
+        "prior_git_revision": "",
+        "prior_schema_version": "",
+        "amendment_change": "initial registration (self-test)",
+        "amendment_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "committed_by": "Devin self-test",
+    }
+    envelope_hash = compute_envelope_hash(envelope)
+
     record = {
         "schema_version": SCHEMA_VERSION,
         "record_type": "pre_registration",
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "committed_at": committed_at,
+        # H1: NO top-level committed_at.
         "status": "OPEN",
         "degenerate_risk": False,
         "content_hash": content_hash,
+        "envelope_hash": envelope_hash,
+        "envelope": envelope,
         "payload": payload,
         "resolution_log": [],
     }
     path = save_record(record)
-    print(f"Pre-registered record written to: {path}")
+    print(f"\nPre-registered record written to: {path}")
     print(f"  content_hash: {content_hash}")
     print(f"  expected_value: {payload['expected_value']:.10f} ± {payload['uncertainty']}")
 
-    # Verify against the measured value 0.6674 ± 0.0001.
-    measured_value = 0.6674
-    measured_uncertainty = 0.0001
-    print(f"\nVerifying against measured {measured_value} ± {measured_uncertainty} ...")
+    # Verify the computed Q against the theoretical 2/3.
+    # The "measured" value is the computed Q from PDG masses.
+    # Uncertainty on the computed Q comes from mass measurement uncertainties.
+    measured_value = computed_Q
+    measured_uncertainty = 0.0001  # conservative: dominated by m_τ uncertainty
+    print(f"\nVerifying computed Q = {measured_value:.10f} ± {measured_uncertainty} ...")
     result = verify_record(path, measured_value, measured_uncertainty)
     print_verify_result(result)
     return result
@@ -438,6 +596,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_reg.add_argument("--sigma-denominator", default="",
                        help="Explicit denominator convention for sigma estimates "
                             "(e.g. 'full_window_spread (0.045 dimensionless Q units)')")
+    p_reg.add_argument("--committed-by", default="",
+                       help="Agent identity for the commit (stored in envelope)")
     p_reg.set_defaults(func=cmd_register)
 
     # --- verify -------------------------------------------------------------
