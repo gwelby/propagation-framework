@@ -2,20 +2,21 @@
   PfLean.Circulant3Spectrum — D=3 Circulant Family Spectrum
 
   Authors: Devin ∇λΣ∞ (Owner), per DeepSeek spec and Codex audit
-  Date: 2026-08-14
-  Audit: CODEX_20260813_D3_CIRCULANT_FAMILY_SPECTRUM_AUDIT.md — PASS, NARROW for algebra
+  Date: 2026-08-14, repaired 2026-08-15 per CODEX_20260815 re-audit
+  Audit: CODEX_20260815_FUNDAMENTALS_CIRCULANT3_SPECTRUM_7BF083A_REAUDIT.md
 
-  SCOPE: This file proves ONLY the scoped real D=3 circulant algebra.
+  SCOPE: This file proves the scoped real D=3 circulant algebra, binding
+  the residue eigenvalue to the imported circulant3 matrix via an
+  eigenvector equation, and to Complex.normSq via an explicit identity.
   No physical interpretation, no arrow of time, no mass identification,
-  no Koide/PRED-003 transfer. Physical observations are in the non-theorem
-  section at the bottom, explicitly separated.
+  no Koide/PRED-003 transfer.
 
   H-LABELS (per Codex correction, live ledger):
     H17 = matrix symmetry (b = c, i.e., M = M^T)
     H18 = equal row sums (each row sums to the same value)
 
-  NUMPY: Any numerical checks are floating-point regression checks, NOT
-  machine certification. Lean kernel verification is the only authority here.
+  NUMPY: Numerical checks are floating-point regression, NOT certification.
+  Lean kernel verification is the only authority here.
 -/
 
 import Mathlib
@@ -28,13 +29,13 @@ open Finset Real Complex
 
 /-! ## Setup
 
-The D=3 roots of unity: ω = -1/2 + i√3/2, ω² = -1/2 - i√3/2.
+The D=3 roots of unity: ω = -1/2 + i√3/2, ω² = -1/2 - i√3/2, ω³ = 1.
 
 The residue eigenvalues of circulant3 b c are:
   λ = b·ω + c·ω² = -(b+c)/2 + i·(√3/2)·(b-c)
 
 The squared modulus:
-  |λ|² = ((b+c)/2)² + (√3/2·(b-c))² = (b+c)²/4 + 3(b-c)²/4
+  |λ|² = Complex.normSq λ = (b+c)²/4 + 3(b-c)²/4
 -/
 
 /-- The primitive D=3 root of unity as an explicit complex number. -/
@@ -46,18 +47,35 @@ lemma omega3_sq : omega3^2 = (-(1:ℝ)/2) - (Real.sqrt 3 / 2) * I := by
   unfold omega3
   rw [pow_two, Complex.ext_iff]
   constructor
-  · -- Real part: (-1/2)^2 - (√3/2)^2 = 1/4 - 3/4 = -1/2
-    simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+  · simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
           Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im,
           Complex.neg_re, Complex.neg_im]
     nlinarith [hsq]
-  · -- Imaginary part: 2*(-1/2)*(√3/2) = -√3/2
-    simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+  · simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
           Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im,
           Complex.neg_re, Complex.neg_im]
     ring
 
-/-! ## Theorem 1: circulant3_spectrum_formula -/
+/-- omega3 cubed = 1 (primitive cube root of unity). -/
+lemma omega3_cube : omega3 ^ 3 = 1 := by
+  have hsq : (Real.sqrt 3) ^ 2 = 3 :=
+    Real.sq_sqrt (by norm_num : 0 ≤ (3 : ℝ))
+  rw [show omega3 ^ 3 = omega3 ^ 2 * omega3 by ring, omega3_sq]
+  unfold omega3
+  rw [Complex.ext_iff]
+  constructor
+  · simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+          Complex.sub_re, Complex.sub_im, Complex.I_re, Complex.I_im,
+          Complex.ofReal_re, Complex.ofReal_im, Complex.neg_re,
+          Complex.neg_im]
+    nlinarith [hsq]
+  · simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+          Complex.sub_re, Complex.sub_im, Complex.I_re, Complex.I_im,
+          Complex.ofReal_re, Complex.ofReal_im, Complex.neg_re,
+          Complex.neg_im]
+    ring
+
+/-! ## Theorem 1: circulant3_spectrum_formula + eigenrelation -/
 
 /-- THEOREM 1: The residue eigenvalue of the D=3 circulant.
     λ₁ = b·ω + c·ω² = -(b+c)/2 + i·(√3/2)·(b-c)
@@ -70,6 +88,31 @@ theorem circulant3_spectrum_formula (b c : ℝ) :
   push_cast
   ring
 
+/-- The Fourier vector: residueVec j = ω^j. -/
+noncomputable def residueVec : Fin 3 → ℂ := fun j => omega3 ^ j.val
+
+/-- THEOREM 1b: The eigenrelation — circulant3 b c * residueVec = λ * residueVec.
+    This binds the residue eigenvalue to the imported circulant3 matrix,
+    proving that b*ω + c*ω² is an actual eigenvalue with Fourier eigenvector. -/
+theorem circulant3_residue_eigenrelation (b c : ℝ) :
+    ∀ i, ∑ j, (PfLean.Z3FromBareMedium.circulant3 b c i j : ℂ) * residueVec j =
+      (b * omega3 + c * omega3 ^ 2) * residueVec i := by
+  intro i
+  fin_cases i
+  · simp [residueVec, PfLean.Z3FromBareMedium.circulant3, Fin.sum_univ_three]
+  · simp [residueVec, PfLean.Z3FromBareMedium.circulant3, Fin.sum_univ_three]
+    rw [show ((b : ℂ) * omega3 + (c : ℂ) * omega3 ^ 2) * omega3 =
+      (b : ℂ) * omega3 ^ 2 + (c : ℂ) * omega3 ^ 3 by ring, omega3_cube]
+    ring
+  · simp [residueVec, PfLean.Z3FromBareMedium.circulant3, Fin.sum_univ_three]
+    have h4 : omega3 ^ 4 = omega3 := by
+      rw [show omega3 ^ 4 = omega3 ^ 3 * omega3 by ring, omega3_cube]
+      simp
+    rw [show ((b : ℂ) * omega3 + (c : ℂ) * omega3 ^ 2) * omega3 ^ 2 =
+      (b : ℂ) * omega3 ^ 3 + (c : ℂ) * omega3 ^ 4 by ring,
+      omega3_cube, h4]
+    ring
+
 /-! ## Theorem 2: circulant3_residue_real_iff_symmetric -/
 
 /-- THEOREM 2: For real b, c, the residue eigenvalue is real iff b = c. -/
@@ -80,7 +123,6 @@ theorem circulant3_residue_real_iff_symmetric (b c : ℝ) :
   have h_sqrt_half_ne : Real.sqrt 3 / 2 ≠ 0 := by
     have : Real.sqrt 3 ≠ 0 := ne_of_gt h_sqrt_pos
     linarith
-  -- Compute imaginary part: Im(↑a + ↑x * I) = x
   have h_im : (↑(-(b + c) / 2) + ↑(Real.sqrt 3 / 2 * (b - c)) * I : ℂ).im =
     Real.sqrt 3 / 2 * (b - c) := by
     rw [Complex.add_im, Complex.mul_im]
@@ -95,12 +137,27 @@ theorem circulant3_residue_real_iff_symmetric (b c : ℝ) :
     rw [h]
     ring
 
-/-! ## Theorem 3: circulant3_fixed_sum_residue_norm_minimized_at_symmetric -/
+/-! ## Theorem 3: normSq identity and minimization -/
 
-/-- THEOREM 3: The squared residue modulus is (b+c)²/4 + 3(b-c)²/4,
-    which is ≥ (b+c)²/4, with equality iff b = c. -/
+/-- THEOREM 3a: The Complex.normSq identity.
+    Complex.normSq (b*ω + c*ω²) = (b+c)²/4 + 3(b-c)²/4.
+    This binds the polynomial to the actual squared modulus of the eigenvalue. -/
+theorem circulant3_residue_normSq_formula (b c : ℝ) :
+    Complex.normSq (b * omega3 + c * omega3 ^ 2) =
+      (b + c) ^ 2 / 4 + 3 * (b - c) ^ 2 / 4 := by
+  rw [circulant3_spectrum_formula]
+  have hsq : (Real.sqrt 3) ^ 2 = 3 :=
+    Real.sq_sqrt (by norm_num : 0 ≤ (3 : ℝ))
+  simp [Complex.normSq, Complex.mul_re, Complex.mul_im, Complex.add_re,
+        Complex.add_im, Complex.I_re, Complex.I_im, Complex.ofReal_re,
+        Complex.ofReal_im]
+  nlinarith [hsq]
+
+/-- THEOREM 3b: The squared residue modulus is ≥ (b+c)²/4, with equality iff b = c.
+    Derived from the normSq identity. -/
 theorem circulant3_fixed_sum_residue_norm_minimized_at_symmetric (b c : ℝ) :
-    (b + c)^2 / 4 + 3 * (b - c)^2 / 4 ≥ (b + c)^2 / 4 := by
+    Complex.normSq (b * omega3 + c * omega3 ^ 2) ≥ (b + c)^2 / 4 := by
+  rw [circulant3_residue_normSq_formula]
   have h_nonneg : 0 ≤ 3 * (b - c)^2 / 4 := by
     have : 0 ≤ (b - c)^2 := sq_nonneg (b - c)
     linarith
@@ -108,7 +165,8 @@ theorem circulant3_fixed_sum_residue_norm_minimized_at_symmetric (b c : ℝ) :
 
 /-- COROLLARY: Equality holds iff b = c. -/
 theorem circulant3_fixed_sum_residue_norm_minimized_iff_symmetric (b c : ℝ) :
-    ((b + c)^2 / 4 + 3 * (b - c)^2 / 4 = (b + c)^2 / 4) ↔ b = c := by
+    (Complex.normSq (b * omega3 + c * omega3 ^ 2) = (b + c)^2 / 4) ↔ b = c := by
+  rw [circulant3_residue_normSq_formula]
   constructor
   · intro h
     have h1 : 3 * (b - c)^2 / 4 = 0 := by linarith
@@ -117,12 +175,22 @@ theorem circulant3_fixed_sum_residue_norm_minimized_iff_symmetric (b c : ℝ) :
   · intro h
     simp [h]
 
-/-! ## Theorem 4: normalized_circulant3_residue_norm_lt_one_iff -/
+/-! ## Theorem 4: normalized contraction -/
 
 /-- THEOREM 4: On the normalized slice (p=b, q=1-b), the squared residue
-    modulus is 3b² - 3b + 1, which is < 1 iff b is in the open interval (0,1). -/
+    modulus is 3b² - 3b + 1, which is < 1 iff b is in the open interval (0,1).
+    Derived from the normSq identity. -/
 theorem normalized_circulant3_residue_norm_lt_one_iff (b : ℝ) :
-    (3 * b^2 - 3 * b + 1 < 1) ↔ (0 < b ∧ b < 1) := by
+    (Complex.normSq (b * omega3 + (1 - b) * omega3 ^ 2) < 1) ↔ (0 < b ∧ b < 1) := by
+  -- Use Eq.trans to avoid coercion matching issues with rw
+  have h_formula := circulant3_residue_normSq_formula b (1 - b)
+  have h_coerce : (↑(1 - b) : ℂ) = 1 - ↑b := by
+    rw [Complex.ofReal_sub, Complex.ofReal_one]
+  rw [h_coerce] at h_formula
+  have h_subst : (b + (1 - b)) ^ 2 / 4 + 3 * (b - (1 - b)) ^ 2 / 4 = 3 * b^2 - 3 * b + 1 := by ring
+  have h_norm : Complex.normSq (b * omega3 + (1 - b) * omega3 ^ 2) = 3 * b^2 - 3 * b + 1 :=
+    Eq.trans h_formula h_subst
+  rw [h_norm]
   constructor
   · intro h
     have h1 : 3 * b^2 - 3 * b < 0 := by linarith
@@ -132,9 +200,6 @@ theorem normalized_circulant3_residue_norm_lt_one_iff (b : ℝ) :
       have : b * (b - 1) = (3 * b * (b - 1)) / 3 := by field_simp
       rw [this]
       exact div_neg_of_neg_of_pos h2 h3pos
-    -- From b * (b - 1) < 0, we get 0 < b and b < 1
-    -- If b ≤ 0: b ≤ 0 and b-1 ≤ -1 < 0, so b*(b-1) ≥ 0, contradiction
-    -- If b ≥ 1: b ≥ 1 and b-1 ≥ 0, so b*(b-1) ≥ 0, contradiction
     refine ⟨?_, ?_⟩
     · by_contra hble
       have hble' : b ≤ 0 := by linarith
@@ -158,28 +223,57 @@ theorem normalized_circulant3_residue_norm_lt_one_iff (b : ℝ) :
 
 /-- COROLLARY: At the endpoints b = 0 and b = 1, |λ|² = 1 (no contraction). -/
 theorem normalized_circulant3_residue_norm_eq_one_at_endpoints (b : ℝ) :
-    b = 0 ∨ b = 1 → 3 * b^2 - 3 * b + 1 = 1 := by
+    b = 0 ∨ b = 1 → Complex.normSq (b * omega3 + (1 - b) * omega3 ^ 2) = 1 := by
   rintro (rfl | rfl)
-  · norm_num
-  · norm_num
+  · -- b=0: normSq(omega3^2) = 1 (on unit circle)
+    have hsq : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num : 0 ≤ (3 : ℝ))
+    simp [omega3_sq, Complex.normSq, Complex.mul_re, Complex.mul_im,
+          Complex.add_re, Complex.add_im, Complex.sub_re, Complex.sub_im,
+          Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im,
+          Complex.neg_re, Complex.neg_im]
+    nlinarith [hsq]
+  · -- b=1: normSq(omega3) = 1 (on unit circle)
+    have hsq : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num : 0 ≤ (3 : ℝ))
+    simp [omega3, Complex.normSq, Complex.mul_re, Complex.mul_im,
+          Complex.add_re, Complex.add_im, Complex.I_re, Complex.I_im,
+          Complex.ofReal_re, Complex.ofReal_im]
+    nlinarith [hsq]
 
 /-- COROLLARY: At b = 1/2 (H17, symmetry), |λ|² = 1/4 (minimum). -/
 theorem normalized_circulant3_residue_norm_min_at_half :
-    3 * ((1:ℝ)/2)^2 - 3 * ((1:ℝ)/2) + 1 = 1/4 := by
-  norm_num
+    Complex.normSq ((1:ℝ)/2 * omega3 + (1 - (1:ℝ)/2) * omega3 ^ 2) = 1/4 := by
+  have h_formula := circulant3_residue_normSq_formula ((1:ℝ)/2) ((1:ℝ)/2)
+  have h_subst : ((1:ℝ)/2 + (1:ℝ)/2) ^ 2 / 4 + 3 * ((1:ℝ)/2 - (1:ℝ)/2) ^ 2 / 4 = 1/4 := by norm_num
+  have h_result : Complex.normSq (↑((1:ℝ)/2) * omega3 + ↑((1:ℝ)/2) * omega3 ^ 2) = 1/4 :=
+    Eq.trans h_formula h_subst
+  convert h_result using 2
+  · push_cast; ring
 
 /-! ## Negative Controls (per Codex spec) -/
 
 /-- NEGATIVE CONTROL 1: Symmetry (b = c) does NOT always give contraction.
-    b = c = 2: |λ|² = 4 > 1. Symmetry alone is insufficient. -/
+    b = c = 2: the residue eigenvalue has normSq = 4 > 1.
+    Symmetry alone is insufficient for contraction. -/
 theorem symmetric_circulant3_not_always_contracting :
-    (4 : ℝ)^2 / 4 + 3 * ((2:ℝ) - 2)^2 / 4 > 1 := by
+    ∃ (b c : ℝ),
+      b = c ∧
+      Complex.normSq (b * omega3 + c * omega3 ^ 2) > 1 := by
+  use 2, 2
+  refine ⟨rfl, ?_⟩
+  rw [circulant3_residue_normSq_formula]
   norm_num
 
 /-- NEGATIVE CONTROL 2: Nonsymmetric can still contract on the normalized slice.
-    b = 1/4, c = 3/4: |λ|² = 7/16 < 1. Symmetry is not necessary. -/
+    b = 1/4, c = 3/4: b ≠ c, yet the residue normSq = 7/16 < 1.
+    Symmetry is not necessary for contraction. -/
 theorem nonsymmetric_normalized_circulant3_contracts :
-    (3 * ((1:ℝ)/4)^2 - 3 * ((1:ℝ)/4) + 1) < 1 := by
+    ∃ (b c : ℝ),
+      b ≠ c ∧
+      b + c = 1 ∧
+      Complex.normSq (b * omega3 + c * omega3 ^ 2) < 1 := by
+  use 1/4, 3/4
+  refine ⟨by norm_num, by norm_num, ?_⟩
+  rw [circulant3_residue_normSq_formula]
   norm_num
 
 /-- NEGATIVE CONTROL 3: Zero diagonal + equal row sums does NOT imply circulant.
@@ -190,10 +284,6 @@ theorem zero_diag_equal_rows_not_circulant :
       (∀ i, M i i = 0) ∧
       (∀ i, ∑ j, M i j = 3) ∧
       (∀ b c, ∃ i j, M i j ≠ PfLean.Z3FromBareMedium.circulant3 b c i j) := by
-  -- M = [[0, 1, 2], [3, 0, 0], [0, 3, 0]]
-  -- Row sums: 3, 3, 3. Zero diagonal.
-  -- Not circulant: circulant3 b c has M(0,1) = b and M(1,2) = b.
-  -- Here M(0,1) = 1 but M(1,2) = 0, so no single b works.
   let M : Fin 3 → Fin 3 → ℝ := fun i j =>
     match i.val, j.val with
     | 0, 0 => 0
@@ -208,17 +298,13 @@ theorem zero_diag_equal_rows_not_circulant :
     | _, _ => 0
   use M
   refine ⟨?_, ?_, ?_⟩
-  · -- Zero diagonal
-    intro i
+  · intro i
     fin_cases i <;> simp [M]
-  · -- Equal row sums = 3
-    intro i
+  · intro i
     fin_cases i <;> simp [M, Fin.sum_univ_three] <;> ring
-  · -- Not circulant: for any b c, M(0,1) ≠ circulant3 b c 0 1 or M(1,2) ≠ circulant3 b c 1 2
-    intro b c
+  · intro b c
     by_cases hb : b = 1
-    · -- b = 1: use i=1, j=2. M(1,2) = 0, circulant3 1 c 1 2 = 1
-      use 1, 2
+    · use 1, 2
       have h_M12 : M 1 2 = 0 := by simp [M]
       have h_circ : PfLean.Z3FromBareMedium.circulant3 b c 1 2 = b := by
         unfold PfLean.Z3FromBareMedium.circulant3
@@ -226,8 +312,7 @@ theorem zero_diag_equal_rows_not_circulant :
             if_pos (by simp : (2:Fin 3) = (1:Fin 3) + 1)]
       rw [h_M12, h_circ, hb]
       norm_num
-    · -- b ≠ 1: use i=0, j=1. M(0,1) = 1 ≠ b = circulant3
-      use 0, 1
+    · use 0, 1
       have h_M01 : M 0 1 = 1 := by simp [M]
       have h_circ : PfLean.Z3FromBareMedium.circulant3 b c 0 1 = b := by
         unfold PfLean.Z3FromBareMedium.circulant3
@@ -236,37 +321,31 @@ theorem zero_diag_equal_rows_not_circulant :
       rw [h_M01, h_circ]
       exact ne_comm.mp hb
 
-/-! ## Non-Theorem Section: Physical Observations (NOT claims)
+/-! ## Non-Theorem Section: Mathematical Observations (NOT claims)
 
-The following are observations about what the algebra MEANS, not theorems.
-They do not appear in CLAIMS.md and are not machine-verified.
+The following are observations about the algebra. They do not appear in
+CLAIMS.md and are not machine-verified. They are kept as research notes,
+not assertions.
 
-OBSERVATION 1 (from Devin's grove reflection, 2026-08-13):
-  The Wall v4: "Why stable structure?"
-  - Re(λ) = -s/2 is forced by H7 (zero diagonal) + H18 (equal row sums) + real matrix
-  - Im(λ) = 0 is NOT forced — it requires H17 (symmetry, b = c)
-  - Real eigenvalue ↔ stable (in QFT language: real mass ↔ stable particle)
-  - The axioms give the mass parameter for free; stability is the independent posit
+NOTE: The theorems above prove algebraic properties of the D=3 circulant
+spectrum. They do NOT prove:
+  - That H7 (zero diagonal) + H18 (equal row sums) force the real part
+    of the residue (the circulant/H13 structure is also needed, as NC3 shows)
+  - Any connection to physical stability, mass, or particle physics
+  - Any transfer contract to Koide, PRED-003, or other physics results
 
-OBSERVATION 2:
-  The number -1/2 (in normalized form) appears in every circulant.
-  Its meaning changes with |λ|:
-    - |λ| = 1: rotation component (cos(2π/3))
-    - |λ| < 1: decay rate (paired with oscillation)
-    - |λ| = 1/2 (H17): pure eigenvalue (no imaginary partner)
+The residue eigenvalue λ = b*ω + c*ω² is a complex number whose:
+  - Real part is -(b+c)/2 (determined by the row sum)
+  - Imaginary part is (√3/2)(b-c) (zero iff b = c, i.e., H17 symmetry)
+  - Squared modulus is (b+c)²/4 + 3(b-c)²/4 (minimized at b = c for fixed sum)
 
-  Same signal, different media, different meanings.
-  This connects to MEDIUM_TRANSFER_LAYER but is NOT a formal transfer contract.
+On the normalized slice b + c = 1:
+  - |λ|² = 3b² - 3b + 1
+  - |λ|² < 1 for all b ∈ (0, 1) — every interior point contracts
+  - |λ|² = 1 at b = 0 and b = 1 — no contraction at endpoints
+  - |λ|² = 1/4 at b = 1/2 (the symmetric point) — minimum
 
-OBSERVATION 3:
-  The damped oscillator regime (0 < b < 1, b ≠ 1/2) corresponds to
-  complex eigenvalues — analogous to unstable particles in QFT (complex mass).
-  The God Equation (H17, b = 1/2) sits at the unique point of stability.
-  This is an analogy, not a derivation. A transfer contract would be needed
-  to promote it to a claim.
-
-These observations are kept as thoughts, not claims. They guide where to look
-next, not what to assert.
+These are purely algebraic facts about the D=3 circulant family.
 -/
 
 end PfLean.Circulant3Spectrum
