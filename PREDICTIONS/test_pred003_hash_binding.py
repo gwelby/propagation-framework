@@ -123,7 +123,71 @@ def test_record(path):
     _check(not verify_hash(mutated_env_schema),
            "mutated envelope schema_version → verify_hash == False (H2)")
 
-    # 9. H1: Confirm no top-level committed_at exists
+    # 9. H2-A: Remove envelope_hash only → verify_hash must FAIL (mandatory)
+    mutated_no_env_hash = copy.deepcopy(record)
+    del mutated_no_env_hash["envelope_hash"]
+    _check(not verify_hash(mutated_no_env_hash),
+           "removed envelope_hash only → verify_hash == False (H2-A mandatory)")
+
+    # 9b. H2-A: Remove both envelope and envelope_hash → verify_hash must FAIL
+    mutated_no_env = copy.deepcopy(record)
+    del mutated_no_env["envelope_hash"]
+    del mutated_no_env["envelope"]
+    _check(not verify_hash(mutated_no_env),
+           "removed both envelope and envelope_hash → verify_hash == False (H2-A)")
+
+    # 9c. H2-A: Empty envelope_hash → verify_hash must FAIL
+    mutated_empty_env_hash = copy.deepcopy(record)
+    mutated_empty_env_hash["envelope_hash"] = ""
+    _check(not verify_hash(mutated_empty_env_hash),
+           "empty envelope_hash → verify_hash == False (H2-A)")
+
+    # 9d. H2-A: Empty envelope dict → verify_hash must FAIL
+    mutated_empty_env = copy.deepcopy(record)
+    mutated_empty_env["envelope"] = {}
+    _check(not verify_hash(mutated_empty_env),
+           "empty envelope dict → verify_hash == False (H2-A)")
+
+    # 10. H2-B: Forged minimal record (schema_version + payload + content_hash) → FAIL
+    forged = {
+        "schema_version": SCHEMA_VERSION,
+        "payload": {},
+        "content_hash": compute_hash({}),
+    }
+    _check(not verify_hash(forged),
+           "forged minimal record → verify_hash == False (H2-B schema validation)")
+
+    # 10b. H2-B: Record with missing payload field → FAIL
+    mutated_missing_field = copy.deepcopy(record)
+    del mutated_missing_field["payload"]["sigma_denominator"]
+    _check(not verify_hash(mutated_missing_field),
+           "missing payload field → verify_hash == False (H2-B)")
+
+    # 10c. H2-B: Record with wrong-type payload field → FAIL
+    mutated_wrong_type = copy.deepcopy(record)
+    mutated_wrong_type["payload"]["expected_value"] = "not_a_number"
+    _check(not verify_hash(mutated_wrong_type),
+           "wrong-type payload field → verify_hash == False (H2-B)")
+
+    # 10d. H2-B: Record with missing envelope field → FAIL
+    mutated_missing_env_field = copy.deepcopy(record)
+    del mutated_missing_env_field["envelope"]["prior_record_sha256"]
+    _check(not verify_hash(mutated_missing_env_field),
+           "missing envelope field → verify_hash == False (H2-B)")
+
+    # 11. H1/H2-C: Adding legacy top-level "committed" → verify_hash must FAIL
+    mutated_legacy = copy.deepcopy(record)
+    mutated_legacy["committed"] = "1900-01-01T00:00:00+00:00"
+    _check(not verify_hash(mutated_legacy),
+           "added legacy top-level committed → verify_hash == False (H1/H2-C)")
+
+    # 11b. H1/H2-C: Adding extra top-level key → verify_hash must FAIL
+    mutated_extra_key = copy.deepcopy(record)
+    mutated_extra_key["hostile_field"] = "malicious"
+    _check(not verify_hash(mutated_extra_key),
+           "added extra top-level key → verify_hash == False (H1/H2-C closed schema)")
+
+    # 12. H1: Confirm no top-level committed_at exists
     _check("committed_at" not in record,
            "no top-level committed_at in v3 record (H1)")
     _check("committed" not in record,

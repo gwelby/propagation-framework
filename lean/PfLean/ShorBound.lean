@@ -692,13 +692,15 @@ theorem qft_peak_alignment_iff_period_divides_register (r n : ℕ)
       exact Nat.dvd_iff_mod_eq_zero.mp ⟨j * k, by rw [hk]; ring⟩
     exact this
 
-/-- **Theorem (Identity Gate Pruning):** In Shor's circuit with n counting qubits,
+/-- **Theorem (Active Unitary Count):** In Shor's circuit with n counting qubits,
     the j-th counting qubit controls U^(2^j mod r). The number of active (non-identity)
     controlled unitaries is |{j : 0 ≤ j < n : 2^j mod r ≠ 0}|.
 
-    When 2^j mod r = 0, the controlled operation is U^0 = I (identity), which the
-    Qiskit transpiler prunes. This is the mechanism behind the non-monotonic noise
-    pattern observed on IBM Heron hardware.
+    When 2^j mod r = 0, the controlled operation is U^0 = I (identity), which
+    a transpiler can prune. This is an arithmetic counting theorem — it counts
+    active indices. It does NOT prove anything about CX gate counts, noise
+    patterns, or hardware behavior. Empirical observations about IBM Heron
+    hardware noise patterns are recorded in evidence/HONEST_EXTRACTION_AUDIT.md.
 
     This theorem counts the active unitaries as a Finset filter. -/
 def shor_active_unitary_indices (r n : ℕ) (hr : r > 0) : Finset ℕ :=
@@ -708,16 +710,16 @@ def shor_active_unitary_indices (r n : ℕ) (hr : r > 0) : Finset ℕ :=
 def shor_circuit_active_unitary_count (r n : ℕ) (hr : r > 0) : ℕ :=
   (shor_active_unitary_indices r n hr).card
 
-/-- **Theorem (Power-of-2 Period → Pruned Circuit):** When the period r is a
-    power of 2, say r = 2^k, and the counting register has n > k qubits, then
-    exactly k of the n controlled unitaries are active (j = 0, 1, ..., k-1).
+/-- **Theorem (Power-of-2 Period → Fewer Active Unitaries):** When the period r
+    is a power of 2, say r = 2^k, and the counting register has n > k qubits,
+    then exactly k of the n controlled unitaries are active (j = 0, 1, ..., k-1).
     The remaining n - k are identity gates (2^j mod 2^k = 0 for j ≥ k).
 
-    This explains the CX count difference observed on IBM hardware:
-    - N=15, r=4=2^2, n=8: 2 active, 6 pruned → 540 CX gates
-    - N=51, r=16=2^4, n=8: 4 active, 4 pruned → 16,627 CX gates
-    - N=21, r=6 (not power of 2), n=8: 8 active, 0 pruned → 33,188 CX gates
-    - N=35, r=12 (not power of 2), n=8: 8 active, 0 pruned → 33,188 CX gates
+    This is an arithmetic counting theorem. It does NOT prove anything about CX
+    gate counts or hardware behavior. The CX count observations from IBM Heron
+    hardware (N=15, N=51, N=21, N=35) are empirical and live in
+    evidence/HONEST_EXTRACTION_AUDIT.md. The arithmetic is consistent with
+    those observations, but consistency is not derivation.
 
     Proof: 2^j mod 2^k = 0 iff j ≥ k (since 2^k | 2^j iff k ≤ j).
     So the active indices are {0, 1, ..., k-1}, which has cardinality k. -/

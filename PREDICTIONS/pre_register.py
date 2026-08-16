@@ -161,39 +161,121 @@ def compute_envelope_hash(envelope: Dict[str, Any]) -> str:
     return hashlib.sha256(envelope_string(envelope).encode("utf-8")).hexdigest()
 
 
+# Required payload fields for schema v3. A record missing any of these
+# is rejected by verify_hash() (H2-B: schema shape validation).
+REQUIRED_PAYLOAD_FIELDS = {
+    "quantity_name": str,
+    "formula": str,
+    "expected_value": (int, float),
+    "uncertainty": (int, float),
+    "measurement_source": str,
+    "rival_predictions": dict,
+    "commitment_date": str,
+    "framework": str,
+    "conditional_on": str,
+    "notes": str,
+    "sigma_denominator": str,
+    "committed_at": str,
+}
+
+# Required envelope fields for schema v3.
+REQUIRED_ENVELOPE_FIELDS = {
+    "schema_version": int,
+    "prior_record_sha256": str,
+    "prior_git_revision": str,
+    "prior_schema_version": (int, str),  # int or empty string for initial
+    "amendment_change": str,
+    "amendment_date": str,
+    "committed_by": str,
+}
+
+# Closed schema: only these top-level keys are allowed in a v3 record.
+# Any other top-level key (e.g. legacy "committed", "committed_at",
+# "amendments") is rejected (H1/H2-C: bind/reject legacy fields).
+ALLOWED_TOP_LEVEL_KEYS = {
+    "schema_version",
+    "record_type",
+    "created_at",
+    "status",
+    "degenerate_risk",
+    "content_hash",
+    "envelope_hash",
+    "envelope",
+    "payload",
+    "resolution_log",
+}
+
+
 def verify_hash(record: Dict[str, Any]) -> bool:
-    """Return True iff the record passes all v3 integrity checks.
+    """Return True iff the record passes all v4 integrity checks.
 
-    Checks:
-      1. ``content_hash`` matches recomputed hash of ``payload``.
-      2. ``schema_version`` equals the current SCHEMA_VERSION (rejects
-         downgraded or unknown schema versions).
-      3. No top-level ``committed_at`` exists (H1: single authoritative
-         timestamp in ``payload.committed_at`` only).
-      4. If ``envelope_hash`` is present, it matches the recomputed envelope
-         hash (H2: binds schema, predecessor, amendment).
+    Checks (v4 — all mandatory, no optional bypasses):
+      1. ``schema_version`` equals SCHEMA_VERSION (rejects downgrades/unknowns).
+      2. No top-level ``committed_at`` or legacy ``committed`` (H1).
+      3. No extra top-level keys outside ALLOWED_TOP_LEVEL_KEYS (H1/H2-C).
+      4. ``content_hash`` matches recomputed hash of ``payload``.
+      5. All required payload fields present with correct types (H2-B).
+      6. ``envelope`` and ``envelope_hash`` both present and non-empty (H2-A).
+      7. ``envelope_hash`` matches recomputed envelope hash (H2).
+      8. All required envelope fields present with correct types (H2-B).
     """
-    stored = record.get("content_hash")
-    if not stored:
-        return False
-    recomputed = compute_hash(record.get("payload", {}))
-    content_ok = hmac.compare_digest(stored, recomputed)
-
     # H2: reject downgraded or unknown schema versions
     if record.get("schema_version") != SCHEMA_VERSION:
         return False
 
-    # H1: reject records with a duplicate top-level committed_at
+    # H1: reject records with a duplicate top-level committed_at or legacy committed
     if "committed_at" in record:
         return False
+    if "committed" in record:
+        return False
 
-    # H2: verify envelope hash if present
+    # H1/H2-C: reject records with extra top-level keys (closed schema)
+    record_keys = set(record.keys())
+    extra_keys = record_keys - ALLOWED_TOP_LEVEL_KEYS
+    if extra_keys:
+        return False
+
+    # H2-A: envelope and envelope_hash are MANDATORY (not optional)
     stored_envelope = record.get("envelope_hash")
-    if stored_envelope:
-        envelope = record.get("envelope", {})
-        recomputed_envelope = compute_envelope_hash(envelope)
-        if not hmac.compare_digest(stored_envelope, recomputed_envelope):
+    envelope = record.get("envelope")
+    if not stored_envelope or not isinstance(stored_envelope, str):
+        return False
+    if not envelope or not isinstance(envelope, dict):
+        return False
+
+    # H2: verify envelope hash
+    recomputed_envelope = compute_envelope_hash(envelope)
+    if not hmac.compare_digest(stored_envelope, recomputed_envelope):
+        return False
+
+    # H2-B: validate required envelope fields and types
+    for field, expected_type in REQUIRED_ENVELOPE_FIELDS.items():
+        if field not in envelope:
             return False
+        val = envelope[field]
+        if not isinstance(val, expected_type):
+            return False
+
+    # H2-B: validate required payload fields and types
+    payload = record.get("payload")
+    if not payload or not isinstance(payload, dict):
+        return False
+    for field, expected_type in REQUIRED_PAYLOAD_FIELDS.items():
+        if field not in payload:
+            return False
+        val = payload[field]
+        # bool is a subclass of int — reject bools where numbers are expected
+        if isinstance(val, bool) and expected_type == (int, float):
+            return False
+        if not isinstance(val, expected_type):
+            return False
+
+    # Content hash check
+    stored = record.get("content_hash")
+    if not stored or not isinstance(stored, str):
+        return False
+    recomputed = compute_hash(payload)
+    content_ok = hmac.compare_digest(stored, recomputed)
 
     return content_ok
 

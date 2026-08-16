@@ -1,32 +1,40 @@
 /-
-  PfLean.QuantumStructureSurvival — What Structure Survives Contact with Hardware?
+  PfLean.QuantumStructureSurvival — Arithmetic Bin-Alignment and Circuit-Count Predicates
 
-  This module formalizes the "Quantum Structure Survival Map" framework proposed
-  by Codex (2026-06-30) and connects it to the IBM Heron hardware experiments
-  in /mnt/d/Crypto/labs/shor_substrate_probe/.
+  This module formalizes arithmetic predicates related to the "Quantum Structure
+  Survival Map" framework proposed by Codex (2026-06-30). The theorems prove
+  modular divisibility and circuit-count arithmetic — they do NOT formalize
+  QFT states, measurements, extraction success, or hardware behavior.
 
-  The central question is not "can we factor bigger numbers?" but:
+  Empirical observations from IBM Heron hardware experiments
+  (/mnt/d/Crypto/labs/shor_substrate_probe/) are recorded separately in
+  evidence/HONEST_EXTRACTION_AUDIT.md. They are NOT proven by this module.
 
-    What kinds of mathematical structure survive contact with today's quantum
-    hardware, and which ones only survive in the formula?
+  The central question motivating this work is:
 
-  Each theorem in this module is one row of the survival map. The formal theorems
-  are build-verified with `lake build PfLean.QuantumStructureSurvival` (0 errors,
-  0 sorries as of 2026-08-02). `sorry` in comments marks empirical/future work,
-  not compile gaps. Hardware rows remain EMPIRICAL or OPEN; do not cite them as
-  proven by the Lean build.
+    What kinds of mathematical structure are consistent with the extraction
+    boundary observed on today's quantum hardware?
+
+  But the theorems below answer only the arithmetic sub-question: when do
+  bin positions align with integers, and how many unitaries are active?
+
+  Each theorem in this module is one row of the arithmetic map. The formal
+  theorems are build-verified with `lake build PfLean.QuantumStructureSurvival`
+  (0 errors, 0 sorries as of 2026-08-02). `sorry` in comments marks
+  empirical/future work, not compile gaps. Hardware observations remain
+  EMPIRICAL or OPEN; do not cite them as proven by the Lean build.
 
   Framework (Codex 2026-06-30):
 
-    Row  | Structure type              | Math status         | Hardware status
+    Row  | Structure type              | Math status         | Hardware observation (EMPIRICAL, not Lean-proven)
     -----|-----------------------------|---------------------|----------------
-    1    | Periodic, r | Q            | VERIFIED (2026-07-02) | SURVIVES (N=15, N=51)
-    2    | Periodic, r ∤ Q            | VERIFIED (2026-07-02) | FAILS (N=21, N=35)
-    3    | Power-of-2 period           | VERIFIED (2026-07-02) | SURVIVES (pruned CX)
-    4    | Non-power-of-2 period       | VERIFIED (2026-07-02) | BARELY (full CX)
-    5    | Aperiodic (no period)       | VERIFIED (2026-07-02) | N/A (no structure)
+    1    | Periodic, r | Q            | ARITHMETIC (2026-07-02) | Consistent with N=15, N=51 extraction
+    2    | Periodic, r ∤ Q            | ARITHMETIC (2026-07-02) | Consistent with N=21, N=35 failure
+    3    | Power-of-2 period           | ARITHMETIC (2026-07-02) | Consistent with lower CX counts
+    4    | Non-power-of-2 period       | ARITHMETIC (2026-07-02) | Consistent with higher CX counts
+    5    | Aperiodic (no period)       | ARITHMETIC (2026-07-02) | N/A (no structure to extract)
     6    | LWE-like noisy affine       | PARTIAL (injective→aperiodic) | OPEN (PQC question)
-    7    | Random permutation          | VERIFIED (2026-07-02) | OPEN (null model)
+    7    | Random permutation          | ARITHMETIC (2026-07-02) | OPEN (null model)
     8    | Stabilizer/GHZ              | STATED (trivial)     | OPEN (different class)
 
   Connection to PQC security (STRUCTURAL ARGUMENT, NOT A FORMAL PROOF):
@@ -147,16 +155,19 @@ theorem row2_periodic_nondividing_fails (r n : ℕ) (hr : r > 0) (hn : n > 0)
   have h := qft_peak_alignment_iff_period_divides_register r n hr hn
   exact mt h.mp h_not_div
 
-/-- **Row 2 corollary (WRONG PERIOD):** When r ∤ Q, the tallest QFT peak
-    lands at a "round" position (like Q/2 or Q/4) that gives a small
-    convergent denominator, NOT the true period r.
+/-- **Row 2 corollary (EMPIRICAL OBSERVATION — TYPE IS `True`):** When
+    r ∤ Q, empirical observation suggests the tallest QFT peak lands at a
+    "round" position (like Q/2 or Q/4) that gives a small convergent
+    denominator, NOT the true period r.
 
     Example: N=21, r=6, Q=256. The tallest peak is at 128 = 256/2,
     which gives convergent denominator 2, not 6. The correct peak at
     43 ≈ 256/6 is smaller and gets lost in noise on hardware.
 
-    This is STATED but not fully proven — the "tallest peak" claim requires
-    explicit Fourier coefficient computation. -/
+    SCOPE NOTE: This is `True := by trivial` — Lean verifies NOTHING here.
+    The "tallest peak" claim requires explicit Fourier coefficient
+    computation and is NOT proven. This is an empirical placeholder marking
+    the formalization gap. Do not cite this as Lean-verified. -/
 theorem row2_tallest_peak_gives_wrong_period (r n : ℕ) (hr : r > 0) (hn : n > 0)
     (h_not_div : ¬(r ∣ 2 ^ n)) (h_r_gt_1 : r > 1) :
     -- The tallest peak is at position Q/2 = 2^(n-1), giving denominator 2,
@@ -168,20 +179,27 @@ theorem row2_tallest_peak_gives_wrong_period (r n : ℕ) (hr : r > 0) (hn : n > 
   trivial
 
 /- =====================================================================
-   SECTION 3: Rows 3-4 — Circuit Structure (VERIFIED 2026-07-02)
+   SECTION 3: Rows 3-4 — Active Unitary Count Arithmetic (VERIFIED 2026-07-02)
    =====================================================================
 
-   These rows connect to ShorBound.lean's identity pruning theorems.
-   Row 3: power-of-2 period → many identity gates → pruned → fewer CX → less noise
-   Row 4: non-power-of-2 period → no identity gates → full CX → more noise
+   These rows formalize the ARITHMETIC of active unitary counting from
+   ShorBound.lean. They count how many controlled unitaries are non-identity
+   — they do NOT prove anything about noise, CX gates, or hardware outcomes.
+
+   Row 3: power-of-2 period → k active unitaries (arithmetic count)
+   Row 4: non-power-of-2 period → all n unitaries active (arithmetic count)
+
+   Empirical IBM Heron observations about CX counts and noise are recorded
+   in evidence/HONEST_EXTRACTION_AUDIT.md, NOT proven here.
 -/
 
-/-- **Row 3 (SURVIVES — LOW NOISE):** When the period r is a power of 2,
-    the Shor circuit has only log₂(r) active controlled unitaries out of n.
-    The transpiler prunes the identity gates, reducing the CX count.
+/-- **Row 3 (Low Active Unitary Count):** When the period r is a power of 2,
+    the Shor circuit has only log₂(r) = k active controlled unitaries out of n.
 
-    This is why N=15 (r=4=2², 2/8 active → 540 CX) and N=51 (r=16=2⁴,
-    4/8 active → 16,627 CX) have lower noise than non-power-of-2 cases.
+    This is an arithmetic counting theorem. It does NOT prove anything about
+    CX gate counts, noise levels, or hardware extraction success. The IBM
+    Heron observations (N=15, N=51 with lower CX counts) are empirical and
+    live in evidence/HONEST_EXTRACTION_AUDIT.md.
 
     Proof: Direct from shor_circuit_active_count_power_of_two. -/
 theorem row3_power_of_two_period_low_noise (r n k : ℕ)
@@ -193,12 +211,13 @@ theorem row3_power_of_two_period_low_noise (r n k : ℕ)
   · exact shor_circuit_active_count_power_of_two r n k hr hn hk
   · omega
 
-/-- **Row 4 (BARELY SURVIVES — HIGH NOISE):** When the period r is not
-    a power of 2, all n counting qubits are active (for 2^j < r).
-    No identity gates to prune → full CX count → maximum noise.
+/-- **Row 4 (High Active Unitary Count):** When the period r is not
+    a power of 2, all n counting qubits where 2^j < r are active.
 
-    This is why N=21 (r=6, 8/8 active → 33,188 CX) and N=35 (r=12,
-    8/8 active → 33,188 CX) have 2x the noise of N=51 (r=16, 4/8 active).
+    This is an arithmetic counting theorem. It does NOT prove anything about
+    CX gate counts, noise levels, or hardware extraction failure. The IBM
+    Heron observations (N=21, N=35 with higher CX counts) are empirical and
+    live in evidence/HONEST_EXTRACTION_AUDIT.md.
 
     Proof: From shor_circuit_active_count_non_power_of_two. -/
 theorem row4_non_power_of_two_period_high_noise (r n : ℕ)
@@ -416,11 +435,12 @@ theorem row7_false_positive_is_not_signal {Q : ℕ} [NeZero Q] {α : Type*}
     classically simulable.
 
     The open question: does the QFT extract any useful structure from
-    stabilizer/GHZ circuits? If not, this is another "absence" result
-    that characterizes what quantum hardware can and cannot do.
+    stabilizer/GHZ circuits? This is an open formalization target.
 
-    This is STATED as a target, not a theorem. The formalization requires
-    defining stabilizer states in Lean and connecting them to the DFT. -/
+    SCOPE NOTE: This is `True := by trivial` — Lean verifies NOTHING here.
+    This is a placeholder marking the formalization gap. It does NOT
+    characterize what quantum hardware can or cannot do. Do not cite this
+    as Lean-verified. -/
 theorem row8_stabilizer_structure_open :
     -- OPEN: Do stabilizer/GHZ states have extractable Fourier structure?
     -- The Gottesman-Knill theorem says Clifford circuits are classically
@@ -470,31 +490,30 @@ theorem survival_hierarchy_summary (r n : ℕ) (hr : r > 0) (hn : n > 0) :
   · exact qft_peak_alignment_iff_period_divides_register r n hr hn
 
 /- =====================================================================
-   SECTION 7: The Two-Axis Survival Map (2026-07-01)
+   SECTION 7: Coupling Arithmetic and Empirical Map (2026-07-01)
    =====================================================================
 
-   The hardware experiments reveal that survival depends on TWO axes, not one:
-   - Axis 1: mathematical structure (r | Q vs r ∤ Q) — from Lean theorems
-   - Axis 2: CX count (low vs high) — from hardware experiments (C-052)
+   The coupling theorem below is an ARITHMETIC result: r | Q implies r is a
+   power of 2, which implies fewer active unitaries. It does NOT prove anything
+   about CX counts, noise, or hardware extraction outcomes.
 
-   For Shor's algorithm, these axes are COUPLED: r | Q implies r is a power of 2
-   (since Q = 2^n), which implies identity pruning, which implies low CX.
-   The coupling is itself a theorem.
-
-   For other circuits (chiral walk, LWE), the axes may be independent.
+   The empirical map that follows is `True := by trivial` — it is an
+   empirical placeholder, NOT a Lean-verified theorem. Hardware observations
+   live in evidence/HONEST_EXTRACTION_AUDIT.md.
 -/
 
-/-- **The Coupling Theorem:** For Shor's algorithm, if r | Q = 2^n, then r is
-    a power of 2, which implies identity gate pruning, which implies low CX count.
+/-- **The Coupling Theorem (Arithmetic):** For Shor's algorithm, if r | Q = 2^n,
+    then r is a power of 2, which implies fewer active unitaries (k instead of n).
 
-    This means the two axes of the survival map (mathematical favorability and
-    CX count) are NOT independent for Shor — they are coupled. A mathematically
-    favorable period (r | Q) CAUSES a low CX count (via identity pruning).
+    This is an arithmetic theorem about divisibility and active unitary counts.
+    It does NOT prove anything about CX gate counts, noise levels, or hardware
+    extraction success. The connection to hardware observations (lower CX
+    counts for power-of-2 periods) is empirical, recorded in
+    evidence/HONEST_EXTRACTION_AUDIT.md.
 
     Proof: r | 2^n implies r = 2^k for some k ≤ n (since 2^n's only prime
     factor is 2). Then by shor_circuit_active_count_power_of_two, the active
-    unitary count is k, not n. The remaining n-k unitaries are identity gates
-    that get pruned by the transpiler. -/
+    unitary count is k, not n. -/
 theorem shor_coupling_r_divides_Q_implies_low_active_count (r n k : ℕ)
     (hr : r = 2 ^ k) (hn : n > k) (hk : k > 0) :
     -- If r | Q and r = 2^k, then the active unitary count is exactly k
@@ -503,34 +522,37 @@ theorem shor_coupling_r_divides_Q_implies_low_active_count (r n k : ℕ)
     k < n := by
   exact row3_power_of_two_period_low_noise r n k hr hn hk
 
-/-- **The Two-Axis Survival Map (EMPIRICAL PLACEHOLDER — NOT LEAN-VERIFIED):**
-    Survival of quantum structure on NISQ hardware depends on two axes:
+/-- **Empirical Two-Axis Observation Map (EMPIRICAL PLACEHOLDER — TYPE IS `True`):**
+    Empirical observation suggests that survival of quantum structure on NISQ
+    hardware depends on two axes:
 
-    Axis 1 (mathematical): r | Q → sharp peaks → extraction possible
-    Axis 2 (physical): low CX → low noise → extraction succeeds
+    Axis 1 (mathematical): r | Q → sharp peaks → extraction observed
+    Axis 2 (physical): low CX → low noise → extraction observed
 
-    For Shor's algorithm, these axes are coupled (r | Q → low CX).
+    For Shor's algorithm, these axes are coupled (r | Q → fewer active unitaries).
     For other circuits, they may be independent.
 
-    SCOPE NOTE (Codex 2026-07-02): This is `True := by trivial` — Lean is NOT
-    verifying the hardware claims. This is an empirical placeholder marking
-    the formalization gap. The hardware data is real but lives outside Lean.
+    SCOPE NOTE (Codex 2026-07-02, reinforced 2026-08-15): This is
+    `True := by trivial` — Lean verifies NOTHING here. This is an empirical
+    placeholder marking the formalization gap. The hardware data is real but
+    lives outside Lean in evidence/HONEST_EXTRACTION_AUDIT.md. Do not cite
+    this as Lean-verified or as "extraction succeeds/fails proven in Lean."
 
-    The empirical data (2026-07-01) fills the survival map:
+    The empirical data (2026-07-01) fills the observation map:
 
     ```
                         r | Q (math favorable)    r ∤ Q (math unfavorable)
-    Low CX (<540)       SURVIVES (N=15)           FAILS (spectral leakage)
-    Medium CX (16K)     SURVIVES (N=51)           FAILS (N=35)
-    High CX (33K)       ??? (untested)            FAILS (N=21)
+    Low CX (<540)       OBSERVED (N=15)           NOT OBSERVED (spectral leakage)
+    Medium CX (16K)     OBSERVED (N=51)           NOT OBSERVED (N=35)
+    High CX (33K)       ??? (untested)            NOT OBSERVED (N=21)
     ```
 
     The ??? corner is UNTESTED. For Shor's algorithm, it may be unreachable
-    (r | Q → power-of-2 → identity pruning → low CX, so high CX with r | Q
-    doesn't occur naturally). For other circuits, it could be tested.
+    (r | Q → power-of-2 → fewer active unitaries → lower CX, so high CX
+    with r | Q doesn't occur naturally). For other circuits, it could be tested.
 
-    This is NOT a theorem — it is an empirical observation backed by hardware
-    data. The formal statement marks the formalization gap. -/
+    This is NOT a theorem — it is an empirical observation. The formal
+    statement marks the formalization gap. -/
 theorem two_axis_survival_map_empirical (r n : ℕ) (hr : r > 0) (hn : n > 0) :
     -- The survival of structure on NISQ hardware depends on:
     -- 1. Mathematical structure (r | Q) — formalized in Lean
