@@ -18,6 +18,7 @@ import PfLean.BekensteinGap
 import PfLean.GodEquationGap
 import PfLean.GodEquationSelection
 import PfLean.GodEquationSpectrum
+import PfLean.ResidueForcesN3
 import PfLean.LaplacianSelection
 import PfLean.KoideSelection
 import PfLean.SymmetryDerivation
