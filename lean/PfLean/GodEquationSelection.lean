@@ -19,10 +19,12 @@ residue is cos³(2π/N):
     T³ residue(N) = cos³(2π/N)
 
 Machine-checked consequences:
+
+**Scope note (2026-08-15, per Claude's cross-audit — verified DeepSeek):** every theorem in this list evaluates the residue at the FUNDAMENTAL mode k = 1. At the full residue-spectrum level these statements do not transfer: every N divisible by 3 contains a mode with residue exactly −1/8 (k = N/3, since cos(2π/3) = −1/2), and `n6_sign_flip` is a fundamental-mode statement, NOT a property of C₆'s full spectrum {+1/8, −1/8, −1, −1/8, +1/8}. The spectrum-level selection — N=3 is the UNIQUE N ≥ 2 whose ENTIRE residue spectrum is −1/8, quantified over all modes — is machine-checked in `GodEquationSpectrum.n3_unique_full_residue_spectrum` (Claude, 2026-08-14; independently verified by DeepSeek 2026-08-15: `lake env lean` exit 0 + observer-blind derivation PASS). Cite the spectrum-level theorem for generation-count claims; cite these for fundamental-mode claims.
 - `residue_cos_cubed`: the formula for the three canonical cycles
 - `n3_gives_minus_eighth`: cos³(2π/3) = −1/8 — the God Equation value, N=3
 - `n4_gives_zero`: cos³(π/2) = 0 — N=4 degenerate (residue preserved)
-- `n6_sign_flip`: cos³(π/3) = +1/8 — N=6 sign flip (expansive residue)
+- `n6_sign_flip`: cos³(π/3) = +1/8 — N=6 sign flip at the fundamental mode (expansive residue; NOT a spectrum-level property — see scope note)
 - `n3_unique_among_small_cycles`: only N=3 of {3,4,6} gives −1/8 —
   the generation-count selection, machine-checked
 - `n2_gives_minus_one`: cos³(π) = −1 — N=2 trivial (maximal contraction)
@@ -34,7 +36,8 @@ Machine-checked consequences:
 **The structural statement:** the God Equation spectrum {1, −1/8, −1/8}
 encodes BOTH "3"s — the uniform sector eigenvalue 1 selects D=3
 (dimensions, `GodEquationGap.gap_D3_unique_stable`), and the residue
-sector eigenvalue −1/8 selects N=3 (generations, this module).
+sector eigenvalue −1/8 selects N=3 (generations; fundamental-mode form in
+this module, full-spectrum form in `GodEquationSpectrum`).
 
 **Honest boundary:** this proves −1/8 is N=3-SPECIFIC; it does NOT derive
 N=3 from Axioms 1-3. The generation-count derivation remains the
