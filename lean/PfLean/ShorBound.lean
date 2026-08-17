@@ -883,60 +883,53 @@ theorem shor_circuit_all_active_non_power_of_two (r n : ℕ)
   rw [h_filter]
   exact Finset.card_range n
 
-/-- **EMPIRICAL AXIOM (NOT LEAN-VERIFIED): Hardware extraction success
-    is CX-threshold-dependent.
-
-    SCOPE NOTE: This axiom returns `True` because Lean cannot express
-    "extraction succeeds on hardware" without a full hardware noise model.
-    The axiom is a COMMENT-LEVEL empirical claim, not a Lean-verified theorem.
-    The `True` type is honest — it says "Lean has nothing to verify here."
-    A meaningful Lean type would require defining extraction success as a
-    function of circuit parameters, which is future work.
-
-    Evidence (IBM Heron r2, 2026-06-30):
-    - N=15 (540 CX, r=4, 4|256): extraction SUCCEEDS at all t
-    - N=51 (16,627 CX, r=16, 16|256): extraction SUCCEEDS
-    - N=21 (33,188 CX, r=6, 6∤256): extraction FAILS at all t
-    - N=35 (33,188 CX, r=12, 12∤256): extraction FAILS
-
-    The threshold T is between 16,627 and 33,188 CX gates on IBM Heron r2.
-    The exact threshold depends on hardware fidelity and is not fixed.
-
-    The empirical claim (in English, not Lean): there exists a CX threshold
-    T such that Shor extraction succeeds when CX_count ≤ T and r | Q,
-    and fails when CX_count > T. This is backed by the controlled experiment
-    in /mnt/d/Crypto/labs/shor_substrate_probe/evidence/BATCH2_RESULTS.md.
-
-    Upgraded 2026-07-31: comment clarified to explicitly state that `True`
-    is a placeholder, not a meaningful type. The previous version (also `True`)
-    had a comment that implied the axiom was "a precise empirical statement"
-    which was misleading — `True` is not precise, it's vacuous. This version
-    is honest about that.
--/
-axiom hardware_residual_is_cx_dependent (r n : ℕ)
-    (hr : r > 0) (hn : n > 0) :
-    -- Empirical claim (NOT expressible in Lean without a hardware noise model):
-    -- ∃ T : ℕ, T > 0 ∧
-    --   (∀ cx_count ≤ T, r ∣ (2^n) → extraction_succeeds) ∧
-    --   (∀ cx_count > T, extraction_fails)
-    -- T is between 16,627 and 33,188 on IBM Heron r2 (2026-06-30 data).
-    -- Lean type: True (placeholder — see comment above)
-    True
+-- **EMPIRICAL OBSERVATION (NOT LEAN-VERIFIED, NOT AN AXIOM): Hardware
+-- extraction success is CX-threshold-dependent.
+--
+-- SCOPE NOTE: This was previously declared as `axiom ... : True`, which
+-- is vacuous — `True` is not a meaningful type. It has been converted to
+-- a comment-only block because no proof depends on it. The empirical
+-- observation is documented here for reference, but it is NOT a Lean
+-- axiom, theorem, or definition.
+--
+-- Evidence (IBM Heron r2, 2026-06-30):
+-- - N=15 (540 CX, r=4, 4|256): extraction SUCCEEDS at all t
+-- - N=51 (16,627 CX, r=16, 16|256): extraction SUCCEEDS
+-- - N=21 (33,188 CX, r=6, 6∤256): extraction FAILS at all t
+-- - N=35 (33,188 CX, r=12, 12∤256): extraction FAILS
+--
+-- The threshold T is between 16,627 and 33,188 CX gates on IBM Heron r2.
+-- The exact threshold depends on hardware fidelity and is not fixed.
+--
+-- The empirical claim (in English, not Lean): there exists a CX threshold
+-- T such that Shor extraction succeeds when CX_count ≤ T and r | Q,
+-- and fails when CX_count > T. This is an empirical observation from
+-- controlled experiments, not a Lean-verified theorem.
+--
+-- NOTE: The evidence file
+-- /mnt/d/Crypto/labs/shor_substrate_probe/evidence/BATCH2_RESULTS.md
+-- is in a separate workspace and is not hash/revision-bound to this
+-- module. Cite it as external empirical context, not as Lean evidence.
+--
+-- hardware_residual_is_cx_dependent: REMOVED as an axiom.
+-- The `True` type was vacuous and no proof depended on it.
+-- The empirical observation is documented in the comment above.
 
 /-- **Legacy statement (kept for reference):** The original hardware residual
     hypothesis was "linear scaling with CX count." The hardware data
     (2026-07-01) shows the relationship is THRESHOLD-LIKE, not linear.
-    See `hardware_residual_is_cx_dependent` for the upgraded statement.
+    See the empirical observation comment above for the threshold data.
 
     This theorem is `trivial` (not `sorry`) because the linear scaling model
-    is not supported by the data and the theorem type is `True`. The threshold
-    model is stated as an axiom above. The `sorry` was misleading — there was
-    never a proof obligation for `True`. Upgraded 2026-07-12. -/
+    is not supported by the data and the theorem type is `True` (vacuous).
+    The `sorry` was misleading — there was never a proof obligation for `True`.
+    Upgraded 2026-07-12. The threshold observation is now a comment-only
+    block (not an axiom) — see above. -/
 theorem hardware_residual_scales_with_cx_count (r n Q_count : ℕ)
     (hr : r > 0) (hn : n > 0)
     (h_active : Q_count = shor_circuit_active_unitary_count r n hr) :
     -- LEGACY: linear scaling model not supported by data.
-    -- See hardware_residual_is_cx_dependent for the correct statement.
+    -- See empirical observation comment above for the threshold data.
     True := by
   trivial
 

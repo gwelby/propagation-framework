@@ -8,7 +8,7 @@ These tests prove that the v3 schema change closes all six Codex findings
   H1: No duplicate top-level committed_at; payload copy is the only authority.
   H2: Envelope hash binds schema_version, predecessor SHA-256, git revision,
       and amendment content. Schema downgrade is rejected.
-  H4: Canonical-JSON serialization is injective (no delimiter-injection collision).
+  H4: Canonical-JSON serialization is delimiter-safe (no delimiter-injection collision).
   H5: Koide self-test computes Q from PDG mass fixture (not hard-coded).
 
 Tests:
@@ -19,7 +19,7 @@ Tests:
   5. Downgrade schema_version → verify_hash FAILS.
   6. Mutate envelope prior_record_sha256 → envelope_hash FAILS.
   7. Mutate envelope amendment_change → envelope_hash FAILS.
-  8. Delimiter-injection collision test → canonical_string is injective.
+  8. Delimiter-injection collision test → canonical_string is delimiter-safe.
   9. Confirm no top-level committed_at exists in v3 records.
   10. Confirm envelope binds predecessor full-record SHA-256.
 
@@ -40,6 +40,8 @@ from pre_register import (  # noqa: E402
     compute_hash,
     canonical_string,
     compute_envelope_hash,
+    compute_lifecycle_hash,
+    compute_entry_hash,
     SCHEMA_VERSION,
     compute_koide_Q,
     PDG_MASSES_MEV,
@@ -220,18 +222,114 @@ def test_record(path):
     _check("dimensionless" in sigma_den,
            "sigma_denominator contains 'dimensionless'")
 
+    # === v5 hostile fixtures ===
+
+    # 14. v5: Missing record_type → FAIL
+    m = copy.deepcopy(record); del m["record_type"]
+    _check(not verify_hash(m), "missing record_type → verify_hash == False (v5 lifecycle)")
+
+    # 15. v5: Missing created_at → FAIL
+    m = copy.deepcopy(record); del m["created_at"]
+    _check(not verify_hash(m), "missing created_at → verify_hash == False (v5 lifecycle)")
+
+    # 16. v5: Missing status → FAIL
+    m = copy.deepcopy(record); del m["status"]
+    _check(not verify_hash(m), "missing status → verify_hash == False (v5 lifecycle)")
+
+    # 17. v5: Missing degenerate_risk → FAIL
+    m = copy.deepcopy(record); del m["degenerate_risk"]
+    _check(not verify_hash(m), "missing degenerate_risk → verify_hash == False (v5 lifecycle)")
+
+    # 18. v5: Missing resolution_log → FAIL
+    m = copy.deepcopy(record); del m["resolution_log"]
+    _check(not verify_hash(m), "missing resolution_log → verify_hash == False (v5 lifecycle)")
+
+    # 19. v5: Missing lifecycle_hash → FAIL
+    m = copy.deepcopy(record); del m["lifecycle_hash"]
+    _check(not verify_hash(m), "missing lifecycle_hash → verify_hash == False (v5 lifecycle)")
+
+    # 20. v5: status changed OPEN → RESOLVED-PASS (without log update) → FAIL
+    m = copy.deepcopy(record); m["status"] = "RESOLVED-PASS"
+    _check(not verify_hash(m), "status OPEN→RESOLVED-PASS without log → verify_hash == False (v5 lifecycle binding)")
+
+    # 21. v5: status changed OPEN → RESOLVED-FAIL (without log update) → FAIL
+    m = copy.deepcopy(record); m["status"] = "RESOLVED-FAIL"
+    _check(not verify_hash(m), "status OPEN→RESOLVED-FAIL without log → verify_hash == False (v5 lifecycle binding)")
+
+    # 22. v5: status with wrong type (list) → FAIL
+    m = copy.deepcopy(record); m["status"] = ["OPEN"]
+    _check(not verify_hash(m), "status as list → verify_hash == False (v5 type check)")
+
+    # 23. v5: status with invalid value → FAIL
+    m = copy.deepcopy(record); m["status"] = "CONFIRMED"
+    _check(not verify_hash(m), "status='CONFIRMED' → verify_hash == False (v5 value check)")
+
+    # 24. v5: degenerate_risk with wrong type (string) → FAIL
+    m = copy.deepcopy(record); m["degenerate_risk"] = "false"
+    _check(not verify_hash(m), "degenerate_risk as string → verify_hash == False (v5 type check)")
+
+    # 25. v5: created_at changed → FAIL (lifecycle_hash mismatch)
+    m = copy.deepcopy(record); m["created_at"] = "1900-01-01T00:00:00+00:00"
+    _check(not verify_hash(m), "changed created_at → verify_hash == False (v5 — lifecycle_hash doesn't cover created_at, but created_at is required)")
+
+    # 26. v5: Forged resolution log entry (PASS verdict, empty log was valid) → FAIL
+    m = copy.deepcopy(record)
+    m["resolution_log"] = [{"timestamp": "2026-01-01T00:00:00+00:00", "action": "verify",
+                            "measured_value": 0.667, "measured_uncertainty": 0.001,
+                            "verdict": "PASS", "deviation_sigma": 0.1, "hash_intact": True,
+                            "entry_hash": "0" * 64}]
+    m["status"] = "RESOLVED-PASS"
+    m["lifecycle_hash"] = compute_lifecycle_hash("RESOLVED-PASS", m["resolution_log"])
+    _check(not verify_hash(m), "forged resolution log entry → verify_hash == False (v5 hash chain)")
+
+    # 27. v5: Extra nested payload key → FAIL
+    m = copy.deepcopy(record); m["payload"]["claim"] = "CONFIRMED"
+    _check(not verify_hash(m), "extra payload key → verify_hash == False (v5 closed nested schema)")
+
+    # 28. v5: Extra nested envelope key → FAIL
+    m = copy.deepcopy(record); m["envelope"]["authority"] = "Greg"
+    _check(not verify_hash(m), "extra envelope key → verify_hash == False (v5 closed nested schema)")
+
+    # 29. v5: Envelope schema_version mismatch (2 vs 3) → FAIL
+    m = copy.deepcopy(record)
+    m["envelope"]["schema_version"] = 2
+    # Recompute envelope_hash to isolate the semantic check
+    from pre_register import compute_envelope_hash
+    m["envelope_hash"] = compute_envelope_hash(m["envelope"])
+    _check(not verify_hash(m), "envelope.schema_version=2 vs top-level=3 → verify_hash == False (v5 envelope semantic consistency)")
+
+    # 30. v5: Non-mapping root (string) → FAIL (not raise)
+    _check(not verify_hash("not a dict"), "string root → verify_hash == False (v5 fail-closed)")
+    _check(not verify_hash(42), "int root → verify_hash == False (v5 fail-closed)")
+    _check(not verify_hash([]), "list root → verify_hash == False (v5 fail-closed)")
+    _check(not verify_hash(None), "None root → verify_hash == False (v5 fail-closed)")
+
+    # 31. v5: lifecycle_hash mismatch → FAIL
+    m = copy.deepcopy(record); m["lifecycle_hash"] = "0" * 64
+    _check(not verify_hash(m), "wrong lifecycle_hash → verify_hash == False (v5 lifecycle binding)")
+
+    # 32. v5: Confirm lifecycle_hash is present and valid
+    _check("lifecycle_hash" in record, "lifecycle_hash present in record (v5)")
+    _check(len(record.get("lifecycle_hash", "")) == 64, "lifecycle_hash is 64 chars (v5)")
+
     print(f"  → {name}: ALL CHECKS PASSED")
 
 
 def test_delimiter_injection():
-    """H4: Verify canonical_string is injective (no delimiter-injection collision).
+    """H4: Verify canonical_string is delimiter-safe (no delimiter-injection collision).
 
     The v2 pipe-delimited format was vulnerable: payloads with different
     field values could produce the same canonical string if a value
     contained ``|field_name=``. The v3 canonical-JSON format escapes all
-    special characters, making this impossible.
+    special characters, making this impossible. Combined with SHA-256,
+    this gives a collision-resistant digest over the validated schema.
+
+    Note: SHA-256 is collision-resistant, not mathematically injective.
+    No finite-length hash is injective. The canonical serialization is
+    delimiter-safe, and the digest is collision-resistant — that is the
+    honest boundary.
     """
-    print("\n=== H4: Delimiter-injection collision test ===")
+    print("\n=== H4: Delimiter-safe canonical serialization test ===")
 
     # Two payloads that would collide under v2 pipe-delimited format
     payload_a = {
@@ -247,9 +345,9 @@ def test_delimiter_injection():
     str_b = canonical_string(payload_b)
 
     _check(str_a != str_b,
-           "canonical_string is injective: different payloads → different strings (H4)")
+           "canonical_string is delimiter-safe: different payloads → different strings (H4)")
     _check(compute_hash(payload_a) != compute_hash(payload_b),
-           "compute_hash is injective: different payloads → different hashes (H4)")
+           "compute_hash is collision-resistant: different payloads → different hashes (H4)")
 
     # Verify the strings are actually valid JSON (not pipe-delimited)
     _check(str_a.startswith("{") and str_a.endswith("}"),
@@ -260,7 +358,7 @@ def test_delimiter_injection():
     _check(parsed_a["quantity_name"] == "a|formula=b",
            "canonical_string preserves | inside string values as JSON")
 
-    print("  → H4: canonical_string is injective — PASS")
+    print("  → H4: canonical_string is delimiter-safe — PASS")
 
 
 def test_koide_computation():

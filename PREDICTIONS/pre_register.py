@@ -36,20 +36,31 @@ Self-test (Koide Q = 2/3 for charged leptons):
 
     python3 pre_register.py test
 
-The record JSON embeds two SHA-256 hashes:
-  - ``content_hash``: SHA-256 of the canonical-JSON payload (injective).
+The record JSON embeds three SHA-256 hashes:
+  - ``content_hash``: SHA-256 of the canonical-JSON payload (collision-resistant
+    digest over a delimiter-safe canonical serialization).
   - ``envelope_hash``: SHA-256 of the canonical-JSON envelope (binds schema
     version, predecessor reference, and amendment content).
+  - ``lifecycle_hash``: SHA-256 of the status + hash-chained resolution_log
+    (binds lifecycle state; prevents forged resolution entries).
 
 Any post-hoc edit to a hash-bound field is detectable.
 
 Schema history:
   v1 (2026-08-06): original, pipe-delimited canonical string.
   v2 (2026-08-08): added sigma_denominator + committed_at to hash surface.
-  v3 (2026-08-15): injective canonical-JSON serialization; self-verifying
-    envelope binding predecessor full-record SHA-256, git revision, schema
-    version, and amendment content; removed duplicate top-level committed_at;
-    schema-aware verification rejecting downgraded/unknown schema versions.
+  v3 (2026-08-15): canonical-JSON serialization (delimiter-safe, no pipe
+    injection); self-verifying envelope binding predecessor full-record
+    SHA-256, git revision, schema version, and amendment content; removed
+    duplicate top-level committed_at; schema-aware verification rejecting
+    downgraded/unknown schema versions.
+  v4 (2026-08-16): mandatory envelope; schema shape validation; closed
+    top-level schema; broad prose alignment.
+  v5 (2026-08-16): required lifecycle fields with types and values; closed
+    nested payload/envelope schema; envelope semantic consistency
+    (envelope.schema_version == record.schema_version == SCHEMA_VERSION);
+    hash-chained append-only resolution_log; status/resolution_log
+    consistency binding; fail-closed on non-mapping roots.
 """
 
 from __future__ import annotations
@@ -115,16 +126,21 @@ SCHEMA_VERSION = 3
 
 
 # ---------------------------------------------------------------------------
-# Hashing (v3: injective canonical-JSON serialization)
+# Hashing (canonical-JSON serialization — delimiter-safe, collision-resistant)
 # ---------------------------------------------------------------------------
 
 def _canonical_json(obj: Dict[str, Any], fields: List[str]) -> str:
     """Serialize a dict as canonical JSON over the given field order.
 
-    This is injective: unlike pipe-delimited ``field=value`` concatenation,
-    canonical JSON properly escapes strings so delimiter-injection collisions
-    are impossible. Field names are included in the JSON keys, and string
-    values are JSON-escaped.
+    This is delimiter-safe: unlike pipe-delimited ``field=value``
+    concatenation, canonical JSON properly escapes strings so
+    delimiter-injection collisions are impossible. Field names are included
+    in the JSON keys, and string values are JSON-escaped.
+
+    Note: SHA-256 is a collision-resistant hash function, not a mathematical
+    injection. The canonical serialization is delimiter-safe over the
+    validated schema, and the digest is collision-resistant — but no
+    finite-length hash is mathematically injective.
     """
     canonical_obj = {}
     for field in fields:
@@ -137,11 +153,12 @@ def canonical_string(payload: Dict[str, Any]) -> str:
     """Build the canonical JSON string used for payload hashing.
 
     Uses canonical JSON (sorted keys, no whitespace) over an explicit schema
-    object with all CANONICAL_FIELDS. This is injective — the v2
+    object with all CANONICAL_FIELDS. This is delimiter-safe — the v2
     pipe-delimited format was vulnerable to delimiter-injection collisions
     (e.g. a quantity_name containing ``|formula=`` could collide with a
     different payload). Canonical JSON escapes all special characters,
-    eliminating this class of collision.
+    eliminating this class of collision. Combined with SHA-256, this gives
+    a collision-resistant digest over the validated schema.
     """
     return _canonical_json(payload, CANONICAL_FIELDS)
 
@@ -203,22 +220,135 @@ ALLOWED_TOP_LEVEL_KEYS = {
     "envelope",
     "payload",
     "resolution_log",
+    "lifecycle_hash",
 }
+
+# v5: Required top-level lifecycle fields with types and allowed values.
+# These are MANDATORY — a record missing any of them is rejected (H2-B).
+REQUIRED_TOP_LEVEL_FIELDS = {
+    "record_type": str,
+    "created_at": str,
+    "status": str,
+    "degenerate_risk": bool,
+    "resolution_log": list,
+}
+
+# Allowed status values. Status must be one of these (H2-B: value validation).
+# OPEN variants: prediction is active, no resolution yet.
+# RESOLVED variants: measurement has been tested against the prediction.
+ALLOWED_STATUS_VALUES = {
+    "OPEN",
+    "OPEN-DEGENERATE-RISK",
+    "BLOCKED",
+    "RESOLVED-PASS",
+    "RESOLVED-FAIL",
+}
+
+# Status values allowed when resolution_log is empty.
+OPEN_STATUS_VALUES = {"OPEN", "OPEN-DEGENERATE-RISK", "BLOCKED"}
+
+# Status values allowed when resolution_log is non-empty.
+RESOLVED_STATUS_VALUES = {"RESOLVED-PASS", "RESOLVED-FAIL"}
+
+# Resolution log entry fields (for hash-chain validation).
+# Each entry must have these fields. The entry_hash chains to the previous
+# entry, making the log append-only and tamper-evident.
+RESOLUTION_LOG_ENTRY_FIELDS = [
+    "timestamp",
+    "action",
+    "measured_value",
+    "measured_uncertainty",
+    "verdict",
+    "deviation_sigma",
+    "hash_intact",
+    "entry_hash",
+]
+
+
+def compute_lifecycle_hash(
+    status: str,
+    resolution_log: list,
+    created_at: str = "",
+    degenerate_risk: Any = "",
+) -> str:
+    """Compute the lifecycle hash binding immutable + mutable lifecycle state.
+
+    This hash covers:
+    - ``created_at``: immutable registration timestamp
+    - ``degenerate_risk``: immutable flag set at registration
+    - ``status``: current lifecycle status (OPEN/RESOLVED)
+    - The entry_hash of the last resolution_log entry (or "" if empty)
+
+    This binds lifecycle state: changing any of these fields without
+    updating the hash invalidates verification. The hash is stored at the
+    top level and verified by verify_hash().
+    """
+    last_entry_hash = ""
+    if resolution_log:
+        last_entry = resolution_log[-1]
+        if isinstance(last_entry, dict):
+            last_entry_hash = last_entry.get("entry_hash", "")
+    chain_input = json.dumps(
+        {
+            "created_at": created_at,
+            "degenerate_risk": degenerate_risk,
+            "status": status,
+            "last_entry_hash": last_entry_hash,
+        },
+        sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+    )
+    return hashlib.sha256(chain_input.encode("utf-8")).hexdigest()
+
+
+def compute_entry_hash(prev_hash: str, entry: Dict[str, Any]) -> str:
+    """Compute the hash-chain entry for a resolution log entry.
+
+    Each entry's hash = SHA-256(prev_entry_hash + canonical_json(entry_fields)).
+    The first entry's prev_hash is "" (genesis). This makes the log
+    append-only and tamper-evident: inserting, removing, or modifying
+    any entry breaks the chain.
+    """
+    entry_copy = {k: entry.get(k, "") for k in RESOLUTION_LOG_ENTRY_FIELDS if k != "entry_hash"}
+    canonical = json.dumps(entry_copy, sort_keys=True, ensure_ascii=False,
+                           separators=(",", ":"))
+    return hashlib.sha256((prev_hash + canonical).encode("utf-8")).hexdigest()
 
 
 def verify_hash(record: Dict[str, Any]) -> bool:
-    """Return True iff the record passes all v4 integrity checks.
+    """Return True iff the record passes all v5 integrity checks.
 
-    Checks (v4 — all mandatory, no optional bypasses):
-      1. ``schema_version`` equals SCHEMA_VERSION (rejects downgrades/unknowns).
-      2. No top-level ``committed_at`` or legacy ``committed`` (H1).
-      3. No extra top-level keys outside ALLOWED_TOP_LEVEL_KEYS (H1/H2-C).
-      4. ``content_hash`` matches recomputed hash of ``payload``.
-      5. All required payload fields present with correct types (H2-B).
-      6. ``envelope`` and ``envelope_hash`` both present and non-empty (H2-A).
-      7. ``envelope_hash`` matches recomputed envelope hash (H2).
-      8. All required envelope fields present with correct types (H2-B).
+    Checks (v5 — all mandatory, fail-closed, no optional bypasses):
+      1. ``record`` is a dict (fail-closed on non-mapping roots).
+      2. ``schema_version`` equals SCHEMA_VERSION (rejects downgrades/unknowns).
+      3. No top-level ``committed_at`` or legacy ``committed`` (H1).
+      4. No extra top-level keys outside ALLOWED_TOP_LEVEL_KEYS (H1/H2-C).
+      5. All required top-level lifecycle fields present with correct types (H2-B).
+      6. ``status`` is one of ALLOWED_STATUS_VALUES (H2-B: value validation).
+      7. ``status`` is consistent with resolution_log (lifecycle binding).
+      8. ``envelope`` and ``envelope_hash`` both present and non-empty (H2-A).
+      9. ``envelope_hash`` matches recomputed envelope hash (H2).
+     10. All required envelope fields present with correct types (H2-B).
+     11. No extra envelope keys outside ENVELOPE_FIELDS (closed nested schema).
+     12. ``envelope.schema_version`` == ``record.schema_version`` == SCHEMA_VERSION
+         (envelope semantic consistency).
+     13. All required payload fields present with correct types (H2-B).
+     14. No extra payload keys outside CANONICAL_FIELDS (closed nested schema).
+     15. ``content_hash`` matches recomputed hash of ``payload``.
+     16. ``resolution_log`` hash chain is valid (append-only, tamper-evident).
+     17. ``lifecycle_hash`` matches recomputed hash of status + log chain.
     """
+    try:
+        return _verify_hash_impl(record)
+    except (TypeError, KeyError, AttributeError):
+        # Fail-closed: any unexpected structure returns False, not an exception.
+        return False
+
+
+def _verify_hash_impl(record: Dict[str, Any]) -> bool:
+    """Internal implementation of verify_hash (assumes record is a dict)."""
+    if not isinstance(record, dict):
+        return False
+
     # H2: reject downgraded or unknown schema versions
     if record.get("schema_version") != SCHEMA_VERSION:
         return False
@@ -234,6 +364,48 @@ def verify_hash(record: Dict[str, Any]) -> bool:
     extra_keys = record_keys - ALLOWED_TOP_LEVEL_KEYS
     if extra_keys:
         return False
+
+    # H2-B: validate required top-level lifecycle fields and types
+    for field, expected_type in REQUIRED_TOP_LEVEL_FIELDS.items():
+        if field not in record:
+            return False
+        val = record[field]
+        # bool is a subclass of int — reject bools where bool is not expected
+        if not isinstance(val, expected_type):
+            return False
+
+    # H2-B: validate status value
+    status = record["status"]
+    if status not in ALLOWED_STATUS_VALUES:
+        return False
+
+    # H2-B: validate created_at is non-empty
+    if not record["created_at"]:
+        return False
+
+    # H2-B: validate record_type
+    if record["record_type"] != "pre_registration":
+        return False
+
+    # Lifecycle binding: status must be consistent with resolution_log
+    resolution_log = record["resolution_log"]
+    if not resolution_log:
+        # Empty log → status must be an OPEN variant
+        if status not in OPEN_STATUS_VALUES:
+            return False
+    else:
+        # Non-empty log → status must be a RESOLVED variant
+        if status not in RESOLVED_STATUS_VALUES:
+            return False
+        # Status must match last entry's verdict
+        last_entry = resolution_log[-1]
+        if not isinstance(last_entry, dict):
+            return False
+        last_verdict = last_entry.get("verdict", "")
+        if status == "RESOLVED-PASS" and last_verdict != "PASS":
+            return False
+        if status == "RESOLVED-FAIL" and last_verdict != "FAIL":
+            return False
 
     # H2-A: envelope and envelope_hash are MANDATORY (not optional)
     stored_envelope = record.get("envelope_hash")
@@ -256,6 +428,17 @@ def verify_hash(record: Dict[str, Any]) -> bool:
         if not isinstance(val, expected_type):
             return False
 
+    # v5: closed nested schema — reject extra envelope keys
+    envelope_keys = set(envelope.keys())
+    extra_envelope_keys = envelope_keys - set(ENVELOPE_FIELDS)
+    if extra_envelope_keys:
+        return False
+
+    # v5: envelope semantic consistency
+    # envelope.schema_version must equal record.schema_version == SCHEMA_VERSION
+    if envelope.get("schema_version") != SCHEMA_VERSION:
+        return False
+
     # H2-B: validate required payload fields and types
     payload = record.get("payload")
     if not payload or not isinstance(payload, dict):
@@ -270,14 +453,48 @@ def verify_hash(record: Dict[str, Any]) -> bool:
         if not isinstance(val, expected_type):
             return False
 
+    # v5: closed nested schema — reject extra payload keys
+    payload_keys = set(payload.keys())
+    extra_payload_keys = payload_keys - set(CANONICAL_FIELDS)
+    if extra_payload_keys:
+        return False
+
     # Content hash check
     stored = record.get("content_hash")
     if not stored or not isinstance(stored, str):
         return False
     recomputed = compute_hash(payload)
-    content_ok = hmac.compare_digest(stored, recomputed)
+    if not hmac.compare_digest(stored, recomputed):
+        return False
 
-    return content_ok
+    # v5: validate resolution_log hash chain
+    prev_hash = ""
+    for i, entry in enumerate(resolution_log):
+        if not isinstance(entry, dict):
+            return False
+        # Check all required entry fields present
+        for ef in RESOLUTION_LOG_ENTRY_FIELDS:
+            if ef not in entry:
+                return False
+        # Verify entry_hash chains correctly
+        expected_hash = compute_entry_hash(prev_hash, entry)
+        if not hmac.compare_digest(entry["entry_hash"], expected_hash):
+            return False
+        prev_hash = entry["entry_hash"]
+
+    # v5: validate lifecycle_hash
+    stored_lifecycle = record.get("lifecycle_hash")
+    if not stored_lifecycle or not isinstance(stored_lifecycle, str):
+        return False
+    recomputed_lifecycle = compute_lifecycle_hash(
+        status, resolution_log,
+        created_at=record.get("created_at", ""),
+        degenerate_risk=record.get("degenerate_risk", ""),
+    )
+    if not hmac.compare_digest(stored_lifecycle, recomputed_lifecycle):
+        return False
+
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -344,10 +561,16 @@ def build_record(args: argparse.Namespace) -> Dict[str, Any]:
     }
     envelope_hash = compute_envelope_hash(envelope)
 
+    # v5: lifecycle_hash binds status + resolution_log (empty at registration).
+    created_at_ts = datetime.now(timezone.utc).isoformat()
+    lifecycle_hash = compute_lifecycle_hash(
+        status, [], created_at=created_at_ts, degenerate_risk=degenerate_risk,
+    )
+
     record: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "record_type": "pre_registration",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": created_at_ts,
         # H1: NO top-level committed_at — authoritative copy is in payload only.
         "status": status,
         "degenerate_risk": degenerate_risk,
@@ -357,6 +580,8 @@ def build_record(args: argparse.Namespace) -> Dict[str, Any]:
         "payload": payload,
         # Append-only resolution log — verify() appends here.
         "resolution_log": [],
+        # v5: lifecycle hash — binds status + resolution_log chain.
+        "lifecycle_hash": lifecycle_hash,
     }
     return record
 
@@ -428,6 +653,9 @@ def verify_record(
         result["fail_reasons"].append("content_hash mismatch — record may have been edited")
 
     # Append to the resolution log in the record file (append-only).
+    # v5: hash-chained entry + status update + lifecycle_hash recompute.
+    resolution_log = record.get("resolution_log", [])
+    prev_hash = resolution_log[-1]["entry_hash"] if resolution_log else ""
     log_entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "action": "verify",
@@ -437,7 +665,23 @@ def verify_record(
         "deviation_sigma": sigma,
         "hash_intact": hash_ok,
     }
-    record.setdefault("resolution_log", []).append(log_entry)
+    log_entry["entry_hash"] = compute_entry_hash(prev_hash, log_entry)
+    resolution_log.append(log_entry)
+    record["resolution_log"] = resolution_log
+
+    # v5: update status to match the resolution verdict.
+    if result["verdict"] == "PASS":
+        record["status"] = "RESOLVED-PASS"
+    else:
+        record["status"] = "RESOLVED-FAIL"
+
+    # v5: recompute lifecycle_hash with new status + log chain.
+    record["lifecycle_hash"] = compute_lifecycle_hash(
+        record["status"], resolution_log,
+        created_at=record.get("created_at", ""),
+        degenerate_risk=record.get("degenerate_risk", ""),
+    )
+
     with record_path.open("w", encoding="utf-8") as fh:
         json.dump(record, fh, indent=2, ensure_ascii=False, sort_keys=True)
         fh.write("\n")
@@ -561,10 +805,16 @@ def run_self_test() -> Dict[str, Any]:
     }
     envelope_hash = compute_envelope_hash(envelope)
 
+    # v5: lifecycle_hash for the self-test record.
+    created_at_ts = datetime.now(timezone.utc).isoformat()
+    lifecycle_hash = compute_lifecycle_hash(
+        "OPEN", [], created_at=created_at_ts, degenerate_risk=False,
+    )
+
     record = {
         "schema_version": SCHEMA_VERSION,
         "record_type": "pre_registration",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": created_at_ts,
         # H1: NO top-level committed_at.
         "status": "OPEN",
         "degenerate_risk": False,
@@ -573,6 +823,7 @@ def run_self_test() -> Dict[str, Any]:
         "envelope": envelope,
         "payload": payload,
         "resolution_log": [],
+        "lifecycle_hash": lifecycle_hash,
     }
     path = save_record(record)
     print(f"\nPre-registered record written to: {path}")

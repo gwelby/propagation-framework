@@ -12,6 +12,7 @@
     "schema_version": 3
   },
   "envelope_hash": "e9310a53e45c1322444a2e151df919720616b1600419b7a27e420501a4a5c2a4",
+  "lifecycle_hash": "7d81d8352587d66679f58decd229f4abaad69b8c223a70d385823de4f9799fa5",
   "payload": {
     "commitment_date": "2026-08-07",
     "committed_at": "2026-08-07T15:32:45.386450+00:00",

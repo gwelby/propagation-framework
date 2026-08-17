@@ -155,23 +155,26 @@ theorem row2_periodic_nondividing_fails (r n : ℕ) (hr : r > 0) (hn : n > 0)
   have h := qft_peak_alignment_iff_period_divides_register r n hr hn
   exact mt h.mp h_not_div
 
-/-- **Row 2 corollary (EMPIRICAL OBSERVATION — TYPE IS `True`):** When
-    r ∤ Q, empirical observation suggests the tallest QFT peak lands at a
-    "round" position (like Q/2 or Q/4) that gives a small convergent
-    denominator, NOT the true period r.
+/-- **Row 2 corollary (ARITHMETIC PREDICATE — TYPE IS `True`):** When
+    r ∤ Q, the arithmetic predicate `qft_peak_alignment_iff_period_divides_register`
+    (proven above) shows that the peak alignment condition fails. The
+    empirical observation that the tallest QFT peak lands at a "round"
+    position is NOT a Lean theorem — it requires explicit Fourier
+    coefficient computation and a hardware noise model.
 
     Example: N=21, r=6, Q=256. The tallest peak is at 128 = 256/2,
-    which gives convergent denominator 2, not 6. The correct peak at
-    43 ≈ 256/6 is smaller and gets lost in noise on hardware.
+    which gives convergent denominator 2, not 6. This is an empirical
+    observation from hardware experiments, not a Lean-verified claim.
 
     SCOPE NOTE: This is `True := by trivial` — Lean verifies NOTHING here.
-    The "tallest peak" claim requires explicit Fourier coefficient
-    computation and is NOT proven. This is an empirical placeholder marking
-    the formalization gap. Do not cite this as Lean-verified. -/
+    The `True` type is honest: it says "Lean has no formal content to
+    verify about hardware peak behavior." Do not cite this as Lean-verified.
+    The evidence for the empirical observation is in external experiment
+    records, not in this module. -/
 theorem row2_tallest_peak_gives_wrong_period (r n : ℕ) (hr : r > 0) (hn : n > 0)
     (h_not_div : ¬(r ∣ 2 ^ n)) (h_r_gt_1 : r > 1) :
     -- The tallest peak is at position Q/2 = 2^(n-1), giving denominator 2,
-    -- not the true period r. This is a simplified statement.
+    -- not the true period r. This is an empirical observation, not a Lean claim.
     True := by
   -- The full proof would compute |DFT(k)| for k = Q/r vs k = Q/2
   -- and show |DFT(Q/2)| > |DFT(Q/r)| when r > 2 and r ∤ Q.
@@ -404,21 +407,24 @@ theorem row7_random_permutation_no_structure {Q : ℕ} [NeZero Q] {α : Type*}
     IsAperiodicFunction f := by
   exact h_random.2
 
-/-- **Row 7 corollary (NULL MODEL EXTRACTOR TEST):** If we run the period
+/-- **Row 7 corollary (NULL MODEL — ARITHMETIC):** If we run the period
     extractor on a random-permutation circuit and it returns a "period,"
     that period is a false positive — there is no real period to find.
 
-    The false-positive rate of the honest extractor on random permutations
-    is the baseline against which Shor success rates should be compared.
+    The theorem below proves the arithmetic content: a random permutation
+    has no period < Q. The false-positive RATES below are empirical
+    observations, NOT Lean-verified — they require a statistical model
+    of the extractor's behavior on random input.
 
-    Measured baseline (evidence/extractor_null_audit_v2.json):
+    Empirical baseline (external, NOT in this module):
     - N=15 uniform random: 4.2% false-positive rate
     - N=21 uniform random: 2.0% false-positive rate
     - N=35 uniform random: 1.2% false-positive rate
     - N=51 uniform random: 3.9% false-positive rate
 
-    These rates are the honest floor. Any Shor "success" below this floor
-    is indistinguishable from noise. -/
+    These rates are from external experiment records (not hash-bound to
+    this module). They are empirical context, not Lean theorems. The
+    theorem below proves only the arithmetic predicate: random → aperiodic. -/
 theorem row7_false_positive_is_not_signal {Q : ℕ} [NeZero Q] {α : Type*}
     (f : ZMod Q → α) (h_random : IsRandomPermutation f) :
     -- If the extractor returns a period r < Q for a random permutation,
@@ -522,23 +528,23 @@ theorem shor_coupling_r_divides_Q_implies_low_active_count (r n k : ℕ)
     k < n := by
   exact row3_power_of_two_period_low_noise r n k hr hn hk
 
-/-- **Empirical Two-Axis Observation Map (EMPIRICAL PLACEHOLDER — TYPE IS `True`):**
-    Empirical observation suggests that survival of quantum structure on NISQ
-    hardware depends on two axes:
+/-- **Coupling Arithmetic and External Observation Map (ARITHMETIC PLACEHOLDER
+    — TYPE IS `True`):**
+    The arithmetic content (r | Q → fewer active unitaries) is proven in the
+    theorems above. The two-axis observation map below is an EMPIRICAL
+    OBSERVATION from external hardware experiments, NOT a Lean theorem.
 
-    Axis 1 (mathematical): r | Q → sharp peaks → extraction observed
-    Axis 2 (physical): low CX → low noise → extraction observed
+    Axis 1 (mathematical, Lean-proven): r | Q → sharp peaks (arithmetic)
+    Axis 2 (physical, NOT Lean-proven): low CX → low noise → extraction observed
 
-    For Shor's algorithm, these axes are coupled (r | Q → fewer active unitaries).
-    For other circuits, they may be independent.
+    For Shor's algorithm, these axes are coupled (r | Q → fewer active
+    unitaries, proven above). For other circuits, they may be independent.
 
-    SCOPE NOTE (Codex 2026-07-02, reinforced 2026-08-15): This is
-    `True := by trivial` — Lean verifies NOTHING here. This is an empirical
-    placeholder marking the formalization gap. The hardware data is real but
-    lives outside Lean in evidence/HONEST_EXTRACTION_AUDIT.md. Do not cite
-    this as Lean-verified or as "extraction succeeds/fails proven in Lean."
+    SCOPE NOTE: This is `True := by trivial` — Lean verifies NOTHING here.
+    The `True` type is honest: it says "Lean has no formal content about
+    hardware noise." The observation map below is external empirical context.
 
-    The empirical data (2026-07-01) fills the observation map:
+    External empirical data (2026-07-01, NOT hash-bound to this module):
 
     ```
                         r | Q (math favorable)    r ∤ Q (math unfavorable)
@@ -551,38 +557,41 @@ theorem shor_coupling_r_divides_Q_implies_low_active_count (r n k : ℕ)
     (r | Q → power-of-2 → fewer active unitaries → lower CX, so high CX
     with r | Q doesn't occur naturally). For other circuits, it could be tested.
 
-    This is NOT a theorem — it is an empirical observation. The formal
-    statement marks the formalization gap. -/
+    This is NOT a theorem — it is an empirical observation from external
+    experiments. The formal statement marks the formalization gap. -/
 theorem two_axis_survival_map_empirical (r n : ℕ) (hr : r > 0) (hn : n > 0) :
     -- The survival of structure on NISQ hardware depends on:
-    -- 1. Mathematical structure (r | Q) — formalized in Lean
-    -- 2. CX count (low vs high) — measured on hardware
+    -- 1. Mathematical structure (r | Q) — formalized in Lean (arithmetic)
+    -- 2. CX count (low vs high) — measured on hardware (NOT Lean-proven)
     -- For Shor, these are coupled (see shor_coupling_r_divides_Q_implies_low_active_count)
     -- For other circuits, they may be independent
-    -- EMPIRICAL: not provable in Lean, but backed by hardware data
+    -- EMPIRICAL: not provable in Lean. External observation only.
     True := by
   trivial
 
-/-- **Row 7 Empirical Placeholder (TYPE IS `True` — LEAN VERIFIES NOTHING):**
+/-- **Row 7 External Observation Placeholder (TYPE IS `True` — LEAN VERIFIES
+    NOTHING):**
     This is a `True := by trivial` placeholder. It carries NO Lean-verified
-    content. The comments below describe empirical observations from IBM Heron
-    hardware experiments, but Lean does not verify any of them.
+    content. The comments below describe external empirical observations from
+    IBM Heron hardware experiments, but Lean does not verify any of them.
 
-    The empirical observations (not Lean theorems): the PQC absence circuit
-    (structureless random circuit) on IBM Heron hardware showed that a random
-    permutation has no periodic structure, and the KL divergence extractor
-    correctly returns "no period." The honest extractor returns false
-    positives (period 5 on kingston, period 8 on fez, period 4 at 33K CX).
+    The external observations (not Lean theorems, not hash-bound to this
+    module): the PQC absence circuit (structureless random circuit) on IBM
+    Heron hardware showed that a random permutation has no periodic structure,
+    and the KL divergence extractor correctly returns "no period." The honest
+    extractor returns false positives (period 5 on kingston, period 8 on fez,
+    period 4 at 33K CX).
 
     These observations are NOT a Lean-verified PQC security argument. They
-    are empirical data points that live outside the formal system. This
-    placeholder marks the formalization gap; it should not be cited as
+    are external empirical data points that live outside the formal system.
+    This placeholder marks the formalization gap; it should not be cited as
     "proven in Lean," "PQC security validation," or "IBM Heron validation
     of Row 7." The actual Row 7 theorem (`row7_random_permutation_no_structure`)
     proves only a definition-unpack predicate. -/
 theorem row7_empirical_validation :
     -- TYPE IS True: Lean verifies nothing here.
-    -- Empirical observations (IBM Heron, 2026-07-01) are in the comment above.
+    -- External empirical observations (IBM Heron, 2026-07-01) are in the
+    -- comment above. NOT hash-bound to this module.
     -- This is a placeholder marking the formalization gap, NOT a theorem.
     True := by
   trivial
