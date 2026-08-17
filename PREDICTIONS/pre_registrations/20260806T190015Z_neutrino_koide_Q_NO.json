@@ -12,7 +12,7 @@
   "committed": "2026-08-07T15:32:45.386450+00:00",
   "committed_at": "2026-08-07T15:32:45.386450+00:00",
   "committed_by": "Devin ∇λΣ∞ @ f3be9adf8c7f582f9e6d8658509578cfaa880aae",
-  "content_hash": "a78a91284f55cadb4583e3009cf57517d8535ba247034f044ed2e36110cd1c21",
+  "content_hash": "1894205e927314543fa8d7cb51e47c50836f4007314e0293948d83af1ab0215b",
   "created_at": "2026-08-06T19:00:15.374838+00:00",
   "degenerate_risk": false,
   "payload": {
@@ -23,7 +23,7 @@
     "formula": "Q_NO = Σm_k / (Σ√m_k)² with m2=√(m1²+Δm²₂₁), m3=√(m1²+Δm²₃₁), m1=m_lightest (PDG 2024 Δm²: Δm²₂₁=7.53e-5, Δm²₃₁=2.453e-3)",
     "framework": "PF",
     "measurement_source": "m_lightest inferred from KATRIN (m_β) / cosmology CMB-S4+DESI (Σmν) / 0νββ nEXO+LEGEND-1000 (m_ββ) + NuFIT 6.0 Δm². No single experiment measures individual absolute masses directly. Live observable: Σmν = 0.0583 eV (NO), testable via cosmology today.",
-    "notes": "PRED-003. Unlocked Z₃ amplitude derivation. Q(β)=(1+β²/2)/3 exact. Deviation from 2/3 = 0.117 is ≈2.6 full-window-spread units against full_window_spread (0.045 dimensionless Q units = 2 × half-spread ±0.023). Previous 103σ claim withdrawn — used Δm²-only uncertainty. Residual flatness claim WITHDRAWN — referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: Σmν = 0.0583 eV (NO), testable via CMB-S4/DESI cosmology. Sigma convention: uncertainty field = half-spread (±0.023); sigma_denominator field specifies the denominator used for the full-window-spread normalization — it is the full window spread (0.045), NOT the uncertainty field (0.023).",
+    "notes": "PRED-002. Unlocked Z₃ amplitude derivation. Q(β)=(1+β²/2)/3 exact. Deviation from 2/3 = 0.117 is ≈2.6 full-window-spread units against full_window_spread (0.045 dimensionless Q units = 2 × half-spread ±0.023). Previous 103σ claim withdrawn — used Δm²-only uncertainty. Residual flatness claim WITHDRAWN — referenced 20-line residual code not supplied (Codex audit PRED003-04). Live observable: Σmν = 0.0583 eV (NO), testable via CMB-S4/DESI cosmology. Sigma convention: uncertainty field = half-spread (±0.023); sigma_denominator field specifies the denominator used for the full-window-spread normalization — it is the full window spread (0.045), NOT the uncertainty field (0.023).",
     "quantity_name": "neutrino_koide_Q_NO",
     "rival_predictions": {
       "UGP": "0.0294 (Δm² ratio — orthogonal observable, not a Q rival)",

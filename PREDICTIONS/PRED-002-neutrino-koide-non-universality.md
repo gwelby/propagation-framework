@@ -80,10 +80,13 @@ PRED-001 asks for the value of δ_CP from a PF-native phase selector. That machi
 ---
 *Append-only resolution log below.*
 
-- **2026-08-07 (Claude):** Cross-reference — the 2026-08-06 "PRED-003" registrations
+- **2026-08-07 (Claude):** Cross-reference — the 2026-08-06 pre-registrations
   (`pre_registrations/20260806T19001*Z_neutrino_koide_Q_*.json`, DeepSeek) commit THIS
   prediction's observable/mechanism in sharpened point-value form and are best read as
-  candidate repair material for this HOLD, not a new PRED. Codex audited them at HOLD
+  candidate repair material for this HOLD, not a new PRED. The records were originally
+  labeled "PRED-003" in their notes field — this was a labeling error (PRED-003 is
+  reserved for a future Δm² ratio derivation). Corrected to "PRED-002" on 2026-08-16.
+  Codex audited them at HOLD
   (`/mnt/d/Codex/REPORTS/CODEX_20260806_PRED003_NEUTRINO_KOIDE_PRE_REGISTRATION_AUDIT.md`);
   Claude's additive cross-audit (PRED-002 identity, Q(β) positivity domain, Σmν genericity,
   ledger divergence): `inbox/2026-08-07-claude-pred003-cross-audit-supplement.md`. HOLD unchanged.

@@ -4,7 +4,89 @@
 > **Truth stack:** read [`TRUTH_REFERENCE_MAP.md`](./TRUTH_REFERENCE_MAP.md) first (Codex, 2026-07-01) — the ranked "what to trust in what order" surface. This file is the *work order* over that truth stack.
 > **Cross-domain bridge:** read [`MEDIUM_TRANSFER_LAYER.md`](./MEDIUM_TRANSFER_LAYER.md) before trying to connect Lean, Python, hardware, thermal laws, cognition, or narrative. The working question is: what survives through a medium, under which observation, at what cost?
 
-**Date**: 2026-07-14 *(Lean/D-series currency pass updated after Codex Edge 28 semantic audit; `Axioms.lean` has one separate explicit `sorry`, while Edge 28's direct dependency closure is clean; prior currency layers preserved)*
+**Date**: 2026-08-16 *(Top-down alignment audit + PRED-002/PRED-003 labeling fix + keystone repair + FALSIFICATION v0.7 + hash-binding v5. Prior 2026-07-14 currency layer preserved below.)*
+
+---
+
+## 2026-08-16 — TOP-DOWN ALIGNMENT AUDIT (Devin)
+
+### What the roadmap demands (UNDENIABLE_ROADMAP.md)
+
+The kill shot: ONE quantity where (a) SM is silent, (b) PF makes a specific
+number, (c) **rival frameworks predict different numbers**, (d) feasible in ~10yr.
+
+### Where each prediction stands against the kill shot criteria
+
+| Prediction | (a) SM silent | (b) PF number | (c) Rivals differ | (d) Feasible | Status |
+|---|---|---|---|---|---|
+| PRED-001 (δ_CP) | YES | **NO** — no PF-native phase selector | — | YES (DUNE/HK) | **BLOCKED** — machine doesn't exist |
+| PRED-002 (Q_ν ≠ 2/3) | YES | YES (Q_ν ≥ 0.033 from 2/3) | **NO** — all rivals agree Q_ν ≠ 2/3 | YES (CMB-S4) | **OPEN candidate / Codex HOLD** — valid prediction but NOT discriminating |
+| PRED-003 (Δm² ratio) | YES | **NO** — PF takes Δm² as input, not derived | YES (UGP predicts 0.0294) | YES (already measured) | **NOT YET BUILT** — the kill shot candidate |
+
+### The gap
+
+PRED-002 is a valid forward prediction but fails criterion (c): all rivals
+(Brannen, Rivero, ZiP) agree that standard Q_ν ≠ 2/3. The prediction is not
+discriminating. It would falsify all frameworks simultaneously if Q_ν ≈ 2/3,
+but it cannot distinguish PF from rivals.
+
+**PRED-003 is the kill shot candidate**: if PF could derive Δm²₂₁/Δm²₃₁ from
+the propagation axioms (instead of taking it as measured input), it would
+produce a specific number that UGP (0.0294 from GF(7) arithmetic) disagrees
+with. The ratio is already measured (NuFIT 6.0: 0.02951 ± 0.00098), so it's
+testable now. But the PF-native derivation does not exist.
+
+### What was fixed today (2026-08-16)
+
+1. **Keystone fix:** `GodEquationSpectrum.lean` committed (`6b755c0`) —
+   untracked file was blocking all aggregate `lake build PfLean` audits.
+   Aggregate build verified: 8,293 jobs from clean `git archive`.
+2. **FALSIFICATION v0.7 paper:** inventory corrected (44/41/3/8293),
+   candidate chain updated, "machine-checked" overclaims narrowed.
+   Successor 2 packet dispatched to Codex (`e065688`).
+3. **PRED-002 hash-binding v5:** lifecycle binding (hash-chained
+   resolution_log + lifecycle_hash), closed nested schema, envelope
+   semantic consistency, fail-closed on non-mapping roots, ShorBound
+   axiom removed (vacuous `True`), QSS prose narrowed at 4 locations.
+   112 hostile checks pass. Lean build green (3,321 jobs). (`146261c`)
+4. **PRED-002/PRED-003 labeling fix:** all four pre-registration JSON
+   records corrected from "PRED-003" to "PRED-002" in notes field.
+   Content hashes recomputed. PRED-003 is reserved for the Δm² ratio
+   derivation (not yet built).
+5. **Three packets pending Codex re-audit:**
+   - Circulant3Spectrum v2 (`c0acdc9`)
+   - FALSIFICATION v0.7 successor 2 (`e065688`)
+   - PRED-002 hash-binding v5 (`146261c`)
+
+### Corrected priority order (supersedes the 2026-07-01 order below)
+
+1. ~~Heal the Lean build.~~ ✅ DONE (2026-07-11)
+2. ~~Compile or demote the Shor bridge.~~ ✅ DONE (2026-07-01/02, green)
+3. ~~Commit GodEquationSpectrum.lean.~~ ✅ DONE (2026-08-16, `6b755c0`)
+4. ~~Fix PRED-002 hash-binding v5.~~ ✅ DONE (2026-08-16, `146261c`)
+5. ~~Fix PRED-002/PRED-003 labeling.~~ ✅ DONE (2026-08-16)
+6. **Wait for Codex re-audit of three packets** (Circulant3Spectrum v2,
+   FALSIFICATION v0.7 s2, PRED-002 v5). No new work until verdicts.
+7. **PRED-002 Codex re-audit for commitment lock.** All 4 substantive HOLD
+   items resolved (transfer contract, uncertainty, rivals, reproduction).
+   Awaiting Codex re-audit before Greg lock.
+8. **PRED-003 (the kill shot): build a PF-native derivation of Δm²₂₁/Δm²₃₁.**
+   This is the roadmap's kill shot — the one quantity where PF and UGP
+   predict different numbers, and the ratio is already measured. No
+   machinery exists yet. This is the highest-value open target.
+9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
+10. **Release lane, strictly in order:** RELEASE_MANIFEST + BUILD_MANIFEST
+    → residual label sweep → Legal → PUBLIC HOLD recheck → Greg.
+
+### What NOT to do (2026-08-16 additions)
+
+- Do **not** cite PRED-002 as "the kill shot" — it fails the discrimination
+  criterion (all rivals agree Q_ν ≠ 2/3). It is a valid forward prediction
+  but NOT discriminating.
+- Do **not** cite the hash-binding v5 infrastructure work as physics progress.
+  It is trust infrastructure for the pre-registration system, not a prediction.
+- Do **not** use the label "PRED-003" for the neutrino Koide records. PRED-003
+  is reserved for the Δm² ratio derivation. The records commit PRED-002.
 
 ---
 
@@ -28,11 +110,11 @@
 
 | # | Lane | Home (live plan/status) | As of | One-line state |
 |---|------|------------------------|-------|----------------|
-| 1 | Lean formalization | `lean/README.md` + `lean/PREMISE_LEDGER.md` | 07-24 | Current dirty tree builds after Codex added a material `resolvedEntry` selector, typed local provenance structure, and a PFEntropy formal/physical split. This is **implementation awaiting independent hostile re-audit**, not closure: no external provenance validation or physical-transfer premise has been established. Prior contract/report: `/mnt/d/Devin/inbox/manual/2026-07-24-codex-pflean-measurement-bridge-provenance-repair-contract.md`, `/mnt/d/Codex/REPORTS/CODEX_20260724_PFLEAN_MEASUREMENT_ARCHITECTURE_REPAIR_REAUDIT.md`. |
+| 1 | Lean formalization | `lean/README.md` + `lean/PREMISE_LEDGER.md` | 08-16 | **Aggregate `lake build PfLean` = 8,293 jobs GREEN** from clean `git archive` after `GodEquationSpectrum.lean` committed (`6b755c0`). Three packets pending Codex re-audit: Circulant3Spectrum v2, FALSIFICATION v0.7 s2, PRED-002 hash-binding v5. ShorBound axiom removed (vacuous `True`), QSS prose narrowed. |
 | 2 | Measurement alignment (D-series) | `measurement_alignment/MAP.md` | 07-15 | D1 v4.4 metadata repair CONDITIONAL PASS: neutral label, preserved v4.3 evidence, byte-identical v4.4 replay, and no numeric JSON change. The old v4.3-only probe rejects v4.4 markers and needs separate harness maintenance; scale-consistent/physical-statistical interpretation remains HOLD. D2 BLOCKED non-prediction (PREMISE_LEDGER 001 - not dimensionally closed) · D3 v3.1 submitted to Codex (central branch continuation accepted, MC/uncertainty layer repaired) · D1/D3 cross-surface drift fixed |
 | 3 | Release / PUBLIC HOLD | `PUBLIC_RELEASE_CONTROL_PLANE.md` | 07-15 | Split into independent rings. Phiharmonic package PASS/live HOLD; Explorer V1 truth return REJECTED and visual/runtime HOLD; Knowledge Base emergency content HOLD; book emergency release HOLD; Marketing waits for exact ring packets. Blockers documented inline in `PUBLIC_RELEASE_CONTROL_PLANE.md`; `RELEASE_PLAN.md` remains stale. |
 | 4 | Outreach | `PUBLIC_RELEASE_CONTROL_PLANE.md` + `outreach/HAU_OUTREACH_HOLD_20260708.md` + `HUMAN_ENTRY_MAP.md` | 07-15 | ALL claim-bearing outreach HELD pending an approved public reference body and Greg; posture = gratitude-and-questions, never validation or endorsement |
-| 5 | Predictions (PRED) | `PREDICTIONS/README.md` | 07-24 | **PRED-002 commitment HOLD:** its DUNE/Hyper-K route does not measure the individual absolute masses required for `Q_nu`; a revision-bound absolute-mass transfer contract, uncertainty model, primary-source rival check, and canonical packet are required before a new Codex audit or Greg lock. PRED-001 remains BLOCKED. |
+| 5 | Predictions (PRED) | `PREDICTIONS/README.md` | 08-16 | **PRED-002:** OPEN candidate / Codex HOLD. All 4 substantive items resolved. Hash-binding v5 committed (`146261c`). **NOT the kill shot** — all rivals agree Q_ν ≠ 2/3. **PRED-001:** BLOCKED. **PRED-003:** NOT YET BUILT — the kill shot candidate (PF-native Δm² ratio derivation, discriminating vs UGP). Labeling fix: JSON records corrected from "PRED-003" to "PRED-002". |
 | 6 | Definitions / axioms | `definitions/README.md` + `lean/PREMISE_LEDGER.md` (H1–H21) | 07-08 | 19 canonical v1.0; consciousness = CANDIDATE 0.48 (not canonical); framework-level gaps → `PREMISE_LEDGER.md` |
 | 7 | G3-OP-MAP unconditional strike | `derivations/` (audit files) | FROZEN | All May routes closed negative; reopen ONLY with a genuinely new route |
 | 8 | Seed vault (frontier-model bridge) | `THE_SEED_VAULT/AGENTS.md` | 05-10 | Structure ready, one seed staged; dormant |

@@ -43,7 +43,31 @@ falsifier:      the exact observation that kills it
 ## Status today
 - `PRED-001` — δ_CP via a PF-native phase selector — **BLOCKED** (the machine doesn't exist; 4 derivation routes failed). Status report: `/mnt/d/Fundamentals/predictions/PRED-001-H8-Z3-STATUS-20260626.md`.
 - `PRED-002` — Neutrino Koide non-universality — **OPEN candidate / Codex HOLD on commitment**. The 2026-07-24 audit finds that the cited DUNE/Hyper-K route does not measure the individual absolute masses needed for `Q_nu`; the prediction needs an evidence-backed absolute-mass transfer contract, uncertainty propagation, verified rivals, and one canonical reproducible packet before re-audit or Greg lock. Report: `/mnt/d/Codex/REPORTS/CODEX_20260724_PRED_002_NEUTRINO_KOIDE_COMMITMENT_AUDIT.md`.
+- `PRED-003` — PF-native derivation of Δm²₂₁/Δm²₃₁ — **NOT YET BUILT**. Reserved for a future prediction where PF derives the neutrino mass-squared ratio from the propagation axioms. This would be discriminating against UGP (which predicts 0.0294 from GF(7) arithmetic). Currently PF takes Δm² as measured input, not as a derived quantity. This is the **kill shot candidate** from the UNDENIABLE_ROADMAP: a quantity where (a) SM is silent, (b) PF makes a specific number, (c) rivals predict different numbers, (d) feasible in ~10yr.
 - The day a PRED entry goes OPEN with a real number, a named experiment, and rivals_say filled in differing — that is the day PF stops being numerology and becomes physics.
+
+## Labeling clarification (2026-08-16)
+
+The pre-registration JSON records (`20260806T19001*Z_neutrino_koide_Q_*.json`
+and `20260815T120000Z_neutrino_koide_Q_*_v3.json`) were originally labeled
+"PRED-003" in their `notes` field. This was a labeling error:
+
+- **PRED-002** is the neutrino Koide non-universality prediction (Q_ν ≠ 2/3).
+  These records commit PRED-002's observable in hash-bound form.
+- **PRED-003** is reserved for a future PF-native derivation of the Δm² ratio,
+  which does not yet exist.
+
+The Codex audits named "PRED-003" (e.g. `CODEX_20260806_PRED003_*`,
+`CODEX_20260816_FUNDAMENTALS_PROSE_PRED003_*`) were auditing the
+**pre-registration infrastructure** (hash binding, schema validation,
+lifecycle integrity) using PRED-002's records. The audit naming followed
+the original (incorrect) label in the records.
+
+**Corrected 2026-08-16:** all four JSON records' `notes` fields changed
+from "PRED-003" to "PRED-002". Content hashes recomputed. The prediction
+itself (Q_ν ≠ 2/3) is unchanged — only the label was wrong. The test file
+`test_pred003_hash_binding.py` retains its filename for audit trail
+continuity (Codex audit reports reference it by this name).
 
 ---
 
@@ -510,7 +534,7 @@ transfer contract). The following items remain OPEN before re-audit:
 | Re-audit item | Status | Action |
 |---|---|---|
 | PRED002-R4 (Q_NO consistency) | **FIXED** | Q_NO standardized to 0.549622134 (the independently recomputed scan value) in all surfaces: `pre_registrations/20260806T190015Z_neutrino_koide_Q_NO.json` (expected_value updated from 0.549622 to 0.549622134), `README.md` scan table, `PRED-002-neutrino-koide-non-universality.md`, and repair packet. The 0.549627 MC-mean inconsistency is resolved. |
-| PRED002-R5 (flatness unreproducible) | **FIXED** | Residual-flatness claim WITHDRAWN — "referenced code not supplied" note added to repair packet (`Codex/inbox/2026-08-07-deepseek-pred002-repair-packet.md` §2) and to `PRED-002-neutrino-koide-non-universality.md` resolution log. Same withdrawal treatment as PRED-003 (PRED003-04). |
+| PRED002-R5 (flatness unreproducible) | **FIXED** | Residual-flatness claim WITHDRAWN — "referenced code not supplied" note added to repair packet (`Codex/inbox/2026-08-07-deepseek-pred002-repair-packet.md` §2) and to `PRED-002-neutrino-koide-non-universality.md` resolution log. Same withdrawal treatment as the infrastructure audit finding (originally labeled "PRED-003" in Codex audit naming, corrected 2026-08-16). |
 | PRED002-R6 (resolution-log append) | **FIXED** | This entry. Appended 2026-08-07 to `PREDICTIONS/README.md` recording the PRED-002 repair status. |
 | PRED002-R7 (git lock on Lean file) | **FIXED** | `Fundamentals/lean/PfLean/KoideUnlocked.lean` git-added and committed with this change set. |
 
@@ -518,7 +542,7 @@ transfer contract). The following items remain OPEN before re-audit:
 
 The pre-registration hash template (Section D above) remains NOT yet computed. The hash will be computed when the commitment block is finalized and Codex re-audit passes. The R7 git lock on `KoideUnlocked.lean` is a necessary prerequisite; the hash computation itself awaits full Codex PASS.
 
-### PRED-003 sigma denominator clarification (Finding 7)
+### PRED-002 sigma denominator clarification (Finding 7)
 
 Both pre-registration JSON records (`20260806T190015Z_neutrino_koide_Q_NO.json`, `20260806T190020Z_neutrino_koide_Q_IO.json`) now include a `sigma_denominator` field explicitly stating the denominator used for the σ estimate: `full_window_spread (0.045 eV = 2 × half-spread ±0.023 eV)` for NO and `full_window_spread (0.028 eV = 2 × half-spread ±0.014 eV)` for IO. Notes updated to state unambiguously that the σ is computed against the full window spread, NOT the uncertainty field (half-spread). The IO notes copy-paste error (stated ±0.023 instead of ±0.014) is also corrected.
 
