@@ -35,9 +35,19 @@ D = 3
 SEED = 42
 
 
-def _score(data, tau=TAU, d=D):
-    """Run the Phase-0 C_PF component scorer."""
-    return compute_cpf_components(data, tau=tau, d=d)
+def _score(data, tau=TAU, d=D, model_channels=None, exog_channels=None):
+    """Run the Phase-0 C_PF component scorer with explicit channel mapping.
+
+    CRITICAL: model_channels and exog_channels MUST be passed per-control.
+    Without exog_channels, L_self computes unconditional MI I(X;M) instead
+    of conditional MI I(X;M|E) — which is not what the battery is testing.
+    See Claude's finding 2026-08-19.
+    """
+    return compute_cpf_components(
+        data, tau=tau, d=d,
+        model_channels=model_channels,
+        exog_channels=exog_channels,
+    )
 
 
 def _rng(seed=SEED):
@@ -217,25 +227,69 @@ def generate_closed_self_model_loop(
 # ---------------------------------------------------------------------------
 
 CONTROLS = [
-    ("white_noise", "negative", generate_white_noise, {"n_channels": N_CHANNELS, "n_samples": N_SAMPLES, "seed": SEED}),
-    ("collapsed_synchrony", "negative", generate_collapsed_synchrony, {"n_channels": N_CHANNELS, "n_samples": N_SAMPLES, "seed": SEED}),
-    ("thermostat", "negative", generate_thermostat, {"n_samples": N_SAMPLES, "setpoint": 20.0, "seed": SEED}),
-    ("acyclic_feedforward_chain", "negative", generate_acyclic_feedforward_chain, {}),
-    ("synchronized_no_model", "negative", generate_synchronized_no_model, {}),
-    ("time_shifted_surrogate", "negative", generate_time_shifted_surrogate, {}),
-    ("phase_randomized_surrogate", "negative", generate_phase_randomized_surrogate, {}),
-    ("common_driver_confound", "negative", generate_common_driver_confound, {}),
-    ("closed_self_model_loop", "positive", generate_closed_self_model_loop, {}),
+    # name, kind, generator, kwargs, model_channels, exog_channels
+    # kind: "negative" (should score ~0), "positive" (should score >0),
+    #        "known_limit" (observationally unsolvable — not counted in FPR)
+    #
+    # Channel mappings:
+    # - model_channels: which channel(s) are the self-model M
+    # - exog_channels: which channel(s) are exogenous input E
+    # If exog_channels is None, L_self computes UNCONDITIONAL MI (not CMI).
+    # This is correct only for controls with no exogenous input at all.
+    #
+    # white_noise: no structure at all. No M, no E. Last channel as M, no E.
+    ("white_noise", "negative", generate_white_noise,
+     {"n_channels": N_CHANNELS, "n_samples": N_SAMPLES, "seed": SEED},
+     None, None),
+    # collapsed_synchrony: all channels identical (common mode). No M, no E.
+    ("collapsed_synchrony", "negative", generate_collapsed_synchrony,
+     {"n_channels": N_CHANNELS, "n_samples": N_SAMPLES, "seed": SEED},
+     None, None),
+    # thermostat: 1D state tiled to 4 channels. No M, no E.
+    ("thermostat", "negative", generate_thermostat,
+     {"n_samples": N_SAMPLES, "setpoint": 20.0, "seed": SEED},
+     None, None),
+    # acyclic_feedforward_chain: channel 0 is the driver (E), channels 1-3 are
+    # downstream. No model variable. M=last channel (3), E=channel 0 (driver).
+    ("acyclic_feedforward_chain", "negative", generate_acyclic_feedforward_chain,
+     {}, 3, [0]),
+    # synchronized_no_model: all channels driven by common master. No model.
+    # M=last channel, E=channel 0 (master is embedded in all, but channel 0
+    # is as close to the driver as we get).
+    ("synchronized_no_model", "negative", generate_synchronized_no_model,
+     {}, 4, [0]),
+    # time_shifted_surrogate: all channels are shifted versions of one signal.
+    # No model. M=last channel, E=channel 0.
+    ("time_shifted_surrogate", "negative", generate_time_shifted_surrogate,
+     {}, 3, [0]),
+    # phase_randomized_surrogate: scrambled feed-forward. No model.
+    # M=last channel, E=channel 0.
+    ("phase_randomized_surrogate", "negative", generate_phase_randomized_surrogate,
+     {}, 3, [0]),
+    # common_driver_confound: hidden driver projects to all channels.
+    # KNOWN LIMIT: the driver is unobserved by construction — it's a local
+    # variable, never returned in data. No observational measure can condition
+    # on an unobserved common cause. This is a causal-inference identifiability
+    # limit, not an estimator defect. Reclassified from "negative" to
+    # "known_limit" per Claude's finding 2026-08-19.
+    # FPR is computed over "negative" controls only, not "known_limit".
+    ("common_driver_confound", "known_limit", generate_common_driver_confound,
+     {}, 3, None),  # E=None because the driver is unobserved
+    # closed_self_model_loop: state order [X1, X2, M]. M=channel 2, X=[0,1].
+    # No exogenous input (closed loop). E=None is correct here — the loop
+    # is self-contained with no external driver.
+    ("closed_self_model_loop", "positive", generate_closed_self_model_loop,
+     {}, 2, None),
 ]
 
 
-@pytest.mark.parametrize("name,kind,generator,kwargs", CONTROLS)
-def test_control(name, kind, generator, kwargs, capsys):
+@pytest.mark.parametrize("name,kind,generator,kwargs,model_ch,exog_ch", CONTROLS)
+def test_control(name, kind, generator, kwargs, model_ch, exog_ch, capsys):
     """Compute and emit C_PF components for every hostile control."""
     data = generator(**kwargs)
     if data.ndim == 1:
         data = data.reshape(1, -1)
-    scores = _score(data)
+    scores = _score(data, model_channels=model_ch, exog_channels=exog_ch)
 
     with capsys.disabled():
         print(
@@ -269,11 +323,11 @@ def test_control(name, kind, generator, kwargs, capsys):
 def test_hostile_battery_landscape():
     """Aggregate the battery and compute false-positive/negative rates."""
     results = []
-    for name, kind, generator, kwargs in CONTROLS:
+    for name, kind, generator, kwargs, model_ch, exog_ch in CONTROLS:
         data = generator(**kwargs)
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        scores = _score(data)
+        scores = _score(data, model_channels=model_ch, exog_channels=exog_ch)
         results.append({"name": name, "kind": kind, **scores})
 
     negatives = [r for r in results if r["kind"] == "negative"]
@@ -314,11 +368,11 @@ def test_hostile_battery_landscape():
 if __name__ == "__main__":
     # Direct script execution prints the table for inspection.
     print("\n=== C_PF hostile control battery (direct run) ===\n")
-    for name, kind, generator, kwargs in CONTROLS:
+    for name, kind, generator, kwargs, model_ch, exog_ch in CONTROLS:
         data = generator(**kwargs)
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        scores = _score(data)
+        scores = _score(data, model_channels=model_ch, exog_channels=exog_ch)
         print(
             f"{name:30s}  {kind:8s}  "
             f"D_int={scores['D_int']:.4f}  "
