@@ -116,3 +116,28 @@ The hostile control battery reproduces and extends the 2026-08-19 Codex audit fi
 **Next:** Route B (repair the bidirectional conditional-information estimator) and Route A (choose one versioned equation and one production path) are prerequisites for any further control work. Without a valid `L_self` and a single operational definition, additional controls will continue to find the same class of false positives.
 
 **PUBLIC HOLD remains.** This report does not approve promotion, public release, medical/clinical use, human/animal/AI/quantum classification, or canonical status for any consciousness metric.
+
+---
+
+## 7. Re-run with the Route B `L_self` CMI estimator
+
+After production integration (`cpf/self_model.py` and updated `cpf/score.py`), the battery was re-run with the new `C_PF_lself_wpli = D_int × C_coh_wpli × L_self` composite.
+
+**Command run:**
+
+```text
+python3.12 -m pytest -q tools/consciousness_metric/tests/test_nulls.py sandbox/test_consciousness_hostile_controls.py
+```
+
+Result: **13 passed**.
+
+**Summary:**
+
+| Composite | FPR | Discrimination gap | Max negative | Min positive | Notes |
+|---|---|---|---|---|---|
+| Legacy `C_PF_reduced_wpli` (D_dir_proxy) | 25.0% (2/8) | −0.1275 | 0.2564 (acyclic feed-forward) | 0.1289 | Fails on feed-forward and common-driver |
+| New `C_PF_lself_wpli` (L_self) | 12.5% (1/8) | −0.0106 | 0.1321 (common-driver) | 0.1214 | Feed-forward collapsed; common-driver remains |
+
+The new `L_self` composite is a strong improvement: the acyclic feed-forward false positive is eliminated, seven of eight negative controls score below the positive, and the discrimination gap is nearly closed. The remaining `common_driver_confound` false positive is due to the absence of an observed exogenous channel `E_t`; conditioning on `E` is required to block common-driver confounds.
+
+**Next for Route C:** add an explicit `E_t` channel (or an EEG proxy) to the battery and verify the common-driver FPR collapses.

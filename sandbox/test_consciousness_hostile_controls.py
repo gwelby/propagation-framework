@@ -241,14 +241,15 @@ def test_control(name, kind, generator, kwargs, capsys):
         print(
             f"{name:30s}  kind={kind:8s}  "
             f"D_int={scores['D_int']:.4f}  "
-            f"C_coh_plv={scores['C_coh_plv']:.4f}  "
             f"C_coh_wpli={scores['C_coh_wpli']:.4f}  "
             f"D_dir_proxy={scores['D_dir_proxy']:.4f}  "
+            f"L_self={scores['L_self']:.4f}  "
+            f"C_PF_lself_wpli={scores['C_PF_lself_wpli']:.4f}  "
             f"C_PF_reduced_wpli={scores['C_PF_reduced_wpli']:.4f}"
         )
 
     # Basic validity: all components must be in [0, 1].
-    for key in ("D_int", "C_coh_plv", "C_coh_wpli", "D_dir_proxy", "C_PF_reduced_wpli"):
+    for key in ("D_int", "C_coh_plv", "C_coh_wpli", "D_dir_proxy", "L_self", "C_PF_lself_wpli", "C_PF_reduced_wpli"):
         assert 0.0 <= scores[key] <= 1.0, f"{name}: {key} out of bounds: {scores[key]}"
 
     # The expected outcomes are documented in the Route C report. These tests
@@ -278,35 +279,36 @@ def test_hostile_battery_landscape():
     negatives = [r for r in results if r["kind"] == "negative"]
     positives = [r for r in results if r["kind"] == "positive"]
 
-    false_positives = [r for r in negatives if r["C_PF_reduced_wpli"] >= 0.05]
-    false_negatives = [r for r in positives if r["C_PF_reduced_wpli"] <= 0.05]
+    def _summarize(score_key: str, label: str):
+        false_positives = [r for r in negatives if r[score_key] >= 0.05]
+        false_negatives = [r for r in positives if r[score_key] <= 0.05]
 
-    fpr = len(false_positives) / len(negatives) if negatives else 0.0
-    fnr = len(false_negatives) / len(positives) if positives else 0.0
+        fpr = len(false_positives) / len(negatives) if negatives else 0.0
+        fnr = len(false_negatives) / len(positives) if positives else 0.0
 
-    print("\n--- Hostile control summary ---")
+        print(f"\n--- {label} ---")
+        print(f"False positives ({score_key} >= 0.05): {len(false_positives)}")
+        for r in false_positives:
+            print(f"  - {r['name']}: {r[score_key]:.4f}")
+        print(f"False-positive rate (FPR): {fpr:.2%}")
+        print(f"False negatives ({score_key} <= 0.05): {len(false_negatives)}")
+        for r in false_negatives:
+            print(f"  - {r['name']}: {r[score_key]:.4f}")
+        print(f"False-negative rate (FNR): {fnr:.2%}")
+
+        max_negative = max(r[score_key] for r in negatives)
+        min_positive = min(r[score_key] for r in positives)
+        print(f"Max negative {score_key}: {max_negative:.4f}")
+        print(f"Min positive {score_key}: {min_positive:.4f}")
+        discrimination_gap = min_positive - max_negative
+        print(f"Discrimination gap (positive - max negative): {discrimination_gap:+.4f}")
+        assert -1.0 <= discrimination_gap <= 1.0, "Discrimination gap out of bounds"
+
+    print("\n=== Hostile control summary ===")
     print(f"Negative controls: {len(negatives)}")
-    print(f"False positives (C_PF_reduced_wpli >= 0.05): {len(false_positives)}")
-    for r in false_positives:
-        print(f"  - {r['name']}: {r['C_PF_reduced_wpli']:.4f}")
-    print(f"False-positive rate (FPR): {fpr:.2%}")
     print(f"Positive controls: {len(positives)}")
-    print(f"False negatives (C_PF_reduced_wpli <= 0.05): {len(false_negatives)}")
-    for r in false_negatives:
-        print(f"  - {r['name']}: {r['C_PF_reduced_wpli']:.4f}")
-    print(f"False-negative rate (FNR): {fnr:.2%}")
-
-    max_negative = max(r["C_PF_reduced_wpli"] for r in negatives)
-    min_positive = min(r["C_PF_reduced_wpli"] for r in positives)
-    print(f"Max negative C_PF_reduced_wpli: {max_negative:.4f}")
-    print(f"Min positive C_PF_reduced_wpli: {min_positive:.4f}")
-
-    # The metric discriminates only if the positive score sits above the
-    # negative ceiling. This assertion is intentionally a measurement, not a
-    # gate, because the current scorer is known to produce false positives.
-    discrimination_gap = min_positive - max_negative
-    print(f"Discrimination gap (positive - max negative): {discrimination_gap:+.4f}")
-    assert -1.0 <= discrimination_gap <= 1.0, "Discrimination gap out of bounds"
+    _summarize("C_PF_reduced_wpli", "Legacy D_dir_proxy composite")
+    _summarize("C_PF_lself_wpli", "New L_self CMI composite")
 
 
 if __name__ == "__main__":
@@ -320,9 +322,10 @@ if __name__ == "__main__":
         print(
             f"{name:30s}  {kind:8s}  "
             f"D_int={scores['D_int']:.4f}  "
-            f"C_coh_plv={scores['C_coh_plv']:.4f}  "
             f"C_coh_wpli={scores['C_coh_wpli']:.4f}  "
             f"D_dir_proxy={scores['D_dir_proxy']:.4f}  "
+            f"L_self={scores['L_self']:.4f}  "
+            f"C_PF_lself_wpli={scores['C_PF_lself_wpli']:.4f}  "
             f"C_PF_reduced_wpli={scores['C_PF_reduced_wpli']:.4f}"
         )
 

@@ -2,6 +2,15 @@
 compute_cpf_bands.py
 Run C_PF_reduced_proxy on CSD band-power session files.
 
+DEPRECATION WARNING (2026-08-20):
+This script uses the legacy C_PF_reduced = D_int × C_coh_plv × (1 + D_dir_proxy)
+formula. The canonical v1.0 consciousness-metric candidate is
+    C_PF = D_int × C_coh_wpli × L_self
+where L_self is the single-joint-covariance conditional-MI self-loop gate
+implemented in cpf.self_model. This script is retained only for historical
+session reprocessing and should not be used for new work without a migration
+plan.
+
 Input format: CSD session CSV with columns:
   timestamp, elapsed_sec, delta, theta, alpha, beta, gamma, ...
 

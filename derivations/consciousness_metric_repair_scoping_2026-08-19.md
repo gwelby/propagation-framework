@@ -106,7 +106,7 @@ All five route subagents completed. The results converge on one candidate v1.0 i
 |---|---|---|---|
 | A | Equation/implementation parity | **PARITY FINDING + CORRECTED RECOMMENDATION** | `derivations/consciousness_metric_route_A_parity.md` — `compute_cpf_bands.py`'s `(1 + D_dir_proxy)` factor is structurally broken; `cpf/score.py` has the correct multiplicative shape. **However, `D_dir_proxy` was falsified by Route C (25–40% FPR) and Route B, so v1.0 must use `L_self`, not `D_dir_proxy`.** |
 | B | CMI estimator repair | **REPAIR FOUND** | `derivations/consciousness_metric_route_B_cmi.md` + `sandbox/consciousness_cmi_repair_probe.py` — single-joint-covariance Ledoit-Wolf CMI correctly gates `L_self` to 0 on Class I/II/feed-forward/synchrony and opens to ~0.6 on a positive closed self-model loop |
-| C | Hostile controls | **NEEDS REPAIR** | `derivations/consciousness_metric_route_C_controls.md` + `sandbox/test_consciousness_hostile_controls.py` — current `D_dir_proxy` gives 25–40% FPR; positive loop not discriminated from feed-forward/common-driver |
+| C | Hostile controls | **REPAIRED (PARTIAL)** | `derivations/consciousness_metric_route_C_controls.md` + `sandbox/test_consciousness_hostile_controls.py` — new `C_PF_lself_wpli` gives FPR 12.5% and discrimination gap −0.0106 vs legacy 25.0% FPR / −0.1275 gap; only `common_driver_confound` remains false-positive because no exogenous `E_t` is observed |
 | D | Prerequisite operationalization | **REDUCE SET** | `derivations/consciousness_metric_route_D_prerequisites.md` — reduce to `{D_int, C_coh_wpli, L_self}`; remove Type-4 observer (fold into L_self), extended substrate, and integrated self-information |
 | E | Pre-registration/incremental validity | **DESIGN-ONLY** | `derivations/consciousness_metric_route_E_preregistration.md` — full pre-registration skeleton with Track A (current pipeline) and Track B ( awaits validated `L_self`) |
 
@@ -130,15 +130,15 @@ This is **not** the spec's `C_PF = C_coh × D_int × L_self × F_model` because 
 
 - **T1 implementation parity:** Route A identifies the exact path to one versioned equation and one production entry point.
 - **T2 CMI estimator:** Route B provides the canonical single-joint-covariance `L_self` design with population-analytic checks. The GLM Devin `Guard 2` residual-variance patch in `sandbox/consciousness_metric_null_class_test.py` is a symptom patch and is archived/superseded; the root-cause fix is in `sandbox/consciousness_cmi_repair_probe.py`.
-- **T3 hostile controls:** Route C provides the battery; the new `L_self` must be run through it.
+- **T3 hostile controls:** Route C battery run with new `L_self` in `cpf/score.py`. New composite `C_PF_lself_wpli` improves FPR from 25.0% to 12.5% and discrimination gap from −0.1275 to −0.0106; only `common_driver_confound` still false-positives.
 - **T4 prerequisite operationalization:** Route D reduces the set to three independent, testable components.
 - **T5 pre-registration:** Route E provides the design; it is ready to be frozen once `L_self` is integrated.
 - **T7 Lean gate algebra:** Route B's analytic null checks and the `min(0, x) = 0` gate are mathematically exact for the constructed linear-Gaussian systems.
 
 ### 6.4 What remains open
 
-- **Production integration:** `cpf/directed.py` must be replaced by the Route B `L_self` estimator, and `cpf/score.py` must be updated to use it.
-- **Full hostile-control validation:** the Route B `L_self` must be run on the Route C battery (common-driver, feed-forward, synchronized no-model, phase-randomized, time-shifted).
+- **Exogenous-channel proxy for EEG:** the only remaining hostile false positive (`common_driver_confound`) requires conditioning on an observed `E_t`; no general EEG proxy exists yet.
+- **Full hostile-control validation:** the common-driver confound must be added to the battery with explicit `E_t` channels.
 - **Threshold calibration:** `θ_L` and the final `C_PF` pass/fail threshold must be set on a construction set and frozen before target data inspection.
 - **Held-out dataset and incremental validity:** the Route E pre-registration is design-only; real data and comparators are pending.
 - **F_model and M_obs_t → M_t bridge:** not addressed; keep as open assumptions.
@@ -153,9 +153,8 @@ This is **not** the spec's `C_PF = C_coh × D_int × L_self × F_model` because 
 
 ### 6.6 Next concrete steps
 
-1. **Productionize Route B:** create `cpf/self_model.py` with the single-joint-covariance CMI estimator and replace `cpf/directed.py`. Keep `sandbox/consciousness_cmi_repair_probe.py` as the canonical sandbox; `sandbox/consciousness_metric_null_class_test.py` is archived as a historical symptom-patch record.
-2. **Close Route A in code:** make `cpf/score.py` emit only `C_PF_reduced_wpli = D_int × C_coh_wpli × L_self`; add deprecation warning to `compute_cpf_bands.py`.
-3. **Run Route C battery with new `L_self`:** ensure FPR on feed-forward/common-driver collapses and the positive loop is discriminated.
-4. **Update Route E pre-registration:** amend Track A to use the new `L_self`, then freeze thresholds and held-out split.
-5. **Return for Codex re-audit** with exact hashes after source edits.
+1. **Design an exogenous-channel proxy for EEG** (or add explicit `E_t` channels to the battery) to collapse the remaining `common_driver_confound` false positive.
+2. **Verify confound removal:** run the battery with explicit `model_channels` and `exog_channels` per control.
+3. **Update Route E pre-registration:** freeze `C_PF_lself_wpli` thresholds and the held-out split.
+4. **Return for Codex re-audit** with exact hashes.
 
