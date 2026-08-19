@@ -1,0 +1,221 @@
+[
+  {
+    "name": "white_noise",
+    "description": "Independent white noise across all variables. True L_self = 0.",
+    "is_positive": false,
+    "population": {
+      "R_in_nats": 0.0,
+      "R_out_nats": 0.0,
+      "R_in_norm": 0.0,
+      "R_out_norm": 0.0,
+      "L_self": 0.0
+    },
+    "sample": {
+      "R_in_nats_mean": 1.0443100088933696e-05,
+      "R_in_nats_std": 2.5430384220181416e-05,
+      "R_out_nats_mean": 7.767208869902524e-06,
+      "R_out_nats_std": 1.8714339388742703e-05,
+      "R_in_norm_mean": 0.0,
+      "R_in_norm_std": 0.0,
+      "R_out_norm_mean": 0.0,
+      "R_out_norm_std": 0.0,
+      "L_self_mean": 0.0,
+      "L_self_std": 0.0
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.0,
+      "broken_R_out_norm_mean": 0.0,
+      "broken_L_self_mean": 0.0
+    },
+    "directed_proxy_mean": 0.001005473616290861,
+    "directed_proxy_std": 0.00012080743575270903,
+    "D_int_mean": 0.9996231434333515,
+    "D_int_std": 0.00024844666669921074
+  },
+  {
+    "name": "class_i_exogenous",
+    "description": "Class I: M is an exogenous-only controller. True R_in=0, R_out=0.",
+    "is_positive": false,
+    "population": {
+      "R_in_nats": 0.0,
+      "R_out_nats": 0.0,
+      "R_in_norm": 0.0,
+      "R_out_norm": 0.0,
+      "L_self": 0.0
+    },
+    "sample": {
+      "R_in_nats_mean": 0.0004614073604642203,
+      "R_in_nats_std": 0.00021172470085997658,
+      "R_out_nats_mean": 0.0006031252653513341,
+      "R_out_nats_std": 0.00019617917668655026,
+      "R_in_norm_mean": 0.0,
+      "R_in_norm_std": 0.0,
+      "R_out_norm_mean": 0.0,
+      "R_out_norm_std": 0.0,
+      "L_self_mean": 0.0,
+      "L_self_std": 0.0
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.0,
+      "broken_R_out_norm_mean": 0.0,
+      "broken_L_self_mean": 0.0
+    },
+    "directed_proxy_mean": 0.0010185541318353394,
+    "directed_proxy_std": 0.0002999535686604165,
+    "D_int_mean": 0.6153686511406024,
+    "D_int_std": 0.0040590222218778995
+  },
+  {
+    "name": "class_ii_passive",
+    "description": "Class II: M tracks X history but does not drive X future. True R_in>0, R_out=0.",
+    "is_positive": false,
+    "population": {
+      "R_in_nats": 0.8796163147059151,
+      "R_out_nats": 0.0,
+      "R_in_norm": 0.5850579116800538,
+      "R_out_norm": 0.0,
+      "L_self": 0.0
+    },
+    "sample": {
+      "R_in_nats_mean": 0.8707015509603081,
+      "R_in_nats_std": 0.010479896984098926,
+      "R_out_nats_mean": 0.0006646278701791056,
+      "R_out_nats_std": 0.0003595683525470704,
+      "R_in_norm_mean": 0.5813193147709634,
+      "R_in_norm_std": 0.0043757078750763685,
+      "R_out_norm_mean": 0.0,
+      "R_out_norm_std": 0.0,
+      "L_self_mean": 0.0,
+      "L_self_std": 0.0
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.9924320847130179,
+      "broken_R_out_norm_mean": 0.030643977873911776,
+      "broken_L_self_mean": 0.030643977873911776
+    },
+    "directed_proxy_mean": 0.21286153266460053,
+    "directed_proxy_std": 0.000915478646136675,
+    "D_int_mean": 0.5743209530087412,
+    "D_int_std": 0.005601473446216283
+  },
+  {
+    "name": "feed_forward_chain",
+    "description": "Acyclic temporal chain (no self-loop). True L_self = 0.",
+    "is_positive": false,
+    "population": {
+      "R_in_nats": 1.575915874457373,
+      "R_out_nats": 0.0,
+      "R_in_norm": 0.7931819534536703,
+      "R_out_norm": 0.0,
+      "L_self": 0.0
+    },
+    "sample": {
+      "R_in_nats_mean": 1.531880596468303,
+      "R_in_nats_std": 0.008699437371294232,
+      "R_out_nats_mean": 0.000541603411319036,
+      "R_out_nats_std": 0.0002664270976870173,
+      "R_in_norm_mean": 0.7838629761740828,
+      "R_in_norm_std": 0.0018842615023759324,
+      "R_out_norm_mean": 0.0,
+      "R_out_norm_std": 0.0,
+      "L_self_mean": 0.0,
+      "L_self_std": 0.0
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.9845986227200134,
+      "broken_R_out_norm_mean": 0.0,
+      "broken_L_self_mean": 0.0
+    },
+    "directed_proxy_mean": 0.42358466139822254,
+    "directed_proxy_std": 0.0012683178506827702,
+    "D_int_mean": 0.9573117346429121,
+    "D_int_std": 0.0011054967288802843
+  },
+  {
+    "name": "positive_linear",
+    "description": "Linear closed self-model loop. True R_in>0, R_out>0.",
+    "is_positive": true,
+    "population": {
+      "R_in_nats": 1.7661977089327086,
+      "R_out_nats": 0.9125437005430834,
+      "R_in_norm": 0.829018122723104,
+      "R_out_norm": 0.598498375908242,
+      "L_self": 0.598498375908242
+    },
+    "sample": {
+      "R_in_nats_mean": 1.735400786620147,
+      "R_in_nats_std": 0.028492162554999104,
+      "R_out_nats_mean": 0.9033746281602021,
+      "R_out_nats_std": 0.014157112244651888,
+      "R_in_norm_mean": 0.8235993793426988,
+      "R_in_norm_std": 0.004976341078710237,
+      "R_out_norm_mean": 0.5947594704566028,
+      "R_out_norm_std": 0.005731043857721344,
+      "L_self_mean": 0.5947594704566028,
+      "L_self_std": 0.005731043857721344
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.9905693136810498,
+      "broken_R_out_norm_mean": 0.7404732536224424,
+      "broken_L_self_mean": 0.7404732536224424
+    },
+    "directed_proxy_mean": 0.43453999194557413,
+    "directed_proxy_std": 0.003779445826481145,
+    "D_int_mean": 0.6809594074965326,
+    "D_int_std": 0.0029296468528965947
+  },
+  {
+    "name": "positive_tanh",
+    "description": "Bounded non-linear closed self-model loop (positive control).",
+    "is_positive": true,
+    "population": null,
+    "sample": {
+      "R_in_nats_mean": 2.472837497190693,
+      "R_in_nats_std": 0.6374333120275648,
+      "R_out_nats_mean": 0.8788482743223188,
+      "R_out_nats_std": 0.4700423907274106,
+      "R_in_norm_mean": 0.8913669569762078,
+      "R_in_norm_std": 0.1004339061144067,
+      "R_out_norm_mean": 0.529417311107081,
+      "R_out_norm_std": 0.2611235608039566,
+      "L_self_mean": 0.529417311107081,
+      "L_self_std": 0.2611235608039566
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.9343341335921235,
+      "broken_R_out_norm_mean": 0.6867265397944217,
+      "broken_L_self_mean": 0.682166350949026
+    },
+    "directed_proxy_mean": 0.4700260422591133,
+    "directed_proxy_std": 0.1111824150533002,
+    "D_int_mean": 0.562105432240698,
+    "D_int_std": 0.11521609302169812
+  },
+  {
+    "name": "synchronized_no_loop",
+    "description": "Common-mode synchrony from cpf/nulls.py (no model, no loop).",
+    "is_positive": false,
+    "population": null,
+    "sample": {
+      "R_in_nats_mean": 0.13196169918508804,
+      "R_in_nats_std": 0.007442612308636266,
+      "R_out_nats_mean": 0.053667791553833055,
+      "R_out_nats_std": 0.0035030288437808642,
+      "R_in_norm_mean": 0.12360119389976687,
+      "R_in_norm_std": 0.006511910279265233,
+      "R_out_norm_mean": 0.0522472764581329,
+      "R_out_norm_std": 0.0033241151281713393,
+      "L_self_mean": 0.0522472764581329,
+      "L_self_std": 0.0033241151281713393
+    },
+    "broken": {
+      "broken_R_in_norm_mean": 0.06867260969650542,
+      "broken_R_out_norm_mean": 0.027901610409781712,
+      "broken_L_self_mean": 0.027901610409781712
+    },
+    "directed_proxy_mean": 0.39619181077540805,
+    "directed_proxy_std": 0.004465141071760491,
+    "D_int_mean": 0.5098519406517613,
+    "D_int_std": 0.00013548037203158286
+  }
+]
