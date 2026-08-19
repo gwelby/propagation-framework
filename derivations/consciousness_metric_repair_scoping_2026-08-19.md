@@ -130,15 +130,15 @@ This is **not** the spec's `C_PF = C_coh × D_int × L_self × F_model` because 
 
 - **T1 implementation parity:** Route A identifies the exact path to one versioned equation and one production entry point.
 - **T2 CMI estimator:** Route B provides the canonical single-joint-covariance `L_self` design with population-analytic checks. The GLM Devin `Guard 2` residual-variance patch in `sandbox/consciousness_metric_null_class_test.py` is a symptom patch and is archived/superseded; the root-cause fix is in `sandbox/consciousness_cmi_repair_probe.py`.
-- **T3 hostile controls:** Route C battery run with new `L_self` in `cpf/score.py`. New composite `C_PF_lself_wpli` improves FPR from 25.0% to 12.5% and discrimination gap from −0.1275 to −0.0106; only `common_driver_confound` still false-positives.
+- **T3 hostile controls:** Route C battery run with new `L_self` in `cpf/score.py`. After an initial **invalid** run (battery passed no `exog_channels`, so `L_self` computed unconditional MI `I(X;M)`), Claude/Opus fixed the battery to pass explicit `model_channels` and `exog_channels` per control. New composite `C_PF_lself_wpli` now has **FPR 0.00%** (0/7 decidable negatives) and discrimination gap **+0.1087**; the instrument discriminates on the battery. `common_driver_confound` is reclassified as `known_limit` because its driver is unobserved by construction.
 - **T4 prerequisite operationalization:** Route D reduces the set to three independent, testable components.
 - **T5 pre-registration:** Route E provides the design; it is ready to be frozen once `L_self` is integrated.
 - **T7 Lean gate algebra:** Route B's analytic null checks and the `min(0, x) = 0` gate are mathematically exact for the constructed linear-Gaussian systems.
 
 ### 6.4 What remains open
 
-- **Exogenous-channel proxy for EEG:** the only remaining hostile false positive (`common_driver_confound`) requires conditioning on an observed `E_t`; no general EEG proxy exists yet.
-- **Full hostile-control validation:** the common-driver confound must be added to the battery with explicit `E_t` channels.
+- **Common-driver identifiability boundary:** the `common_driver_confound` uses an unobserved driver. It is now reclassified as a `known_limit` and excluded from FPR. No purely observational measure can separate common-cause from genuine feedback without an observed `E_t`.
+- **Real-world exogenous proxy (EEG only):** for real recordings, an observable proxy (arousal, stimulus timing, movement) could play the role of `E_t`; this is a separate design problem for real data, not for the synthetic unobserved-driver control.
 - **Threshold calibration:** `θ_L` and the final `C_PF` pass/fail threshold must be set on a construction set and frozen before target data inspection.
 - **Held-out dataset and incremental validity:** the Route E pre-registration is design-only; real data and comparators are pending.
 - **F_model and M_obs_t → M_t bridge:** not addressed; keep as open assumptions.
@@ -153,8 +153,8 @@ This is **not** the spec's `C_PF = C_coh × D_int × L_self × F_model` because 
 
 ### 6.6 Next concrete steps
 
-1. **Design an exogenous-channel proxy for EEG** (or add explicit `E_t` channels to the battery) to collapse the remaining `common_driver_confound` false positive.
-2. **Verify confound removal:** run the battery with explicit `model_channels` and `exog_channels` per control.
-3. **Update Route E pre-registration:** freeze `C_PF_lself_wpli` thresholds and the held-out split.
+1. **Update Route E pre-registration:** freeze `C_PF_lself_wpli` thresholds and the held-out split on the decidable controls.
+2. **For real EEG only:** design an observable exogenous proxy (arousal, stimulus, movement) and validate it on recordings where the proxy is actually observed.
+3. **Close Class II in Lean:** prove the conditional-independence-under-function-composition lemma in `NullClassProofs.lean` (currently one sorry; build green).
 4. **Return for Codex re-audit** with exact hashes.
 

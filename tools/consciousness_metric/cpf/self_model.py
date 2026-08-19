@@ -116,7 +116,9 @@ def compute_l_self(
             the theorem-grade M_t is not observable in EEG.
         exog_channels: int or list of int. Channel(s) treated as exogenous E.
             Default None (no conditioning on E). This is a known limitation:
-            common-driver confounds may not be fully conditioned without an E proxy.
+            if a common driver is unobserved, no purely observational measure can
+            separate common-cause from genuine feedback without an observed E
+            proxy (causal-inference identifiability limit).
         max_lag: int. Maximum lag (in multiples of tau) to test. Default d.
 
     Returns:
