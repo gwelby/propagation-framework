@@ -1,11 +1,11 @@
 # C_PF Structural-Correlate Benchmark — Pre-registration and Incremental-Validity Protocol (Route E)
 
-**Status:** THRESHOLDS FROZEN on the synthetic decidable-control battery (commit `e7b50a2*`); real-data binding is pending.  
+**Status:** THRESHOLDS FROZEN on the synthetic decidable-control battery (commit `530699f`); real-data binding is pending.  
 **Authority tier:** advisory — instrument repair and boundary audit only.  
 **Public hold:** PUBLIC HOLD on Fundamentals remains in effect. No promotion.  
 **Scope:** a pre-registered protocol for the `C_PF_lself_wpli` composite. Thresholds and the held-out split rule are locked from the synthetic battery; no real data have been inspected.
 
-**Locked code version:** `tools/consciousness_metric/cpf/score.py` and `tools/consciousness_metric/cpf/self_model.py` at commit `e7b50a2*` (pre-registration amendment pending final commit).  
+**Locked code version:** `tools/consciousness_metric/cpf/score.py` and `tools/consciousness_metric/cpf/self_model.py` at commit `530699f` (pre-registration amendment committed with this protocol).  
 **Procedural templates consulted:** Cogitate (Mudrik et al. 2025; OSF preregistration v4/v5); PLOS ONE adversarial-collaboration protocol (Mudrik et al. 2023); Perturbational Complexity Index / PCI (Massimini et al. 2013; Sarasso et al. 2024). These are used only as procedural templates for pre-registration, adversarial interpretation, and comparator design, not as evidence for the PF metric.
 
 ---
@@ -215,7 +215,7 @@ If `C_PF` is no better than the best single baseline, the label is **NO-INCREMEN
 ## 3. What must be frozen before data inspection: a checklist
 
 - [x] **One versioned equation and one production path.** Locked to `cpf/score.py::compute_cpf_components` and `cpf/self_model.py::compute_l_self`. `compute_cpf_bands.py` is deprecated and not used.
-- [x] Exact Git commit hash of the registered code and the protocol version. Commit `e7b50a2*`; protocol version `v2.0-Lself` pending final commit.
+- [x] Exact Git commit hash of the registered code and the protocol version. Commit `530699f`; protocol version `v2.0-Lself`.
 - [ ] Dataset identifier, DOI, access date, condition table, and channel mapping.
 - [x] Inclusion and exclusion rules, including the minimum-epoch rule.
 - [ ] Hardware and acquisition details (device, sampling rate, montage, reference).
@@ -276,8 +276,8 @@ Nothing on this list may be changed after the first `C_PF` value is computed on 
 1. **Real EEG dataset identifier, DOI, access date, condition table, and channel mapping.**
 2. **Real-data `model_channels` and `exog_channels` mapping** chosen *a priori* for each montage and condition.
 3. **Comparator formulas and parameters** (bands, `m`, `r`, `k_max`, etc.) committed to code.
-4. **Final git commit** of the locked code and protocol; replace `e7b50a2*` with the actual hash in §1.4 and §3.
-5. **Class II Lean proof** (`lean/PfLean/NullClassProofs.lean`): Class I is machine-checked, Class II still has one `sorry` in the bridge lemma (independence → conditional independence). This is a formal gap, not a blocker for the empirical pre-registration.
+4. **Final git commit** of the locked code and protocol: exact hash `530699f` recorded in §1.4 and §3. (This protocol is the versioned amendment.)
+5. **Class I / bridge / Class II Lean proof** (`lean/PfLean/NullClassProofs.lean`): Class I conditional independence, the bridge lemma (`indepFun_implies_condIndepFun`), and Class II conditional independence are machine-checked (zero `sorry`s, no project-specific axioms; standard Lean foundations apply). The `CI → MI = 0` step remains NOT FORMALIZED and is not a blocker for the empirical pre-registration.
 6. **Codex re-audit** with exact hashes before any public or canonical use.
 
 PUBLIC HOLD remains in effect until the above are closed and the Codex re-audit clears.
