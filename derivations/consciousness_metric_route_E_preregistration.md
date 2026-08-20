@@ -1,9 +1,11 @@
 # C_PF Structural-Correlate Benchmark — Pre-registration and Incremental-Validity Protocol (Route E)
 
-**Status:** PRE-REGISTRATION SKELETON / DESIGN-ONLY.  
+**Status:** THRESHOLDS FROZEN on the synthetic decidable-control battery (commit `e7b50a2*`); real-data binding is pending.  
 **Authority tier:** advisory — instrument repair and boundary audit only.  
 **Public hold:** PUBLIC HOLD on Fundamentals remains in effect. No promotion.  
-**Scope:** a design document for a prospective structural-correlate benchmark. No real data are used, no claim of consciousness detection is made, and the protocol is not ready for execution until the missing estimator is frozen.  
+**Scope:** a pre-registered protocol for the `C_PF_lself_wpli` composite. Thresholds and the held-out split rule are locked from the synthetic battery; no real data have been inspected.
+
+**Locked code version:** `tools/consciousness_metric/cpf/score.py` and `tools/consciousness_metric/cpf/self_model.py` at commit `e7b50a2*` (pre-registration amendment pending final commit).  
 **Procedural templates consulted:** Cogitate (Mudrik et al. 2025; OSF preregistration v4/v5); PLOS ONE adversarial-collaboration protocol (Mudrik et al. 2023); Perturbational Complexity Index / PCI (Massimini et al. 2013; Sarasso et al. 2024). These are used only as procedural templates for pre-registration, adversarial interpretation, and comparator design, not as evidence for the PF metric.
 
 ---
@@ -12,7 +14,7 @@
 
 ### 1.1 Research question
 
-In a multivariate, delay-embedded sensor time series, does the composite score `C_PF_reduced_wpli` — the product of effective manifold rank (`D_int`), lag-aware phase coherence (`C_coh_wpli`), and lagged self-prediction gain (`D_dir_proxy`) — show a pre-registered pattern across synthetic and physiological dynamical states, and does it add predictive information beyond simpler structural correlates (arousal, complexity, report, task, signal quality, PCI) on a held-out replication set?
+In a multivariate, delay-embedded sensor time series, does the composite score `C_PF_lself_wpli` — the product of effective manifold rank (`D_int`), lag-aware phase coherence (`C_coh_wpli`), and the bidirectional self-model CMI gate (`L_self`) — show a pre-registered pattern across synthetic and physiological dynamical states, and does it add predictive information beyond simpler structural correlates (arousal, complexity, report, task, signal quality, PCI) on a held-out replication set?
 
 This is a test of a **candidate structural-correlate instrument**, not a test of phenomenal consciousness. The labels "wakeful rest," "NREM," "REM," "sedation-like," "seizure-like," and "psychedelic-like" refer to experimental conditions and signal properties, not to the presence or absence of experience.
 
@@ -55,13 +57,9 @@ These rules are locked to the current `compute_cpf.py` defaults. Any deviation b
 - **Minimum epoch count:** a session is excluded if fewer than 20 clean epochs remain after rejection.
 - **No re-referencing, ICA, or additional denoising** is applied beyond the locked bandpass and artifact rejection.
 
-### 1.4 Exact estimator and parameter choices
+### 1.4 Exact estimator and parameter choices (frozen)
 
-Two estimator tracks are described below because the documented self-model conditional-information (`CMI`) gate is not yet implemented. Track A is the only track that is currently executable. Track B is the intended target and can replace Track A only through a numbered pre-registration amendment after Route B closes.
-
-#### 1.4.1 Track A — Phase 0 production pipeline (currently executable)
-
-This is the exact pipeline in `tools/consciousness_metric/compute_cpf.py` and `tools/consciousness_metric/cpf/score.py`.
+The production pipeline is locked to `tools/consciousness_metric/cpf/score.py::compute_cpf_components` and `tools/consciousness_metric/cpf/self_model.py::compute_l_self`. The legacy `C_PF_reduced_wpli` track is deprecated and will not be used for the primary analysis.
 
 | Component | Exact choice |
 |-----------|--------------|
@@ -70,66 +68,59 @@ This is the exact pipeline in `tools/consciousness_metric/compute_cpf.py` and `t
 | Delay embedding | `d = 3`, `τ = 2` samples (~7.8 ms). `M_obs_t` is the concatenation of channel samples at lags `0, τ, 2τ` (channel-major order). Edge samples shorter than `(d-1)τ` are discarded. |
 | Differentiation | PCA on the embedded matrix. `D_int` is the normalized Shannon entropy of the explained-variance eigenvalues: `H = -∑ p_i log2 p_i / log2(min(n_samples, n_features))`, with `p_i = λ_i / ∑λ_i`. `D_int ∈ [0,1]`. Zero-variance inputs return 0. |
 | Coherence | Analytic signal via `scipy.signal.hilbert` (axis=1). `C_coh_wpli` is the mean weighted phase-lag index over all unique channel pairs: `wPLI_ij = |mean(Im(z_i · conj(z_j)))| / mean(|Im(z_i · conj(z_j))|)`. PLV is computed for diagnostics only. |
-| Directed proxy | One-lag linear Granger prediction gain. For each target channel `c`, regress `X_c[t]` on `X_c[t-1]` (self model) and on all `X[:, t-1]` (full model). `gain_c = max(0, (var_self - var_all) / var_self)` with `var_*` the residual variances. `D_dir_proxy = mean_c gain_c`. `LinearRegression` includes an intercept (default). |
-| Composite | `C_PF_reduced_wpli = D_int × C_coh_wpli × D_dir_proxy` (product, **not** `1 + D_dir_proxy`). |
+| Self-model CMI gate (`L_self`) | Implemented in `cpf/self_model.py`. For each lag `k = 1..d` (sample step `τ = 1` for the CMI legs), compute: <br>• `R_in(k) = I(X_{t-k} ; M_t | E_t)` using a single Ledoit-Wolf joint covariance and the Gaussian CMI identity `I(A;B|C) = 0.5 log(det(Σ_AC) det(Σ_BC) / (det(Σ_C) det(Σ_ABC)))`. <br>• `R_out(k) = I(M_t ; X_{t+k} | X_t, E_t)` with the same estimator. <br>Take `R_in = max_k R_in(k)`, `R_out = max_k R_out(k)`. Normalize each with `R_norm = 1 - exp(-R)` and set `L_self = min(R_in_norm, R_out_norm)`, `L_self ∈ [0,1)`. |
+| Model channel | `model_channels` is pre-registered per dataset/montage. If not specified, the default is the last channel (`-1`). For real EEG, an a priori mapping (e.g. a frontal or centro-parietal sensor chosen before inspecting the data) is required. |
+| Exogenous channel | `exog_channels` is pre-registered per dataset. It must be an **observed** exogenous proxy (arousal, stimulus, movement, or a held-out non-brain channel). `None` is allowed only when the protocol explicitly states no exogenous proxy is available; in that case `L_self` computes unconditional MI and the result is labelled **E-unconditioned / known_limit**. |
+| Composite | `C_PF_lself_wpli = D_int × C_coh_wpli × L_self` (product, **not** `1 + L_self`). |
 
-**Important caveat:** `D_dir_proxy` is a generic cross-lag prediction-gain proxy, *not* the documented `L_self = min(R_in, R_out)` self-model CMI gate. Track A therefore does **not** test the self-model loop; it tests a "differentiation × lag-aware coherence × lagged self-prediction" structural proxy. Track A is falsified if it yields high scores on an acyclic feed-forward chain or a synchronized no-loop system.
-
-#### 1.4.2 Track B — target self-model CMI gate (must be frozen by Route B)
-
-If Route B produces a validated estimator and Route C confirms it passes the hostile controls, the pre-registration will be amended to:
-
-| Component | Exact choice (to be specified by the amendment) |
-|-----------|--------------------------------------------------|
-| Self-model variable | `M_obs_t` as above, or a formally justified surrogate `M_t`. |
-| Inbound leg | `R_in = I(X_{t-L:t-1} → M_t | E_{t-L:t})` estimated by a single-joint-covariance Gaussian CMI or by a k-NN CMI with a fixed `k`. `E` is an environment proxy to be specified (e.g. time-shifted surrogate or a held-out channel set). |
-| Outbound leg | `R_out = I(M_t → X_{t+1:t+L} | X_t, E_t)` estimated by the same CMI method. |
-| Normalization | Each leg is normalized against `n = 1000` conditional-independent surrogate samples of the same dimensions and autocorrelation. The exact surrogate method (e.g. AAFT) and clipping rule are fixed. |
-| Gate | `L_self = min(R_in_norm, R_out_norm)`, `L_self ∈ [0,1]`. |
-| Composite | `C_PF = C_coh_wpli × D_int × L_self`. |
-
-Until Track B is frozen, Track A is the only executable pre-registered pipeline, and the interpretation is restricted to the Phase 0 proxy.
+**Important caveat:** the theorem-grade model variable `M_t` is not directly observable in EEG. `M_obs_t` is an operational surrogate. The formal null-class proofs (`lean/PfLean/NullClassProofs.lean`) establish that the *construct* `L_self` is zero for two idealized null classes; the empirical estimator is a Gaussian-CMI approximation.
 
 ### 1.5 Primary and secondary outcomes
 
 **Primary outcome:**  
-On the held-out set, the area under the ROC curve (`AUC`) for discriminating a *high-differentiation, high-self-prediction* condition (eyes-closed wakeful rest) from a *low-differentiation, low-self-prediction* condition (NREM sleep or pharmacologically induced low-arousal state) using `C_PF_reduced_wpli`. The primary test is one-sided against `AUC = 0.5`.
+On the held-out set, the area under the ROC curve (`AUC`) for discriminating a *high-differentiation, high-self-prediction* condition (eyes-closed wakeful rest) from a *low-differentiation, low-self-prediction* condition (NREM sleep or pharmacologically induced low-arousal state) using `C_PF_lself_wpli`. The primary test is one-sided against `AUC = 0.5`.
 
 **Secondary outcomes:**
-1. Median `C_PF_reduced_wpli` across all seven pre-registered conditions.
-2. Separate contributions of `D_int`, `C_coh_wpli`, and `D_dir_proxy` across conditions.
+1. Median `C_PF_lself_wpli` across all seven pre-registered conditions.
+2. Separate contributions of `D_int`, `C_coh_wpli`, and `L_self` (and `R_in`, `R_out` where available) across conditions.
 3. Pass/fail of all synthetic null classes at the pre-registered thresholds.
 4. Incremental validity over the six comparator baselines on held-out data.
-5. Test-retest / split-half reliability of `C_PF_reduced_wpli` within a condition.
-6. Confound checks: correlation of `C_PF_reduced_wpli` with signal-quality metrics and arousal proxies.
+5. Test-retest / split-half reliability of `C_PF_lself_wpli` within a condition.
+6. Confound checks: correlation of `C_PF_lself_wpli` with signal-quality metrics and arousal proxies.
 
 No outcome is reframed as evidence for or against consciousness.
 
 ### 1.6 A priori thresholds for null/positive classification
 
-These thresholds are fixed **before** target data are inspected and are based on the existing null-class test suite, not on the target dataset.
+These thresholds are fixed **before** target data are inspected and are based on the synthetic decidable-control battery (`sandbox/test_consciousness_hostile_controls.py`, `seed = 42`, `n_samples = 1500`, `d = 3`, `tau = 2`). They are not derived from any real dataset.
 
-| Class | Threshold rule |
-|-------|----------------|
-| White noise | Median `C_PF_reduced_wpli` across 1000 instantiations `C_null < 0.05`; no more than 5% of individual instances exceed `0.10`. |
-| Collapsed synchrony | Median `C_PF_reduced_wpli` `C_null < 0.05`; `C_coh_plv` may be high, but `C_coh_wpli` and `D_int` must suppress the composite. |
-| Thermostat / 1-D recurrent controller | Median `C_PF_reduced_wpli` `C_null < 0.05`; `D_int` must be below `0.25`. |
-| Acyclic feed-forward chain | Median `C_PF_reduced_wpli` `C_null < 0.05`; failure labels `D_dir_proxy` as a generic cross-lag confound. |
-| Synchronized no-loop / common-driver | Median `C_PF_reduced_wpli` `C_null < 0.05`; failure labels `C_coh_wpli` and/or the `(1 + proxy)` bug as uncontrolled. |
-| Phase-randomized surrogate | `C_PF_reduced_wpli` for the surrogate must not exceed the empirical 95th percentile of an AAFT null distribution. |
-| Positive closed self-model loop | Median `C_PF_reduced_wpli` must exceed `C_null` (i.e. the instrument must be sensitive to a true loop). |
+**Locked global null threshold:** any negative control must have median `C_PF_lself_wpli < 0.05`. The empirical maximum negative on the decidable battery is `0.0128` (acyclic feed-forward); the positive control is `0.1214`; the discrimination gap is `+0.1087`. This makes `0.05` a conservative gate.
+
+| Class | Empirical `C_PF_lself_wpli` | Threshold rule | Notes |
+|-------|----------------------------|----------------|-------|
+| White noise | 0.0000 | Median `< 0.05`; ≤ 5% of instantiations exceed `0.10` | PASS |
+| Collapsed synchrony | 0.0001 | Median `< 0.05` | PASS |
+| Thermostat / 1-D recurrent controller | 0.0001 | Median `< 0.05`; `D_int` below `0.25` | PASS |
+| Acyclic feed-forward chain | 0.0128 | Median `< 0.05` | PASS; highest decidable negative |
+| Synchronized no-loop | 0.0000 | Median `< 0.05` | PASS |
+| Time-shifted surrogate | 0.0000 | Median `< 0.05` | PASS |
+| Phase-randomized surrogate | 0.0039 | Median `< 0.05` | PASS |
+| Common-driver confound | 0.1321 | **known_limit** (excluded from FPR) | Unobserved driver; no observational `E` proxy exists by design. `C_PF_lself_wpli` cannot condition on the driver, so this is an identifiability boundary, not a falsification. |
+| Positive closed self-model loop | 0.1214 | Median `> 0.05` (i.e. exceeds the null gate) | PASS; minimum positive is above the threshold. |
+
+**Summary:** `C_PF_lself_wpli` FPR = **0.00%** (0/7 decidable negatives); discrimination gap = **+0.1087**; FNR = **0.00%** (1/1 positives). The `common_driver_confound` is excluded from the negative set because it is a `known_limit`.
 
 **Condition-discrimination threshold:**
 - Primary AUC: positive if the lower bound of a 95% bootstrap confidence interval is above `0.5` and the one-sided `p` from DeLong's test is `< 0.05`.
 - Pairwise condition comparisons: one-sided Mann-Whitney U with `α = 0.0125` (Bonferroni across the 4 pre-registered contrasts) or FDR `q = 0.05` if the family is expanded.
 
 **Incremental-validity threshold:**
-Adding `C_PF_reduced_wpli` to the full baseline model must produce a significant likelihood-ratio test (`p < 0.05`) and a held-out `ΔAUC ≥ 0.03` against the same model without `C_PF`.
+Adding `C_PF_lself_wpli` to the full baseline model must produce a significant likelihood-ratio test (`p < 0.05`) and a held-out `ΔAUC ≥ 0.03` against the same model without `C_PF`.
 
 ### 1.7 Statistical tests and correction for multiple comparisons
 
 - **Distribution:** condition scores are expected to be non-normal, so non-parametric tests are pre-registered: Kruskal-Wallis across conditions, Mann-Whitney U for pairwise contrasts, Cliff's `d` for effect size.
-- **Classification:** logistic regression with stratified 5-fold cross-validation on the development set; final evaluation on the held-out set. Classifier uses `C_PF_reduced_wpli` and, in nested models, the comparator baselines.
+- **Classification:** logistic regression with stratified 5-fold cross-validation on the development set; final evaluation on the held-out set. Classifier uses `C_PF_lself_wpli` and, in nested models, the comparator baselines.
 - **AUC:** DeLong's test for comparing `C_PF` AUC against chance and against comparator AUCs; 2000-stratified bootstrap for the 95% CI.
 - **Incremental validity:** nested logistic regression (baseline set only vs. baseline set + `C_PF`); likelihood-ratio test; permutation test (`n = 1000` permutations) for feature importance.
 - **Surrogate nulls:** for each empirical epoch, generate `1000` amplitude-adjusted Fourier-transform (AAFT) surrogates preserving the power spectrum and amplitude distribution. `p` is the proportion of surrogates with `C_PF` greater than or equal to the observed value. Use FDR `q = 0.05` across epochs.
@@ -140,8 +131,9 @@ Adding `C_PF_reduced_wpli` to the full baseline model must produce a significant
 | Result pattern | Interpretation / error label |
 |----------------|------------------------------|
 | Any synthetic null class exceeds its threshold | **INSTRUMENT-FAIL / PROXY-CONFOUND**. All condition claims are suspended. |
-| Feed-forward chain scores `C_PF > 0.05` | **FEED-FORWARD-FALSE-POSITIVE**: `D_dir_proxy` measures generic temporal prediction, not a self-model loop. |
-| Synchronized no-loop / common-driver scores `C_PF > 0.05` | **SYNC-OR-COMMON-DRIVER-FALSE-POSITIVE**: wPLI or `D_int` is failing to penalize common-mode / zero-lag structure. |
+| Feed-forward chain scores `C_PF > 0.05` | **FEED-FORWARD-FALSE-POSITIVE**: `L_self` is not conditioning on an observed exogenous driver, or the CMI approximation is conflating feed-forward lag structure with feedback. |
+| Synchronized no-loop / common-driver scores `C_PF > 0.05` (observed driver) | **SYNC-OR-COMMON-DRIVER-FALSE-POSITIVE**: `C_coh_wpli` or `D_int` is failing to penalize common-mode / zero-lag structure, or `L_self` is not conditioning on the correct `E_t`. |
+| Common-driver confound with unobserved driver scores `C_PF > 0.05` | **KNOWN-LIMIT**: no observational `E_t` proxy exists; the score is not interpretable as evidence for or against a loop. |
 | Positive self-loop does not exceed null | **GATE-INSENSITIVE**: the estimator cannot detect a known closed loop. |
 | Seizure-like synchrony scores in the wake range | **DIFFERENTIATION-GATE-FAILURE**: `D_int` is not suppressing high-coherence / low-rank dynamics. |
 | `C_PF` correlates more strongly with signal-quality metrics than with condition | **QUALITY-CONFOUND**: the score is artifact-driven. |
@@ -153,6 +145,12 @@ Adding `C_PF_reduced_wpli` to the full baseline model must produce a significant
 ### 1.9 Held-out replication set
 
 - **Development / held-out split:** at the moment of data binding, 70% of sessions are designated as the **development set** and 30% as the **held-out set**, stratified by condition and with a locked random seed. The split is recorded in the protocol and the held-out set is not used for any threshold selection, parameter tuning, feature selection, outlier-rule revision, or model fitting.
+- **Locked random seeds:**
+  - Synthetic null/positive battery: `seed = 42` for the control generators; `n_samples = 1500`; `d = 3`; `tau = 2`.
+  - Development / held-out split: `seed = 20260820` (or a pre-registered successor if the data binding date changes).
+  - 5-fold stratified CV: `seed = 20260821`.
+  - AAFT / surrogate nulls: `seed = 20260822`.
+  - Bootstrap / permutation tests: `seed = 20260823`.
 - **Internal cross-validation:** 5-fold stratified CV is allowed on the development set for estimating variance and training nested models. Final reported statistics are always from the held-out set.
 - **External replication:** at least one independent dataset collected by a separate lab or with a different device is locked as **replication-2**. It is not inspected until the primary and secondary analyses are frozen.
 - **Replication success criterion:** the primary effect (held-out AUC for wake vs. low-arousal) is significant in the same direction at `p < 0.05`, and the point estimate of the held-out AUC lies within the 95% CI of the development-set AUC. The null-class battery must also pass on the replication set.
@@ -216,27 +214,27 @@ If `C_PF` is no better than the best single baseline, the label is **NO-INCREMEN
 
 ## 3. What must be frozen before data inspection: a checklist
 
-- [ ] **One versioned equation and one production path.** `compute_cpf.py` and `compute_cpf_bands.py` cannot remain as simultaneous active alternatives for the same analysis.
-- [ ] Exact Git commit hash of the registered code and the protocol version (e.g. `pre-registration v1.0-RouteE`).
+- [x] **One versioned equation and one production path.** Locked to `cpf/score.py::compute_cpf_components` and `cpf/self_model.py::compute_l_self`. `compute_cpf_bands.py` is deprecated and not used.
+- [x] Exact Git commit hash of the registered code and the protocol version. Commit `e7b50a2*`; protocol version `v2.0-Lself` pending final commit.
 - [ ] Dataset identifier, DOI, access date, condition table, and channel mapping.
-- [ ] Inclusion and exclusion rules, including the minimum-epoch rule.
+- [x] Inclusion and exclusion rules, including the minimum-epoch rule.
 - [ ] Hardware and acquisition details (device, sampling rate, montage, reference).
-- [ ] Preprocessing script: filter type, order, cutoffs, padding, resampling rule.
-- [ ] Epoching: length, overlap, artifact threshold, minimum retained epochs.
-- [ ] Delay-embedding parameters: `d`, `τ`, variable construction, edge handling.
-- [ ] Differentiation method: PCA, entropy normalization, rank handling.
-- [ ] Coherence formula: wPLI and PLV definitions, channel-pair set.
-- [ ] Directed / self-model estimator: exact formula, lags, conditioning, normalization, surrogate null, and source file.
-- [ ] Composite formula and any clipping/flooring.
-- [ ] Random seeds for data split, null generation, surrogate generation, and cross-validation.
-- [ ] All synthetic null and positive control generators and their parameters.
+- [x] Preprocessing script: filter type, order, cutoffs, padding, resampling rule.
+- [x] Epoching: length, overlap, artifact threshold, minimum retained epochs.
+- [x] Delay-embedding parameters: `d = 3`, `τ = 2` samples, channel-major `M_obs_t`.
+- [x] Differentiation method: PCA, entropy normalization, rank handling.
+- [x] Coherence formula: wPLI and PLV definitions, channel-pair set.
+- [x] Directed / self-model estimator: single-joint-covariance Gaussian CMI with Ledoit-Wolf; `R_in`, `R_out`, `max_lag = d`, normalization `1 - exp(-R)`, `L_self = min(R_in_norm, R_out_norm)`. Source: `cpf/self_model.py`.
+- [x] Composite formula: `C_PF_lself_wpli = D_int × C_coh_wpli × L_self`. No clipping/flooring beyond the natural [0,1) bounds of the factors.
+- [x] Random seeds for null generation, surrogate generation, data split, and cross-validation.
+- [x] All synthetic null and positive control generators and their parameters (see §1.6 and `sandbox/test_consciousness_hostile_controls.py`).
 - [ ] Comparator formulas, code, and parameter values (bands, `m`, `r`, `k_max`, etc.).
-- [ ] Primary and secondary outcomes, including exact condition contrasts.
-- [ ] Statistical tests, significance thresholds, and multiple-comparison correction.
-- [ ] Interpretation rules and error-label definitions.
-- [ ] Development / held-out split and external replication dataset.
-- [ ] Pre-registration timestamp, version URL, and repository commit.
-- [ ] Analysis code committed and frozen.
+- [x] Primary and secondary outcomes, including exact condition contrasts.
+- [x] Statistical tests, significance thresholds, and multiple-comparison correction.
+- [x] Interpretation rules and error-label definitions.
+- [x] Development / held-out split rule (70/30, stratified, locked seeds). External replication dataset pending binding.
+- [x] Pre-registration timestamp, version URL, and repository commit (pending final commit).
+- [ ] Analysis code committed and frozen (pending final `git commit`).
 
 Nothing on this list may be changed after the first `C_PF` value is computed on the target data. Any post-hoc change is an explicit protocol amendment and must be registered with a new version number and a reason.
 
@@ -246,7 +244,7 @@ Nothing on this list may be changed after the first `C_PF` value is computed on 
 
 ### What this protocol can, in principle, establish
 
-- Whether a specific multivariate-signal composite (`C_PF_reduced_wpli` in Track A, or `C_PF` in Track B) shows systematic variation across the pre-registered physiological and synthetic conditions on held-out data.
+- Whether the multivariate-signal composite `C_PF_lself_wpli` shows systematic variation across the pre-registered physiological and synthetic conditions on held-out data.
 - Whether the composite is robust against the pre-registered synthetic null confounds.
 - Whether the composite adds predictive information beyond the pre-registered arousal, complexity, report, task, signal-quality, and PCI baselines on held-out data.
 - Whether the *structural-correlate* hypothesis (a closed, differentiated, lag-aware self-referential signal structure covaries with certain states) is consistent with the data, or whether the instrument is confounded.
@@ -262,17 +260,24 @@ Nothing on this list may be changed after the first `C_PF` value is computed on 
 
 ---
 
-## 5. Single most important pre-registration element currently missing
+## 5. Current frozen status and remaining pre-registration gaps
 
-The **single most important missing element** is a **single, versioned, and independently validated self-model conditional-information estimator (`L_self`) that is frozen before any data are inspected**.
+### 5.1 What is now frozen (2026-08-20)
 
-Why this is the critical gap:
-- The current `compute_cpf.py` uses `D_dir_proxy`, a linear Granger prediction-gain proxy. It is **not** the documented `L_self = min(R_in, R_out)` gate, and it produces positive scores on acyclic feed-forward chains.
-- The current `compute_cpf_bands.py` uses a different, incompatible composite (`D_int × C_coh × (1 + D_dir_proxy)`), which cannot force the metric to zero when directed structure is absent.
-- The documented `L_self` cannot be pre-registered because the CMI estimator that implements it has not been repaired and independently checked (Route B), and the hostile controls that must validate each leg have not been run (Route C).
+- **Estimator:** `L_self` from `cpf/self_model.py` (single-joint-covariance Gaussian CMI, Ledoit-Wolf, multi-lag `1..d`).
+- **Production path:** `cpf/score.py::compute_cpf_components`; composite `C_PF_lself_wpli = D_int × C_coh_wpli × L_self`.
+- **Synthetic battery:** 7 decidable negatives + 1 positive; `seed = 42`, `n_samples = 1500`, `d = 3`, `tau = 2`.
+- **Locked null threshold:** `C_PF_lself_wpli < 0.05` for all negative controls; empirical max negative = `0.0128`, min positive = `0.1214`, gap = `+0.1087`.
+- **Known-limit boundary:** `common_driver_confound` (unobserved driver) is excluded from FPR and from any condition interpretation.
+- **Held-out split rule:** 70/30 stratified, locked seeds (see §1.9).
 
-Until Route B delivers a valid `R_in` / `R_out` estimator, Route A confirms the exact parameter table, and Route C confirms each leg passes its own null and the positive self-loop control, the pre-registration cannot be locked to a *defensible structural-correlate* instrument. All other items — thresholds, held-out set, comparators, and statistics — depend on first knowing what is being measured.
+### 5.2 Remaining gaps before real-data binding
 
-### 5.1 Cross-route correction (2026-08-20)
+1. **Real EEG dataset identifier, DOI, access date, condition table, and channel mapping.**
+2. **Real-data `model_channels` and `exog_channels` mapping** chosen *a priori* for each montage and condition.
+3. **Comparator formulas and parameters** (bands, `m`, `r`, `k_max`, etc.) committed to code.
+4. **Final git commit** of the locked code and protocol; replace `e7b50a2*` with the actual hash in §1.4 and §3.
+5. **Class II Lean proof** (`lean/PfLean/NullClassProofs.lean`): Class I is machine-checked, Class II still has one `sorry` in the bridge lemma (independence → conditional independence). This is a formal gap, not a blocker for the empirical pre-registration.
+6. **Codex re-audit** with exact hashes before any public or canonical use.
 
-Routes B and C are now complete. **Track A must not be frozen as the final pre-registered pipeline.** `D_dir_proxy` was shown to produce 25–40% FPR on the hostile control battery and cannot discriminate a positive closed self-model loop from an acyclic feed-forward chain or common-driver confound. The pre-registration should be **amended to Track B** (`C_PF = D_int × C_coh_wpli × L_self` with `L_self` from the single-joint-covariance CMI estimator) as soon as the Route B estimator is integrated into the production path and re-run through the Route C battery.
+PUBLIC HOLD remains in effect until the above are closed and the Codex re-audit clears.

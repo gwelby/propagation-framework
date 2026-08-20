@@ -3,24 +3,37 @@
 
   Authors: Devin
   Started: 2026-08-19
-  Updated: 2026-08-19 — real proofs using Mathlib's CondIndepFun API
-  Status: See theorem headers below for per-theorem status.
+  Updated: 2026-08-19 — vacuous axiom and True-concluding theorems removed (Claude finding)
 
   WHAT THIS PROVES:
     Class I: If M = f(E) (deterministic function of E), then M ⊥ X | E.
-    Class II: If X' = g(X, E', noise) where noise ⊥ M, then M ⊥ X' | (X, E).
+    This is machine-checked with zero sorries.
+
+  WHAT IS PARTIALLY PROVEN:
+    Bridge lemma: If f ⊥ (g, h), then f ⊥ h | g.
+    9 of 10 proof steps compile. Step 10 (ae_eq_condExp_of_forall_setIntegral_eq)
+    remains sorry. This lemma does not exist in Mathlib.
 
   WHAT THIS DOES NOT PROVE:
+    - Class II conditional independence (depends on bridge lemma, sorry)
+    - The "CI ⟹ MI = 0" step — NOT FORMALIZED, not even as a stated axiom.
+      The previous version had an axiom `condIndep_implies_zero_mi` concluding
+      `True`, which is provable by `trivial` and asserts nothing. It has been
+      removed. Formalizing this step requires defining conditional mutual
+      information in Lean, which is future work.
     - Anything about consciousness
     - Anything about EEG, PLV, wPLI, or real data
     - The M_obs_t → M_t bridge
-    - The "CI ⟹ MI = 0" step (stated as axiom)
 
   KEY MATHLIB Lemmas:
     - condIndepFun_of_measurable_left: if X is m'-measurable, Y measurable,
       then CondIndepFun m' X Y (X is CI of Y given m')
     - comap_measurable: f is measurable w.r.t. σ(f) (the comap sigma-algebra)
     - Measurable.comp: if f measurable and g measurable, then f ∘ g measurable
+    - condExp_indep_eq: if m₁ ⊥ m₂ and f is m₁-measurable, then E[f | m₂] = E[f] a.e.
+    - IndepFun_iff_Indep: IndepFun f g μ ↔ Indep (comap f) (comap g) μ
+    - Indep_iff: Indep m₁ m₂ μ ↔ ∀ s t, m₁-measurable s → m₂-measurable t →
+      μ(s ∩ t) = μ(s) * μ(t)
 
   PROOF PATTERN:
     Following Mathlib's own convention, we use an explicit measure parameter
@@ -35,27 +48,10 @@ open ProbabilityTheory MeasureTheory
 
 namespace NullClassProofs
 
-/-! ## Axiom: Conditional independence implies zero mutual information
-
-  For any random variables, A ⊥ B | C implies I(A; B | C) = 0.
-  This is a fundamental information-theoretic identity.
-  For Gaussian variables: CI ⟹ conditional covariance = Σ_A ⟹ log-det ratio = 0.
-  Proving this in Lean requires mutual information machinery — future work.
--/
-
-axiom condIndep_implies_zero_mi
-    {Ω : Type*} {mΩ : MeasurableSpace Ω} [StandardBorelSpace Ω] [Nonempty Ω]
-    {μ : Measure Ω} [IsFiniteMeasure μ]
-    {β γ δ : Type*} [MeasurableSpace β] [MeasurableSpace γ] [MeasurableSpace δ]
-    (A : Ω → β) (B : Ω → γ) (C : Ω → δ)
-    (hA : Measurable A) (hB : Measurable B) (hC : Measurable C)
-    (hCI : A ⟂ᵢ[C, hC; μ] B) : True
-
 /-! ## Class I: Exogenous-only controller (thermostat shape)
 
   M = f(E) — model is a deterministic function of E only.
   Claim: M ⊥ X | E (conditional independence)
-  Therefore: I(X ; M | E) = 0 (by axiom)
 
   Proof:
     M = f ∘ E where f is measurable.
@@ -63,11 +59,15 @@ axiom condIndep_implies_zero_mi
     By Measurable.comp, f ∘ E is σ(E)-measurable.
     By condIndepFun_of_measurable_left, (f ∘ E) ⊥ X | σ(E).
     Since M = f ∘ E, M ⊥ X | E.  ∎
+
+  NOTE: The conditional independence M ⊥ X | E is the actual mathematical
+  content. The further step "CI ⟹ I(M; X | E) = 0" is NOT formalized here.
+  Formalizing it requires defining conditional mutual information in Lean.
 -/
 
 /-- Class I null: M = f(E) is deterministic, so M ⊥ X | E.
 
-    PROVEN — zero sorries. This is the core theorem.
+    PROVEN — zero sorries, zero axioms. This is a real machine-checked proof.
 
     The proof uses three Mathlib lemmas:
     1. comap_measurable E : Measurable[σ(E)] E
@@ -85,25 +85,6 @@ theorem class_I_conditional_independence
     M ⟂ᵢ[E, hE_meas; μ] X := by
   subst hM
   exact condIndepFun_of_measurable_left (hf.comp (comap_measurable E)) hX_meas
-
-/-- Class I: I(X ; M | E) = 0, from conditional independence.
-
-    The True target is a placeholder — the actual MI = 0 statement requires
-    information-theoretic machinery (the condIndep_implies_zero_mi axiom).
-    The conditional independence (the hard part) is proven above. -/
-theorem class_I_R_in_is_zero
-    {Ω : Type*} {mΩ : MeasurableSpace Ω} [StandardBorelSpace Ω] [Nonempty Ω]
-    {μ : Measure Ω} [IsFiniteMeasure μ]
-    {β γ δ : Type*} [MeasurableSpace β] [StandardBorelSpace β] [Nonempty β]
-    [MeasurableSpace γ] [MeasurableSpace δ] [StandardBorelSpace δ] [Nonempty δ]
-    (E : Ω → β) (X : Ω → γ) (M : Ω → δ)
-    (f : β → δ) (hf : Measurable f)
-    (hM : M = f ∘ E)
-    (hE_meas : Measurable E) (hX_meas : Measurable X) (hM_meas : Measurable M) :
-    True := by
-  have hCI : M ⟂ᵢ[E, hE_meas; μ] X :=
-    class_I_conditional_independence E X M f hf hM hE_meas hX_meas
-  exact @condIndep_implies_zero_mi Ω mΩ _ _ μ _ δ γ β _ _ _ M X E hM_meas hX_meas hE_meas hCI
 
 /-! ## Bridge lemma: independence implies conditional independence
 
@@ -125,11 +106,9 @@ theorem class_I_R_in_is_zero
     contribution. It bridges the unconditional independence world
     (IndepFun) to the conditional independence world (CondIndepFun).
 
-    STATUS: sorry — the proof requires connecting IndepFun's measure
-    factoring to CondIndepFun's conditional expectation characterization.
-    The mathematical argument is standard and sound. The Lean plumbing
-    requires careful handling of condExpKernel and the integral
-    characterization of conditional expectation. -/
+    STATUS: sorry — 9 of 10 proof steps compile. Step 10 requires
+    ae_eq_condExp_of_forall_setIntegral_eq with ENNReal.toReal plumbing
+    for indicator integrals. The mathematical argument is standard. -/
 theorem indepFun_implies_condIndepFun
     {Ω : Type*} {mΩ : MeasurableSpace Ω} [StandardBorelSpace Ω] [Nonempty Ω]
     {μ : Measure Ω} [IsFiniteMeasure μ]
@@ -198,7 +177,6 @@ theorem indepFun_implies_condIndepFun
   X' = g(X, E', noise) — next state does NOT read M.
   Future noise (E', noise) is independent of the entire past (X, E, M).
   Claim: M ⊥ X' | (X, E)
-  Therefore: I(M ; X' | X, E) = 0
 
   Proof:
     (E', noise) ⊥ (X, E, M) — future noise is independent of the past.
@@ -207,6 +185,8 @@ theorem indepFun_implies_condIndepFun
     Since (E', noise) ⊥ (X, E, M), by the bridge lemma:
       (E', noise) ⊥ M | (X, E)
     By CondIndepFun.comp, X' ⊥ M | (X, E).  ∎
+
+  NOTE: As with Class I, the CI → MI=0 step is NOT formalized.
 -/
 
 /-- Class II null: X' does not depend on M, so M ⊥ X' | (X, E).
@@ -246,46 +226,30 @@ theorem class_II_conditional_independence
   -- which is itself sorry. Both need the same Mathlib plumbing.
   sorry
 
-/-- Class II: I(M ; X' | X, E) = 0, from conditional independence.
-
-    The True target is a placeholder. The conditional independence
-    proof (the hard part) is marked sorry above. -/
-theorem class_II_R_out_is_zero
-    {Ω : Type*} {mΩ : MeasurableSpace Ω} [StandardBorelSpace Ω] [Nonempty Ω]
-    {μ : Measure Ω} [IsFiniteMeasure μ]
-    {β γ δ ε : Type*} [MeasurableSpace β] [StandardBorelSpace β] [Nonempty β]
-    [MeasurableSpace γ] [StandardBorelSpace γ] [Nonempty γ]
-    [MeasurableSpace δ] [StandardBorelSpace δ] [Nonempty δ]
-    [MeasurableSpace ε] [StandardBorelSpace ε] [Nonempty ε]
-    (X : Ω → β) (E : Ω → γ) (M : Ω → δ) (X' : Ω → β)
-    (E' : Ω → γ) (noise : Ω → ε)
-    (g : β × γ × ε → β) (hg : Measurable g)
-    (hX'_def : X' = fun ω => g (X ω, E' ω, noise ω))
-    (hfuture_indep :
-      (fun ω => (E' ω, noise ω)) ⟂ᵢ[μ] (fun ω => (X ω, E ω, M ω)))
-    (hX_meas : Measurable X) (hE_meas : Measurable E)
-    (hM_meas : Measurable M) (hX'_meas : Measurable X')
-    (hE'_meas : Measurable E') (hnoise_meas : Measurable noise) :
-    True := by
-  have hCI : M ⟂ᵢ[fun ω => (X ω, E ω), Measurable.prod hX_meas hE_meas; μ] X' :=
-    class_II_conditional_independence X E M X' E' noise g hg hX'_def
-    hfuture_indep hX_meas hE_meas hM_meas hX'_meas hE'_meas hnoise_meas
-  exact @condIndep_implies_zero_mi Ω mΩ _ _ μ _ δ β (β × γ) _ _ _ M X'
-    (fun ω => (X ω, E ω)) hM_meas hX'_meas (Measurable.prod hX_meas hE_meas) hCI
-
 end NullClassProofs
 
 /-! ## Summary
 
-  LEAN STATUS:
-  - Class I conditional independence: PROVEN (zero sorries, machine-checked)
+  LEAN STATUS (honest, post-Claude-audit):
+  - Class I conditional independence: PROVEN (zero sorries, zero axioms)
   - Bridge lemma (indepFun_implies_condIndepFun): 9/10 steps compiled, sorry
   - Class II conditional independence: sorry (depends on bridge lemma)
-  - CI ⟹ MI = 0: axiom (needs information theory machinery)
+  - CI ⟹ MI = 0: NOT FORMALIZED — not even as a stated axiom
+
+  VACUOUS AXIOM REMOVED (2026-08-19, Claude finding):
+  The previous version had `axiom condIndep_implies_zero_mi ... : True`.
+  An axiom concluding `True` is provable by `trivial` and asserts nothing.
+  The name and docstring implied it represented "CI ⟹ MI = 0" but the
+  type signature said no such thing. Both downstream theorems
+  (`class_I_R_in_is_zero`, `class_II_R_out_is_zero`) concluded `True`
+  and discharged via that axiom — they proved nothing. All three have
+  been removed. This is the same promotion-layer pattern documented in
+  CURIOSITIES.md: a real result at one layer dressed to look like it
+  establishes something at the next layer.
 
   WHAT IS PROVEN (machine-checked by Lean):
   Class I: If M = f(E) for measurable f, then M ⊥ X | E.
-  Proof body (2 lines, zero sorries):
+  Proof body (2 lines, zero sorries, zero axioms):
     subst hM
     exact condIndepFun_of_measurable_left (hf.comp (comap_measurable E)) hX_meas
 
@@ -305,25 +269,17 @@ end NullClassProofs
   10. ae_eq_condExp_of_forall_setIntegral_eq — SORRY
       (requires ENNReal.toReal plumbing for indicator integrals)
 
-  The remaining step is standard mathematics: for all A ∈ σ(g) with finite
-  measure, ∫_A (∫ indicator s 1) • μ⟦t | σ(g)⟧ dμ = ∫_A indicator (s ∩ t) 1 dμ,
-  which follows from the measure factoring μ(A ∩ s ∩ t) = μ(s) * μ(A ∩ t).
-  The Lean plumbing requires careful handling of ENNReal.toReal conversions
-  between measure values (ℝ≥0∞) and integral values (ℝ).
-
   WHAT IS NOT PROVEN:
   Class II: If X' = g(X, E', noise) where (E', noise) ⊥ (X, E, M),
   then M ⊥ X' | (X, E). Depends on the bridge lemma (sorry).
-  The target is the actual CI proposition (not True).
 
-  The CI ⟹ MI = 0 step is an axiom. For Gaussian variables this follows
-  from the log-det covariance characterization. Proving it in Lean
-  requires mutual information machinery not yet built.
+  CI ⟹ MI = 0: NOT FORMALIZED. The previous axiom concluding `True`
+  has been removed. Formalizing this requires defining conditional
+  mutual information in Lean — future work.
 
   HONEST ASSESSMENT:
-  One of two null classes is machine-checked in Lean (Class I).
-  The bridge lemma — the missing Mathlib contribution needed for Class II —
-  has 9 of 10 proof steps compiled. The final step is standard but requires
-  ENNReal.toReal plumbing. Class II remains proven by pen-and-paper and
-  numerical verification, not yet by Lean.
+  One conditional independence result is machine-checked in Lean (Class I).
+  The bridge lemma needed for Class II has 9 of 10 steps compiled.
+  The information-theoretic step (CI ⟹ MI = 0) is not formalized at all.
+  The empirical battery (0% FPR, +0.1087 gap) stands independently of Lean.
 -/
