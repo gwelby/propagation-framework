@@ -9,11 +9,18 @@
 
   WHAT THIS FILE DOES (Stage 1):
     - Defines Shannon-style plog2, entropy, conditional entropy, and CMI for
-      finite discrete spaces using a probability mass function `p : Ω → ℝ`.
+      finite discrete spaces using a nonnegative mass function `p : Ω → ℝ`.
     - Proves the algebraic core of the bridge:
       if the conditional masses factor as
         pXYZ(x,y,z) * pZ(z) = pXZ(x,z) * pYZ(y,z)
-      for all x,y,z, then CMI(X;Y|Z) = 0.
+      for all x,y,z, then the entropy-defined CMI expression is 0.
+
+  NOTE ON NORMALIZATION (audit finding F3):
+    The main theorem `cmi_zero_of_mass_indep` requires only `∀ ω, 0 ≤ p ω`.
+    It does not require `∑ ω, p ω = 1`.  This makes Stage 1 a general
+    nonnegative-mass identity; when using the result in ordinary probability
+    prose, normalization should be stated externally or the theorem should be
+    read as a mass-weighted entropy identity rather than a normalized CMI.
 
   WHAT THIS FILE DOES NOT DO (Stage 2, future work):
     - Connect the mass-relation hypothesis to Mathlib's `CondIndepFun`.
