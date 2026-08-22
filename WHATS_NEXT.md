@@ -21,6 +21,17 @@
 > BLOCKED pending (a) paper shipment AND (b) a new Axiom 3 formalization
 > candidate that survives hostile audit. **The active lane is now the
 > release lane (#10).**
+>
+> **UPDATE 2026-08-22 (b):** Release lane v7 re-audit packet routed to
+> Codex. v6 required-return items 1–4 verified complete (parser boundary,
+> Appendix E exclusion, artifact hashes, manifest correction). Release
+> gate FAILS on 22 forbidden-phrase matches (16 `ibm_q_overclaim`, 6
+> `mathematical_proof_public_claim`) — categorized as 12 fixable claim
+> table rows, 2 honest withdrawn language, 6 standard scientific
+> citations. Health scan clean: 0 medical_outcome, 0
+> personal_seizure_outcome. Awaiting Codex classification before
+> rewording. Packet:
+> `/mnt/d/Codex/inbox/manual/to_codex_fundamentals_v7_release_reaudit.md`
 
 ---
 
