@@ -82,15 +82,16 @@ testable now. But the PF-native derivation does not exist.
    items resolved (transfer contract, uncertainty, rivals, reproduction).
    Awaiting Codex re-audit before Greg lock.
 8. **PRED-003 (the kill shot): build a PF-native derivation of Δm²₂₁/Δm²₃₁.**
-   **ACTIVE — scoping, Step 1 candidate found.** T1 `A_NR` selector contract
-   written; initial NO-GO for simple information-theoretic functionals
-   (`sandbox/t1_A_NR_selector_probe.py`); **candidate PF-native `F_C` found**
-   (`PREDICTIONS/PRED-003-T1-A_NR-candidate-F_C.md` and
-   `sandbox/t1_A_NR_diophantine_F_C_probe.py` — Diophantine closure-weight
-   functional uniquely selects the (2,1) realization for M=3). Next: route
-   to Codex hostile scoping review; if it survives, formalize in Lean.
-   The direct Koide/number-attack is fenced. The transfer to PRED-003 is
-   conditional on the T1 contract surviving Codex audit.
+   **ACTIVE — scoping, Step 1 closed as NO-GO.** T1 `A_NR` selector contract
+   written; two toy probes run (information-theoretic NO-GO; Diophantine
+   candidate NO-GO). Codex verdict: `F_C` arithmetic `PASS NARROW`, selector
+   `REJECT`, T1 physical realization `HOLD`
+   (`/mnt/d/Codex/REPORTS/CODEX_20260822_FUNDAMENTALS_PRED003_T1_FC_AUDIT.md`).
+   The candidate circularly assumes `A_NR` and inserts an un-derived closure
+   weight / spatial-dimension equality. Next: either (a) try a different
+   `F_C` family, (b) close a formal no-go on T1-driven PRED-003, or
+   (c) re-scope PRED-003 away from the T1 `A_NR` bridge. Decision needed.
+   The direct Koide/number-attack is fenced.
 9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
 10. **Release lane, strictly in order:** RELEASE_MANIFEST + BUILD_MANIFEST
     → residual label sweep → Legal → PUBLIC HOLD recheck → Greg.

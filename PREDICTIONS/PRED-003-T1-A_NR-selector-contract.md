@@ -136,42 +136,26 @@ None of the simple functionals select the target `p = 2/3`. This is consistent w
 
 ---
 
-## 6.1 Candidate PF-native F_C found (2026-08-22): Diophantine closure-weight functional
+## 6.1 Candidate PF-native F_C (2026-08-22): Diophantine closure-weight functional — Codex REJECT
 
-See `PREDICTIONS/PRED-003-T1-A_NR-candidate-F_C.md` for the full proposal.
+See `PREDICTIONS/PRED-003-T1-A_NR-candidate-F_C.md` for the full proposal and
+`CODEX_20260822_FUNDAMENTALS_PRED003_T1_FC_AUDIT.md` for the hostile verdict.
 
-**Functional:**
+**Codex verdict:** `PASS, NARROW` for integer arithmetic. `REJECT` as a
+PF-native selector or coherence functional. `HOLD` for T1 physical realization,
+Lean promotion, and PRED-003 transfer.
 
-```
-F_C[n_B, n_F] = - |n_B · 1 + n_F · 2 - M|
-```
+**Why it failed:**
+- The non-redundancy constraint `n_F > 0` is the `A_NR` realization that the
+  functional was meant to derive; without it, `(3,0)` and `(1,1)` are
+  co-maximizers.
+- The equality `n_B + 2n_F = M` is a new principle not derived from Axioms
+  1–3, `TopologicalWeights.lean`, or `GodEquationGap.lean`.
+- Calling the penalty "coherence" does not connect it to PF state,
+  propagation, phase closure, stability, information, or dynamics.
 
-where `n_B` is the count of order-1 (bosonic / trivial) loop classes realized, `n_F` is the count of order-2 (fermionic / nontrivial) loop classes realized, and `M` is the spatial dimension.
-
-**Selection rule:** maximize `F_C` subject to the non-redundancy constraint `n_B > 0, n_F > 0`.
-
-**Why it works for M = 3:**
-- `n_B + 2 n_F = 3` with `n_B, n_F > 0` has the unique solution `(n_B, n_F) = (1, 1)`.
-- This is one order-1 class and one order-2 class.
-- Topological weights: fermion = 2, boson = 1, so the realized pair is `(2, 1)`.
-
-**Toy probe:** `sandbox/t1_A_NR_diophantine_F_C_probe.py`
-
-```text
-T1 A_NR Diophantine F_C probe (M = 3)
-F_C[n_B, n_F] = - |n_B*1 + n_F*2 - 3|
-
-Best non-redundant pair(s): [(1, 1)] with F_C = 0
-PASS: M = 3 and F_C uniquely select one bosonic (order 1) and one fermionic (order 2) mode.
-Realized topological weights: (fermion=2, boson=1) -> (2,1).
-```
-
-**Honest boundary:**
-- This candidate introduces one new principle: **the total closure weight of realized loop classes equals the spatial dimension `M`**.
-- `M = 3` has a PF result (`GodEquationGap.lean` D=3 uniqueness).
-- Closure orders 1 and 2 are from `TopologicalWeights.lean`.
-- The non-redundancy condition `n_B > 0, n_F > 0` is the `A_NR` hypothesis itself.
-- The new principle is not yet derived from Axioms 1–3; it is a candidate coherence rule.
+**Status:** candidate formally recorded as a **no-go**. It is not the desired
+PF-native `F_C`.
 
 ---
 

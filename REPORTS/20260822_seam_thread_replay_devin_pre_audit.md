@@ -82,4 +82,26 @@ The final production-change decision (document convention / add warning / no cha
 
 ---
 
+## Addendum — Codex hostile verdict (2026-08-22)
+
+Codex audited the seam thread-replay experiment:
+`/mnt/d/Codex/REPORTS/CODEX_20260822_SEAM_THREAD_REPLAY_AUDIT.md`
+
+**Verdict:** Fixture mechanics `PASS NARROW`; evidentiary claim `FAIL`.
+Production and convention change `HOLD`. No production change.
+
+**Key Codex findings:**
+- The corpus is synthetic; two expected labels were changed after the first
+  run to match the rule.
+- Real Route A–E intentional WORKING rows with exact same `thread` produced
+  **10 warning pairs**, falsifying the zero-false-warning claim.
+- Lane-marker logic is internally inverted.
+- `events_overlap()` is a same-hour/shared-ref heuristic, not true temporal
+  overlap.
+
+This Devin pre-audit over-reached toward PASS; the Codex verdict is the
+binding outcome.
+
+---
+
 Generated with [Devin](https://devin.ai)

@@ -133,9 +133,41 @@ The candidate fails if:
 
 ---
 
-## 9. Next step
+## 9. Codex hostile audit verdict (2026-08-22)
 
-Route this candidate and its toy probe to Codex for hostile scoping review. If Codex finds the new principle admissible, the next step is to formalize the Diophantine functional in Lean and connect `M = 3` to the `GodEquationGap` D=3 theorem. If Codex rejects the new principle, document the no-go and return to the formalization wall.
+**Verdict:** `PASS, NARROW` for the integer arithmetic. `REJECT` as a PF-native
+selector/coherence functional. `HOLD` for T1 physical realization, Lean
+promotion, and PRED-003 transfer.
+
+**Key Codex findings** (`/mnt/d/Codex/REPORTS/CODEX_20260822_FUNDAMENTALS_PRED003_T1_FC_AUDIT.md`):
+
+1. The arithmetic is true: `argmax -|n_B + 2n_F - 3|` over positive
+   `n_B, n_F` is `{(1,1)}`.
+2. Removing the `A_NR` non-redundancy constraint gives two equal maximizers:
+   `(3,0)` and `(1,1)`, both with `F_C = 0`.
+3. The condition `n_F > 0` is exactly the missing `A_NR` realization that the
+   functional is supposed to derive. It is therefore circular as a derivation.
+4. The equality `n_B + 2n_F = M` is a new principle with no derivation from
+   Axioms 1–3, Postulate D, `TopologicalWeights.lean`, or `GodEquationGap.lean`.
+5. Calling the penalty "coherence" does not connect it to PF state,
+   propagation, phase closure, stability, information, or dynamics.
+
+**Codex recommendation:** reject this candidate as a selector and document the
+no-go. Do not spend a Lean lane proving the positive selector theorem. If a
+small Lean artifact is desired, formalize the negative boundary: without `A_NR`,
+`(3,0)` and `(1,1)` are co-maximizers at `M=3`.
+
+**Status:** CANDIDATE → NO-GO for the original purpose. The document is
+retained as an honest record of a failed candidate.
+
+---
+
+## 10. Next step
+
+- Update `PRED-003-T1-A_NR-selector-contract.md`, `WHATS_NEXT.md`,
+  `RESUME.md`, `STATE.md`, and `CHANGELOG.md` to reflect the Codex verdict.
+- Decide the next PRED-003 lane with Greg: either a new `F_C` family, a
+  different route, or a formal no-go on T1-driven PRED-003.
 
 ---
 
