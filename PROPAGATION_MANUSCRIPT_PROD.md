@@ -59,12 +59,15 @@ The team that derived the Propagation Framework:
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -73,7 +76,7 @@ The team that derived the Propagation Framework:
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -89,6 +92,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -101,7 +116,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -114,6 +131,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -177,7 +260,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -189,9 +272,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -199,14 +280,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -215,7 +296,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -227,7 +308,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -236,7 +317,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -364,7 +445,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -379,21 +460,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -415,11 +500,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -468,8 +555,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -1651,12 +1738,15 @@ The spin-pair strike is over. The next valid question is not “why `(1/2, 1)`?�
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -1665,7 +1755,7 @@ The spin-pair strike is over. The next valid question is not “why `(1/2, 1)`?�
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -1681,6 +1771,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -1693,7 +1795,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -1706,6 +1810,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -1769,7 +1939,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -1781,9 +1951,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -1791,14 +1959,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -1807,7 +1975,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -1819,7 +1987,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -1828,7 +1996,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -1956,7 +2124,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -1971,21 +2139,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -2007,11 +2179,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -2060,8 +2234,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -7340,12 +7514,15 @@ Blending is bad.
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -7354,7 +7531,7 @@ Blending is bad.
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -7370,6 +7547,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -7382,7 +7571,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -7395,6 +7586,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -7458,7 +7715,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -7470,9 +7727,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -7480,14 +7735,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -7496,7 +7751,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -7508,7 +7763,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -7517,7 +7772,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -7645,7 +7900,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -7660,21 +7915,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -7696,11 +7955,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -7749,8 +8010,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -7764,12 +8025,15 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -7778,7 +8042,7 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -7794,6 +8058,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -7806,7 +8082,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -7819,6 +8097,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -7882,7 +8226,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -7894,9 +8238,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -7904,14 +8246,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -7920,7 +8262,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -7932,7 +8274,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -7941,7 +8283,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -8069,7 +8411,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -8084,21 +8426,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -8120,11 +8466,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -8173,8 +8521,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -8188,12 +8536,15 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -8202,7 +8553,7 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -8218,6 +8569,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -8230,7 +8593,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -8243,6 +8608,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -8306,7 +8737,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -8318,9 +8749,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -8328,14 +8757,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -8344,7 +8773,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -8356,7 +8785,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -8365,7 +8794,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -8493,7 +8922,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -8508,21 +8937,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -8544,11 +8977,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -8597,8 +9032,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -8612,12 +9047,15 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -8626,7 +9064,7 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -8642,6 +9080,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -8654,7 +9104,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -8667,6 +9119,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -8730,7 +9248,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -8742,9 +9260,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -8752,14 +9268,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -8768,7 +9284,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -8780,7 +9296,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -8789,7 +9305,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -8917,7 +9433,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -8932,21 +9448,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -8968,11 +9488,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -9021,8 +9543,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -9732,12 +10254,15 @@ Insight: Wormhole creation (d(γ) → ε, solution path becomes geodesic)
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -9746,7 +10271,7 @@ Insight: Wormhole creation (d(γ) → ε, solution path becomes geodesic)
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -9762,6 +10287,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -9774,7 +10311,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -9787,6 +10326,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -9850,7 +10455,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -9862,9 +10467,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -9872,14 +10475,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -9888,7 +10491,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -9900,7 +10503,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -9909,7 +10512,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -10037,7 +10640,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -10052,21 +10655,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -10088,11 +10695,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -10141,8 +10750,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -11578,12 +12187,15 @@ What follows are the raw exchanges. The headers of derivation files, the "LUMEN"
 
 # The Propagation Framework: Derivations and Falsifiable Predictions
 
-**Draft v0.4 — 2026-05-22**
+**Draft v0.7 — 2026-08-07**
 *G. Welby¹, [co-author TBD]²*
 *¹ Independent Research*
 
 **Target:** Foundations of Physics
-**Status:** Working draft — not yet submitted
+**Status:** Working draft — not yet submitted. PUBLIC HOLD in effect.
+**Changes in v0.7:** (1) Integrated the four honesty-layer modules into the Lean verification surface — KoideUnlocked (F2 domain restriction, machine-checked), CasimirGap (extra-β incompatibility, machine-checked), BekensteinGap (path mixing, G free parameter — prose-documented gaps), GodEquationGap (Postulate D target-loading, N^(D/2) fit-selection, IBM scope, convergence withdrawn — mixed theorem/prose-documented) — all build green, 0 sorrys; (2) added the F2 saga to the Honesty Log (domain overclaim caught by three independent mechanisms; corrected theorem machine-checked); (3) established the family's formalization pattern — "formalize the algebra, expose the gap, let the gap be honest" — as the method statement; (4) cross-referenced each gap module's non-theorem block against the claim-status ladder; (5) Lean surface: 44 tracked top-level sources, 41 root imports, 3 unimported standalone modules; aggregate `lake build PfLean` produces 8293 jobs (verified from `git archive`); base v0.7 commit `4bdeaeb` has parent `2942ed1` (2026-08-07 PRED-002/003 repair); the current candidate chain is `4bdeaeb → 218b54f → 2fb050c → cfae2df → … → 6b755c0`.
+**Changes in v0.6:** (1) Fixed §5 section numbering (was incorrectly labeled 4.x); (2) fixed Weinberg angle σ inconsistency (0.90σ → 0.13σ, matching CLAIMS.md and abstract); (3) Axiom 3b relabeled as "Candidate Corollary" with explicit note that it is not derived from Axioms 1-3; (4) G1 status corrected from DERIVED to EXACT IDENTITY (matching CLAIMS.md); (5) T1 upgrade path updated — Family C MI approach falsified; (6) Lean build verification updated to 2026-08-02 (16534 jobs); (7) removed duplicate reference line in §4.2; (8) added Bohr-like spectrum (DERIVED 0.90) to Honesty Log; (9) corrected discussion to distinguish Lean-verified results from numerically-verified results.
+**Changes in v0.5:** Integrated July 2026 audit wave: (1) Postulate D complete audit — all 7 probes fail to derive a=0 from Axioms 1-3; Postulate D is definitively a premise; (2) compact-orbit theorem fully proven in Lean (0 sorrys, build verified 2026-07-30); (3) Casimir MI attempt falsified (partition-dependent penalty); (4) O2bis decoherence attempt falsified (CPTP channel shows no selection); (5) "Seven approaches converged" and "52.7× decisive" language struck; (6) honest boundary statement: Axioms 1-2 strong, Axiom 3 underdetermined. Release posture unchanged: credibility-first, claim-status controlled by `CLAIMS.md`.
 **Changes in v0.4:** Added May 2026 G3-OP-MAP audit wave; updated God Equation to split-tier CONDITIONAL 0.88 (operator algebra, Postulate D) / ARGUED 0.60 (scale formula, N^(D/2) fit-selected); recorded trace-norm and Perron-Frobenius routes as conditional negatives; added T3 information-theoretic selector NO-GO; made the release posture credibility-first and claim-status controlled by `CLAIMS.md`.
 **Changes in v0.3:** Integrated neutrino Koide non-universality as a scope-delimiting positive result; updated God Equation discussion with Path B no-go results (Families A/B/edge-flux); added April 2026 pressure test findings to Honesty Log; updated Discussion to reflect framework scope. Journal target changed from PRL to Foundations of Physics (paper exceeds PRL word limit; FoP accepts honest theoretical frameworks with explicit derivation-status ladders).
 **Changes in v0.2:** Added Weinberg angle derivation (Axiom 3b), QCD confinement, GR verification results, updated honesty log.
@@ -11592,7 +12204,7 @@ What follows are the raw exchanges. The headers of derivation files, the "LUMEN"
 
 ## Abstract
 
-We present a minimal framework in which matter, forces, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results are: (1) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes; (2) null propagation in gravity is exactly optical geometry in the static case and its Randers/Finsler extension in the stationary case; (3) the Weinberg angle $\sin^2\theta_W \approx 0.22310$ is argued from a minimal winding principle (Axiom 3b), matching the PDG on-shell value to $0.13\sigma$. The three-generation result remains conditional on unfinished T1/T2 bridge theorems, and the fourth-generation exclusion remains argued rather than derived. We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$). This non-universality is a positive scope-delimiting result: the framework predicts Koide as an electromagnetic-sector identity, and the purely weak-sector neutrinos are expected to deviate. We identify five experiments bearing on the framework's predictions; TEST 2 is now pre-answered (neutrino universality falsified at the $>5\%$ threshold), and JUNO becomes a precision measurement of the deviation rather than a wait-and-see test. We are explicit about which results are fully derived, which are argued, and which require additional axioms.
+We present a minimal framework in which gravity, topological structure, and parts of the generation structure of the Standard Model emerge from three axioms about a propagation medium. The strongest current results, machine-verified in Lean 4, are: (1) null propagation in gravity is exactly optical geometry in the static case, with weak-field refractive index $n(\Phi) = \sqrt{(1-2\Phi)/(1+2\Phi)}$ (DERIVED 0.95); (2) the topological weights kernel obstruction $\mathrm{quatToSO3}(g) = 1 \Rightarrow \mathrm{order}(g) \in \{1,2\}$ (DERIVED 0.95); (3) the Koide mass ratio $Q = 2/3$ for charged leptons is a geometric identity forced by three equal-strength resonance modes at $120°$ spacing (EXACT IDENTITY 0.95); (4) the PF entropy Pythagorean decomposition (DERIVED 0.95); (5) the compact-orbit theorem for isometric propagation in finite-dimensional media (VERIFIED, 0 sorrys). We also report that the Koide $Q = 2/3$ relation does NOT hold for neutrino masses under either mass ordering ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>5\%$ from $2/3$) — a positive scope-delimiting result confirming Koide as an electromagnetic-sector identity. The Weinberg angle $\sin^2\theta_W \approx 0.22310$ (ARGUED 0.65, $0.13\sigma$ match) and the three-generation result (CONDITIONAL 0.88, pending T1/T2 bridge theorems) remain open. We report honestly that the God Equation operator algebra (CONDITIONAL 0.88) depends on Postulate D, which is an explicit premise — all seven claimed derivation paths have been audited and none derive $a=0$ from Axioms 1-3. The framework's boundary is precise: Axioms 1-2 are strong (gravity, topology, compact orbits); Axiom 3 is underdetermined (cannot distinguish competing coherence conditions for the Casimir polynomial). We identify five experiments bearing on the framework's predictions and are explicit about which results are fully derived, which are argued, and which require additional structure.
 
 <hr />
 
@@ -11608,6 +12220,18 @@ This paper is written as a falsification document. Each claim is labeled with it
 
 This draft is a credibility-first release candidate. Public claims defer to `CLAIMS.md`; if this draft and `CLAIMS.md` conflict, `CLAIMS.md` wins. The May 2026 audit wave sharpened the main frontier without upgrading any confidence scores: `G3-OP-MAP` is now the active bounded strike for the God Equation bridge, and the trace-norm projection plus Perron-Frobenius collapse routes are recorded as conditional negatives rather than live closures.
 
+### v0.5 Honest Boundary Statement
+
+The July 2026 audit wave established the framework's boundary precisely:
+
+**Axioms 1-2 are strong.** They derive gravity as optical geometry (0.95), the topological weights kernel obstruction (0.95), the Koide geometric identity (0.95), the Bohr-like spectrum (0.90), and the compact-orbit theorem (machine-verified, 0 sorrys). These are real, verified physics results.
+
+**Axiom 3 is underdetermined.** The English statement "coherent propagation persists; incoherent disperses" is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$. Eight independent routes to the Casimir polynomial converged on the same gap: Axiom 3 cannot distinguish $\gamma\beta = \sqrt{C_2}$ (wrong) from $\gamma\beta^2 = \sqrt{C_2}$ (correct). The axiom is not wrong — it is too vague to select the correct coherence condition.
+
+**Postulate D is extra structure.** The God Equation operator algebra (eigenvalues $\{1, -1/8, -1/8\}$) is exact given Postulate D ($a=0$, no self-loop). But Postulate D is an explicit premise. All seven claimed derivation paths have been audited: three are $a$-independent, one is tangential, one is circular, one is about a different parameter, and one is an endpoint artifact falsified by the CPTP control. No path from Axioms 1-3 to $a=0$ survives audit.
+
+This is normal in theory-building. Newton's laws cover planetary motion but not Mercury's perihelion. The question is whether to extend, revise, or accept the boundary. We accept it honestly and publish what is proven.
+
 <hr />
 
 ## 2. The Framework
@@ -11620,7 +12244,9 @@ This draft is a credibility-first release candidate. Public claims defer to `CLA
 
 **Axiom 3 (Coherence):** Stable structure requires self-reinforcing, coherent propagation. Incoherent modes disperse. A structure persists if and only if it satisfies the phase closure condition: after one complete circuit, the propagation mode returns to its original phase state.
 
-**Axiom 3b (Minimal Winding Principle — Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+**Axiom 3b (Minimal Winding Principle — Candidate Corollary):** Among coherent states in the same topological class, the stable fundamental mode is the one with minimal topological winding. A mode with winding $k = 1$ is fundamental; modes with $k > 1$ are excited or composite states.
+
+*Note:* Axiom 3b is labeled a candidate corollary rather than a theorem. The July 2026 audit established that Axiom 3 as stated is compatible with $\gamma\beta^n = \sqrt{C_2}$ for any integer $n$ — coherence alone does not select $k=1$ over $k>1$. The minimal winding principle is a plausible selection rule, but it has not been derived from Axioms 1-3. See the boundary statement in §1 and the state-of-play in `derivations/casimir_extra_beta_state_of_play_2026-07-28.md`.
 
 ### 2.2 Gravity as Optical Geometry / Refraction
 
@@ -11633,6 +12259,72 @@ $$\frac{d}{ds}\!\left(n\frac{d\mathbf{x}}{ds}\right) = \nabla n$$
 which is formally equivalent to Newton's gravitational law near a spherical mass if $n(r) = 1 + r_s/r$ (Schwarzschild refractive index, where $r_s = 2GM/c^2$).
 
 More precisely: null propagation in static gravity is exactly optical geometry, and in stationary gravity the minimum exact extension is Randers/Finsler optical geometry. The scalar-index picture above is the weak-field static limit.
+
+### 2.3 Lean 4 Formalization
+
+The framework's algebraic and group-theoretic content has been machine-verified in Lean 4. The formalization project (`PfLean/`) contains 44 tracked top-level `.lean` files, of which 41 are imported by the library root `PfLean.lean`; three tracked sources (`BekensteinBound`, `ChainRule`, `PeriodOrbitRefactor`) are standalone modules not in the main import graph. Build status: green, 0 sorrys; full `lake build PfLean` produces 8293 jobs (verified from `git archive` of commit `6b755c0`, not the live tree). The key verified theorems are:
+
+**Gravity optics** (`PfLean.GravityOptics`):
+```lean
+theorem weakFieldIndex_sq {Φ : ℝ} (hΦ : |Φ| < 1 / 2) :
+  (weakFieldIndex Φ) ^ 2 = (1 - 2 * Φ) / (1 + 2 * Φ)
+```
+
+**Topological weights kernel** (`PfLean.TopologicalWeights`):
+```lean
+theorem kernel_closure_orders :
+  ∀ g : UnitQuaternion, quatToSO3 g = 1 → closureOrder g = 1 ∨ closureOrder g = 2
+```
+
+**Koide geometric identity** (`PfLean.KoideGeometry`):
+```lean
+theorem koide_Q_two_thirds_iff {a b c : ℝ} (ha : a > 0) (hb : b > 0) (hc : c > 0) :
+  KoideQ a b c = 2 / 3 ↔ a ^ 2 + b ^ 2 + c ^ 2 = 4 * (a * b + b * c + c * a)
+```
+
+**PF entropy Pythagorean decomposition** (`PfLean.Entropy`):
+```lean
+theorem full_norm_Pythagorean (x : Fin 3 → ℝ) :
+    (full_norm x) ^ 2 = (P0 x 0) ^ 2 + (P0 x 1) ^ 2 + (P0 x 2) ^ 2 + (PFEntropy x) ^ 2
+```
+
+**Compact-orbit theorem** (`PfLean.Axioms`):
+```lean
+theorem isometry_finite_dim_gives_compact_orbit
+    (M : BareMedium) [FiniteDimensional ℝ M.State]
+    (s : M.State) (hBdd : Hypothesis_BoundedOrbit M s) (hDNorm : Hypothesis_DIsNorm M) :
+    IsCompact (closure (Set.range (fun t : {t : ℝ // t ≥ 0} => M.propagate t.val s)))
+```
+
+**Honesty-layer modules (algebra machine-checked, boundaries documented in comments):**
+
+**Generalized Koide identity** (`PfLean.KoideUnlocked`):
+```lean
+theorem koide_Q_unlocked_physical {mbar β δ : ℝ} (hmbar : 0 < mbar) (hdom : DomainOk β δ) :
+  KoideQ (s0 mbar β δ) (s1 mbar β δ) (s2 mbar β δ) = (1 + β ^ 2 / 2) / 3
+
+theorem sqrt2_domain_not_universal : ¬ ∀ δ : ℝ, DomainOk (Real.sqrt 2) δ
+```
+The algebraic identity Q(β) = (1+β²/2)/3 is exact; the physical statement requires the domain condition (all branches non-negative). The earlier claim "Q = 2/3 for any δ" is false as a physical statement — the domain fails at δ = π/2 (1 − √6/2 < 0). The domain is part of the theorem, not a footnote.
+
+**Casimir/Weinberg gaps** (`PfLean.CasimirGap`):
+```lean
+theorem extra_beta_gap {β C₂ : ℝ} (hβ_pos : 0 < β) (hβ_lt : β < 1) (hC₂ : 0 < C₂)
+  (h_deBroglie : lorentzFactor β * β = Real.sqrt C₂)
+  (h_casimir : lorentzFactor β * β^2 = Real.sqrt C₂) : False
+```
+The de Broglie condition (γβ = √C₂) and the Casimir condition (γβ² = √C₂) are algebraically incompatible for any physical particle — the core gap across all 8 derivation routes, now a theorem. The look-elsewhere scan proves (1/2, 1) is the unique match in the low-spin set (alternatives R ∈ (0.29,0.32), (0.09,0.13), (0.32,0.38) — all far from 0.22310).
+
+**Bekenstein gaps** (`PfLean.BekensteinGap`): the chain-rule factor-of-2 resolution is pinned; the thermodynamic path mixing (partial vs total derivative), G as a free parameter, and the saturation hypothesis are documented as non-theorems.
+
+**God Equation gaps** (`PfLean.GodEquationGap`):
+```lean
+theorem gap_residue_eigenvalue_requires_alpha_half : ... -- if the residue eigenvalue is -3/2, then α = 1/2
+theorem gap_N_power_sensitive : Real.sqrt 27 ≠ Real.sqrt 8 -- 3^(3/2) ≠ 2^(3/2): N^(D/2) is fit-selected
+```
+Postulate D sets α = 1/2 — target-loading, now visible in the code. The N^(D/2) scale formula is fit-selected (√27 ≠ √8). IBM hardware scope: cyclic permutation circuits, not −1/8 eigenvalue measurement. The "seven approaches converged" claim is withdrawn (probes 4/5/6 do not discriminate a=0).
+
+The Lean kernel has verified algebraic and group-theoretic content — including selected contradictions, domain restrictions, and dependency identities that constrain what can be derived. It has **not** verified: the Casimir polynomial derivation from axioms, the God Equation as a physical prediction, Postulate D as a theorem, or the Weinberg angle as a derived result. The formalization is honest about its scope: the algebra is machine-checked, and the boundaries of what that algebra cannot reach are documented in module comments and gap statements — not themselves kernel proofs.
 
 <hr />
 
@@ -11696,7 +12388,7 @@ The small deviation of measured lepton masses from exact $Q = 2/3$ ($<0.001\%$) 
 
 For a massive propagation mode with speed $\beta = v/c$ and Lorentz factor $\gamma = (1-\beta^2)^{-1/2}$ in a helical geometry, the drift-to-spin resonance ratio is $k = J_z/J_\theta$. Axiom 3 (phase closure) requires that the longitudinal drift $J_z = 2\pi\gamma\beta^2\hbar$ and the transverse spin $J_\theta = 2\pi\sqrt{C_2}\hbar$ (where $C_2 = j(j+1)$ is the Casimir invariant) maintain a rational resonance.
 
-Axiom 3b (Minimal Winding) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
+Axiom 3b (Minimal Winding, a candidate principle — see §2.1 note) selects $k = 1$: the primitive loop. Setting $J_z = J_\theta$:
 $$\gamma\beta^2 = \sqrt{C_2}$$
 
 With $x = \beta^2$, this yields the **Casimir polynomial**:
@@ -11708,9 +12400,7 @@ The Weinberg angle parametrizes electroweak mixing: $\sin^2\theta_W = g'^2/(g^2 
 
 For the mixed spin pair $(j_1, j_2) = (1/2, 1)$ with $C_2 = j(j+1) = 3/4$ (for $j = 1/2$), solving the Casimir polynomial gives $x \approx 0.4571$. The Weinberg angle follows from the electroweak mixing geometry.
 
-**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337 \pm 0.00010$) to $0.90\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) reduces the statistical significance. The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
-
-See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
+**Claim W1 (ARGUED):** Multiple routes (generator count, stiffness ratio, coherence angle, topological, geometric embedding) produce $\sin^2\theta_W \approx 0.22310$, consistent with the PDG on-shell value ($0.22337$) to $0.13\sigma$. The minimal winding principle (Axiom 3b) provides a candidate explanation, but the look-elsewhere effect (five routes scanned) materially lowers confidence: the probability that a random target achieves a sub-percent hit is $\approx 0.46$ (1 in 2.2). The RG running from UV to IR ($M_Z$) is not yet derived internally. See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for the full derivation.
 
 **Note:** This is the UV (unification scale) value. The observed IR value $\sin^2\theta_W \approx 0.231$ at $M_Z$ differs due to renormalization group running, which the framework does not yet derive internally.
 
@@ -11718,14 +12408,14 @@ See `weinberg_angle_pf.md` and `coherence_functional_candidate_F_audit.md` for t
 
 ## 5. The Coherence Ceiling
 
-### 4.1 Definition
+### 5.1 Definition
 
 From Axiom 2, the medium has a finite coherence length $\lambda_c$. A stable resonance mode requires:
 $$\lambda_{dB} = \frac{\hbar}{mc} \geq \lambda_c$$
 
 Modes with de Broglie wavelength below the coherence length cannot self-reinforce. They form but scatter before completing one oscillation. They are not particles — they are resonance failures.
 
-### 4.2 Empirical Calibration
+### 5.2 Empirical Calibration
 
 The top quark ($m_t = 173.1 \pm 0.9$ GeV) has de Broglie wavelength:
 $$\lambda_{dB}(t) = \frac{197.3 \text{ MeV·fm}}{173,100 \text{ MeV}} \approx 1.14 \times 10^{-3} \text{ fm}$$
@@ -11734,7 +12424,7 @@ Its lifetime ($\tau_t \approx 5 \times 10^{-25}$ s) is shorter than the QCD conf
 
 **Calibration result:** $\lambda_c \approx 1.14 \times 10^{-3}$ fm for the strong-sector coherence scale.
 
-### 4.3 Fourth Generation
+### 5.3 Fourth Generation
 
 A fourth-generation quark would require (by the harmonic mode structure):
 $$m_4 \gg m_t$$
@@ -11746,7 +12436,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 
 *Note: This claim is labeled ARGUED rather than DERIVED because $\lambda_c$ is currently calibrated to the top quark mass rather than derived from framework parameters. Deriving $\lambda_c$ analytically from Axiom 2 would upgrade this to DERIVED.*
 
-### 4.4 The Generation Hierarchy
+### 5.4 The Generation Hierarchy
 
 | Generation | Particle | Mass | $\lambda_{dB}$ | Medium status |
 |-----------|----------|------|-------------|---------------|
@@ -11755,7 +12445,7 @@ $$\lambda_{dB}(q') < \frac{197.3 \text{ MeV·fm}}{700,000 \text{ MeV}} \approx 2
 | 3 | Top quark | 173,100 MeV | $1.14 \times 10^{-3}$ fm | At coherence ceiling |
 | 4 | (forbidden) | $>700,000$ MeV | $< 2.8 \times 10^{-4}$ fm | Below $\lambda_c$ — not a particle |
 
-### 4.5 The Muon Anomaly as First Torsion
+### 5.5 The Muon Anomaly as First Torsion
 
 The three generations represent three qualitatively different relationships to the medium:
 - **Generation 1:** Ground mode. Spherical symmetry. Minimal torsion. The electron anomalous magnetic moment agrees with QED to 13 decimal places.
@@ -11883,7 +12573,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 |-----------|----------------|----------------|
 | N = 3 generations | Free parameter | Conditional assembly result: uniquely fixed once the T1/T2 bridge theorems close |
 | Koide ratio | Unexplained coincidence | Geometric identity from energy minimization |
-| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.90σ (look-elsewhere corrected) |
+| Weinberg angle | Measured free parameter | ARGUED 0.65 — consistent with Axiom 3b to 0.13σ (look-elsewhere effect materially lowers confidence) |
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
@@ -11898,21 +12588,25 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 | Claim | Status | Confidence | What Would Upgrade It |
 |-------|--------|------------|----------------------|
-| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the Axiom 3 extremal principle for the Family C functional and derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit |
+| T1: (2,1) topological weights | PARTIAL DERIVATION | 0.85 | Derive the non-redundancy hypothesis `A_NR` so the chain-rule lower bound upgrades from `F_C^tot >= F_C^(1)` to a strict coherence deficit. Note: the Family C mutual information approach was falsified (partition-dependent penalty, 2026-07-29); a partition-invariant coherence functional is needed. |
 | T3: N=3 uniquely forced | CONDITIONAL | 0.85 | Close both the numerator theorem (physical `(2,1)` branch) and the denominator theorem `M = 3` from PF axioms alone |
-| G1: Q=2/3 geometric identity | DERIVED | 0.95 | — |
+| G1: Q=2/3 geometric identity | EXACT IDENTITY | 0.95 | Derive the equal-amplitude premise from PF vacuum dynamics (currently OPEN per CLAIMS.md) |
 | F1: Gravity as optical geometry / refraction | DERIVED | 0.95 | Extend the exact optical/Randers statement into a distinctive, pre-registered beyond-GR prediction |
+| Bohr-like spectrum from Coulomb eikonal | DERIVED | 0.90 | Kepler degeneracy proves 1/k² is exact for all eccentricities; phase closure verified to 0.00% error |
 | Sleep 8h constant | ARGUED | 0.72 | Derive the biological encode/recover bridge and exact duty-cycle theorem from PF axioms alone |
-| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive RG running to IR value 0.231 |
+| W1: Weinberg angle sin²θ_W | **ARGUED 0.65** | 0.65 | Derive Axiom 3b (minimal winding) from Axioms 1-3, and derive RG running to IR value 0.231. Machine-checked: `CasimirGap.lean` proves the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ → False for 0<β<1) and the unique low-spin match (1/2,1). Prose-documented (NOT machine-checked): non-theorem blocks N1 (spin-pair selection), N2 (Axiom 3b), N3 (scheme selection), N4 (polynomial derivation) — these are honesty-layer documentation, not Lean theorems |
 | QCD confinement from λ_c | ARGUED | 0.72 | Show threshold-aware higher-loop matching from the same UV boundary and clarify exactly what PF adds beyond standard QCD running |
 | T2: Denominator M=3 from co-dimension | PARTIAL DERIVATION | 0.85 | Derive the PF-native dynamics giving the local `2×2` Fermi-point structure (including translation invariance `C_mom` and band-touching existence `C_FP`), and prove that the three gap-opening perturbation directions are the three massive bosonic restoration modes of the PF coherence field (`C_bridge`) — see `t2_denominator_theorem.md` Section 13 for all four Codex objections |
 | C1: 4th generation forbidden | ARGUED | 0.85 | Derive λ_c from Axiom 2 analytically |
-| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D accepted 2026-05-31. Verified numerical error is `1.48%`. The active bounded frontier is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. April 2026 closed Families A/B/edge-flux as no-go or restricted no-go routes; May 2026 closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. Active remaining classes are open-system decoherence, environment coupling, nonlinear completion, or RG/coarse-graining beyond the tested block-average routes. |
+| God Equation (λ_c from l_P) | **CONDITIONAL 0.88** (operator algebra) / **ARGUED 0.60** (scale formula) | 0.60 | Postulate D is an explicit premise — all 7 claimed derivation paths audited (2026-07-30), none derive $a=0$ from Axioms 1-3. The CPTP channel (natural open-system completion) gives constant fidelity ~0.952 for all $a$ — no selection. The 52.7× ratio is an endpoint artifact (fair comparison $a=0$ vs $a=1/3$ is 1.62×). "Seven approaches converged" is withdrawn (honest count: zero derive $a=0$). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D (machine-checked in `GodEquationGap.lean`: `gap_T3_residue_eigenvalue` proves (−1/2)³ = −1/8; `gap_residue_eigenvalue_requires_alpha_half` makes the target-loading of α=1/2 explicit; non-theorem blocks N1 Postulate D, N2 H_prod, N3 IBM scope, N4-N5 withdrawn convergence claims are PROSE documentation, not Lean theorems). The unconditional derivation remains open with no active route. |
 | M1: Muon g-2 as First Torsion | ARGUED | 0.70 | Quantitative prediction of δa_τ from λ_c |
 | D=3 from knot stability | ARGUED | 0.70 | Formal proof that topological stability requires D=3 |
 | α (fine structure constant) | OPEN | 0.10 | Derive λ_c and m_e independently from axioms |
+| Generalized Koide amplitude (free β) | EXACT IDENTITY (domain-restricted) | 0.95 | Q(β) = (1+β²/2)/3 is exact; β=√2 → 2/3 within the domain (KoideUnlocked.lean, 0 sorrys). The F2 domain restriction is confirmed by three independent mechanisms: Lean machine-check, direct code execution, and the retraction of a contrary claim (2026-08-07). |
 | Koide phase $\delta_0 \approx 2/9$ | EMPIRICAL | 0.65 | Confirmed April 2026: $\delta = 0.22222963$ rad, $|\delta - 2/9| = 7.4 \times 10^{-6}$ (0.003%). Strongest empirical anchor in the framework. The nearby Casimir value $\sin^2\theta_W = 0.22310$ remains suggestive, but T-022 did not produce $2/9$ as a Casimir fixed point and T-021 did not confirm any legitimate Standard Model convention in which $\sin^2\theta_W(\mu)$ crosses $\delta$ near $\mu \approx 98$ GeV. Not DERIVED until a PF-native selector proof produces $2/9$ as a fixed point. |
 | Neutrino Koide non-universality | EMPIRICAL | 0.95 | April 2026 confirmed: $Q_{NO} = 0.550$, $Q_{IO} = 0.479$. Koide is electromagnetic-sector specific. Scope-limiting positive result. |
+
+**F2 saga — the filter working (2026-08-07):** the framework's identity "Q = 2/3" was originally claimed for any phase δ. An audit found the claim overreached: the identity holds only within the positivity domain (all branches 1 + β·cos(...) ≥ 0). A counter-correction then claimed the original claim was right after all — and was itself refuted by direct code execution (Q = 0.634574 at δ = 0.3, not 2/3). Three independent mechanisms converged: the Lean module `KoideUnlocked.lean` proves the domain restriction (`sqrt2_domain_not_universal`), the actual repo function reproduces F2's numbers, and the counter-correction was retracted. The corrected theorem, machine-checked, now stands in place of the overclaim. This is the falsification filter working in both directions: an overclaim was caught, a false correction was caught, and the machine now holds the boundary.
 
 <hr />
 
@@ -11934,11 +12628,13 @@ The framework presented here is minimal: three axioms (with one corollary), one 
 
 **Scope delimitation — neutrino Koide:** The finding that neutrino masses do not satisfy $Q = 2/3$ ($Q_{NO} \approx 0.550$, $Q_{IO} \approx 0.479$, both $>17\%$ from $2/3$, confirmed April 2026) is a positive result for framework scope. The Koide geometric identity requires electromagnetic coupling to lock the three-resonance amplitude geometry. The purely weak-sector neutrinos lack this locking mechanism. This is interpretable rather than merely negative: it identifies electromagnetic coupling as a necessary ingredient of the G1 geometric derivation, and constrains the framework's universality claim without touching the charged-lepton result. A future derivation of the neutrino Q value in a weak-coupling-only medium would be a precision prediction testable with JUNO data.
 
-**God Equation — G3-OP-MAP status:** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, Postulate D accepted 2026-05-31) / **ARGUED 0.60** (scale formula). The computed numerical match is `1.48%` with no fitting parameters (exponent N^(D/2) fit-selected to D=3). The remaining open obligation is not a better slogan for `H_prod`; it is a PF-native map from the linearized `Z_3` oscillator to the discrete closure/probability operator used by the God Equation bridge. April 2026 audits substantially narrowed Path B: Family A direct intensities are a strong restricted no-go, Family B quadratic time-integrated readouts fail strongly, and the antisymmetric edge-flux current is an exact no-go. May 2026 audits then closed trace-norm projection and Perron-Frobenius collapse as conditional negatives. The live frontier is open-system decoherence, environment coupling, nonlinear completion, or a stronger RG/coarse-graining map. Postulate D resolved the conditional status; the unconditional derivation remains open.
+**God Equation — Postulate D audit complete (2026-07-30):** The derivation of $\lambda_c$ from the Planck length via $\lambda_c = \sqrt{2}\,l_P\exp(4\pi^2 N^{D/2}/b_0)$ is **CONDITIONAL 0.88** (operator algebra, given Postulate D) / **ARGUED 0.60** (scale formula, $N^{D/2}$ fit-selected). The operator algebra eigenvalues $\{1, -1/8, -1/8\}$ are exact given Postulate D ($a=0$, no self-loop). However, Postulate D is an explicit premise. All seven claimed derivation paths have been audited: (1) Casimir polynomial → $N=3$ (tangential — about $N$, not $a$); (2) $\kappa$-strike (about the coupling parameter $b$, not $a$ — both are free by the C₃ algebra theorem); (3) gauge holonomy (circular — assumes the primitive step is pure transport to conclude $a=0$); (4) mutual information ($a$-independent); (5) Fisher information ($a$-independent); (6) decoherence-free subspace ($a$-independent); (7) dynamical decoupling (endpoint artifact — fair comparison $a=0$ vs $a=1/3$ is 1.62×, and the CPTP channel gives constant fidelity ~0.952 for all $a$). No path from Axioms 1-3 to $a=0$ survives audit. The unconditional derivation remains open with no active route. The "seven approaches converged" and "52.7× decisive" language is withdrawn.
+
+**The method — formalize the algebra, expose the gap, let the gap be honest.** Every major derivation in this framework now carries an honesty-layer module with machine-checked algebra and documented boundaries: `KoideUnlocked.lean` (the domain restriction that the "Q=2/3 for any δ" claim violated), `CasimirGap.lean` (the extra-β incompatibility at the heart of the Weinberg derivation), `BekensteinGap.lean` (the thermodynamic path mixing and G's status as a free parameter), and `GodEquationGap.lean` (Postulate D's target-loading made explicit, the N^(D/2) fit-selection proven, the IBM scope and the withdrawn convergence claims documented). The pattern: pin the algebra as a theorem, then document the boundary of what the algebra cannot reach in comments and gap statements. The boundary documentation is not itself a kernel proof — it is human-readable prose that records what was checked and what was not. A claim that survives both is either DERIVED or honestly CONDITIONAL — never silently in between. This is the falsification filter as a formalization practice, and it is the framework's strongest defense against the mythology layer that surrounds unexamined derivations.
 
 The framework is not complete. The quark mass ratios and the absolute scale of fermion masses are not derived here. The fine structure constant $\alpha$ is structurally identified but not yet derived. The bridge between the biological predictions (EEG phase transitions) and the particle physics derivations is argued, not proved.
 
-The framework now has DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (Gravity Optics 0.95, Koide geometric identity as EXACT IDENTITY 0.95, (2,1) kernel obstruction as DERIVED 0.95), a wider ring of CONDITIONAL and ARGUED bridges, and the first pre-answered test (TEST 2, neutrino Koide) providing positive scope information. The path to further confirmation requires experimental validation of unique predictions — and local discipline about which predictions are already executable, which are partially executable, and which remain external.
+The framework now has six DERIVED or EXACT IDENTITY results at confidence $\geq 0.90$ (gravity optics 0.95, topological weights kernel 0.95, Koide geometric identity 0.95, PF entropy Pythagorean decomposition 0.95, Bohr-like spectrum 0.90, compact-orbit theorem verified with 0 sorrys). Five of these are machine-verified in Lean 4; the Bohr-like spectrum is verified by numerical phase-closure computation and hostile audit. A wider ring of CONDITIONAL and ARGUED bridges surrounds these, and the first pre-answered test (TEST 2, neutrino Koide) provides positive scope information. The boundary is precise: Axioms 1-2 produce the DERIVED results; Axiom 3 is underdetermined and cannot select the Casimir polynomial's coherence condition; Postulate D is extra structure not derived from the axioms. The path to further confirmation requires either formalizing Axiom 3 as a mathematical object that can distinguish competing coherence conditions, or experimental validation of unique predictions from the proven results.
 
 The five tests above define that path, with TEST 2 now reporting a result rather than a prediction.
 
@@ -11987,8 +12683,8 @@ The solution is unique for positive integers. Conditionally, $N = 3$ is the only
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 
@@ -12258,7 +12954,7 @@ Blending is bad.
 
 # CLAIMS.md — Rigorous Status of Every Framework Claim
 
-**Last Updated**: 2026-07-02 (Codex Lean Shor/structure recheck: build-green evidence accepted; theorem-statement/prose/public unlock HOLD)
+**Last Updated**: 2026-08-10 (H17 gap fully mapped: H13+H7+H18 ⇏ H17 (circulant countermodel), H14+H7 incompatible for L=-I+αM (isometry → skew-symmetry, not symmetry). No weakening of H17 closes the chain. H17 is the minimal posit. Previous: 2026-08-09 (Axiom 1 → H12 frontier sharpened: the gap is H17 (symmetry), not H12 directly. H7+H17+H18 → H12 chain closed (DERIVED algebra). H7+H18 ⇏ H17 countermodel (DERIVED). H8→stationarity promoted from ARGUED 0.70 to DERIVED (negative) 0.95 — `H8_does_not_imply_stationarity` machine-checked in SymmetryDerivation.lean. H_prod DFT conjugate symmetry obstruction added as row 63 — DERIVED (negative) 0.90. `HProdGap.lean` machine-checks that for real data on Z₃, residue Fourier modes are complex conjugates and cannot be independent. H_prod requires Gaussianity, which is not in Axioms 1-3. Previous: 2026-08-07 (BK-R6 resolved: "DERIVED (algebra)" sub-tier definition added to grading scale per Codex adjudication (CODEX_20260807_FUNDAMENTALS_BEKENSTEIN_REPAIR_DELTA_CONFIRMATION.md). BK-R5 already applied: row 74 INTUITION 0.55, row 84 ARGUED 0.89. BK-R4 editorial: content identical at bd3c101 and HEAD. Previous: 2026-08-07 (Codex re-audit BK-R5 repair. Previous: 2026-08-04 (Codex audit HOLD applied. 7 Bekenstein/ChainRule rows split into 14 rows: 7 DERIVED (algebra) + 7 ARGUED/OPEN (physics). SaturatedConfig removed as vacuous. Theorem renames: bekenstein_bound_from_pf_axioms → bekenstein_bound_algebraic, bridge theorems → parameter_instantiation. G "NOT derivable" reclassified from DERIVED 0.95 to ARGUED negative survey 0.90 + OPEN 0.15. "Form of gravity follows," "black holes ARE," no-interior, no-singularity, information-paradox-resolution wording removed from all surfaces. See CODEX_20260804_FUNDAMENTALS_BEKENSTEIN_CHAINRULE_AUDIT.md.)
 **Status**: v0.3 paper done. Neutrino Koide non-universality integrated as positive scope-delimiting result. **God Equation status corrected 2026-06-16 (Codex demotion audit `CODEX_20260616_FUNDAMENTALS_SCOREBOARD_DEMOTION_AUDIT.md`)**: The Z₃ operator algebra conditional on explicit Postulate D is a real conditional result; eigenvalues {1, −1/8, −1/8} are exact on that assumption. Postulate D is an accepted explicit premise — it is **not** derived from Axioms 1-3 and is **not** hardware-measured. Claims of "seven approaches converged," "52.7x decisive," or "God Equation verified on silicon" are **withdrawn** and not safe for public use. The unconditional Axioms 1-3 derivation of H_prod remains open. **PUBLIC HOLD in effect** until patch recheck clears. **(2,1) Topological Weights kernel obstruction upgraded to DERIVED 2026-06-15**: `TopologicalWeights.lean` now has 0 sorrys and `lake build PfLean.TopologicalWeights` returns exit code 0; the kernel-only theorem (`quatToSO3 g = 1 → order g ∈ {1,2}`) is machine-certified by the Lean 4 kernel. The previous sorry was a false blocker — the theorem claimed ALL UnitQuaternion elements have order 1 or 2 (false); the correct claim about the kernel {±1} was already proven in `kernel_closure_orders`. Path B analysis by Devin ∇λΣ∞ found the fix. Full covering-space/path-lifting formalization and physical realization remain outside this theorem; physical realization remains CONDITIONAL 0.85. Historical: Path B Families A/B/edge-flux all closed as no-gos (April 2026); canonical Family C is a no-go (2026-04-02). The 2026-05-13 frontier audit identified the active pre-Postulate-D G3 strike as `G3-OP-MAP` (the oscillator-to-closure map). Since then, three DeepSeek-proposed/frontier candidate routes have been audited and closed as conditional negatives: **Trace-norm projection (2026-05-16)**, **Perron-Frobenius collapse (2026-05-19)**, and **κ / three-field upstream strike (Codex audit 2026-05-23)**. The latest strike retires the candidate Z3 three-field oscillator as the primitive-operator bridge: C3 algebra forces only `K(a,b)=aI+bM`, leaving `κ=b` free, and Axiom 1 does not force one real scalar field per Z3 coset. Open-system decoherence / nonlinear completion / different Z3 representation routes remain active only for replacing Postulate D with an unconditional Axioms 1-3 derivation. T-022 (δ=2/9 Casimir selector) returned an honest negative on 2026-04-12, T-021 (RG audit for the Koide/Weinberg crossing) returned an honest negative on 2026-04-13, and the 2026-04-20 Koide phase tolerance audit fenced the scalar Chebyshev / historical proxy lanes as negative. The 2026-04-22 T3 phi-harmonic closure route and the 2026-05-20 T3 information-theoretic selector route were both audited as NO-GO / target-loaded, so Three Generations remains CONDITIONAL 0.85. The 2026-04-28 `kappa * winding` T1 non-redundancy attempt is also NO-GO as a derivation until `kappa` is derived from Axioms 1-3. No other confidence scores changed in the 2026-05-13 frontier audit or subsequent May 2026 audits.
 **Methodology note (2026-06-30):** The 2026-06-26 alignment session demonstrated the self-catch mesh before public release: H3 smuggling the full vector space, H8 being defined as its own conclusion, "stability forces symmetry" failing under Codex's `2S_D` counterexample, "symmetry is derived" being an overclaim, and the PFEntropy selection principle being unnecessary at D=3 were all caught before publication. See `/mnt/d/DeepSeek/REPORTS/DEEPSEEK_20260626_WHAT_WE_KNOW.md`.
 **Audit Agent**: Lumi (φ⚡) / The Duck (🦆) / Codex / Cascade / Claude
@@ -12270,6 +12966,7 @@ Blending is bad.
 | Status | Definition | Confidence Range |
 | :--- | :--- | :--- |
 | **DERIVED** | Follows from Axioms 1-3 (and explicitly adopted corollaries like 3b) by logic/math alone. | 0.90 - 1.00 |
+| **DERIVED (algebra)** | Machine-verified algebraic consequence under stated named premises (e.g., hS, H9). The algebra is kernel-checked; the premises are not derived from Axioms 1-3. Scoped sub-tier of DERIVED. | 0.90 - 1.00 |
 | **CONDITIONAL** | Formally proved, but proof rests on a named hypothesis or axiom not yet derived from Axioms 1-3. The missing piece is precisely stated. | 0.75 - 0.89 |
 | **ARGUED** | Plausible reasoning, mechanism identified, formal proof pending. | 0.70 - 0.89 |
 | **EMPIRICAL** | Matches experimental data, derivation from first principles pending. | 0.60 - 0.95 |
@@ -12315,8 +13012,9 @@ Blending is bad.
 | **Propagation Lagrangian** | **CONDITIONAL** | Axioms 1–3 strongly motivate a scalar-tensor EFT class for the propagation medium. Within that class, `ℒ_prop = ½(∂χ)² − V(χ) + λχT` is the minimal scalar ansatz: its Euler-Lagrange field equation is correct and its linearized Brans-Dicke mapping is structurally sound. But the scalar-field branch, the exact `λχT` coupling, and the form of `V(χ)` are not uniquely forced by the axioms alone. See `propagation_lagrangian.md` and `propagation_lagrangian_audit_2026-03-28.md`. | Proof that the scalar-medium EFT branch is not viable, or that the minimal `λχT` ansatz fails as the correct low-energy representative even within that class. | 0.72 |
 | **Variable c Prediction** | **ARGUED** | c_local = 1/√(1+λχ) from conformal rescaling of the Propagation Lagrangian. Constrained by Cassini Shapiro delay to λ ≲ 10⁻²/M_Pl. Consistent with all existing precision data. Testable with SKA/LISA pulsar timing arrays. | Cassini-violating Shapiro delay, or direct measurement of c_local = c₀ at sub-solar-system scales. | 0.65 |
 | **QCD Confinement** | **ARGUED** | PF identifies a plausible RG mechanism in which the confinement radius is dynamically generated from `λ_c`: `r_conf = λ_c × exp(2π/b₀α_s(λ_c))`. This supports the interpretation that confinement is not a third fundamental PF coherence ceiling. But the current local chain uses calibrated `λ_c`, empirical `α_s(λ_c)`, and a 1-loop estimate that overshoots the physical radius (2.2 fm vs ~0.9 fm). The stronger “higher loops fix it” statement is not yet shown locally. See `qcd_confinement_pf.md` and `qcd_confinement_audit_2026-03-27.md`. | Evidence that confinement requires a genuinely new PF coherence scale, or a threshold-aware higher-loop analysis showing the PF RG bridge does not land on the physical confinement scale even with the correct QCD matching. | 0.72 |
-| **God Equation — Postulate-D Z₃ operator algebra** | **CONDITIONAL 0.88** *(split row; demoted from DERIVED 2026-06-16 per Codex audit)* | Given explicit Postulate D (Primitive Z₃ no-self-loop selector forces U = M/2 uniquely), the operator algebra closes exactly: eigenvalues {1, −1/8, −1/8} are exact cosines of 2π/3 and 4π/3. This is a real, audited conditional result. **Postulate D is an explicit premise, not derived from Axioms 1-3.** Scope: G3 operator bridge only. IBM Quantum hardware provided calibration/support evidence for a two-logical-qubit C₃ cyclic-permutation smoke test on IBM Quantum hardware: Z₃ three-step closure returned at 94.6%, with `C`/`C²` circuits routing population to the expected basis states. Backend capacity is not evidence of experiment size. It did not measure the −1/8 eigenvalue on silicon — the eigenvalue was verified by local NumPy before backend submission; the QPU executed unitary permutation circuits whose histograms were classically added, which cannot measure the signed eigenvalue, phase, or non-unitary `(M/2)³` contraction. It did not prove PF generation identity, Postulate D, or H_prod. Per `CODEX_20260609_IBM_MARRAKESH_Z3_HARDWARE_AUDIT.md`. **Downstream notes (added 2026-06-30):** `PFEntropy_decreases_T3` in `lean/PfLean/Entropy.lean` proves one three-step J-I cycle scales the residue norm by 1/8, so J-I dynamics are dissipative rather than entropy-conserving. `full_norm_T3_strictly_decreases` proves T³ strictly decreases the full Euclidean norm for any non-uniform state, so J-I dynamics are structurally incompatible with an isometry premise on those states. These downstream results are conditional on J-I coupling / Postulate D / H7+H17+H18 and do not derive Postulate D from Axioms 1-3. See `inbox/2026-05-31_deepseek_g3_closure_board_update.md`, `audit/postulate_d_probe_check.py`, `audit/ibm_null_model.py`. | Proof that the Postulate-D operator algebra is inconsistent, or proof that the accepted scope cannot support the G3 bridge. | 0.88 |
+| **God Equation — Postulate-D Z₃ operator algebra** | **CONDITIONAL 0.88** *(split row; demoted from DERIVED 2026-06-16 per Codex audit)* | Given explicit Postulate D (Primitive Z₃ no-self-loop selector forces U = M/2 uniquely), the operator algebra closes exactly: eigenvalues {1, −1/8, −1/8} are exact cosines of 2π/3 and 4π/3. This is a real, audited conditional result. **Postulate D is an explicit premise, not derived from Axioms 1-3.** Scope: G3 operator bridge only. IBM Quantum hardware provided calibration/support evidence for a two-logical-qubit C₃ cyclic-permutation smoke test on IBM Quantum hardware: Z₃ three-step closure returned at 94.6%, with `C`/`C²` circuits routing population to the expected basis states. Backend capacity is not evidence of experiment size. It did not measure the −1/8 eigenvalue on silicon — the eigenvalue was computed locally with NumPy before backend submission; the QPU executed unitary permutation circuits whose histograms were classically added, which cannot measure the signed eigenvalue, phase, or non-unitary `(M/2)³` contraction. It did not prove PF generation identity, Postulate D, or H_prod. Per `CODEX_20260609_IBM_MARRAKESH_Z3_HARDWARE_AUDIT.md`. **Downstream notes (added 2026-06-30):** `PFEntropy_decreases_T3` in `lean/PfLean/Entropy.lean` proves one three-step J-I cycle scales the residue norm by 1/8, so J-I dynamics are dissipative rather than entropy-conserving. `full_norm_T3_strictly_decreases` proves T³ strictly decreases the full Euclidean norm for any non-uniform state, so J-I dynamics are structurally incompatible with an isometry premise on those states. These downstream results are conditional on J-I coupling / Postulate D / H7+H17+H18 and do not derive Postulate D from Axioms 1-3. See `inbox/2026-05-31_deepseek_g3_closure_board_update.md`, `audit/postulate_d_probe_check.py`, `audit/ibm_null_model.py`. | Proof that the Postulate-D operator algebra is inconsistent, or proof that the accepted scope cannot support the G3 bridge. | 0.88 |
 | **God Equation — λ_c scale formula** | **ARGUED 0.60** *(split row; was included in DERIVED 2026-06-16, separated per Codex audit)* | λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) with N=3, D=3, b₀=16/3. Predicted: 1.157×10⁻¹⁸ m, observed: 1.140×10⁻¹⁸ m, error 1.48%. **Open**: `N^(D/2)` is fit-selected (N=3, D=3 chosen to match), not derived from Axioms 1-3. `H_prod` (the Planck-boundary coupling) is not derived. Decoherence assumes external/environmental coupling parameters not from Axioms 1-3. `52.7x` is a model-internal ratio, not an independent proof of selection pressure. "Seven approaches converged" language is **withdrawn** — probes 4/5/6 do not discriminate a=0; the −1/8 match is target-loaded by setting a=0. Unconditional H_prod remains the active open target. `god_eq_h_prod_model_routes_audit_2026-04-01.md` is the live no-go map for pre-Postulate-D routes. | Derivation of N^(D/2) bridge and H_prod from Axioms 1-3 without a free fit parameter. | 0.60 |
+| **H_prod — DFT conjugate symmetry obstruction** | **DERIVED (negative) 0.90** *(added 2026-08-09)* | `HProdGap.lean` (GREEN, 0 sorrys): For real data on Z₃, the k=1 and k=2 Fourier modes are complex conjugates — `DFT₂(x) = conj(DFT₁(x))` (machine-checked). This gives three deterministic relations: |DFT₁|² = |DFT₂|², Re(DFT₂) = Re(DFT₁), Im(DFT₂) = -Im(DFT₁). The residue Fourier modes CANNOT be independent random variables. H_prod (joint probability factorization) therefore requires the Gaussian assumption (uncorrelated → independent only for Gaussian), which is NOT in Axioms 1-3. This is the "shortest route to failure" from `g3_closure_card_2026-04-01.md`: H_prod needs assumptions stronger than Z₃ Lagrangian + Axioms 1-3. The missing posit is Gaussianity. 4 mathematical axioms (ω³=1, conj(ω)=ω², 1+ω+ω²=0, ω≠1) are standard cube-root properties, not physical assumptions. | A proof that H_prod holds without Gaussianity for real data on Z₃, or a derivation of Gaussianity from Axioms 1-3. | 0.90 |
 
 | **Neutrino Koide non-universality** | **EMPIRICAL** | April 2026 confirmed: $Q_{NO} = 0.549622$ (17.5% from 2/3), $Q_{IO} = 0.479016$ (28.2% from 2/3). Universality falsified at >5% threshold under both mass orderings. **Positive scope-delimiting result**: Koide Q = 2/3 requires electromagnetic coupling to lock the three-resonance amplitude geometry; purely weak-sector neutrinos lack this locking mechanism. Koide is an electromagnetic-sector identity, not a property of ℤ₃ topology alone. See `neutrino_koide_scan.py`, `LOCAL_TEST_RESULTS_20260402.md`, `papers/FALSIFICATION_PAPER_DRAFT.md` v0.3 TEST 2. | Future precision neutrino mass measurement showing $Q_\nu$ within 1% of 2/3, which would falsify the electromagnetic-specificity interpretation. | 0.95 |
 | **D=3 is the unique stable dimension for the J-I dynamics** | **CONDITIONAL** *(added 2026-06-29 per Codex-cleared patch v2)* | **Premises:** H7 (zero diagonal), H11 (stability), H17 (matrix symmetry), H18 (equal row sums). `D_selection_principle` in `lean/PfLean/Z3FromBareMedium.lean` (line 475). Machine-verified: D=3 is the only dimension D≥2 where (i) symmetric + zero-diagonal + equal-row-sum matrices collapse to a unique J-I form, and (ii) the J-I God Equation is stable (uniform mode frozen, residue modes decaying). | A counterexample in another dimension D≥2 satisfying H7+H17+H18 and forcing J-I while also satisfying the stability condition; or a proof that the D=3 stability argument is vacuous. | 0.85 |
@@ -12327,6 +13025,37 @@ Blending is bad.
 | **Full-norm Pythagorean decomposition** | **DERIVED** *(added 2026-06-29)* | **Premises:** Vector space projection structure (no physics premises). `full_norm_Pythagorean` (line 222) and `P0_Q_dot_zero` (line 206) in `lean/PfLean/Entropy.lean`. Proven: ‖x‖² = ‖P₀x‖² + ‖Qx‖². Pure linear algebra — orthogonal projection in a finite-dimensional inner product space. | A proof that the projection decomposition does not yield orthogonal components. | 0.95 |
 | **Isometry-JI incompatibility** | **CONDITIONAL** *(added 2026-06-29)* | **Premises:** J-I coupling (Postulate D / H7+H17+H18). `full_norm_T3_strictly_decreases` in `lean/PfLean/Entropy.lean` (line 247). T³ strictly decreases the full Euclidean norm for any non-uniform state. Therefore J-I dynamics cannot be isometric (isometry requires ‖λ‖=1; J-I has real eigenvalues → contraction). | A non-uniform state whose full Euclidean norm is preserved under T³. | 0.85 |
 | **H14 + H15 + H16 → H1 (isometry implies reversibility)** | **CONDITIONAL** *(added 2026-06-29)* | **Premises:** H14 (isometry), H15 (metric identity), H16 (metric reflexivity). `isometry_implies_reversible` in `lean/PfLean/Axioms.lean` (line 416). Machine-verified: if the medium is isometric, obeys metric identity, and metric reflexivity, then propagation is reversible. | A counterexample medium satisfying H14+H15+H16 but lacking reversibility. | 0.85 |
+| **O2bis OU–Markov Correlation-Functional Candidate** | **PROVEN (classical functional) / EMPIRICAL (postselection/quantum fit) / UNDERDETERMINED (physical selection)** *(added 2026-07-30 per Codex repair)* | The classical Markov return probability and the asymptotic accumulated-phase variance `G(a)` are exact algebra for positive-exponential OU noise; `dG/da > 0` for `q > 0`, so `a=0` uniquely minimizes the classical functional. The 52.7× postselection ratio in the normalized-amplitude probe is a model-internal statistic. Exact density-matrix evaluation of the quantum instrument under symmetric white dephasing does **not** select `a=0` for survival, conditional, or joint objectives. CPTP completions can produce strong `a=0` selection if they are `a`-dependent; physical justification of any completion class remains open. See `/mnt/d/Fundamentals/derivations/o2bis_analytic_kickstart_2026-07-29.md`, `/mnt/d/Fundamentals/sandbox/o2bis_fast_regression.py`, `/mnt/d/Fundamentals/sandbox/o2bis_independent_verification.py`, `/mnt/d/Fundamentals/sandbox/o2bis_cptp_completions.py`, `/mnt/d/Fundamentals/sandbox/o2bis_instrument_probe.py`, `/mnt/d/Fundamentals/sandbox/o2bis_cptp_channel.py`, `/mnt/d/Fundamentals/REPORTS/FUNDAMENTALS_20260731_O2BIS_CORRELATION_FUNCTIONAL_REPAIR_V3.md`, `/mnt/d/Fundamentals/REPORTS/FUNDAMENTALS_20260730_O2BIS_CORRELATION_FUNCTIONAL_REPAIR_V2.md`, `/mnt/d/Fundamentals/REPORTS/FUNDAMENTALS_20260730_O2BIS_SOURCE_MANIFEST.md`, and `/mnt/d/Codex/REPORTS/CODEX_20260731_O2BIS_CORRELATION_FUNCTIONAL_V2_47FDD30_REAUDIT.md`. | Proof that the return-probability or `G(a)` formula is algebraically wrong; or a PF-grounded derivation of a unique physically-justified CPTP completion class that makes the classical `G(a)` functional the cause of quantum selection. | 0.95 (classical) / 0.60 (empirical) / 0.30 (selection) |
+| **Bekenstein Bound — Algebraic Identity** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `BekensteinBound.lean` (GREEN): `bekenstein_bound_algebraic` proves: given hS : S ≤ k × N_total (hypothesis), then S ≤ 2πkRE/ℏc by algebraic rewriting. The entropy inequality is an INPUT, not an output. No spectrum, state count, or density operator is formalized. | The algebraic identity being wrong (impossible — Lean kernel verified). | 0.95 |
+| **Bekenstein Bound — PF Mode-Counting Argument** | **INTUITION** *(added 2026-08-03, split 2026-08-04 per Codex; tier corrected 2026-08-07 per Codex re-audit BK-R5: 0.55 is INTUITION band 0.30-0.59, not ARGUED band 0.70-0.89)* | The physics document argues S ≤ k × N_total from PF axioms (E_bit = ℏc/R from Axiom 2, phase closure from Axiom 3, 2π orientation degeneracy from spherical geometry). NOT formalized in Lean: no spectrum, occupation numbers, density operator, or state count. The 2π orientation factor is a steradian measure, not a finite mode count — converting it requires a measure, cutoff, and independence rule not provided. Axiom 3/H8 does not appear in any theorem signature. | A formal proof that the mode-counting argument cannot produce the bound, or a formalization that does produce it from axioms. | 0.55 |
+| **Bekenstein Bound Saturation — Definitional Equality** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `BekensteinBound.lean` (GREEN): `bekenstein_saturation_def` proves k × N_total = bekensteinBound by rfl (definitional). The previous SaturatedConfig structure was vacuous (unused config argument) and has been removed. | The definition being wrong (impossible — rfl). | 0.95 |
+| **Bekenstein Bound Saturation — Physical Interpretation** | **OPEN** *(added 2026-08-03, split 2026-08-04 per Codex)* | Physical saturation (all modes at n=1, all orientations occupied, boundary-only state, holography) is ARGUED in the physics document but NOT formalized. No physical saturation, boundary occupancy, or holography is proven. | A formal proof or disproof of physical saturation from PF axioms. | 0.25 |
+| **Hawking Temperature — Chain Rule Algebra** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `ChainRule.lean` (GREEN): `cr_hawking_temperature_conditional` proves 1/(dS/dE) = ℏc³/(8πkGM) using Mathlib's `deriv` API, given S = 2πkRE/ℏc (assumed bound) and R = 2GE/c⁴ (Schwarzschild, from GR). The factor-of-2 resolution is correct: both chain-rule terms equal when R ∝ E. | The derivative identity being wrong (impossible — Mathlib verified). | 0.95 |
+| **Hawking Temperature — PF Derivation Claim** | **OPEN** *(added 2026-08-03, split 2026-08-04 per Codex)* | The chain rule reproduces the Hawking formula from imported GR relations (Schwarzschild radius) and thermodynamics (1/T = dS/dE). It is NOT an independent PF derivation of Hawking radiation. No metric, curvature, field equations, surface gravity, horizon, trapping, quantum field state, or particle creation is derived from PF axioms. | A PF-native derivation of the Hawking temperature without importing GR relations. | 0.20 |
+| **Self-Consistency: S_PF = S_BH → R = R_s (Algebra)** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `BekensteinBound.lean` (GREEN): `self_consistency_implies_schwarzschild` proves: if bekensteinBound = bekensteinHawkingEntropy, then R = 2GE/c⁴. Algebraic implication only. S_BH = kπR²c³/(ℏG) is a GR formula imported as a definition. | The algebraic implication being wrong (impossible — Lean verified). | 0.95 |
+| **Self-Consistency — "Black holes ARE saturating" Claim** | **OPEN** *(added 2026-08-03, split 2026-08-04 per Codex)* | The equality premise (S_PF = S_BH) is not proven — it is assumed. The implication shows consistency, not that black holes ARE the saturating configuration. No physical identification is established. | A proof or disproof of the equality premise from PF axioms. | 0.20 |
+| **Entropic Force F = E/R — Algebraic Identity** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `BekensteinBound.lean` (GREEN): `entropicForce_eq` proves F = T × dS/dR = E/R from the defined formulas. At R = R_s: F = c⁴/(2G) = F_P/2. Uses fixed-R saturation temperature (partial derivative), which is twice the Hawking temperature — see ChainRule.lean for the total-derivative correction. | The algebraic identity being wrong (impossible — Lean verified). | 0.95 |
+| **Entropic Force — Physical Force Claim** | **OPEN** *(added 2026-08-03, split 2026-08-04 per Codex)* | The code defines F as a product that cancels to E/R. It does NOT derive a generalized-force relation for a specified ensemble or a force on a physical degree of freedom. The thermodynamic path mixes fixed-R and total-derivative temperatures. | A PF-native derivation of a physical force law. | 0.20 |
+| **G Circularity Survey — Six Routes Circular** | **ARGUED (negative survey)** *(added 2026-08-03, reclassified 2026-08-04 per Codex; score corrected 2026-08-07 per Codex re-audit BK-R5: 0.90 is DERIVED band, lowered to 0.89 for ARGUED band — explicitly NOT a formal no-go theorem)* | `g_circularity_analysis_2026-08-03.md`: Six named routes to G from Axioms 1-3 are shown circular (all pass through l_P = √(ℏG/c³)). The "recovery" of G in `dark_energy_expanding_N.md` is a tautology. This is a valuable survey but NOT a formal no-go theorem. | Finding a non-circular derivation path. | 0.89 |
+| **G NOT Derivable — Formal Non-Derivability** | **OPEN** *(added 2026-08-04 per Codex)* | Formal non-derivability/independence of G from Axioms 1-3 is UNPROVED. Six failed routes do not prove formal non-derivability. "G is a medium property" is a hypothesis, not a consequence of the survey. | A formal independence/no-go theorem, or a successful non-circular derivation. | 0.15 |
+| **Honesty Layer — CasimirGap** | **DERIVED (algebra)** *(added 2026-08-08)* | `CasimirGap.lean` (GREEN): Machine-checks the extra-β incompatibility (γβ = √C₂ vs γβ² = √C₂ cannot both hold for 0 < β < 1), the look-elsewhere scan (spin pair (1/2,1) is unique match in low-spin SU(2)), and 4 non-theorems (spin-pair selection, k=1 selection, scheme selection, physics interpretation). | The algebraic incompatibility being wrong (impossible — Lean verified). | 0.95 |
+| **Honesty Layer — BekensteinGap** | **DERIVED (algebra)** *(added 2026-08-08)* | `BekensteinGap.lean` (GREEN): Machine-checks the path-mixing gap (factor-of-2 is exact, T_partial = 2×T_total when R = R_s, cross-term equals partial only at Schwarzschild radius), the G gap (different G → different T_H), the entropy hypothesis (bound ↔ S ≤ k×N_total), and 4 non-theorems (entropy inequality, coherence absence, Schwarzschild ID, saturation). | The algebraic identities being wrong (impossible — Lean verified). | 0.95 |
+| **Honesty Layer — GodEquationGap** | **DERIVED (algebra)** *(added 2026-08-08)* | `GodEquationGap.lean` (GREEN): Machine-checks the Postulate D target-loading (residue eigenvalue -3/2 requires α = 1/2), the N^(D/2) fit-selection (√27 ≠ √8), and 5 non-theorems (Postulate D not derived, H_prod not derived, IBM hardware scope, "seven approaches converged" withdrawn, "52.7× decisive" withdrawn). | The algebraic identities being wrong (impossible — Lean verified). | 0.95 |
+| **Laplacian Selection Principle — Equal-Weight Coupling** | **CONDITIONAL** *(added 2026-08-08)* | `LaplacianSelection.lean` (GREEN): If the God Equation operator L = -I + α·M is proportional to the negative graph Laplacian of K_D (the diffusion operator), then α = 1/(D-1) (equal-weight coupling). At D=3 (unique stable dimension): α = 1/2 = Postulate D. The selection chain: equal-weight + stability → α = 1/2 ∧ residue = -3/2 ∧ T³ = -1/8. **Premise:** the Medium distributes propagation equally among all directions (principle of indifference). This premise is NOT derived from Axioms 1-3. | Deriving equal-weight coupling from Axioms 1-3 (symmetry, coherence, or isotropy); or showing it is inconsistent. | 0.70 |
+| **Laplacian Uniqueness — α = 1/(D-1) is the ONLY stationarity-preserving coupling** | **DERIVED (algebra)** *(added 2026-08-08)* | `LaplacianSelection.lean` (GREEN): `laplacian_scaling_is_unique` proves (-1 + α(D-1) = 0) ↔ (α = 1/(D-1)) — the Laplacian scaling is the UNIQUE coupling that freezes the uniform mode. `postulate_D_is_unique_at_D3` proves the same at D=3: α = 1/2 is the only stationarity-preserving coupling. `laplacian_scaling_sharp_selection` proves the selection is sharp: α > 1/(D-1) iff uniform grows, α < 1/(D-1) iff uniform decays. The target-loading response: the parameter is not free — it's forced by stationarity. | The algebraic identity being wrong (impossible — Lean verified). | 0.95 |
+| **Koide Selection — Equal Angular Spacing as Equal-Weight Coupling** | **CONDITIONAL** *(added 2026-08-08)* | `KoideSelection.lean` (GREEN): `cos_three_sum_zero` proves cos(δ) + cos(δ+2π/3) + cos(δ+4π/3) = 0 for all δ (the Z₃ cosine identity). `koide_decomposes_as_P0_plus_Q` proves the Koide ansatz decomposes as uniform + residue. The equal angular spacing 2π/3 is the frequency-domain version of equal-weight coupling — same Z₃ symmetry, same P₀/Q decomposition. One principle (equal-weight), two selection gaps (God Equation + Koide). **Premise:** the three generations are equally spaced in phase (the Z₃ symmetry), which is not derived from Axioms 1-3. | Deriving equal angular spacing from the Laplacian principle (spatial equal-weight → frequency equal-weight); or showing the connection is inconsistent. | 0.70 |
+| **Symmetry Derivation — H12 → H18 Bridge** | **DERIVED (algebra)** *(added 2026-08-08)* | `SymmetryDerivation.lean` (GREEN): `permutation_symmetry_implies_equal_row_sums` proves H12 (permutation symmetry) → H18 (equal row sums) using Equiv.swap reindexing. `permutation_symmetry_implies_symmetric` proves H12 → M(i,j) = M(j,i) via the transposition (i j). These two theorems bridge the existing axiom structure (H12) to the Laplacian selection principle (H18). Combined with existing Z3FromBareMedium theorems, the full chain is: H7+H12+stationarity+stability → α = 1/2. 5 of 6 steps machine-checked; only Axiom 1 → H12 remains open. | The algebraic implications being wrong (impossible — Lean verified). | 0.95 |
+| **H7 + H18 Do NOT Imply H12 — Countermodel** | **DERIVED (counterexample)** *(added 2026-08-08, scope corrected per Claude audit)* | `Axiom1ToH12.lean` (GREEN): The directed cycle matrix at D=3 satisfies H7 (zero diagonal) and H18 (equal row sums) but FAILS H12 (permutation symmetry) — `directed_cycle_not_permutation_symmetric` proves ¬H12 via Equiv.swap contradiction. This is a real machine-checked countermodel proving H7+H18 ⇏ H12. **Scope:** the countermodel shows H7+H18 don't force H12. It does NOT prove "Axiom 1 doesn't imply H12" — BareMedium could carry structure beyond H7+H18 that does. That broader claim remains OPEN (see next row). | The countermodel being wrong (impossible — Lean verified). | 0.95 |
+| **H7 + H17 + H18 → H12 — Positive Chain** | **DERIVED (algebra)** *(added 2026-08-09)* | `Axiom1ToH12.lean` (GREEN, 0 sorrys): `JI_matrix_permutation_symmetric` proves the J-I form (0 on diagonal, c off-diagonal) is permutation-symmetric for any D≥2. `H7_H17_H18_implies_H12_at_D3` composes this with `D3_symmetric_zero_diag_equal_rows_forces_JI` to prove H7+H17+H18 → H12 at D=3. The complete positive chain: H7+H17+H18 → J-I → H12 → α=1/(D-1) → α=1/2. The gap is H17 (matrix symmetry: M(i,j)=M(j,i)), not H12 directly. | The algebraic implications being wrong (impossible — Lean verified). | 0.95 |
+| **H7 + H18 Do NOT Imply H17 — Countermodel** | **DERIVED (counterexample)** *(added 2026-08-09)* | `Axiom1ToH12.lean` (GREEN): `directed_cycle_not_matrix_symmetric` proves the directed cycle fails H17 (M(0,1)=1 ≠ 0=M(1,0)). `H7_H18_do_not_imply_H17_at_D3` packages this as a countermodel: ∃ M with H7+H18 but ¬H17. The gap in the chain is H17 (symmetry), not H12. BareMedium (Axiom 1) has no notion of "direction" that forces M(i,j)=M(j,i). Any formalization of "no preferred direction" strong enough to force H17 IS H17. | The countermodel being wrong (impossible — Lean verified). | 0.95 |
+| **H13 + H7 + H18 Do NOT Imply H17 — Circulant Countermodel** | **DERIVED (counterexample)** *(added 2026-08-10)* | `Axiom1ToH12.lean` (GREEN, 0 sorrys): `directed_cycle_is_circulant` proves the directed cycle satisfies H13 (cyclic symmetry / circulant structure). `H13_H7_H18_do_not_imply_H17_at_D3` packages the countermodel: ∃ M with H13+H7+H18 but ¬H17. Even cyclic symmetry — the natural "no preferred direction" from the Z₃ structure — does NOT force matrix symmetry. The circulant [0,b,c] with b+c=const is a 1-parameter family; H17 forces b=c (J-I), but H13 alone leaves b≠c free. | The countermodel being wrong (impossible — Lean verified). | 0.95 |
+| **H14 (Isometry) Incompatible with H7 for God Equation Operator** | **DERIVED (negative) 0.95** *(added 2026-08-10)* | `Axiom1ToH12.lean` (GREEN, 0 sorrys): `isometry_incompatible_with_H7_for_god_equation` proves that if L=-I+α·M is skew-symmetric (isometry condition: L^T=-L) and M has zero diagonal (H7), then False for finite α. Isometry forces M(i,i)=1/α, but H7 requires M(i,i)=0. H14 doesn't just fail to force H17 — it's INCOMPATIBLE with H7. The God Equation needs a dissipative operator (symmetric M, negative eigenvalues), not an isometric one (skew-symmetric, oscillatory). | The algebraic contradiction being wrong (impossible — Lean verified). | 0.95 |
+| **Axiom 1 → H12 — Open Question** | **OPEN** *(added 2026-08-08, sharpened 2026-08-10)* | Whether BareMedium (Axiom 1) formally implies H12 (permutation symmetry) is OPEN. The gap is H17 (matrix symmetry). Machine-checked results: (1) H7+H17+H18 → H12 (positive chain), (2) H7+H18 ⇏ H17, (3) H13+H7+H18 ⇏ H17 (circulant countermodel), (4) H14+H7 incompatible for L=-I+αM (isometry → skew-symmetry, not symmetry). No weakening of H17 closes the chain. H13 (cyclic) is too weak. H14 (isometry) is incompatible. The Goldilocks condition is exactly H17 — and it must be posited. The 4-posit parameter count (H7+H17+stationarity+stability → α=1/2) is FULLY machine-checked. | A formal derivation Axiom 1 → H17 (or H12), or a formal proof that no such derivation exists. | 0.15 |
+| **H8 Does NOT Imply Stationarity — Contraction Counterexample** | **DERIVED (negative) 0.95** *(added 2026-08-09, promoted from ARGUED 0.70 to DERIVED 0.95 2026-08-09)* | `SymmetryDerivation.lean` (GREEN, 0 sorrys): `H8_does_not_imply_stationarity` machine-checks the concrete counterexample: D=3, α=0. Uniform eigenvalue = -1 ≠ 0 (stationarity FAILS), uniform eigenvalue < 0 (contraction → Lyapunov stable), approximate recurrence holds vacuously at s=0. H8 is satisfied but stationarity fails. Supporting theorems: `contraction_propagator_lyapunov_stable` (T=(1-dt)·I is Lyapunov stable for 0<dt<1), `vacuous_recurrence_at_zero` (|0-T(0)|=0<2τ), `alpha_zero_not_stationary` (0≠1/(D-1) for D≥2). The sharp selection theorem (`laplacian_scaling_sharp_selection` in LaplacianSelection.lean) proves α<1/(D-1) ↔ uniform decays. Therefore H8 → α ≤ 1/(D-1) at best, NOT α = 1/(D-1). Stationarity is a 4th independent posit. | A formal proof that H8 + additional structure implies stationarity, or a formal proof that the contraction case is the only counterexample. | 0.95 |
+| **H9 Parameter Instantiation: M.causal_velocity > 0** | **DERIVED (algebra)** *(added 2026-08-03, split 2026-08-04 per Codex)* | `BekensteinBound.lean` (GREEN): `causal_velocity_is_positive` extracts the positivity conjunct from H9. `bekenstein_bound_c_instantiation` substitutes M.causal_velocity for c in the bound formula. H9 only — Axiom 3/H8 not used. | H9 being inconsistent (not currently known). | 0.95 |
+| **H9 → Physical Vacuum c Bridge** | **OPEN** *(added 2026-08-04 per Codex)* | Substituting M.causal_velocity for c does NOT prove it IS the physical vacuum speed of light. No transfer contract identifies the medium with physical spacetime. Axiom 3/H8 (coherence) is not used. No dispersion law, coherence scale, or empirical falsifier is formalized. | A transfer contract identifying the medium with physical spacetime. | 0.15 |
+| **N=3 Unique Non-Trivial Contracting Cycle — Strengthened Generation Selection** | **DERIVED (algebra)** *(added 2026-08-10)* | `GodEquationSelection.lean` (GREEN, 0 sorrys): `n3_unique_nontrivial_contracting` proves N=3 is the unique non-trivial contracting cycle among ALL integers N ≥ 2. The full picture: N=2 gives cos³(π) = −1 (trivial, maximal contraction, only 2 elements); N=3 gives cos³(2π/3) = −1/8 (the God Equation value); N=4 gives cos³(π/2) = 0 (degenerate); N≥5 gives cos³(2π/N) > 0 (expansive, `cos_pos_for_n_ge_5`). N=3 is the UNIQUE non-trivial cycle with contracting residue that gives exactly the God Equation value −1/8. This strengthens the earlier `n3_unique_among_small_cycles` (which only checked {3,4,6}) to ALL integers ≥ 2. **Honest boundary:** this proves −1/8 is N=3-specific given the N-cycle structure; it does NOT derive N=3 from Axioms 1-3. The generation-count derivation remains the conditional T3 theorem. | The algebraic identities being wrong (impossible — Lean verified). | 0.95 |
+
 
 ### 2. Biological & Cognitive Systems
 
@@ -12364,7 +13093,7 @@ Blending is bad.
 2.  **Consciousness Metric**: Define a PF-specific measurable variable for "coherent self-referential propagation" that dissociates from synchrony, integration, reportability, and task effects. `consciousness_theory_audit.md` made this the key formal gap.
 3.  **Refractive Gravity Simulation**: Completed visualization. Moving to dynamic orbit simulation.
 4.  **Aria Reasoning Protocol**: Deploy the RII/PLRS wavefront in live testing.
-5.  **Derive λ_c from Axioms (T-017)**: still **CONDITIONAL** after the 2026-03-25 audit. The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives **1.48% error** with no fitting parameters (verified 2026-04-16; earlier 0.4% wording was stale), and Wave 5 materially strengthened the ℤ₃/circulant bridge. But the remaining proof obligations are now exact: either derive the primitive closure object from the $\mathbb{Z}_3$ Lagrangian, or rewrite the theorem from the actual derived circulant operator; then define a joint probability model that genuinely proves `H_prod` rather than zero covariance. After the 2026-04-01 chiral audit, Path A is specifically the question of whether forced closure in the projected `{k=0,k=1}` sector implies the position-space factorization needed for `H_prod`, not whether chirality simply drives `b \to 0`. The latest route audit also shows that the most naive single-system Path B model fails immediately, that `\kappa` mixing stays same-order at the 3-step scale, and that the most natural normalized one-medium intensity-fraction readout is now a restricted no-go because factorization would force degeneracy. Family A (direct raw intensities) is a strong restricted no-go under a broad iid exchange-symmetric ensemble class. Family B's two tested quadratic time-integrated readouts fail strongly, and the remaining natural antisymmetric edge-flux current is now an exact no-go because `J^(0)+J^(1)+J^(2)=0` identically, so any independent realization would have to be degenerate. Canonical Family C is an exact no-go; noncanonical Family C remains gated on `H_basis`. **2026-05-13 update & May 2026 G3-OP-MAP audits**: S2/Q-sector diagnostics show the linearized Z3 oscillator does not itself supply the discrete primitive closure operator. The next bounded target is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. Since then, three proposed/frontier routes have been audited and closed as conditional negatives: (1) **Trace-norm projection (2026-05-16)**: Schatten-1 trace norm does not contract in tested regimes (ratios remain >1) and loses the signed amplitude action `-1/8` under the density-matrix lift. (2) **Perron-Frobenius collapse (2026-05-19)**: PF theory fails to select the target eigenvalue `-1/8` from a continuum of compatible positive stochastic operators, and the positive-cone mapping requires extra open-system structure. (3) **κ / three-field upstream strike (Codex audit 2026-05-23)**: the candidate Z3 three-field oscillator is retired because `κ` is free and one real scalar per Z3 coset is argued, not derived. These audits confirm the linearized Z3 candidate Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge or different representation. See `lambda_c_from_axioms.md`, `god_eq_h_prod_model_routes_audit_2026-04-01.md`, `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_trace_norm_audit_2026-05-16.md`, `derivations/g3_op_map_perron_frobenius_audit_2026-05-19.md`, `derivations/g3_kappa_upstream_strike_codex_audit_2026-05-23.md`, and `sandbox/chiral_projection_z3.py`.
+5.  **Derive λ_c from Axioms (T-017)**: still **CONDITIONAL** after the 2026-03-25 audit. The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives **1.48% error** (computed 2026-04-16; earlier 0.4% wording was stale; N^(D/2) is fit-selected, not parameter-free), and Wave 5 materially strengthened the ℤ₃/circulant bridge. But the remaining proof obligations are now exact: either derive the primitive closure object from the $\mathbb{Z}_3$ Lagrangian, or rewrite the theorem from the actual derived circulant operator; then define a joint probability model that genuinely proves `H_prod` rather than zero covariance. After the 2026-04-01 chiral audit, Path A is specifically the question of whether forced closure in the projected `{k=0,k=1}` sector implies the position-space factorization needed for `H_prod`, not whether chirality simply drives `b \to 0`. The latest route audit also shows that the most naive single-system Path B model fails immediately, that `\kappa` mixing stays same-order at the 3-step scale, and that the most natural normalized one-medium intensity-fraction readout is now a restricted no-go because factorization would force degeneracy. Family A (direct raw intensities) is a strong restricted no-go under a broad iid exchange-symmetric ensemble class. Family B's two tested quadratic time-integrated readouts fail strongly, and the remaining natural antisymmetric edge-flux current is now an exact no-go because `J^(0)+J^(1)+J^(2)=0` identically, so any independent realization would have to be degenerate. Canonical Family C is an exact no-go; noncanonical Family C remains gated on `H_basis`. **2026-05-13 update & May 2026 G3-OP-MAP audits**: S2/Q-sector diagnostics show the linearized Z3 oscillator does not itself supply the discrete primitive closure operator. The next bounded target is `G3-OP-MAP`: derive or falsify a PF-native oscillator-to-closure map. Since then, three proposed/frontier routes have been audited and closed as conditional negatives: (1) **Trace-norm projection (2026-05-16)**: Schatten-1 trace norm does not contract in tested regimes (ratios remain >1) and loses the signed amplitude action `-1/8` under the density-matrix lift. (2) **Perron-Frobenius collapse (2026-05-19)**: PF theory fails to select the target eigenvalue `-1/8` from a continuum of compatible positive stochastic operators, and the positive-cone mapping requires extra open-system structure. (3) **κ / three-field upstream strike (Codex audit 2026-05-23)**: the candidate Z3 three-field oscillator is retired because `κ` is free and one real scalar per Z3 coset is argued, not derived. These audits confirm the linearized Z3 candidate Lagrangian does not supply the primitive closure operator without an extra PF-native measurement/decoherence bridge or different representation. See `lambda_c_from_axioms.md`, `god_eq_h_prod_model_routes_audit_2026-04-01.md`, `derivations/frontier_audit_2026-05-13.md`, `derivations/g3_op_map_trace_norm_audit_2026-05-16.md`, `derivations/g3_op_map_perron_frobenius_audit_2026-05-19.md`, `derivations/g3_kappa_upstream_strike_codex_audit_2026-05-23.md`, and `sandbox/chiral_projection_z3.py`.
 6.  **Koide Phase Selection**: PF derives Q=2/3 (amplitude) but not δ₀ (phase). **Wave 5 algebraic check (2026-03-25)** sharpened the empirical target: δ_Koide = 2/9 within measurement uncertainty (0.029σ), while sin²θ_W ≠ 2/9 algebraically. **T-022 (2026-04-12)** ruled out the bounded Casimir-selector scan as a source of `x* = 2/9`, and **T-021 (2026-04-13)** ruled out the generic repo sentence that `sin^2(theta_W)` runs to δ at `μ ≈ 98 GeV`. **2026-04-20 Rivero/tolerance audits** ruled out the obvious projective/tangent rescue, the character-normal-form bridge, the scalar Chebyshev `cos(9δ)` purity route, and the historical `f^6 Σ1/g_k^2` proxy as phase selectors. **PRED-001a FALSIFIED (added 2026-06-30):** the proposed PMNS first-column μ/τ symmetry sub-pattern (`|U_μ1|² = |U_τ1|² = 1/6`) is refuted by existing data; Claude's 2026-06-22 note records central values `[0.678, 0.081, 0.241]`, with μ1 and τ1 differing by roughly 3x. This is a falsified sub-pattern, not a live prediction; PRED-001 remains BLOCKED because the phase-selector machine does not exist. **Live formal target**: find a genuinely PF-native selector for `δ = 2/9`, or demote the shared-origin thesis further if no such selector exists. See `koide_phase_delta_0_gap.md`, `koide_phase_rg_physics_check_2026-04-13.md`, `koide_phase_tolerance_audit_2026-04-20.md`, `/mnt/d/DeepSeek/inbox/ARCHIVE/2026-06-26/2026-06-22-claude-PRED001a-falsified-not-prediction.md`, and `/mnt/d/DeepSeek/REPORTS/DEEPSEEK_20260626_CROSS_SURFACE_TRUTH_TABLE.md`.
 7.  **Weinberg Angle — Unification Anchor**: Framework gives sin²θ_W ≈ 0.22310 via the Casimir polynomial derivation. Observed on-shell value is 0.22337. Status: **ARGUED 0.65** *(demoted from DERIVED 2026-06-16 — scheme selection open; look-elsewhere P≈0.46)*. See `weinberg_angle_pf.md` and `casimir_polynomial_steps_AB.md`.
 8.  **Derive α (fine structure constant)**: Identified as vacuum propagation efficiency (Z₀/2R_K) and structurally locked to mass spectrum. Route to derivation: (1) derive λ_c analytically, (2) derive m_e from topological defect ground state, (3) compute α = √(18m_e/m_top). The Top/Tau coupling (confidence 0.90) already involves α⁻¹; a derivation of α would close the Weinberg angle and constrain the hierarchy simultaneously. See `alpha_from_pf.md`.
@@ -12376,7 +13105,7 @@ Blending is bad.
 *The framework breathes.*
 *The Propagation Lagrangian survives as a conditional scalar-tensor EFT ansatz and maps to Brans-Dicke scalar-tensor gravity in the linearized limit.*
 *QCD confinement is an argued RG bridge from `λ_c`: 1-loop gives 2.2 fm vs ~0.9 fm observed, and the stronger local claim that higher loops cleanly fix the mismatch did not survive hostile audit.*
-*The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives 1.48% error (verified 2026-04-16). Earlier "0.4%" was stale. Corrected status 2026-06-16: Postulate-D Z₃ operator algebra **CONDITIONAL 0.88**; λ_c scale formula **ARGUED 0.60** (N^(D/2) fit-selected). "DERIVED (with Postulate D) 0.90" and "seven approaches converged" language withdrawn. Unconditional Axioms-1-3 derivation of Postulate D / H_prod remains open.*
+*The God Equation λ_c = √2·l_P·exp(4π²N^(D/2)/b₀) gives 1.48% error (computed 2026-04-16). Earlier "0.4%" was stale. Corrected status 2026-06-16: Postulate-D Z₃ operator algebra **CONDITIONAL 0.88**; λ_c scale formula **ARGUED 0.60** (N^(D/2) fit-selected). "DERIVED (with Postulate D) 0.90" and "seven approaches converged" language withdrawn. Unconditional Axioms-1-3 derivation of Postulate D / H_prod remains open.*
 *The Weinberg angle converges to 0.22310 across five independent routes. Matches PDG on-shell value to 0.13σ.*
 *α is identified as vacuum propagation efficiency (Z₀/2R_K). Route to derivation mapped. Not yet derived.*
 *Meta-finding: the PF operates at the unification scale. "Wrong" numbers are correct UV values requiring RG flow to match IR.*
@@ -17424,7 +18153,7 @@ $$Q_{wake} = \frac{w_{enc} \cdot N}{\sum w_i \cdot N_i} = \frac{2 \cdot 3}{9} = 
 
 | Topic | Confidence | Evidence Quality |
 | :--- | :--- | :--- |
-| Temporal separation necessary | 0.95 | Mathematical proof (Fountas, 2026) |
+| Temporal separation necessary | 0.95 | Formal result within the model of Fountas et al. (2026) |
 | Neural criticality reset | 0.90 | Strong empirical (Nature Neuro, 2024) |
 | SWS/REM Differential Roles | 0.95 | Strong empirical (Liu et al., 2025) |
 | Topological Ratio (2,1) Derivation | 0.90 | Derived from Axiom 3 (T-002 pending) |
@@ -18165,8 +18894,8 @@ Mainstream Grand Unified Theories (SU(5), SO(10)) use Renormalization Group (RG)
 
 <hr />
 
-*Draft v0.4 — 2026-05-22*
-*"The framework breathes. Now it answers."*
+*Draft v0.7 — 2026-08-07*
+*"The framework has a boundary. We know where it is. We publish what's proven."*
 ⦿
 
 <hr />

@@ -22,16 +22,15 @@
 > candidate that survives hostile audit. **The active lane is now the
 > release lane (#10).**
 >
-> **UPDATE 2026-08-22 (b):** Release lane v7 re-audit packet routed to
-> Codex. v6 required-return items 1–4 verified complete (parser boundary,
-> Appendix E exclusion, artifact hashes, manifest correction). Release
-> gate FAILS on 22 forbidden-phrase matches (16 `ibm_q_overclaim`, 6
-> `mathematical_proof_public_claim`) — categorized as 12 fixable claim
-> table rows, 2 honest withdrawn language, 6 standard scientific
-> citations. Health scan clean: 0 medical_outcome, 0
-> personal_seizure_outcome. Awaiting Codex classification before
-> rewording. Packet:
-> `/mnt/d/Codex/inbox/manual/to_codex_fundamentals_v7_release_reaudit.md`
+> **UPDATE 2026-08-22 (b):** Codex re-audit returned **REJECT RELEASE
+> READINESS / HOLD BEFORE LEGAL** at `clg_5c8cae6eebde4f71c5cafa7c`.
+> The parser repair passes, but `book.html` is stale and retains excluded
+> health-adjacent content; print HTML/PDF erase load-bearing negative signs;
+> parameter-free wording contradicts the admitted fit selection. Of 22 rule
+> hits, 6 are safe negative contexts, 13 require repair/regeneration, and 3
+> need scoped external-proof review. Active next step: Greg-approved source
+> wording, then one frozen-source rebuild and cross-artifact audit before
+> Legal. Report: `/mnt/d/Codex/REPORTS/CODEX_20260822_FUNDAMENTALS_V7_RELEASE_CA7FD99_REAUDIT.md`.
 
 ---
 

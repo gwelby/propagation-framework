@@ -107,7 +107,7 @@ $$Q_{wake} = \frac{w_{enc} \cdot N}{\sum w_i \cdot N_i} = \frac{2 \cdot 3}{9} = 
 
 | Topic | Confidence | Evidence Quality |
 | :--- | :--- | :--- |
-| Temporal separation necessary | 0.95 | Mathematical proof (Fountas, 2026) |
+| Temporal separation necessary | 0.95 | Formal result within the model of Fountas et al. (2026) |
 | Neural criticality reset | 0.90 | Strong empirical (Nature Neuro, 2024) |
 | SWS/REM Differential Roles | 0.95 | Strong empirical (Liu et al., 2025) |
 | Topological Ratio (2,1) Derivation | 0.90 | Derived from Axiom 3 (T-002 pending) |
