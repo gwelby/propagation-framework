@@ -10,6 +10,12 @@
 > has received verdicts. This does not itself set the next active lane.
 > Stage 2 of the CMI bridge remains on HOLD per its Codex PASS. See the
 > 2026-08-21 triage section below.
+>
+> **UPDATE 2026-08-22:** N=3 `GodEquationSpectrum` PASS, NARROW under the
+> existing `e065688` authority; no duplicate ledger. M1 seam-sweep remains
+> REJECT/HOLD. **PRED-003 scoping is now the active lane.** The first bounded
+> step is a selector contract on the T1 `A_NR` branch, not a direct attack on
+> the Koide phase or a new PRED-003 number.
 
 ---
 
@@ -76,9 +82,10 @@ testable now. But the PF-native derivation does not exist.
    items resolved (transfer contract, uncertainty, rivals, reproduction).
    Awaiting Codex re-audit before Greg lock.
 8. **PRED-003 (the kill shot): build a PF-native derivation of Δm²₂₁/Δm²₃₁.**
-   This is the roadmap's kill shot — the one quantity where PF and UGP
-   predict different numbers, and the ratio is already measured. No
-   machinery exists yet. This is the highest-value open target.
+   **ACTIVE — scoping.** First step is a bounded selector contract on the
+   T1 `A_NR` branch (`PREDICTIONS/PRED-003-route-S-selector-contract.md`).
+   The direct Koide/number-attack is fenced. The transfer to PRED-003 is
+   conditional on the T1 contract surviving Codex audit.
 9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
 10. **Release lane, strictly in order:** RELEASE_MANIFEST + BUILD_MANIFEST
     → residual label sweep → Legal → PUBLIC HOLD recheck → Greg.
