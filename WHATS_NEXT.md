@@ -6,6 +6,11 @@
 
 **Date**: 2026-08-16 *(Top-down alignment audit + PRED-002/PRED-003 labeling fix + keystone repair + FALSIFICATION v0.7 + hash-binding v5. Prior 2026-07-14 currency layer preserved below.)*
 
+> **UPDATE 2026-08-21:** The "Wait for Codex re-audit of three packets" hold
+> has received verdicts. This does not itself set the next active lane.
+> Stage 2 of the CMI bridge remains on HOLD per its Codex PASS. See the
+> 2026-08-21 triage section below.
+
 ---
 
 ## 2026-08-16 — TOP-DOWN ALIGNMENT AUDIT (Devin)
@@ -77,6 +82,28 @@ testable now. But the PF-native derivation does not exist.
 9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
 10. **Release lane, strictly in order:** RELEASE_MANIFEST + BUILD_MANIFEST
     → residual label sweep → Legal → PUBLIC HOLD recheck → Greg.
+
+### 2026-08-21 — Pending Codex packet verdict triage
+
+The three re-audits that blocked item 6 have now returned:
+
+| Packet | Status | Report | Ledger / notes |
+|---|---|---|---|
+| Circulant3Spectrum v2 `c0acdc9` | **PASS, NARROW** | `CODEX_20260816_FUNDAMENTALS_CIRCULANT3_SPECTRUM_V2_C0ACDC9_REAUDIT.md` | F1-F4 repair passes; aggregate `PfLean` build is still HOLD because `GodEquationSpectrum.lean` is not committed at the root import boundary. |
+| FALSIFICATION v0.7 s2 `e065688` | **REJECT / HOLD** | `CODEX_20260819_FUNDAMENTALS_FALSIFICATION_V07_SUCCESSOR2_E065688_REAUDIT.md` | F2 build/inventory pass; F5 paper wording and exact provenance disclosure fail; all-three-finding closure not authorized. |
+| PRED-002 hash-binding v5 `146261c` | **REJECT / HOLD** | `CODEX_20260819_FUNDAMENTALS_PROSE_PRED003_V5_146261C_REAUDIT.md` | 112/112 checks and exact build pass; lifecycle tamper evidence, append-only/terminal integrity, and schema/amendment provenance fail. |
+
+**Implication:** the "no new work until verdicts" hold is now stale.  The next
+active-lane decision requires Greg.  Options are:
+
+- Repair and resubmit one of the two HOLD packets (FALSIFICATION paper/provenance
+  or PRED-002 hash-binding v6).
+- Lift the CMI Stage 2 hold and attack the `CondIndepFun → mass relation` bridge.
+- Move to **PRED-003 scoping** (kill shot) — this is the highest-value open
+  target but still has no machinery; scoping is not a claim.
+- Continue release-lane residual label sweep only if an approved ring is ready.
+
+**Do not start Stage 2 or PRED-003 derivation work without a route update here.**
 
 ### What NOT to do (2026-08-16 additions)
 
