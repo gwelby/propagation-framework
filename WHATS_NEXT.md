@@ -82,8 +82,11 @@ testable now. But the PF-native derivation does not exist.
    items resolved (transfer contract, uncertainty, rivals, reproduction).
    Awaiting Codex re-audit before Greg lock.
 8. **PRED-003 (the kill shot): build a PF-native derivation of Δm²₂₁/Δm²₃₁.**
-   **ACTIVE — scoping.** First step is a bounded selector contract on the
-   T1 `A_NR` branch (`PREDICTIONS/PRED-003-route-S-selector-contract.md`).
+   **ACTIVE — scoping, Step 1 in progress.** T1 `A_NR` selector contract
+   written and a toy probe run (`PREDICTIONS/PRED-003-T1-A_NR-selector-contract.md`
+   and `sandbox/t1_A_NR_selector_probe.py`). Probe returns NO-GO for
+   simple information-theoretic functionals. Next: either find a PF-native
+   `F_C` that survives the falsifier, or document a formal no-go.
    The direct Koide/number-attack is fenced. The transfer to PRED-003 is
    conditional on the T1 contract surviving Codex audit.
 9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
