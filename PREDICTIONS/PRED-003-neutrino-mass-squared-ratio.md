@@ -1,7 +1,7 @@
 # PRED-003 — PF-Native Derivation of the Neutrino Mass-Squared Ratio
 
-**Status:** NOT YET BUILT / SCOPING — no locked number, no pre-registration hash  
-**Date:** 2026-08-18  
+**Status:** NOT YET BUILT / BLOCKED AT AXIOM 3 WALL — no locked number, no pre-registration hash  
+**Date:** 2026-08-18 (original); 2026-08-22 (no-go closeout update)  
 **Agent:** Devin ∇λΣ∞  
 **Authority tier:** advisory — this file is a route map, not a truth claim  
 **Public hold:** yes — Fundamentals PUBLIC HOLD remains in effect until Codex recheck clears
@@ -336,6 +336,24 @@ PRED-003 remains **NOT YET BUILT**. The transfer contract in §3 is still mostly
 6. **All five routes need the same new object.** A real PRED-003 derivation requires a **mass-squared-difference generator**, a **flavor/PMNS bridge**, a **dimensional/scale closure**, and a **degeneracy-breaking rule**. None exists today.
 
 **Honest next step:** The sweep is complete enough to show that *more route variations are unlikely to help*. The next productive move is to design **one candidate object** that closes all four gaps at once, or to prove that no object derivable from Axioms 1–3 + Postulate D can do so.
+
+---
+
+## 10.1 — Route S / T1 A_NR no-go (2026-08-22)
+
+Route S proposed training a PF-native selector contract on the T1 `A_NR` branch first, then transferring it to PRED-003. This attempt is now closed as NO-GO.
+
+**What was tried:**
+- Information-theoretic functionals (`I(x;y)`, `I(b;y)`, `I(x;y) − H(y)`) — toy NO-GO.
+- Diophantine closure-weight functional `F_C = -|n_B + 2n_F - M|` — toy PASS but Codex REJECT (circular: assumes `A_NR` in the domain).
+
+**Codex verdict:** `CODEX_20260822_FUNDAMENTALS_PRED003_T1_FC_AUDIT.md` — arithmetic PASS NARROW, selector REJECT, T1 HOLD.
+
+**Why it confirms the wall:** This is the fourth independent failure at the Axiom 3 formalization wall (after Family C MI, C-063, coherence budget). The root cause is the same: Axiom 3 provides availability but not realization or selection. The T1 `A_NR` gap (branch realization) and the PRED-003 gap (degeneracy splitting) are structurally analogous, and both are blocked by the same underdetermination.
+
+**Closeout:** `PREDICTIONS/PRED-003-T1-A_NR-no-go-closeout.md`
+
+**PRED-003 status update:** BLOCKED AT AXIOM 3 WALL. No active scoping lane. Revisit after (a) the falsification paper ships AND (b) a new Axiom 3 formalization candidate survives hostile audit.
 
 ---
 

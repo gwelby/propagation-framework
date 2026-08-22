@@ -13,9 +13,14 @@
 >
 > **UPDATE 2026-08-22:** N=3 `GodEquationSpectrum` PASS, NARROW under the
 > existing `e065688` authority; no duplicate ledger. M1 seam-sweep remains
-> REJECT/HOLD. **PRED-003 scoping is now the active lane.** The first bounded
-> step is a selector contract on the T1 `A_NR` branch, not a direct attack on
-> the Koide phase or a new PRED-003 number.
+> REJECT/HOLD. **PRED-003 scoping closed as NO-GO at the Axiom 3 wall.**
+> T1 `A_NR` selector contract, two toy probes, and Codex hostile audit all
+> confirm the same root cause: Axiom 3 provides availability but not
+> realization or selection. This is the fourth independent failure at the
+> Axiom 3 wall (after Family C MI, C-063, coherence budget). PRED-003 is
+> BLOCKED pending (a) paper shipment AND (b) a new Axiom 3 formalization
+> candidate that survives hostile audit. **The active lane is now the
+> release lane (#10).**
 
 ---
 
@@ -82,19 +87,21 @@ testable now. But the PF-native derivation does not exist.
    items resolved (transfer contract, uncertainty, rivals, reproduction).
    Awaiting Codex re-audit before Greg lock.
 8. **PRED-003 (the kill shot): build a PF-native derivation of Δm²₂₁/Δm²₃₁.**
-   **ACTIVE — scoping, Step 1 closed as NO-GO.** T1 `A_NR` selector contract
-   written; two toy probes run (information-theoretic NO-GO; Diophantine
-   candidate NO-GO). Codex verdict: `F_C` arithmetic `PASS NARROW`, selector
-   `REJECT`, T1 physical realization `HOLD`
-   (`/mnt/d/Codex/REPORTS/CODEX_20260822_FUNDAMENTALS_PRED003_T1_FC_AUDIT.md`).
-   The candidate circularly assumes `A_NR` and inserts an un-derived closure
-   weight / spatial-dimension equality. Next: either (a) try a different
-   `F_C` family, (b) close a formal no-go on T1-driven PRED-003, or
-   (c) re-scope PRED-003 away from the T1 `A_NR` bridge. Decision needed.
+   **BLOCKED AT AXIOM 3 WALL.** All five direct routes (A–E) and the Route S
+   meta-route (T1 `A_NR` training ground) are closed as NO-GO. Four
+   independent formalization attempts have failed at the same wall: Axiom 3
+   provides availability but not realization or selection. PRED-003 is
+   blocked pending (a) paper shipment AND (b) a new Axiom 3 formalization
+   candidate that survives hostile audit. Closeout:
+   `PREDICTIONS/PRED-003-T1-A_NR-no-go-closeout.md`. No active scoping lane.
    The direct Koide/number-attack is fenced.
 9. **G3-OP-MAP unconditional strike — unchanged.** All May negatives stand.
 10. **Release lane, strictly in order:** RELEASE_MANIFEST + BUILD_MANIFEST
     → residual label sweep → Legal → PUBLIC HOLD recheck → Greg.
+    **ACTIVE LANE.** PRED-003 is blocked; the paper is the stated destination
+    and the release lane is what unblocks publishing and physicist
+    conversations. This aligns with the standing decision to ship the paper
+    before returning to the Axiom 3 wall.
 
 ### 2026-08-21 — Pending Codex packet verdict triage
 
