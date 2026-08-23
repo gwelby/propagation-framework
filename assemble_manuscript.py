@@ -94,6 +94,141 @@ def parse_source_map(path=None):
     
     return entries
 
+def extract_section(content, selector):
+    """Extract a specific section from markdown content by selector.
+    
+    Supports:
+    - §N or §N.M — extract section "## N" or "### N.M" up to next same/higher heading
+    - §N intro — extract section N, only up to first ### subsection
+    - TEST N — extract "### TEST N — ..." up to next ### or ## heading
+    - Appendix A — extract "## Appendix A" up to next ## heading
+    - Appendix A+B — extract both Appendix A and Appendix B
+    - Sections N-M — extract sections N through M inclusive
+    - §N expanded — extract section N (allow expansion, still just that section)
+    
+    Returns None if selector is None/empty. Returns "[SECTION NOT FOUND]" if
+    the requested section cannot be located (fail-loud, not silent whole-file).
+    """
+    if not selector:
+        return None
+    
+    lines = content.split("\n")
+    
+    # Parse the selector
+    # Pattern: §N.M, §N, §N intro, §N expanded, TEST N, Appendix X, Appendix X+Y, Sections N-M
+    sec_match = re.match(r"§(\d+)(?:\.(\d+))?(?:\s+(intro|expanded))?", selector)
+    test_match = re.match(r"TEST\s+(\d+)", selector)
+    appendix_match = re.match(r"Appendix\s+([A-Z])(?:\s*\+\s*([A-Z]))?", selector)
+    sections_range_match = re.match(r"Sections\s+(\d+)[–-](\d+)", selector)
+    
+    if sec_match:
+        major = sec_match.group(1)
+        minor = sec_match.group(2)
+        modifier = sec_match.group(3)
+        
+        if minor:
+            # §N.M — find ### N.M
+            target_pattern = re.compile(rf"^###\s+{re.escape(major)}\.{re.escape(minor)}\b")
+            end_pattern = re.compile(r"^##\s+")  # ends at next ## or ###
+        else:
+            # §N — find ## N
+            target_pattern = re.compile(rf"^##\s+{re.escape(major)}\b")
+            if modifier == "intro":
+                # §N intro — only up to first ### subsection
+                end_pattern = re.compile(r"^###\s+")
+            else:
+                end_pattern = re.compile(r"^##\s+")  # ends at next ##
+        
+    elif test_match:
+        test_num = test_match.group(1)
+        target_pattern = re.compile(rf"^###\s+TEST\s+{re.escape(test_num)}\b")
+        end_pattern = re.compile(r"^###\s+")  # ends at next ### or ##
+        
+    elif appendix_match:
+        letters = [appendix_match.group(1)]
+        if appendix_match.group(2):
+            letters.append(appendix_match.group(2))
+        
+        result_parts = []
+        for letter in letters:
+            target = re.compile(rf"^##\s+Appendix\s+{re.escape(letter)}\b")
+            end = re.compile(r"^##\s+")
+            section_lines = _extract_heading_block(lines, target, end)
+            if section_lines is None:
+                return "[SECTION NOT FOUND: Appendix " + letter + "]"
+            result_parts.append("\n".join(section_lines))
+        return "\n\n".join(result_parts)
+        
+    elif sections_range_match:
+        start_n = int(sections_range_match.group(1))
+        end_n = int(sections_range_match.group(2))
+        result_parts = []
+        for n in range(start_n, end_n + 1):
+            target = re.compile(rf"^##\s+{n}\b")
+            end = re.compile(r"^##\s+")
+            section_lines = _extract_heading_block(lines, target, end)
+            if section_lines is None:
+                return f"[SECTION NOT FOUND: Section {n}]"
+            result_parts.append("\n".join(section_lines))
+        return "\n\n".join(result_parts)
+    else:
+        # Unknown selector format — fail loud, do NOT silently return whole file
+        return f"[UNKNOWN SELECTOR FORMAT: {selector}]"
+    
+    section_lines = _extract_heading_block(lines, target_pattern, end_pattern)
+    if section_lines is None:
+        return f"[SECTION NOT FOUND: {selector}]"
+    return "\n".join(section_lines)
+
+
+def _extract_heading_block(lines, target_pattern, end_pattern):
+    """Extract lines from the first target heading match to the first end heading.
+    
+    Returns None if target heading not found. Returns list of lines (including
+    the target heading line itself) if found.
+    """
+    in_section = False
+    result = []
+    for line in lines:
+        if not in_section:
+            if target_pattern.match(line):
+                in_section = True
+                result.append(line)
+                continue
+        else:
+            if end_pattern.match(line):
+                break
+            result.append(line)
+    
+    if not in_section:
+        return None
+    return result
+
+
+def parse_selector(source_str):
+    """Extract a section selector from a source string like 'file.md §6' or 'file.md TEST 1'.
+    
+    Returns the selector string (e.g. '§6', 'TEST 1', 'Appendix A+B') or None.
+    """
+    # §N.M with optional modifier
+    m = re.search(r"§(\d+(?:\.\d+)?)(?:\s+(intro|expanded))?", source_str)
+    if m:
+        return m.group(0).strip()
+    # TEST N
+    m = re.search(r"TEST\s+\d+", source_str)
+    if m:
+        return m.group(0).strip()
+    # Appendix X(+Y)?
+    m = re.search(r"Appendix\s+[A-Z](?:\s*\+\s*[A-Z])?", source_str)
+    if m:
+        return m.group(0).strip()
+    # Sections N-M
+    m = re.search(r"Sections\s+\d+[–-]\d+", source_str)
+    if m:
+        return m.group(0).strip()
+    return None
+
+
 def resolve_source(entry):
     source_str = entry['source'].replace("`", "")
     title = entry['title']
@@ -187,8 +322,13 @@ def resolve_source(entry):
         file_match = re.search(r"([\w/.* -]+\.md)", search_p)
         if file_match:
             clean_p = file_match.group(1)
-            # Remove section links like §3
-            clean_p = re.sub(r" §\d+(\.\d+)?.*", "", clean_p).strip()
+            # Parse and remove section selector (§N, TEST N, Appendix X, Sections N-M)
+            selector = parse_selector(search_p)
+            if selector:
+                clean_p = re.sub(r"\s+" + re.escape(selector) + ".*", "", clean_p).strip()
+            else:
+                # Also strip trailing modifiers like "expanded", "intro" if no § prefix
+                clean_p = re.sub(r"\s+(expanded|intro).*$", "", clean_p, flags=re.IGNORECASE).strip()
             
             if "frequency_human_resonance" in clean_p:
                 continue
@@ -223,8 +363,22 @@ def resolve_source(entry):
                             content = axiom_section[1].split("##")[0].strip()
                         else:
                             content = "Axiom 1: Everything propagates.\nAxiom 2: Propagation is coherent.\nAxiom 3: Coherence is selective."
+                    elif selector:
+                        # Section selector — extract only the requested section
+                        extracted = extract_section(content, selector)
+                        if extracted is None:
+                            combined_content += f"\n\n[SELECTOR PARSE ERROR: {selector} on {clean_p}]\n\n"
+                            continue
+                        elif extracted.startswith("[SECTION NOT FOUND") or extracted.startswith("[UNKNOWN SELECTOR"):
+                            combined_content += f"\n\n### From: {clean_p} ({selector})\n\n{extracted}\n\n"
+                            continue
+                        else:
+                            content = extracted
                     
-                    combined_content += f"\n\n### From: {clean_p}\n\n"
+                    combined_content += f"\n\n### From: {clean_p}"
+                    if selector:
+                        combined_content += f" ({selector})"
+                    combined_content += "\n\n"
                     combined_content += content + "\n"
                 else:
                     combined_content += f"\n\n[MISSING SOURCE: {clean_p}]\n\n"
@@ -234,12 +388,41 @@ def resolve_source(entry):
 def assemble():
     entries = parse_source_map()
     full_content = "# THE PROPAGATION FRAMEWORK\n\n"
+    
+    # Duplicate-content control: track content fingerprints to detect
+    # repeated insertion of identical blocks across source-map entries.
+    # This catches assembler bugs where the same file/section is inserted
+    # multiple times without deduplication.
+    content_hashes = {}
+    duplicate_warnings = []
+    
     for entry in entries:
         print(f"Processing: {entry['title']}")
         content = resolve_source(entry)
+        
+        # Track content fingerprints for duplicate detection
+        if content and len(content.strip()) > 100:
+            import hashlib
+            # Hash the stripped content (ignore whitespace differences)
+            content_hash = hashlib.sha256(content.strip().encode("utf-8")).hexdigest()[:16]
+            section_label = entry['title']
+            if content_hash in content_hashes:
+                duplicate_warnings.append(
+                    f"  DUPLICATE: '{section_label}' has identical content to '{content_hashes[content_hash]}'"
+                )
+            else:
+                content_hashes[content_hash] = section_label
+        
         full_content += f"\n<!-- SECTION: {entry['title']} -->\n"
         full_content += content
         full_content += "\n\n<hr />\n"
+    
+    if duplicate_warnings:
+        print("\n" + "=" * 60)
+        print("DUPLICATE CONTENT WARNINGS:")
+        for w in duplicate_warnings:
+            print(w)
+        print("=" * 60)
     
     # Standardize horizontal rules to avoid Pandoc YAML confusion
     # Use <hr /> instead of --- or *** to close lists and prevent header leakage
@@ -247,6 +430,8 @@ def assemble():
     
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(full_content)
+    
+    return len(duplicate_warnings)
 
 def validate_and_write_manifest():
     import datetime
@@ -294,6 +479,8 @@ def validate_and_write_manifest():
 
 if __name__ == "__main__":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    assemble()
+    dup_count = assemble()
     print(f"Manuscript assembled at {OUTPUT_FILE}")
+    if dup_count > 0:
+        print(f"WARNING: {dup_count} duplicate content blocks detected — review source map selectors")
     validate_and_write_manifest()
