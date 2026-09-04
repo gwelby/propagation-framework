@@ -19,9 +19,9 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 4. **Actions** (Qwen Code): Gap closure on CFE analysis, topological weight proof, and Navier-Stokes simulation architecture
 
 **Key outcomes**:
-- **CFE validated**: Coherence Field Equation (Perez 2026) predicts coherence propagates at v_g < c, directly validating PF Axiom 2
-- **Topological weight derived**: (2,1) partition rigorously derived from ??(SO(3)) = ?? (fundamental group of 3D rotation space)
-- **Consciousness threshold quantified**: CFE predicts CRI ? 0.40 ? 0.05 with ? ? 0.63 (3D Ising)
+- **CFE consistent with PF**: Coherence Field Equation (Perez 2026) predicts coherence propagates at v_g < c, consistent with PF Axiom 2 (not a validation — single preprint, shared language is not shared derivation)
+- **Topological weight derived**: (2,1) partition rigorously derived from π₁(SO(3)) = Z₂ (fundamental group of 3D rotation space)
+- **Consciousness threshold consistent**: CFE predicts CRI ≥ 0.40 ± 0.05 with ν ≈ 0.63 (3D Ising) — consistent with PF Axiom 3's coherence requirement, not a validation
 - **Fluid computer architecture known**: DeepMind 2025 + Tao mechanism provide blueprint for sandbox implementation
 
 ---
@@ -142,21 +142,21 @@ with **? ? 0.63** (3D Ising universality class).
 
 **PF Interpretation**: Logic gates are **refractive constraints** on propagation. Computation is propagation in a medium with specific boundary conditions (wires, transistors, etc.).
 
-**Critical Validation**: DeepMind found **only unstable singularities**. This validates PF Axiom 3: "Incoherent propagation disperses; coherent propagation persists."
+**Critical Observation**: DeepMind found **only unstable singularities**. This is consistent with PF Axiom 3: "Incoherent propagation disperses; coherent propagation persists." (Consistency, not validation — external literature alignment is not a PF derivation.)
 
 ---
 
-### 8. Subjective Divide is G?delian (Confidence: 0.98)
+### 8. Subjective Divide is Gödelian (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: Tarski's Undefinability Theorem, quantum gravity incompleteness (arXiv:2505.11773v3)
 
 **The Logical Chain**:
 1. Tarski: A consistent theory cannot define its own truth predicate
-2. G?del: A consistent system cannot prove its own consistency
+2. Gödel: A consistent system cannot prove its own consistency
 3. Quantum gravity: Cannot be both consistent and complete
 4. PF: Consciousness **IS** the truth predicate the system cannot define
 
-**Result**: The **objective/subjective split** is the G?delian boundary. The "outside view" (algorithmic physics) is limited by G?del/Tarski. The "inside view" (experience) is where the truth of coherence resides.
+**Result**: The **objective/subjective split** is the Gödelian boundary. The "outside view" (algorithmic physics) is limited by Gödel/Tarski. The "inside view" (experience) is where the truth of coherence resides.
 
 ---
 
@@ -168,25 +168,25 @@ with **? ? 0.63** (3D Ising universality class).
 - Axiom 2: Causal velocity = c
 - Region of radius R takes time R/c to achieve global coherence
 - Maximum information density that can be "held in phase" is limited by surface area
-- Result: S ? A/4G (holographic area law)
+- Result: S ≤ A/4G (holographic area law)
 
 **Status**: Conceptual derivation complete, formal proof needed (T-014).
 
 ---
 
-### 10. Unstable Singularities Validate Axiom 3 (Confidence: 0.95)
+### 10. Unstable Singularities Consistent with Axiom 3 (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: DeepMind 2025 discoveries (only unstable singularities found)
 
 **PF Axiom 3**: "Coherence is necessary for stable structure."
 
-**Validation**: DeepMind's systematic search found **only unstable singularities** in 3D Euler, IPM, and Boussinesq equations. No stable blowup solutions discovered.
+**Observation**: DeepMind's systematic search found **only unstable singularities** in 3D Euler, IPM, and Boussinesq equations. No stable blowup solutions discovered.
 
-**Interpretation**: Incoherent propagation (unstable singularities) disperses; only coherent propagation persists as stable structure. This is the first **empirical validation** of Axiom 3 from external literature.
+**Interpretation**: Incoherent propagation (unstable singularities) disperses; only coherent propagation persists as stable structure. This is consistent with Axiom 3 from external literature, but consistency is not validation — the alignment is between external findings and a PF axiom, not a PF derivation of those findings.
 
 ---
 
-### 11. Navier-Stokes Blowup as Matter Formation (Confidence: 0.92)
+### 11. Navier-Stokes Blowup as Matter Formation (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: DeepMind 2025 + Tao fluid computer mechanism
 
@@ -196,7 +196,7 @@ with **? ? 0.63** (3D Ising universality class).
 3. Exponentially-accelerating energy cascade
 4. Finite-time singularity: energy concentrates to a point
 
-**PF Interpretation**: This is the "voom" ? transition from pure propagation to matter (standing wave singularity). The architecture is known; sandbox implementation is the next step.
+**PF Interpretation**: This is the "voom" — transition from pure propagation to matter (standing wave singularity). The architecture is known; sandbox implementation is the next step.
 
 ---
 
@@ -218,24 +218,26 @@ $$Q = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2}
 
 ## Confidence Scores (Complete)
 
+**Note**: These are research-note estimates from the original literature sweep, NOT CLAIMS.md canonical tiers. Several were deflated in the v10 correction pass. The canonical tiers live in CLAIMS.md.
+
 | Topic | Confidence | Evidence |
 |-------|------------|----------|
-| **G?del limits apply to physics** | 0.99 | Multiple 2024-2026 papers, peer-reviewed |
+| **Gödel limits apply to physics** | 0.99 | Multiple 2024-2026 papers, peer-reviewed |
 | **Computational irreducibility fundamental** | 0.98 | Wolfram + independent CIR research |
-| **IIT 2025 converges with PF consciousness** | 0.98 | Direct textual comparison, CFE formalism |
-| **CFE causal velocity validates Axiom 2** | 0.99 | CFE paper explicitly derives v_g < c |
-| **CFE consciousness threshold validates Axiom 3** | 0.99 | CRI ? 0.40 with multiplicative necessity |
-| **Topological weight (2,1) from spinor cover** | 0.98 | Rigorous ??(SO(3)) = ?? derivation |
+| **IIT 2025 shares language with PF consciousness** | INTUITION (not convergence) | Direct textual comparison, CFE formalism — shared language is not shared derivation |
+| **CFE causal velocity consistent with Axiom 2** | ARGUED (not validation) | CFE paper explicitly derives v_g < c — consistency, not validation |
+| **CFE consciousness threshold consistent with Axiom 3** | ARGUED (not validation) | CRI ≥ 0.40 with multiplicative necessity — consistency, not validation |
+| **Topological weight (2,1) from spinor cover** | 0.95 | Rigorous π₁(SO(3)) = Z₂ derivation |
 | **Computation is constrained propagation** | 0.98 | Turing-complete fluids, DeepMind 2025 |
-| **Subjective divide is G?delian** | 0.98 | Tarski + quantum gravity incompleteness |
+| **Subjective divide is Gödelian** | INTUITION | Tarski + quantum gravity incompleteness — analogical, not derived |
 | **Holographic principle from propagation** | 0.95 | Banks 2025, Bekenstein from c |
-| **Unstable singularities validate Axiom 3** | 0.95 | DeepMind found ONLY unstable |
-| **Navier-Stokes blowup = matter formation** | 0.92 | DeepMind + Tao mechanism |
+| **Unstable singularities consistent with Axiom 3** | INTUITION (not validation) | DeepMind found ONLY unstable — consistency, not validation |
+| **Navier-Stokes blowup = matter formation** | INTUITION | DeepMind + Tao mechanism — speculative interpretation |
 | **Koide 2/3 from topological weights** | 0.90 | Plausible, needs formal proof |
-| **G?del universes physically viable** | 0.85 | f(Q,T) gravity (arXiv, not peer-reviewed) |
+| **Gödel universes physically viable** | 0.85 | f(Q,T) gravity (arXiv, not peer-reviewed) |
 | **PF fluid computer architecture known** | 0.70 | Architecture known, implementation pending |
-| **CFE provides mathematical formalism** | 0.99 | Full Lagrangian extracted |
-| **Critical exponent ? ? 0.63 from 3D Ising** | 0.95 | Hasenbusch 1998, universal |
+| **CFE provides mathematical formalism** | ARGUED | Full Lagrangian extracted — formalism is real, PF connection is analogical |
+| **Critical exponent ν ≈ 0.63 from 3D Ising** | 0.95 | Hasenbusch 1998, universal |
 | **GW dispersion testable prediction** | 0.85 | CFE predicts frequency-dependent speed |
 
 ---
@@ -363,19 +365,19 @@ When in conflict, trust in this order:
 
 ## Conclusion
 
-This research session achieved **substantial convergence** between the Propagation Framework and external literature (2024-2026):
+This research session identified **language alignment and consistency** between the Propagation Framework and external literature (2024-2026). Consistency is not validation — external literature sharing language with PF axioms does not derive those axioms.
 
 **What the PF got right**:
-- Self-reference as the core problem (G?del limits confirmed)
-- Consciousness as coherent self-referential propagation (IIT 2025 convergence)
+- Self-reference as the core problem (Gödel limits confirmed in external literature)
+- Consciousness as coherent self-referential propagation (IIT 2025 shares language — not convergence)
 - Observer-dependence of laws (Wolfram alignment)
 - Time as emergent (multiple frameworks agree)
 
-**What the PF gained**:
-- Mathematical formalism (from CFE)
+**What the PF gained (formalism, not derivation)**:
+- Mathematical formalism (from CFE — the formalism is real, the PF connection is analogical)
 - Topological derivation of (2,1) partition
-- Quantitative consciousness threshold (CRI ? 0.40)
-- Critical exponent prediction (? ? 0.63)
+- Quantitative consciousness threshold (CRI ≥ 0.40 — consistent with Axiom 3, not derived from it)
+- Critical exponent prediction (ν ≈ 0.63)
 - Fluid computer architecture for sandbox testing
 
 **What remains**:

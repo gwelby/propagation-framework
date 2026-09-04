@@ -54,7 +54,7 @@ These two motions make the mode **helical** — it circulates while it drifts. T
 
 ### Step 2 — Angular momentum (SO(3) on the 3D PF medium)
 
-From `topological_weight_from_propagation.md` (DERIVED, 0.98):
+From `topological_weight_from_propagation.md` (DERIVED kernel-only, 0.95 / CONDITIONAL physical realization, 0.85):
 
 - The PF medium is 3D → rotation symmetry group SO(3)
 - Coherent modes carry angular momentum labeled by spin j

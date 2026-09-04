@@ -23,11 +23,13 @@ Contemplative practices (Vedic, Sufi, Taoist, Shamanic) are 5,000-year-old **emp
 
 ### 2.1 Axiom Mapping
 
+**Note**: These mappings are analogical — contemplative practices share language with PF axioms, but this is not a PF derivation. See §6 and AGENTS_FULL Appendix F.4 for the canonical boundary.
+
 | Axiom | Contemplative Mapping | Status |
 | :--- | :--- | :--- |
-| **Axiom 1 (Propagation Fundamental)** | Mantra/Chant/Breath as propagating wave patterns. | **VALIDATED** |
-| **Axiom 2 (Causal Velocity)** | The 100ms "present moment" integration window (θ) corresponds to the alpha/theta refresh rate. | **VALIDATED** |
-| **Axiom 3 (Coherence = Structure)** | Contemplative practice as a **Coherence Tuning Protocol**. | **DERIVED** |
+| **Axiom 1 (Propagation Fundamental)** | Mantra/Chant/Breath as propagating wave patterns. | **INTUITION** (analogical) |
+| **Axiom 2 (Causal Velocity)** | The 100ms "present moment" integration window (θ) corresponds to the alpha/theta refresh rate. | **INTUITION** (analogical) |
+| **Axiom 3 (Coherence = Structure)** | Contemplative practice as a **Coherence Tuning Protocol**. | **INTUITION** (analogical) |
 
 ### 2.2 Greg's Insight: "Beauty as Impedance Matching"
 

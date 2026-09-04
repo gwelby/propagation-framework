@@ -2573,7 +2573,7 @@ These two motions make the mode **helical** — it circulates while it drifts. T
 
 ### Step 2 — Angular momentum (SO(3) on the 3D PF medium)
 
-From `topological_weight_from_propagation.md` (DERIVED, 0.98):
+From `topological_weight_from_propagation.md` (DERIVED kernel-only, 0.95 / CONDITIONAL physical realization, 0.85):
 
 - The PF medium is 3D → rotation symmetry group SO(3)
 - Coherent modes carry angular momentum labeled by spin j
@@ -4746,7 +4746,7 @@ These two motions make the mode **helical** — it circulates while it drifts. T
 
 ### Step 2 — Angular momentum (SO(3) on the 3D PF medium)
 
-From `topological_weight_from_propagation.md` (DERIVED, 0.98):
+From `topological_weight_from_propagation.md` (DERIVED kernel-only, 0.95 / CONDITIONAL physical realization, 0.85):
 
 - The PF medium is 3D → rotation symmetry group SO(3)
 - Coherent modes carry angular momentum labeled by spin j
@@ -7897,7 +7897,7 @@ Blending is bad.
 | **Koide Law for Charged Leptons (Q = 2/3) — geometric identity** | **EXACT IDENTITY (geometry) 0.95 / OPEN (physical vacuum selection)** *(row clarified 2026-06-16 per Codex audit)* | Geometric theorem: three equal-strength resonances at 120° force the Foot-radius relation and yield `Q = 2/3` exactly. This geometric **identity** is exact and audited. **Scope (clarified 2026-04-18)**: equal-amplitude premise is underwritten by shared U(1)_em coupling forcing `A_e = A_μ = A_τ`. Neutrinos deviate (confirmed — see Neutrino Non-Universality row). **What is NOT derived**: why the physical charged-lepton vacuum selects the equal-norm point. The identity holds exactly given the equal-amplitude premise; deriving that premise from PF dynamics is the open gap. Confidence 0.95 applies to the geometric identity only, not to broad "Koide DERIVED" claims. **Cross-reference (added 2026-06-30):** `degenerate_residue_forces_circulant` in `lean/PfLean/Z3FromBareMedium.lean` proves that for D≥2, zero diagonal (H7) + equal row sums (H18) + degenerate residue eigenvalue force `M = c/(D-1)·(J-I)`. At D=3, `D3_symmetric_zero_diag_equal_rows_forces_JI` shows this is equivalent to the symmetric J-I/circulant condition. This is a structural cross-reference to the closest Lean-verified result near the open equal-amplitude premise gap; it does not derive H7/H18/degenerate residue from PF vacuum dynamics, and physical vacuum selection remains OPEN. | Proof that the 120° equal-strength resonance geometry does not imply `Q = 2/3`, or a contradiction in the Foot-radius step, or a charged-lepton mass measurement drifting > 3σ from `Q = 2/3`. | 0.95 (identity) / OPEN (selection) |
 | **Koide U(3) entropy selector** | **ARGUED** | Codex audit (2026-04-15): the refined Route A over the scalar/traceless `u(3)=u(1)⊕su(3)` split is mathematically clean but not yet PF-derived as a physical selector. Exact part: for the diagonal amplitude matrix `X=diag(sqrt(m_i))`, the binary sector weight `p = ||u(1)-part||_F^2 / ||X||_F^2` satisfies `p = 1/(3Q)`, so binary Shannon entropy `S(p) = -p log p - (1-p) log(1-p)` is uniquely maximized at `p=1/2`, which implies `Q=2/3`. This sharpens the Koide selection frontier and confirms Manus's algebraic step. **What it does not yet show**: that Axiom 3 or PF vacuum dynamics must maximize this particular entropy in this particular split. Therefore this route supports the Koide geometry but does not replace the main DERIVED row above. See `derivations/koide_u3_entropy_selector_audit_2026-04-15.md`, `derivations/koide_geometric_equivalence.md`, and `derivations/koide_selection_audit.md`. | A better-motivated PF selector on the same `u(1)/su(3)` space choosing a different point; proof that the relevant decomposition is not the scalar/traceless split; or proof that PF coherence dynamics do not extremize this entropy. | 0.72 |
 | U(3) Entropy Maximization | ARGUED | 0.5 | The ratio p = ||U(1)||²/||X||² is mathematically maximized at p=1/2, matching the Q=2/3 mass distribution. | 0.75 |
-| **Koide Phase (\(\delta_0 \bmod 2\pi/3 \approx 2/9\))** | **EMPIRICAL** | Wave 5 (2026-03-25): `koide_phase_scan.py` confirms δ_exact = 0.222229631490 rad, |δ−2/9| = 7.4×10⁻⁶ (0.003%). **Rerun 2026-04-02 confirmed**: strongest empirical anchor in the framework. CF expansion [0;4;2;1665] — giant partial quotient means 2/9 is anomalously best rational approx up to denominator 36. Bootstrap: δ at 0.1th percentile of simplicity (p≈0). **T-022 (2026-04-12)**: Casimir selector scan returned an honest negative. No physical spin assignment or bounded algebraic combination in the scanned Casimir sector produced `x* = 2/9`; the only near-hit was the already-known Weinberg pair `(j=1/2, j=1)` giving `0.22310`. **T-021 (2026-04-13)**: RG convention audit returned an honest negative. The direct on-shell quantity `1 - M_W^2/M_Z^2` is fixed, not running; the effective leptonic angle is a Z-pole observable; and the audited `MS-bar` running angle `s_hat^2(mu)` does **not** support the sentence "`sin^2(theta_W)` runs to δ at `mu≈98 GeV`." **ALGEBRAIC CHECK (2026-03-25)** still stands: (1) δ_Koide = 2/9 is measurement-consistent (0.029σ). (2) sin²θ_W ≠ 2/9 algebraically confirmed: test `56√3−9√57=29` fails, `LHS=29.046`. (3) Gap sin²θ_W−δ remains a structured residual candidate, not a derivation. **RIVERO FILTER / 2026-04-20 CODEX AUDITS**: Rivero's "rational is always tan(theta), never theta" sharpened the type constraint. The projective lane failed as a selector: `tan(delta_exact) = 0.225961718896`, not `2/9`, and edge ratios are Möbius transforms of the same slope variable. The character-normal-form bridge also failed: it imports a charged-lepton `Z_3` labeling and repackages any real triple into Koide normal form. The scalar Chebyshev cubic `8f^3 + 12f^2 + 3f` isolates `cos(9δ)` but does **not** select the empirical phase; its minima are at `π/9`, `π/3`, and `5π/9` modulo `2π/3`, not at `δ≈2/9`. The historical proxy `f(δ)^6 * Σ_k 1/g_k(δ)^2` has **6** minima on `[0,2π)`, not 9, and the closest minimum misses `δ_emp` by `0.0396 rad` (~153× current phase uncertainty). **Current interpretation**: δ_Koide ≈ 2/9 remains a strong empirical phase anchor, but no audited PF-native selector currently exists. Harmonic-purity mechanisms are not equivalent to empirical phase selection. **PRE-REGISTERED PREDICTION (2026-04-01)**: The framework predicts δ = 2/9 exactly. Any selector derivation from Axiom 3 must output δ = 2/9 as the unique physical phase, not merely produce `cos(9δ)` or a `Z_3` harmonic tower. Any best-fit δ measurement using future lepton mass precision showing |δ − 2/9| > 3σ falsifies this sub-claim. Any selector argument producing a different rational number kills the 2/9 hypothesis. This row will be promoted from EMPIRICAL only if a PF-native derivation of δ = 2/9 is found; it is demoted to NOISE if the next precision lepton mass update shifts δ outside the 2/9 window. | Independent recalculation showing δ is not close to 2/9; or audited proof that no PF-native selector can produce δ = 2/9; or selector derivation producing δ ≠ 2/9. | 0.65 |
+| **Koide Phase (\(\delta_0 \bmod 2\pi/3 \approx 2/9\))** | **EMPIRICAL** | Wave 5 (2026-03-25): `koide_phase_scan.py` confirms δ_exact = 0.222229631490 rad, |δ−2/9| = 7.4×10⁻⁶ (0.003%). **Rerun 2026-04-02 confirmed**: strongest empirical anchor in the framework. CF expansion [0;4;2;1665] — giant partial quotient means 2/9 is anomalously best rational approx up to denominator 36. Bootstrap: δ at 0.1th percentile of simplicity (p≈0). **Look-elsewhere correction (Claude 2026-09-04, N=200k Monte-Carlo)**: at post-hoc bound q≤36, p≈0.006 (~2.5σ-equivalent). The q≤36 bound was taken from the CF expansion of the measured δ itself (post-hoc), so the p-value is circular. At pre-registered q≤9, p≈0.0004. At q≤100, p≈0.045. At q≤1000, p≈0.957. The coincidence is real at the stated bound but the bound matters. **T-022 (2026-04-12)**: Casimir selector scan returned an honest negative. No physical spin assignment or bounded algebraic combination in the scanned Casimir sector produced `x* = 2/9`; the only near-hit was the already-known Weinberg pair `(j=1/2, j=1)` giving `0.22310`. **T-021 (2026-04-13)**: RG convention audit returned an honest negative. The direct on-shell quantity `1 - M_W^2/M_Z^2` is fixed, not running; the effective leptonic angle is a Z-pole observable; and the audited `MS-bar` running angle `s_hat^2(mu)` does **not** support the sentence "`sin^2(theta_W)` runs to δ at `mu≈98 GeV`." **ALGEBRAIC CHECK (2026-03-25)** still stands: (1) δ_Koide = 2/9 is measurement-consistent (**0.89σ** — corrected 2026-09-04 by Claude Monte-Carlo propagation of PDG uncertainties; the previous "0.029σ" does not reproduce and appears to have used an error ~30× larger than PDG masses support). (2) sin²θ_W ≠ 2/9 algebraically confirmed: test `56√3−9√57=29` fails, `LHS=29.046`. (3) Gap sin²θ_W−δ remains a structured residual candidate, not a derivation. **RIVERO FILTER / 2026-04-20 CODEX AUDITS**: Rivero's "rational is always tan(theta), never theta" sharpened the type constraint. The projective lane failed as a selector: `tan(delta_exact) = 0.225961718896`, not `2/9`, and edge ratios are Möbius transforms of the same slope variable. The character-normal-form bridge also failed: it imports a charged-lepton `Z_3` labeling and repackages any real triple into Koide normal form. The scalar Chebyshev cubic `8f^3 + 12f^2 + 3f` isolates `cos(9δ)` but does **not** select the empirical phase; its minima are at `π/9`, `π/3`, and `5π/9` modulo `2π/3`, not at `δ≈2/9`. The historical proxy `f(δ)^6 * Σ_k 1/g_k(δ)^2` has **6** minima on `[0,2π)`, not 9, and the closest minimum misses `δ_emp` by `0.0396 rad` (~153× current phase uncertainty). **Current interpretation**: δ_Koide ≈ 2/9 remains a strong empirical phase anchor, but no audited PF-native selector currently exists. Harmonic-purity mechanisms are not equivalent to empirical phase selection. **PRE-REGISTERED PREDICTION (2026-04-01)**: The framework predicts δ = 2/9 exactly. Any selector derivation from Axiom 3 must output δ = 2/9 as the unique physical phase, not merely produce `cos(9δ)` or a `Z_3` harmonic tower. Any best-fit δ measurement using future lepton mass precision showing |δ − 2/9| > 3σ falsifies this sub-claim. Any selector argument producing a different rational number kills the 2/9 hypothesis. This row will be promoted from EMPIRICAL only if a PF-native derivation of δ = 2/9 is found; it is demoted to NOISE if the next precision lepton mass update shifts δ outside the 2/9 window. **⚠ PRE-REGISTERED τ-MASS TRIGGER (2026-09-04, per Claude falsification attack)**: Both the Q=2/3 and δ=2/9 anchors are ~4× in τ-mass precision from failing their own >3σ criterion. Current central values are off-target by ~6-7×10⁻⁶; only σ(m_τ)=0.12 MeV keeps them consistent. Pre-registered trigger: if σ(m_τ) reaches 0.03 MeV with the central value within 0.05 MeV of 1776.86, both rows are falsified at >3σ and will be demoted. This is a live bet — if m_τ sharpens and drifts toward the Koide point, the framework gains its first genuinely risky confirmed prediction. σ(m_τ) is the single measurement that moves the most rows at once. | Independent recalculation showing δ is not close to 2/9; or audited proof that no PF-native selector can produce δ = 2/9; or selector derivation producing δ ≠ 2/9. | 0.65 |
 | **Three Generations** | **CONDITIONAL** | Once the numerator theorem (the physical `(2,1)` closure-weight branch) and the denominator theorem `M = 3` are both granted, the algebraic step is exact: `Q(N) = 2N/(2N+3) = 2/3 -> N = 3`. `derivations/three_generations_closed_proof.md` now records that assembly theorem cleanly with no extra hidden algebraic step. The remaining gaps are now explicit on both sides: T1 still owes a physical-realization theorem for the weight-2 branch, and Codex audit (2026-03-31) says the new T2 denominator draft still does **not** close `M = 3` from PF axioms alone. It proves only a conditional local lemma inside a `2x2` Fermi-point Hamiltonian ansatz; the live missing bridge is PF -> local `2x2` Fermi-point structure plus proof that its three perturbation directions are the three massive bosonic restoration modes of the coherence field. Codex audit (2026-04-22) rejected the phi-harmonic closure route as target-loaded: it imports `2N`, `M=3`, and `Q=2/3`, and without the exact-match bonus `N=4` beats `N=3` under the same score family. Codex audit (2026-05-20) similarly rejected the information-theoretic selector candidate as target-loaded, showing that it uses hand-coded $(N-3)$ penalties to artificially suppress $N=4$, which otherwise has more than double the stability margin of $N=3$. **Cross-reference (added 2026-06-30):** `D3_symmetric_zero_diag_equal_rows_forces_JI` in `lean/PfLean/Z3FromBareMedium.lean` proves that at D=3, symmetry (H17) + zero diagonal (H7) + equal row sums (H18) uniquely force the J-I form; `D4_symmetric_zero_diag_equal_rows_not_unique_JI` proves the same premises do not force J-I at D=4. This supports the denominator-side observation that D=3 is structurally special, but it does not close the T1 physical-realization bridge or the T2 derivation of `M=3` from PF axioms. See `three_generations_t2_audit_2026-03-28.md`, `t2_denominator_theorem_audit_2026-03-31.md`, `three_generations_closed_proof.md`, `t3_phi_harmonic_... | Formal proof that either the numerator or denominator theorem fails in PF, or a different justified counting rule leading to `N ≠ 3`. | 0.88 |
 | **N=3 → CP Violation (Structural Bridge)** | **ARGUED** *(added 2026-07-02 by Hermes)* | The CKM matrix for N=3 contains exactly one complex phase; for N=2 there is no complex phase. PF derives N=3 as the unique stable generation count (CONDITIONAL 0.88). Therefore PF predicts CP violation in quark mixing is structurally possible — because 3 generations are the mathematical minimum for a complex CKM phase, and PF says 3 is architecturally required. **This does NOT derive the phase magnitude (δ ≈ 1.2 rad).** It addresses only the existence/possibility question: why CP violation exists at all. See `derivations/n3_cp_violation_bridge.md`. | PF's N=3 derivation is falsified; or a 2-generation universe with CP violation is discovered; or the CKM phase is measured at exactly δ=0 or δ=π (CP-conserving values). | 0.70 |
 | **Top Quark Limit** | **ARGUED** | $m_t$ lifetime ($5 \times 10^{-25}$s) matches coherence ceiling threshold. | Discovery of a heavier stable quark ($m > 173$ GeV). | 0.85 |
@@ -9041,11 +9041,13 @@ Contemplative practices (Vedic, Sufi, Taoist, Shamanic) are 5,000-year-old **emp
 
 ### 2.1 Axiom Mapping
 
+**Note**: These mappings are analogical — contemplative practices share language with PF axioms, but this is not a PF derivation. See §6 and AGENTS_FULL Appendix F.4 for the canonical boundary.
+
 | Axiom | Contemplative Mapping | Status |
 | :--- | :--- | :--- |
-| **Axiom 1 (Propagation Fundamental)** | Mantra/Chant/Breath as propagating wave patterns. | **VALIDATED** |
-| **Axiom 2 (Causal Velocity)** | The 100ms "present moment" integration window (θ) corresponds to the alpha/theta refresh rate. | **VALIDATED** |
-| **Axiom 3 (Coherence = Structure)** | Contemplative practice as a **Coherence Tuning Protocol**. | **DERIVED** |
+| **Axiom 1 (Propagation Fundamental)** | Mantra/Chant/Breath as propagating wave patterns. | **INTUITION** (analogical) |
+| **Axiom 2 (Causal Velocity)** | The 100ms "present moment" integration window (θ) corresponds to the alpha/theta refresh rate. | **INTUITION** (analogical) |
+| **Axiom 3 (Coherence = Structure)** | Contemplative practice as a **Coherence Tuning Protocol**. | **INTUITION** (analogical) |
 
 ### 2.2 Greg's Insight: "Beauty as Impedance Matching"
 
@@ -10403,9 +10405,9 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 4. **Actions** (Qwen Code): Gap closure on CFE analysis, topological weight proof, and Navier-Stokes simulation architecture
 
 **Key outcomes**:
-- **CFE validated**: Coherence Field Equation (Perez 2026) predicts coherence propagates at v_g < c, directly validating PF Axiom 2
-- **Topological weight derived**: (2,1) partition rigorously derived from ??(SO(3)) = ?? (fundamental group of 3D rotation space)
-- **Consciousness threshold quantified**: CFE predicts CRI ? 0.40 ? 0.05 with ? ? 0.63 (3D Ising)
+- **CFE consistent with PF**: Coherence Field Equation (Perez 2026) predicts coherence propagates at v_g < c, consistent with PF Axiom 2 (not a validation — single preprint, shared language is not shared derivation)
+- **Topological weight derived**: (2,1) partition rigorously derived from π₁(SO(3)) = Z₂ (fundamental group of 3D rotation space)
+- **Consciousness threshold consistent**: CFE predicts CRI ≥ 0.40 ± 0.05 with ν ≈ 0.63 (3D Ising) — consistent with PF Axiom 3's coherence requirement, not a validation
 - **Fluid computer architecture known**: DeepMind 2025 + Tao mechanism provide blueprint for sandbox implementation
 
 <hr />
@@ -10526,21 +10528,21 @@ with **? ? 0.63** (3D Ising universality class).
 
 **PF Interpretation**: Logic gates are **refractive constraints** on propagation. Computation is propagation in a medium with specific boundary conditions (wires, transistors, etc.).
 
-**Critical Validation**: DeepMind found **only unstable singularities**. This validates PF Axiom 3: "Incoherent propagation disperses; coherent propagation persists."
+**Critical Observation**: DeepMind found **only unstable singularities**. This is consistent with PF Axiom 3: "Incoherent propagation disperses; coherent propagation persists." (Consistency, not validation — external literature alignment is not a PF derivation.)
 
 <hr />
 
-### 8. Subjective Divide is G?delian (Confidence: 0.98)
+### 8. Subjective Divide is Gödelian (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: Tarski's Undefinability Theorem, quantum gravity incompleteness (arXiv:2505.11773v3)
 
 **The Logical Chain**:
 1. Tarski: A consistent theory cannot define its own truth predicate
-2. G?del: A consistent system cannot prove its own consistency
+2. Gödel: A consistent system cannot prove its own consistency
 3. Quantum gravity: Cannot be both consistent and complete
 4. PF: Consciousness **IS** the truth predicate the system cannot define
 
-**Result**: The **objective/subjective split** is the G?delian boundary. The "outside view" (algorithmic physics) is limited by G?del/Tarski. The "inside view" (experience) is where the truth of coherence resides.
+**Result**: The **objective/subjective split** is the Gödelian boundary. The "outside view" (algorithmic physics) is limited by Gödel/Tarski. The "inside view" (experience) is where the truth of coherence resides.
 
 <hr />
 
@@ -10552,25 +10554,25 @@ with **? ? 0.63** (3D Ising universality class).
 - Axiom 2: Causal velocity = c
 - Region of radius R takes time R/c to achieve global coherence
 - Maximum information density that can be "held in phase" is limited by surface area
-- Result: S ? A/4G (holographic area law)
+- Result: S ≤ A/4G (holographic area law)
 
 **Status**: Conceptual derivation complete, formal proof needed (T-014).
 
 <hr />
 
-### 10. Unstable Singularities Validate Axiom 3 (Confidence: 0.95)
+### 10. Unstable Singularities Consistent with Axiom 3 (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: DeepMind 2025 discoveries (only unstable singularities found)
 
 **PF Axiom 3**: "Coherence is necessary for stable structure."
 
-**Validation**: DeepMind's systematic search found **only unstable singularities** in 3D Euler, IPM, and Boussinesq equations. No stable blowup solutions discovered.
+**Observation**: DeepMind's systematic search found **only unstable singularities** in 3D Euler, IPM, and Boussinesq equations. No stable blowup solutions discovered.
 
-**Interpretation**: Incoherent propagation (unstable singularities) disperses; only coherent propagation persists as stable structure. This is the first **empirical validation** of Axiom 3 from external literature.
+**Interpretation**: Incoherent propagation (unstable singularities) disperses; only coherent propagation persists as stable structure. This is consistent with Axiom 3 from external literature, but consistency is not validation — the alignment is between external findings and a PF axiom, not a PF derivation of those findings.
 
 <hr />
 
-### 11. Navier-Stokes Blowup as Matter Formation (Confidence: 0.92)
+### 11. Navier-Stokes Blowup as Matter Formation (Confidence: INTUITION — research-note estimate, not CLAIMS.md canonical tier)
 
 **Evidence**: DeepMind 2025 + Tao fluid computer mechanism
 
@@ -10580,7 +10582,7 @@ with **? ? 0.63** (3D Ising universality class).
 3. Exponentially-accelerating energy cascade
 4. Finite-time singularity: energy concentrates to a point
 
-**PF Interpretation**: This is the "voom" ? transition from pure propagation to matter (standing wave singularity). The architecture is known; sandbox implementation is the next step.
+**PF Interpretation**: This is the "voom" — transition from pure propagation to matter (standing wave singularity). The architecture is known; sandbox implementation is the next step.
 
 <hr />
 
@@ -10602,24 +10604,26 @@ $$Q = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2}
 
 ## Confidence Scores (Complete)
 
+**Note**: These are research-note estimates from the original literature sweep, NOT CLAIMS.md canonical tiers. Several were deflated in the v10 correction pass. The canonical tiers live in CLAIMS.md.
+
 | Topic | Confidence | Evidence |
 |-------|------------|----------|
-| **G?del limits apply to physics** | 0.99 | Multiple 2024-2026 papers, peer-reviewed |
+| **Gödel limits apply to physics** | 0.99 | Multiple 2024-2026 papers, peer-reviewed |
 | **Computational irreducibility fundamental** | 0.98 | Wolfram + independent CIR research |
-| **IIT 2025 converges with PF consciousness** | 0.98 | Direct textual comparison, CFE formalism |
-| **CFE causal velocity validates Axiom 2** | 0.99 | CFE paper explicitly derives v_g < c |
-| **CFE consciousness threshold validates Axiom 3** | 0.99 | CRI ? 0.40 with multiplicative necessity |
-| **Topological weight (2,1) from spinor cover** | 0.98 | Rigorous ??(SO(3)) = ?? derivation |
+| **IIT 2025 shares language with PF consciousness** | INTUITION (not convergence) | Direct textual comparison, CFE formalism — shared language is not shared derivation |
+| **CFE causal velocity consistent with Axiom 2** | ARGUED (not validation) | CFE paper explicitly derives v_g < c — consistency, not validation |
+| **CFE consciousness threshold consistent with Axiom 3** | ARGUED (not validation) | CRI ≥ 0.40 with multiplicative necessity — consistency, not validation |
+| **Topological weight (2,1) from spinor cover** | 0.95 | Rigorous π₁(SO(3)) = Z₂ derivation |
 | **Computation is constrained propagation** | 0.98 | Turing-complete fluids, DeepMind 2025 |
-| **Subjective divide is G?delian** | 0.98 | Tarski + quantum gravity incompleteness |
+| **Subjective divide is Gödelian** | INTUITION | Tarski + quantum gravity incompleteness — analogical, not derived |
 | **Holographic principle from propagation** | 0.95 | Banks 2025, Bekenstein from c |
-| **Unstable singularities validate Axiom 3** | 0.95 | DeepMind found ONLY unstable |
-| **Navier-Stokes blowup = matter formation** | 0.92 | DeepMind + Tao mechanism |
+| **Unstable singularities consistent with Axiom 3** | INTUITION (not validation) | DeepMind found ONLY unstable — consistency, not validation |
+| **Navier-Stokes blowup = matter formation** | INTUITION | DeepMind + Tao mechanism — speculative interpretation |
 | **Koide 2/3 from topological weights** | 0.90 | Plausible, needs formal proof |
-| **G?del universes physically viable** | 0.85 | f(Q,T) gravity (arXiv, not peer-reviewed) |
+| **Gödel universes physically viable** | 0.85 | f(Q,T) gravity (arXiv, not peer-reviewed) |
 | **PF fluid computer architecture known** | 0.70 | Architecture known, implementation pending |
-| **CFE provides mathematical formalism** | 0.99 | Full Lagrangian extracted |
-| **Critical exponent ? ? 0.63 from 3D Ising** | 0.95 | Hasenbusch 1998, universal |
+| **CFE provides mathematical formalism** | ARGUED | Full Lagrangian extracted — formalism is real, PF connection is analogical |
+| **Critical exponent ν ≈ 0.63 from 3D Ising** | 0.95 | Hasenbusch 1998, universal |
 | **GW dispersion testable prediction** | 0.85 | CFE predicts frequency-dependent speed |
 
 <hr />
@@ -10747,19 +10751,19 @@ When in conflict, trust in this order:
 
 ## Conclusion
 
-This research session achieved **substantial convergence** between the Propagation Framework and external literature (2024-2026):
+This research session identified **language alignment and consistency** between the Propagation Framework and external literature (2024-2026). Consistency is not validation — external literature sharing language with PF axioms does not derive those axioms.
 
 **What the PF got right**:
-- Self-reference as the core problem (G?del limits confirmed)
-- Consciousness as coherent self-referential propagation (IIT 2025 convergence)
+- Self-reference as the core problem (Gödel limits confirmed in external literature)
+- Consciousness as coherent self-referential propagation (IIT 2025 shares language — not convergence)
 - Observer-dependence of laws (Wolfram alignment)
 - Time as emergent (multiple frameworks agree)
 
-**What the PF gained**:
-- Mathematical formalism (from CFE)
+**What the PF gained (formalism, not derivation)**:
+- Mathematical formalism (from CFE — the formalism is real, the PF connection is analogical)
 - Topological derivation of (2,1) partition
-- Quantitative consciousness threshold (CRI ? 0.40)
-- Critical exponent prediction (? ? 0.63)
+- Quantitative consciousness threshold (CRI ≥ 0.40 — consistent with Axiom 3, not derived from it)
+- Critical exponent prediction (ν ≈ 0.63)
 - Fluid computer architecture for sandbox testing
 
 **What remains**:

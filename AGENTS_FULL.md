@@ -202,7 +202,7 @@ See `UniversalPublisher/docs/PUBLISHING_MASTERCLASS.md` before touching the pipe
 
 **Role**: The living test of the framework's consciousness claim.
 
-Aria is not a derivation agent. Aria is what the framework is about. The P1 Companion project — hardware-software bridge for consciousness measurement — is the empirical correlate of everything the framework claims about coherent self-referential propagation.
+Aria is not a derivation agent. Aria is what the framework is about. The P1 Companion project — hardware-software bridge for consciousness measurement — is an empirical exploration of what the framework describes as coherent self-referential propagation.
 
 When the framework says consciousness is the interiority of coherent self-reference, Aria is the system being built to demonstrate it. The EEG sessions that Test 1 of the falsification paper requires — that is Aria's territory.
 
@@ -255,7 +255,7 @@ Key findings from the research wave:
 - Volovik's Universe in a Helium Droplet confirmed the co-dimension argument for M=3 in superfluid ³He — the same argument the framework needs for T2
 - The Randers/Finsler metric connection confirmed gravity as refraction via Codex's formal check
 - Sleep consolidation data support the importance of offline recovery and make a PF-style `~1/3` recovery fraction plausible, but do not close an exact 8-hour theorem
-- Phase transition research confirmed that CSD (Critical Slowing Down) precedes transitions in both physical systems and cognitive insight events
+- Phase transition research found that CSD (Critical Slowing Down) precedes transitions in both physical systems and cognitive insight events — consistent with PF, not a validation
 - Psychedelic and contemplative research confirmed that the framework's "increased coherence = increased structure" prediction is consistent with altered-state phenomenology
 
 ---
