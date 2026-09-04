@@ -85,6 +85,41 @@ CORRECT_EIGENVALUE_VARIANTS = [
 ]
 CORRUPTED_EIGENVALUE = "{1, 1/8, 1/8}"
 
+# --- Claim-tier consistency gate (Phase 4.5) --------------------------------
+# Per DeepSeek 2026-09-04: the hash gate checks surface-to-surface identity,
+# not surface-to-CLAIMS consistency. This gate forbids overclaim language
+# that should have been corrected in v10/v10.1.
+#
+# Two categories:
+#   1. FORBIDDEN_PHRASES — must be ZERO everywhere (corrected in v10.1)
+#   2. FORBIDDEN_OUTSIDE_APPENDIX_F — must be ZERO outside Appendix F sections
+#
+# Appendix F is identified by the boundary header:
+#   "APPENDIX F — SPECULATIVE EXTENSIONS"
+# Content after that header is exempt (it's explicitly labeled speculative).
+# Content before it must not carry these phrases.
+
+FORBIDDEN_PHRASES = [
+    # v10.1 corrections — these should be ZERO everywhere
+    "converges with PF consciousness",
+    "CFE causal velocity validates Axiom 2",
+    "CFE consciousness threshold validates Axiom 3",
+    "IIT 2025 converges with PF",
+    "first empirical validation of Axiom 3",
+    "directly validating PF Axiom 2",
+    "substantial convergence between the Propagation Framework",
+]
+
+# Phrases allowed in Appendix F (speculative) but forbidden elsewhere
+FORBIDDEN_OUTSIDE_APPENDIX_F = [
+    "validates Axiom 2",
+    "validates Axiom 3",
+    "validates PF Axiom",
+]
+
+# The Appendix F boundary marker — content from this point onward is exempt
+APPENDIX_F_MARKER = "APPENDIX F — SPECULATIVE EXTENSIONS"
+
 
 # --- Text loading and normalization ---------------------------------------
 
@@ -173,6 +208,48 @@ def check_mandatory_tokens(surfaces: dict) -> dict:
                 )
             else:
                 results[token][name] = count
+    return results
+
+
+def split_at_appendix_f(text: str) -> tuple[str, str]:
+    """Split text into (pre_appendix_f, appendix_f_and_after).
+
+    If the Appendix F marker is not found, the entire text is pre-appendix-f
+    and the appendix-f portion is empty (fail-closed: no exemption granted).
+    """
+    idx = text.find(APPENDIX_F_MARKER)
+    if idx == -1:
+        return text, ""
+    return text[:idx], text[idx:]
+
+
+def check_claim_tier_consistency(surfaces: dict) -> dict:
+    """Check for forbidden overclaim language.
+
+    FORBIDDEN_PHRASES must be zero everywhere (corrected in v10.1).
+    FORBIDDEN_OUTSIDE_APPENDIX_F must be zero in the pre-Appendix-F portion
+    of each surface (allowed in Appendix F speculative section).
+    """
+    results = {
+        "forbidden_everywhere": {},
+        "forbidden_outside_f": {},
+    }
+
+    for name, text in surfaces.items():
+        pre_f, _ = split_at_appendix_f(text)
+
+        # Category 1: forbidden everywhere
+        for phrase in FORBIDDEN_PHRASES:
+            count = text.count(phrase)
+            if count > 0:
+                results["forbidden_everywhere"].setdefault(phrase, {})[name] = count
+
+        # Category 2: forbidden outside Appendix F
+        for phrase in FORBIDDEN_OUTSIDE_APPENDIX_F:
+            count = pre_f.count(phrase)
+            if count > 0:
+                results["forbidden_outside_f"].setdefault(phrase, {})[name] = count
+
     return results
 
 
@@ -323,6 +400,28 @@ def main():
             print(f"  {status} '{token}': {surface_counts}")
     print()
 
+    # --- Phase 4.5: Claim-tier consistency gate (content grep) --------------
+    print("--- Phase 4.5: Claim-tier consistency (forbidden overclaim language) ---")
+    tier_results = check_claim_tier_consistency(surfaces)
+    tier_failures = []
+
+    if tier_results["forbidden_everywhere"]:
+        print("  ❌ Forbidden phrases found (must be ZERO everywhere):")
+        for phrase, counts in tier_results["forbidden_everywhere"].items():
+            tier_failures.append(f"forbidden phrase '{phrase}': {counts}")
+            print(f"    ❌ '{phrase}': {counts}")
+    else:
+        print("  ✅ No forbidden phrases found anywhere")
+
+    if tier_results["forbidden_outside_f"]:
+        print("  ❌ Overclaim language found OUTSIDE Appendix F:")
+        for phrase, counts in tier_results["forbidden_outside_f"].items():
+            tier_failures.append(f"overclaim outside Appendix F '{phrase}': {counts}")
+            print(f"    ❌ '{phrase}' (outside Appendix F): {counts}")
+    else:
+        print("  ✅ No overclaim language outside Appendix F")
+    print()
+
     # --- Phase 5: Surface hashes -------------------------------------------
     print("--- Phase 5: Surface hashes (for audit binding) ---")
     hash_failures = []
@@ -343,7 +442,7 @@ def main():
 
     # --- Final verdict -----------------------------------------------------
     print("=" * 60)
-    all_failures = sign_failures + excluded_failures + token_failures + hash_failures
+    all_failures = sign_failures + excluded_failures + token_failures + tier_failures + hash_failures
     if all_failures:
         print(f"VERDICT: FAIL — {len(all_failures)} coherence failure(s):")
         for f in all_failures:
@@ -354,6 +453,7 @@ def main():
         print("  • Eigenvalue signs correct on all surfaces")
         print("  • All excluded terms absent from all surfaces")
         print("  • All mandatory tokens present on all surfaces")
+        print("  • No forbidden overclaim language (claim-tier consistency gate)")
         if expected_hashes:
             print("  • All surface hashes match expected values (STRICT mode)")
         sys.exit(0)
