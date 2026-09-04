@@ -119,15 +119,15 @@ gap A:  sin²θ_W − 2/9     = +8.791 × 10⁻⁴
 gap B:  sin²θ_W − δ_Koide = +8.717 × 10⁻⁴
 gap C:  δ_Koide − 2/9     = +7.409 × 10⁻⁶
 
-δ_uncertainty (from m_τ ± 0.12 MeV) = 2.58 × 10⁻⁴ rad
+δ_uncertainty (from m_τ ± 0.12 MeV) = 8.35 × 10⁻⁶ rad  [corrected 2026-09-04: was 2.58×10⁻⁴, a stale value 30.9× too large]
 |δ_exact − 2/9|                      = 7.41 × 10⁻⁶ rad
-ratio gap/uncertainty                = 0.029
+ratio gap/uncertainty                = 0.89  [corrected: was 0.029, derived from stale uncertainty]
 ```
 
 ### Three conclusions
 
 **1. δ_Koide IS 2/9 within measurement uncertainty.**
-The gap of 7.4×10⁻⁶ is 0.029× the m_τ measurement uncertainty. Any future precision m_τ measurement within current uncertainty is fully consistent with δ_exact = 2/9 exactly.
+The gap of 7.4×10⁻⁶ is 0.89× the m_τ measurement uncertainty. Any future precision m_τ measurement within current uncertainty is fully consistent with δ_exact = 2/9 exactly. **Note (2026-09-04)**: the previous "0.029σ" was based on a stale uncertainty value 30.9× too large. The correct value is 0.89σ — still consistent, but much closer to the 1σ edge than previously stated. See Claude's Monte-Carlo verification (N=200k) and the τ-mass pre-registration trigger in CLAIMS.md.
 
 **2. sin²θ_W ≠ 2/9 algebraically — definitively.**
 The Casimir polynomial gives sin²θ_W = 1 − x₊(1/2)/x₊(1) = (−5 + 8√3 − √57)/(8(√3−1)).
@@ -169,7 +169,7 @@ So the RG bridge is removed. Any remaining Koide/Weinberg connection must be PF-
 
 The layered picture from Section 6 survives intact, but now with sharper distinctions:
 
-- **δ_Koide = 2/9 is a measurement-consistent hypothesis** (not falsified, 0.029σ away).
+- **δ_Koide = 2/9 is a measurement-consistent hypothesis** (not falsified, 0.89σ away — corrected 2026-09-04 from stale 0.029σ).
 - **sin²θ_W ≠ 2/9** — these are two genuinely distinct quantities sharing a 0.4% proximity.
 - **The proximity sin²θ_W ≈ δ_Koide ≈ 2/9** is triple: the Casimir-derived Weinberg angle, the Koide phase, and the simple fraction 2/9 all cluster within 0.4%. Whether this is a single derivation target or three separate coincidences is the key open question.
 
