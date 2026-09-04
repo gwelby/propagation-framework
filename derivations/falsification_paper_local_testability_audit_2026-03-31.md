@@ -80,7 +80,7 @@ This was corrected in the paper patch for this audit pass.
 
 | Test | Local status | What we can do now | What remains external |
 | :--- | :--- | :--- | :--- |
-| TEST 1 — EEG phase transition | **Partially self-testable** | Run synthetic / proxy scripts locally; run real analysis if Python deps + EEG data/headset are installed | Multi-subject pre-registered confirmation |
+| TEST 1 — EEG phase transition | **Untested — simulator only** | Run synthetic / proxy scripts locally | Real-data validation requires EEG hardware and dataset access; no multi-subject study conducted |
 | TEST 2 — Neutrino Koide | **Self-testable now from public mass-squared data** | Recompute `Q_nu` from current oscillation inputs; local result is already negative for universality | JUNO can tighten the error bars |
 | TEST 3 — Fourth generation exclusion | **Not self-testable locally** | Restate the framework's logical prediction only | Requires collider discovery / null searches |
 | TEST 4 — Tau g-2 | **Not self-testable locally** | No quantitative local `delta a_tau` prediction is closed yet | Requires Belle II or equivalent |

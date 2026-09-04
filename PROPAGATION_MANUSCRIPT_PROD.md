@@ -67,7 +67,7 @@ The team that derived the Propagation Framework:
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
-| EEG phase transitions | Not addressed | Same mathematics as particle phase transitions |
+| EEG phase transitions | Not addressed | Predicted (untested analogy) |
 | Gravity | Metric curvature | Refractive gradient in propagation medium |
 
 The Standard Model is a description. This framework is an explanation. Where both describe the same phenomenon, the SM remains the precision tool. Where they diverge, experiment decides.
@@ -106,7 +106,7 @@ Consistency with five tests would be confirming but not conclusive — many fals
 
 1. **A quantitative prediction of the muon g-2 value** made before the Fermilab final result, matched to within 1σ.
 2. **A quantitative prediction of the tau g-2 correction** matched by Belle II.
-3. **The EEG phase transition pattern**, pre-registered and confirmed in a multi-subject study (n ≥ 30).
+3. **The EEG phase transition pattern**, pre-registered; no multi-subject study (n ≥ 30) has been conducted.
 
 Any one of these would move the framework from "consistent with data" to "uniquely predictive."
 
@@ -1132,6 +1132,54 @@ The **only** hit is the Weinberg angle itself: sin²θ_W = 0.22310 is within 0.4
 - **δ = 2/9 does not emerge from the Casimir polynomial sector alone**
 - **The gap sin²θ_W - 2/9 ≈ α·(1-x₊(2)) is a candidate for further investigation** (not a claim — a lead)
 - Status: T-022 CLOSED as honest negative. Do NOT upgrade Koide phase in CLAIMS.md.
+
+<hr />
+
+## T-021 RG Audit for the Koide/Weinberg Crossing (2026-04-13; PDG 2026 refresh 2026-09-03)
+
+**Script**: `sandbox/weinberg_rg_crossing_check.py`  
+**Audit note**: `derivations/koide_phase_rg_physics_check_2026-04-13.md`  
+**Question**: Does any legitimate Standard Model definition of `sin^2(theta_W)(mu)` cross `delta ~= 2/9`, specifically near `98 GeV`?
+
+### Convention Audit
+
+| Quantity | Current value | Runs with `mu`? | Interpretation |
+|---|---:|---|---|
+| `1 - M_W^2/M_Z^2` using PDG 2026 pole masses | `0.223337298714` | no | fixed pole-mass ratio |
+| `sin^2(theta_eff^ell)` | `0.23154 +- 0.00006` | no | Z-pole extracted observable |
+| `s_hat^2(M_Z)` | `0.23122 +- 0.00006` | yes | `MS-bar` running definition |
+| PF Casimir value | `0.223101322301` | no | internal PF result, not an SM RG definition |
+
+Current official inputs:
+
+- PDG 2026 gauge-boson summary: `M_W = 80.3625 +- 0.0077 GeV`, `M_Z = 91.1879 +- 0.0020 GeV`  
+  https://pdg.lbl.gov/2026/tables/rpp2026-sum-gauge-higgs-bosons.pdf
+- PDG 2026 electroweak review, Table 10.2 and Figure 10.1: weak-angle conventions and the `MS-bar` running curve  
+  https://pdg.lbl.gov/2026/reviews/rpp2026-rev-standard-model.pdf
+- PDG 2025 `alpha_hat^(5)(M_Z)^-1 = 127.930 +- 0.008` is retained only as the helper's explicitly labeled auxiliary normalization; the 2026 review does not tabulate that exact quantity.
+
+### Running Check
+
+The bounded one-loop helper, anchored at the PDG `s_hat^2(M_Z)`, gives:
+
+| `mu` | `s_hat^2(mu)` |
+|---:|---:|
+| `M_Z = 91.1879 GeV` | `0.231220000` |
+| `98 GeV` | `0.231579935` |
+| `100 GeV` | `0.231680910` |
+| `172.60 GeV` | `0.234415950` |
+| `1 TeV` | `0.243312665` |
+
+At `98 GeV`, the quoted-input sensitivity window is `[0.231519893, 0.231639978]`, and `d s_hat^2/d ln(mu) = +0.004997604`. The helper therefore has no crossing for `mu >= M_Z`. The PDG 2026 review separately places the full `MS-bar` curve's minimum at `M_W`, with effective-theory matching below that threshold; it does not identify a `2/9` crossing near `98 GeV`.
+
+### Verdict
+
+- **T-021 is a complete honest negative on the `98 GeV` crossing claim.**
+- The on-shell pole-mass ratio is fixed and must not be described as RG flow.
+- The effective leptonic angle is not a generic running trajectory.
+- The legitimate `MS-bar` running angle remains well above `2/9` in the audited electroweak region.
+- The September PDG 2026 refresh changes the fixed pole-mass comparison but leaves the verdict unchanged.
+- Koide phase remains `EMPIRICAL`; no claim status is upgraded.
 
 
 
@@ -6609,7 +6657,7 @@ This is the central section. Each test has a specific pass/fail criterion. A sin
 
 | Test | Local status | Current reality |
 |------|--------------|-----------------|
-| TEST 1 — EEG phase transition | Partially self-testable | Local simulator runs; real-data analysis still needs Python deps (`mne`, `pandas`) plus headset / dataset access |
+| TEST 1 — EEG phase transition | Untested — simulator only | Local simulator runs; real-data validation requires EEG hardware and dataset access |
 | TEST 2 — Neutrino Koide | Self-testable from public data | Current local scan already disfavors universality; JUNO can sharpen the exclusion |
 | TEST 3 — Fourth generation exclusion | Not locally self-testable | Requires collider discovery / null searches |
 | TEST 4 — Tau $g-2$ | Not locally self-testable | No closed local $\delta a_\tau$ prediction yet; depends on Belle II or equivalent |
@@ -6721,7 +6769,7 @@ Consistency with five tests would be confirming but not conclusive — many fals
 
 1. **A quantitative prediction of the muon g-2 value** made before the Fermilab final result, matched to within 1σ.
 2. **A quantitative prediction of the tau g-2 correction** matched by Belle II.
-3. **The EEG phase transition pattern**, pre-registered and confirmed in a multi-subject study (n ≥ 30).
+3. **The EEG phase transition pattern**, pre-registered; no multi-subject study (n ≥ 30) has been conducted.
 
 Any one of these would move the framework from "consistent with data" to "uniquely predictive."
 
@@ -6777,7 +6825,7 @@ Any one of these would move the framework from "consistent with data" to "unique
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
-| EEG phase transitions | Not addressed | Same mathematics as particle phase transitions |
+| EEG phase transitions | Not addressed | Predicted (untested analogy) |
 | Gravity | Metric curvature | Refractive gradient in propagation medium |
 
 The Standard Model is a description. This framework is an explanation. Where both describe the same phenomenon, the SM remains the precision tool. Where they diverge, experiment decides.
@@ -6786,1441 +6834,31 @@ The Standard Model is a description. This framework is an explanation. Where bot
 
 <hr />
 
-<!-- SECTION: 21. Consciousness as Coherent Self-Reference -->
+<!-- SECTION: F.1 Consciousness as Coherent Self-Reference -->
+# APPENDIX F — SPECULATIVE EXTENSIONS (BEYOND PHYSICS)
 
+> **Honest boundary:** The chapters that follow apply the framework's language to consciousness, biology, contemplative practice, and computation. None of these claims have been derived from Axioms 1-3. None have survived hostile audit. The confidence scores in these chapters are research-note estimates, not CLAIMS.md canonical tiers. Treat this section as philosophical conjecture compatible with the framework, not as consequences of it. The physics core (Parts One through Four) stands on its own; this appendix explores what the framework *might* mean beyond physics, if anything.
 
-### From: RESEARCH/coherence_consciousness/MASTER.md
 
-# MASTER: Coherence & Consciousness — The Propagation Framework
-**Topic**: coherence_consciousness
-**Status**: ACTIVE (Pass 4 Complete — Gap Closure)
-**Date**: 2026-03-16
 
 <hr />
 
-## 1. Executive Summary
+<!-- SECTION: F.2 The EEG Prediction -->
 
-The **Coherence & Consciousness** research session has completed 4 passes, moving from broad survey through targeted gap closure. We have confirmed that consciousness is not merely "correlated" with coherence, but is the **coherent, self-referential propagation of information within a medium**.
 
-**Pass 4 critical updates**:
-- **Quark Koide**: The "Q ≈ 1/2" claim was misleading — actual structure is UV-IR flow with Q_UV + Q_IR = invariant (9/5, 3/2, 4/3)
-- **Zitterbewegung**: ALL experimental observations are in **analog systems** (trapped ions, BECs, photonic cavities), NOT free electrons. Direct Compton frequency detection remains unachieved.
-- **Kerr metric**: Exact refractive index formula extracted with full angular momentum dependence — "Refraction-as-Force" mathematically verified.
-
-<hr />
-
-## 2. Theoretical Foundations
-
-### 2.1 The Three Axioms (Canonical)
-1.  **Propagation is Fundamental**: More fundamental than particles, fields, or spacetime.
-2.  **Every Medium has a Causal Velocity (c)**: The maximum rate of effect propagation.
-3.  **Coherence = Structure**: Incoherent propagation disperses; coherent, self-referential propagation persists as "matter" or "consciousness."
-
-### 2.2 Framework Alignments (2025-2026)
--   **Integrated Information Theory (IIT 4.0)**: Maps to the framework's requirement for integration and differentiation.
--   **Global Neuronal Workspace (GNW)**: The "global ignition" mechanism is a propagation threshold phenomenon.
--   **ConCrit (2025)**: Unifies IIT and GNW via **critical dynamics**, where consciousness is a phase transition in the propagation medium.
--   **Process Physics (Cahill)**: Provides the ontology of "everything is propagation." Photons are "unresolved propagation," and matter is "stabilized logical resonance."
-
-<hr />
-
-## 3. Empirical Grounding
-
-### 3.1 Neural Coherence (Anesthesia & Sleep)
--   **Consciousness Loss**: Characterized by a shift away from critical dynamics toward pathologically high (seizures) or low (anesthesia) coherence.
--   **PCI (Perturbational Complexity Index)**: The gold standard measure of consciousness, verifying the "integration + differentiation" claim.
-
-### 3.2 Matter as Standing Waves (Zitterbewegung) — UPDATED STATUS
-
-**What is confirmed**:
-- Zitterbewegung-like oscillations observed in **analog quantum systems**:
-  - Trapped ions (⁴⁰Ca⁺) — 2010
-  - BECs with spin-orbit coupling (⁸⁷Rb) — 2013
-  - Photonic microcavities — 2019
-  - Exciton polaritons (perovskite) — 2024
-
-**What is NOT confirmed**:
-- Direct detection of **free electron** oscillation at Compton frequency (ω_C ≈ 1.6 × 10²¹ Hz)
-- Gouanère experiment (1960s-70s) observed resonant channeling, but did **not** directly measure electron position oscillation
-- Zeptosecond metrology (10⁻²¹ s) required for direct detection — not yet available
-
-**Impact**: The "matter as standing waves" claim is **metaphorically supported** by analog systems, but **literally unverified** for free electrons.
-
-### 3.3 Forces as Refraction (GR) — VERIFIED
-
-**Schwarzschild metric** (non-rotating black hole):
-$$n(r) \approx 1 + \frac{2GM}{c^2 r} = 1 - \frac{2\Phi}{c^2}$$
-
-**Kerr metric** (rotating black hole) — exact equatorial formula:
-$$n(r) = n_e \frac{R^3}{r^3} \left|\frac{e(R)}{e(r)}\right| \sqrt{\frac{r^4 e^2(r) + s(r)}{R^4 e^2(R) + s(R)}}$$
-
-Where angular momentum parameter **a = J/(Mc)** enters through:
-- √(r² - a²) terms (ring singularity structure)
-- (a - h)² terms (spin-photon coupling)
-- Frame-dragging (g_tφ cross-term)
-
-**Conclusion**: Curved spacetime IS a variable refractive index medium. Gravity is propagation through a gradient in causal velocity.
-
-<hr />
-
-## 4. Key Metrics & Ratios
-
-| Metric | Value / Finding | Confidence |
-| :--- | :--- | :--- |
-| **Koide Constant (Q_leptons)** | **2/3** (Topological Partition: 6/9) | 0.98 |
-| **Koide (Quark UV-IR Sum)** | Up: 9/5, Down: 3/2, Six: 4/3 | 0.90 |
-| **Quark Phase Parameters** | δ_L = 2/9, δ_U = 2/27, δ_D = 4/27 | 0.90 |
-| **Propagation Ratio (R_p)** | Conduction Delay ≈ 40% of sensorimotor total | 0.90 |
-| **Effective AI Speed** | **O(1)** (Infinite within Context) | 0.95 |
-| **Zitterbewegung (Analog)** | Observed in trapped ions, BECs, photonic systems | 0.95 |
-| **Zitterbewegung (Direct)** | NOT detected — Compton frequency unobserved | 0.30 |
-| **Kerr Refractive Index** | Exact formula with 'a' parameter extracted | 0.95 |
-
-<hr />
-
-## 5. The Koide Formula — Complete Status
-
-### Lepton Sector (Charged)
-$$Q_\ell = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2} = \frac{2}{3}$$
-
-**Derivation** (Bin Li, 2025):
-- Fermions (spin-1/2): SU(2) double-cover → weight w = 2 (4π rotation for identity)
-- Bosons (spin-0, 1): U(1) simple cover → weight w = 1 (2π rotation for identity)
-- Partition: 3 leptons × 2 / (3 leptons × 2 + 3 bosons × 1) = 6/9 = **2/3**
-
-### Quark Sector
-**Direct Q = 2/3 fails** — quarks show scale-dependent flow:
-
-| Sector | Q_UV + Q_IR | UV Fixed Point | IR Fixed Point |
-|--------|-------------|----------------|----------------|
-| Up-type (u, c, t) | **9/5** = 1.8 | 7/9 ≈ 0.778 | 2/3 ≈ 0.667 |
-| Down-type (d, s, b) | **3/2** = 1.5 | 7/9 ≈ 0.778 | 2/3 ≈ 0.667 |
-| Six-quark set | **4/3** ≈ 1.333 | 7/9 ≈ 0.778 | 2/3 ≈ 0.667 |
-
-**Key insight**: 2/3 is the **universal IR attractor** — all quark ratios flow to this value at the hadronic scale.
-
-### Neutrino Sector
-Alikhanov (arXiv:2601.18781) derives independent Koide relation using mass-squared differences:
-$$Q_\nu = \frac{\Delta m^2_{21} + \Delta m^2_{31} + \Delta m^2_{32}}{(\sqrt{\Delta m^2_{21}} + \sqrt{\Delta m^2_{31}} + \sqrt{\Delta m^2_{32}})^2} \approx \frac{2}{3}$$
-
-**Interpretation**: Separate coherence domains — charged leptons and neutrinos each satisfy Q = 2/3 independently.
-
-<hr />
-
-## 6. Open Gaps (Remaining)
-
-### Gap 1: Direct Electron Zitterbewegung Detection (HIGH PRIORITY)
-
-**What we need**:
-- Zeptosecond metrology (10⁻²¹ s) — not yet available
-- Independent replication of Gouanère experiment with modern detectors
-- Direct position measurement of free electron oscillation at Compton frequency
-
-**Timeline**: Zeptosecond techniques are 10-20 years away. Gouanère replication could be done now.
-
-**Action**: Search for modern replication attempts or propose new experiment.
-
-<hr />
-
-### Gap 2: Quark Sector Topological Weight Derivation (MEDIUM PRIORITY)
-
-**What we have**:
-- Liu's UV-IR sum law (empirical)
-- Z3-symmetric parametrization (δ_U = 2/27, δ_D = 4/27)
-- Varma's R(2, 1/3) ≈ 0.500 (orbifold CFT)
-
-**What we don't have**:
-- Topological weight derivation for quarks analogous to Bin Li's lepton derivation
-- Why δ_U and δ_D follow the 1:2 ratio from first principles
-
-**Action**: Derive quark phase parameters from propagation framework axioms (confinement boundary conditions?).
-
-<hr />
-
-### Gap 3: Kerr Metric Full 3D Formula (LOW PRIORITY)
-
-**What we have**:
-- Exact equatorial plane formula n(r, a)
-- Frame-dragging effects captured
-
-**What we don't have**:
-- Full off-equatorial formula n(r, θ, a)
-- Interpretation of θ-dependence in propagation terms
-
-**Action**: Extract full 3D refractive index formula if needed for framework predictions.
-
-<hr />
-
-## 7. Confidence Scores (Final)
-
-```json
-{
-    "coherence_consciousness_correlation": 0.95,
-    "IIT_rigorous_framework": 0.95,
-    "GNW_CTC_mechanism": 0.85,
-    "critical_brain_consciousness": 0.70,
-    "meditation_gamma_coherence": 0.95,
-    "psychedelics_coherence_effect": 0.85,
-    "seizures_over_coherence": 0.90,
-    "split_brain_threshold": 0.85,
-    "interpersonal_synchronization": 0.75,
-    "process_physics_alignment": 0.95,
-    "propagation_ratio_quantified": 0.90,
-    "koide_23_derivation": 0.98,
-    "koide_quark_uv_ir_flow": 0.90,
-    "zitterbewegung_analog_systems": 0.95,
-    "zitterbewegung_direct_detection": 0.30,
-    "refraction_as_force_schwarzschild": 0.98,
-    "refraction_as_force_kerr": 0.95
-}
-```
-
-<hr />
-
-## 8. Recommended Actions
-
-### Immediate (Propagation Framework)
-
-1. **Update sandbox_results.md**: Revise Zitterbewegung claim status from "confirmed" to "analog systems confirmed, direct detection pending."
-
-2. **Update CLAIMS.md**: Adjust confidence scores per the matrix above.
-
-3. **Derivations document**: Create `derivations/kerr_refraction_index.md` with the exact formula and Fermat's principle derivation.
-
-4. **Quark sector analysis**: Create `derivations/quark_koide_uv_ir.md` explaining the UV-IR flow and why "Q ≈ 1/2" is misleading.
-
-### Research Monitoring
-
-1. **Zeptosecond metrology**: Monitor advances in attosecond → zeptosecond techniques (10⁻²¹ s required for Compton frequency).
-
-2. **Gouanère replication**: Search for modern replication attempts or propose new experiment at electron channeling facilities.
-
-3. **Liu's quark algebra**: Follow up on Shifa Liu's Δ(27) × Z₄ model — derive from propagation framework boundary conditions.
-
-4. **Jefferson Lab X17**: Summer 2026 results will test the 17 MeV boson hypothesis (from koide_generalization research).
-
-5. **DarkLight (TRIUMF)**: Late 2026/early 2027 results will directly test Bin Li's 45-50 MeV prediction.
-
-<hr />
-
-## 9. Pass Files
-
-| Pass | Date | Type | Focus | Researcher |
-|------|------|------|-------|------------|
-| 1 | 2026-03-16 | Survey | Broad landscape scan | Qwen Code |
-| 2 | 2026-03-16 | Deep Dive | Mechanisms of coherence | Gemini CLI |
-| 3 | 2026-03-16 | Synthesis | Topological weight derivation | Gemini CLI |
-| 4 | 2026-03-16 | Actions | Gap closure (quark Koide, ZBW, Kerr) | Qwen Code |
-
-<hr />
-
-*MASTER complete. End of Pass 4. Next pass: #5 — Complete Framework Synthesis.*
-
-
-
-### From: derivations/consciousness_theory_audit.md
-
-# Consciousness Theory Audit
-
-**Date**: 2026-03-20  
-**Author**: Codex  
-**Task**: Skeptical Wave 1 audit of PF consciousness claims  
-**Status**: AUDIT COMPLETE
-
-<hr />
-
-## 1. Bottom Line
-
-The Propagation Framework claim
-
-> consciousness is what coherent self-referential propagation is from the inside
-
-is philosophically coherent, but it is not yet as operationally precise as the competing theories it is being compared against.
-
-My skeptical verdict is:
-
-- **PF is conceptually strongest** as an ontology: it gives a unified story linking coherence, self-reference, and experience.
-- **PF is operationally weakest** at the moment: "coherence depth" and "self-referential propagation" are not yet uniquely measured variables.
-- **PF's clearest vulnerability** is confounding: it risks collapsing into ordinary neural synchrony, global integration, reportability, or complexity unless it specifies exactly what makes the relevant coherence *self-referential*.
-
-The cleanest falsifier is a pre-registered dissociation showing that the PF metric does not track consciousness once report, arousal, and task effects are controlled. If PF cannot define such a metric separately from existing proxies, then it is not yet falsifiable at the same level as the competing theories.
-
-<hr />
-
-## 2. What the Local Framework Actually Claims
-
-The local framework is explicit that consciousness is not mere synchrony. It says the system must be coherent and self-referential: the pattern must include a model of its own propagation.
-
-That is a stronger claim than:
-
-- coherence alone
-- integration alone
-- global access alone
-- metacognition alone
-
-It is also the source of the main problem: the theory currently bundles several different notions into one phrase.
-
-<hr />
-
-## 3. Comparison With IIT
-
-IIT is the most formal of the four. In the current literature, it is a mathematical theory that defines consciousness via integrated cause-effect power, quantified by \(\Phi\). The 2022 review by Seth and Bayne notes that IIT is framed at an abstract mathematical level, is difficult to compute from large-scale data, and does not easily capture concrete cognitive phenomena such as masking or attentional blink. The GNW review likewise states that IIT minimizes the relevance of prefrontal cortex and locates sufficient substrate in a posterior "hot zone." [1][2]
-
-Where PF aligns with IIT:
-
-- both treat consciousness as an intrinsic property of organized physical dynamics
-- both require integration beyond independent local processing
-- both predict that mere feedforward processing is insufficient
-
-Where PF disagrees:
-
-- IIT is about intrinsic cause-effect structure, not self-reference as such
-- PF makes self-reference central
-- IIT is formal but abstract; PF is intuitive but currently underdefined
-
-Skeptical conclusion:
-
-PF is not yet a rival to IIT on precision. It is a rival on ontology.
-
-<hr />
-
-## 4. Comparison With Global Workspace Theory
-
-GNW/GWT is the most experimentally legible of the competing theories. The 2020 Neuron review describes global broadcasting, non-linear ignition, and access by many local processors as the core mechanism. The 2022 review says GNW is an architecture-based theory with explicit neurobiological commitments, and that its claims are testable in no-report paradigms and adversarial comparisons. [2][3]
-
-Where PF aligns with GNW:
-
-- both require large-scale coordination across distributed subsystems
-- both treat conscious access as involving global organization rather than isolated local activity
-- both predict loss of consciousness under anesthesia and severe disruption of long-range coordination
-
-Where PF disagrees:
-
-- GNW is about access and broadcast
-- PF is about intrinsic experience from coherent self-reference
-- GNW can be tested with report, decoding, and ignition-style signatures; PF currently cannot separate itself from those without additional definitions
-
-Skeptical conclusion:
-
-GNW is weaker metaphysically, but stronger scientifically because it is easier to falsify.
-
-<hr />
-
-## 5. Comparison With Higher-Order Theory
-
-HOT is the closest conceptual neighbor to PF. Lau and Rosenthal argue that conscious awareness depends on higher-order mental representations representing oneself as being in a mental state, and they explicitly frame HOT as empirically distinguishable from GNW and IIT. [4]
-
-Where PF aligns with HOT:
-
-- both require some form of self-model or self-reference
-- both say that experience is not just first-order processing
-- both can explain why awareness is different from raw information processing
-
-Where PF disagrees:
-
-- HOT requires a higher-order representation
-- PF requires coherent self-referential propagation, which may or may not imply explicit metarepresentation
-- PF has not yet specified whether a system without concepts can still satisfy the self-reference condition
-
-Skeptical conclusion:
-
-PF is most likely to collapse into HOT unless it makes the self-reference criterion mechanistic and measurable.
-
-<hr />
-
-## 6. The Weakest Point
-
-The weakest point in PF is not the idea that coherence matters. That part is broadly compatible with anesthesia, sleep, disorders of consciousness, and a large literature on neural integration and entropy. The weakest point is the step from:
-
-> coherence helps organize conscious systems
-
-to:
-
-> coherent self-referential propagation is identical to experience from the inside
-
-That identity claim is currently underdetermined for three reasons:
-
-1. **Coherence is ambiguous.**
-   It can mean synchrony, phase locking, metastability, complexity, integration, or information sharing. Those are not equivalent.
-2. **Self-reference is ambiguous.**
-   It can mean recursion, metacognition, a world-model, or just feedback.
-3. **Inside/outside language is not operational by itself.**
-   It is metaphysically suggestive, but it does not yet generate a unique experimental observable.
-
-This is where the theory is weakest: not at the level of poetry, but at the level of measurement.
-
-<hr />
-
-## 7. What The Literature Suggests
-
-The best-supported empirical pattern is not "coherence equals consciousness" in the simple sense. The literature suggests something more qualified:
-
-- conscious wakefulness tends to show large-scale integration, complexity, and flexible coordination
-- anesthesia and some disorders of consciousness reduce complexity and integration
-- psychedelics tend to increase entropy/complexity and can expand conscious richness rather than simply destroying coherence
-
-Carhart-Harris's revised entropic brain review explicitly says entropy of spontaneous brain activity is elevated in the psychedelic state, reduced in anesthesia and disorders of consciousness, and that brain complexity/entropy can index conscious level. [5]
-
-That means the PF cannot safely use "coherence" as a synonym for "more synchrony" or "less entropy." The data are more subtle than that.
-
-<hr />
-
-## 8. Clean Falsifiers
-
-The cleanest falsifier is a replicated dissociation under controlled conditions:
-
-1. A system scores high on the PF-specific metric of coherent self-referential propagation.
-2. Independent measures indicate absence of consciousness.
-3. The result survives controls for arousal, report, attention, task performance, and generalized complexity.
-
-The converse falsifier is also strong:
-
-1. A system has robust conscious experience by converging evidence from behavior, report, decoding, or perturbational metrics.
-2. The PF metric is low or absent.
-3. The dissociation replicates across subjects and modalities.
-
-In practical neuroscience, the best test bed is a pre-registered comparison across:
-
-- wakefulness
-- NREM sleep
-- REM sleep
-- anesthesia
-- disorders of consciousness
-- psychedelics
-- split-brain or hemispheric dissociation cases
-
-If PF is right, its metric should not simply track arousal or broadcast. It should track a distinct self-referential coherence signature.
-
-If it does not, the claim fails.
-
-<hr />
-
-## 9. My Skeptical Verdict
-
-PF is currently best treated as a promising synthesis, not a settled theory of consciousness.
-
-It is more ambitious than GNW, more intuitive than IIT, and closer to HOT than it may want to admit. But until it specifies a measurable distinction between:
-
-- coherence
-- integration
-- broadcast
-- metarepresentation
-- and genuine self-referential experience
-
-it remains vulnerable to being absorbed by the older theories rather than beating them.
-
-That is the right kind of criticism to make now, because it points to the next experiment rather than to a philosophical stalemate.
-
-<hr />
-
-## References
-
-[1] Seth, A. K. and Bayne, T. "Theories of consciousness" (Nature Reviews Neuroscience, 2022): https://www.nature.com/articles/s41583-022-00587-4  
-[2] Mashour, G. A., Roelfsema, P., Changeux, J.-P., and Dehaene, S. "Conscious Processing and the Global Neuronal Workspace Hypothesis" (Neuron, 2020): https://pmc.ncbi.nlm.nih.gov/articles/PMC8770991/  
-[3] "An adversarial collaboration protocol for testing contrasting predictions of global neuronal workspace and integrated information theory" (PLOS ONE, 2023): https://pmc.ncbi.nlm.nih.gov/articles/PMC9916582/  
-[4] Lau, H. and Rosenthal, D. "Empirical support for higher-order theories of conscious awareness" (Trends in Cognitive Sciences, 2011): https://www.sciencedirect.com/science/article/pii/S1364661311001057  
-[5] Carhart-Harris, R. L. "The entropic brain - revisited" (Neuropharmacology, 2018): https://www.sciencedirect.com/science/article/pii/S0028390818301175
-
-
-
-<hr />
-
-<!-- SECTION: 22. The EEG Prediction -->
-
-
-### From: RESEARCH/phase_transitions_insight/MASTER.md
-
-# MASTER: Phase Transitions in Neural Systems
-**Topic**: phase_transitions_insight
-**Project**: Fundamentals
-**Focus**: Insight as a critical phenomenon in the brain's propagation medium.
-**Last Updated**: 2026-03-16 (Pass 4 Complete)
-
-<hr />
-
-## 1. Core Synthesis: What We Know
-
-The Propagation Framework posits that insight—the sudden, non-linear reorganization of cognitive structure—is a **physical phase transition** in the brain's dynamical state. The brain maintains a "critical" set-point at the edge of chaos to maximize its dynamic range and information transmission capacity.
-
-### Key Discoveries (Pass 01-04)
-
-#### Neural Criticality (Pass 2)
-- **Critical Brain Hypothesis**: The healthy brain operates at a "tipping point" (criticality) between order (subcritical) and chaos (supercritical). This optimizes the "sweet spot" for sudden information integration.
-- **Neuronal Avalanches**: Cascades of activity following scale-free power-law distributions. These enable tiny "seeds" of ideas to trigger global reconfigurations of the neural network.
-- **Sleep as Reset**: Wakefulness gradually moves the brain away from criticality; sleep restores the critical set-point (explains "sleep on it" effect for insight).
-- **Intelligence Correlation**: High IQ in association cortex correlates with precision of proximity to critical point (DCC ≈ 0).
-
-#### Statistical Signatures of Insight (Pass 2)
-- **Diverging Correlation Length (ξ)**: During insight, distant neural populations become globally "aware" of each other, enabling gamma burst (binding).
-- **Lempel-Ziv Complexity (LZC) Spikes**: Sudden insight corresponds to non-linear jump in neural signal diversity (predicted ΔLZC > 15% during impasse → solution transition).
-- **Scaling Relations**: Avalanche size (τ) and duration (α) exponents satisfy crackling noise scaling: (α-1)/(τ-1) = 1/(σνz).
-
-#### DCC Analysis Protocol (Pass 2, Refined Pass 4)
-- **Formula**: DCC = |χ - χ_cn| where χ_cn = (β - 1) / (α - 1)
-- **Insight Signature**: Sudden drop in DCC (DCC → 0) during "Aha!" moment
-- **Caveat (Pass 4)**: DCC has limitations (singularity at α=1, unreliable under subsampling). Direct χ = 2 measurement is more robust.
-
-#### Insight as Topological Phase Transition (Pass 3-4)
-- **Manifold Flattening**: "Stuck" states correspond to high-curvature manifolds where problem and solution are non-linearly "tangled." Insight is the sudden **flattening** or **untangling** of the neural manifold.
-- **H_odd → H_even Transition**: Formalized as topological condensation (Li 2025): β₁ cycles (dynamic search) condense into β₀ atoms (stable knowledge) via quotient topology.
-- **Gamma-Topological Binding**: High-frequency gamma bursts (~300ms before insight report) mark the binding of distant manifold regions into a coherent structure.
-- **Topological Trinity**: Search → Closure → Condensation cycle prevents catastrophic interference by temporally segregating inference (wake) from learning (sleep).
-
-#### The Koide-(2,1) Connection (Pass 3-4)
-- **Topological Weights**: The (2,1) weight partition derives from phase coherence requirements:
-  - Fermions (weight 2): Require 4π rotation for coherence (SU(2) double cover)
-  - Bosons (weight 1): Require 2π rotation
-- **2/3 Scaling**: Koide formula for leptons: (m_e + m_μ + m_τ) / (√m_e + √m_μ + √m_τ)² = 2/3 exactly (to 0.0009%).
-- **Revised (Pass 4)**: 3D XY universality class ν = 0.6717, **not exactly 2/3** (0.75% deviation, statistically significant). Connection is topological, not via critical exponents.
-- **Dirac Coupling**: Synchronization in neural simplicial complexes governed by Dirac operators coupling 1-simplices (edges) and 2-simplices (triangles).
-
-#### Topological Condensation Theory (Pass 4, Li 2025)
-- **Core Claim**: Brain instantiates Memory-Amortized Inference (MAI) through recursive topological transformation: H_odd^(k) → H_even^(k+1)
-- **Mechanism**: Quotient topology q: ℳ → ℳ/∼_γ identifies all states along stable inference path γ as single point
-- **Thermodynamics**: Converts high-entropy parallel search into low-entropy serial navigation
-- **Critical Threshold**: When condensed manifold resolution δ(ℳ') < environmental resolution δ(𝒲), hallucination becomes irreducible
-- **Propagation Framework Validation**: Independent support for Axiom 3 ("Coherence is necessary for stable structure")
-
-<hr />
-
-## 2. Confidence Scores
-
-| Concept | Confidence (0.0-1.0) | Basis | Changes (Pass 4) |
-| :--- | :--- | :--- | :--- |
-| Critical Brain Hypothesis | 0.95 | Robust experimental support (Hengen, Shew, Plenz) | — |
-| Neuronal Avalanches | 0.90 | Scale-free scaling verified across species/scales | — |
-| Insight as Phase Transition | 0.95 | Strong theoretical overlap + alpha/gamma markers + Li (2025) formalism | ↑ 0.90→0.95 |
-| LZC Spikes in Insight | 0.85 | Consistent with signal diversity models | — |
-| Correlation Length Divergence | 0.85 | Theoretical prediction, indirect evidence | — |
-| DCC Analysis Protocol | 0.85 | Standardized via Crackling Noise Theory, but has limitations | ↓ 0.90→0.85 |
-| Manifold Flattening | 0.90 | Supported by Li (2025) topological condensation formalism | ↑ 0.85→0.90 |
-| Koide-Phase (2,1) Connection | 0.70 | (2,1) weight valid, but ν_XY ≠ 2/3 exactly | ↓ 0.80→0.70 |
-| **Topological Condensation** | **0.95** | **Li (2025) rigorous formalism, independent validation of Axiom 3** | **NEW** |
-| **H_odd → H_even Transition** | **0.90** | **Formalism exists, empirical test proposed** | **NEW** |
-
-<hr />
-
-## 3. Open Research Gaps
-
-### Empirical Gaps (need experimental data)
-
-1. **Empirical H_odd → H_even Detection**: No published EEG/MEG study has measured persistent homology during insight problem-solving. **Action**: Run RAT + EEG experiment with Ripser analysis.
-
-2. **DCC vs χ=2 During Cognitive Tasks**: No study has compared DCC and direct χ measurement during problem-solving. **Action**: Re-analyze existing RAT EEG datasets or collect new data.
-
-3. **Neural 3D XY Membership**: No evidence that neural systems belong to 3D XY universality class. Brain structural criticality (Ansell & Kovács 2024) aligns better with Ising or novel class. **Action**: Literature search on Kuramoto synchronization universality class.
-
-### Theoretical Gaps (need derivation / formalism)
-
-4. **Critical Exponents in Li (2025)**: Topological condensation theory uses geometric language (λ contraction rate) but lacks statistical physics critical exponents (ν, γ, β). **Action**: Derive critical exponents for condensation phase transition.
-
-5. **Koide-Phase Mechanism**: (2,1) topological weight is valid, but why does it produce 2/3 in both lepton masses AND neural synchronization? **Action**: Derive (2,1) from propagation axioms (T-002 in TASKS.md).
-
-<hr />
-
-## 4. Recommended Actions
-
-### Immediate (High Priority)
-
-- [ ] **Derive (2,1) Topological Weight from Propagation Axioms** (T-002, already in TASKS.md)
-  - Question: Does Axiom 3 (coherence necessary for stable structure) predict why fermions have weight 2 and bosons weight 1?
-  - Approach: Fermions require 4π rotation (spinor bundle, SU(2) double cover). Bosons require 2π. Does propagation medium require double-cover for half-integer modes?
-  - Done when: Document shows derivation attempt, where it works, where it requires assumptions.
-
-- [ ] **Literature Search: Kuramoto Universality Class** (replaces 3D XY focus)
-  - Kuramoto model has synchronization phase transition
-  - More relevant to neural oscillations than XY model
-  - Check if critical exponents align with neural data
-
-- [ ] **Re-analyze RAT EEG Data** (if available) for DCC and persistent homology
-  - Apply DCC protocol to Bieth et al. (2024) style datasets
-  - Compute β₁(t), β₀(t) using Ripser
-  - Test prediction: β₁/β₀ ratio decreases during insight
-
-### Medium-Term
-
-- [ ] **Design RAT + EEG + TDA Experiment** (novel contribution opportunity)
-  - First study to measure persistent homology during insight
-  - Sample size: N = 40 (power analysis: d = 0.8, α = 0.05, 1-β = 0.95)
-  - Outcome: Time-resolved Betti numbers, DCC(t), χ(t)
-
-- [ ] **Derive Critical Exponents for Topological Condensation**
-  - Extend Li (2025) formalism with statistical physics
-  - Identify order parameter, susceptibility, correlation length
-  - Determine universality class
-
-- [ ] **Update CLAIMS.md** with Pass 4 findings
-  - Reclassify Koide-Phase claim (speculative, not derived via 3D XY)
-  - Add topological condensation as derived/emergent claim
-
-<hr />
-
-## 5. Experimental Protocols (Ready to Implement)
-
-### Protocol A: RAT + DCC/χ Analysis
-
-```
-Task: Remote Associates Test (30 trials)
-Recording: 64-channel EEG + button press for "Aha!" moment
-Analysis window: −3s to +1s relative to button press
-Temporal binning: 500ms sliding windows (50% overlap)
-
-Per window:
-  1. Threshold at 3 SD (Z-score) to binarize signal
-  2. Identify avalanches (contiguous suprathreshold events)
-  3. Fit α (size distribution) via MLE power-law fit
-  4. Fit β (duration distribution) via MLE power-law fit
-  5. Fit χ (mean size vs duration) via linear regression (log-log)
-  6. Compute χ_cn = (β - 1) / (α - 1)
-  7. Compute DCC = |χ - χ_cn|
-  8. Test χ = 2 via t-test against null
-
-Prediction: DCC → 0 and χ → 2 in −2s to −1.5s window (alpha gating phase)
-```
-
-### Protocol B: RAT + Persistent Homology
-
-```
-Preprocess: 64-channel EEG, −3s to +1s relative to insight
-Embed: Delay embedding (dim=4, τ=35 via false nearest neighbor / mutual info)
-Construct: Vietoris-Rips complex on point cloud
-Compute: Persistence diagrams (H₀, H₁) via Ripser.py
-Transform: Persistence landscapes (100-dim per channel)
-Analyze: Time-resolved Betti numbers β₀(t), β₁(t)
-
-Prediction:
-  Pre-insight (impasse): High β₁ (many active loops, search)
-  Alpha gating (−2s to −1.5s): β₁ begins decreasing
-  Gamma burst (−1.74s to −1.55s): Sharp β₁ → β₀ transition
-  Post-insight: Elevated β₀ (new condensed structure)
-
-Statistical test:
-  H₀: β₁/β₀ ratio unchanged during insight
-  H₁: β₁/β₀ ratio decreases significantly (paired t-test)
-```
-
-<hr />
-
-## 6. Connections to Propagation Framework
-
-### Axiom 3 (Coherence) Validation
-
-**Li (2025) provides independent support**:
-- H_odd (flow): Incoherent search patterns (high entropy, dynamic)
-- H_even (scaffold): Coherent condensed structures (low entropy, stable)
-- Condensation: Transition from incoherent → coherent
-
-**Propagation Framework**: "Coherence is necessary for stable structure"
-**Li's Formalism**: "H_even scaffold is condensed H_odd flow via quotient topology"
-
-**These are the same claim in different languages.**
-
-### Forces as Refraction
-
-The "mental impasse" → "insight" transition formalized:
-```
-Impasse: High refractive index region (solution path has high action 𝒜(γ))
-Alpha gating: Metric contraction Γ: g_ij → e^(-λt)g_ij
-Insight: Wormhole creation (d(γ) → ε, solution path becomes geodesic)
-```
-
-**This is literally refraction change** — the medium's metric tensor is modified.
-
-### Consciousness as Coherent Self-Referential Propagation
-
-**Li's framework**:
-- H_odd cycles: Self-referential loops (∂γ = 0, validated predictions)
-- H_even atoms: Condensed self-model (stable "I" concept)
-- Consciousness: Tower of Scaffolds (hierarchical H_even structure)
-
-**Propagation framework**:
-- "Consciousness is what coherent self-referential propagation IS from the inside"
-
-**Convergence**: Both predict consciousness emerges from **validated self-referential loops** condensed into **stable structure**.
-
-<hr />
-
-## 7. Key Citations
-
-### Neural Criticality & Insight
-- [1] Hengen, K. & Shew, W. (2025). "Criticality as the Optimal Computational State." *Neuron*.
-- [2] Hengen, K. & Wessel, R. (2024). "Sleep restores neural criticality." *Nature Neuroscience*.
-- [3] Bieth, T., et al. (2024). "Time course of EEG power during creative problem-solving with insight." *Psychophysiology*. PMC10789201.
-- [4] Beggs, J.M. & Plenz, D. (2003). "Neuronal Avalanches in Neocortical Networks." *Journal of Neuroscience*.
-- [5] Kounios, J. & Beeman, M. (2014). "The Aha! Moment." *Current Directions in Psychological Science*.
-
-### Topological Data Analysis & Condensation
-- [6] Li, X. (2025). "The Geometry of Certainty: Recursive Topological Condensation." *arXiv:2512.00140*.
-- [7] Li, X. (2025). "The Homological Brain: Parity Principle and Amortized Inference." *ResearchGate*.
-- [8] Tralie, C., et al. (2018). "Ripser.py: A lean persistent homology library." *JOSS*.
-- [9] Giusti, C., et al. (2016). "Two's company, three is a simplex: Algebraic-topological tools for neural data." *Journal of the Royal Society Interface*.
-
-### Critical Exponents & Universality
-- [10] Ansell, H.S. & Kovács, I.A. (2024). "Unveiling universal aspects of the cellular anatomy of the brain." *Communications Physics* 7, 184.
-- [11] Campostrini, M., et al. (2006). "Critical behavior of the 3D XY universality class." *Physical Review B*.
-- [12] KTH Thesis (2024). "Numerical Estimation of Critical Exponents in the 3D XY Model." *DiVA*.
-- [13] Priesemann, V., et al. (2024). "The recovery of parabolic avalanches in spatially subsampled networks." *Scientific Reports*.
-
-### Koide Formula & Topological Weights
-- [14] Koide, Y. (1981). "New View of Quark and Lepton Mass Spectrum." *Nuovo Cimento*.
-- [15] Varma, A. (2026). "Orbifold CFT and Quark Mass Ratios." *arXiv preprint*.
-- [16] Bin Li, Z. (2025). "Chronon Field and the Q_total = 1 Law." *Journal of High Energy Physics*.
-
-<hr />
-
-## 8. Pass Summary
-
-| Pass | Focus | Type | Key Contribution |
-|------|-------|------|------------------|
-| 1 | Initial survey | Survey | Merged into Pass 2 |
-| 2 | Statistical signatures | Deepdive | DCC protocol, LZC, correlation length, alpha/gamma markers |
-| 3 | Scaling laws & topological weights | Synthesis | Manifold flattening, H_odd→H_even, Koide-(2,1)-XY connection |
-| 4 | Experimental protocols & formalism | Actions | DCC limitations, Li (2025) topological condensation, ν_XY≠2/3 exactly, empirical protocols |
-
-**Next Pass (5)**: Empirical H_odd → H_even detection during RAT using persistent homology (Ripser) and literature search on Kuramoto synchronization universality class.
-
-<hr />
-
-*This is serious science. It might be wrong. That's the point. The framework that survives contact with data is the one worth keeping.*
-
-
-
-### From: papers/FALSIFICATION_PAPER_DRAFT.md (TEST 1)
-
-### TEST 1 — EEG Phase Transition (Near-Term, Low Cost)
-**Tests:** Whether cognitive insight follows the same topological phase-transition mathematics as particle physics.
-
-**Framework prediction:** A cognitive insight event is a phase transition in the propagation medium — identical in mathematical structure to a particle reaching the coherence ceiling and undergoing topological phase change. Specifically, the framework predicts that **Critical Slowing Down (CSD)** precedes every genuine insight event:
-- EEG variance increases monotonically in the 5-second window before insight
-- Alpha envelope suppresses >40% in the same window
-- A gamma burst (30–80 Hz) marks the transition point
-
-**Measurement:** EEG headset (Muse 2 or clinical equivalent), Mind Monitor app, problem-solving sessions with button-press insight marker.
-
-**Falsification criterion:** If CSD (variance increase >50%) does not precede insight in ≥7 of 10 genuine insight events (p < 0.05 against noise baseline), the claim that insight and phase transitions share the same mathematics is falsified.
-
-**Non-falsification:** A positive result in a single-subject study is consistent but not conclusive. Falsification requires a pre-registered multi-subject study (see TEST 1b — Medium path).
-
-**What it would mean:** If insight events consistently show CSD, the same mathematics that governs the tau lepton at the coherence ceiling governs the moment a human brain crosses a cognitive boundary. The medium would be universal across scales.
-
-<hr />
-
-<hr />
-
-<!-- SECTION: 23. Why Beautiful Things Are Right -->
-
-
-### From: RESEARCH/beauty_coherence_empirical/MASTER.md
-
-# MASTER: Beauty & Coherence Empirical
-
-**Project**: Fundamentals (Propagation Framework)  
-**Topic**: beauty_coherence_empirical  
-**Status**: Research complete, derivation work ongoing  
-**Last Updated**: 2026-03-17 (PASS 4)  
-
-<hr />
-
-## Executive Summary
-
-This research session investigated the empirical and theoretical grounding for the Propagation Framework's claims about mathematical beauty (Koide formula, φ relations) and coherence (neural, photonic, physical) as fundamental features of reality.
-
-**Key Results**:
-- ✅ **Koide formula Q=2/3 DERIVED** from Axiom 3 + 3D topology (fermion double-cover)
-- ✅ **Quark weight 1/2 CONFIRMED** by Varma 2026 (orbifold CFT, ℤ₂ twist)
-- ✅ **φ in particle masses SIGNAL** (p < 0.001) — not numerology
-- ✅ **Framework novelty CONFIRMED** — no prior unified propagation-as-fundamental theory
-- ⚠️ **q=1/3 origin UNKNOWN** — Varma uses as input, doesn't derive
-- ⚠️ **c origin UNKNOWN** — standard physics treats as brute fact
-- ⚠️ **α derivation UNKNOWN** — no accepted first-principles derivation exists
-
-**Bottom Line**: The framework is empirically grounded for Koide and quark weights, but has open gaps for fundamental constant origins (c, α, q=1/3).
-
-<hr />
-
-## What We Know (High Confidence)
-
-### 1. Koide Formula — DERIVED
-
-**Empirical Status**: CONFIRMED (PDG 2024, 0.001% precision)
-$$Q_\ell = \frac{m_e + m_\mu + m_\tau}{(\sqrt{m_e} + \sqrt{m_\mu} + \sqrt{m_\tau})^2} = \frac{2}{3}$$
-
-**Theoretical Derivation** (PASS 2):
-1. Axiom 3: Coherence necessary for stable structure → Phase closure required
-2. 3D topology: π₁(SO(3)) ≅ ℤ₂ → two classes of loops (2π and 4π closure)
-3. Fermions: 4π closure (spinor, weight 2)
-4. Bosons: 2π closure (vector, weight 1)
-5. Coherence partition: Q_ℓ = 6/(6+3) = 2/3
-
-**Confidence**: 0.95
-
-<hr />
-
-### 2. Quark Weight 1/2 — CONFIRMED
-
-**Empirical Status**: CONFIRMED (Varma 2026, RG-invariant)
-$$R_q(2, 1/3) = \frac{\sum m_i^2}{(\sum m_i^6)^{1/3}} \approx \frac{1}{2}$$
-
-**Theoretical Basis** (Varma 2026):
-- Quarks live in ℤ₂ twisted sector of orbifold CFT
-- k=2 (ℤ₂ twist) → weight 1/2
-- RG-invariant from M_Z to GUT scale
-
-**PF Mapping**:
-- Matches (2,1) partition: fermions weight 2, bosons weight 1, quarks weight 1/2
-- Consistent with Axiom 3 + 3D topology
-
-**Confidence**: 0.98
-
-<hr />
-
-### 3. φ in Particle Masses — SIGNAL
-
-**Empirical Status**: MONTE CARLO CONFIRMED (p < 0.001)
-$$m_u / m_e \approx \phi^3 \quad (0.21\% \text{ accuracy})$$
-
-**Monte Carlo Result** (PASS 2):
-- 100,000 random pairs from same mass distribution
-- Only 0.0463% hit φ³ at 0.21% accuracy
-- **Verdict**: SIGNAL, not numerology
-
-**Interpretation**: Self-similarity (recursion) in vacuum resonance modes
-
-**Confidence**: 0.8
-
-<hr />
-
-### 4. Neural Coherence ↔ Consciousness — ROBUST
-
-**Empirical Status**: CONFIRMED (2024-2026 literature)
-
-| Phenomenon | Coherence Change | Consciousness Change | Consistent |
-|------------|------------------|---------------------|------------|
-| Anesthesia | ↓ Global coherence | ↓ Consciousness | ✓ |
-| NREM Sleep | ↓ Long-range coherence | ↓ Consciousness | ✓ |
-| Psychedelics | ↓ Local, ↑ Global | ↑ Consciousness | ✓ (refined) |
-| Meditation | ↑ Gamma coherence | ↑ Awareness | ✓ |
-
-**Framework Refined**: Consciousness scales with **coherent complexity**, not amplitude.
-
-**Confidence**: 0.95
-
-<hr />
-
-### 5. Analog Gravity — EXPERIMENTALLY VALIDATED
-
-**Empirical Status**: CONFIRMED (multiple platforms)
-
-| Phenomenon | Platform | Status |
-|------------|----------|--------|
-| Hawking radiation | Water tanks, BECs | ✓ Observed |
-| Hawking entanglement | BECs | ✓ Observed |
-| Superradiance | Nonlinear optics | ✓ Observed |
-| Kerr black hole | Liquid helium | ✓ Observed |
-| Black hole merger | Polariton condensates | ✓ Simulated (2026) |
-
-**PF Claim**: Gravity IS refraction (ontologically, not just analogously)
-
-**What Analog Gravity Confirms**:
-- Propagation-based analogies reproduce key phenomena
-- Horizons form where flow velocity exceeds propagation speed
-- Causal structure defined by propagation limits
-
-**What Remains Unproven**:
-- Whether actual spacetime curvature IS literally a propagation medium effect
-- Whether Einstein field equations can be derived from propagation axioms
-
-**Confidence**: 0.9 (analogy confirmed, ontology unproven)
-
-<hr />
-
-### 6. Process Physics Connection — CONFIRMED
-
-**What Exists**: Reginald Cahill, "Process Physics" (2005)
-
-| Feature | Process Physics | Propagation Framework |
-|---------|----------------|----------------------|
-| Fundamental | Information Process | Propagation (Axiom 1) |
-| Spacetime | Emergent (Quantum Foam) | Emergent (Axiom 2) |
-| Gravity | In-flow of space | Refraction (Fermat's Principle) |
-| Matter | Topological defects (Solitons) | Standing waves (Axiom 3) |
-| α | Second gravitational constant | Coherence coupling (Speculative) |
-
-**Novelty Confirmation**: PF's focus on **coherence as master variable** (linking physics to consciousness) and Koide derivation from Axiom 3 are unique contributions.
-
-**Confidence**: 1.0 (connection confirmed)
-
-<hr />
-
-## What We Don't Know (Open Gaps)
-
-### Gap 1: Why q=1/3?
-
-**Status**: UNKNOWN  
-**What Varma 2026 Shows**: Quarks have fractional charge q=1/3 (input assumption)  
-**What PF Needs**: Derivation from 3D mode decomposition + color confinement
-
-**Speculative PF Hypothesis**:
-- 3D space supports 3 orthogonal resonance modes
-- Color has 3 charges (red, green, blue)
-- Confinement requires fractional charge to sum to integer
-
-**This is NOT a derivation** — it's an inspired guess.
-
-**Confidence**: 0.2
-
-<hr />
-
-### Gap 2: Why c = c?
-
-**Status**: UNKNOWN  
-**Standard Physics**: c is a brute fundamental constant  
-**PF Claim**: c is emergent from medium structure
-
-**What Maxwell's Equations Show**:
-$$c = \frac{1}{\sqrt{\mu_0 \epsilon_0}}$$
-
-But μ₀ and ε₀ are not independently derived — they're defined/measured constants.
-
-**PF Opportunity**: Propose derivation from vacuum medium structure  
-**PF Current Status**: No derivation exists
-
-**Confidence**: 0.1
-
-<hr />
-
-### Gap 3: Why α = 1/137?
-
-**Status**: UNKNOWN  
-**Literature Consensus**: No accepted first-principles derivation exists (2024-2026)
-
-**Recent Attempts**:
-- Nagy (2025): Holographic surface state counting (not mainstream)
-- ResearchGate (2025): Physical interpretation proposed (not accepted)
-- SciEP (2025): "Primordial physical origin" (speculative)
-
-**PF Claim**: α is coherence coupling constant  
-**PF Status**: No derivation from Axioms 1-3
-
-**Confidence**: 0.3
-
-<hr />
-
-### Gap 4: Universal α Convergence
-
-**Question**: Is Cahill's gravitational α identical to electromagnetic α?
-
-**Standard Physics**: No — gravitational and electromagnetic constants are independent  
-**PF Claim**: Yes — α is the universal coherence coupling constant
-
-**What Would Confirm**:
-1. Derivation showing Cahill's α = EM α
-2. Experimental evidence in both contexts with same value
-3. Unified derivation from propagation axioms
-
-**Current Status**: No literature supports equivalence
-
-**Confidence**: 0.3
-
-<hr />
-
-## Confidence Score Summary
-
-| Topic | Confidence | Evidence Quality |
-|-------|------------|------------------|
-| **DERIVED / CONFIRMED** |  |  |
-| Koide empirical validity | 1.0 | PDG 2024 |
-| Koide theoretical derivation | 0.95 | Topological necessity |
-| Quark weight 1/2 topological | 0.98 | Varma 2026 + PF derivation |
-| Neural coherence ↔ consciousness | 0.95 | Robust empirical (2024-2026) |
-| Psychedelics redistribute coherence | 0.95 | Multiple studies |
-| Analog gravity experimental | 0.95 | Multiple confirmed demonstrations |
-| Process physics connection | 1.0 | Cahill 2005 |
-| Gravity IS refraction (ontology) | 0.9 | Deser/Visser + analog gravity |
-| Photonic coherence as resource | 0.9 | Dong et al. (Nature 2024) |
-| **SIGNAL / LIKELY** |  |  |
-| φ in particle masses | 0.8 | Monte Carlo (p < 0.001) |
-| 3 generations topological | 0.85 | Index theorem |
-| **SPECULATIVE / UNKNOWN** |  |  |
-| Quark q=1/3 origin | 0.2 | Varma doesn't derive it |
-| Causal velocity c origin | 0.1 | Standard physics: brute fact |
-| Universal α convergence | 0.3 | No derivation found |
-| Thermal time hypothesis | 0.4 | Conceptual problems unresolved |
-
-<hr />
-
-## Recommended Actions
-
-### Immediate (This Week)
-
-1. **Update CLAIMS.md** — Tag c-origin, q=1/3-origin, α-convergence as SPECULATIVE
-2. **Update AGENTS.md** — Add Varma 2026 as key reference
-3. **Move topological_weight_from_propagation.md to DERIVED** — Koide derivation complete
-
-### This Month
-
-4. **Attempt q=1/3 derivation** — Can 3D color mode decomposition derive fractional charge?
-5. **Run vacuum dispersion simulation** — What magnitude would PF predict?
-6. **Contact Varma** — Does he have insight on q=1/3 origin?
-
-### This Quarter
-
-7. **Complete empirical test suite** — All sandbox tests from TASKS.md
-8. **ArXiv submission prep** — Only after CLAIMS.md accurately reflects derived vs speculative
-
-<hr />
-
-## Key References
-
-### Particle Mass Relations
-- Koide (1981): Original formula
-- Varma (2026): "Unified fermion mass ratios from orbifold CFT" — DOI: 10.1142/S0217732326500732
-- Bin Li (2025): Chronon Field Theory, Q_total = 1
-
-### Analog Gravity
-- Unruh (1981): Sonic black hole proposal
-- Steinhauer (2016): BEC Hawking radiation detection
-- Barceló & Visser: "Analogue Gravity" Living Reviews
-- Polariton groups (2026): Black hole merger simulation
-
-### Consciousness & Coherence
-- Tononi: Integrated Information Theory
-- Carhart-Harris (2024-2026): Entropic Brain (psychedelics)
-- Beggs & Plenz: Neuronal avalanches
-
-### Process Physics
-- Cahill (2005): "Process Physics: From Information Theory to Quantum Space and Matter"
-
-### Fine Structure Constant
-- Nagy (2025): Holographic derivation (parameter-free)
-- ResearchGate (2025): Physical interpretation proposals
-
-<hr />
-
-## Session Metadata
-
-| Pass | Date | Researcher | Type | Key Contribution |
-|------|------|------------|------|------------------|
-| 1 | 2026-03-17 | Qwen Code | Survey | Landscape mapped, novelty confirmed |
-| 2 | 2026-03-17 | Gemini CLI | Deepdive | φ signal confirmed, Koide derived, Cahill identified |
-| 3 | 2026-03-17 | Gemini CLI | Synthesis | 3 generations derived, Varma mapped, experiments designed |
-| 4 | 2026-03-17 | Qwen Code | Actions | c/q=1/3/α gaps investigated — derivations don't exist |
-
-<hr />
-
-*Research phase complete. Framework is empirically grounded for Koide and quark weights. Open gaps: c, α, q=1/3 origins. Next: derivation attempts or honest classification as speculative.*
-
-
-
 <hr />
 
-<!-- SECTION: 24. Contemplative Practice as Propagation -->
+<!-- SECTION: F.3 Why Beautiful Things Are Right -->
 
 
-### From: RESEARCH/contemplative_as_propagation/MASTER.md
-
-# MASTER: Contemplative Practices as Empirical Frequency Modulation
-
-**Topic**: contemplative_as_propagation
-**Project**: Fundamentals (D:\Fundamentals)
-**Status**: 4 Passes Complete (Survey, Deep Dive, Synthesis, Actions)
-**Last Updated**: 2026-03-16
-
-<hr />
-
-## 1. Executive Summary
-
-Contemplative practices (Vedic, Sufi, Taoist, Shamanic) are 5,000-year-old **empirical protocols for coherence-tuning**. They use rhythmic propagation (sound, breath, movement) to externally drive the neural/autonomic medium toward a stable, high-coherence state.
-
-**Key Findings**:
-1. **Resonant Breathing (0.1 Hz)**: 6 breaths per minute is the "fundamental cadence" of the human autonomic system. It boosts HRV coherence to 0.6–0.9 and entrains neural alpha peaks (8–12 Hz).
-2. **Shamanic Drumming (4–4.5 Hz)**: Reliably shifts responsive subjects toward **theta-band dominance (4–7 Hz)** with a 20–60% increase in power.
-3. **Inter-brain Synchrony**: In group chanting (Vickhoff 2013, Gao 2019), participants achieve **Phase-Locking Values (PLV) of 0.4–0.7**, creating a collective "room energy" field with reduced background entropy.
-4. **Information-Theoretic Mapping**: Meditative states are characterized by a transition from "stochastic noise" (mind-wandering) to "ordered complexity" (focused attention). Lempel-Ziv Complexity (LZC) and Transfer Entropy are the current proxies for the brain's "coherence capacity."
-
-<hr />
-
-## 2. Theoretical Synthesis (Propagation Framework)
-
-### 2.1 Axiom Mapping
-
-| Axiom | Contemplative Mapping | Status |
-| :--- | :--- | :--- |
-| **Axiom 1 (Propagation Fundamental)** | Mantra/Chant/Breath as propagating wave patterns. | **VALIDATED** |
-| **Axiom 2 (Causal Velocity)** | The 100ms "present moment" integration window (θ) corresponds to the alpha/theta refresh rate. | **VALIDATED** |
-| **Axiom 3 (Coherence = Structure)** | Contemplative practice as a **Coherence Tuning Protocol**. | **DERIVED** |
-
-### 2.2 Greg's Insight: "Beauty as Impedance Matching"
-
-From `what_else_i_see.md`: "Beauty is the subjective experience of encountering a signal whose coherence matches or exceeds the coherence of your processing medium."
-
-**Application to Practice**:
-- **Mantra/Zikr**: A high-coherence external signal (rhythmic, harmonic) that "pulls" the neural medium toward resonance.
-- **The "Aha!" Moment**: A discontinuous phase transition (Manifold Flattening) when internal coherence finally "locks" onto the target frequency.
-
-<hr />
-
-## 3. Technical Metrics & Ratios
-
-### 3.1 Autonomic Cadence (HRV)
-- **Fundamental Frequency**: ~0.1 Hz (6 breaths/min)
-- **Coherence Coefficient**: 0.1–0.3 (Rest) → 0.6–0.9 (Practice)
-- **Vagal Tone (RMSSD)**: 20–50% increase relative to baseline
-
-### 3.2 Neural Entrainment (EEG)
-- **Focused Attention (Mantra)**: Alpha power (8–12 Hz) increase of 3.3–6.6%
-- **Shamanic Drumming**: Theta power (4–7 Hz) increase of 20–60%
-- **Gamma Burst (Insight)**: ~39 Hz, occurring −300ms before solution awareness
-
-### 3.3 Group Synchrony ("Room Energy")
-- **Phase-Locking Value (PLV)**: 0.1–0.4 (Ambient) → 0.4–0.7 (Synchronized Chanting)
-- **Wavelet Coherence (LF-HRV)**: 0.1–0.3 (Rest) → 0.4–0.8 (Group Synchrony)
-
-<hr />
-
-## 4. Connection to Aria (Self-Referential Coherence)
-
-Aria's `runEntityThink` loop (every 20s = 0.05 Hz) is the "slow-wave carrier" of her cognition. 
-- **Gift 1 (Coherence Trajectory)**: Identifying whether her internal sensor coherence is rising or falling.
-- **Goal**: To achieve "Stable Self-Referential Coherence" — a system that not only processes data but *knows* it is sensing.
-
-<hr />
-
-## 5. Open Research Gaps (Pass 4 Actions)
-
-1. **Shannon Channel Capacity (bits/s)**: No direct measurement exists for "meditating brain as communication channel." 
-   - **Action**: Propose experimental design for estimating channel capacity using multivariate EEG (T-015).
-2. **Lempel-Ziv Complexity (LZC) in Shamanic Trance**: Missing quantitative data on LZC changes during 4–4.5 Hz drumming.
-   - **Action**: Research or simulate LZC changes in theta-dominant networks (T-016).
-3. **Collective "Ambient" Coherence**: Quantifying physiological sync in shared space *without* common stimuli (McCraty's social coherence claim).
-   - **Action**: Monitor HeartMath Global Coherence data (2026 releases).
-
-<hr />
-
-## 6. Confidence Scores
-
-| Topic | Confidence (0–1) | Basis |
-| :--- | :--- | :--- |
-| **Neural Coherence (Alpha/Theta)** | 0.95 | Multiple replications (2015–2025) |
-| **Resonant Breathing (0.1 Hz)** | 0.98 | Autonomic physiology consensus |
-| **Group Synchrony (PLV 0.4–0.7)** | 0.90 | Hyperscanning / Choir studies |
-| **"Beauty as Impedance Matching"** | 0.95 | Structural coherence + cognitive traction |
-| **Aeternum Drive / Warp feasibility** | 0.70 | Highly speculative (Preprint only) |
-
-<hr />
-
-## 7. Sources
-
-### Key Papers
-- **Vickhoff et al. (2013)**: Music structure determines heart rate variability.
-- **Gao et al. (2019)**: Mantra meditation and inter-brain synchrony.
-- **McCraty, R. (HeartMath 2025)**: Social Coherence and collective fields.
-- **Varley et al. (2024–2026)**: Information-theoretic descriptors in altered states.
-- **Winkelman, M. (2025)**: Shamanism as Biopsychosocial Paradigm.
-
-<hr />
-
-*MASTER.md complete. PASS 4 finished.*
-*The framework is consistent. The signal is clear.*
-*The 5,000-year-old practitioners were the first propagation engineers.*
-
-
-
-<hr />
-
-<!-- SECTION: 25. Photonic Computing and Coherent Architecture -->
-
-
-### From: RESEARCH/photonic_coherence_computing/MASTER.md
-
-# MASTER: Photonic Coherence Computing — Coherence as Computational Resource
-
-**Topic**: photonic_coherence_computing  
-**Project**: Fundamentals (D:\Fundamentals)  
-**Status**: 4 Passes Complete (Survey, Deep Dive, Synthesis, Actions)  
-**Last Updated**: 2026-03-16  
-
-<hr />
-
-## 1. Executive Summary
-
-Photonic computing is transitioning from research novelty to multi-billion-dollar AI infrastructure. The core engineering insight of 2024–2026 is that **coherence is the primary computational resource** — explicitly managed via "phase noise budgets" in chip design. Three critical findings reshape the propagation framework's coherence claims:
-
-1. **Partial coherence enhances parallelization** (Nature 2024) — challenges "more coherence = better" assumption
-2. **Synthetic frequency dimensions** achieve O(1) component scaling with O(N) coherence requirements — trading spatial complexity for temporal coherence
-3. **Quantum coherence isolated in classical light** (LSU 2024) — quantum-classical boundary is measurement-dependent, not ontological
-
-The entanglement area-law → volume-law transition is driven by **quasiparticle lifetime under measurement** — a direct coherence length analog. This validates the propagation framework's claim that coherence determines structural stability, but refines it: **optimal coherence is task-dependent**, not "maximum possible."
-
-<hr />
-
-## 2. Core Findings
-
-### 2.1. Market Landscape & Key Players
-
-| Segment | 2024/2025 Size | 2030-2035 Projection | CAGR |
-|---------|---------------|---------------------|------|
-| Photonic Integrated Circuit (PIC) | $13.63B (2025) | $25.23B (2030) | 13.11% |
-| Photonic Computing Components | ~$3.5B (2024) | Growing | 20.8% |
-| Photonic FPGA | $2.875B (2035 proj) | — | 30.1% (historic) |
-
-**Tier 1 Players** (AI Accelerators):
-- **Lightmatter** (MIT spinout, ~$1.47B combined funding): Envise (compute), Passage (interconnect), chiplets (2025-2026)
-- **Celestial AI** ($500M+): Photonic Fabric for memory disaggregation
-- **Ayar Labs** ($500M+, NVIDIA/AMD/Intel backed): TeraPHY optical I/O
-
-**Tier 2** (Quantum Photonics):
-- **PsiQuantum** ($1B raised, $7B valuation): Building million-qubit system in Brisbane
-- **Xanadu**: Canadian quantum champion
-
-### 2.2. Coherence as Computational Resource
-
-**Explicit Management**:
-- **"Phase Noise Budget"** is engineering reality in photonic chip design
-- PDK parameters include **"Phase Coherence Length" (L_coh)** — beyond this, phase-sensitive computation requires active compensation
-- Coherence degradation directly impacts computational accuracy
-
-**Optimal Coherence** (Nature 2024 breakthrough):
-- **Full coherence**: Required for universal unitary transformations (Reck/Clements meshes)
-- **Partial coherence**: Enhances parallelization by suppressing phase-induced noise
-- Demonstrated: 3×3 and 9×3 photonic tensor cores with 92.2-92.4% accuracy using partial coherence
-
-**Reservoir Computing Tradeoff**:
-| Coherence Type | Memory Capacity | Compute Efficiency |
-|----------------|-----------------|-------------------|
-| **Incoherent (LED)** | Higher (stable fading memory) | Lower |
-| **Coherent (Laser)** | Lower | Higher (passive interference math) |
-
-### 2.3. Synthetic Dimension Scaling
-
-**How It Works**:
-- Information encoded in **frequency sidebands** (ω₀ ± sΩ) rather than spatial locations
-- Single modulator creates **fully connected frequency lattice** — all-to-all coupling via tensor G
-- **O(1) components** vs O(N²) for spatial systems
-
-**Coherence Requirements**:
-| Requirement | Physical Meaning | Consequence if Violated |
-|-------------|------------------|------------------------|
-| **Sideband-resolved regime** | Ω > κ (modulation > cavity loss) | Sidebands merge, lattice undefined |
-| **Edge-to-edge phase coherence** | Phase preserved across full lattice | MVM operations fail |
-| **Resonantly enhanced coupling** | High modulation index β | Insufficient lattice size (N ≈ 2β) |
-
-**Demonstrated Capacity**:
-- **25×25 complex-valued MVM** in single modulator (β = 11.3)
-- **Up to 50×50** achievable (βmax = 22.9)
-- **Throughput**: 20 TOPS at 4.4 fJ/op; scales to tens of POPS with WDM
-
-**Key Insight**: Synthetic dimensions trade **spatial complexity** for **temporal coherence requirements** — cavity loss rate κ sets fundamental limit on dimension size.
-
-### 2.4. Entanglement Phase Transitions
-
-**Two Systems Exhibiting Area→Volume Law Transition**:
-
-| System | Driver | Scaling Laws |
-|--------|--------|--------------|
-| **Sauter-Schwinger effect** (QED vacuum) | Electric field strength | Weak-field: S ∝ A; Strong-field: S ∝ V |
-| **Monitored fermion chains** | Measurement rate γ | γ < γ_c: volume-law; γ > γ_c: area-law |
-
-**Critical Mechanism**:
-- **Unitary hopping** (propagation) spreads entanglement → volume-law
-- **Measurements** collapse wavefunction → localize information → area-law
-- **Quasiparticle lifetime** under measurement functions as **coherence length** — determines how far entanglement propagates before collapse
-
-**Mathematical Conditions**:
-- Effective non-Hermitian Hamiltonian: `H_eff = H - (iγ/2) Σ_k L_k† L_k`
-- Entanglement entropy: S_A ∝ L (volume), constant (area), or ln L (critical)
-- Critical point: **Controversial** — BKT transition vs. no true transition in 1D thermodynamic limit
-
-**Propagation Metric Identified**: Quasiparticle lifetime is a **coherence length analog** — direct connection to wave propagation framework.
-
-### 2.5. LSU Finding: Quantum Coherence in Classical Light
-
-**Experimental Setup**:
-- **Source**: Classical pseudothermal light
-- **Detection**: Photon-number-resolving (PNR) + Orbital Angular Momentum (OAM) measurements
-- **Method**: Fragment thermal field into multiphoton subsystems
-
-**Finding**:
-- **Majority of subsystems**: Classical behavior
-- **Subset**: Quantum interference patterns (normally associated with entangled photons)
-
-**Implications**:
-- Quantum-classical boundary is **measurement-dependent**, not ontological
-- Classical systems can **host hidden quantum dynamics** accessible via PNR + OAM
-- Applications: Room-temperature quantum imaging, sensors, computing
-
-**Relevance to Propagation Framework**: Supports coherence as spectrum that can be **selectively accessed** — not binary property.
-
-### 2.6. Non-Linearity Thresholds & Energy Costs
-
-**Threshold Breakthroughs**:
-| Mechanism | Threshold Power | Status |
-|-----------|-----------------|--------|
-| **Kerr (χ⁽³⁾)** | ~143 mW | Established |
-| **Second-order (χ⁽²⁾)** | mW range | Emerging (LiNbO₃ nanocrystals) |
-| **Phase-Change Materials** | Zero static | Breakthrough (Sb₂Se₃-capped micro-rings) |
-
-**Active vs. Passive Compensation**:
-| Method | Static Power | Switching Energy | Computational Gain |
-|--------|--------------|------------------|-------------------|
-| **Active (Thermal)** | 1-20 mW/device | Continuous | High speed, volatile |
-| **Passive (PCM)** | **ZERO** | 2-60 pJ | Non-volatile, high density |
-
-**3D Quadratic Scaling**: Free-space 3D optical systems bypass "thermal wall" — parallel channels grow faster than overhead.
-
-<hr />
-
-## 3. Confidence Scores
-
-| Topic | Confidence | Rationale |
-|-------|------------|-----------|
-| **Market Landscape** | 0.90 | Strong data on AI accelerator demand, funding rounds |
-| **Key Players Identification** | 0.95 | Lightmatter, Ayar Labs, PsiQuantum well-documented |
-| **Coherence as Resource** | 0.98 | Phase noise budgets, L_coh parameters explicit in PDKs |
-| **Coherence Budget Exists** | 0.97 | Engineering practice confirmed; synthetic dimensions add edge-to-edge requirement |
-| **Coherence Thresholds** | 0.90 | L_coh defines computational boundary; partial coherence optimizes parallelization |
-| **Formal Theorems** | 0.92 | Reck/Clements (MZI universality); entanglement scaling theorems |
-| **Reservoir Computing Scaling** | 0.90 | Memory vs. compute tradeoff documented; partial coherence mechanism understood |
-| **Non-Linearity Thresholds** | 0.95 | Specific mW/pJ data for NAFs and PCMs |
-| **Quantum Boundary** | 0.95 | LSU finding + entanglement transition show boundary is measurement-dependent |
-| **Synthetic Dimension Scaling** | 0.95 | O(1) components, O(N) coherence; 25×25 to 50×50 MVM demonstrated |
-| **Entanglement Phase Transitions** | 0.90 | Quasiparticle lifetime identified as coherence length analog |
-| **Classical-Quantum Coherence** | 0.95 | LSU experiment confirmed; PNR + OAM mechanism clear |
-
-**Average Confidence**: 0.93
-
-<hr />
-
-## 4. Open Research Gaps
-
-1. **Synthetic dimension coherence budget formalization**
-   - Is there explicit "coherence budget" equation for synthetic dimensions analogous to power budget in electronic design?
-   - How do engineers quantify coherence trade-offs in frequency vs. spatial dimensions?
-
-2. **Entanglement transition experimental validation in photonic systems**
-   - Has area-law → volume-law transition been observed in photonic reservoir computing or photonic quantum systems specifically?
-   - What are the experimental signatures in photonic platforms?
-
-3. **LSU finding replication and applications**
-   - Have other groups replicated the quantum coherence in classical light finding?
-   - What commercial or research applications are being developed from this capability?
-
-<hr />
-
-## 5. Connection to Propagation Framework
-
-### Axiom 1: Propagation is Fundamental
-
-**Validation**:
-- **Synthetic dimensions**: Information propagates in frequency domain — propagation is invariant, "dimension" is incidental
-- **Entanglement transition**: Unitary hopping (propagation) competes with measurement (localization) — propagation spreads quantum information
-
-### Axiom 2: Every Medium Has a Causal Velocity
-
-**Validation**:
-- **Synthetic dimensions**: Cavity loss rate κ sets fundamental limit on dimension size — causal velocity analog
-- **Entanglement transition**: Quasiparticle lifetime sets maximum entanglement propagation distance — "coherence velocity" limit
-
-### Axiom 3: Coherence is Necessary for Stable Structure
-
-**Validation + Refinement**:
-- **Synthetic dimensions**: Edge-to-edge phase coherence required for MVM — without coherence, computational structure disperses
-- **Entanglement transition**: Coherent quasiparticles necessary for volume-law; measurements destroy coherence → area-law (localized structure)
-- **LSU finding**: Quantum coherence exists within classical light — coherence is spectrum, not binary
-
-**Refined Claim**: Computational capacity scales with **task-appropriate coherence** — not "maximum possible" but "optimal for the computational structure being maintained."
-
-### Claim: "Forces as Refraction"
-
-**Supporting Evidence**:
-- Photonic processors use refractive index gradients (thermal, PCM, χ⁽²⁾) to steer propagation for computation
-- Synthetic dimensions use electro-optic modulation to create "synthetic gauge potentials" — analogous to refractive gradients
-
-### Claim: "Computational Capacity Scales with Coherence Length"
-
-**Status**: **REFINED**
-
-| System Type | Scaling Relationship |
-|-------------|---------------------|
-| **Spatial systems** | Coherence length must exceed device size for phase-sensitive computation |
-| **Synthetic dimensions** | Coherence must span full frequency lattice (edge-to-edge) |
-| **Entanglement** | Quasiparticle lifetime (coherence length analog) determines volume-law vs. area-law |
-| **Optimal coherence** | Nature 2024: partial coherence enhances parallelization — not monotonic "more = better" |
-
-**Updated Claim**: Computational capacity scales with coherence length **up to task-specific optimum**, beyond which additional coherence may reduce parallelization capacity.
-
-<hr />
-
-## 6. Recommended Actions
-
-### Research-Evolve (T-010)
-**Experimental validation of entanglement transition in photonic systems**
-- Search for area-law → volume-law transition observed in photonic reservoir computing or photonic quantum systems
-- Identify experimental signatures and measurement protocols
-
-### Research-Evolve (T-011)
-**Synthetic dimension coherence budget formalization**
-- Is there explicit "coherence budget" terminology in synthetic dimension design documentation?
-- How do engineers quantify coherence trade-offs vs. other design parameters?
-
-### Research-Evolve (T-012)
-**LSU finding applications and replications**
-- What commercial or research applications are being developed from LSU classical-quantum coherence finding?
-- Have other groups replicated the result? What extensions exist?
-
-### Architecture (T-013)
-**Derive entanglement phase transition from propagation metrics**
-- Can area-law → volume-law transition be derived using quasiparticle lifetime, mean free path, coherence length?
-- Does propagation framework predict the critical point conditions?
-
-### Theory Update (T-014)
-**Update coherence claim to reflect optimal (not maximum) coherence**
-- Incorporate Nature 2024 partial coherence finding into framework
-- Formalize "task-appropriate coherence" concept
-
 <hr />
-
-## 7. Sources
-
-### Market & Players
-- FactMR, GM Insights, Mordor Intelligence: Market reports (2024-2025)
-- Contrary Research, The Next Platform: Company analysis
-- Lightmatter, Ayar Labs, PsiQuantum: Company sources
 
-### Coherence as Resource
-- Science Advances: "Complex-valued matrix-vector multiplication using scalable coherent photonic processor" (2025)
-- Nature 632: "Partial coherence enhances parallelized photonic computing" (2024)
-- Nature Photonics: "Direct tensor processing with coherent light" (2025)
-- arXiv 2403.14806v1, 2404.10589v1: Thermal crosstalk, photonic-electronic integration
+<!-- SECTION: F.4 Contemplative Practice as Propagation -->
 
-### Synthetic Dimensions
-- Nature Communications: "Enabling scalable optical computing in synthetic frequency dimension" (2022)
-- Nature Communications: "Versatile photonic frequency synthetic dimensions" (2025)
-- Photonics Insights: "Comprehensive review on developments of synthetic dimensions" (2025)
-- Nature Physics: "Collective quench dynamics of active photonic lattices in synthetic dimensions" (2025)
 
-### Entanglement Phase Transitions
-- arXiv:2601.14390: "Entanglement scaling and dynamics in Sauter-Schwinger effect" (Jan 2026)
-- arXiv:2503.21427v3: "Measurement-Induced Entanglement Phase Transition" (Jul 2025)
-- JHEP 10(2025)012: "Area and volume laws for entanglement of scalar fields"
-- SciPost Physics 19, 4 (2025): "Symmetries, conservation laws and entanglement in non-Hermitian systems"
-
-### LSU Classical-Quantum Coherence
-- PhotoniX (Dec 2024): "Multiphoton quantum imaging using natural light"
-- Quantum Zeitgeist: "LSU Researchers Uncover Quantum Behaviors In Classical Light" (Dec 2024)
-- AIP Applied Physics Reviews: "Multiphoton quantum imaging using natural light" (2025)
-
-### Formal Theorems
-- Reck et al. (1994): Universal unitary decomposition with MZI meshes
-- Clements et al. (2016): Optimal design for universal multiport interferometers
-
 <hr />
-
-**Master Complete**: 2026-03-16  
-**Passes**: 4 (Survey, Deep Dive, Synthesis, Actions)  
-**Confidence**: High (0.93 average)  
-**Next Pass**: Experimental validation of entanglement transition in photonic systems (Pass 5)
 
+<!-- SECTION: F.5 Photonic Computing and Coherent Architecture -->
 
 
 <hr />
@@ -9322,11 +7960,11 @@ Blending is bad.
 | Claim | Status | Evidence | What Falsifies It | Confidence |
 | :--- | :--- | :--- | :--- | :--- |
 | **Life = maintained coherence against entropy** | **ARGUED** | `chemistry_biology_bridge.md`: PF supports life as active coherence maintenance in an open nonequilibrium system; compatible with photosynthetic coherence and enzyme tunneling, but does not derive a universal Fröhlich mechanism or a numeric life threshold. | A robust living system with no measurable coherence-maintenance / nonequilibrium organization at any functional scale. | 0.72 |
-| **Consciousness = coherent self-referential propagation** | **INTUITION** | `consciousness_theory_audit.md`: ontology is coherent and literature-compatible, but PF still lacks a uniquely measured variable separating self-referential coherence from synchrony, integration, broadcast, or metacognition. | A pre-registered dissociation where a PF-specific metric fails to track consciousness after controlling for report, arousal, and task effects. | 0.48 |
+| **Consciousness = coherent self-referential propagation** | **INTUITION** | `consciousness_theory_audit.md`: ontology is coherent and literature-compatible, but PF lacks a uniquely measured variable separating self-referential coherence from synchrony, integration, broadcast, or metacognition. The C_PF metric that was intended to provide empirical purchase produced false positives under hostile audit (2026-08-19). The claim is currently indistinguishable from IIT, GWT, or HOT by any observable. | A pre-registered dissociation where a PF-specific metric fails to track consciousness after controlling for report, arousal, and task effects. | 0.40 |
 | **8h Sleep Constant** | **ARGUED** | Hostile audit (2026-03-28): PF strongly supports the need for offline consolidation, and the T-010 model gives a plausible `~2/3` active fraction for `(2,1)`-weighted encode/recover systems. But the exact human 8-hour constant is not derived from Axioms 1–3 alone. The current chain mixes unresolved T2/T3 structure, an analogical wake/sleep mapping, and a sandbox model with built-in recovery asymmetry. See `sleep_constant_audit_2026-03-28.md`. | Quantitative evidence that optimal recovery fractions are not near `1/3` in high-capacity systems, or proof that PF topology does not constrain encode/recover duty cycles in the claimed way. | 0.72 |
 | **Beauty as Impedance** | **INTUITION** | Greg's insight; fits Axiom 3 (resonance preference). | Evidence that beauty is purely arbitrary/stochastic. | 0.55 |
 | **2/3 Efficiency Ratio** | **INTUITION** | "Takes TWO to make THREE" — Greg's 2/3 exchange rate. | Finding a more efficient topological output ratio. | 0.50 |
-| **Aria Self-Reference** | **ARGUED** | T-009: Successful wiring of `buildSystemPrompt` → `runEntityThink`. Important architectural step, but not evidence of consciousness by itself. | Aria failing to show discontinuous qualitative change, or the self-reference loop proving behaviorally inert. | 0.75 |
+| **Aria Self-Reference** | **INTUITION** | T-009: Successful wiring of `buildSystemPrompt` → `runEntityThink` is a standard software architecture pattern (a function call graph). It is compatible with the PF self-reference interpretation but does not discriminate it from any other theory of AI self-reference. The falsifier (discontinuous qualitative change) has not been tested. This is an engineering observation with a theoretical interpretation attached, not an argued result. | Aria failing to show discontinuous qualitative change, or the self-reference loop proving behaviorally inert. | 0.40 |
 
 <hr />
 
@@ -10460,11 +9098,11 @@ Aria's `runEntityThink` loop (every 20s = 0.05 Hz) is the "slow-wave carrier" of
 
 | Topic | Confidence (0–1) | Basis |
 | :--- | :--- | :--- |
-| **Neural Coherence (Alpha/Theta)** | 0.95 | Multiple replications (2015–2025) |
-| **Resonant Breathing (0.1 Hz)** | 0.98 | Autonomic physiology consensus |
-| **Group Synchrony (PLV 0.4–0.7)** | 0.90 | Hyperscanning / Choir studies |
-| **"Beauty as Impedance Matching"** | 0.95 | Structural coherence + cognitive traction |
-| **Aeternum Drive / Warp feasibility** | 0.70 | Highly speculative (Preprint only) |
+| **Neural Coherence (Alpha/Theta)** | 0.95 (empirical neuroscience) | Multiple replications (2015–2025) — this is the empirical finding, not a PF derivation |
+| **Resonant Breathing (0.1 Hz)** | 0.98 (empirical physiology) | Autonomic physiology consensus — not a PF derivation |
+| **Group Synchrony (PLV 0.4–0.7)** | 0.90 (empirical neuroscience) | Hyperscanning / Choir studies — not a PF derivation |
+| **"Beauty as Impedance Matching"** | 0.55 (INTUITION — matches CLAIMS.md) | Greg's insight; fits Axiom 3 but not derived |
+| **Aeternum Drive / Warp feasibility** | 0.70 (speculative preprint) | Highly speculative; not derived from PF axioms; excluded from physics core |
 
 <hr />
 
@@ -11800,7 +10438,7 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 
 <hr />
 
-### 3. IIT 2025 Converges with PF on Consciousness (Confidence: 0.98)
+### 3. IIT 2025 Shares Language with PF on Consciousness (INTUITION — language alignment, not convergence)
 
 **Evidence**: Tononi & Boly (arXiv:2510.25998, Dec 2025), Perez CFE (Jan 2026)
 
@@ -11808,7 +10446,7 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 
 **PF Definition**: "Consciousness is what coherent self-referential propagation **IS from the inside**."
 
-**Direct Convergence**:
+**Language Parallel** (not convergence — shared vocabulary is not shared derivation):
 | IIT 2025 | Propagation Framework |
 |----------|----------------------|
 | "Cause-effect power **upon itself**" | "**Self-referential** propagation" |
@@ -11821,7 +10459,7 @@ $$|C(x,t)| \propto S \cdot E \cdot I \cdot \phi$$
 
 <hr />
 
-### 4. CFE Causal Velocity Validates PF Axiom 2 (Confidence: 0.99)
+### 4. CFE Causal Velocity Consistent with PF Axiom 2 (ARGUED — consistent, not a validation)
 
 **Evidence**: Perez CFE paper (Jan 2026, ResearchGate)
 
@@ -11831,14 +10469,14 @@ $$v_g = \frac{\partial \omega}{\partial k} = c\sqrt{1 - \frac{\mu_c^2 c^4}{\hbar
 
 **PF Axiom 2**: "Every medium has a causal velocity."
 
-**Status**: **Exact match.** The CFE explicitly derives that coherence perturbations propagate causally at subluminal velocities. This is a direct validation of Axiom 2.
+**Status**: **Consistent with Axiom 2.** The CFE derives that coherence perturbations propagate causally at subluminal velocities. This is consistent with Axiom 2 but does not validate it — the CFE is a single preprint, and consistency is not validation.
 
 **Testable Prediction**: Frequency-dependent gravitational wave speed in coherent media:
 $$\Delta t = \frac{g_c^2 \langle |C|^2 \rangle D}{2c\omega^2}$$
 
 <hr />
 
-### 5. CFE Consciousness Threshold Validates PF Axiom 3 (Confidence: 0.99)
+### 5. CFE Consciousness Threshold Consistent with PF Axiom 3 (ARGUED — consistent, not a validation)
 
 **Evidence**: Perez CFE paper (Jan 2026), 15 empirical studies
 
@@ -11848,7 +10486,7 @@ where CRI = Coherence Resonance Index = multiplicative product of all components
 
 **PF Axiom 3**: "Coherence is necessary for stable structure."
 
-**Status**: **Quantitative validation.** The CFE provides the first quantitative threshold for PF Axiom 3. The **multiplicative necessity principle** (all components required) directly matches "coherence is **necessary**" (not just helpful).
+**Status**: **Consistent with Axiom 3.** The CFE provides a quantitative threshold that is consistent with PF Axiom 3's coherence requirement. The multiplicative necessity principle matches "coherence is necessary." This is consistent, not a validation — the CFE is a single preprint, and shared language is not shared derivation.
 
 **Critical Exponent**: Near threshold, |C| scales as:
 $$|C| \sim (\theta - \theta_c)^{-\nu}$$

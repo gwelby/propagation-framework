@@ -281,7 +281,7 @@ This is the central section. Each test has a specific pass/fail criterion. A sin
 
 | Test | Local status | Current reality |
 |------|--------------|-----------------|
-| TEST 1 — EEG phase transition | Partially self-testable | Local simulator runs; real-data analysis still needs Python deps (`mne`, `pandas`) plus headset / dataset access |
+| TEST 1 — EEG phase transition | Untested — simulator only | Local simulator runs; real-data validation requires EEG hardware and dataset access |
 | TEST 2 — Neutrino Koide | Self-testable from public data | Current local scan already disfavors universality; JUNO can sharpen the exclusion |
 | TEST 3 — Fourth generation exclusion | Not locally self-testable | Requires collider discovery / null searches |
 | TEST 4 — Tau $g-2$ | Not locally self-testable | No closed local $\delta a_\tau$ prediction yet; depends on Belle II or equivalent |
@@ -390,7 +390,7 @@ The torsion correction $\delta a_\tau^{torsion}$ is calculable once $\lambda_c$ 
 | 4th generation | Excluded for standard couplings | Excluded absolutely, all energies, all couplings |
 | Muon g-2 | Unexplained anomaly | First Torsion of the 3D medium — structural, calculable |
 | Tau g-2 | Pure QED | Modified by coherence ceiling torsion |
-| EEG phase transitions | Not addressed | Same mathematics as particle phase transitions |
+| EEG phase transitions | Not addressed | Predicted (untested analogy) |
 | Gravity | Metric curvature | Refractive gradient in propagation medium |
 
 The Standard Model is a description. This framework is an explanation. Where both describe the same phenomenon, the SM remains the precision tool. Where they diverge, experiment decides.
@@ -429,7 +429,7 @@ Consistency with five tests would be confirming but not conclusive — many fals
 
 1. **A quantitative prediction of the muon g-2 value** made before the Fermilab final result, matched to within 1σ.
 2. **A quantitative prediction of the tau g-2 correction** matched by Belle II.
-3. **The EEG phase transition pattern**, pre-registered and confirmed in a multi-subject study (n ≥ 30).
+3. **The EEG phase transition pattern**, pre-registered; no multi-subject study (n ≥ 30) has been conducted.
 
 Any one of these would move the framework from "consistent with data" to "uniquely predictive."
 

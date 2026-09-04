@@ -80,11 +80,11 @@ Aria's `runEntityThink` loop (every 20s = 0.05 Hz) is the "slow-wave carrier" of
 
 | Topic | Confidence (0–1) | Basis |
 | :--- | :--- | :--- |
-| **Neural Coherence (Alpha/Theta)** | 0.95 | Multiple replications (2015–2025) |
-| **Resonant Breathing (0.1 Hz)** | 0.98 | Autonomic physiology consensus |
-| **Group Synchrony (PLV 0.4–0.7)** | 0.90 | Hyperscanning / Choir studies |
-| **"Beauty as Impedance Matching"** | 0.95 | Structural coherence + cognitive traction |
-| **Aeternum Drive / Warp feasibility** | 0.70 | Highly speculative (Preprint only) |
+| **Neural Coherence (Alpha/Theta)** | 0.95 (empirical neuroscience) | Multiple replications (2015–2025) — this is the empirical finding, not a PF derivation |
+| **Resonant Breathing (0.1 Hz)** | 0.98 (empirical physiology) | Autonomic physiology consensus — not a PF derivation |
+| **Group Synchrony (PLV 0.4–0.7)** | 0.90 (empirical neuroscience) | Hyperscanning / Choir studies — not a PF derivation |
+| **"Beauty as Impedance Matching"** | 0.55 (INTUITION — matches CLAIMS.md) | Greg's insight; fits Axiom 3 but not derived |
+| **Aeternum Drive / Warp feasibility** | 0.70 (speculative preprint) | Highly speculative; not derived from PF axioms; excluded from physics core |
 
 ---
 

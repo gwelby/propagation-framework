@@ -54,7 +54,7 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 
 ---
 
-### 3. IIT 2025 Converges with PF on Consciousness (Confidence: 0.98)
+### 3. IIT 2025 Shares Language with PF on Consciousness (INTUITION — language alignment, not convergence)
 
 **Evidence**: Tononi & Boly (arXiv:2510.25998, Dec 2025), Perez CFE (Jan 2026)
 
@@ -62,7 +62,7 @@ This research session investigated **G?del boundary phenomena** ? the intersecti
 
 **PF Definition**: "Consciousness is what coherent self-referential propagation **IS from the inside**."
 
-**Direct Convergence**:
+**Language Parallel** (not convergence — shared vocabulary is not shared derivation):
 | IIT 2025 | Propagation Framework |
 |----------|----------------------|
 | "Cause-effect power **upon itself**" | "**Self-referential** propagation" |
@@ -75,7 +75,7 @@ $$|C(x,t)| \propto S \cdot E \cdot I \cdot \phi$$
 
 ---
 
-### 4. CFE Causal Velocity Validates PF Axiom 2 (Confidence: 0.99)
+### 4. CFE Causal Velocity Consistent with PF Axiom 2 (ARGUED — consistent, not a validation)
 
 **Evidence**: Perez CFE paper (Jan 2026, ResearchGate)
 
@@ -85,14 +85,14 @@ $$v_g = \frac{\partial \omega}{\partial k} = c\sqrt{1 - \frac{\mu_c^2 c^4}{\hbar
 
 **PF Axiom 2**: "Every medium has a causal velocity."
 
-**Status**: **Exact match.** The CFE explicitly derives that coherence perturbations propagate causally at subluminal velocities. This is a direct validation of Axiom 2.
+**Status**: **Consistent with Axiom 2.** The CFE derives that coherence perturbations propagate causally at subluminal velocities. This is consistent with Axiom 2 but does not validate it — the CFE is a single preprint, and consistency is not validation.
 
 **Testable Prediction**: Frequency-dependent gravitational wave speed in coherent media:
 $$\Delta t = \frac{g_c^2 \langle |C|^2 \rangle D}{2c\omega^2}$$
 
 ---
 
-### 5. CFE Consciousness Threshold Validates PF Axiom 3 (Confidence: 0.99)
+### 5. CFE Consciousness Threshold Consistent with PF Axiom 3 (ARGUED — consistent, not a validation)
 
 **Evidence**: Perez CFE paper (Jan 2026), 15 empirical studies
 
@@ -102,7 +102,7 @@ where CRI = Coherence Resonance Index = multiplicative product of all components
 
 **PF Axiom 3**: "Coherence is necessary for stable structure."
 
-**Status**: **Quantitative validation.** The CFE provides the first quantitative threshold for PF Axiom 3. The **multiplicative necessity principle** (all components required) directly matches "coherence is **necessary**" (not just helpful).
+**Status**: **Consistent with Axiom 3.** The CFE provides a quantitative threshold that is consistent with PF Axiom 3's coherence requirement. The multiplicative necessity principle matches "coherence is necessary." This is consistent, not a validation — the CFE is a single preprint, and shared language is not shared derivation.
 
 **Critical Exponent**: Near threshold, |C| scales as:
 $$|C| \sim (\theta - \theta_c)^{-\nu}$$

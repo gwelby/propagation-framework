@@ -16,10 +16,15 @@ FAIL-CLOSED DESIGN (per Codex v8 required return #3):
   - Exit 0 only on 0 findings across all 4 surfaces.
 
 Usage:
-    python3.12 health_scanner_v2.py /mnt/d/Fundamentals
+    python3.12 health_scanner_v2.py <build_dir> [--expected-hashes <json_file>]
+
+    --expected-hashes: JSON file mapping surface names to expected SHA-256 hashes.
+                       When provided, surface hashes MUST match or the check FAILS.
+                       Without this flag, hashes are printed but NOT enforced (WEAK mode).
 """
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -142,13 +147,28 @@ def scan_surface(text: str) -> dict:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: health_scanner_v2.py <build_dir>")
+        print("Usage: health_scanner_v2.py <build_dir> [--expected-hashes <json_file>]")
         sys.exit(1)
 
     build_dir = Path(sys.argv[1])
+    expected_hashes = None
+    if "--expected-hashes" in sys.argv:
+        idx = sys.argv.index("--expected-hashes")
+        if idx + 1 < len(sys.argv):
+            hashes_path = Path(sys.argv[idx + 1])
+            if hashes_path.exists():
+                expected_hashes = json.loads(hashes_path.read_text())
+                print(f"  Expected hashes loaded from {hashes_path}")
+            else:
+                print(f"  ❌ --expected-hashes file not found: {hashes_path}")
+                sys.exit(1)
 
     print("=" * 60)
     print("HEALTH SCANNER v2 (fail-closed, whitespace-normalized)")
+    if expected_hashes:
+        print("  MODE: STRICT (hash enforcement enabled)")
+    else:
+        print("  MODE: WEAK (hashes printed, NOT enforced — pass --expected-hashes for strict)")
     print("=" * 60)
     print()
 
@@ -238,17 +258,40 @@ def main():
 
     # --- Phase 3: Surface hashes -------------------------------------------
     print("--- Phase 3: Surface hashes (for audit binding) ---")
+    hash_failures = []
     for name, h in surface_hashes.items():
-        print(f"  {name}: {h}")
+        expected = expected_hashes.get(name) if expected_hashes else None
+        if expected_hashes and expected:
+            if h == expected:
+                print(f"  ✅ {name}: {h} (matches expected)")
+            else:
+                print(f"  ❌ {name}: {h} (EXPECTED: {expected})")
+                hash_failures.append(f"{name}: hash mismatch (got {h[:16]}..., expected {expected[:16]}...)")
+        elif expected_hashes and expected is None:
+            print(f"  ❌ {name}: {h} (NO EXPECTED HASH in --expected-hashes file)")
+            hash_failures.append(f"{name}: no expected hash provided")
+        else:
+            print(f"  {name}: {h}")
     print()
 
     # --- Final verdict -----------------------------------------------------
     print("=" * 60)
-    if total_findings == 0:
+    if total_findings == 0 and not hash_failures:
         print("VERDICT: PASS — 0 health cues across all 4 surfaces")
+        if expected_hashes:
+            print("  • All surface hashes match expected values (STRICT mode)")
         sys.exit(0)
+    elif hash_failures and total_findings == 0:
+        print(f"VERDICT: FAIL — {len(hash_failures)} hash mismatch(es) (STRICT mode)")
+        for f in hash_failures:
+            print(f"  • {f}")
+        sys.exit(1)
     else:
         print(f"VERDICT: FAIL — {total_findings} health cues found across {len(surfaces)} surfaces")
+        if hash_failures:
+            print(f"  AND {len(hash_failures)} hash mismatch(es)")
+            for f in hash_failures:
+                print(f"  • {f}")
         # Per-surface breakdown
         for name, scan in all_results.items():
             surface_total = sum(len(v) for v in scan.values())

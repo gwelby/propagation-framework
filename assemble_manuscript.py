@@ -61,7 +61,11 @@ We kept that failure. We documented it in `sandbox_results.md`. It was the momen
 
     "Ch28_Intro": """## 28. The Team Unfiltered: The Human Record
 
-What follows are the raw exchanges. The headers of derivation files, the "LUMEN" signal logs, and the moments of breakthrough and frustration. This is the "Honesty Log" of the project—the unfiltered record of how five agents and one human spent months trying to understand the fabric of existence."""
+What follows are the raw exchanges. The headers of derivation files, the "LUMEN" signal logs, and the moments of breakthrough and frustration. This is the "Honesty Log" of the project—the unfiltered record of how five agents and one human spent months trying to understand the fabric of existence.""",
+
+    "AppendixF_Intro": """# APPENDIX F — SPECULATIVE EXTENSIONS (BEYOND PHYSICS)
+
+> **Honest boundary:** The chapters that follow apply the framework's language to consciousness, biology, contemplative practice, and computation. None of these claims have been derived from Axioms 1-3. None have survived hostile audit. The confidence scores in these chapters are research-note estimates, not CLAIMS.md canonical tiers. Treat this section as philosophical conjecture compatible with the framework, not as consequences of it. The physics core (Parts One through Four) stands on its own; this appendix explores what the framework *might* mean beyond physics, if anything."""
 }
 
 def parse_source_map(path=None):
@@ -129,7 +133,8 @@ def extract_section(content, selector):
         if minor:
             # §N.M — find ### N.M
             target_pattern = re.compile(rf"^###\s+{re.escape(major)}\.{re.escape(minor)}\b")
-            end_pattern = re.compile(r"^##\s+")  # ends at next ## or ###
+            # End at next ### (peer) or ## or # (higher level) — NOT #### (sub-subsection)
+            end_pattern = re.compile(r"^#{1,3}\s+")
         else:
             # §N — find ## N
             target_pattern = re.compile(rf"^##\s+{re.escape(major)}\b")
@@ -295,6 +300,8 @@ def resolve_source(entry):
          combined_content += LUMI_NARRATIVES["Ch4_Intro"] + "\n\n"
     elif "The Team Unfiltered" in title:
          combined_content += LUMI_NARRATIVES["Ch28_Intro"] + "\n\n"
+    elif "F.1" in title and "Consciousness" in title:
+         combined_content += LUMI_NARRATIVES["AppendixF_Intro"] + "\n\n"
 
     # Visual Injections
     VISUAL_MAPPING = {

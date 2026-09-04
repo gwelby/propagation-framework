@@ -19,10 +19,15 @@ FAIL-CLOSED DESIGN (per Codex v8 required return #3):
   - Exit 1 on any failure. Exit 0 only on full coherence.
 
 Usage:
-    python3.12 artifact_coherence_check.py /mnt/d/Fundamentals
+    python3.12 artifact_coherence_check.py <build_dir> [--expected-hashes <json_file>]
+
+    --expected-hashes: JSON file mapping surface names to expected SHA-256 hashes.
+                       When provided, surface hashes MUST match or the check FAILS.
+                       Without this flag, hashes are printed but NOT enforced (WEAK mode).
 """
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -175,13 +180,28 @@ def check_mandatory_tokens(surfaces: dict) -> dict:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: artifact_coherence_check.py <build_dir>")
+        print("Usage: artifact_coherence_check.py <build_dir> [--expected-hashes <json_file>]")
         sys.exit(1)
 
     build_dir = Path(sys.argv[1])
+    expected_hashes = None
+    if "--expected-hashes" in sys.argv:
+        idx = sys.argv.index("--expected-hashes")
+        if idx + 1 < len(sys.argv):
+            hashes_path = Path(sys.argv[idx + 1])
+            if hashes_path.exists():
+                expected_hashes = json.loads(hashes_path.read_text())
+                print(f"  Expected hashes loaded from {hashes_path}")
+            else:
+                print(f"  ❌ --expected-hashes file not found: {hashes_path}")
+                sys.exit(1)
 
     print("=" * 60)
     print("ARTIFACT COHERENCE CHECK (fail-closed)")
+    if expected_hashes:
+        print("  MODE: STRICT (hash enforcement enabled)")
+    else:
+        print("  MODE: WEAK (hashes printed, NOT enforced — pass --expected-hashes for strict)")
     print("=" * 60)
     print()
 
@@ -305,13 +325,25 @@ def main():
 
     # --- Phase 5: Surface hashes -------------------------------------------
     print("--- Phase 5: Surface hashes (for audit binding) ---")
+    hash_failures = []
     for name, h in surface_hashes.items():
-        print(f"  {name}: {h}")
+        expected = expected_hashes.get(name) if expected_hashes else None
+        if expected_hashes and expected:
+            if h == expected:
+                print(f"  ✅ {name}: {h} (matches expected)")
+            else:
+                print(f"  ❌ {name}: {h} (EXPECTED: {expected})")
+                hash_failures.append(f"{name}: hash mismatch (got {h[:16]}..., expected {expected[:16]}...)")
+        elif expected_hashes and expected is None:
+            print(f"  ❌ {name}: {h} (NO EXPECTED HASH in --expected-hashes file)")
+            hash_failures.append(f"{name}: no expected hash provided")
+        else:
+            print(f"  {name}: {h}")
     print()
 
     # --- Final verdict -----------------------------------------------------
     print("=" * 60)
-    all_failures = sign_failures + excluded_failures + token_failures
+    all_failures = sign_failures + excluded_failures + token_failures + hash_failures
     if all_failures:
         print(f"VERDICT: FAIL — {len(all_failures)} coherence failure(s):")
         for f in all_failures:
@@ -322,6 +354,8 @@ def main():
         print("  • Eigenvalue signs correct on all surfaces")
         print("  • All excluded terms absent from all surfaces")
         print("  • All mandatory tokens present on all surfaces")
+        if expected_hashes:
+            print("  • All surface hashes match expected values (STRICT mode)")
         sys.exit(0)
 
 
