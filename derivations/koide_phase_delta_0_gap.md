@@ -127,7 +127,7 @@ ratio gap/uncertainty                = 0.89  [corrected: was 0.029, derived from
 ### Three conclusions
 
 **1. δ_Koide IS 2/9 within measurement uncertainty.**
-The gap of 7.4×10⁻⁶ is 0.89× the m_τ measurement uncertainty. Any future precision m_τ measurement within current uncertainty is fully consistent with δ_exact = 2/9 exactly. **Note (2026-09-04)**: the previous "0.029σ" was based on a stale uncertainty value 30.9× too large. The correct value is 0.89σ — still consistent, but much closer to the 1σ edge than previously stated. See Claude's Monte-Carlo verification (N=200k) and the τ-mass pre-registration trigger in CLAIMS.md.
+The gap of 7.4×10⁻⁶ is 0.89× the m_τ measurement uncertainty — i.e. δ sits **0.89σ** from 2/9, consistent, but near the 1σ edge. **Improved τ-mass precision is what threatens this row, not what confirms it:** holding the current central value, σ(m_τ)=0.03 MeV puts δ at 3.55σ and Q at 3.64σ, past both rows' own >3σ falsification criterion. See the pre-registered τ-mass trigger in `CLAIMS.md`. **Note (2026-09-04)**: the previous "0.029σ" was based on a stale uncertainty value 30.9× too large. The correct value is 0.89σ — still consistent, but much closer to the 1σ edge than previously stated. See Claude's Monte-Carlo verification (N=200k) and the τ-mass pre-registration trigger in CLAIMS.md.
 
 **2. sin²θ_W ≠ 2/9 algebraically — definitively.**
 The Casimir polynomial gives sin²θ_W = 1 − x₊(1/2)/x₊(1) = (−5 + 8√3 − √57)/(8(√3−1)).
