@@ -44,7 +44,9 @@ This is EXACTLY the P₀/Q decomposition:
 
 The equal angular spacing 2π/3 is what makes the residue sum to zero,
 which is what makes the P₀/Q decomposition work. Without equal spacing,
-the "uniform" mode wouldn't be uniform, and Q = 2/3 wouldn't follow.
+the "uniform" mode wouldn't be uniform. However, equal spacing alone
+does NOT select Q = 2/3 — the general ratio is Q = (1 + β²/2)/3, and
+Q = 2/3 additionally requires β² = 2 (see KoideUnlocked.lean:176).
 
 ## The connection to the Laplacian principle
 
@@ -66,11 +68,16 @@ PROVES (machine-checked):
 - The cosine identity: cos(δ) + cos(δ+2π/3) + cos(δ+4π/3) = 0 for all δ
 - The Koide ansatz decomposes as P₀ + Q (uniform + residue)
 - The residue sums to zero (by the cosine identity)
-- Q = 2/3 follows from the P₀/Q decomposition (from KoideGeometry)
+- The general Koide ratio: Q = (1 + β²/2)/3 for all β, δ (from KoideUnlocked)
 
 ASSUMES (not derived from Axioms 1-3):
 - The three generations are equally spaced in phase (the Z₃ symmetry)
 - The ansatz form (cosine modulation around √m̄)
+- **The amplitude β² = 2** (the equal-amplitude / physical-domain premise).
+  Without this, Q = (1 + β²/2)/3 ≠ 2/3. Counterexample (Codex F1, 2026-09-05):
+  A=1, β=1, δ=0 gives amplitudes (2, ½, ½), all positive, equal spacing holds,
+  zero-sum residue holds — and Q = ½, not 2/3. Q = 2/3 requires β² = 2
+  as an additional premise not derived from the decomposition alone.
 
 The equal angular spacing is a CANDIDATE for derivation from the Laplacian
 principle. If the Medium distributes propagation equally (spatial
@@ -275,7 +282,8 @@ This is the frontier.
     are the same gap — the equal-weight selection — in two domains.
 
     God Equation: equal-weight in space → α = 1/(D-1) → α = 1/2 at D=3
-    Koide: equal-weight in frequency → 2π/3 spacing → cosine identity → Q = 2/3
+    Koide: equal-weight in frequency → 2π/3 spacing → cosine identity → Q = (1+β²/2)/3
+    Additional premise for Q = 2/3: β² = 2 (not derived from equal spacing alone)
 
     One principle (equal-weight coupling), two selection gaps, one Wall.
     The Laplacian selection principle is the candidate to breach the Wall. -/
