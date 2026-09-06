@@ -1,6 +1,6 @@
 # Fundamentals — Build Manifest
 
-**Built:** 2026-09-04 15:19 UTC
+**Built:** 2026-09-06 15:59 UTC
 **Status:** BUILD RECORD ONLY - release truth lives in RELEASE_MANIFEST.md
 **Source:** /mnt/d/Fundamentals/PROPAGATION_MANUSCRIPT_PROD.md
 **PDF:** /mnt/d/Fundamentals/BOOK_PROPAGATION_FRAMEWORK.pdf

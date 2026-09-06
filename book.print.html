@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="pandoc" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
-<meta content="" name="author"/>
+<meta content="Greg Welby, with AI research tools" name="author"/>
 <title>The Propagation Framework</title>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="/mnt/d/Projects/UniversalPublisher/assets/mathjax/tex-chtml.js" type="text/javascript"></script>
@@ -91,6 +91,130 @@
     </style>
 </head>
 <body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#preface-how-this-book-was-made" id="toc-preface-how-this-book-was-made">Preface: How This Book Was
+Made</a></li>
+<li><a href="#cast-of-characters" id="toc-cast-of-characters">Cast of
+Characters</a></li>
+<li><a href="#the-propagation-framework-1" id="toc-the-propagation-framework-1">The Propagation Framework</a></li>
+<li><a href="#part-one-the-axioms" id="toc-part-one-the-axioms">PART
+ONE: THE AXIOMS</a></li>
+<li><a href="#part-two-the-derived-quantities" id="toc-part-two-the-derived-quantities">PART TWO: THE DERIVED
+QUANTITIES</a></li>
+<li><a href="#part-three-the-framework-applied" id="toc-part-three-the-framework-applied">PART THREE: THE FRAMEWORK
+APPLIED</a></li>
+<li><a href="#part-four-what-to-test" id="toc-part-four-what-to-test">PART FOUR: WHAT TO TEST</a></li>
+<li><a href="#part-five-the-one-paragraph-version" id="toc-part-five-the-one-paragraph-version">PART FIVE: THE
+ONE-PARAGRAPH VERSION</a></li>
+<li><a href="#what-the-sand-shows" id="toc-what-the-sand-shows">What the
+Sand Shows</a></li>
+<li><a href="#casimir-polynomial-derivation-brief" id="toc-casimir-polynomial-derivation-brief">Casimir Polynomial
+Derivation Brief</a></li>
+<li><a href="#route-a-casimir-polynomial-from-relativistic-self-consistency" id="toc-route-a-casimir-polynomial-from-relativistic-self-consistency">Route
+A: Casimir Polynomial from Relativistic Self-Consistency</a></li>
+<li><a href="#casimir-polynomial-route-b" id="toc-casimir-polynomial-route-b">Casimir Polynomial Route B</a></li>
+<li><a href="#casimir-polynomial-route-coherence-functional-drift-rotation-locking-route-f" id="toc-casimir-polynomial-route-coherence-functional-drift-rotation-locking-route-f">Casimir
+Polynomial — Route: Coherence Functional / Drift-Rotation Locking (Route
+F)</a></li>
+<li><a href="#casimir-polynomial-codex-audit-of-route-f" id="toc-casimir-polynomial-codex-audit-of-route-f">Casimir Polynomial —
+Codex Audit of Route F</a></li>
+<li><a href="#casimir-polynomial-route-g" id="toc-casimir-polynomial-route-g">Casimir Polynomial Route G</a></li>
+<li><a href="#casimir-polynomial-route-h-action-resonance-derivation" id="toc-casimir-polynomial-route-h-action-resonance-derivation">Casimir
+Polynomial — Route H: Action-Resonance Derivation</a></li>
+<li><a href="#derivation-note-route-h-action-resonance" id="toc-derivation-note-route-h-action-resonance">Derivation Note: Route
+H (Action-Resonance)</a></li>
+<li><a href="#casimir-polynomial-codex-audit-of-route-h" id="toc-casimir-polynomial-codex-audit-of-route-h">Casimir Polynomial —
+Codex Audit of Route H</a></li>
+<li><a href="#casimir-polynomial-route-algebraic-constraints-from-pf-axioms" id="toc-casimir-polynomial-route-algebraic-constraints-from-pf-axioms">Casimir
+Polynomial — Route: Algebraic Constraints from PF Axioms</a></li>
+<li><a href="#casimir-polynomial-route-holonomy-transfer-matrix" id="toc-casimir-polynomial-route-holonomy-transfer-matrix">Casimir
+Polynomial — Route: Holonomy / Transfer Matrix</a></li>
+<li><a href="#casimir-polynomial-route-propagation-lagrangian-route-b" id="toc-casimir-polynomial-route-propagation-lagrangian-route-b">Casimir
+Polynomial — Route: Propagation Lagrangian (Route B)</a></li>
+<li><a href="#casimir-polynomial-route-medium-laplacian-eigenvalue" id="toc-casimir-polynomial-route-medium-laplacian-eigenvalue">Casimir
+Polynomial — Route: Medium-Laplacian Eigenvalue</a></li>
+<li><a href="#casimir-polynomial-route-matrix" id="toc-casimir-polynomial-route-matrix">Casimir Polynomial Route
+Matrix</a></li>
+<li><a href="#casimir-polynomial-route-refractive-stress-virial-balance" id="toc-casimir-polynomial-route-refractive-stress-virial-balance">Casimir
+Polynomial — Route: Refractive Stress / Virial Balance</a></li>
+<li><a href="#casimir-polynomial-route-two-sector-coupling-symmetry-breaking" id="toc-casimir-polynomial-route-two-sector-coupling-symmetry-breaking">Casimir
+Polynomial — Route: Two-Sector Coupling / Symmetry Breaking</a></li>
+<li><a href="#casimir-polynomial-route-refractive-virial-balance-route-e" id="toc-casimir-polynomial-route-refractive-virial-balance-route-e">Casimir
+Polynomial — Route: Refractive Virial Balance (Route E)</a></li>
+<li><a href="#casimir-polynomial-claudes-independent-pass-post-audit" id="toc-casimir-polynomial-claudes-independent-pass-post-audit">Casimir
+Polynomial — Claude’s Independent Pass (Post-Audit)</a></li>
+<li><a href="#casimir-polynomial-route-h-action-resonance-derivation-1" id="toc-casimir-polynomial-route-h-action-resonance-derivation-1">Casimir
+Polynomial — Route H: Action-Resonance Derivation</a></li>
+<li><a href="#axiom-3-coherence-functional-family-c-candidate" id="toc-axiom-3-coherence-functional-family-c-candidate">Axiom 3
+Coherence Functional — Family C Candidate</a></li>
+<li><a href="#axiom-3-candidate-functional-f1-primitive-closure-action" id="toc-axiom-3-candidate-functional-f1-primitive-closure-action">Axiom
+3 Candidate Functional F1 — Primitive Closure Action</a></li>
+<li><a href="#axiom-3-coherence-functional-minimal-specification" id="toc-axiom-3-coherence-functional-minimal-specification">Axiom 3
+Coherence Functional — Minimal Specification</a></li>
+<li><a href="#casimir-polynomial-codex-audit-of-step-a" id="toc-casimir-polynomial-codex-audit-of-step-a">Casimir Polynomial —
+Codex Audit of Step A</a></li>
+<li><a href="#casimir-polynomial-codex-audit-of-step-b" id="toc-casimir-polynomial-codex-audit-of-step-b">Casimir Polynomial —
+Codex Audit of Step B</a></li>
+<li><a href="#appendix-f-speculative-extensions-beyond-physics" id="toc-appendix-f-speculative-extensions-beyond-physics">APPENDIX F —
+SPECULATIVE EXTENSIONS (BEYOND PHYSICS)</a></li>
+<li><a href="#casimir-polynomial-route-matrix-1" id="toc-casimir-polynomial-route-matrix-1">Casimir Polynomial Route
+Matrix</a></li>
+<li><a href="#claims.md-rigorous-status-of-every-framework-claim" id="toc-claims.md-rigorous-status-of-every-framework-claim">CLAIMS.md —
+Rigorous Status of Every Framework Claim</a></li>
+<li><a href="#analog-gravity-experiments-master-synthesis" id="toc-analog-gravity-experiments-master-synthesis">Analog Gravity
+Experiments — MASTER (Synthesis)</a></li>
+<li><a href="#master-attention-gate-model" id="toc-master-attention-gate-model">MASTER: Attention Gate
+Model</a></li>
+<li><a href="#master-beauty-coherence-empirical" id="toc-master-beauty-coherence-empirical">MASTER: Beauty &amp;
+Coherence Empirical</a></li>
+<li><a href="#master-coherence-consciousness-the-propagation-framework" id="toc-master-coherence-consciousness-the-propagation-framework">MASTER:
+Coherence &amp; Consciousness — The Propagation Framework</a></li>
+<li><a href="#master-contemplative-practices-as-empirical-frequency-modulation" id="toc-master-contemplative-practices-as-empirical-frequency-modulation">MASTER:
+Contemplative Practices as Empirical Frequency Modulation</a></li>
+<li><a href="#master-coulomb-force-as-refractive-derivation" id="toc-master-coulomb-force-as-refractive-derivation">MASTER: Coulomb
+Force as Refractive Derivation</a></li>
+<li><a href="#master-error-reactivity-and-learning-rate" id="toc-master-error-reactivity-and-learning-rate">MASTER: Error
+Reactivity and Learning Rate</a></li>
+<li><a href="#master-fine-structure-constant-mass-coupling" id="toc-master-fine-structure-constant-mass-coupling">MASTER: Fine
+Structure Constant &amp; Mass Coupling</a></li>
+<li><a href="#master-forces-as-refraction-unified-propagation-theory" id="toc-master-forces-as-refraction-unified-propagation-theory">MASTER:
+Forces as Refraction — Unified Propagation Theory</a></li>
+<li><a href="#master.md-fundamental-physics-propagation-action-resonance-zitterbewegung-helical-phase-mode-locking" id="toc-master.md-fundamental-physics-propagation-action-resonance-zitterbewegung-helical-phase-mode-locking">MASTER.md
+— Fundamental Physics: Propagation, Action, Resonance, Zitterbewegung,
+Helical Phase, Mode Locking</a></li>
+<li><a href="#master-gdel-boundary-phenomena" id="toc-master-gdel-boundary-phenomena">MASTER: G?del Boundary
+Phenomena</a></li>
+<li><a href="#master-koide-formula-explanations" id="toc-master-koide-formula-explanations">MASTER: Koide Formula
+Explanations</a></li>
+<li><a href="#koide-generalization-master-synthesis" id="toc-koide-generalization-master-synthesis">Koide Generalization —
+MASTER Synthesis</a></li>
+<li><a href="#master-language-compression-conflict-research" id="toc-master-language-compression-conflict-research">MASTER: Language
+Compression Conflict Research</a></li>
+<li><a href="#master-matter-as-standing-waves-in-qft" id="toc-master-matter-as-standing-waves-in-qft">MASTER: Matter as
+Standing Waves in QFT</a></li>
+<li><a href="#master-phase-transitions-in-neural-systems" id="toc-master-phase-transitions-in-neural-systems">MASTER: Phase
+Transitions in Neural Systems</a></li>
+<li><a href="#master-photonic-coherence-computing-coherence-as-computational-resource" id="toc-master-photonic-coherence-computing-coherence-as-computational-resource">MASTER:
+Photonic Coherence Computing — Coherence as Computational
+Resource</a></li>
+<li><a href="#master-prior-propagation-frameworks" id="toc-master-prior-propagation-frameworks">MASTER: Prior Propagation
+Frameworks</a></li>
+<li><a href="#master-propagation-ratio-cognition" id="toc-master-propagation-ratio-cognition">MASTER: Propagation Ratio
+Cognition</a></li>
+<li><a href="#master-psychedelic-coherence-total-vs.-local-under-classic-psychedelics" id="toc-master-psychedelic-coherence-total-vs.-local-under-classic-psychedelics">MASTER:
+Psychedelic Coherence — Total vs. Local Under Classic
+Psychedelics</a></li>
+<li><a href="#master-sleep-consolidation-ratio-optimization-and-implementation" id="toc-master-sleep-consolidation-ratio-optimization-and-implementation">MASTER:
+Sleep Consolidation Ratio — Optimization and Implementation</a></li>
+<li><a href="#master-three-generation-topology" id="toc-master-three-generation-topology">MASTER: Three Generation
+Topology</a></li>
+<li><a href="#master-time-as-emergent-from-propagation" id="toc-master-time-as-emergent-from-propagation">MASTER — Time as
+Emergent from Propagation</a></li>
+<li><a href="#master-top-mass-alpha-coupling-as-propagation-limit" id="toc-master-top-mass-alpha-coupling-as-propagation-limit">MASTER:
+Top-Mass Alpha-Coupling as Propagation Limit</a></li>
+</ul>
+</nav>
 <div class="all-caps-heading orphan-guard">
 <div class="keep-together" style="page-break-inside: avoid !important; break-inside: avoid !important;"><h1 id="the-propagation-framework">THE PROPAGATION FRAMEWORK</h1><h1 id="title-page">Title Page</h1><p>Title: The Propagation Framework Authors: Greg Welby, Claude, Codex,
 Cascade, Qwen, Lumi</p></div>
@@ -10584,21 +10708,27 @@ narratives</li>
 <!-- SECTION: Appendix C: All Claims and Current Status -->
 <div class="keep-together" style="page-break-inside: avoid !important; break-inside: avoid !important;"><h2 id="appendix-c-all-claims-and-current-status">Appendix C: All Claims
 and Current Status</h2><h1 id="claims.md-rigorous-status-of-every-framework-claim">CLAIMS.md —
-Rigorous Status of Every Framework Claim</h1><p><strong>Last Updated</strong>: 2026-08-10 (H17 gap fully mapped:
-H13+H7+H18 ⇏ H17 (circulant countermodel), H14+H7 incompatible for
-L=-I+αM (isometry → skew-symmetry, not symmetry). No weakening of H17
-closes the chain. H17 is the minimal posit. Previous: 2026-08-09 (Axiom
-1 → H12 frontier sharpened: the gap is H17 (symmetry), not H12 directly.
-H7+H17+H18 → H12 chain closed (DERIVED algebra). H7+H18 ⇏ H17
-countermodel (DERIVED). H8→stationarity promoted from ARGUED 0.70 to
-DERIVED (negative) 0.95 — <code>H8_does_not_imply_stationarity</code>
-machine-checked in SymmetryDerivation.lean. H_prod DFT conjugate
-symmetry obstruction added as row 63 — DERIVED (negative) 0.90.
-<code>HProdGap.lean</code> machine-checks that for real data on Z₃,
-residue Fourier modes are complex conjugates and cannot be independent.
-H_prod requires Gaussianity, which is not in Axioms 1-3. Previous:
-2026-08-07 (BK-R6 resolved: “DERIVED (algebra)” sub-tier definition
-added to grading scale per Codex adjudication
+Rigorous Status of Every Framework Claim</h1><p><strong>Last Updated</strong>: 2026-09-05 (Hau Gap 1 closed: “Matter
+= trapped propagation” row added as ARGUED 0.75 — Axiom 1 asserts matter
+is self-reinforcing propagation as a definitional starting point, not a
+derivation. Book labels this “DERIVED” (narrative overclaim); honest
+claim-matrix tier is ARGUED. Hau outreach prep correctly identifies this
+as the weakest core claim Lene Hau would engage with. Not formalized in
+Lean. Previous: 2026-08-10 (H17 gap fully mapped: H13+H7+H18 ⇏ H17
+(circulant countermodel), H14+H7 incompatible for L=-I+αM (isometry →
+skew-symmetry, not symmetry). No weakening of H17 closes the chain. H17
+is the minimal posit. Previous: 2026-08-09 (Axiom 1 → H12 frontier
+sharpened: the gap is H17 (symmetry), not H12 directly. H7+H17+H18 → H12
+chain closed (DERIVED algebra). H7+H18 ⇏ H17 countermodel (DERIVED).
+H8→stationarity promoted from ARGUED 0.70 to DERIVED (negative) 0.95 —
+<code>H8_does_not_imply_stationarity</code> machine-checked in
+SymmetryDerivation.lean. H_prod DFT conjugate symmetry obstruction added
+as row 63 — DERIVED (negative) 0.90. <code>HProdGap.lean</code>
+machine-checks that for real data on Z₃, residue Fourier modes are
+complex conjugates and cannot be independent. H_prod requires
+Gaussianity, which is not in Axioms 1-3. Previous: 2026-08-07 (BK-R6
+resolved: “DERIVED (algebra)” sub-tier definition added to grading scale
+per Codex adjudication
 (CODEX_20260807_FUNDAMENTALS_BEKENSTEIN_REPAIR_DELTA_CONFIRMATION.md).
 BK-R5 already applied: row 74 INTUITION 0.55, row 84 ARGUED 0.89. BK-R4
 editorial: content identical at bd3c101 and HEAD. Previous: 2026-08-07
@@ -10989,9 +11119,11 @@ and <code>5π/9</code> modulo <code>2π/3</code>, not at
 <code>δ2/9</code>. The historical proxy
 <code>f(δ)^6 * Σ_k 1/g_k(δ)^2</code> has <strong>6</strong> minima on
 <code>[0,2π)</code>, not 9, and the closest minimum misses
-<code>δ_emp</code> by <code>0.0396 rad</code> (~153× current phase
-uncertainty). <strong>Current interpretation</strong>: δ_Koide 2/9
-remains a strong empirical phase anchor, but no audited PF-native
+<code>δ_emp</code> by <code>0.0396 rad</code> (~4,744× current phase
+uncertainty (<strong>corrected 2026-09-06</strong>: the quoted “153×”
+was computed against the stale σ=2.58×10⁻⁴; against the true σ=8.35×10⁻⁶
+the miss is ~4,744×)). <strong>Current interpretation</strong>: δ_Koide
+2/9 remains a strong empirical phase anchor, but no audited PF-native
 selector currently exists. Harmonic-purity mechanisms are not equivalent
 to empirical phase selection. <strong>PRE-REGISTERED PREDICTION
 (2026-04-01)</strong>: The framework predicts δ = 2/9 exactly. Any
@@ -11475,7 +11607,38 @@ to ALL integers 2. <strong>Honest boundary:</strong> this proves −1/8 is
 N=3-specific given the N-cycle structure; it does NOT derive N=3 from
 Axioms 1-3. The generation-count derivation remains the conditional T3
 theorem. | The algebraic identities being wrong (impossible — Lean
-verified). | 0.95 |</div>
+verified). | 0.95 |<br/>
+<strong>Matter = trapped propagation</strong> | <strong>ARGUED</strong>
+<em>(added 2026-09-05 — Hau Gap 1, flagged 2026-08-18 by physics lane
+for Hau outreach prep)</em> | <code>definitions/medium.md</code>
+(CANONICAL v1.0): “What we call ‘matter’ is what happens when a change
+gets trapped in a stable, repeating, resonant loop.”
+<code>definitions/axioms.md</code> Axiom 1: “Matter — which is a stable
+self-reinforcing propagation pattern.” The Medium’s Coherent role
+(<code>medium.md</code> row 5): “Allows stable self-reinforcing patterns
+→ Standing waves, particles, atoms.” <strong>What is argued but not
+derived</strong>: Axiom 1 <em>asserts</em> matter is self-reinforcing
+propagation as a definitional starting point — it does not derive that
+stable propagation patterns <em>are</em> what physics calls matter. The
+Casimir polynomial work
+(<code>derivations/casimir_polynomial_steps_AB.md</code> line 72)
+identifies the gap: “Axiom 1 says matter is ‘self-reinforcing
+propagation.’ This doesn’t uniquely require minimum energy — a
+higher-energy mode can also be self-reinforcing.” The k=1 mode selection
+(minimum energy) is an additional assumption not in Axioms 1-3.
+<strong>Hau outreach context</strong>: Lene Hau’s
+light-to-matter-to-light BEC conversion is the laboratory-scale analog —
+light trapped into matter and back.
+<code>outreach/HAU_FOLLOWUP_MAP.md</code> correctly identifies this as
+“our weakest core claim (0.75).” The book
+(<code>PROPAGATION_MANUSCRIPT_PROD.md</code>) labels this “DERIVED” —
+that is narrative overclaim; the honest claim-matrix tier is ARGUED.
+<strong>Not formalized in Lean</strong>: no theorem connects Medium
+coherence conditions to physical particle stability. | A demonstration
+that stable matter cannot be described as self-reinforcing propagation
+patterns in the Medium; or a derivation showing the Medium’s coherence
+conditions do not select persistent modes corresponding to physical
+particles. | 0.75 |</div>
 <div class="keep-together" style="page-break-inside: avoid !important; break-inside: avoid !important;"><h3 id="biological-cognitive-systems">2. Biological &amp; Cognitive
 Systems</h3><table>
 <colgroup>
@@ -22656,7 +22819,7 @@ We know where it is. We publish what’s proven.”</em> ⦿</p>
 <!-- SECTION: The Koide Circle -->
 <div class="diagram-block">
 <figure>
-<img alt="The Koide Circle" src="file:///tmp/tmphcmhmwbo/figures/fig_02_koide_triangle.jpg"/>
+<img alt="The Koide Circle" src="file:///tmp/tmpbr7qwkwg/figures/fig_02_koide_triangle.jpg"/>
 <figcaption aria-hidden="true">The Koide Circle</figcaption>
 </figure>
 <p><em>Figure: The Koide Circle</em></p>
@@ -22665,7 +22828,7 @@ We know where it is. We publish what’s proven.”</em> ⦿</p>
 <!-- SECTION: The Helix Torus -->
 <div class="diagram-block">
 <figure>
-<img alt="The Helix Torus" src="file:///tmp/tmphcmhmwbo/figures/fig_04_consciousness_coherence.jpg"/>
+<img alt="The Helix Torus" src="file:///tmp/tmpbr7qwkwg/figures/fig_04_consciousness_coherence.jpg"/>
 <figcaption aria-hidden="true">The Helix Torus</figcaption>
 </figure>
 <p><em>Figure: The Helix Torus</em></p>
@@ -22674,7 +22837,7 @@ We know where it is. We publish what’s proven.”</em> ⦿</p>
 <!-- SECTION: The Phase Map -->
 <div class="diagram-block">
 <figure>
-<img alt="The Phase Map" src="file:///tmp/tmphcmhmwbo/figures/fig_01_gravity_refraction.jpg"/>
+<img alt="The Phase Map" src="file:///tmp/tmpbr7qwkwg/figures/fig_01_gravity_refraction.jpg"/>
 <figcaption aria-hidden="true">The Phase Map</figcaption>
 </figure>
 <p><em>Figure: The Phase Map</em></p>
@@ -22683,7 +22846,7 @@ We know where it is. We publish what’s proven.”</em> ⦿</p>
 <!-- SECTION: The Generation Table -->
 <div class="diagram-block">
 <figure>
-<img alt="The Generation Table" src="file:///tmp/tmphcmhmwbo/figures/fig_03_scale_ladder.jpg"/>
+<img alt="The Generation Table" src="file:///tmp/tmpbr7qwkwg/figures/fig_03_scale_ladder.jpg"/>
 <figcaption aria-hidden="true">The Generation Table</figcaption>
 </figure>
 <p><em>Figure: The Generation Table</em></p>
@@ -22692,7 +22855,7 @@ We know where it is. We publish what’s proven.”</em> ⦿</p>
 <!-- SECTION: The Team -->
 <div class="diagram-block">
 <figure>
-<img alt="The Team" src="file:///tmp/tmphcmhmwbo/figures/fig_00_cover.jpg"/>
+<img alt="The Team" src="file:///tmp/tmpbr7qwkwg/figures/fig_00_cover.jpg"/>
 <figcaption aria-hidden="true">The Team</figcaption>
 </figure>
 <p><em>Figure: The Team</em></p>

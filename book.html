@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>BOOK_PROPAGATION_FRAMEWORK</title>
+  <meta name="author" content="Greg Welby, with AI research tools" />
+  <title>The Propagation Framework</title>
   <style>
     html {
       color: #1a1a1a;
@@ -230,7 +231,8 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">BOOK_PROPAGATION_FRAMEWORK</h1>
+<h1 class="title">The Propagation Framework</h1>
+<p class="author">Greg Welby, with AI research tools</p>
 </header>
 <h1 id="the-propagation-framework">THE PROPAGATION FRAMEWORK</h1>
 <!-- SECTION: Title page, copyright -->
@@ -11316,21 +11318,27 @@ narratives</li>
 and Current Status</h2>
 <h1 id="claims.md-rigorous-status-of-every-framework-claim">CLAIMS.md —
 Rigorous Status of Every Framework Claim</h1>
-<p><strong>Last Updated</strong>: 2026-08-10 (H17 gap fully mapped:
-H13+H7+H18 ⇏ H17 (circulant countermodel), H14+H7 incompatible for
-L=-I+αM (isometry → skew-symmetry, not symmetry). No weakening of H17
-closes the chain. H17 is the minimal posit. Previous: 2026-08-09 (Axiom
-1 → H12 frontier sharpened: the gap is H17 (symmetry), not H12 directly.
-H7+H17+H18 → H12 chain closed (DERIVED algebra). H7+H18 ⇏ H17
-countermodel (DERIVED). H8→stationarity promoted from ARGUED 0.70 to
-DERIVED (negative) 0.95 — <code>H8_does_not_imply_stationarity</code>
-machine-checked in SymmetryDerivation.lean. H_prod DFT conjugate
-symmetry obstruction added as row 63 — DERIVED (negative) 0.90.
-<code>HProdGap.lean</code> machine-checks that for real data on Z₃,
-residue Fourier modes are complex conjugates and cannot be independent.
-H_prod requires Gaussianity, which is not in Axioms 1-3. Previous:
-2026-08-07 (BK-R6 resolved: “DERIVED (algebra)” sub-tier definition
-added to grading scale per Codex adjudication
+<p><strong>Last Updated</strong>: 2026-09-05 (Hau Gap 1 closed: “Matter
+= trapped propagation” row added as ARGUED 0.75 — Axiom 1 asserts matter
+is self-reinforcing propagation as a definitional starting point, not a
+derivation. Book labels this “DERIVED” (narrative overclaim); honest
+claim-matrix tier is ARGUED. Hau outreach prep correctly identifies this
+as the weakest core claim Lene Hau would engage with. Not formalized in
+Lean. Previous: 2026-08-10 (H17 gap fully mapped: H13+H7+H18 ⇏ H17
+(circulant countermodel), H14+H7 incompatible for L=-I+αM (isometry →
+skew-symmetry, not symmetry). No weakening of H17 closes the chain. H17
+is the minimal posit. Previous: 2026-08-09 (Axiom 1 → H12 frontier
+sharpened: the gap is H17 (symmetry), not H12 directly. H7+H17+H18 → H12
+chain closed (DERIVED algebra). H7+H18 ⇏ H17 countermodel (DERIVED).
+H8→stationarity promoted from ARGUED 0.70 to DERIVED (negative) 0.95 —
+<code>H8_does_not_imply_stationarity</code> machine-checked in
+SymmetryDerivation.lean. H_prod DFT conjugate symmetry obstruction added
+as row 63 — DERIVED (negative) 0.90. <code>HProdGap.lean</code>
+machine-checks that for real data on Z₃, residue Fourier modes are
+complex conjugates and cannot be independent. H_prod requires
+Gaussianity, which is not in Axioms 1-3. Previous: 2026-08-07 (BK-R6
+resolved: “DERIVED (algebra)” sub-tier definition added to grading scale
+per Codex adjudication
 (CODEX_20260807_FUNDAMENTALS_BEKENSTEIN_REPAIR_DELTA_CONFIRMATION.md).
 BK-R5 already applied: row 74 INTUITION 0.55, row 84 ARGUED 0.89. BK-R4
 editorial: content identical at bd3c101 and HEAD. Previous: 2026-08-07
@@ -11727,9 +11735,11 @@ and <code>5π/9</code> modulo <code>2π/3</code>, not at
 <code>δ≈2/9</code>. The historical proxy
 <code>f(δ)^6 * Σ_k 1/g_k(δ)^2</code> has <strong>6</strong> minima on
 <code>[0,2π)</code>, not 9, and the closest minimum misses
-<code>δ_emp</code> by <code>0.0396 rad</code> (~153× current phase
-uncertainty). <strong>Current interpretation</strong>: δ_Koide ≈ 2/9
-remains a strong empirical phase anchor, but no audited PF-native
+<code>δ_emp</code> by <code>0.0396 rad</code> (~4,744× current phase
+uncertainty (<strong>corrected 2026-09-06</strong>: the quoted “153×”
+was computed against the stale σ=2.58×10⁻⁴; against the true σ=8.35×10⁻⁶
+the miss is ~4,744×)). <strong>Current interpretation</strong>: δ_Koide
+≈ 2/9 remains a strong empirical phase anchor, but no audited PF-native
 selector currently exists. Harmonic-purity mechanisms are not equivalent
 to empirical phase selection. <strong>PRE-REGISTERED PREDICTION
 (2026-04-01)</strong>: The framework predicts δ = 2/9 exactly. Any
@@ -12220,7 +12230,38 @@ to ALL integers ≥ 2. <strong>Honest boundary:</strong> this proves −1/8
 is N=3-specific given the N-cycle structure; it does NOT derive N=3 from
 Axioms 1-3. The generation-count derivation remains the conditional T3
 theorem. | The algebraic identities being wrong (impossible — Lean
-verified). | 0.95 |</div>
+verified). | 0.95 |<br />
+<strong>Matter = trapped propagation</strong> | <strong>ARGUED</strong>
+<em>(added 2026-09-05 — Hau Gap 1, flagged 2026-08-18 by physics lane
+for Hau outreach prep)</em> | <code>definitions/medium.md</code>
+(CANONICAL v1.0): “What we call ‘matter’ is what happens when a change
+gets trapped in a stable, repeating, resonant loop.”
+<code>definitions/axioms.md</code> Axiom 1: “Matter — which is a stable
+self-reinforcing propagation pattern.” The Medium’s Coherent role
+(<code>medium.md</code> row 5): “Allows stable self-reinforcing patterns
+→ Standing waves, particles, atoms.” <strong>What is argued but not
+derived</strong>: Axiom 1 <em>asserts</em> matter is self-reinforcing
+propagation as a definitional starting point — it does not derive that
+stable propagation patterns <em>are</em> what physics calls matter. The
+Casimir polynomial work
+(<code>derivations/casimir_polynomial_steps_AB.md</code> line 72)
+identifies the gap: “Axiom 1 says matter is ‘self-reinforcing
+propagation.’ This doesn’t uniquely require minimum energy — a
+higher-energy mode can also be self-reinforcing.” The k=1 mode selection
+(minimum energy) is an additional assumption not in Axioms 1-3.
+<strong>Hau outreach context</strong>: Lene Hau’s
+light-to-matter-to-light BEC conversion is the laboratory-scale analog —
+light trapped into matter and back.
+<code>outreach/HAU_FOLLOWUP_MAP.md</code> correctly identifies this as
+“our weakest core claim (0.75).” The book
+(<code>PROPAGATION_MANUSCRIPT_PROD.md</code>) labels this “DERIVED” —
+that is narrative overclaim; the honest claim-matrix tier is ARGUED.
+<strong>Not formalized in Lean</strong>: no theorem connects Medium
+coherence conditions to physical particle stability. | A demonstration
+that stable matter cannot be described as self-reinforcing propagation
+patterns in the Medium; or a derivation showing the Medium’s coherence
+conditions do not select persistent modes corresponding to physical
+particles. | 0.75 |</div>
 <h3 id="biological-cognitive-systems">2. Biological &amp; Cognitive
 Systems</h3>
 <table>
