@@ -47,6 +47,65 @@ M_MU, S_MU = 105.6583755, 0.0000023
 M_TAU, S_TAU = 1776.86, 0.12
 TAU3 = 2 * math.pi / 3
 
+# --- Document binding (added 2026-09-06, Codex finding F5) ---------------------
+# ⚠ THE DEFECT THIS FIXES. The original version compared hard-coded literals to
+# recomputed values and never opened a source file. It reported "9/9 pass" from
+# an EMPTY DIRECTORY. It therefore could not detect the very thing it was
+# adopted to detect: a stale number reappearing in CLAIMS.md.
+#
+# It also HAD a passing positive control -- which exercised the comparison path,
+# not the document-reading path. Sharper statement of QSOP P-013:
+# *a positive control only guards the path it exercises.*
+import os
+import re
+
+REPO = os.environ.get("PF_REPO", "/mnt/d/Fundamentals")
+SOURCES = {
+    "CLAIMS": os.path.join(REPO, "CLAIMS.md"),
+    "GAP": os.path.join(REPO, "derivations", "koide_phase_delta_0_gap.md"),
+}
+
+
+def load_sources() -> dict:
+    """Read the bound documents. FAIL CLOSED: a missing source is an error,
+    never a silent pass. This is the whole point of F5."""
+    out = {}
+    missing = []
+    for name, path in SOURCES.items():
+        try:
+            with open(path, encoding="utf-8") as fh:
+                out[name] = fh.read()
+        except OSError:
+            missing.append(path)
+    if missing:
+        raise SystemExit(
+            "FAIL-CLOSED: cannot read bound source document(s):\n  "
+            + "\n  ".join(missing)
+            + "\nThis checker verifies DOCUMENTS, not just arithmetic. Refusing to report a pass."
+        )
+    return out
+
+
+def assert_absent(docs: dict, pattern: str, label: str) -> tuple:
+    """A retired value must not reappear as a live claim anywhere."""
+    hits = []
+    for name, text in docs.items():
+        for m in re.finditer(pattern, text):
+            line = text.count("\n", 0, m.start()) + 1
+            # ⚠ 2026-09-06: the first version used a 90-char window, which CUT
+            # THE WORD "corrected" IN HALF ("...orrected 2026-09-04...") and
+            # raised a false positive on a legitimate errata note. Widen the
+            # window and match on stems so a boundary cannot hide a keyword.
+            # Note the failure direction was LOUD (false alarm), not silent --
+            # which is the correct way for a guard to be wrong.
+            ctx = text[max(0, m.start() - 300): m.start() + 120].replace("\n", " ").lower()
+            if any(k in ctx for k in ("correct", "stale", "previous", "superseded",
+                                      "was ", "retired", "does not reproduce")):
+                continue  # an errata note citing the old value is legitimate
+            hits.append(f"{name}:{line}")
+    return (label, not hits, hits)
+
+
 
 def koide_delta(me: float, mmu: float, mtau: float) -> float:
     """Koide phase, closed form — no fitting, no scan.
@@ -104,6 +163,28 @@ def main() -> int:
     check("gap B: sin2thW - delta", 8.717e-4, s2w - d, 1e-3, G)
     check("56*sqrt3 - 9*sqrt57", 29.046, 56 * math.sqrt(3) - 9 * math.sqrt(57), 1e-4, K)
 
+    # --- Document checks (F5): verify the SOURCES, not just the arithmetic ---
+    docs = load_sources()
+    print("  -- document binding --")
+    print(f"  [OK  ] read {len(docs)} bound source(s): {', '.join(SOURCES)}")
+    doc_fails = []
+    for label, ok, hits in [
+        assert_absent(docs, r"0\.029\s*(?:σ|sigma)", "retired 0.029 sigma absent as a live claim"),
+        assert_absent(docs, r"2\.58\s*×\s*10⁻⁴", "retired 2.58e-4 absent as a live claim"),
+        assert_absent(docs, r"fully consistent with δ_exact = 2/9 exactly", "false forward-safety sentence absent"),
+        assert_absent(docs, r"within 0\.05 MeV of 1776\.86", "false symmetric trigger window absent"),
+    ]:
+        print(f"  [{'OK  ' if ok else 'FAIL'}] {label}")
+        if not ok:
+            print(f"         found at: {', '.join(hits[:4])}")
+            doc_fails.append(label)
+    for want, label in [(r"8\.35\s*×\s*10⁻⁶", "corrected sigma 8.35e-6 present"),
+                        (r"1776\.8765", "worked trigger boundary present")]:
+        present = any(re.search(want, t) for t in docs.values())
+        print(f"  [{'OK  ' if present else 'FAIL'}] {label}")
+        if not present:
+            doc_fails.append(label)
+
     # Positive control: this MUST fail. If it passes, the checker is broken.
     print("\n  -- positive control (must FAIL) --")
     check("CONTROL: deliberate 2x error", 2 * d, d, 1e-6, "self-test")
@@ -126,7 +207,9 @@ def main() -> int:
         print("  The failures are a stale uncertainty and the ratio derived from it,")
         print("  not a pattern of arithmetic error.")
 
-    if "--strict" in sys.argv and failed:
+    if doc_fails:
+        print(f"\n  {len(doc_fails)} DOCUMENT check(s) failed — a retired value has reappeared or a correction is missing.")
+    if "--strict" in sys.argv and (failed or doc_fails):
         return 1
     return 0
 
