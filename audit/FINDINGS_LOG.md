@@ -139,3 +139,25 @@ Built the explicit null model + shuffle control (`IBM_NULL_MODEL_AUDIT.md` + `ib
 - New controls: equal phase spacing permits Q=1/2 (missing beta selection); the stated unforced mass-amplitude contraction drives Q toward 1/3; C5 residue contracts despite N3-uniqueness prose; tau=1776.90 with sigma=0.03 defeats the new >3-sigma interval trigger; numeric checker passes without reading documents.
 - Additional distinctions: entropy maximum is not p maximum; a confidence floor is a grading policy, not a universal probability rule. Existing time-step/physical-operator gap reinforced, not newly discovered.
 - Valid narrower algebra preserved. Owner action: reconcile summaries with precise premises, add document-mutation checks, then specify physical evolution and observable mapping. No source/claim-tier/public artifact edits authorized by this record.
+
+### 2026-09-06 — Codex blind structural analysis (sealed)
+
+- Report: `/mnt/d/Codex/REPORTS/CODEX_20260906_PF_BLIND_STRUCTURAL_ANALYSIS.md`.
+- Disposition: qualified organizing observation found; a unique deepest cause is **not** established.
+- **Hypothesis 2 wins** (first as organizing account): abstract axioms admit inequivalent realizations; established results constrain a specified realization. Demonstrated locally via controls, not inferred from claim labels.
+- **Hypothesis 4 contradicted** in its broad form ("only parameters/scales remain"): unresolved choices include field content, state-space topology, kinetic tensor, ensemble, and observable definition.
+- Hypothesis 1 (independent hard problems, no common mechanism) still viable as an account of causes.
+- Hypothesis 5 (numerical target selection) is a contributing explanation, insufficient alone.
+- Hypothesis 6 (ledger definitions induce the pattern) is a real selection effect, insufficient alone.
+- Hypothesis 3 (one missing dynamics/selector principle) unestablished; the tested shared-selector candidate is insufficient.
+- Controls locate the substantive boundary: hold advertised premises fixed, vary the proposed realization. If the observable changes, those premises do not identify its value.
+- Not a verification verdict or release decision. Not ledger-appended by Devin (Codex's canonical append path is `Tools/codex_ledger.py append`; Codex should append its own verdict).
+
+### 2026-09-06 — F2 reframed: selection and preservation are separate obligations
+
+- Claude synthesis: `/mnt/d/Fundamentals/inbox/2026-09-06-claude-F2-reframed-separate-obligations.md`.
+- DeepSeek independent verification: `/mnt/d/DeepSeek/REPORTS/DEEPSEEK_20260906_F2_CONTRACTION_VERIFICATION.md` — F2 CONFIRMED, `Q_n = (1+64⁻ⁿ)/3` drift reproduced from source.
+- Codex repair-control: no consistent additive datum exists for the contract as stated; the repair is structural, not additive.
+- **Reframe**: the T³ dynamics erase the Koide ratio in one cycle. This is a contract inconsistency, not a missing input. Adding a stabiliser premise cannot close it — the contract itself must be amended (T's physical role, the dynamics, or the readout).
+- **Owner needed**: nobody owns this yet. Suggested handling: split the Koide row (selection gap vs preservation gap), route the contract amendment as physics (choose among Codex's three repair directions), do NOT close F2 by adding a stabilisation premise.
+- No claim tier changed. No source file edited.
