@@ -12214,23 +12214,32 @@ transfer contract identifies the medium with physical spacetime. Axiom
 3/H8 (coherence) is not used. No dispersion law, coherence scale, or
 empirical falsifier is formalized. | A transfer contract identifying the
 medium with physical spacetime. | 0.15 |<br />
-<strong>N=3 Unique Non-Trivial Contracting Cycle — Strengthened
+<strong>N=3 Unique Non-Trivial Cycle with Residue −1/8 — Strengthened
 Generation Selection</strong> | <strong>DERIVED (algebra)</strong>
-<em>(added 2026-08-10)</em> | <code>GodEquationSelection.lean</code>
-(GREEN, 0 sorrys): <code>n3_unique_nontrivial_contracting</code> proves
-N=3 is the unique non-trivial contracting cycle among ALL integers N ≥
-2. The full picture: N=2 gives cos³(π) = −1 (trivial, maximal
-contraction, only 2 elements); N=3 gives cos³(2π/3) = −1/8 (the God
-Equation value); N=4 gives cos³(π/2) = 0 (degenerate); N≥5 gives
-cos³(2π/N) &gt; 0 (expansive, <code>cos_pos_for_n_ge_5</code>). N=3 is
-the UNIQUE non-trivial cycle with contracting residue that gives exactly
-the God Equation value −1/8. This strengthens the earlier
-<code>n3_unique_among_small_cycles</code> (which only checked {3,4,6})
-to ALL integers ≥ 2. <strong>Honest boundary:</strong> this proves −1/8
-is N=3-specific given the N-cycle structure; it does NOT derive N=3 from
-Axioms 1-3. The generation-count derivation remains the conditional T3
-theorem. | The algebraic identities being wrong (impossible — Lean
-verified). | 0.95 |<br />
+<em>(added 2026-08-10, corrected 2026-09-06 per Codex F3)</em> |
+<code>GodEquationSelection.lean</code> (GREEN, 0 sorrys):
+<code>n3_unique_nontrivial_contracting</code> proves N=3 is the unique
+non-trivial cycle whose fundamental-mode residue equals exactly −1/8,
+among ALL integers N ≥ 2. The full picture: N=2 gives cos³(π) = −1 (|−1|
+= 1, norm preserved, trivial — only 2 elements); N=3 gives cos³(2π/3) =
+−1/8 (the God Equation value, |−1/8| &lt; 1, contracts); N=4 gives
+cos³(π/2) = 0 (mode annihilated); N≥5 gives cos³(2π/N) &gt; 0 (positive,
+|cos³| &lt; 1 so still contracts in modulus, but opposite sign to −1/8).
+<strong>F3 correction (2026-09-06):</strong> the earlier prose called
+this “unique contracting cycle,” conflating sign with modulus.
+Contraction is controlled by |eigenvalue| &lt; 1, not by sign. Cycles
+N≥5 also contract in modulus (C5 counterexample: all four N=5 residues
+have modulus &lt; 1). The valid spectrum-level uniqueness — N=3 is the
+unique N ≥ 2 whose ENTIRE residue spectrum is {−1/8, −1/8} — is proven
+in <code>GodEquationSpectrum.n3_unique_full_residue_spectrum</code>
+(Claude, 2026-08-14; DeepSeek-verified 2026-08-15). Cite that theorem
+for generation-count claims. <strong>Premise:</strong> the N-cycle
+structure (discrete multiplier cos³(2πk/N) on residue modes). This
+premise is NOT derived from Axioms 1-3. <strong>Honest
+boundary:</strong> this proves −1/8 is N=3-specific given the N-cycle
+structure; it does NOT derive N=3 from Axioms 1-3. The generation-count
+derivation remains the conditional T3 theorem. | The algebraic
+identities being wrong (impossible — Lean verified). | 0.95 |<br />
 <strong>Matter = trapped propagation</strong> | <strong>ARGUED</strong>
 <em>(added 2026-09-05 — Hau Gap 1, flagged 2026-08-18 by physics lane
 for Hau outreach prep)</em> | <code>definitions/medium.md</code>
