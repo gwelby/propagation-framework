@@ -7,8 +7,8 @@ length.  Given the N-cycle structure and the Euler discretization
 cos³(2π/N) = −1/8 forces N = 3.
 
 This COMPLETES the selection statement of GodEquationSelection.lean:
-  - there:  N=3 gives −1/8, and N≠3 is never contracting (uniqueness of the
-            contracting cycle)
+  - there:  N=3 gives −1/8 at the fundamental mode, and no other N ≥ 2
+            produces −1/8 at the fundamental mode (uniqueness of the value)
   - here:   IF the residue equals −1/8 THEN N = 3 (the value forces the cycle)
 
 The honest boundary is unchanged: the residue value itself stays conditional

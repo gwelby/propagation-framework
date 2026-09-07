@@ -136,6 +136,15 @@ overclaiming:
   remains open.
 - Koide phase selector remains open/frozen. The bounded Casimir selector and
   RG-crossing routes returned honest negatives.
+- Matter-as-trapped-propagation is ARGUED 0.75, not DERIVED. Axiom 1 *asserts*
+  matter is self-reinforcing propagation as a definitional starting point; it
+  does not derive that stable propagation patterns are what physics calls
+  matter. The book (`PROPAGATION_MANUSCRIPT_PROD.md`) labels this "DERIVED" —
+  that is narrative overclaim. The Casimir polynomial work
+  (`derivations/casimir_polynomial_steps_AB.md` line 72) identifies the gap:
+  self-reinforcement does not uniquely require minimum energy. Not formalized
+  in Lean. This is the claim Lene Hau would engage with (Hau Gap 1, flagged
+  2026-08-18, row added to CLAIMS.md 2026-09-05).
 - Consciousness is not canonical in Fundamentals. The metric program is active;
   the hard-problem boundary is explicitly named.
 - Shor bridge / Quantum Structure Survival Lean work is a draft/formalization

@@ -131,3 +131,11 @@ Built the explicit null model + shuffle control (`IBM_NULL_MODEL_AUDIT.md` + `ib
 ### 2026-06-16 — Deliverables (b) and (c) complete
 - `CLAIMS_DIFF_PROPOSED.md` — exact find/replace patch for the 5 overstated rows + header + Lean wording + provenance line. PROPOSED, not applied (Codex to rule).
 - `MINIMAL_HONEST_PAPER_OUTLINE.md` — recommended paper (Koide-as-EM-identity + neutrino non-universality); alternates (gravity-optics pedagogy; **the no-go corpus, judged the strongest standalone**).
+
+### 2026-09-05 — Codex focused epistemic review, source `b30d6c2`
+
+- Report: `/mnt/d/Codex/REPORTS/CODEX_20260905_FUNDAMENTALS_B30D6C_EPISTEMIC_REVIEW.md`.
+- Ledger: `clg_f7903b69db2caccdc8295b14`; specific overclaims REJECT / existing PUBLIC HOLD retained. Not a whole-repository or v10.1 release verdict.
+- New controls: equal phase spacing permits Q=1/2 (missing beta selection); the stated unforced mass-amplitude contraction drives Q toward 1/3; C5 residue contracts despite N3-uniqueness prose; tau=1776.90 with sigma=0.03 defeats the new >3-sigma interval trigger; numeric checker passes without reading documents.
+- Additional distinctions: entropy maximum is not p maximum; a confidence floor is a grading policy, not a universal probability rule. Existing time-step/physical-operator gap reinforced, not newly discovered.
+- Valid narrower algebra preserved. Owner action: reconcile summaries with precise premises, add document-mutation checks, then specify physical evolution and observable mapping. No source/claim-tier/public artifact edits authorized by this record.
