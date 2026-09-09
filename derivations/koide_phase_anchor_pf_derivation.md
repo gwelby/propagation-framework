@@ -51,7 +51,7 @@ With reflection symmetry V(δ) = V(-δ): the sine terms vanish.
 | m_τ measurement uncertainty contribution | 2.58 × 10⁻⁴ rad |
 | gap / uncertainty | **0.029** |
 
-**Conclusion**: δ_Koide = 2/9 is consistent within 0.029σ of m_τ measurement precision. This is effectively an identity for the purposes of PF derivation.
+**Conclusion**: δ_Koide = 2/9 is consistent within 0.89σ of m_τ measurement precision (corrected 2026-09-04; prior 0.029σ used a stale uncertainty 30.9× too large). This is consistent, but near the 1σ edge, not an identity for the purposes of PF derivation.
 
 **sin²θ_W ≠ 2/9 algebraically**:
 - sin²θ_W (Casimir) = (√19-3)(√19-√3)/16 ≈ 0.22310
@@ -159,7 +159,7 @@ Answering each question from FIVE_AGENT_COORDINATION.md:
 | Question | Answer | Status |
 |----------|--------|--------|
 | Does Z₃ SSB select δ₀? | No — Koide formula IS Z₃-symmetric, SSB wrong mechanism | ESTABLISHED NO-GO |
-| Is δ_Koide = 2/9 derivable? | δ_Koide = 2/9 to 0.029σ, effectively exact | EMPIRICAL TARGET |
+| Is δ_Koide = 2/9 derivable? | δ_Koide = 2/9 to 0.89σ (corrected 2026-09-04; prior 0.029σ was stale), consistent near the 1σ edge | EMPIRICAL TARGET |
 | Do δ_Koide, sin²θ_W, 2/9 share one PF root? | Probably — connected via O(α) correction | CONJECTURAL (0.60) |
 | Can F_C select δ₀? | PF gives cos(3nδ) tower but not orientation | GAP PERSISTS |
 | Can cos(9δ) be replaced by PF-native suppression? | Qualitative match via 3-cycle product; not derived | PROMISING DIRECTION |

@@ -904,7 +904,7 @@ These are empirical results — patterns in the data that are real but not yet d
 
 **Wave 5 algebraic result**: Three quantities within 0.4% of each other — $\delta_\text{Koide} = 0.22223$, $\sin^2\theta_W = 0.22310$, $2/9 = 0.22222$.
 
-- Confirmed: $\delta_\text{Koide} = 2/9$ within PDG measurement uncertainty (0.029σ)
+- Confirmed: $\delta_\text{Koide} = 2/9$ within PDG measurement uncertainty (0.89σ — corrected 2026-09-04 from stale 0.029σ)
 - Confirmed: $\sin^2\theta_W \neq 2/9$ algebraically (56√3 − 9√57 = 29.046 ≠ 29)
 - Gap candidate: $\sin^2\theta_W - 2/9 \approx \alpha \cdot (1 - x_{3/2}) \cdot x_{3/2}^2$ (0.317% match)
 - T-021 RG audit: no legitimate Standard Model convention in this pass supports a crossing near μ ≈ 98 GeV

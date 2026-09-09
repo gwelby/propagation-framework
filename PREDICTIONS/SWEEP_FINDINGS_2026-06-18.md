@@ -106,7 +106,7 @@ Evidence tags: **V** = verified from CLAIMS.md / **W** = reasoned inference from
 
 (a) SM is silent: δ_CP is a free parameter. **[V: implicit in the Koide phase row — PF treats phases as potentially derivable.]**
 
-(b) Differentiation from rivals: this is where PF has the clearest *structural* argument. The 2/9 cluster (δ_Koide = 0.222229, sin²θ_W Casimir = 0.22310) is the strongest empirical anchor in the framework [V: CLAIMS.md Koide Phase row, 0.029σ from 2/9]. If PF can derive δ = 2/9 from a native selector, and if that extends to the leptonic CP phase δ_CP, this could distinguish PF from rivals. **But the selector is fenced — T-022, T-021, and four subsequent audit lanes all failed. [V]**
+(b) Differentiation from rivals: this is where PF has the clearest *structural* argument. The 2/9 cluster (δ_Koide = 0.222229, sin²θ_W Casimir = 0.22310) is the strongest empirical anchor in the framework [V: CLAIMS.md Koide Phase row, 0.89σ from 2/9 — corrected 2026-09-04]. If PF can derive δ = 2/9 from a native selector, and if that extends to the leptonic CP phase δ_CP, this could distinguish PF from rivals. **But the selector is fenced — T-022, T-021, and four subsequent audit lanes all failed. [V]**
 
 (c) DUNE / Hyper-K: ~2029–2033 for precision δ_CP. The experimental timeline is compatible.
 
